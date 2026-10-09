@@ -10,6 +10,7 @@ import {detectMethodAtoms} from '../lib/atomic-method-detector.mjs';
 import {traceMethodHooks} from '../lib/method-hook-cascade.mjs';
 import {diagnoseMethod} from '../lib/method-diagnostic.mjs';
 import {compileAtlasTaxonomy,queryMethodTaxonomy} from '../lib/method-reclassification.mjs';
+import {planAtomicVariations} from '../lib/atomic-variation-router.mjs';
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const schema=readFileSync(resolve(ROOT,'method-atlas/schema.sql'),'utf8');
 const baseCatalog=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/candidates.json'),'utf8'));
@@ -18,7 +19,8 @@ const evidenceExtension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expan
 const schoolExtension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expansion-computation-schools-v4.json'),'utf8'));
 const assuranceExtension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expansion-nasa-chip-cloud-v5.json'),'utf8'));
 const abnormalExtension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expansion-abnormal-meta-v6.json'),'utf8'));
-const catalog={...baseCatalog,sources:[...baseCatalog.sources,...extension.sources,...evidenceExtension.sources,...schoolExtension.sources,...assuranceExtension.sources,...abnormalExtension.sources],methods:[...baseCatalog.methods,...extension.methods,...evidenceExtension.methods,...schoolExtension.methods,...assuranceExtension.methods,...abnormalExtension.methods]};
+const opticalExtension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expansion-optical-v8.json'),'utf8'));
+const catalog={...baseCatalog,sources:[...baseCatalog.sources,...extension.sources,...evidenceExtension.sources,...schoolExtension.sources,...assuranceExtension.sources,...abnormalExtension.sources,...opticalExtension.sources],methods:[...baseCatalog.methods,...extension.methods,...evidenceExtension.methods,...schoolExtension.methods,...assuranceExtension.methods,...abnormalExtension.methods,...opticalExtension.methods]};
 const methodRelations=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/method-relations.json'),'utf8'));
 const compiledTaxonomy=compileAtlasTaxonomy(catalog.methods,catalog.sources);
 const seedFingerprint=createHash('sha256').update(JSON.stringify({
@@ -90,15 +92,35 @@ export function dbAdapter(db){
 const calledAsMain=process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url);
 if(calledAsMain){
  const command=process.argv[2]??'status';
- if(!['init','status','query','detect','cascade','diagnose','classify'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE');
+ if(!['init','status','query','detect','cascade','diagnose','classify','variation'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE_CLASSIFY_VARIATION');
  mkdirSync(dirname(DB_PATH),{recursive:true});
  const db=new DatabaseSync(DB_PATH);
  try{
   const stats=loadMethodAtlas(db);
-  if(['query','detect','cascade','diagnose','classify'].includes(command)){
+  if(['query','detect','cascade','diagnose','classify','variation'].includes(command)){
    if(!process.argv[3])throw Error('QUERY_JSON_REQUIRED');
    const query=JSON.parse(process.argv[3]);
-   const result=command==='detect'?await detectMethodAtoms(dbAdapter(db),query):command==='cascade'?await traceMethodHooks(dbAdapter(db),query):command==='diagnose'?diagnoseMethod(query):command==='classify'?await queryMethodTaxonomy(dbAdapter(db),query):await routeMethodAtlas(dbAdapter(db),query);
+   let result;
+   if(command==='variation'){
+     const prior=[];
+     // Only bounded exact subject/atom records; no broad external source discovery.
+     for(const atom of query.atoms??[]){
+       if(typeof atom.subject_id!=='string'||typeof atom.id!=='string')continue;
+       prior.push(...db.prepare('SELECT * FROM atlas_variation_ledger WHERE subject_id=? AND atom_id=?').all(atom.subject_id,atom.id));
+     }
+     result=planAtomicVariations({methods:catalog.methods,taxonomy:compiledTaxonomy.tags,atoms:query.atoms,variations:query.variations??[],prior,cross_reference:query.cross_reference??null});
+     if(result.ledger_rows.length){
+       db.exec('BEGIN TRANSACTION');
+       try {
+         const put=db.prepare(`INSERT OR IGNORE INTO atlas_variation_ledger
+           (subject_id,atom_id,variant_id,variation_kind,method_id,direction,boundary,evidence_digest,variant_digest,source_signature,dimension_signature,decision)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`);
+         for(const row of result.ledger_rows)put.run(row.subject_id,row.atom_id,row.variant_id,row.variation_kind,row.method_id,row.direction,row.boundary,row.evidence_digest,row.variant_digest,row.source_signature,row.dimension_signature,row.decision);
+         db.exec('COMMIT');
+       }catch(error){db.exec('ROLLBACK');throw error}
+     }
+     result={...result,ledger_rows:undefined,ledger_saved_to_derived_local_cache:true,stored_record_count:db.prepare('SELECT COUNT(*) AS n FROM atlas_variation_ledger').get().n};
+   }else result=command==='detect'?await detectMethodAtoms(dbAdapter(db),query):command==='cascade'?await traceMethodHooks(dbAdapter(db),query):command==='diagnose'?diagnoseMethod(query):command==='classify'?await queryMethodTaxonomy(dbAdapter(db),query):await routeMethodAtlas(dbAdapter(db),query);
    process.stdout.write(JSON.stringify(result,null,2)+'\n');
   }else process.stdout.write(JSON.stringify({...stats,sqlite_path:DB_PATH},null,2)+'\n');
  }finally{db.close()}

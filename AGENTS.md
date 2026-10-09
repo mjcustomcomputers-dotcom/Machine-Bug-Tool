@@ -134,3 +134,10 @@ For requests to reclassify, detect, chain, or diagnose methods, first read `docs
 The local CLI now supports `classify`, `cascade`, and `diagnose` alongside existing `query` and `detect`. Purpose-aware routing only selects and classifies; any computation is separate and source bound. Cascade recursion, method diagnostic results, and source/timestamp discrepancy controls are not permission to interact with bounty targets. Use a newly named ignored SQLite cache after changing this atlas seed. Run dedicated Node/SQLite regression tests, full tests and build on this exact feature branch before merging or reporting performance.
 
 Do not overwrite native controller records or merge PR #3/#4/#5 branches automatically. Keep older handoffs as provenance; newer named V7 handoff controls this development branch only.
+
+
+## Final V8 dual-variation development handoff
+
+When Pro GPT or Codex continues dual solid-state variations, all-method-per-atom consideration, backward/forward evidence walks, optional optical/light-communication hooks, or source-specific question deduplication, read `docs/CODEX-DUAL-VARIATION-V8-HANDOFF.md` **on this exact feature branch**. Earlier AGENTS sections remain controlling for the canonical native MPC and its separate Site deployment. V8 has a SQLite derived review ledger and is not hosted persistence or an authenticated bug bounty scanner.
+
+Keep the original 24 native evaluators and older hooked framework registries independent from the 239 MHA research candidates; `956 per atom` counts four **consideration** slots, not 956 actual tests. Reopen unchanged evidence only for genuinely new declared cross-reference source material, retaining prior source/subject/variation identities. Never promote optical analogies, method agreement, BitSet signatures, tool-call authentication, inferred intent or model results into a source-authenticated finding. The user's `32/356` dimension descriptor is pending native provenance reconciliation and must not overwrite the preserved BL32/384 or 25-coordinate definitions.

@@ -87,3 +87,25 @@ CREATE TABLE IF NOT EXISTS atlas_method_taxonomy (
 );
 CREATE INDEX IF NOT EXISTS atlas_method_taxonomy_axis ON atlas_method_taxonomy(axis,class_key,method_id);
 CREATE INDEX IF NOT EXISTS atlas_method_taxonomy_method ON atlas_method_taxonomy(method_id,axis);
+
+
+-- Derived per-atom, per-variation, per-direction, per-boundary consideration ledger.
+-- These rows are review decisions, never execution or source authentication receipts.
+CREATE TABLE IF NOT EXISTS atlas_variation_ledger (
+ subject_id TEXT NOT NULL,
+ atom_id TEXT NOT NULL,
+ variant_id TEXT NOT NULL,
+ variation_kind TEXT NOT NULL,
+ method_id TEXT NOT NULL REFERENCES atlas_methods(method_id),
+ direction TEXT NOT NULL CHECK(direction IN ('FORWARD','BACKWARD')),
+ boundary TEXT NOT NULL CHECK(boundary IN ('INTERNAL_MODEL','EXTERNAL_SOURCE')),
+ evidence_digest TEXT NOT NULL CHECK(length(evidence_digest)=64),
+ variant_digest TEXT NOT NULL CHECK(length(variant_digest)=64),
+ source_signature TEXT NOT NULL,
+ dimension_signature TEXT NOT NULL,
+ decision TEXT NOT NULL CHECK(decision IN ('DIMENSION_NOT_MATCHED','DIRECTION_UNSUPPORTED','SOURCE_UNBOUND','EXTERNAL_SOURCE_UNBOUND','TRIGGERED_INPUT_REVIEW_REQUIRED','NO_MATERIAL_VARIATION')),
+ recorded_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ PRIMARY KEY(subject_id,atom_id,variant_id,method_id,direction,boundary,evidence_digest,variant_digest,source_signature,dimension_signature)
+);
+CREATE INDEX IF NOT EXISTS atlas_variation_ledger_atom ON atlas_variation_ledger(subject_id,atom_id,variant_id);
+CREATE INDEX IF NOT EXISTS atlas_variation_ledger_method ON atlas_variation_ledger(method_id,direction,boundary);
