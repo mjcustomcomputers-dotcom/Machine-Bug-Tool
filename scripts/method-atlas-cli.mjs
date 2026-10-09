@@ -9,6 +9,7 @@ import {routeMethodAtlas} from '../lib/method-atlas-router.mjs';
 import {detectMethodAtoms} from '../lib/atomic-method-detector.mjs';
 import {traceMethodHooks} from '../lib/method-hook-cascade.mjs';
 import {diagnoseMethod} from '../lib/method-diagnostic.mjs';
+import {compileAtlasTaxonomy,queryMethodTaxonomy} from '../lib/method-reclassification.mjs';
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const schema=readFileSync(resolve(ROOT,'method-atlas/schema.sql'),'utf8');
 const baseCatalog=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/candidates.json'),'utf8'));
@@ -19,8 +20,9 @@ const assuranceExtension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expa
 const abnormalExtension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expansion-abnormal-meta-v6.json'),'utf8'));
 const catalog={...baseCatalog,sources:[...baseCatalog.sources,...extension.sources,...evidenceExtension.sources,...schoolExtension.sources,...assuranceExtension.sources,...abnormalExtension.sources],methods:[...baseCatalog.methods,...extension.methods,...evidenceExtension.methods,...schoolExtension.methods,...assuranceExtension.methods,...abnormalExtension.methods]};
 const methodRelations=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/method-relations.json'),'utf8'));
+const compiledTaxonomy=compileAtlasTaxonomy(catalog.methods,catalog.sources);
 const seedFingerprint=createHash('sha256').update(JSON.stringify({
- sources:catalog.sources,methods:catalog.methods,methodRelations:methodRelations.relationships
+ sources:catalog.sources,methods:catalog.methods,methodRelations:methodRelations.relationships,taxonomy:compiledTaxonomy.tags
 })).digest('hex');
 const DB_PATH=process.env.MPC_METHOD_ATLAS_DB??resolve(ROOT,'.sites-runtime/method-atlas.sqlite');
 const parentByDimension={
@@ -65,6 +67,10 @@ export function loadMethodAtlas(db){
     run(db,'INSERT OR IGNORE INTO atlas_method_relations (method_id,related_method_id,relation_type,rationale,evidence_independent,link_status) VALUES (?,?,?,?,?,?)',
       [relation.method_id,relation.related_method_id,relation.relation_type,relation.rationale,0,relation.link_status]);
   }
+  for(const row of compiledTaxonomy.tags){
+   run(db,'INSERT OR IGNORE INTO atlas_method_taxonomy (method_id,axis,class_key,classification_basis,review_state) VALUES (?,?,?,?,?)',
+     [row.method_id,row.axis,row.class_key,row.classification_basis,row.review_state]);
+  }
   run(db,"INSERT OR IGNORE INTO atlas_metadata (key,value) VALUES ('seed_fingerprint',?)",[seedFingerprint]);
   db.exec('COMMIT');
  }catch(error){db.exec('ROLLBACK');throw error}
@@ -74,8 +80,9 @@ export function statusMethodAtlas(db){
  const count=t=>db.prepare('SELECT COUNT(*) AS n FROM '+t).get().n;
  const methods=count('atlas_methods'),classifiers=count('atlas_classifiers'),sources=count('atlas_sources'),triggers=count('atlas_triggers'),crosswalk=count('atlas_crosswalk');
  const methodRelationsCount=count('atlas_method_relations');
- const mismatch=methods!==catalog.methods.length||classifiers!==methods||sources!==catalog.sources.length||methodRelationsCount!==methodRelations.relationships.length;
- return {schema_version:catalog.atlas_version,seed_fingerprint:seedFingerprint,methods,classifiers,sources,triggers,proposed_crosswalk:crosswalk,method_relations:methodRelationsCount,source_record_authoritative:false,method_execution_performed:false,canonical_registry_modified:false,validation:mismatch?'INVENTORY_MISMATCH':'STRUCTURAL_INVENTORY_PASS'};
+ const taxonomyCount=count('atlas_method_taxonomy');
+ const mismatch=methods!==catalog.methods.length||classifiers!==methods||sources!==catalog.sources.length||methodRelationsCount!==methodRelations.relationships.length||taxonomyCount!==compiledTaxonomy.tag_count;
+ return {schema_version:catalog.atlas_version,seed_fingerprint:seedFingerprint,methods,classifiers,sources,triggers,proposed_crosswalk:crosswalk,method_relations:methodRelationsCount,taxonomy_tags:taxonomyCount,taxonomy_version:compiledTaxonomy.taxonomy_version,source_record_authoritative:false,method_execution_performed:false,canonical_registry_modified:false,validation:mismatch?'INVENTORY_MISMATCH':'STRUCTURAL_INVENTORY_PASS'};
 }
 export function dbAdapter(db){
  return {prepare(sql){return {bind(...values){return {all(){return {results:db.prepare(sql).all(...values)}}}}}}};
@@ -83,15 +90,15 @@ export function dbAdapter(db){
 const calledAsMain=process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url);
 if(calledAsMain){
  const command=process.argv[2]??'status';
- if(!['init','status','query','detect','cascade','diagnose'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE');
+ if(!['init','status','query','detect','cascade','diagnose','classify'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE');
  mkdirSync(dirname(DB_PATH),{recursive:true});
  const db=new DatabaseSync(DB_PATH);
  try{
   const stats=loadMethodAtlas(db);
-  if(['query','detect','cascade','diagnose'].includes(command)){
+  if(['query','detect','cascade','diagnose','classify'].includes(command)){
    if(!process.argv[3])throw Error('QUERY_JSON_REQUIRED');
    const query=JSON.parse(process.argv[3]);
-   const result=command==='detect'?await detectMethodAtoms(dbAdapter(db),query):command==='cascade'?await traceMethodHooks(dbAdapter(db),query):command==='diagnose'?diagnoseMethod(query):await routeMethodAtlas(dbAdapter(db),query);
+   const result=command==='detect'?await detectMethodAtoms(dbAdapter(db),query):command==='cascade'?await traceMethodHooks(dbAdapter(db),query):command==='diagnose'?diagnoseMethod(query):command==='classify'?await queryMethodTaxonomy(dbAdapter(db),query):await routeMethodAtlas(dbAdapter(db),query);
    process.stdout.write(JSON.stringify(result,null,2)+'\n');
   }else process.stdout.write(JSON.stringify({...stats,sqlite_path:DB_PATH},null,2)+'\n');
  }finally{db.close()}
