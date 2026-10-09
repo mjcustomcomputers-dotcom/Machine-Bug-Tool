@@ -31,7 +31,7 @@ test('Noah full-ark covers all 239 candidates without executing any',()=>{
 });
 test('Falsifier and negative controls with source readiness outrank unready candidate',()=>{
  const x=run();
- assert.ok(x.selected_methods.some(m=>m.method_id==='MHA-0052'));
+ assert.ok(x.selected_methods.some(m=>m.method_id==='MHA-0053'));
  assert.ok(x.selected_methods.every(m=>m.decision==='STRUCTURAL_METHOD_CANDIDATE'));
  assert.equal(x.outcome_vector.negative_controls_declared_ready,x.selected_methods.length);
  assert.ok(x.deferred_methods.some(m=>m.decision==='NEEDS_INPUT_SCHEMA_REVIEW'));
