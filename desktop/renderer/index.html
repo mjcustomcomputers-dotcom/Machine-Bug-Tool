@@ -372,7 +372,7 @@
       <small id="connection-endpoint-help" class="input-boundary-note"></small>
       <label>Existing credential reference (optional)<input id="connection-credential" maxlength="500" placeholder="Created by this desktop app" aria-describedby="connection-credential-help"></label>
       <small id="connection-credential-help" class="input-boundary-note">Use an existing reference, or enter your own scoped access token below. Tokens are sent only to their fixed provider API by the host.</small>
-      <div id="connection-token-fields"><label>Access token<input id="connection-token" type="password" maxlength="16000" autocomplete="off" spellcheck="false" placeholder="Read access to the selected provider"></label><label><input id="connection-remember" type="checkbox"> Remember encrypted on this computer</label><p>With Remember off, the token lasts only for this app session. Screen capture stops while you enter credentials. Provider expiry still applies.</p></div>
+      <div id="connection-token-fields"><label>Access token<input id="connection-token" type="password" maxlength="16000" autocomplete="off" spellcheck="false" placeholder="Read access to the selected provider"></label><label class="toggle-label"><input id="connection-remember" type="checkbox"> Remember encrypted on this computer</label><p>With Remember off, the token lasts only for this app session. Screen capture stops while you enter credentials. Provider expiry still applies.</p></div>
       <p class="honesty-note">Account identity, discovered scopes and tools come from the host adapter’s actual observation; they are not self-asserted here. Saving a URL means configured, not connected.</p>
       <div class="dialog-actions"><button class="button" id="cancel-connection" type="button">Cancel</button><button class="button accent" id="configure-connection" type="submit">Save configuration</button></div>
     </form>
@@ -401,7 +401,7 @@
     <p id="connection-read-help"></p>
     <div id="connection-github-fields"><label>Repository<input id="connection-repository" value="mjcustomcomputers-dotcom/Machine-Bug-Tool" maxlength="200"></label><label>Branch, tag or commit<input id="connection-ref" value="feature/mpc-screen-ocr-20261009" maxlength="200"></label><label>File path<input id="connection-file-path" value="docs/MPC-SCREEN-READER.md" maxlength="1500"></label></div>
     <label id="connection-native-field">Native file / message ID or Dropbox path<input id="connection-native-id" maxlength="2000" autocomplete="off"></label>
-    <label><input id="connection-include-content" type="checkbox" checked> Read the selected text content</label>
+    <label class="toggle-label"><input id="connection-include-content" type="checkbox" checked> Read the selected text content</label>
     <div class="button-row"><button class="button accent" id="connection-read-run" type="button">Read selected resource</button><button class="button" id="connection-read-use" type="button" disabled>Use in chat</button><button class="button" id="connection-read-copy" type="button" disabled>Copy receipt</button></div>
     <p id="connection-read-status" role="status" aria-live="polite"></p><label class="sr-only" for="connection-read-output">Selected resource result</label><textarea id="connection-read-output" readonly spellcheck="false"></textarea>
   </section></dialog>

@@ -43,7 +43,7 @@ export function createScreenCaptureHost({electron,getWindow,getWorkspace,getOrig
   }
   function stop(reason='USER_STOP'){
     classifier.reset(reason);resultSequence++;
-    generation++;const old=pipeline;pipeline=null;lastMetrics=old?.status?.()??lastMetrics;current=null;
+    generation++;const old=pipeline;pipeline=null;current=null;
     if(watchdog)clearInterval(watchdog);watchdog=null;
     if(printShortcut)globalShortcut.unregister('PrintScreen');printShortcut=false;
     if(stopShortcut)globalShortcut.unregister('CommandOrControl+Shift+F8');stopShortcut=false;
@@ -51,6 +51,7 @@ export function createScreenCaptureHost({electron,getWindow,getWorkspace,getOrig
     const badge=indicator;indicator=null;if(badge&&!badge.isDestroyed())badge.destroy();
     const window=getWindow();if(window&&!window.isDestroyed())window.setContentProtection(false);
     old?.stop?.(reason);
+    lastMetrics=old?.status?.()??lastMetrics;
     if(old){const previous=closing;closing=Promise.allSettled([previous,Promise.resolve(old.close?.())]).then(()=>{});}
     notify({type:'STOPPED',reason:clean(reason),metrics:lastMetrics});
     return {state:'STOPPED',reason:clean(reason)};
@@ -99,7 +100,8 @@ export function createScreenCaptureHost({electron,getWindow,getWorkspace,getOrig
     classifier=classifierFactory({now});
     const sessionId=randomUUID();
     sampler={};
-    current={sessionId,sourceId:selected.id,sourceName:selected.name,projectId:input.projectId,settings,startedAt:new Date(now()).toISOString()};
+    current={sessionId,sourceId:selected.id,sourceName:selected.name,projectId:input.projectId,settings,startedAt:new Date(now()).toISOString(),
+      configurationIssued:false,desktopRequestPending:false};
     try{
     const ocr=ocrFactory({assetRoot});
     pipeline=pipelineFactory({ocr,onResult:async receipt=>{
@@ -150,7 +152,13 @@ export function createScreenCaptureHost({electron,getWindow,getWorkspace,getOrig
   register('mpc-workspace:screen-stop',()=>stop());
   register('mpc-workspace:screen-status',status);
   register('mpc-workspace:screen-now',()=>{if(!capture||!current)fail('SCREEN_NOT_ACTIVE');capture.webContents.send('mpc-capture:now');return {status:'REQUESTED'}});
-  ipcMain.handle('mpc-capture:configuration',event=>{guardWorker(event);return {...current.settings,sourceId:current.sourceId}});
+  ipcMain.handle('mpc-capture:configuration',event=>{
+    guardWorker(event);
+    // This fixed helper makes exactly one desktop getUserMedia request after
+    // receiving its source. Reading configuration again cannot rearm the grant.
+    if(!current.configurationIssued){current.configurationIssued=true;current.desktopRequestPending=true;}
+    return {...current.settings,sourceId:current.sourceId};
+  });
   ipcMain.handle('mpc-capture:heartbeat',(event,value)=>{guardWorker(event);lastBeat=now();observeSampler(value);return {status:'ACTIVE'}});
   ipcMain.handle('mpc-capture:failed',(event,value)=>{guardWorker(event);notify({type:'ERROR',code:clean(value)});return stop('CAPTURE_FAILED')});
   ipcMain.handle('mpc-capture:frame',(event,input)=>{
@@ -183,19 +191,31 @@ export function createScreenCaptureHost({electron,getWindow,getWorkspace,getOrig
     if(!indicator||event.sender!==indicator.webContents||event.senderFrame!==indicator.webContents.mainFrame)fail('SCREEN_INDICATOR_SENDER_REJECTED');
     return stop('INDICATOR_STOP');
   });
-  // Camera, microphone and the general UI receive no media permission. Only
-  // the fixed capture renderer gets a desktop-video grant during active consent.
-  const permitted=(contents,permission,requestingUrl,isMainFrame)=>!!current&&!!capture&&
+  // Electron 44.5.1 reports mediaTypes: [] for its legacy desktop transport;
+  // only DEVICE_AUDIO_CAPTURE / DEVICE_VIDEO_CAPTURE add audio / video there.
+  // See WebContentsPermissionHelper::RequestMediaAccessPermission. An empty
+  // list is accepted once, after our fixed helper receives its consent source.
+  const permitted=(contents,permission,requestingUrl,isMainFrame)=>!!current&&!!capture&&!capture.isDestroyed()&&
     current.projectId===currentProject()&&contents===capture.webContents&&
     contents.mainFrame.url===`${getOrigin()}/capture.html`&&requestingUrl===`${getOrigin()}/capture.html`&&
-    isMainFrame===true&&['media','display-capture'].includes(permission);
-  session.defaultSession.setPermissionCheckHandler((contents,permission,requestingOrigin,details)=>
-    requestingOrigin===getOrigin()&&permitted(contents,permission,details?.requestingUrl??contents?.mainFrame?.url,details?.isMainFrame)&&
-    (permission!=='media'||details?.mediaType==='video'));
+    isMainFrame===true&&permission==='media';
+  const sameOrigin=value=>{
+    if(typeof value!=='string')return false;
+    try{
+      const actual=new URL(value),expected=new URL(getOrigin());
+      return actual.origin!=='null'&&actual.origin===expected.origin&&!actual.username&&!actual.password&&
+        actual.pathname==='/'&&!actual.search&&!actual.hash;
+    }catch{return false;}
+  };
+  // The check callback collapses desktop and hardware to mediaType: video.
+  // Never pregrant it: the native desktop path calls the request handler below.
+  session.defaultSession.setPermissionCheckHandler(()=>false);
   session.defaultSession.setPermissionRequestHandler((contents,permission,callback,details)=>{
-    const types=details?.mediaTypes??[];
-    callback(permitted(contents,permission,details?.requestingUrl,details?.isMainFrame)&&
-      !types.includes('audio')&&(permission!=='media'||types.length>0&&types.every(type=>type==='video')));
+    const allowed=permitted(contents,permission,details?.requestingUrl,details?.isMainFrame)&&
+      sameOrigin(details?.securityOrigin)&&current.desktopRequestPending&&
+      Array.isArray(details?.mediaTypes)&&details.mediaTypes.length===0;
+    if(allowed)current.desktopRequestPending=false;
+    callback(!!allowed);
   });
   powerMonitor.on('lock-screen',()=>stop('SCREEN_LOCKED'));
   powerMonitor.on('suspend',()=>stop('COMPUTER_SUSPENDED'));

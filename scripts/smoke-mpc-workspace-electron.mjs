@@ -149,23 +149,36 @@ process.on('unhandledRejection', error => { void finish('FAIL', error); });
 
 function cleanEvents(events) {
   return events.map(event => ({type: event.type, reason: event.reason, code: event.code,
+    ...(event.type === 'ERROR' ? {diagnostic: Object.fromEntries(Object.entries(event).filter(([key]) =>
+      !['type', 'png', 'receipt'].includes(key)))} : {}),
     ...(event.receipt ? {frame: event.receipt.frame, text: event.receipt.ocr?.text,
       capture_to_delivery_ms: event.receipt.capture_to_delivery_ms, ocr_duration_ms: event.receipt.ocr_duration_ms} : {})}));
 }
 async function captureRun(input, name) {
+  receipt[name] = {input, status: 'STARTING', events: []};
   phase(`CAPTURE: ${name} clear events`);
   await js('window.__mpcNativeSmoke.events=[];');
   phase(`CAPTURE: ${name} native start`);
   const state = await js(`return window.mpcWorkspace.screenStart(${JSON.stringify(input)});`);
+  receipt[name].start_state = state;
+  breadcrumb('CAPTURE_STARTED', {name, state: state.state});
   assert.equal(state.state, 'CAPTURING');
   const result = await waitFor(`${name} OCR result`, async () => {
     const events = await js('return window.__mpcNativeSmoke.events;');
+    // Preserve native failures before throwing, even when the worker is already
+    // destroyed and the normal success/result assignment is never reached.
+    receipt[name].events = cleanEvents(events);
+    saveReceipt(receipt.status);
     return events.find(event => event.type === 'ERROR' || event.type === 'RESULT') ?? false;
   }, 25_000);
-  if (result.type === 'ERROR') throw Error(`NATIVE_CAPTURE_ERROR:${result.code}`);
+  if (result.type === 'ERROR') {
+    receipt[name].status = 'FAILED';
+    breadcrumb('CAPTURE_FAILED', {name, code: result.code});
+    throw Error(`NATIVE_CAPTURE_ERROR:${result.code}`);
+  }
   await waitFor(`${name} automatic stop`, async () => (await js('return window.mpcWorkspace.screenStatus();')).state === 'STOPPED');
   const events = await js('return window.__mpcNativeSmoke.events;');
-  receipt[name] = {events: cleanEvents(events), result: result.receipt};
+  Object.assign(receipt[name], {status: 'COMPLETED', events: cleanEvents(events), result: result.receipt});
   breadcrumb('CAPTURE_COMPLETED', {name, event_count: events.length});
   return {result: result.receipt, events};
 }
@@ -276,6 +289,9 @@ try {
   await fixture.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`);
   fixture.show(); fixture.moveTop();
   await pause(300);
+  receipt.synthetic_fixture = {window_id: fixture.id, title: fixture.getTitle(), bounds: fixture.getBounds(),
+    content_bounds: fixture.getContentBounds(), visible: fixture.isVisible(), minimized: fixture.isMinimized(),
+    native_handle_hex: fixture.getNativeWindowHandle().toString('hex')};
   phase('ENUMERATE_NATIVE_SOURCES');
   const sourceList = await js('return window.mpcWorkspace.screenSources();');
   receipt.enumerated_sources = sourceList;
@@ -292,6 +308,26 @@ try {
   const input = {sourceId: selected.id, projectId: 'NATIVE-SMOKE', consent: true, mode: 'single', fps: 1,
     crop, masks: [], preview: true, printScreen: false, excludeMpc: true, durationMinutes: 5};
   receipt.selected_source = selected;
+  receipt.rejected_starts = [];
+  for (const [name, override, expected] of [
+    ['missing consent', {consent: false}, 'SCREEN_PERMISSION_REQUIRED'],
+    ['unlisted source', {sourceId: 'mpc-smoke-unlisted-source'}, 'SCREEN_REFRESH_SOURCE_LIST']
+  ]) {
+    phase(`REJECT_INVALID_START: ${name}`);
+    const observed = await js(`try {
+      await window.mpcWorkspace.screenStart(${JSON.stringify({...input, ...override})});return {rejected:false};
+    }catch(error){return {rejected:true,message:String(error?.message??error)};}`);
+    assert.equal(observed.rejected, true, `${name} unexpectedly authorized capture`);
+    assert.ok(observed.message.includes(expected), `${name} failed for an unexpected reason: ${observed.message}`);
+    const stopped = await js('return window.mpcWorkspace.screenStatus();');
+    assert.equal(stopped.state, 'STOPPED');
+    assert.equal(BrowserWindow.getAllWindows().filter(window => window !== main && window !== fixture && !window.isDestroyed()).length,
+      0, `${name} created a capture or indicator window`);
+    receipt.rejected_starts.push({name, expected, observed, state: stopped.state});
+    breadcrumb('INVALID_START_REJECTED', {name, expected});
+  }
+  checks.push({check: 'NATIVE_REJECTS_NO_CONSENT_AND_UNLISTED_SOURCE', status: 'PASS'});
+  breadcrumb('CHECK_PASSED', {check: 'NATIVE_REJECTS_NO_CONSENT_AND_UNLISTED_SOURCE'});
   const unmasked = await captureRun(input, 'unmasked');
   const unmaskedText = unmasked.result.ocr.text.replace(/\s+/gu, ' ');
   for (const phrase of ['MPC SCREEN OCR', 'LOCAL PRIVATE CAPTURE', 'MASKED SECRET 778899', '1234567890']) {

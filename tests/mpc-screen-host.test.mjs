@@ -35,7 +35,7 @@ function fixture(t,{classifierFactory}={}){
     assertTrustedSender:event=>{if(event!==trusted)throw Object.assign(Error('UNTRUSTED_UI'),{code:'UNTRUSTED_UI'})},
     ocrFactory:()=>({}),classifierFactory:classifierFactory??(()=>({analyze:async receipt=>classifierImplementation?classifierImplementation(receipt):({status:'CLASSIFIED',summary:'Synthetic fixture'}),reset(){},status(){return {}}})),pipelineFactory:callbacks=>{
       const item={callbacks,stopped:[],closed:0,frames:[],scope:null,
-        start(value){this.scope=value},stop(reason){this.stopped.push(reason)},close(){this.closed++;return Promise.resolve()},status(){return {in_flight:0,pending:0}},
+        start(value){this.scope=value},stop(reason){this.stopped.push(reason)},close(){this.closed++;return Promise.resolve()},status(){return {state:this.stopped.length?'STOPPED':this.scope?'ACTIVE':'IDLE',in_flight:0,pending:0}},
         submit(bytes,metadata){const frame={received:bytes,bytes:Buffer.from(bytes),metadata:structuredClone(metadata)};this.frames.push(frame);return submitImplementation?submitImplementation(frame):Promise.resolve({status:'ANALYZED'})}};
       pipelines.push(item);return item;
     }});
@@ -98,6 +98,13 @@ test('repeated stop calls retain an earlier OCR cleanup promise before a new cap
   const restarted=f.host.start(input({sourceId:'window:7:0'}));await tick();
   const countBeforeCleanup=f.windows.filter(window=>window.options.title==='MPC capture worker').length;
   cleanup.resolve();await restarted;assert.equal(countBeforeCleanup,1);
+});
+
+test('stopped metrics reflect the revoked pipeline after its synchronous stop',async t=>{
+  const f=fixture(t);await f.host.listSources();await f.host.start(input());
+  assert.equal(f.host.status().metrics.pipeline.state,'ACTIVE');f.host.stop('USER_STOP');
+  assert.equal(f.host.status().metrics.pipeline.state,'STOPPED');
+  assert.equal(f.mainWindow.webContents.messages.at(-1).value.metrics.state,'STOPPED');
 });
 
 test('a project change while the capture page loads prevents a STARTED result',async t=>{
@@ -209,24 +216,70 @@ test('the general UI and microphone requests never receive capture permission',a
   assert.equal(audio,false);f.host.stop();assert.equal(f.ses.check(f.capture().webContents,'display-capture'),false);
 });
 
-test('video permission requires the exact active capture origin and main frame',async t=>{
+test('permission checks never pregrant hardware or general media even in the capture helper',async t=>{
   const f=fixture(t);await f.host.listSources();await f.host.start(input());const worker=f.capture().webContents;
   const origin='http://127.0.0.1:4321',requestingUrl=`${origin}/capture.html`,check={isMainFrame:true,requestingUrl,mediaType:'video'};
-  assert.equal(f.ses.check(worker,'media',origin,check),true);
-  for(const [requestOrigin,details] of [[origin,{...check,isMainFrame:false}],[origin,{...check,isMainFrame:undefined}],
-    [origin,{...check,requestingUrl:`${origin}/`}],['https://example.invalid',check],[origin,{...check,mediaType:'audio'}]]){
-    assert.equal(f.ses.check(worker,'media',requestOrigin,details),false);
+  f.handlers.get('mpc-capture:configuration')(f.event(f.capture()));
+  for(const contents of [worker,f.mainWindow.webContents])for(const permission of ['media','display-capture','camera','microphone']){
+    for(const mediaType of ['video','audio',undefined])assert.equal(f.ses.check(contents,permission,`${origin}/`,{...check,mediaType}),false);
   }
-  const request={isMainFrame:true,requestingUrl,mediaTypes:['video']};
-  let permitted;f.ses.request(worker,'media',value=>{permitted=value},request);assert.equal(permitted,true);
-  for(const details of [{...request,isMainFrame:false},{...request,requestingUrl:`${origin}/`},{...request,mediaTypes:['audio','video']},{...request,mediaTypes:[]}]){
-    f.ses.request(worker,'media',value=>{permitted=value},details);assert.equal(permitted,false);
-  }
-  worker.mainFrame.url=`${origin}/unexpected.html`;assert.equal(f.ses.check(worker,'media',origin,check),false);worker.mainFrame.url=requestingUrl;
-  f.setProject('another-project');assert.equal(f.ses.check(worker,'media',origin,check),false);
 });
 
-function rendererFixture({imageMode='native',masks=[],preprocess=prepareOcrPixels,digestGate}={}){
+test('the native empty media list grants one configured desktop request and cannot be rearmed',async t=>{
+  const f=fixture(t);await f.host.listSources();await f.host.start(input());const window=f.capture(),worker=window.webContents;
+  const origin='http://127.0.0.1:4321',request={isMainFrame:true,requestingUrl:`${origin}/capture.html`,securityOrigin:`${origin}/`,mediaTypes:[]};
+  const requestPermission=(details=request,contents=worker,permission='media')=>{
+    let allowed;f.ses.request(contents,permission,value=>{allowed=value},details);return allowed;
+  };
+  assert.equal(requestPermission(),false,'configuration handoff must precede the native request');
+  assert.equal(f.handlers.get('mpc-capture:configuration')(f.event(window)).sourceId,'screen:1:0');
+  const invalid=[{...request,isMainFrame:false},{...request,isMainFrame:undefined},
+    {...request,requestingUrl:`${origin}/`},{...request,requestingUrl:`${origin}/capture.html?other=1`},{...request,requestingUrl:`${origin}/capture.html#other`},
+    {...request,securityOrigin:'http://127.0.0.1:4322/'},{...request,securityOrigin:'http://127.0.0.1:4321.example.invalid/'},
+    {...request,securityOrigin:`${origin}/other`},{...request,securityOrigin:`${origin}/?other=1`},{...request,securityOrigin:`${origin}/#other`},
+    {...request,securityOrigin:'http://user@127.0.0.1:4321/'},{...request,securityOrigin:undefined},{...request,securityOrigin:'invalid'},
+    {...request,mediaTypes:['video']},{...request,mediaTypes:['audio']},{...request,mediaTypes:['audio','video']},
+    {...request,mediaTypes:undefined},{...request,mediaTypes:''},{...request,mediaTypes:{length:0}}];
+  for(const details of invalid)assert.equal(requestPermission(details),false);
+  assert.equal(requestPermission(request,f.mainWindow.webContents),false);
+  assert.equal(requestPermission(request,worker,'display-capture'),false);
+  worker.mainFrame.url=`${origin}/unexpected.html`;assert.equal(requestPermission(),false);worker.mainFrame.url=request.requestingUrl;
+  f.setProject('another-project');assert.equal(requestPermission(),false);f.setProject('project-1');
+  assert.equal(requestPermission(),true,'Electron serializes the origin with a trailing slash');
+  assert.equal(requestPermission(),false,'a second native request needs new consent');
+  f.handlers.get('mpc-capture:configuration')(f.event(window));
+  assert.equal(requestPermission(),false,'reading configuration again does not rearm the grant');
+  f.host.stop();assert.equal(requestPermission(),false);
+  await f.host.start(input());
+  const fresh=f.capture();f.handlers.get('mpc-capture:configuration')(f.event(fresh));
+  assert.equal(requestPermission({...request,securityOrigin:origin},fresh.webContents),true,'an origin without a trailing slash is equivalent');
+  assert.equal(requestPermission(request,worker),false,'the revoked helper cannot consume a new session grant');
+});
+
+test('the native desktop grant is consumed before its callback can reenter',async t=>{
+  const f=fixture(t);await f.host.listSources();await f.host.start(input());const worker=f.capture().webContents;
+  f.handlers.get('mpc-capture:configuration')(f.event(f.capture()));
+  const request={isMainFrame:true,requestingUrl:'http://127.0.0.1:4321/capture.html',securityOrigin:'http://127.0.0.1:4321/',mediaTypes:[]};
+  let first,second;
+  f.ses.request(worker,'media',value=>{
+    first=value;f.ses.request(worker,'media',nested=>{second=nested},request);
+  },request);
+  assert.equal(first,true);assert.equal(second,false);
+});
+
+test('capture reports DOMException details instead of hiding them behind numeric code zero',{timeout:5000},async()=>{
+  const f=rendererFixture({mediaError:{name:'NotAllowedError',message:'Permission denied',code:0}});
+  assert.equal(await f.waitForFailure(),'NotAllowedError: Permission denied');assert.equal(f.delivered.length,0);
+});
+
+test('capture failures preserve the failing constraint and nonzero native code within a bounded message',{timeout:5000},async()=>{
+  const f=rendererFixture({mediaError:{name:'OverconstrainedError',message:'Requested video size is unavailable',constraint:'maxWidth',code:8}});
+  assert.equal(await f.waitForFailure(),'OverconstrainedError: Requested video size is unavailable (code 8) [constraint: maxWidth]');
+  const long=rendererFixture({mediaError:{name:'NotReadableError',message:'detail '.repeat(200),code:0}});
+  assert.equal((await long.waitForFailure()).length,160);
+});
+
+function rendererFixture({imageMode='native',masks=[],preprocess=prepareOcrPixels,digestGate,mediaError}={}){
   const encodes=[],draws=[],delivered=[],submitted=[],canvases=[],encodedBuffers=[],pixelBuffers=[],encodedPixels=[],events=new Map(),acknowledgements=[];
   const encodeWaiters=[],inspectionWaiters=[],inspectionResults=[],digestInputs=[],failures=[],timeouts=new Map(),failure=deferred();let captureNow,trackStops=0,pixelVersion=0,timerSequence=0;
   const tracks=[{addEventListener:(name,fn)=>events.set(`track-${name}`,fn),stop:()=>{trackStops++}}];
@@ -262,6 +315,7 @@ function rendererFixture({imageMode='native',masks=[],preprocess=prepareOcrPixel
   const source=readFileSync(new URL('../desktop/renderer/capture.js',import.meta.url),'utf8').replace(/^import[^\n]*\n/u,'');
   const runtime={mpcCapture:bridge,document:fakeDocument,navigator:{mediaDevices:{getUserMedia:async request=>{
     assert.equal(request.audio,false);assert.equal(request.video.mandatory.chromeMediaSourceId,'screen:1:0');
+    if(mediaError)throw mediaError;
     return {getTracks:()=>tracks,getVideoTracks:()=>tracks};
   }}},performance:{now:()=>0},Date,crypto:webcrypto,pixelRect,maskRects,SCREEN_MAX_PIXELS,prepareOcrPixels:preprocess,
     createScreenChangeGate:()=>{

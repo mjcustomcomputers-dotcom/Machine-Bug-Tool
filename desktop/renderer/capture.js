@@ -26,10 +26,19 @@ function retain(buffer){ownedBuffers.add(buffer);return buffer}
 function erase(buffer){if(!buffer)return;try{new Uint8Array(buffer).fill(0)}finally{ownedBuffers.delete(buffer)}}
 function clearCanvases(){canvas.width=canvas.height=1;preview.width=preview.height=1}
 function disposePixels(){clearCanvases();changeGate.reset();for(const buffer of ownedBuffers)erase(buffer)}
+function failureDescription(error){
+  if(typeof error?.code==='string'&&error.code)return error.code.slice(0,160);
+  const name=typeof error?.name==='string'&&error.name!=='Error'?error.name:'';
+  const message=typeof error?.message==='string'?error.message:typeof error==='string'?error:'';
+  const description=[name,message].filter(Boolean).join(': ')||'SCREEN_CAPTURE_FAILED';
+  const numericCode=typeof error?.code==='number'&&Number.isFinite(error.code)&&error.code!==0?` (code ${error.code})`:'';
+  const constraint=typeof error?.constraint==='string'&&error.constraint?` [constraint: ${error.constraint}]`:'';
+  return `${description}${numericCode}${constraint}`.replace(/[\u0000-\u001f\u007f]/gu,' ').slice(0,160);
+}
 async function fail(error){
   if(stopped)return;stopped=true;clearTimeout(timer);clearInterval(beat);
   stream?.getTracks().forEach(track=>track.stop());video.srcObject=null;disposePixels();
-  await bridge.failed(error?.code??error?.message??error?.name??'SCREEN_CAPTURE_FAILED').catch(()=>{});
+  await bridge.failed(failureDescription(error)).catch(()=>{});
 }
 async function capture(){
   if(stopped||!config||video.readyState<2)return;

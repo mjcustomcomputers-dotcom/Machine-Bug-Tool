@@ -319,6 +319,8 @@ p { color: var(--text-secondary); }
 .scope-row legend { float: left; margin-right: 14px; color: var(--muted); font-size: .73rem; font-weight: 800; }
 .scope-row label, .toggle-label { display: flex; align-items: center; gap: 7px; color: var(--text-secondary); font-size: .78rem; }
 .scope-row input, .toggle-label input, .settings-card input[type=checkbox], .settings-card input[type=radio], dialog input[type=radio] { width: 17px; min-height: 17px; accent-color: var(--accent-deep); }
+.dialog-card label.toggle-label { display: flex; align-items: center; gap: 7px; }
+.dialog-card .toggle-label input[type=checkbox] { width: 18px; height: 18px; min-height: 18px; flex: 0 0 18px; margin: 0; }
 .filter-row { display: grid; grid-template-columns: repeat(3, minmax(120px, 220px)); gap: 8px; border-top: 1px solid var(--border-soft); padding: 12px; }
 .search-result { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; border-bottom: 1px solid var(--border-soft); padding: 13px; }
 .search-result:last-child { border-bottom: 0; }
