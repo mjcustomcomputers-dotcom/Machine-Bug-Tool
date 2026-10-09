@@ -1,0 +1,213 @@
+{
+  "atlas_extension": "METHOD-ATLAS-EXT-8.0",
+  "scope": "OPTICAL_PHOTONIC_SOURCE_LINKED_COMPARATIVE_METHOD_HOOKS",
+  "sources": [
+    {
+      "source_id": "V8_IEEE_OPTICAL",
+      "title": "IEEE 802.15.7-2018 Short-Range Optical Wireless Communications",
+      "native_url": "https://standards.ieee.org/ieee/802.15.7/6820/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V8_NASA_LCRD",
+      "title": "NASA Laser Communications Relay Demonstration characterization and operations",
+      "native_url": "https://ntrs.nasa.gov/citations/20240001299",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    }
+  ],
+  "methods": [
+    {
+      "method_id": "MHA-0232",
+      "method_name": "Optical link acquisition versus payload data",
+      "family": "OPTICAL_COMMUNICATIONS",
+      "mechanism": "Separate link lock/acquisition from successful packet delivery",
+      "required_input": "Source-bound optical link acquisition and frame records",
+      "falsifier": "Link acquired but payload corrupt or out of window",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V8_NASA_LCRD",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INTERFACE",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0232",
+        "question": "Which source-owned observation and control falsifies optical link acquisition versus payload data?",
+        "missing_evidence": "Source-bound optical link acquisition and frame records",
+        "falsifier": "Link acquired but payload corrupt or out of window",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0233",
+      "method_name": "Optical receiver interference control",
+      "family": "OPTICAL_COMMUNICATIONS",
+      "mechanism": "Check interference/noise against declared PHY and receiver model",
+      "required_input": "Optical signal noise baseline and receive fixtures",
+      "falsifier": "Source of interference is normal calibration drift",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V8_IEEE_OPTICAL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INFORMATION",
+        "ANOMALY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0233",
+        "question": "Which source-owned observation and control falsifies optical receiver interference control?",
+        "missing_evidence": "Optical signal noise baseline and receive fixtures",
+        "falsifier": "Source of interference is normal calibration drift",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0234",
+      "method_name": "Optical relay failover timing",
+      "family": "OPTICAL_COMMUNICATIONS",
+      "mechanism": "Compare relay channel handoff windows with source timing contracts",
+      "required_input": "Relay topology and recorded switch intervals",
+      "falsifier": "Failover was outside declared active service period",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V8_NASA_LCRD",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TIME",
+        "FAULT"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0234",
+        "question": "Which source-owned observation and control falsifies optical relay failover timing?",
+        "missing_evidence": "Relay topology and recorded switch intervals",
+        "falsifier": "Failover was outside declared active service period",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0235",
+      "method_name": "Light channel loss versus data integrity",
+      "family": "OPTICAL_COMMUNICATIONS",
+      "mechanism": "Keep optical signal availability and integrity error correction separate",
+      "required_input": "Owned error rate measurements and protocol spec",
+      "falsifier": "Loss recovered by permitted retransmission",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V8_IEEE_OPTICAL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INFORMATION",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0235",
+        "question": "Which source-owned observation and control falsifies light channel loss versus data integrity?",
+        "missing_evidence": "Owned error rate measurements and protocol spec",
+        "falsifier": "Loss recovered by permitted retransmission",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0236",
+      "method_name": "Spatially bounded optical channel identity",
+      "family": "OPTICAL_COMMUNICATIONS",
+      "mechanism": "Check photonic channel endpoints and physical receiver attribution",
+      "required_input": "Owned optical link mapping and receiver identifiers",
+      "falsifier": "Reflections or channel reuse defeat assumed endpoint identity",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V8_IEEE_OPTICAL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "IDENTITY",
+        "INTERFACE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0236",
+        "question": "Which source-owned observation and control falsifies spatially bounded optical channel identity?",
+        "missing_evidence": "Owned optical link mapping and receiver identifiers",
+        "falsifier": "Reflections or channel reuse defeat assumed endpoint identity",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0237",
+      "method_name": "Cross-medium link continuity challenge",
+      "family": "OPTICAL_COMMUNICATIONS",
+      "mechanism": "Compare optical-to-radio relay failover with end-to-end state conservation",
+      "required_input": "NASA link graph and packet trace fixture",
+      "falsifier": "A handoff creates a new authorized session",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V8_NASA_LCRD",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONNECTOR",
+        "FAULT"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0237",
+        "question": "Which source-owned observation and control falsifies cross-medium link continuity challenge?",
+        "missing_evidence": "NASA link graph and packet trace fixture",
+        "falsifier": "A handoff creates a new authorized session",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0238",
+      "method_name": "Optical synchronization drift audit",
+      "family": "OPTICAL_COMMUNICATIONS",
+      "mechanism": "Check sender receiver and relay clock domains before merging events",
+      "required_input": "Timestamp provenance and delay correction data",
+      "falsifier": "Drift within tolerated clock uncertainty",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V8_NASA_LCRD",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TIME",
+        "CONSISTENCY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0238",
+        "question": "Which source-owned observation and control falsifies optical synchronization drift audit?",
+        "missing_evidence": "Timestamp provenance and delay correction data",
+        "falsifier": "Drift within tolerated clock uncertainty",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0239",
+      "method_name": "Photonic metaphor versus runtime verification",
+      "family": "OPTICAL_COMMUNICATIONS",
+      "mechanism": "Separate physical optical transmission methods from software bitset search claims",
+      "required_input": "Executable runtime profile and actual optical hardware inventory",
+      "falsifier": "Software-only operation is incorrectly labeled photonic acceleration",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V8_IEEE_OPTICAL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0239",
+        "question": "Which source-owned observation and control falsifies photonic metaphor versus runtime verification?",
+        "missing_evidence": "Executable runtime profile and actual optical hardware inventory",
+        "falsifier": "Software-only operation is incorrectly labeled photonic acceleration",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    }
+  ],
+  "implementation_claim": "RESEARCH_HOOK_ONLY",
+  "hardware_acceleration_claim": false,
+  "source_authentication": false,
+  "canonical_promotion": false,
+  "target_actions": false
+}
