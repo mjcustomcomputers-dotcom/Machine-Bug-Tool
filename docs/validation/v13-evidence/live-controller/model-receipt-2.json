@@ -1,0 +1,61 @@
+{
+  "action_id": "6cfc3bc72cdb71a501f96c8a6813028ca01139e21577d3a22c329f2b21d46c44",
+  "kind": "MPC_EVALUATE",
+  "tool": "evaluate_method",
+  "call_ref": "host-journal:mpc-live:2",
+  "session_id": "chatgpt:mpc-v13:5676560dc515:2026-10-09",
+  "request_sha256": "486f35dd1555b9c6f0971233f4b68445e57d91ae85a6b2d6e27eb0147c994afb",
+  "response": {
+    "status": "BOUNDED_MODEL_RESULT",
+    "method": "finite_invariant",
+    "implementation_version": "1.2.0",
+    "model_fingerprint": "c6188afdedad534459f00496bc8cad640c485298ef4989728e61452fc53ab162",
+    "result": {
+      "status": "FINITE_GRAPH_VERIFIED",
+      "invariant_label": "SYNTHETIC ONLY — separate finite alternative finality model",
+      "predicate_basis": "NOT_FORBIDDEN_AND_SUPPLIED_INVARIANT_HOLDS",
+      "reachable_predicate_holds": true,
+      "reachability_complete": true,
+      "state_ids_examined": [
+        "fixture:pending",
+        "fixture:final"
+      ],
+      "states_examined": 2,
+      "states_discovered": 2,
+      "supplied_state_count": 2,
+      "frontier_state_ids": [],
+      "unknown_reachable_state_ids": [],
+      "counterexample": null,
+      "induction_obligations": {
+        "scope": "ALL_SUPPLIED_INITIAL_STATES_AND_TRANSITIONS",
+        "base": {
+          "status": "PASS",
+          "checked_count": 1,
+          "violations": [],
+          "unknowns": []
+        },
+        "step": {
+          "status": "PASS",
+          "checked_count": 1,
+          "violations": [],
+          "unknowns": []
+        },
+        "finite_induction_passed": true,
+        "checked_separately_from_bfs_budget": true
+      },
+      "model_scope": "SUPPLIED_FINITE_GRAPH_AND_CALLER_LABELS_ONLY",
+      "transition_relation_is_caller_supplied": true,
+      "model_completeness_proven": false,
+      "source_authentication": false,
+      "factual_truth_established": false,
+      "target_vulnerability_proven": false,
+      "unbounded_proof": false
+    },
+    "limitations": "BFS over at most 256 supplied states and 512 transitions, with forbidden states and caller-supplied true/false/unknown invariant labels. Checks base and step obligations separately. No unbounded induction, inferred state labels, or completeness beyond the supplied graph.",
+    "source_authentication": false,
+    "canonical_promotion": false,
+    "court_release_allowed": false,
+    "external_action_authorized": false
+  },
+  "response_sha256": "4095a1bc052911fcee0c904ca516c690a149e598bd1899eb62d2d8af3c6073ee"
+}

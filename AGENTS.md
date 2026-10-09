@@ -1,5 +1,35 @@
 # MPC Machine Legal BugTools — Daybreak development
 
+## Final engineering scope — local receiving and Codex acceptance
+
+The user has ended research for this phase. The current authorized action is one
+final integration acceptance, documented in
+`docs/CODEX-V13-FINAL-INTEGRATION-RUN.md`, followed by local receiving through
+`docs/LOCAL-POWERSHELL-V13.md`. Read
+`docs/validation/MPC-V13-LOCAL-INTEGRATION-VALIDATION.json` and the current resume
+manifest. The preparing host passed 405/405 tests and build at exact integration
+commit I; actual Cloud and native Windows runs retain separate gates.
+
+Keep reporting R, tested integration I and historical controller executable S
+separate. Execute new code/tests at I; only the receiver's isolated historical
+controller runs at S. Never rebind or initialize the completed state. Preserve
+all 182 original files and the prepared environment. No older research/setup
+section below authorizes reopening research, adding methods, repeating completed
+models, deploying, changing credentials or testing targets during this final
+pass. Stop after the destination acceptance and exact checkpoint.
+
+## Current Codex resume entry point
+
+For the current V13 continuation, read `docs/CODEX-V13-CURRENT-RESUME.md` and
+`connector-bridge/codex-resume-v13.json` at the latest development branch head
+before following an older setup or validation handoff. The V13 validation and
+operative development controller are complete. Read current instructions and
+receipts at the reporting head, but execute the saved controller at the exact
+tested source commit recorded in its state. Preserve completed calculations,
+the existing prepared environment and all native controllers. Check each
+destination's actual connector capabilities separately; historical connection
+receipts do not establish a new task's access.
+
 Read `DAYBREAK-START.txt`, `docs/environment-setup.txt`, and
 `docs/atomic-execution.md` before substantive changes. This repository contains
 the existing MPC source. Preserve its architecture, project identity,
@@ -167,3 +197,45 @@ The V11 CLI adds `sql-audit`, `reverse-links`, `mirrors`, and `dimension-audit`.
 For method-on-method audits, SQLite cache content integrity, and candidate discovery completeness read `docs/METHOD-ON-METHOD-SEMANTIC-INTEGRITY-V12.md` on this development branch. The derived SQLite Atlas's `INSERT OR IGNORE` metadata and matching table counts are insufficient to prove actual row values match the current versioned method/source/trigger/classifier/crosswalk/relation/taxonomy inputs. `verifyCurrentAtlas` now produces seven-table semantic fingerprints, and `audit-seed` reads corrupted caches without altering them. A matching local SHA-256 proves only parity with bundled repository data, **not** authenticity of scientific publications or bounty target records.
 
 The route discovers at most 512 candidate matches; exceeding that budget is a hard error, never silent truncation. Preserve original 239 Atlas candidate and separate 24 implemented hosted evaluator inventory. Do not promote method matches to executed models or change native MAXVAR/NESTMAX/BL/MBSS/EXT IDs. Run dedicated V12 and complete Node/SQLite tests/build on the branch before merging and do not delete or overwrite a suspect cache to suppress a failure.
+
+
+## V13 Noah's Ark OSI-inspired reasoning with Drive workbook and notebook
+
+Read `docs/NOAHS-ARK-REASONING-OSI-V13.md` and `connector-bridge/reasoning-artifacts-v13.json` when the task asks to reason over all methods, compare outcomes, use a Drive workbook or run the notebook. Reuse original Method Atlas and the current native 24 evaluator/MPC Research OS inventories separately; do not rename or double-count methods, or replace original BL32/384 and 25-coordinate registers. The seven reasoning layers are an OSI-inspired **analytical responsibility separation**, not network protocol implementation or physical optical processing.
+
+`lib/noahs-ark-reasoning.mjs` + local CLI `reason` consider all 239 source-linked MHA research candidates for one typed atom but select only a bounded, explicitly ready and falsifiable plan. Negative controls and comparator links are caller-supplied **unverified research inputs**; neither selection nor multiple agreeing methods authenticates a bounty finding. The new noncanonical Drive workbook and offline Jupyter notebook are development evidence/planning artifacts. They do not synchronize automatically with hosted Sites or change canonical Drive PASS control. The eight malformed optical cross-reference IDs have been repaired on this branch; the full 212-link ID validation is mandatory before merge.
+
+Run dedicated `tests/noahs-ark-reasoning.test.mjs` and `tests/method-relations-integrity.test.mjs`, full Node suite and build, and optionally the notebook in the prepared Codex Cloud environment. Preserve exact current Git HEAD, readback receipts, unresolved source and method inputs. No automatic target traffic, deployment, merged PR or production use.
+
+## V13 operative controllers in regular ChatGPT
+
+When the user asks for operative controllers, regular-chat execution, or the
+GitHub-to-MPC bridge, read `docs/CHATGPT-MPC-OPERATIVE-CONTROLLERS-V13.md` and
+`connector-bridge/operative-controllers-v13.json`. Use the existing supported
+GitHub, native source, and MPC plugins in the current chat. Preserve their
+current registered schemas and the user's original canonical controllers.
+
+`lib/noahs-ark-controller.mjs` and `scripts/noahs-ark-controller-cli.mjs` provide
+versioned operative state: typed source/readiness gates, explicit bounded
+adaptation to a native MPC evaluator, executable negative controls, challenger
+results, selective resume, and native checkpoint write/readback. The chat host
+performs the actual connector calls and supplies their exact receipts. The
+controller does not add network dispatch to the hosted Site. Receipt hashes
+prove content parity only; a complete development controller does not prove a
+security finding or replace the canonical Drive PASS controller.
+
+Resolve the current Git code revision and latest validation receipt before
+execution. Do not assume a chat has Node/source execution because a previous
+chat did. If source execution is unavailable, retain that boundary and continue
+only the supported native MPC operations. Never claim the V13 planner or
+controller ran solely from reading its instructions. New GitHub MHA definitions
+remain planning candidates until a supported native evaluator schema and exact
+source-bound model are supplied; preserve existing method IDs and prior work.
+
+The V13 validation restores the previously tested V8 repairs from
+`b5e6e6ae4100d73add56176645e9b58e4a4e7e49`, preserving V11 indexes and V12
+seven-table parity diagnostics. Normal cache admission fails closed on schema,
+seed or row drift; `audit-seed` remains read-only. Preserve old cache files.
+The notebook selects a source-derived cache path and records its actual host,
+code revision, worktree state and three executed synthetic scenarios separately
+from the workbook's four historical authored planning rows.

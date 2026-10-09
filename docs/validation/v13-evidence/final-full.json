@@ -1,0 +1,17 @@
+{
+  "label": "final-full",
+  "command": [
+    "node",
+    "--test"
+  ],
+  "cwd": "/workspace/scratch/5676560dc515/Machine-Bug-Tool",
+  "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_before": "",
+  "start_utc": "2026-10-09T05:28:50.890805+00:00",
+  "exit_code": 0,
+  "duration_seconds": 12.103506,
+  "end_utc": "2026-10-09T05:29:02.994366+00:00",
+  "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_after": "",
+  "log_sha256": "1b39a6628002c45c3d55aca311fbd98fd916130756a4eb867471fa3c3c22a163"
+}

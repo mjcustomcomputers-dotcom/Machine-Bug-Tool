@@ -1,0 +1,36 @@
+{
+  "version": "MPC_OPERATIVE_CONTROLLER_POINTERS_V13_1",
+  "status": "DEVELOPMENT_HOST_ORCHESTRATED",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "branch": "feature/noahs-ark-reasoning-osi-v13",
+  "original_handoff_commit": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+  "restored_v8_validation_commit": "b5e6e6ae4100d73add56176645e9b58e4a4e7e49",
+  "source_revision_rule": "Read the current branch and validation receipt; pin the actual code commit before executing.",
+  "run_instructions": "docs/CHATGPT-MPC-OPERATIVE-CONTROLLERS-V13.md",
+  "module": "lib/noahs-ark-controller.mjs",
+  "cli": "scripts/noahs-ark-controller-cli.mjs",
+  "synthetic_configuration_example": "tests/fixtures/noahs-ark-controller-synthetic.json",
+  "tests": "tests/noahs-ark-controller.test.mjs",
+  "latest_validation": "docs/validation/MPC-V13-VALIDATION.json",
+  "latest_development_checkpoint": "docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+  "latest_controller_state": "docs/validation/MPC-V13-OPERATIVE-STATE.json",
+  "existing_native_source_pointers": "connector-bridge/source-pointers.v9.json",
+  "workbook_pointer": "connector-bridge/reasoning-artifacts-v13.json",
+  "host_actions": [
+    "Read exact GitHub source and native controller versions through their connectors.",
+    "Run the source controller in an available execution environment.",
+    "Call supported MPC evaluate_method only for the controller's ready bounded request.",
+    "Feed the actual tool receipt into the controller.",
+    "Write the authorized native checkpoint and verify exact content/version by readback."
+  ],
+  "boundaries": {
+    "hosted_site_deployed_by_this_work": false,
+    "hosted_connector_dispatch": false,
+    "hosted_persistence": false,
+    "canonical_controller_replaced": false,
+    "mha_equals_native_evaluator": false,
+    "source_authentication_from_hashes": false,
+    "security_findings_from_synthetic_results": false,
+    "automatic_target_actions": false
+  }
+}

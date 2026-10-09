@@ -1,0 +1,57 @@
+{
+  "version": "MPC_V13_NOTEBOOK_SOURCE_CACHE_REPAIR",
+  "status": "WORKTREE_VALIDATED_EXACT_COMMIT_RERUN_PENDING",
+  "base_git_commit": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+  "worktree_dirty": true,
+  "notebook_source_sha256": "30607f5668d87f3eaf824aad8e25adccbde8ef694395ae8818490e3f48c4cf7c",
+  "change": "Use a deterministic SQLite filename derived from actual local source, SQL schema, catalog, taxonomy, and Node fingerprints; preserve prior caches and per-run outputs; report actual source/runtime context.",
+  "preserved_three_scenario_definitions": true,
+  "fourth_workbook_row": "Historical authored planning row; no fourth notebook fixture or readiness is invented.",
+  "workbook_changed": false,
+  "historical_workbook_cloud_label": "BLOCKED_INPUT_SCHEMA with MHA-0170 / MHA-0095: authored planning data, not observed CLI output.",
+  "actual_cloud_result": "BLOCKED_NO_READY_METHOD; no selected method or proposed pair.",
+  "node_version": "v24.19.0",
+  "python_version": "3.12.14",
+  "first_run": {
+    "started_at": "2026-10-09T05:11:14.060099+00:00",
+    "completed_at": "2026-10-09T05:11:16.357021+00:00",
+    "status": "PASS",
+    "code_cells_executed": 5,
+    "cache_existed_at_start": false
+  },
+  "repeat_run": {
+    "started_at": "2026-10-09T05:11:26.153158+00:00",
+    "completed_at": "2026-10-09T05:11:32.620302+00:00",
+    "status": "PASS",
+    "code_cells_executed": 5,
+    "cache_existed_at_start": true
+  },
+  "same_cache_reused": true,
+  "cache_fingerprint": "02a981ddd7bba72c73efea5a93932c1340ab9156253cc5f429e650eeb04f465d",
+  "cache_input_fingerprints": {
+    "source": "2f46104db91a9647fd512d3b51ba7c1c089f111a5690c443eb1d3e9bf2ef92aa",
+    "schema": "da6609f263a8d0f064989df38bc555d9c0187bac3a91bcd87fb99d7f2eb1223f",
+    "catalog": "3c0a0f6577e37ac15575a9b1917e5527154cae6e8c07ed7750720bec885cc56b",
+    "taxonomy": "2e8c0f0d5df2798277e30060aa92e21ffde665ca33f30a3910cf5bc8f8d1d9b0"
+  },
+  "admitted_atlas_fingerprints": {
+    "seed_fingerprint": "eae7dbb4dee41ec7e518f0587b2717abe6f503d1a610ac19f850e42a5f8544e5",
+    "schema_fingerprint": "0c2c81d94be45fff16d8734a86e264936528bf191794230feedd69a57458abe1",
+    "content_fingerprint": "af82723fa59894cc5309b3102f1d3f088a0e4d5e2ae67aebf66a67fa53cc76f5",
+    "taxonomy_policy_sha256": "d2f35b5115a7dc8df913c4c62d3f1ab7c8c653361c4d42831890e11dc67b13ae",
+    "taxonomy_compiler_sha256": "74e1cf1d854d963bd16c5536694c5a73cd75202f10c806538b9214899083f770"
+  },
+  "old_fixed_cache": {
+    "name": "noahs-ark-v13-notebook.sqlite",
+    "sha256_before": "a6a8e728c0108414d8859f45435ef1fe0a7d9b91d2f6e3bc30764f2127e28c1c",
+    "sha256_after": "a6a8e728c0108414d8859f45435ef1fe0a7d9b91d2f6e3bc30764f2127e28c1c",
+    "unchanged": true,
+    "admission_exit_code": 1,
+    "expected_schema_drift_rejection": true
+  },
+  "baseline_receipt_preserved": "Original e9b0f5 notebook run at 2026-10-09T05:05:08.319299+00:00 remains separate and unchanged.",
+  "no_source_authentication": true,
+  "no_method_execution": true,
+  "no_external_target_traffic": true,
+  "next_action": "Freeze the development commit and rerun notebook code cells to record that exact commit and clean/dirty state."
+}

@@ -1,0 +1,61 @@
+{
+  "version": "MPC_NOAHS_ARK_ARTIFACT_POINTERS_V13",
+  "status": "DEVELOPMENT_ONLY",
+  "verified_on": "2026-10-08",
+  "parent": {
+    "branch": "feature/atlas-seed-semantic-integrity-v12",
+    "commit": "be26479d0fd89e32fdaba71c0262a1bdcd12ece6",
+    "parent_pr": 10
+  },
+  "code": {
+    "branch": "feature/noahs-ark-reasoning-osi-v13",
+    "reasoning_module": "lib/noahs-ark-reasoning.mjs",
+    "cli": "scripts/method-atlas-cli.mjs",
+    "test": "tests/noahs-ark-reasoning.test.mjs",
+    "crossref_integrity": "tests/method-relations-integrity.test.mjs"
+  },
+  "drive_workbook": {
+    "native_owner": "GOOGLE_DRIVE",
+    "file_id": "1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw",
+    "url": "https://docs.google.com/spreadsheets/d/1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw/edit",
+    "name": "MPC Noah's Ark — Method Reasoning V13 — DEVELOPMENT",
+    "readback_verified": true,
+    "tabs": [
+      "Ark Registry",
+      "OSI Reasoning",
+      "Outcome Scenarios",
+      "Source Pointers",
+      "Ark Dashboard"
+    ],
+    "method_rows_verified": 239,
+    "used_source_ids": 64,
+    "catalog_source_records": 65,
+    "unreferenced_primary_source_id": "V6_METAMORPHIC",
+    "canonical_promotion": false,
+    "owns_native_controller": false
+  },
+  "github_notebook": {
+    "path": "notebooks/MPC-Noahs-Ark-Reasoning-V13.ipynb",
+    "requirements": "checked-out repository with Node 24, Python 3 and local method-atlas source",
+    "status": "SAVED_NOT_YET_EXECUTED_IN_CODEX"
+  },
+  "source_layers": {
+    "method_atlas_candidates": 239,
+    "method_atlas_classifiers": 239,
+    "existing_native_implemented_evaluators": 24,
+    "existing_native_method_hooks": 10,
+    "native_maxvar": 256,
+    "native_BL_branches": 32,
+    "native_BL_child_classifiers": 384,
+    "native_object_coordinates": 25,
+    "unresolved_reported_dimension_count": 356
+  },
+  "source_authority": "Current native Drive, Github branch, program rule and connected source version must be verified per use; this manifest is a locator, not an authoritative control switch.",
+  "warnings": [
+    "The Drive workbook is noncanonical and includes synthetic scenarios, not target findings.",
+    "GitHub code does not auto-deploy MPC Sites.",
+    "Method catalog entries are research hooks, not executed solvers.",
+    "Same source through Dash and Drive is not independent corroboration.",
+    "No live target scanning or cross-app data copying has occurred."
+  ]
+}

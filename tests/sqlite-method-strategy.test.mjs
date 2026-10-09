@@ -47,6 +47,7 @@ test('SQL argument validation rejects injection and excessive graph budget',()=>
   assert.throws(()=>inspectAtlasSQLite(db,{dimension:"GRAPH');DROP TABLE atlas_methods;--"}),/INVALID_SQLITE_DIAGNOSTIC_INPUT/);
   assert.throws(()=>traceInverseMethodEdges(db,{root_method_id:'MHA-0224',max_depth:99}),/INVALID_INVERSE_GRAPH_BUDGET/);
   assert.throws(()=>traceInverseMethodEdges(db,{root_method_id:'other'}),/INVALID_INVERSE_GRAPH_BUDGET/);
+  assert.throws(()=>traceInverseMethodEdges(db,{root_method_id:'MHA-9999'}),/UNKNOWN_INVERSE_GRAPH_ROOT/);
   assert.equal(db.prepare('SELECT COUNT(*) AS n FROM atlas_methods').get().n,239);
  }finally{db.close()}
 });

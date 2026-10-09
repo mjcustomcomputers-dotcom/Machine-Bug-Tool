@@ -1,0 +1,128 @@
+{
+  "version": "MPC_V13_SESSION_CONNECTION_CHECKPOINT_1",
+  "purpose": "Additive development session observation; completed operative controller is not reconciled or advanced because no changed model dependency was established.",
+  "project_id": "MPC_V13_DEVELOPMENT",
+  "mode": "SYNTHETIC_ONLY",
+  "source": {
+    "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+    "branch": "feature/noahs-ark-reasoning-osi-v13",
+    "reporting_head_before_write": "e53edae7db6a9e2083fbbc4998b0c9b97482cf3e",
+    "tested_executable_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "tested_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
+    "validation_path": "docs/validation/MPC-V13-VALIDATION.json",
+    "validation_blob": "823141921b7e56b41e7a66a186fad7896138f448",
+    "saved_state_path": "docs/validation/MPC-V13-OPERATIVE-STATE.json",
+    "saved_state_blob": "fa80abb6b7336457cdf28e31890280a14e6c5deb",
+    "operative_manifest_blob": "d5d91f065993113ca03400b54696c01f7b690eb9"
+  },
+  "restored_state": {
+    "controller_integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+    "saved_state_sha256": "d8ccd726902541cec0e468a0c3354781b7dadeecec1cc66754c20a13ba3d4508",
+    "revision": 1,
+    "event_sequence": 6,
+    "completed_obligations": 4,
+    "distinct_prior_native_evaluations": 3,
+    "explicit_prior_reuse": 1,
+    "original_receipts_retained": 6,
+    "status": "COMPLETE",
+    "next_action": null,
+    "local_cli_reexecution_this_session": false,
+    "previous_exact_tested_checkout_readonly_verify": "docs/validation/MPC-V13-CODEX-CONNECTION-STATUS.json"
+  },
+  "live_capabilities": {
+    "github": "PR #11 head and source/tested blob IDs read via connector",
+    "hosted_mpc": "HOSTED_MCP_READY 0.10.0-http.1",
+    "method_catalog": "1.2.0",
+    "implemented_evaluators": 24,
+    "method_hooks": 10,
+    "transformations": 17,
+    "universal_contract": "1.0.0",
+    "protected_evaluator_this_session": {
+      "method": "finite_invariant",
+      "implementation": "1.2.0",
+      "kind": "SEPARATE_CONNECTION_NEGATIVE_CONTROL",
+      "input": {
+        "invariant_label": "SYNTHETIC CONNECTION CHECK — intentionally forbidden final state",
+        "states": [
+          {
+            "id": "synthetic:pending",
+            "invariant_holds": true
+          },
+          {
+            "id": "synthetic:invalid-final",
+            "invariant_holds": false
+          }
+        ],
+        "initial_states": [
+          "synthetic:pending"
+        ],
+        "transitions": [
+          {
+            "id": "synthetic:finalize",
+            "from": "synthetic:pending",
+            "to": "synthetic:invalid-final"
+          }
+        ],
+        "forbidden_states": [
+          "synthetic:invalid-final"
+        ],
+        "max_states_examined": 2
+      },
+      "actual_result": "COUNTEREXAMPLE_FOUND",
+      "base": "PASS",
+      "step": "FAIL",
+      "states_examined": 2,
+      "proves_authenticated_source": false,
+      "proves_target_vulnerability": false
+    },
+    "hosted_connector_dispatch": false,
+    "hosted_persistence": false,
+    "dropbox_native_search": "MPC title-only 0 results; backup pointer unresolved",
+    "dash": "Drive projections only, native identity deduplicated",
+    "drive_workbook": {
+      "id": "1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw",
+      "title": "MPC Noah's Ark — Method Reasoning V13 — DEVELOPMENT",
+      "tabs": [
+        "Ark Registry",
+        "OSI Reasoning",
+        "Outcome Scenarios",
+        "Source Pointers",
+        "Ark Dashboard"
+      ]
+    },
+    "drive_native_read": [
+      {
+        "id": "1-PkmF-4QLr5rZ4XTTxOjiBJlxZGkYFbvQypl69N6mhA",
+        "role": "SOCIAL_DEAL_NATIVE_SOURCE_REGISTER",
+        "revision": "ANLCKQmWaap6_EsD_RTxMwWO-LItypZZDt_0UBP6M1hktAuKxNuGWX_oLQ4eTF5tc_cscZBiDjDKqIzsoIQKB3lRw6PgKOV-vZ3GmMgwbdk"
+      },
+      {
+        "id": "1nLyRGtDf7DWMS3QGB28AvD9AFuG6n9JyhJ1Dy5-2n3s",
+        "role": "KOMOJU_OLDER_CHECKPOINT_001_NOT_LATEST_CONTROLLER",
+        "revision": "ANLCKQkDC8wBa3uPwCC-VzwJ-fHv7ai6cB15Kt9NtQTbHPRan3amXCIGiD9y12vjCpBl7JQvezylUOFGh0xxKSg4LfkGD7OzxngYE-S8SV0"
+      }
+    ]
+  },
+  "reused_receipts": {
+    "source_validation": "344 passed and build exit 0, historical exact S receipt only",
+    "controller": "original 4 completed model obligations, 3 distinct calls and one reused negative-control receipt; no re-execution"
+  },
+  "changes": {
+    "canonical_controllers_modified": false,
+    "MAXVAR_modified": false,
+    "Method_Atlas_modified": false,
+    "Social_Deal_modified": false,
+    "KOMOJU_modified": false,
+    "source_revision_changed_for_active_models": false,
+    "method_inputs_changed": false,
+    "new_model_obligations": 0,
+    "model_work_reopened": false
+  },
+  "remaining_blockers": [
+    "This chat container has no authenticated exact S Git checkout; therefore no fresh CLI verify/status/next or reconcile execution is claimed.",
+    "Native Dropbox MPC backup still has no resolved native file identifier.",
+    "356 dimensions provenance, NESTMAX 174/160 discrepancy, V6_METAMORPHIC unused primary source remain open.",
+    "Do not infer model source authentication or any real bounty finding from synthetic data."
+  ],
+  "next_action": "In existing prepared execution environment, read current reporting receipts, restore exact saved state to isolated exact-S checkout, run read-only CLI verify/status/next; only reconcile if a changed bound dependency is established. Keep bounties separate; no merge, deploy or target contact."
+}

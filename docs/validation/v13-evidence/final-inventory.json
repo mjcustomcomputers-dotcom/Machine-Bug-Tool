@@ -1,0 +1,379 @@
+{
+  "started_at_utc": "2026-10-09T05:30:29.849Z",
+  "scope": "READ_ONLY_NATIVE_PRESERVATION_AND_LOCAL_DERIVED_CLI_VALIDATION",
+  "source_before": {
+    "head": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "branch": "feature/noahs-ark-reasoning-osi-v13",
+    "porcelain": ""
+  },
+  "execution_host": "CHATGPT_EXECUTION_HOST_NOT_A_NEW_CODEX_CLOUD_OR_DAYBREAK_VERIFICATION",
+  "node_version": "v24.19.0",
+  "network_or_hosted_calls_performed": false,
+  "source_authentication": false,
+  "canonical_promotion": false,
+  "original_native_preservation": {
+    "manifest": "docs/daybreak-source-import.json",
+    "native_source_commit": "765923c9839f32502e5c0f1f1b919b827596012e",
+    "native_source_tree": "321a45127d35bd2062201394412101ddc51e044e",
+    "expected_files": 182,
+    "checked_files": 182,
+    "unique_paths": 182,
+    "expected_bytes": 3412494,
+    "checked_bytes": 3412494,
+    "passed": 182,
+    "failed": [],
+    "all_blobs_modes_and_worktree_bytes_match": true,
+    "per_file_receipt": "validation/final-original-preservation.json"
+  },
+  "atlas_inventory": {
+    "methods": 239,
+    "unique_mha_ids": 239,
+    "paired_classifiers": 239,
+    "unique_mhc_ids": 239,
+    "source_records": 65,
+    "unique_source_ids": 65,
+    "referenced_primary_source_ids": 64,
+    "unreferenced_primary_source_ids": [
+      "V6_METAMORPHIC"
+    ],
+    "relations": 212,
+    "unique_relation_keys": 212,
+    "invalid_relations": [],
+    "taxonomy_rows": 2597,
+    "all_candidates_research_only": true,
+    "classifier_pairing_exact": true,
+    "source_references_resolve": true,
+    "exact_mha_sequence": true,
+    "canonical_adoption_or_execution_claim": false
+  },
+  "native_source_inventory": {
+    "scope": "COUNTS_FROM_PRESERVED_BUNDLED_NATIVE_SOURCE_NOT_A_FRESH_DRIVE_OR_DEPLOYMENT_CLAIM",
+    "implemented_evaluators": 24,
+    "implemented_evaluator_ids": [
+      "claw_accumulator",
+      "coin_pusher_deferred",
+      "casino_meter_finality",
+      "ledger",
+      "relational",
+      "partial_order",
+      "metamorphic",
+      "temporal",
+      "identity_graph",
+      "authority_graph",
+      "propositional_entailment",
+      "finite_invariant",
+      "abductive_cover",
+      "minimal_cut_sets",
+      "nash",
+      "harsanyi",
+      "selten",
+      "conservation",
+      "identity",
+      "state_trace",
+      "fault_tree",
+      "fmea",
+      "ach",
+      "coverage"
+    ],
+    "method_hooks": 10,
+    "framework_operators": 15,
+    "reductions": 12,
+    "transformations": 17,
+    "mirrors": 15,
+    "bl_branches": 32,
+    "bl_child_classifiers": 384,
+    "object_coordinates": 25,
+    "jacket_axes": 14,
+    "method_packet_fields": 11,
+    "maxvar_dimensions": 256,
+    "mbss_branches": 64,
+    "mbss_classifiers": 512,
+    "ext_definitions": 96,
+    "nestmax_program_iid_domain_pack": {
+      "branches": 8,
+      "enumerated_classifiers": 174,
+      "observed_count": 174,
+      "legacy_descriptor_count": 160,
+      "count_discrepancy": "174 enumerated IDs; 160 appears in navigation/earlier description. No deletion, renumbering, or automatic canonical correction.",
+      "canonical_correction_performed": false
+    },
+    "registry_bundle_hashes": {
+      "maxvar256.json": {
+        "expected_sha256": "30b3937212d96f74b96812bcb17fdab30ea1124ddb0566be02f306146d7102db",
+        "actual_sha256": "30b3937212d96f74b96812bcb17fdab30ea1124ddb0566be02f306146d7102db",
+        "pass": true
+      },
+      "canonical_sources.json": {
+        "expected_sha256": "4ddb5b75f3c6d90125581daddd3ebfaba63127914be9de8a511c1aab8b57c87d",
+        "actual_sha256": "4ddb5b75f3c6d90125581daddd3ebfaba63127914be9de8a511c1aab8b57c87d",
+        "pass": true
+      },
+      "storage_map.json": {
+        "expected_sha256": "288bc72a35523e463a05bb9e0e901520bdd5d44ef4a1224cdcf88c167825ffad",
+        "actual_sha256": "288bc72a35523e463a05bb9e0e901520bdd5d44ef4a1224cdcf88c167825ffad",
+        "pass": true
+      },
+      "nestmax_program_iid_pack.json": {
+        "expected_sha256": "1436bb965b503339506057d47bde6bb03105c883f70c9b609e8280dd50c6a5e0",
+        "actual_sha256": "1436bb965b503339506057d47bde6bb03105c883f70c9b609e8280dd50c6a5e0",
+        "pass": true
+      }
+    },
+    "separate_inventories_must_not_be_summed_as_executed_methods": true
+  },
+  "cli_validation": {
+    "runs": [
+      {
+        "argv": [
+          "node",
+          "scripts/method-atlas-cli.mjs",
+          "init"
+        ],
+        "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+        "exit_status": 0,
+        "signal": null,
+        "stdout": "validation/final-cli-init.json",
+        "stderr": null
+      },
+      {
+        "argv": [
+          "node",
+          "scripts/method-atlas-cli.mjs",
+          "reason",
+          "{\"atom\":{\"subject_id\":\"fixture:transaction\",\"atom_id\":\"fixture:ledger\",\"dimensions\":[\"MONEY\",\"FINALITY\"],\"source_refs\":[\"fixture:owned-ledger\"],\"external_source_refs\":[]},\"method_receipts\":[{\"method_id\":\"MHA-0053\",\"input_state\":\"AVAILABLE\",\"negative_control_state\":\"AVAILABLE\",\"falsifier_state\":\"AVAILABLE\",\"estimated_cost_units\":2}],\"max_selected\":4,\"max_pairs\":4}"
+        ],
+        "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+        "exit_status": 0,
+        "signal": null,
+        "stdout": "validation/final-cli-reason.json",
+        "stderr": null
+      },
+      {
+        "argv": [
+          "node",
+          "scripts/method-atlas-cli.mjs",
+          "status"
+        ],
+        "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+        "exit_status": 0,
+        "signal": null,
+        "stdout": "validation/final-cli-status.json",
+        "stderr": null
+      },
+      {
+        "argv": [
+          "node",
+          "scripts/method-atlas-cli.mjs",
+          "audit-seed"
+        ],
+        "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+        "exit_status": 0,
+        "signal": null,
+        "stdout": "validation/final-cli-audit-seed.json",
+        "stderr": null
+      },
+      {
+        "argv": [
+          "node",
+          "scripts/method-atlas-cli.mjs",
+          "sql-audit",
+          "{\"dimension\":\"GRAPH\",\"method_id\":\"MHA-0224\",\"purpose\":\"ROUTE\",\"check_integrity\":true}"
+        ],
+        "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+        "exit_status": 0,
+        "signal": null,
+        "stdout": "validation/final-cli-sql-audit.json",
+        "stderr": null
+      },
+      {
+        "argv": [
+          "node",
+          "scripts/method-atlas-cli.mjs",
+          "dimension-audit",
+          "{\"reported_branch_count\":32,\"reported_dimension_count\":356}"
+        ],
+        "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+        "exit_status": 0,
+        "signal": null,
+        "stdout": "validation/final-cli-dimension-audit.json",
+        "stderr": null
+      }
+    ],
+    "all_exit_zero": true,
+    "database_path": ".sites-runtime/v13-final-cli.sqlite",
+    "database_is_ignored": true,
+    "init": {
+      "schema_version": "METHOD-ATLAS-SQLITE-1.0",
+      "seed_fingerprint": "eae7dbb4dee41ec7e518f0587b2717abe6f503d1a610ac19f850e42a5f8544e5",
+      "schema_fingerprint": "0c2c81d94be45fff16d8734a86e264936528bf191794230feedd69a57458abe1",
+      "content_fingerprint": "af82723fa59894cc5309b3102f1d3f088a0e4d5e2ae67aebf66a67fa53cc76f5",
+      "taxonomy_policy_sha256": "d2f35b5115a7dc8df913c4c62d3f1ab7c8c653361c4d42831890e11dc67b13ae",
+      "taxonomy_compiler_sha256": "74e1cf1d854d963bd16c5536694c5a73cd75202f10c806538b9214899083f770",
+      "methods": 239,
+      "classifiers": 239,
+      "sources": 65,
+      "triggers": 478,
+      "proposed_crosswalk": 444,
+      "method_relations": 212,
+      "taxonomy_tags": 2597,
+      "taxonomy_version": "MPC_METHOD_RECLASSIFICATION_1.0",
+      "semantic_parity": {
+        "status": "ATLAS_CONTENT_PARITY_PASS",
+        "mismatched_tables": [],
+        "rows_checked": 4274,
+        "tables_checked": 7
+      },
+      "source_record_authoritative": false,
+      "method_execution_performed": false,
+      "canonical_registry_modified": false,
+      "validation": "STRUCTURAL_INVENTORY_PASS",
+      "sqlite_path": "/workspace/scratch/5676560dc515/Machine-Bug-Tool/.sites-runtime/v13-final-cli.sqlite"
+    },
+    "status": {
+      "schema_version": "METHOD-ATLAS-SQLITE-1.0",
+      "seed_fingerprint": "eae7dbb4dee41ec7e518f0587b2717abe6f503d1a610ac19f850e42a5f8544e5",
+      "schema_fingerprint": "0c2c81d94be45fff16d8734a86e264936528bf191794230feedd69a57458abe1",
+      "content_fingerprint": "af82723fa59894cc5309b3102f1d3f088a0e4d5e2ae67aebf66a67fa53cc76f5",
+      "taxonomy_policy_sha256": "d2f35b5115a7dc8df913c4c62d3f1ab7c8c653361c4d42831890e11dc67b13ae",
+      "taxonomy_compiler_sha256": "74e1cf1d854d963bd16c5536694c5a73cd75202f10c806538b9214899083f770",
+      "methods": 239,
+      "classifiers": 239,
+      "sources": 65,
+      "triggers": 478,
+      "proposed_crosswalk": 444,
+      "method_relations": 212,
+      "taxonomy_tags": 2597,
+      "taxonomy_version": "MPC_METHOD_RECLASSIFICATION_1.0",
+      "semantic_parity": {
+        "status": "ATLAS_CONTENT_PARITY_PASS",
+        "mismatched_tables": [],
+        "rows_checked": 4274,
+        "tables_checked": 7
+      },
+      "source_record_authoritative": false,
+      "method_execution_performed": false,
+      "canonical_registry_modified": false,
+      "validation": "STRUCTURAL_INVENTORY_PASS",
+      "sqlite_path": "/workspace/scratch/5676560dc515/Machine-Bug-Tool/.sites-runtime/v13-final-cli.sqlite"
+    },
+    "semantic_parity": {
+      "status": "ATLAS_CONTENT_PARITY_PASS",
+      "tables_checked": 7,
+      "rows_checked": 4274,
+      "mismatched_tables": []
+    },
+    "reason": {
+      "input": {
+        "atom": {
+          "subject_id": "fixture:transaction",
+          "atom_id": "fixture:ledger",
+          "dimensions": [
+            "MONEY",
+            "FINALITY"
+          ],
+          "source_refs": [
+            "fixture:owned-ledger"
+          ],
+          "external_source_refs": []
+        },
+        "method_receipts": [
+          {
+            "method_id": "MHA-0053",
+            "input_state": "AVAILABLE",
+            "negative_control_state": "AVAILABLE",
+            "falsifier_state": "AVAILABLE",
+            "estimated_cost_units": 2
+          }
+        ],
+        "max_selected": 4,
+        "max_pairs": 4
+      },
+      "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+      "reasoning_layer_count": 7,
+      "outcome_vector": {
+        "catalog_methods_considered": 239,
+        "structurally_triggered": 23,
+        "structurally_eligible": 1,
+        "blocked_or_unready": 22,
+        "selected_count": 1,
+        "paired_challengers": 1,
+        "covered_dimensions": [
+          "FINALITY",
+          "MONEY"
+        ],
+        "unresolved_dimensions": [],
+        "negative_controls_declared_ready": 1,
+        "falsifiers_declared_ready": 1,
+        "declared_total_cost_units": 2
+      },
+      "selected": [
+        "MHA-0053"
+      ],
+      "proposed_pairs": [
+        {
+          "primary_method_id": "MHA-0053",
+          "challenger_method_id": "MHA-0035",
+          "relation_type": "COMPLEMENT",
+          "challenger_readiness": "DORMANT_NO_TYPED_TRIGGER",
+          "native_evidence_independence": "NOT_ESTABLISHED",
+          "challenger_executed": false,
+          "reason": "DECLARED_METHOD_RELATION_REQUIRES_INDEPENDENT_SOURCE_AND_FALSIFIER_CHECK"
+        }
+      ],
+      "no_method_executed": true,
+      "no_source_authentication": true,
+      "target_actions_performed": false,
+      "canonical_promotion": false
+    },
+    "sqlite_diagnostics": {
+      "status": "SQLITE_DIAGNOSTIC_RECEIPT",
+      "quick_check": {
+        "result": [
+          "ok"
+        ],
+        "ok": true
+      },
+      "foreign_key_check": {
+        "violations": 0,
+        "ok": true,
+        "details": []
+      },
+      "query_plan_count": 4,
+      "writes_performed": false,
+      "performance_gain_measured": false
+    },
+    "unresolved_dimension_provenance": {
+      "status": "REPORTED_DIMENSION_COUNT_UNRESOLVED",
+      "counts": {
+        "native_bl_branch_count": 32,
+        "native_bl_child_classifier_count": 384,
+        "native_object_coordinate_count": 25,
+        "native_jacket_axes_count": 14,
+        "native_mirror_count": 15
+      },
+      "claim": {
+        "reported_branch_count": 32,
+        "reported_dimension_count": 356,
+        "registry_owner": "UNSPECIFIED",
+        "accepted_as_canonical": false
+      },
+      "mismatch": {
+        "branch_matches_bl": true,
+        "reported_dimensions_equal_bl_children": false,
+        "reported_dimensions_equal_native_coordinates": false
+      },
+      "no_registry_mutation": true,
+      "source_authentication": false,
+      "canonical_promotion": false,
+      "next_action": "Recover the exact native owner and definition of the reported 356 dimensions before proposing any registry change."
+    }
+  },
+  "source_after": {
+    "head": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "branch": "feature/noahs-ark-reasoning-osi-v13",
+    "porcelain": ""
+  },
+  "source_unchanged_and_clean": true,
+  "completed_at_utc": "2026-10-09T05:30:30.962Z",
+  "pass": true
+}

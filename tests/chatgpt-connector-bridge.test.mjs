@@ -26,9 +26,13 @@ test('Missing controlling native pointer stays blocked',()=>{
  assert.equal(r.status,'BLOCKED_POINTER_NOT_IN_SUPPLIED_RECORDS');
 });
 test('Connector transport IDs and typed native projection must remain distinct',()=>{
- const v={...dash,projection_of:{native_source:'GOOGLE_DRIVE',native_id:'not same'}};
+ const v={...dash,projection_of:{native_source:'GOOGLE_DRIVE',native_id:'not-same'}};
  const r=reconcileConnectorRecords({objective:'Separate',records:[native,v],current_pointer:null});
  assert.equal(r.groups.length,2);
+ assert.equal(r.evidence_source_count,1);
+ assert.equal(r.groups.find(g=>g.native_key==='GOOGLE_DRIVE:not-same').status,'PROJECTION_ONLY_UNVERIFIED');
+ assert.throws(()=>reconcileConnectorRecords({objective:'Separate',records:[native,
+  {...v,projection_of:{...v.projection_of,native_id:'not same'}}],current_pointer:null}),/INVALID_NATIVE_PROJECTION/);
 });
 test('Unavailable write or target test cannot be promoted into performed operation',()=>{
  const caps=[{surface:'GITHUB',available:true,operations:['READ','CODE_UPDATE']},{surface:'DROPBOX_DASH',available:true,operations:['DISCOVER','READ']}];
@@ -37,9 +41,11 @@ test('Unavailable write or target test cannot be promoted into performed operati
  const c=planConnectorDispatch({capabilities:caps,operation:'TARGET_TEST',surface:'GITHUB',object_id:'target'});
  assert.equal(a.state,'HUMAN_AUTHORIZATION_AND_NATIVE_RECEIPT_REQUIRED');
  assert.equal(b.state,'UNAVAILABLE_IN_SESSION');
- assert.equal(c.state,'UNAVAILABLE_IN_SESSION');
+ assert.equal(c.state,'OUTSIDE_CONNECTOR_BRIDGE_SCOPE');
  assert.equal(a.write_performed,false);
  assert.equal(b.host_action_called,false);
+ assert.equal(c.host_action_called,false);
+ assert.equal(c.authorization_conferred,false);
 });
 
 

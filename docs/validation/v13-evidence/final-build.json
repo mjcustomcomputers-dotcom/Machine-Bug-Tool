@@ -1,0 +1,20 @@
+{
+  "label": "final-build",
+  "command": [
+    "env",
+    "XDG_CONFIG_HOME=/workspace/scratch/5676560dc515/Machine-Bug-Tool/.sites-runtime/config",
+    "npm",
+    "run",
+    "build"
+  ],
+  "cwd": "/workspace/scratch/5676560dc515/Machine-Bug-Tool",
+  "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_before": "",
+  "start_utc": "2026-10-09T05:29:06.056597+00:00",
+  "exit_code": 0,
+  "duration_seconds": 6.160975,
+  "end_utc": "2026-10-09T05:29:12.217633+00:00",
+  "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_after": "",
+  "log_sha256": "305accc4ef6d70e75b6068fec753ec32f5dafd2a0bceebba2be45a531075a726"
+}

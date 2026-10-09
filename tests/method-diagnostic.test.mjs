@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {diagnoseMethod} from '../lib/method-diagnostic.mjs';
+import {DatabaseSync} from 'node:sqlite';
+import {loadMethodAtlas,dbAdapter} from '../scripts/method-atlas-cli.mjs';
+import {diagnoseMethod,diagnoseRegisteredMethod} from '../lib/method-diagnostic.mjs';
 const fp=(digit)=>digit.repeat(64);
 const fixture=()=>({
  method_id:'MHA-0224',implementation_state:'RESEARCH_HOOK',
@@ -50,4 +52,41 @@ test('invalid method state, fingerprints or extra fields reject',()=>{
  assert.throws(()=>diagnoseMethod(y),/INVALID_FINGERPRINT/);
  const z=fixture();z.allow_target_probe=true;
  assert.throws(()=>diagnoseMethod(z),/UNKNOWN_DIAGNOSTIC_FIELD/);
+});
+
+test('sparse source and input lists cannot satisfy the diagnostic gate',()=>{
+ for(const field of ['required_inputs','provided_inputs','source_refs']){
+  for(const value of [Array(1),Object.assign(Array(2),{1:'fixture:present'})]){
+   const x={...fixture(),implementation_state:'VALIDATED_IMPLEMENTATION',[field]:value};
+   assert.throws(()=>diagnoseMethod(x),new RegExp('INVALID_'+field.toUpperCase()));
+  }
+ }
+ const paired={...fixture(),implementation_state:'VALIDATED_IMPLEMENTATION',required_inputs:Array(1),provided_inputs:Array(1)};
+ assert.throws(()=>diagnoseMethod(paired),/INVALID_REQUIRED_INPUTS/);
+});
+
+test('dense empty and reordered lists retain declared input and source semantics',()=>{
+ const x={...fixture(),required_inputs:['input:b','input:a'],provided_inputs:['input:a','input:b']};
+ assert.equal(diagnoseMethod(x).decision,'CANDIDATE_ONLY_RESEARCH_HOOK');
+ const missing=diagnoseMethod({...x,provided_inputs:[]});
+ assert.equal(missing.decision,'BLOCKED_SOURCE_OR_INPUT');
+ assert.deepEqual(missing.missing_required_inputs,['input:a','input:b']);
+ const noRequired={...x,required_inputs:[],provided_inputs:[]};
+ assert.equal(diagnoseMethod(noRequired).decision,'CANDIDATE_ONLY_RESEARCH_HOOK');
+ const noSource=diagnoseMethod({...noRequired,source_refs:[]});
+ assert.equal(noSource.decision,'BLOCKED_SOURCE_OR_INPUT');
+ assert.deepEqual(noSource.flags,['SOURCE_REFERENCE_MISSING']);
+ assert.equal(noSource.claims_authenticated,false);
+ assert.equal(noSource.method_execution_performed,false);
+});
+
+test('catalog-bound diagnostic rejects unknown IDs and forged implementation levels',async()=>{
+ const db=new DatabaseSync(':memory:');loadMethodAtlas(db);const adapter=dbAdapter(db);
+ try{
+  await assert.rejects(()=>diagnoseRegisteredMethod(adapter,{...fixture(),method_id:'MHA-9999',implementation_state:'VALIDATED_IMPLEMENTATION'}),/UNKNOWN_REGISTERED_METHOD/);
+  await assert.rejects(()=>diagnoseRegisteredMethod(adapter,{...fixture(),implementation_state:'VALIDATED_IMPLEMENTATION'}),/METHOD_IMPLEMENTATION_STATE_MISMATCH/);
+  const result=await diagnoseRegisteredMethod(adapter,fixture());
+  assert.equal(result.catalog_binding,'REGISTERED_METHOD_AND_IMPLEMENTATION_STATE_MATCH');
+  assert.equal(result.decision,'CANDIDATE_ONLY_RESEARCH_HOOK');
+ }finally{db.close()}
 });

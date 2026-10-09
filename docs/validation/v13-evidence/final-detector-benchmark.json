@@ -1,0 +1,17 @@
+{
+  "label": "final-detector-benchmark",
+  "command": [
+    "node",
+    "scripts/benchmark-atomic-method-detector.mjs"
+  ],
+  "cwd": "/workspace/scratch/5676560dc515/Machine-Bug-Tool",
+  "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_before": "",
+  "start_utc": "2026-10-09T05:30:02.325806+00:00",
+  "exit_code": 0,
+  "duration_seconds": 0.515594,
+  "end_utc": "2026-10-09T05:30:02.841450+00:00",
+  "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_after": "",
+  "log_sha256": "688fc0c9ee85adf1f765b10255ecddc35f9f1cef1d3c9f084926efaf1291aa1c"
+}

@@ -1,0 +1,93 @@
+{
+  "status": "FINAL_SAME_HOST_BENCHMARKS_PASS",
+  "tested_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "tested_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
+  "closing_readback_at": "2026-10-09T05:30:35.529012+00:00",
+  "clean_before_after_each_and_at_close": true,
+  "execution_scope": "CURRENT_CHATGPT_NODE_HOST_NOT_CODEX_CLOUD_OR_DAYBREAK_SELECTION_ATTESTATION",
+  "benchmarks_sequential": true,
+  "runs_per_benchmark": 200,
+  "results": [
+    {
+      "label": "final-detector-benchmark",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-detector-benchmark.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-detector-benchmark.log",
+      "command": [
+        "node",
+        "scripts/benchmark-atomic-method-detector.mjs"
+      ],
+      "duration_seconds": 0.515594,
+      "start_utc": "2026-10-09T05:30:02.325806+00:00",
+      "end_utc": "2026-10-09T05:30:02.841450+00:00",
+      "exit_code": 0,
+      "log_sha256": "688fc0c9ee85adf1f765b10255ecddc35f9f1cef1d3c9f084926efaf1291aa1c",
+      "metrics": {
+        "kind": "OFFLINE_SYNTHETIC_ATLAS_QUERY_BENCHMARK",
+        "node": "v24.19.0",
+        "methods": 239,
+        "classifiers": 239,
+        "linked_methods": 212,
+        "database": "NODE_SQLITE_IN_MEMORY",
+        "warmup_runs": 10,
+        "atoms_per_query": 3,
+        "runs": 200,
+        "ms": {
+          "p50": 0.9539,
+          "p95": 1.8082,
+          "max": 3.4004
+        },
+        "no_network_actions": true,
+        "no_method_execution": true,
+        "source_authentication": false,
+        "disclaimer": "Not an independently replicated throughput comparison, latency SLA, hardware speedup, or live-bounty performance claim."
+      }
+    },
+    {
+      "label": "final-variation-benchmark",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-variation-benchmark.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-variation-benchmark.log",
+      "command": [
+        "node",
+        "scripts/benchmark-atomic-variation-router.mjs"
+      ],
+      "duration_seconds": 7.944059,
+      "start_utc": "2026-10-09T05:30:05.984318+00:00",
+      "end_utc": "2026-10-09T05:30:13.928431+00:00",
+      "exit_code": 0,
+      "log_sha256": "d7c3d997b0014b5236254ca67ec9fcbfd83aaaf6c50d557204af79d7815ea097",
+      "metrics": {
+        "kind": "OFFLINE_SYNTHETIC_V8_PERSISTENT_CACHE_BENCHMARK",
+        "node": "v24.19.0",
+        "platform": "linux",
+        "architecture": "x64",
+        "execution_scope": "CURRENT_NODE_HOST_NOT_A_CODEX_CLOUD_OR_DAYBREAK_ATTESTATION",
+        "database": "NODE_SQLITE_TEMPORARY_FILE",
+        "methods": 239,
+        "atoms_per_query": 1,
+        "slots_per_query": 956,
+        "initialization_ms": 64.9391,
+        "first_consideration_ms": 30.4328,
+        "first_consideration_samples": 1,
+        "first_rows_written": 956,
+        "reopened_database_cache_verified": true,
+        "warmup_runs": 10,
+        "runs": 200,
+        "cached_ms": {
+          "p50": 34.8284,
+          "p95": 42.9107,
+          "max": 60.6796
+        },
+        "cached_rows_written": 0,
+        "retained_rows": 956,
+        "no_network_actions": true,
+        "no_method_execution": true,
+        "source_authentication": false,
+        "disclaimer": "Synthetic planning/cache latency on this host. Cached percentiles include the validated persistence path; exclude process startup and initial atlas seeding. Not target traffic, a Cloud model-selection receipt, an SLA, or physical hardware acceleration."
+      }
+    }
+  ],
+  "no_external_target_traffic": true,
+  "no_method_execution": true,
+  "no_source_authentication": true,
+  "no_sla_or_hardware_acceleration_claim": true
+}

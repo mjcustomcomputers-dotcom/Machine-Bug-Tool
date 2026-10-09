@@ -1,0 +1,33 @@
+✔ operative controller considers the exact source catalog and queues bounded primary/challenger models (75.390641ms)
+✔ controller/native source identities, versions and content must agree with supplied read receipts (343.313211ms)
+✔ missing current-session capability and stale catalog receipts block computation (153.523606ms)
+✔ selected MHA rows require explicit adaptation, supported method and unchanged strict native schema (261.011549ms)
+✔ all model input leaves need exact source/value/version bindings (259.143345ms)
+✔ planner review readiness alone cannot bypass proof, control and falsifier gates (364.826964ms)
+✔ strict model receipt envelope rejects wrong method, version, hash and promotion flags (455.016976ms)
+✔ unexpected, old-session and mismatched request receipts cannot advance the controller (165.030873ms)
+✔ actual negative-control failure blocks subsequent native models (154.22765ms)
+✔ negative-control predicates cannot be satisfied by envelope metadata or a nonfailure status (89.673046ms)
+✔ checkpoint target cannot overwrite a native controller or an input source (223.44293ms)
+✔ native aliases cannot assert conflicting content at one exact version and reads must be current-session (226.658803ms)
+✔ rehashed task forgery and rehashed false completions fail semantic admission (351.859194ms)
+✔ rehashed revision and event counters must agree with retained controller history (390.922641ms)
+✔ an identical native request can explicitly reuse its original receipt without another evaluator call (543.871753ms)
+✔ complete bounded calculations stop before a checkpoint unless a native write is authorized and available (653.18065ms)
+✔ COMPLETE requires matching native write identity, returned version and full text readback (1803.223694ms)
+✔ exact completed receipt and exact reconcile are no-ops across serialized restarts (315.58708ms)
+✔ configuration/catalog input order does not change the executable task identities (54.098773ms)
+✔ changed adapter or method definition reopens only its dependent actions and preserves old receipts (725.726271ms)
+✔ changed source version invalidates dependent computation while a stale binding blocks it (1135.639753ms)
+✔ a new GitHub catalog row is considered without becoming executable or repeating completed work (1289.970248ms)
+✔ state corruption, unsafe object properties, oversized data and missing commit are rejected (103.084056ms)
+✔ CLI stores immutable revisions, restores next action, and leaves bytes unchanged on rejected receipt (1362.970624ms)
+✔ CLI rejects symlink escapes and refuses a stale source commit before writing state (235.26796ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11925.765313

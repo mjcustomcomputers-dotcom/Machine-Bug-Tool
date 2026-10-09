@@ -1,0 +1,25 @@
+{
+  "status": "REPORTED_DIMENSION_COUNT_UNRESOLVED",
+  "counts": {
+    "native_bl_branch_count": 32,
+    "native_bl_child_classifier_count": 384,
+    "native_object_coordinate_count": 25,
+    "native_jacket_axes_count": 14,
+    "native_mirror_count": 15
+  },
+  "claim": {
+    "reported_branch_count": 32,
+    "reported_dimension_count": 356,
+    "registry_owner": "UNSPECIFIED",
+    "accepted_as_canonical": false
+  },
+  "mismatch": {
+    "branch_matches_bl": true,
+    "reported_dimensions_equal_bl_children": false,
+    "reported_dimensions_equal_native_coordinates": false
+  },
+  "no_registry_mutation": true,
+  "source_authentication": false,
+  "canonical_promotion": false,
+  "next_action": "Recover the exact native owner and definition of the reported 356 dimensions before proposing any registry change."
+}

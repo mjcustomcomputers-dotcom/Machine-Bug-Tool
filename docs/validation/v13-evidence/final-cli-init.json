@@ -1,0 +1,27 @@
+{
+  "schema_version": "METHOD-ATLAS-SQLITE-1.0",
+  "seed_fingerprint": "eae7dbb4dee41ec7e518f0587b2717abe6f503d1a610ac19f850e42a5f8544e5",
+  "schema_fingerprint": "0c2c81d94be45fff16d8734a86e264936528bf191794230feedd69a57458abe1",
+  "content_fingerprint": "af82723fa59894cc5309b3102f1d3f088a0e4d5e2ae67aebf66a67fa53cc76f5",
+  "taxonomy_policy_sha256": "d2f35b5115a7dc8df913c4c62d3f1ab7c8c653361c4d42831890e11dc67b13ae",
+  "taxonomy_compiler_sha256": "74e1cf1d854d963bd16c5536694c5a73cd75202f10c806538b9214899083f770",
+  "methods": 239,
+  "classifiers": 239,
+  "sources": 65,
+  "triggers": 478,
+  "proposed_crosswalk": 444,
+  "method_relations": 212,
+  "taxonomy_tags": 2597,
+  "taxonomy_version": "MPC_METHOD_RECLASSIFICATION_1.0",
+  "semantic_parity": {
+    "status": "ATLAS_CONTENT_PARITY_PASS",
+    "mismatched_tables": [],
+    "rows_checked": 4274,
+    "tables_checked": 7
+  },
+  "source_record_authoritative": false,
+  "method_execution_performed": false,
+  "canonical_registry_modified": false,
+  "validation": "STRUCTURAL_INVENTORY_PASS",
+  "sqlite_path": "/workspace/scratch/5676560dc515/Machine-Bug-Tool/.sites-runtime/v13-final-cli.sqlite"
+}

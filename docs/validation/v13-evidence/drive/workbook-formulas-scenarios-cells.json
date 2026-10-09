@@ -1,0 +1,2142 @@
+{
+  "readAt": "2026-10-09T05:02:05.090Z",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "spreadsheetId": "1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw",
+      "spreadsheetUrl": "https://docs.google.com/spreadsheets/d/1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw/edit",
+      "properties": {
+        "title": "MPC Noah's Ark — Method Reasoning V13 — DEVELOPMENT",
+        "locale": "en_US",
+        "timeZone": "Etc/GMT"
+      },
+      "sheets": [
+        {
+          "properties": {
+            "sheetId": 310013,
+            "title": "OSI Reasoning",
+            "index": 1,
+            "sheetType": "GRID",
+            "gridProperties": {
+              "rowCount": 100,
+              "columnCount": 9,
+              "frozenRowCount": 1
+            }
+          },
+          "data": [
+            {
+              "rowData": [
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Layer",
+                      "userEnteredValue": {
+                        "stringValue": "Layer"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Layer"
+                      }
+                    },
+                    {
+                      "formattedValue": "Name",
+                      "userEnteredValue": {
+                        "stringValue": "Name"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Name"
+                      }
+                    },
+                    {
+                      "formattedValue": "Responsibility",
+                      "userEnteredValue": {
+                        "stringValue": "Responsibility"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Responsibility"
+                      }
+                    },
+                    {
+                      "formattedValue": "Required evidence",
+                      "userEnteredValue": {
+                        "stringValue": "Required evidence"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Required evidence"
+                      }
+                    },
+                    {
+                      "formattedValue": "Stop / fail closed",
+                      "userEnteredValue": {
+                        "stringValue": "Stop / fail closed"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Stop / fail closed"
+                      }
+                    },
+                    {
+                      "formattedValue": "State",
+                      "userEnteredValue": {
+                        "stringValue": "State"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "State"
+                      }
+                    },
+                    {
+                      "formattedValue": "Native owner/source",
+                      "userEnteredValue": {
+                        "stringValue": "Native owner/source"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Native owner/source"
+                      }
+                    },
+                    {
+                      "formattedValue": "Notes",
+                      "userEnteredValue": {
+                        "stringValue": "Notes"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Notes"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "1",
+                      "userEnteredValue": {
+                        "numberValue": 1
+                      },
+                      "effectiveValue": {
+                        "numberValue": 1
+                      }
+                    },
+                    {
+                      "formattedValue": "SOURCE_AND_AUTHORITY",
+                      "userEnteredValue": {
+                        "stringValue": "SOURCE_AND_AUTHORITY"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "SOURCE_AND_AUTHORITY"
+                      }
+                    },
+                    {
+                      "formattedValue": "Native source ID, exact owner, scope, permission",
+                      "userEnteredValue": {
+                        "stringValue": "Native source ID, exact owner, scope, permission"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Native source ID, exact owner, scope, permission"
+                      }
+                    },
+                    {
+                      "formattedValue": "Exact source ref and current version",
+                      "userEnteredValue": {
+                        "stringValue": "Exact source ref and current version"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Exact source ref and current version"
+                      }
+                    },
+                    {
+                      "formattedValue": "MISSING_NATIVE_SOURCE",
+                      "userEnteredValue": {
+                        "stringValue": "MISSING_NATIVE_SOURCE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MISSING_NATIVE_SOURCE"
+                      }
+                    },
+                    {
+                      "formattedValue": "STRUCTURAL ONLY",
+                      "userEnteredValue": {
+                        "stringValue": "STRUCTURAL ONLY"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "STRUCTURAL ONLY"
+                      }
+                    },
+                    {
+                      "formattedValue": "Drive or exact native connector",
+                      "userEnteredValue": {
+                        "stringValue": "Drive or exact native connector"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Drive or exact native connector"
+                      }
+                    },
+                    {
+                      "formattedValue": "Dash index not independent proof",
+                      "userEnteredValue": {
+                        "stringValue": "Dash index not independent proof"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Dash index not independent proof"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "2",
+                      "userEnteredValue": {
+                        "numberValue": 2
+                      },
+                      "effectiveValue": {
+                        "numberValue": 2
+                      }
+                    },
+                    {
+                      "formattedValue": "TYPED_ATOM_AND_STATE",
+                      "userEnteredValue": {
+                        "stringValue": "TYPED_ATOM_AND_STATE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "TYPED_ATOM_AND_STATE"
+                      }
+                    },
+                    {
+                      "formattedValue": "Typed object/actor/claims/atoms",
+                      "userEnteredValue": {
+                        "stringValue": "Typed object/actor/claims/atoms"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Typed object/actor/claims/atoms"
+                      }
+                    },
+                    {
+                      "formattedValue": "Subject, atom, typed dimensions",
+                      "userEnteredValue": {
+                        "stringValue": "Subject, atom, typed dimensions"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Subject, atom, typed dimensions"
+                      }
+                    },
+                    {
+                      "formattedValue": "INVALID_ATOM",
+                      "userEnteredValue": {
+                        "stringValue": "INVALID_ATOM"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "INVALID_ATOM"
+                      }
+                    },
+                    {
+                      "formattedValue": "STRUCTURAL ONLY",
+                      "userEnteredValue": {
+                        "stringValue": "STRUCTURAL ONLY"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "STRUCTURAL ONLY"
+                      }
+                    },
+                    {
+                      "formattedValue": "MPC/MAXVAR/BL original",
+                      "userEnteredValue": {
+                        "stringValue": "MPC/MAXVAR/BL original"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MPC/MAXVAR/BL original"
+                      }
+                    },
+                    {
+                      "formattedValue": "Keep 25 coords, BL32/384 distinct",
+                      "userEnteredValue": {
+                        "stringValue": "Keep 25 coords, BL32/384 distinct"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Keep 25 coords, BL32/384 distinct"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "3",
+                      "userEnteredValue": {
+                        "numberValue": 3
+                      },
+                      "effectiveValue": {
+                        "numberValue": 3
+                      }
+                    },
+                    {
+                      "formattedValue": "STRUCTURE_AND_INTERFACES",
+                      "userEnteredValue": {
+                        "stringValue": "STRUCTURE_AND_INTERFACES"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "STRUCTURE_AND_INTERFACES"
+                      }
+                    },
+                    {
+                      "formattedValue": "Dependencies, timeline, boundaries",
+                      "userEnteredValue": {
+                        "stringValue": "Dependencies, timeline, boundaries"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Dependencies, timeline, boundaries"
+                      }
+                    },
+                    {
+                      "formattedValue": "Graph, event and connector proof",
+                      "userEnteredValue": {
+                        "stringValue": "Graph, event and connector proof"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Graph, event and connector proof"
+                      }
+                    },
+                    {
+                      "formattedValue": "STRUCTURAL_UNKNOWN",
+                      "userEnteredValue": {
+                        "stringValue": "STRUCTURAL_UNKNOWN"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "STRUCTURAL_UNKNOWN"
+                      }
+                    },
+                    {
+                      "formattedValue": "INPUT-DEPENDENT",
+                      "userEnteredValue": {
+                        "stringValue": "INPUT-DEPENDENT"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "INPUT-DEPENDENT"
+                      }
+                    },
+                    {
+                      "formattedValue": "MPC atomic framework",
+                      "userEnteredValue": {
+                        "stringValue": "MPC atomic framework"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MPC atomic framework"
+                      }
+                    },
+                    {
+                      "formattedValue": "Forward/backward × internal/external",
+                      "userEnteredValue": {
+                        "stringValue": "Forward/backward × internal/external"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Forward/backward × internal/external"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "4",
+                      "userEnteredValue": {
+                        "numberValue": 4
+                      },
+                      "effectiveValue": {
+                        "numberValue": 4
+                      }
+                    },
+                    {
+                      "formattedValue": "METHOD_APPLICABILITY",
+                      "userEnteredValue": {
+                        "stringValue": "METHOD_APPLICABILITY"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "METHOD_APPLICABILITY"
+                      }
+                    },
+                    {
+                      "formattedValue": "All 239 considered, filter by typed input",
+                      "userEnteredValue": {
+                        "stringValue": "All 239 considered, filter by typed input"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "All 239 considered, filter by typed input"
+                      }
+                    },
+                    {
+                      "formattedValue": "Schema and source binding",
+                      "userEnteredValue": {
+                        "stringValue": "Schema and source binding"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Schema and source binding"
+                      }
+                    },
+                    {
+                      "formattedValue": "BLOCKED_METHOD_INPUT",
+                      "userEnteredValue": {
+                        "stringValue": "BLOCKED_METHOD_INPUT"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "BLOCKED_METHOD_INPUT"
+                      }
+                    },
+                    {
+                      "formattedValue": "SOURCE-GATED",
+                      "userEnteredValue": {
+                        "stringValue": "SOURCE-GATED"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "SOURCE-GATED"
+                      }
+                    },
+                    {
+                      "formattedValue": "MHA/MHC candidate catalog",
+                      "userEnteredValue": {
+                        "stringValue": "MHA/MHC candidate catalog"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MHA/MHC candidate catalog"
+                      }
+                    },
+                    {
+                      "formattedValue": "Native 24 evaluators separate",
+                      "userEnteredValue": {
+                        "stringValue": "Native 24 evaluators separate"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Native 24 evaluators separate"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "5",
+                      "userEnteredValue": {
+                        "numberValue": 5
+                      },
+                      "effectiveValue": {
+                        "numberValue": 5
+                      }
+                    },
+                    {
+                      "formattedValue": "BOUNDED_REASONING_PLAN",
+                      "userEnteredValue": {
+                        "stringValue": "BOUNDED_REASONING_PLAN"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "BOUNDED_REASONING_PLAN"
+                      }
+                    },
+                    {
+                      "formattedValue": "Minimum useful method set",
+                      "userEnteredValue": {
+                        "stringValue": "Minimum useful method set"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Minimum useful method set"
+                      }
+                    },
+                    {
+                      "formattedValue": "Ready inputs, cost, controls",
+                      "userEnteredValue": {
+                        "stringValue": "Ready inputs, cost, controls"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Ready inputs, cost, controls"
+                      }
+                    },
+                    {
+                      "formattedValue": "BUDGET_EXHAUSTED",
+                      "userEnteredValue": {
+                        "stringValue": "BUDGET_EXHAUSTED"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "BUDGET_EXHAUSTED"
+                      }
+                    },
+                    {
+                      "formattedValue": "PLAN ONLY",
+                      "userEnteredValue": {
+                        "stringValue": "PLAN ONLY"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "PLAN ONLY"
+                      }
+                    },
+                    {
+                      "formattedValue": "Noah router V13",
+                      "userEnteredValue": {
+                        "stringValue": "Noah router V13"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Noah router V13"
+                      }
+                    },
+                    {
+                      "formattedValue": "Lexicographic not probability",
+                      "userEnteredValue": {
+                        "stringValue": "Lexicographic not probability"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Lexicographic not probability"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "6",
+                      "userEnteredValue": {
+                        "numberValue": 6
+                      },
+                      "effectiveValue": {
+                        "numberValue": 6
+                      }
+                    },
+                    {
+                      "formattedValue": "CHALLENGE_AND_FALSIFICATION",
+                      "userEnteredValue": {
+                        "stringValue": "CHALLENGE_AND_FALSIFICATION"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "CHALLENGE_AND_FALSIFICATION"
+                      }
+                    },
+                    {
+                      "formattedValue": "One paired falsifier / cross-check",
+                      "userEnteredValue": {
+                        "stringValue": "One paired falsifier / cross-check"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "One paired falsifier / cross-check"
+                      }
+                    },
+                    {
+                      "formattedValue": "Negative control, opposing model",
+                      "userEnteredValue": {
+                        "stringValue": "Negative control, opposing model"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Negative control, opposing model"
+                      }
+                    },
+                    {
+                      "formattedValue": "NO_INDEPENDENT_PROOF",
+                      "userEnteredValue": {
+                        "stringValue": "NO_INDEPENDENT_PROOF"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "NO_INDEPENDENT_PROOF"
+                      }
+                    },
+                    {
+                      "formattedValue": "NOT EXECUTED",
+                      "userEnteredValue": {
+                        "stringValue": "NOT EXECUTED"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "NOT EXECUTED"
+                      }
+                    },
+                    {
+                      "formattedValue": "MPC method relations",
+                      "userEnteredValue": {
+                        "stringValue": "MPC method relations"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MPC method relations"
+                      }
+                    },
+                    {
+                      "formattedValue": "Same source != independent",
+                      "userEnteredValue": {
+                        "stringValue": "Same source != independent"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Same source != independent"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "7",
+                      "userEnteredValue": {
+                        "numberValue": 7
+                      },
+                      "effectiveValue": {
+                        "numberValue": 7
+                      }
+                    },
+                    {
+                      "formattedValue": "OUTCOME_AND_CHECKPOINT",
+                      "userEnteredValue": {
+                        "stringValue": "OUTCOME_AND_CHECKPOINT"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "OUTCOME_AND_CHECKPOINT"
+                      }
+                    },
+                    {
+                      "formattedValue": "Exact result and durable native receipt",
+                      "userEnteredValue": {
+                        "stringValue": "Exact result and durable native receipt"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Exact result and durable native receipt"
+                      }
+                    },
+                    {
+                      "formattedValue": "Actual test logs and readback",
+                      "userEnteredValue": {
+                        "stringValue": "Actual test logs and readback"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Actual test logs and readback"
+                      }
+                    },
+                    {
+                      "formattedValue": "NOT_AUTHENTICATED_OR_EXECUTED",
+                      "userEnteredValue": {
+                        "stringValue": "NOT_AUTHENTICATED_OR_EXECUTED"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "NOT_AUTHENTICATED_OR_EXECUTED"
+                      }
+                    },
+                    {
+                      "formattedValue": "PENDING",
+                      "userEnteredValue": {
+                        "stringValue": "PENDING"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "PENDING"
+                      }
+                    },
+                    {
+                      "formattedValue": "Google Drive / GitHub / native",
+                      "userEnteredValue": {
+                        "stringValue": "Google Drive / GitHub / native"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Google Drive / GitHub / native"
+                      }
+                    },
+                    {
+                      "formattedValue": "No promotion without proof",
+                      "userEnteredValue": {
+                        "stringValue": "No promotion without proof"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "No promotion without proof"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "properties": {
+            "sheetId": 310014,
+            "title": "Outcome Scenarios",
+            "index": 2,
+            "sheetType": "GRID",
+            "gridProperties": {
+              "rowCount": 100,
+              "columnCount": 11,
+              "frozenRowCount": 1
+            }
+          },
+          "data": [
+            {
+              "rowData": [
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Scenario",
+                      "userEnteredValue": {
+                        "stringValue": "Scenario"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Scenario"
+                      }
+                    },
+                    {
+                      "formattedValue": "Typed dimensions",
+                      "userEnteredValue": {
+                        "stringValue": "Typed dimensions"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Typed dimensions"
+                      }
+                    },
+                    {
+                      "formattedValue": "Native source",
+                      "userEnteredValue": {
+                        "stringValue": "Native source"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Native source"
+                      }
+                    },
+                    {
+                      "formattedValue": "Input state",
+                      "userEnteredValue": {
+                        "stringValue": "Input state"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Input state"
+                      }
+                    },
+                    {
+                      "formattedValue": "Negative control",
+                      "userEnteredValue": {
+                        "stringValue": "Negative control"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Negative control"
+                      }
+                    },
+                    {
+                      "formattedValue": "Falsifier",
+                      "userEnteredValue": {
+                        "stringValue": "Falsifier"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Falsifier"
+                      }
+                    },
+                    {
+                      "formattedValue": "Top candidate",
+                      "userEnteredValue": {
+                        "stringValue": "Top candidate"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Top candidate"
+                      }
+                    },
+                    {
+                      "formattedValue": "Paired challenger",
+                      "userEnteredValue": {
+                        "stringValue": "Paired challenger"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Paired challenger"
+                      }
+                    },
+                    {
+                      "formattedValue": "Decision",
+                      "userEnteredValue": {
+                        "stringValue": "Decision"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Decision"
+                      }
+                    },
+                    {
+                      "formattedValue": "Verified finding",
+                      "userEnteredValue": {
+                        "stringValue": "Verified finding"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Verified finding"
+                      }
+                    },
+                    {
+                      "formattedValue": "Next check",
+                      "userEnteredValue": {
+                        "stringValue": "Next check"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Next check"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Synthetic ledger finality",
+                      "userEnteredValue": {
+                        "stringValue": "Synthetic ledger finality"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Synthetic ledger finality"
+                      }
+                    },
+                    {
+                      "formattedValue": "MONEY,FINALITY",
+                      "userEnteredValue": {
+                        "stringValue": "MONEY,FINALITY"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MONEY,FINALITY"
+                      }
+                    },
+                    {
+                      "formattedValue": "fixture:owned-ledger",
+                      "userEnteredValue": {
+                        "stringValue": "fixture:owned-ledger"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "fixture:owned-ledger"
+                      }
+                    },
+                    {
+                      "formattedValue": "AVAILABLE",
+                      "userEnteredValue": {
+                        "stringValue": "AVAILABLE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "AVAILABLE"
+                      }
+                    },
+                    {
+                      "formattedValue": "AVAILABLE",
+                      "userEnteredValue": {
+                        "stringValue": "AVAILABLE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "AVAILABLE"
+                      }
+                    },
+                    {
+                      "formattedValue": "AVAILABLE",
+                      "userEnteredValue": {
+                        "stringValue": "AVAILABLE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "AVAILABLE"
+                      }
+                    },
+                    {
+                      "formattedValue": "MHA-0053",
+                      "userEnteredValue": {
+                        "stringValue": "MHA-0053"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MHA-0053"
+                      }
+                    },
+                    {
+                      "formattedValue": "MHA-0035",
+                      "userEnteredValue": {
+                        "stringValue": "MHA-0035"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MHA-0035"
+                      }
+                    },
+                    {
+                      "formattedValue": "EVIDENCE_REVIEW_PLAN_ONLY",
+                      "userEnteredValue": {
+                        "stringValue": "EVIDENCE_REVIEW_PLAN_ONLY"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "EVIDENCE_REVIEW_PLAN_ONLY"
+                      }
+                    },
+                    {
+                      "formattedValue": "NO",
+                      "userEnteredValue": {
+                        "stringValue": "NO"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "NO"
+                      }
+                    },
+                    {
+                      "formattedValue": "Run bounded, approved supplied model with actual expected/observed",
+                      "userEnteredValue": {
+                        "stringValue": "Run bounded, approved supplied model with actual expected/observed"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Run bounded, approved supplied model with actual expected/observed"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Passive cloud permission drift",
+                      "userEnteredValue": {
+                        "stringValue": "Passive cloud permission drift"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Passive cloud permission drift"
+                      }
+                    },
+                    {
+                      "formattedValue": "CLOUD,AUTHORITY",
+                      "userEnteredValue": {
+                        "stringValue": "CLOUD,AUTHORITY"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "CLOUD,AUTHORITY"
+                      }
+                    },
+                    {
+                      "formattedValue": "fixture:config-snapshot",
+                      "userEnteredValue": {
+                        "stringValue": "fixture:config-snapshot"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "fixture:config-snapshot"
+                      }
+                    },
+                    {
+                      "formattedValue": "UNKNOWN",
+                      "userEnteredValue": {
+                        "stringValue": "UNKNOWN"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "UNKNOWN"
+                      }
+                    },
+                    {
+                      "formattedValue": "UNKNOWN",
+                      "userEnteredValue": {
+                        "stringValue": "UNKNOWN"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "UNKNOWN"
+                      }
+                    },
+                    {
+                      "formattedValue": "UNKNOWN",
+                      "userEnteredValue": {
+                        "stringValue": "UNKNOWN"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "UNKNOWN"
+                      }
+                    },
+                    {
+                      "formattedValue": "MHA-0170",
+                      "userEnteredValue": {
+                        "stringValue": "MHA-0170"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MHA-0170"
+                      }
+                    },
+                    {
+                      "formattedValue": "MHA-0095",
+                      "userEnteredValue": {
+                        "stringValue": "MHA-0095"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MHA-0095"
+                      }
+                    },
+                    {
+                      "formattedValue": "BLOCKED_INPUT_SCHEMA",
+                      "userEnteredValue": {
+                        "stringValue": "BLOCKED_INPUT_SCHEMA"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "BLOCKED_INPUT_SCHEMA"
+                      }
+                    },
+                    {
+                      "formattedValue": "NO",
+                      "userEnteredValue": {
+                        "stringValue": "NO"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "NO"
+                      }
+                    },
+                    {
+                      "formattedValue": "Resolve native policy metadata and negative control",
+                      "userEnteredValue": {
+                        "stringValue": "Resolve native policy metadata and negative control"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Resolve native policy metadata and negative control"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Unbound slot-meter claim",
+                      "userEnteredValue": {
+                        "stringValue": "Unbound slot-meter claim"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Unbound slot-meter claim"
+                      }
+                    },
+                    {
+                      "formattedValue": "MONEY,STATE",
+                      "userEnteredValue": {
+                        "stringValue": "MONEY,STATE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MONEY,STATE"
+                      }
+                    },
+                    {
+                      "formattedValue": "NONE",
+                      "userEnteredValue": {
+                        "stringValue": "NONE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "NONE"
+                      }
+                    },
+                    {
+                      "formattedValue": "AVAILABLE",
+                      "userEnteredValue": {
+                        "stringValue": "AVAILABLE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "AVAILABLE"
+                      }
+                    },
+                    {
+                      "formattedValue": "UNKNOWN",
+                      "userEnteredValue": {
+                        "stringValue": "UNKNOWN"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "UNKNOWN"
+                      }
+                    },
+                    {
+                      "formattedValue": "UNKNOWN",
+                      "userEnteredValue": {
+                        "stringValue": "UNKNOWN"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "UNKNOWN"
+                      }
+                    },
+                    {
+                      "formattedValue": "MHA-0052",
+                      "userEnteredValue": {
+                        "stringValue": "MHA-0052"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MHA-0052"
+                      }
+                    },
+                    {
+                      "formattedValue": "MHA-0036",
+                      "userEnteredValue": {
+                        "stringValue": "MHA-0036"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MHA-0036"
+                      }
+                    },
+                    {
+                      "formattedValue": "BLOCKED_NATIVE_SOURCE",
+                      "userEnteredValue": {
+                        "stringValue": "BLOCKED_NATIVE_SOURCE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "BLOCKED_NATIVE_SOURCE"
+                      }
+                    },
+                    {
+                      "formattedValue": "NO",
+                      "userEnteredValue": {
+                        "stringValue": "NO"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "NO"
+                      }
+                    },
+                    {
+                      "formattedValue": "Identify actual owner and current program scope",
+                      "userEnteredValue": {
+                        "stringValue": "Identify actual owner and current program scope"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Identify actual owner and current program scope"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Meta method graph",
+                      "userEnteredValue": {
+                        "stringValue": "Meta method graph"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Meta method graph"
+                      }
+                    },
+                    {
+                      "formattedValue": "GRAPH,DIAGNOSTIC",
+                      "userEnteredValue": {
+                        "stringValue": "GRAPH,DIAGNOSTIC"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "GRAPH,DIAGNOSTIC"
+                      }
+                    },
+                    {
+                      "formattedValue": "fixture:method-receipt",
+                      "userEnteredValue": {
+                        "stringValue": "fixture:method-receipt"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "fixture:method-receipt"
+                      }
+                    },
+                    {
+                      "formattedValue": "AVAILABLE",
+                      "userEnteredValue": {
+                        "stringValue": "AVAILABLE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "AVAILABLE"
+                      }
+                    },
+                    {
+                      "formattedValue": "AVAILABLE",
+                      "userEnteredValue": {
+                        "stringValue": "AVAILABLE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "AVAILABLE"
+                      }
+                    },
+                    {
+                      "formattedValue": "AVAILABLE",
+                      "userEnteredValue": {
+                        "stringValue": "AVAILABLE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "AVAILABLE"
+                      }
+                    },
+                    {
+                      "formattedValue": "MHA-0224",
+                      "userEnteredValue": {
+                        "stringValue": "MHA-0224"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MHA-0224"
+                      }
+                    },
+                    {
+                      "formattedValue": "MHA-0192",
+                      "userEnteredValue": {
+                        "stringValue": "MHA-0192"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MHA-0192"
+                      }
+                    },
+                    {
+                      "formattedValue": "EVIDENCE_REVIEW_PLAN_ONLY",
+                      "userEnteredValue": {
+                        "stringValue": "EVIDENCE_REVIEW_PLAN_ONLY"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "EVIDENCE_REVIEW_PLAN_ONLY"
+                      }
+                    },
+                    {
+                      "formattedValue": "NO",
+                      "userEnteredValue": {
+                        "stringValue": "NO"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "NO"
+                      }
+                    },
+                    {
+                      "formattedValue": "Check actual method input and independent oracle",
+                      "userEnteredValue": {
+                        "stringValue": "Check actual method input and independent oracle"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Check actual method input and independent oracle"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "properties": {
+            "sheetId": 310015,
+            "title": "Source Pointers",
+            "index": 3,
+            "sheetType": "GRID",
+            "gridProperties": {
+              "rowCount": 100,
+              "columnCount": 6,
+              "frozenRowCount": 1
+            }
+          },
+          "data": [
+            {
+              "rowData": [
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Category",
+                      "userEnteredValue": {
+                        "stringValue": "Category"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Category"
+                      }
+                    },
+                    {
+                      "formattedValue": "System",
+                      "userEnteredValue": {
+                        "stringValue": "System"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "System"
+                      }
+                    },
+                    {
+                      "formattedValue": "Exact native pointer / artifact",
+                      "userEnteredValue": {
+                        "stringValue": "Exact native pointer / artifact"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Exact native pointer / artifact"
+                      }
+                    },
+                    {
+                      "formattedValue": "Status",
+                      "userEnteredValue": {
+                        "stringValue": "Status"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Status"
+                      }
+                    },
+                    {
+                      "formattedValue": "Use",
+                      "userEnteredValue": {
+                        "stringValue": "Use"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Use"
+                      }
+                    },
+                    {
+                      "formattedValue": "Warning",
+                      "userEnteredValue": {
+                        "stringValue": "Warning"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Warning"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Code",
+                      "userEnteredValue": {
+                        "stringValue": "Code"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Code"
+                      }
+                    },
+                    {
+                      "formattedValue": "GitHub",
+                      "userEnteredValue": {
+                        "stringValue": "GitHub"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "GitHub"
+                      }
+                    },
+                    {
+                      "formattedValue": "feature/noahs-ark-reasoning-osi-v13",
+                      "userEnteredValue": {
+                        "stringValue": "feature/noahs-ark-reasoning-osi-v13"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "feature/noahs-ark-reasoning-osi-v13"
+                      }
+                    },
+                    {
+                      "formattedValue": "DRAFT",
+                      "userEnteredValue": {
+                        "stringValue": "DRAFT"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "DRAFT"
+                      }
+                    },
+                    {
+                      "formattedValue": "Development source of reasoning layer",
+                      "userEnteredValue": {
+                        "stringValue": "Development source of reasoning layer"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Development source of reasoning layer"
+                      }
+                    },
+                    {
+                      "formattedValue": "Not published to private Sites",
+                      "userEnteredValue": {
+                        "stringValue": "Not published to private Sites"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Not published to private Sites"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Base PR",
+                      "userEnteredValue": {
+                        "stringValue": "Base PR"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Base PR"
+                      }
+                    },
+                    {
+                      "formattedValue": "GitHub",
+                      "userEnteredValue": {
+                        "stringValue": "GitHub"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "GitHub"
+                      }
+                    },
+                    {
+                      "formattedValue": "PR #10, source commit be26479d0fd89e32fdaba71c0262a1bdcd12ece6",
+                      "userEnteredValue": {
+                        "stringValue": "PR #10, source commit be26479d0fd89e32fdaba71c0262a1bdcd12ece6"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "PR #10, source commit be26479d0fd89e32fdaba71c0262a1bdcd12ece6"
+                      }
+                    },
+                    {
+                      "formattedValue": "READ-BACK",
+                      "userEnteredValue": {
+                        "stringValue": "READ-BACK"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "READ-BACK"
+                      }
+                    },
+                    {
+                      "formattedValue": "Parent development frontier",
+                      "userEnteredValue": {
+                        "stringValue": "Parent development frontier"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Parent development frontier"
+                      }
+                    },
+                    {
+                      "formattedValue": "Do not auto-merge",
+                      "userEnteredValue": {
+                        "stringValue": "Do not auto-merge"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Do not auto-merge"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Compiler",
+                      "userEnteredValue": {
+                        "stringValue": "Compiler"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Compiler"
+                      }
+                    },
+                    {
+                      "formattedValue": "Google Drive",
+                      "userEnteredValue": {
+                        "stringValue": "Google Drive"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Google Drive"
+                      }
+                    },
+                    {
+                      "formattedValue": "1jdk4SspRWpCcIszslg0-9Y6STzrF_7veJ-LAh8igKTg",
+                      "userEnteredValue": {
+                        "stringValue": "1jdk4SspRWpCcIszslg0-9Y6STzrF_7veJ-LAh8igKTg"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "1jdk4SspRWpCcIszslg0-9Y6STzrF_7veJ-LAh8igKTg"
+                      }
+                    },
+                    {
+                      "formattedValue": "LOCATOR",
+                      "userEnteredValue": {
+                        "stringValue": "LOCATOR"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "LOCATOR"
+                      }
+                    },
+                    {
+                      "formattedValue": "Native MBSS compiler",
+                      "userEnteredValue": {
+                        "stringValue": "Native MBSS compiler"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Native MBSS compiler"
+                      }
+                    },
+                    {
+                      "formattedValue": "Verify current owner/version",
+                      "userEnteredValue": {
+                        "stringValue": "Verify current owner/version"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Verify current owner/version"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "MBSS Sheet",
+                      "userEnteredValue": {
+                        "stringValue": "MBSS Sheet"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MBSS Sheet"
+                      }
+                    },
+                    {
+                      "formattedValue": "Google Drive",
+                      "userEnteredValue": {
+                        "stringValue": "Google Drive"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Google Drive"
+                      }
+                    },
+                    {
+                      "formattedValue": "1xKXfOGpWCpoL7AVc7ueYH-FIktGp8VZfn-l6rqrXNqU",
+                      "userEnteredValue": {
+                        "stringValue": "1xKXfOGpWCpoL7AVc7ueYH-FIktGp8VZfn-l6rqrXNqU"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "1xKXfOGpWCpoL7AVc7ueYH-FIktGp8VZfn-l6rqrXNqU"
+                      }
+                    },
+                    {
+                      "formattedValue": "LOCATOR",
+                      "userEnteredValue": {
+                        "stringValue": "LOCATOR"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "LOCATOR"
+                      }
+                    },
+                    {
+                      "formattedValue": "Native 64/512 classifier registry",
+                      "userEnteredValue": {
+                        "stringValue": "Native 64/512 classifier registry"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Native 64/512 classifier registry"
+                      }
+                    },
+                    {
+                      "formattedValue": "Not interchangeable with Atlas 239",
+                      "userEnteredValue": {
+                        "stringValue": "Not interchangeable with Atlas 239"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Not interchangeable with Atlas 239"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Source register",
+                      "userEnteredValue": {
+                        "stringValue": "Source register"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Source register"
+                      }
+                    },
+                    {
+                      "formattedValue": "Google Drive",
+                      "userEnteredValue": {
+                        "stringValue": "Google Drive"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Google Drive"
+                      }
+                    },
+                    {
+                      "formattedValue": "1-PkmF-4QLr5rZ4XTTxOjiBJlxZGkYFbvQypl69N6mhA",
+                      "userEnteredValue": {
+                        "stringValue": "1-PkmF-4QLr5rZ4XTTxOjiBJlxZGkYFbvQypl69N6mhA"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "1-PkmF-4QLr5rZ4XTTxOjiBJlxZGkYFbvQypl69N6mhA"
+                      }
+                    },
+                    {
+                      "formattedValue": "LOCATOR",
+                      "userEnteredValue": {
+                        "stringValue": "LOCATOR"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "LOCATOR"
+                      }
+                    },
+                    {
+                      "formattedValue": "Social Deal original source",
+                      "userEnteredValue": {
+                        "stringValue": "Social Deal original source"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Social Deal original source"
+                      }
+                    },
+                    {
+                      "formattedValue": "Private evidence; program terms govern",
+                      "userEnteredValue": {
+                        "stringValue": "Private evidence; program terms govern"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Private evidence; program terms govern"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "KOMOJU checkpoint",
+                      "userEnteredValue": {
+                        "stringValue": "KOMOJU checkpoint"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "KOMOJU checkpoint"
+                      }
+                    },
+                    {
+                      "formattedValue": "Google Drive",
+                      "userEnteredValue": {
+                        "stringValue": "Google Drive"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Google Drive"
+                      }
+                    },
+                    {
+                      "formattedValue": "1nLyRGtDf7DWMS3QGB28AvD9AFuG6n9JyhJ1Dy5-2n3s",
+                      "userEnteredValue": {
+                        "stringValue": "1nLyRGtDf7DWMS3QGB28AvD9AFuG6n9JyhJ1Dy5-2n3s"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "1nLyRGtDf7DWMS3QGB28AvD9AFuG6n9JyhJ1Dy5-2n3s"
+                      }
+                    },
+                    {
+                      "formattedValue": "LOCATOR",
+                      "userEnteredValue": {
+                        "stringValue": "LOCATOR"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "LOCATOR"
+                      }
+                    },
+                    {
+                      "formattedValue": "Current candidate checkpoint",
+                      "userEnteredValue": {
+                        "stringValue": "Current candidate checkpoint"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Current candidate checkpoint"
+                      }
+                    },
+                    {
+                      "formattedValue": "Re-read exact native version",
+                      "userEnteredValue": {
+                        "stringValue": "Re-read exact native version"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Re-read exact native version"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Runtime",
+                      "userEnteredValue": {
+                        "stringValue": "Runtime"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Runtime"
+                      }
+                    },
+                    {
+                      "formattedValue": "MPC BugTools",
+                      "userEnteredValue": {
+                        "stringValue": "MPC BugTools"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "MPC BugTools"
+                      }
+                    },
+                    {
+                      "formattedValue": "0.10.0-http.1",
+                      "userEnteredValue": {
+                        "stringValue": "0.10.0-http.1"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "0.10.0-http.1"
+                      }
+                    },
+                    {
+                      "formattedValue": "LIVE PRIOR CHECK",
+                      "userEnteredValue": {
+                        "stringValue": "LIVE PRIOR CHECK"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "LIVE PRIOR CHECK"
+                      }
+                    },
+                    {
+                      "formattedValue": "Native hosted finite evaluators",
+                      "userEnteredValue": {
+                        "stringValue": "Native hosted finite evaluators"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Native hosted finite evaluators"
+                      }
+                    },
+                    {
+                      "formattedValue": "Not synchronized with GitHub branch",
+                      "userEnteredValue": {
+                        "stringValue": "Not synchronized with GitHub branch"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Not synchronized with GitHub branch"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Notebook",
+                      "userEnteredValue": {
+                        "stringValue": "Notebook"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Notebook"
+                      }
+                    },
+                    {
+                      "formattedValue": "Offline",
+                      "userEnteredValue": {
+                        "stringValue": "Offline"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Offline"
+                      }
+                    },
+                    {
+                      "formattedValue": "notebooks/MPC-Noahs-Ark-Reasoning-V13.ipynb",
+                      "userEnteredValue": {
+                        "stringValue": "notebooks/MPC-Noahs-Ark-Reasoning-V13.ipynb"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "notebooks/MPC-Noahs-Ark-Reasoning-V13.ipynb"
+                      }
+                    },
+                    {
+                      "formattedValue": "SAVED_IN_GITHUB_NOT_YET_EXECUTED",
+                      "userEnteredValue": {
+                        "stringValue": "SAVED_IN_GITHUB_NOT_YET_EXECUTED"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "SAVED_IN_GITHUB_NOT_YET_EXECUTED"
+                      }
+                    },
+                    {
+                      "formattedValue": "Synthetic counterexample reviews",
+                      "userEnteredValue": {
+                        "stringValue": "Synthetic counterexample reviews"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Synthetic counterexample reviews"
+                      }
+                    },
+                    {
+                      "formattedValue": "Never performs network tests",
+                      "userEnteredValue": {
+                        "stringValue": "Never performs network tests"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Never performs network tests"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Research status",
+                      "userEnteredValue": {
+                        "stringValue": "Research status"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Research status"
+                      }
+                    },
+                    {
+                      "formattedValue": "All",
+                      "userEnteredValue": {
+                        "stringValue": "All"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "All"
+                      }
+                    },
+                    {
+                      "formattedValue": "SOURCE_LINKED_CANDIDATES_ONLY",
+                      "userEnteredValue": {
+                        "stringValue": "SOURCE_LINKED_CANDIDATES_ONLY"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "SOURCE_LINKED_CANDIDATES_ONLY"
+                      }
+                    },
+                    {
+                      "formattedValue": "NONCANONICAL",
+                      "userEnteredValue": {
+                        "stringValue": "NONCANONICAL"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "NONCANONICAL"
+                      }
+                    },
+                    {
+                      "formattedValue": "Development index",
+                      "userEnteredValue": {
+                        "stringValue": "Development index"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Development index"
+                      }
+                    },
+                    {
+                      "formattedValue": "Method selection != finding",
+                      "userEnteredValue": {
+                        "stringValue": "Method selection != finding"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Method selection != finding"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "properties": {
+            "sheetId": 310016,
+            "title": "Ark Dashboard",
+            "index": 4,
+            "sheetType": "GRID",
+            "gridProperties": {
+              "rowCount": 70,
+              "columnCount": 8
+            }
+          },
+          "data": [
+            {
+              "rowData": [
+                {
+                  "values": [
+                    {
+                      "formattedValue": "NOAH'S ARK — MPC METHOD INTELLIGENCE",
+                      "userEnteredValue": {
+                        "stringValue": "NOAH'S ARK — MPC METHOD INTELLIGENCE"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "NOAH'S ARK — MPC METHOD INTELLIGENCE"
+                      }
+                    },
+                    {
+                      "formattedValue": "Value",
+                      "userEnteredValue": {
+                        "stringValue": "Value"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Value"
+                      }
+                    },
+                    {
+                      "formattedValue": "What it means",
+                      "userEnteredValue": {
+                        "stringValue": "What it means"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "What it means"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Atlas method candidates",
+                      "userEnteredValue": {
+                        "stringValue": "Atlas method candidates"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Atlas method candidates"
+                      }
+                    },
+                    {
+                      "formattedValue": "239",
+                      "userEnteredValue": {
+                        "formulaValue": "=COUNTA('Ark Registry'!A2:A240)"
+                      },
+                      "effectiveValue": {
+                        "numberValue": 239
+                      }
+                    },
+                    {
+                      "formattedValue": "Derived from source-linked research hooks, not production solvers",
+                      "userEnteredValue": {
+                        "stringValue": "Derived from source-linked research hooks, not production solvers"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Derived from source-linked research hooks, not production solvers"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Research-only candidates",
+                      "userEnteredValue": {
+                        "stringValue": "Research-only candidates"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Research-only candidates"
+                      }
+                    },
+                    {
+                      "formattedValue": "239",
+                      "userEnteredValue": {
+                        "formulaValue": "=COUNTIF('Ark Registry'!G2:G240,\"RESEARCH_HOOK\")"
+                      },
+                      "effectiveValue": {
+                        "numberValue": 239
+                      }
+                    },
+                    {
+                      "formattedValue": "Not verified executable",
+                      "userEnteredValue": {
+                        "stringValue": "Not verified executable"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Not verified executable"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Executable Atlas methods",
+                      "userEnteredValue": {
+                        "stringValue": "Executable Atlas methods"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Executable Atlas methods"
+                      }
+                    },
+                    {
+                      "formattedValue": "0",
+                      "userEnteredValue": {
+                        "formulaValue": "=COUNTIF('Ark Registry'!G2:G240,\"VALIDATED_IMPLEMENTATION\")"
+                      },
+                      "effectiveValue": {
+                        "numberValue": 0
+                      }
+                    },
+                    {
+                      "formattedValue": "Does not include 24 separate MPC native evaluators",
+                      "userEnteredValue": {
+                        "stringValue": "Does not include 24 separate MPC native evaluators"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Does not include 24 separate MPC native evaluators"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Distinct source IDs referenced",
+                      "userEnteredValue": {
+                        "stringValue": "Distinct source IDs referenced"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Distinct source IDs referenced"
+                      }
+                    },
+                    {
+                      "formattedValue": "64",
+                      "userEnteredValue": {
+                        "formulaValue": "=COUNTA(UNIQUE('Ark Registry'!E2:E240))"
+                      },
+                      "effectiveValue": {
+                        "numberValue": 64
+                      }
+                    },
+                    {
+                      "formattedValue": "64 referenced out of 65 cataloged source records; see orphan below",
+                      "userEnteredValue": {
+                        "stringValue": "64 referenced out of 65 cataloged source records; see orphan below"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "64 referenced out of 65 cataloged source records; see orphan below"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Reasoning layers",
+                      "userEnteredValue": {
+                        "stringValue": "Reasoning layers"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Reasoning layers"
+                      }
+                    },
+                    {
+                      "formattedValue": "7",
+                      "userEnteredValue": {
+                        "formulaValue": "=COUNTA('OSI Reasoning'!A2:A8)"
+                      },
+                      "effectiveValue": {
+                        "numberValue": 7
+                      }
+                    },
+                    {
+                      "formattedValue": "OSI-inspired analytical layers, not network protocol",
+                      "userEnteredValue": {
+                        "stringValue": "OSI-inspired analytical layers, not network protocol"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "OSI-inspired analytical layers, not network protocol"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Synthetic outcome scenarios",
+                      "userEnteredValue": {
+                        "stringValue": "Synthetic outcome scenarios"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Synthetic outcome scenarios"
+                      }
+                    },
+                    {
+                      "formattedValue": "4",
+                      "userEnteredValue": {
+                        "formulaValue": "=COUNTA('Outcome Scenarios'!A2:A5)"
+                      },
+                      "effectiveValue": {
+                        "numberValue": 4
+                      }
+                    },
+                    {
+                      "formattedValue": "Offline fixtures, not target tests",
+                      "userEnteredValue": {
+                        "stringValue": "Offline fixtures, not target tests"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Offline fixtures, not target tests"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Verified bounty findings",
+                      "userEnteredValue": {
+                        "stringValue": "Verified bounty findings"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Verified bounty findings"
+                      }
+                    },
+                    {
+                      "formattedValue": "0",
+                      "userEnteredValue": {
+                        "formulaValue": "=COUNTIF('Outcome Scenarios'!J2:J5,\"YES\")"
+                      },
+                      "effectiveValue": {
+                        "numberValue": 0
+                      }
+                    },
+                    {
+                      "formattedValue": "None established by this workbook",
+                      "userEnteredValue": {
+                        "stringValue": "None established by this workbook"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "None established by this workbook"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Development branch",
+                      "userEnteredValue": {
+                        "stringValue": "Development branch"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Development branch"
+                      }
+                    },
+                    {
+                      "formattedValue": "feature/noahs-ark-reasoning-osi-v13",
+                      "userEnteredValue": {
+                        "stringValue": "feature/noahs-ark-reasoning-osi-v13"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "feature/noahs-ark-reasoning-osi-v13"
+                      }
+                    },
+                    {
+                      "formattedValue": "Not deployed",
+                      "userEnteredValue": {
+                        "stringValue": "Not deployed"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Not deployed"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Source / authenticity",
+                      "userEnteredValue": {
+                        "stringValue": "Source / authenticity"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Source / authenticity"
+                      }
+                    },
+                    {
+                      "formattedValue": "NOT CANONICAL",
+                      "userEnteredValue": {
+                        "stringValue": "NOT CANONICAL"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "NOT CANONICAL"
+                      }
+                    },
+                    {
+                      "formattedValue": "Live controller and program rules govern",
+                      "userEnteredValue": {
+                        "stringValue": "Live controller and program rules govern"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Live controller and program rules govern"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "Unreferenced source locator",
+                      "userEnteredValue": {
+                        "stringValue": "Unreferenced source locator"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Unreferenced source locator"
+                      }
+                    },
+                    {
+                      "formattedValue": "V6_METAMORPHIC",
+                      "userEnteredValue": {
+                        "stringValue": "V6_METAMORPHIC"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "V6_METAMORPHIC"
+                      }
+                    },
+                    {
+                      "formattedValue": "Research source retained; no method currently lists it as primary. Review before assigning.",
+                      "userEnteredValue": {
+                        "stringValue": "Research source retained; no method currently lists it as primary. Review before assigning."
+                      },
+                      "effectiveValue": {
+                        "stringValue": "Research source retained; no method currently lists it as primary. Review before assigning."
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "isError": false
+  }
+}

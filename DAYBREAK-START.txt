@@ -1,6 +1,28 @@
 DAYBREAK — MACHINE BUG TOOL
 Prepared 2026-10-09 UTC for Melvin Jackson / mjcustomcomputers-dotcom.
 
+FINAL V13 ENGINEERING PASS — RESEARCH STOPPED
+Read docs/CODEX-V13-FINAL-INTEGRATION-RUN.md and
+docs/LOCAL-POWERSHELL-V13.md.
+The exact integration source and results are in
+docs/validation/MPC-V13-LOCAL-INTEGRATION-VALIDATION.json.
+Keep reporting R, tested integration I and historical controller executable S
+separate. The new source passed 405/405 tests and build on the preparing
+ChatGPT Linux host. Actual Codex Cloud acceptance and native Windows receiving
+remain separately measured destination gates. Use the existing environment;
+do not reinstall, repeat completed hosted models or restart historical research.
+Stop after one final integration acceptance and its exact checkpoint.
+
+CURRENT V13 CONTINUATION
+Read docs/CODEX-V13-CURRENT-RESUME.md and
+connector-bridge/codex-resume-v13.json from the latest
+feature/noahs-ark-reasoning-osi-v13 branch before the historical setup below.
+V13 tests, build, notebook execution and the operative development checkpoint
+are complete. Preserve the prepared install_script, start_skill and writable
+Wrangler override. Follow the current resume guide for exact source selection
+and destination connection checks; do not restart the original repair package
+or repeat installation to update the source instructions.
+
 REPOSITORY
 https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool
 

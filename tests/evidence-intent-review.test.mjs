@@ -71,3 +71,99 @@ test('Reject unbounded inputs and unauthorized extra fields',()=>{
  const y=fixture();y.automatic_target_test=true;
  assert.throws(()=>reviewEvidenceIntent(y),/INVALID_REVIEW_FIELDS/);
 });
+test('All four claim states retain eligible UNKNOWN records without treating them as support',()=>{
+ const states=[
+  [[], 'UNRESOLVED'],
+  [['SUPPORT'], 'SUPPORTED_BY_SUPPLIED_RECORDS'],
+  [['CONTRADICT'], 'CONTRADICTED_BY_SUPPLIED_RECORDS'],
+  [['SUPPORT','CONTRADICT'], 'CONFLICTING_SUPPLIED_RECORDS']
+ ];
+ for(const [polarities,status] of states){
+  const q=fixture();q.claims=[q.claims[0]];q.goals=[];q.variations=[];
+  q.observations=[
+   {...q.observations[0],id:'unknown-observed',polarity:'UNKNOWN'},
+   {...q.observations[0],id:'unknown-derived',polarity:'UNKNOWN',epistemic_state:'DERIVED'},
+   {...q.observations[0],id:'unknown-unadmitted',polarity:'UNKNOWN',epistemic_state:'SYNTHETIC'},
+   ...polarities.map((polarity,i)=>({...q.observations[0],id:'evidence-'+i,polarity}))
+  ];
+  const [claim]=reviewEvidenceIntent(q).claim_review;
+  assert.equal(claim.status,status);
+  assert.deepEqual(claim.unknown_observation_ids,['unknown-derived','unknown-observed']);
+  assert.deepEqual(claim.unadmitted_observation_ids,['unknown-unadmitted']);
+  const retained=[...claim.support_observation_ids,...claim.contradiction_observation_ids,...claim.unknown_observation_ids,...claim.unadmitted_observation_ids];
+  assert.deepEqual(retained.sort(),q.observations.map(o=>o.id).sort());
+ }
+});
+test('Intent plus, intent minus and benign alternatives are explicit independent hypotheses',()=>{
+ const q=fixture();q.observations=q.observations.filter(o=>o.id!=='log-b');q.variations=[];
+ const signs=['INTENT_PLUS','INTENT_MINUS','BENIGN_ALTERNATIVE'];
+ q.goals=signs.map((sign,i)=>({id:'goal-'+i,description:'Caller-supplied alternative',sign,claim_ids:['claim-action']}));
+ const r=reviewEvidenceIntent(q);
+ assert.deepEqual(r.goal_review.map(g=>g.sign),signs);
+ assert.ok(r.goal_review.every(g=>g.compatible_with_supplied_claims&&!g.fact_or_intent_determined));
+ assert.equal(r.intention_inferred,false);
+});
+test('Evidence IDs and references reject missing, null and numeric values without coercion',()=>{
+ const setFields=[
+  (q,v)=>q.subject_id=v,
+  (q,v)=>q.claims[0].id=v,
+  (q,v)=>q.claims[0].source_refs[0]=v,
+  (q,v)=>q.observations[0].id=v,
+  (q,v)=>q.observations[0].claim_id=v,
+  (q,v)=>q.observations[0].source_owner=v,
+  (q,v)=>q.observations[0].source_refs[0]=v,
+  (q,v)=>q.goals[0].id=v,
+  (q,v)=>q.goals[0].claim_ids[0]=v,
+  (q,v)=>q.goals[0].required_observation_ids[0]=v,
+  (q,v)=>q.variations[0].id=v,
+  (q,v)=>q.variations[0].observation_id=v
+ ];
+ for(const setField of setFields)for(const value of [undefined,null,0]){
+  const q=fixture();setField(q,value);
+  assert.throws(()=>reviewEvidenceIntent(q),/INVALID_/);
+ }
+ const q=fixture();q.observations[0].claim_id='CLAIM-ACTION';
+ assert.throws(()=>reviewEvidenceIntent(q),/UNRESOLVED_CLAIM/);
+});
+test('Absent optional collections remain valid, but explicit invalid collections and sparse refs reject',()=>{
+ const q=fixture();delete q.goals;delete q.variations;
+ assert.deepEqual(reviewEvidenceIntent(q).goal_review,[]);
+ for(const key of ['goals','variations'])for(const value of [undefined,null,0]){
+  const bad=fixture();bad[key]=value;
+  assert.throws(()=>reviewEvidenceIntent(bad),/INVALID_/);
+ }
+ for(const value of [undefined,null,0]){
+  const bad=fixture();bad.goals[0].required_observation_ids=value;
+  assert.throws(()=>reviewEvidenceIntent(bad),/INVALID_GOAL_OBSERVATIONS/);
+ }
+ for(const setSparse of [
+  x=>x.observations[0].source_refs=Array(1),
+  x=>x.goals[0].claim_ids=Array(1),
+  x=>x.goals[0].required_observation_ids=Array(1)
+ ]){
+  const bad=fixture();setSparse(bad);
+  assert.throws(()=>reviewEvidenceIntent(bad),/INVALID_/);
+ }
+});
+test('Cue inferences and caller attestation flags cannot establish intent or authenticate evidence',()=>{
+ const q=fixture();q.claims=[q.claims[1]];q.goals=[];q.variations=[];
+ q.observations=[{id:'cue-inference',claim_id:'claim-intent',polarity:'SUPPORT',epistemic_state:'INFERRED',source_owner:'fixture:analyst',source_refs:['fixture:cue-report']}];
+ const inferred=reviewEvidenceIntent(q);
+ assert.equal(inferred.claim_review[0].status,'UNRESOLVED');
+ assert.deepEqual(inferred.claim_review[0].unadmitted_observation_ids,['cue-inference']);
+ for(const field of ['source_authenticated','deception_determined','criminal_activity_determined']){
+  const bad=structuredClone(q);bad[field]=true;
+  assert.throws(()=>reviewEvidenceIntent(bad),/INVALID_REVIEW_FIELDS/);
+ }
+ const extra=structuredClone(q);extra.observations[0].behavioral_cue='voice stress';
+ assert.throws(()=>reviewEvidenceIntent(extra),/INVALID_OBSERVATION_FIELDS/);
+ // A supplied record of an attestation still cannot establish the mental state asserted.
+ q.observations=[{...q.observations[0],id:'declared-attestation',epistemic_state:'OBSERVED',source_refs:['fixture:attestation']}];
+ const attested=reviewEvidenceIntent(q);
+ assert.equal(attested.claim_review[0].status,'SUPPORTED_BY_SUPPLIED_RECORDS');
+ assert.equal(attested.claim_review[0].factual_truth_established,false);
+ assert.equal(attested.claim_review[0].source_authenticated,false);
+ assert.equal(attested.intention_inferred,false);
+ assert.equal(attested.deception_determined,false);
+ assert.equal(attested.criminal_activity_determined,false);
+});

@@ -1,0 +1,807 @@
+{
+  "version": "MPC_V13_VALIDATION_AND_OPERATIVE_PASS_1",
+  "status": "VALIDATED_AND_CHECKPOINTED_DEVELOPMENT_PASS",
+  "recorded_at_utc": "2026-10-09T05:38:15.936425+00:00",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "branch": "feature/noahs-ark-reasoning-osi-v13",
+  "original_handoff_commit": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+  "tested_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "tested_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
+  "tested_worktree_clean": true,
+  "restored_v8_repair_commit": "b5e6e6ae4100d73add56176645e9b58e4a4e7e49",
+  "final_counts": {
+    "v13_dedicated_passed": 12,
+    "controller_passed": 25,
+    "v8_v12_dedicated_passed": 62,
+    "full_suite_passed": 344,
+    "full_suite_failed": 0,
+    "build_exit_code": 0,
+    "notebook_format_exit_code": 0,
+    "notebook_code_cells_passed": 5,
+    "repeat_notebook_code_cells_passed": 5
+  },
+  "baseline_full_suite": {
+    "commit": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+    "tests": 268,
+    "passed": 265,
+    "failed": 3,
+    "exit_code": 1
+  },
+  "baseline_repairs": [
+    "Correct two outdated connector test fixtures/expectations without weakening existing V10 identity/target gates.",
+    "Normalize public SQLite inverse-query rows into ordinary objects.",
+    "Restore previously validated V8 source-role, variation-operation, method-signature and backward REVERSE behavior while preserving V11 indexes and V12 seven-table diagnostics.",
+    "Reject malformed V13 atom/subject ID types and caller replacement of the bundled catalog/relations.",
+    "Select notebook caches by source/schema/catalog/taxonomy/Node fingerprints, preserving old cache files and all original three fixture inputs."
+  ],
+  "inventory": {
+    "methods": 239,
+    "unique_mha_ids": 239,
+    "paired_classifiers": 239,
+    "unique_mhc_ids": 239,
+    "source_records": 65,
+    "unique_source_ids": 65,
+    "referenced_primary_source_ids": 64,
+    "unreferenced_primary_source_ids": [
+      "V6_METAMORPHIC"
+    ],
+    "relations": 212,
+    "unique_relation_keys": 212,
+    "invalid_relations": [],
+    "taxonomy_rows": 2597,
+    "all_candidates_research_only": true,
+    "classifier_pairing_exact": true,
+    "source_references_resolve": true,
+    "exact_mha_sequence": true,
+    "canonical_adoption_or_execution_claim": false
+  },
+  "native_inventory": {
+    "scope": "COUNTS_FROM_PRESERVED_BUNDLED_NATIVE_SOURCE_NOT_A_FRESH_DRIVE_OR_DEPLOYMENT_CLAIM",
+    "implemented_evaluators": 24,
+    "implemented_evaluator_ids": [
+      "claw_accumulator",
+      "coin_pusher_deferred",
+      "casino_meter_finality",
+      "ledger",
+      "relational",
+      "partial_order",
+      "metamorphic",
+      "temporal",
+      "identity_graph",
+      "authority_graph",
+      "propositional_entailment",
+      "finite_invariant",
+      "abductive_cover",
+      "minimal_cut_sets",
+      "nash",
+      "harsanyi",
+      "selten",
+      "conservation",
+      "identity",
+      "state_trace",
+      "fault_tree",
+      "fmea",
+      "ach",
+      "coverage"
+    ],
+    "method_hooks": 10,
+    "framework_operators": 15,
+    "reductions": 12,
+    "transformations": 17,
+    "mirrors": 15,
+    "bl_branches": 32,
+    "bl_child_classifiers": 384,
+    "object_coordinates": 25,
+    "jacket_axes": 14,
+    "method_packet_fields": 11,
+    "maxvar_dimensions": 256,
+    "mbss_branches": 64,
+    "mbss_classifiers": 512,
+    "ext_definitions": 96,
+    "nestmax_program_iid_domain_pack": {
+      "branches": 8,
+      "enumerated_classifiers": 174,
+      "observed_count": 174,
+      "legacy_descriptor_count": 160,
+      "count_discrepancy": "174 enumerated IDs; 160 appears in navigation/earlier description. No deletion, renumbering, or automatic canonical correction.",
+      "canonical_correction_performed": false
+    },
+    "registry_bundle_hashes": {
+      "maxvar256.json": {
+        "expected_sha256": "30b3937212d96f74b96812bcb17fdab30ea1124ddb0566be02f306146d7102db",
+        "actual_sha256": "30b3937212d96f74b96812bcb17fdab30ea1124ddb0566be02f306146d7102db",
+        "pass": true
+      },
+      "canonical_sources.json": {
+        "expected_sha256": "4ddb5b75f3c6d90125581daddd3ebfaba63127914be9de8a511c1aab8b57c87d",
+        "actual_sha256": "4ddb5b75f3c6d90125581daddd3ebfaba63127914be9de8a511c1aab8b57c87d",
+        "pass": true
+      },
+      "storage_map.json": {
+        "expected_sha256": "288bc72a35523e463a05bb9e0e901520bdd5d44ef4a1224cdcf88c167825ffad",
+        "actual_sha256": "288bc72a35523e463a05bb9e0e901520bdd5d44ef4a1224cdcf88c167825ffad",
+        "pass": true
+      },
+      "nestmax_program_iid_pack.json": {
+        "expected_sha256": "1436bb965b503339506057d47bde6bb03105c883f70c9b609e8280dd50c6a5e0",
+        "actual_sha256": "1436bb965b503339506057d47bde6bb03105c883f70c9b609e8280dd50c6a5e0",
+        "pass": true
+      }
+    },
+    "separate_inventories_must_not_be_summed_as_executed_methods": true
+  },
+  "original_native_preservation": {
+    "manifest": "docs/daybreak-source-import.json",
+    "native_source_commit": "765923c9839f32502e5c0f1f1b919b827596012e",
+    "native_source_tree": "321a45127d35bd2062201394412101ddc51e044e",
+    "expected_files": 182,
+    "checked_files": 182,
+    "unique_paths": 182,
+    "expected_bytes": 3412494,
+    "checked_bytes": 3412494,
+    "passed": 182,
+    "failed": [],
+    "all_blobs_modes_and_worktree_bytes_match": true,
+    "per_file_receipt": "validation/final-original-preservation.json"
+  },
+  "reasoning_layers": 7,
+  "variation_consideration_slots_per_atom": 956,
+  "consideration_count_is_not_solver_execution_count": true,
+  "semantic_parity": {
+    "status": "ATLAS_CONTENT_PARITY_PASS",
+    "tables_checked": 7,
+    "rows_checked": 4274,
+    "mismatched_tables": []
+  },
+  "actual_cli_commands": [
+    {
+      "argv": [
+        "node",
+        "scripts/method-atlas-cli.mjs",
+        "init"
+      ],
+      "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+      "exit_status": 0,
+      "signal": null,
+      "stdout": "validation/final-cli-init.json",
+      "stderr": null
+    },
+    {
+      "argv": [
+        "node",
+        "scripts/method-atlas-cli.mjs",
+        "reason",
+        "{\"atom\":{\"subject_id\":\"fixture:transaction\",\"atom_id\":\"fixture:ledger\",\"dimensions\":[\"MONEY\",\"FINALITY\"],\"source_refs\":[\"fixture:owned-ledger\"],\"external_source_refs\":[]},\"method_receipts\":[{\"method_id\":\"MHA-0053\",\"input_state\":\"AVAILABLE\",\"negative_control_state\":\"AVAILABLE\",\"falsifier_state\":\"AVAILABLE\",\"estimated_cost_units\":2}],\"max_selected\":4,\"max_pairs\":4}"
+      ],
+      "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+      "exit_status": 0,
+      "signal": null,
+      "stdout": "validation/final-cli-reason.json",
+      "stderr": null
+    },
+    {
+      "argv": [
+        "node",
+        "scripts/method-atlas-cli.mjs",
+        "status"
+      ],
+      "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+      "exit_status": 0,
+      "signal": null,
+      "stdout": "validation/final-cli-status.json",
+      "stderr": null
+    },
+    {
+      "argv": [
+        "node",
+        "scripts/method-atlas-cli.mjs",
+        "audit-seed"
+      ],
+      "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+      "exit_status": 0,
+      "signal": null,
+      "stdout": "validation/final-cli-audit-seed.json",
+      "stderr": null
+    },
+    {
+      "argv": [
+        "node",
+        "scripts/method-atlas-cli.mjs",
+        "sql-audit",
+        "{\"dimension\":\"GRAPH\",\"method_id\":\"MHA-0224\",\"purpose\":\"ROUTE\",\"check_integrity\":true}"
+      ],
+      "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+      "exit_status": 0,
+      "signal": null,
+      "stdout": "validation/final-cli-sql-audit.json",
+      "stderr": null
+    },
+    {
+      "argv": [
+        "node",
+        "scripts/method-atlas-cli.mjs",
+        "dimension-audit",
+        "{\"reported_branch_count\":32,\"reported_dimension_count\":356}"
+      ],
+      "MPC_METHOD_ATLAS_DB": ".sites-runtime/v13-final-cli.sqlite",
+      "exit_status": 0,
+      "signal": null,
+      "stdout": "validation/final-cli-dimension-audit.json",
+      "stderr": null
+    }
+  ],
+  "verification_runs": [
+    {
+      "label": "final-v13-dedicated",
+      "command": [
+        "node",
+        "--test",
+        "tests/noahs-ark-reasoning.test.mjs",
+        "tests/method-relations-integrity.test.mjs"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.36893,
+      "counts": {
+        "tests": 12,
+        "pass": 12,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:28:19.976963+00:00",
+      "end_utc": "2026-10-09T05:28:20.345955+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-v13-dedicated.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-v13-dedicated.log",
+      "log_sha256": "8f0d0be9674ac8c02a2150d0d4b72e5a0a9d7edd3b1022950486c5f25bd09d00"
+    },
+    {
+      "label": "final-controller",
+      "command": [
+        "node",
+        "--test",
+        "tests/noahs-ark-controller.test.mjs"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 12.035394,
+      "counts": {
+        "tests": 25,
+        "pass": 25,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:28:23.235903+00:00",
+      "end_utc": "2026-10-09T05:28:35.271351+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-controller.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-controller.log",
+      "log_sha256": "ea21d3fa5887427f8d8c153d9e895c17f4cb53acd5d604915c1722abfd0e675d"
+    },
+    {
+      "label": "final-v8-v12",
+      "command": [
+        "node",
+        "--test",
+        "tests/atomic-variation-router.test.mjs",
+        "tests/atomic-variation-persistence.test.mjs",
+        "tests/method-atlas.test.mjs",
+        "tests/atlas-seed-parity.test.mjs",
+        "tests/atlas-seed-parity-cli.test.mjs",
+        "tests/noahs-ark-reasoning.test.mjs",
+        "tests/noahs-ark-reasoning-cli.test.mjs",
+        "tests/method-relations-integrity.test.mjs"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 4.638493,
+      "counts": {
+        "tests": 62,
+        "pass": 62,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:28:40.341575+00:00",
+      "end_utc": "2026-10-09T05:28:44.980141+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-v8-v12.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-v8-v12.log",
+      "log_sha256": "fc11b8775815c229cf8c022ccd815d262a279a5d0849cd55cba15ef41f80762a"
+    },
+    {
+      "label": "final-full",
+      "command": [
+        "node",
+        "--test"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 12.103506,
+      "counts": {
+        "tests": 344,
+        "pass": 344,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:28:50.890805+00:00",
+      "end_utc": "2026-10-09T05:29:02.994366+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-full.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-full.log",
+      "log_sha256": "1b39a6628002c45c3d55aca311fbd98fd916130756a4eb867471fa3c3c22a163"
+    },
+    {
+      "label": "final-build",
+      "command": [
+        "env",
+        "XDG_CONFIG_HOME=/workspace/scratch/5676560dc515/Machine-Bug-Tool/.sites-runtime/config",
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 6.160975,
+      "counts": {},
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:29:06.056597+00:00",
+      "end_utc": "2026-10-09T05:29:12.217633+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-build.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-build.log",
+      "log_sha256": "305accc4ef6d70e75b6068fec753ec32f5dafd2a0bceebba2be45a531075a726"
+    },
+    {
+      "label": "final-notebook-json",
+      "command": [
+        "python3",
+        "-m",
+        "json.tool",
+        "notebooks/MPC-Noahs-Ark-Reasoning-V13.ipynb"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.064008,
+      "counts": {},
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:29:21.374861+00:00",
+      "end_utc": "2026-10-09T05:29:21.438912+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-notebook-json.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-notebook-json.log",
+      "log_sha256": "c74a950d945d8bb2746be3be9685f6463a2c6c9c52af9b5767a2779a8a1c5809"
+    },
+    {
+      "label": "final-notebook",
+      "command": [
+        "env",
+        "MPC_NOTEBOOK_VALIDATION_DIR=/workspace/scratch/5676560dc515/validation/notebook-final",
+        "python3",
+        "/workspace/scratch/5676560dc515/validation/drive/run_v13_notebook_repaired.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.92133,
+      "counts": {},
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:29:24.619521+00:00",
+      "end_utc": "2026-10-09T05:29:25.540971+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-notebook.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-notebook.log",
+      "log_sha256": "9e6de2b087131e17744730e92be46506b09925595cd79e54190f57f61cbbea21"
+    },
+    {
+      "label": "final-notebook-repeat",
+      "command": [
+        "env",
+        "MPC_NOTEBOOK_VALIDATION_DIR=/workspace/scratch/5676560dc515/validation/notebook-final-repeat",
+        "python3",
+        "/workspace/scratch/5676560dc515/validation/drive/run_v13_notebook_repaired.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.868356,
+      "counts": {},
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:29:28.627103+00:00",
+      "end_utc": "2026-10-09T05:29:29.495545+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-notebook-repeat.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-notebook-repeat.log",
+      "log_sha256": "d4b31aa50fe0c9a38519cea7168f9098d1c9fbef132ee42a570356372cffeee3"
+    }
+  ],
+  "benchmarks": {
+    "status": "FINAL_SAME_HOST_BENCHMARKS_PASS",
+    "tested_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "tested_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
+    "closing_readback_at": "2026-10-09T05:30:35.529012+00:00",
+    "clean_before_after_each_and_at_close": true,
+    "execution_scope": "CURRENT_CHATGPT_NODE_HOST_NOT_CODEX_CLOUD_OR_DAYBREAK_SELECTION_ATTESTATION",
+    "benchmarks_sequential": true,
+    "runs_per_benchmark": 200,
+    "results": [
+      {
+        "label": "final-detector-benchmark",
+        "receipt": "/workspace/scratch/5676560dc515/validation/final-detector-benchmark.json",
+        "log": "/workspace/scratch/5676560dc515/validation/final-detector-benchmark.log",
+        "command": [
+          "node",
+          "scripts/benchmark-atomic-method-detector.mjs"
+        ],
+        "duration_seconds": 0.515594,
+        "start_utc": "2026-10-09T05:30:02.325806+00:00",
+        "end_utc": "2026-10-09T05:30:02.841450+00:00",
+        "exit_code": 0,
+        "log_sha256": "688fc0c9ee85adf1f765b10255ecddc35f9f1cef1d3c9f084926efaf1291aa1c",
+        "metrics": {
+          "kind": "OFFLINE_SYNTHETIC_ATLAS_QUERY_BENCHMARK",
+          "node": "v24.19.0",
+          "methods": 239,
+          "classifiers": 239,
+          "linked_methods": 212,
+          "database": "NODE_SQLITE_IN_MEMORY",
+          "warmup_runs": 10,
+          "atoms_per_query": 3,
+          "runs": 200,
+          "ms": {
+            "p50": 0.9539,
+            "p95": 1.8082,
+            "max": 3.4004
+          },
+          "no_network_actions": true,
+          "no_method_execution": true,
+          "source_authentication": false,
+          "disclaimer": "Not an independently replicated throughput comparison, latency SLA, hardware speedup, or live-bounty performance claim."
+        }
+      },
+      {
+        "label": "final-variation-benchmark",
+        "receipt": "/workspace/scratch/5676560dc515/validation/final-variation-benchmark.json",
+        "log": "/workspace/scratch/5676560dc515/validation/final-variation-benchmark.log",
+        "command": [
+          "node",
+          "scripts/benchmark-atomic-variation-router.mjs"
+        ],
+        "duration_seconds": 7.944059,
+        "start_utc": "2026-10-09T05:30:05.984318+00:00",
+        "end_utc": "2026-10-09T05:30:13.928431+00:00",
+        "exit_code": 0,
+        "log_sha256": "d7c3d997b0014b5236254ca67ec9fcbfd83aaaf6c50d557204af79d7815ea097",
+        "metrics": {
+          "kind": "OFFLINE_SYNTHETIC_V8_PERSISTENT_CACHE_BENCHMARK",
+          "node": "v24.19.0",
+          "platform": "linux",
+          "architecture": "x64",
+          "execution_scope": "CURRENT_NODE_HOST_NOT_A_CODEX_CLOUD_OR_DAYBREAK_ATTESTATION",
+          "database": "NODE_SQLITE_TEMPORARY_FILE",
+          "methods": 239,
+          "atoms_per_query": 1,
+          "slots_per_query": 956,
+          "initialization_ms": 64.9391,
+          "first_consideration_ms": 30.4328,
+          "first_consideration_samples": 1,
+          "first_rows_written": 956,
+          "reopened_database_cache_verified": true,
+          "warmup_runs": 10,
+          "runs": 200,
+          "cached_ms": {
+            "p50": 34.8284,
+            "p95": 42.9107,
+            "max": 60.6796
+          },
+          "cached_rows_written": 0,
+          "retained_rows": 956,
+          "no_network_actions": true,
+          "no_method_execution": true,
+          "source_authentication": false,
+          "disclaimer": "Synthetic planning/cache latency on this host. Cached percentiles include the validated persistence path; exclude process startup and initial atlas seeding. Not target traffic, a Cloud model-selection receipt, an SLA, or physical hardware acceleration."
+        }
+      }
+    ],
+    "no_external_target_traffic": true,
+    "no_method_execution": true,
+    "no_source_authentication": true,
+    "no_sla_or_hardware_acceleration_claim": true
+  },
+  "workbook": {
+    "status": "SOURCE_REGISTRY_MATCH_NOTEBOOK_PASS_SCENARIO_ALIGNMENT_OPEN",
+    "repository": {
+      "commit": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+      "tree": "b172584a3088dc8991bc5579e118ebcb5828d55b",
+      "changed": false
+    },
+    "drive": {
+      "id": "1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw",
+      "title": "MPC Noah's Ark — Method Reasoning V13 — DEVELOPMENT",
+      "url": "https://docs.google.com/spreadsheets/d/1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw/edit",
+      "file_modified_time": "2026-10-09T04:54:12.796Z",
+      "revision": "7",
+      "revision_modified_time": "2026-10-09T04:54:12.770Z",
+      "previous_revision": "2",
+      "read_window_start": "2026-10-09T05:01:34.939Z",
+      "read_window_end": "2026-10-09T05:05:40.403Z",
+      "revision_unchanged_through_read": true,
+      "owner_authenticity_or_source_permissions_not_inferred": true
+    },
+    "registry": {
+      "rows": 239,
+      "unique_continuous_ids": true,
+      "cells_compared": 2390,
+      "cell_differences": 0,
+      "content_sha256": "4a8e1085a030b461741c322d6586999e2f778639483f0595164ac931857bb26c",
+      "catalog_sources": 65,
+      "referenced_sources": 64,
+      "unused_source": "V6_METAMORPHIC",
+      "research_hooks": 239,
+      "source_review_counts": {
+        "LOCATOR_ONLY": 35,
+        "DIRECTLY_RETRIEVED": 204
+      }
+    },
+    "dashboard": {
+      "formulas_checked": 7,
+      "effective_values": [
+        239,
+        239,
+        0,
+        64,
+        7,
+        4,
+        0
+      ],
+      "errors": 0
+    },
+    "notebook": {
+      "status": "PASS",
+      "all_code_cells": 5,
+      "executed_code_cells": 5,
+      "node": "v24.19.0",
+      "python": "3.12.14",
+      "started_at": "2026-10-09T05:05:08.319299+00:00",
+      "completed_at": "2026-10-09T05:05:09.423293+00:00",
+      "source_sha256": "bfddc85565fb66f39ea0993c868e1b26e48d98192eebedbf268d09f89ac2b26a",
+      "executor": "Sequential unchanged Python code cells, shared namespace; actual Node CLI init/reason subprocesses; no Jupyter package installation",
+      "actual_scenarios": [
+        {
+          "name": "Synthetic ledger finality",
+          "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+          "considered": 239,
+          "triggered": 23,
+          "eligible": 2,
+          "selected": [
+            "MHA-0053"
+          ],
+          "proposed_pairs": [
+            "MHA-0035"
+          ],
+          "covered_dimensions": 2,
+          "unresolved_dimensions": 0,
+          "declared_cost_units": 2
+        },
+        {
+          "name": "Cloud configuration — unknown inputs",
+          "status": "BLOCKED_NO_READY_METHOD",
+          "considered": 239,
+          "triggered": 28,
+          "eligible": 0,
+          "selected": [],
+          "proposed_pairs": [],
+          "covered_dimensions": 0,
+          "unresolved_dimensions": 2
+        },
+        {
+          "name": "Casino meter — source unavailable",
+          "status": "BLOCKED_NATIVE_SOURCE",
+          "considered": 239,
+          "triggered": 31,
+          "eligible": 0,
+          "selected": [],
+          "proposed_pairs": [],
+          "covered_dimensions": 0,
+          "unresolved_dimensions": 2
+        }
+      ]
+    },
+    "open_discrepancies": [
+      {
+        "id": "WORKBOOK_NOTEBOOK_SCENARIO_SET",
+        "observed": "Workbook Outcome Scenarios contains four examples; notebook executes three and omits Meta method graph. Cloud/casino names and input-receipt representation differ.",
+        "fix_suggestion": "Version a shared complete scenario manifest, preserve scenario identities, derive notebook inputs and workbook observed-result fields from it."
+      },
+      {
+        "id": "CLOUD_STATUS_AND_SELECTION_ALIGNMENT",
+        "observed": "Workbook CLOUD,AUTHORITY / fixture:config-snapshot with UNKNOWN input/control/falsifier reports BLOCKED_INPUT_SCHEMA and names MHA-0170/MHA-0095. Notebook same dimensions/source with no readiness receipts actually returns BLOCKED_NO_READY_METHOD with no selected method/pair.",
+        "qualification": "Workbook is labeled synthetic comparison and columns say top candidate / paired challenger; these may be manual examples rather than claimed execution. They still must not be represented as matching actual CLI receipts.",
+        "fix_suggestion": "Record actual runtime decision and selected/proposed lists in explicit observed columns; keep illustrative candidates in a separately labeled input/hypothesis field if retained."
+      },
+      {
+        "id": "NOTEBOOK_POINTER_STATUS",
+        "observed": "Source Pointers notebook status SAVED_IN_GITHUB_NOT_YET_EXECUTED remains at Drive revision 7, and artifact JSON says SAVED_NOT_YET_EXECUTED_IN_CODEX. This run occurred in ChatGPT execution host.",
+        "fix_suggestion": "Preserve original pending-in-Codex provenance; add exact current execution receipt, source commit, host, tool and timestamp without claiming Codex Cloud execution."
+      }
+    ],
+    "no_source_authentication": true,
+    "no_method_execution": true,
+    "no_security_findings": true,
+    "no_target_traffic": true,
+    "no_workbook_mutation": true
+  },
+  "notebook": {
+    "final_code_cells_passed": 5,
+    "repeat_code_cells_passed": 5,
+    "cache": {
+      "fingerprint": "f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b",
+      "first_existed_at_start": false,
+      "repeat_existed_at_start": true,
+      "same_path_reused": true,
+      "inputs_stable_both_runs": true,
+      "node": "v24.19.0",
+      "python": "3.12.14",
+      "first_context_receipt": "/workspace/scratch/5676560dc515/validation/notebook-final/notebook-run-context.json",
+      "repeat_context_receipt": "/workspace/scratch/5676560dc515/validation/notebook-final-repeat/notebook-run-context.json"
+    },
+    "original_inputs_preserved": true,
+    "old_fixed_cache_preserved": true,
+    "execution": "Five original Python code cells executed in sequence with a shared namespace and real Node CLI subprocesses; no Jupyter package reinstall.",
+    "executed_artifact": "docs/validation/v13-evidence/notebook-final/MPC-Noahs-Ark-Reasoning-V13.executed.ipynb"
+  },
+  "live_controller": {
+    "status": "COMPLETE",
+    "controller_id": "MPC_NOAHS_ARK_V13_OPERATIVE_DEVELOPMENT",
+    "controller_revision": 1,
+    "source_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "candidates_considered": 239,
+    "model_obligations_completed": 4,
+    "distinct_native_evaluation_calls": 3,
+    "explicit_reused_control_receipts": 1,
+    "native_method": "finite_invariant",
+    "native_catalog_version": "1.2.0",
+    "mode": "SYNTHETIC_ONLY",
+    "source_binding": "Exact GitHub manifest text and whole parsed fixture JSON read at S; every model input is bound by JSON pointer to that native source version.",
+    "call_ref_semantics": "Host journal references to actual tool observations, not invented provider authentication identifiers.",
+    "results": [
+      {
+        "role": "PRIMARY_NEGATIVE_CONTROL",
+        "candidate_method_id": "MHA-0053",
+        "native_method_id": "finite_invariant",
+        "model_fingerprint": "c9ddcc705062b58c3ba09471fb337e71afa933cab16a4d1d770cd7c73d29fd11",
+        "model_status": "COUNTEREXAMPLE_FOUND",
+        "original_call_ref": "host-journal:mpc-live:0",
+        "reused_from_action_id": null,
+        "negative_control_passed": true
+      },
+      {
+        "role": "PRIMARY_MODEL",
+        "candidate_method_id": "MHA-0053",
+        "native_method_id": "finite_invariant",
+        "model_fingerprint": "09caff3dad5825f86b4b564a076933e3981f159083b912aee7c8b538f4baa5d3",
+        "model_status": "FINITE_GRAPH_VERIFIED",
+        "original_call_ref": "host-journal:mpc-live:1",
+        "reused_from_action_id": null,
+        "negative_control_passed": null
+      },
+      {
+        "role": "CHALLENGER_NEGATIVE_CONTROL",
+        "candidate_method_id": "MHA-0035",
+        "native_method_id": "finite_invariant",
+        "model_fingerprint": "c9ddcc705062b58c3ba09471fb337e71afa933cab16a4d1d770cd7c73d29fd11",
+        "model_status": "COUNTEREXAMPLE_FOUND",
+        "original_call_ref": "host-journal:mpc-live:0",
+        "reused_from_action_id": "7a257881aa9c6da1133903837852b1ce5caa97585edac468629ef849db776671",
+        "negative_control_passed": true
+      },
+      {
+        "role": "CHALLENGER_MODEL",
+        "candidate_method_id": "MHA-0035",
+        "native_method_id": "finite_invariant",
+        "model_fingerprint": "c6188afdedad534459f00496bc8cad640c485298ef4989728e61452fc53ab162",
+        "model_status": "FINITE_GRAPH_VERIFIED",
+        "original_call_ref": "host-journal:mpc-live:2",
+        "reused_from_action_id": null,
+        "negative_control_passed": null
+      }
+    ],
+    "checkpoint_content_sha256": "48cba3de818aedbcc8d606676f653c13867fad58469e9163de5550034b35c984",
+    "source_authentication": false,
+    "independent_corroboration": false,
+    "target_finding": false,
+    "receipt_trust": "HOST_SUPPLIED_CONTENT_PARITY_ONLY",
+    "native_checkpoint": {
+      "namespace": "GITHUB",
+      "native_id_type": "string",
+      "native_id": "mjcustomcomputers-dotcom/Machine-Bug-Tool:docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+      "version": "047b2adcd2172374d25878998eebb3b089b6488d"
+    },
+    "integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+    "repeat": {
+      "status": "UNCHANGED_COMPLETED_CONTROLLER_REUSED",
+      "repeated_receipt_status": "COMPLETE",
+      "next_status": "COMPLETE",
+      "local_verify": {
+        "status": "LOCAL_CONTROLLER_PARITY_PASS",
+        "integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+        "source_authentication": false
+      },
+      "state_bytes_unchanged": true,
+      "history_snapshot_count": 7,
+      "history_unchanged": true,
+      "new_native_model_calls": 0,
+      "new_checkpoint_writes": 0,
+      "completed_current_tasks": 4,
+      "retained_receipts": 6,
+      "source_authentication": false
+    }
+  },
+  "git_checkpoint": {
+    "status": "NATIVE_WRITE_AND_EXACT_READBACK_PASS",
+    "checkpoint_commit": "047b2adcd2172374d25878998eebb3b089b6488d",
+    "native_checkpoint": {
+      "namespace": "GITHUB",
+      "native_id_type": "string",
+      "native_id": "mjcustomcomputers-dotcom/Machine-Bug-Tool:docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+      "version": "047b2adcd2172374d25878998eebb3b089b6488d"
+    },
+    "content_sha256": "48cba3de818aedbcc8d606676f653c13867fad58469e9163de5550034b35c984",
+    "code_commit_tested": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "reporting_commit": "Resolve from this file native Git version; later reporting commits do not change the tested code identity.",
+    "readback_receipt": "docs/validation/v13-evidence/live-controller/github-checkpoint-readback.json"
+  },
+  "open_items": [
+    {
+      "id": "356_NATIVE_DIMENSION_PROVENANCE",
+      "status": "UNRESOLVED",
+      "detail": "Native owner and definition of 356 remain unspecified; preserve BL32/384 and 25 coordinates."
+    },
+    {
+      "id": "NESTMAX_LEGACY_DESCRIPTOR",
+      "status": "PRESERVED_DISCREPANCY",
+      "detail": "174 enumerated program/IID classifier IDs versus historical160 descriptor; no canonical change."
+    },
+    {
+      "id": "V6_METAMORPHIC_PRIMARY_REFERENCE",
+      "status": "OPEN_SOURCE_USAGE",
+      "detail": "65 metadata records but64 referenced primary-source IDs; no manufactured attribution."
+    },
+    {
+      "id": "WORKBOOK_AUTHORED_SCENARIO_ALIGNMENT",
+      "status": "OPEN_HISTORICAL_AUTHORED_DATA",
+      "detail": "Revision7 has four authored rows; notebook has three executed fixtures. Cloud authored BLOCKED_INPUT_SCHEMA/MHA-0170/MHA-0095 differs from actual BLOCKED_NO_READY_METHOD/no selection. Workbook unchanged."
+    },
+    {
+      "id": "LIVE_RECORD_INPUTS",
+      "status": "REQUIRED_FOR_FUTURE_RECORD_REVIEW",
+      "detail": "Current operative run is synthetic. Real work requires the current native controller, native source versions, exact inputs and a supported explicitly bounded evaluator adaptation."
+    },
+    {
+      "id": "DESTINATION_SESSION_CAPABILITIES",
+      "status": "CHECK_ON_RESUME",
+      "detail": "Verify source execution and current MPC/native tools in each chat; this pass does not establish Codex Cloud or Daybreak selection."
+    }
+  ],
+  "run_instructions": "docs/CHATGPT-MPC-OPERATIVE-CONTROLLERS-V13.md",
+  "controller_manifest": "connector-bridge/operative-controllers-v13.json",
+  "latest_controller_state": "docs/validation/MPC-V13-OPERATIVE-STATE.json",
+  "next_action": "Resume this saved operative state from regular ChatGPT using the run guide; refresh actual session/source receipts, reconcile, and process only changed dependencies. Stop this validation pass.",
+  "counting_rule": "Dedicated tests overlap the full344; four controller obligations used three unique native calls.239 candidates and24 native evaluators are separate inventories.",
+  "source_authentication": false,
+  "verified_security_findings": 0,
+  "external_target_tests": 0,
+  "merged": false,
+  "deployed": false,
+  "reports_submitted": false,
+  "evidence_index": "docs/validation/v13-evidence-index.json"
+}

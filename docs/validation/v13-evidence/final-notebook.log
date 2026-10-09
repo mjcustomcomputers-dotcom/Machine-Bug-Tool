@@ -1,0 +1,40 @@
+{
+  "started_at": "2026-10-09T05:29:24.672354+00:00",
+  "completed_at": "2026-10-09T05:29:25.488444+00:00",
+  "source_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "source_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
+  "notebook_source_sha256": "30607f5668d87f3eaf824aad8e25adccbde8ef694395ae8818490e3f48c4cf7c",
+  "node_version": "v24.19.0",
+  "python_version": "3.12.14",
+  "runner": "Python standard-library execution of unchanged code cells, sequential shared namespace, with CLI subprocess receipt capture; no Jupyter package installation",
+  "code_cells_total": 5,
+  "code_cells_executed": 5,
+  "status": "PASS",
+  "external_target_traffic": false,
+  "repository_notebook_modified": false
+}
+CELL 1 PASS 
+Repo: /workspace/scratch/5676560dc515/Machine-Bug-Tool
+Commit: 4ffde83e587db829b9cd2124c0a8587e868402d6 | dirty: False
+Node: v24.19.0 | Python: 3.12.14
+No external target traffic is performed.
+
+CELL 2 PASS 
+Bundled-source metadata counts: 239 candidate methods / 65 source locators / 212 proposed links
+Source-derived cache: /workspace/scratch/5676560dc515/Machine-Bug-Tool/.sites-runtime/noahs-ark-v13-notebook-f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b.sqlite
+
+CELL 3 PASS 
+Synthetic ledger finality | EVIDENCE_REVIEW_PLAN_ONLY | covered: 2 | selected: 1 | paired: 1
+Cloud configuration — unknown inputs | BLOCKED_NO_READY_METHOD | covered: 0 | selected: 0 | paired: 0
+Casino meter — source unavailable | BLOCKED_NATIVE_SOURCE | covered: 0 | selected: 0 | paired: 0
+
+CELL 4 PASS 
+CSV: /workspace/scratch/5676560dc515/Machine-Bug-Tool/.sites-runtime/noahs-ark-v13-f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b-20261009T052924674206Z-synthetic-outcomes.csv
+Execution receipt: /workspace/scratch/5676560dc515/Machine-Bug-Tool/.sites-runtime/noahs-ark-v13-f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b-20261009T052924674206Z-synthetic-outcomes.json
+{'scenario': 'Synthetic ledger finality', 'status': 'EVIDENCE_REVIEW_PLAN_ONLY', 'considered': 239, 'triggered': 23, 'eligible': 2, 'selected': 1, 'pairs': 1, 'dimensions_covered': 2, 'dimensions_unresolved': 0, 'controls_ready': 1, 'falsifiers_ready': 1, 'declared_cost_units': 2, 'source_authenticated': False, 'method_executed': False, 'security_impact_verified': False, 'git_commit': '4ffde83e587db829b9cd2124c0a8587e868402d6', 'worktree_dirty': False, 'node_version': 'v24.19.0', 'python_version': '3.12.14', 'cache_fingerprint': 'f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b'}
+{'scenario': 'Cloud configuration — unknown inputs', 'status': 'BLOCKED_NO_READY_METHOD', 'considered': 239, 'triggered': 28, 'eligible': 0, 'selected': 0, 'pairs': 0, 'dimensions_covered': 0, 'dimensions_unresolved': 2, 'controls_ready': 0, 'falsifiers_ready': 0, 'declared_cost_units': 0, 'source_authenticated': False, 'method_executed': False, 'security_impact_verified': False, 'git_commit': '4ffde83e587db829b9cd2124c0a8587e868402d6', 'worktree_dirty': False, 'node_version': 'v24.19.0', 'python_version': '3.12.14', 'cache_fingerprint': 'f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b'}
+{'scenario': 'Casino meter — source unavailable', 'status': 'BLOCKED_NATIVE_SOURCE', 'considered': 239, 'triggered': 31, 'eligible': 0, 'selected': 0, 'pairs': 0, 'dimensions_covered': 0, 'dimensions_unresolved': 2, 'controls_ready': 0, 'falsifiers_ready': 0, 'declared_cost_units': 0, 'source_authenticated': False, 'method_executed': False, 'security_impact_verified': False, 'git_commit': '4ffde83e587db829b9cd2124c0a8587e868402d6', 'worktree_dirty': False, 'node_version': 'v24.19.0', 'python_version': '3.12.14', 'cache_fingerprint': 'f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b'}
+
+CELL 5 PASS 
+All 239 candidates were accounted for in each offline scenario; no method execution or security finding claimed.
+

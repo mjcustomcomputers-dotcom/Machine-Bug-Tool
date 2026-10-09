@@ -1,0 +1,174 @@
+{
+  "synthetic": true,
+  "targets_contacted": false,
+  "source_authentication": false,
+  "results": [
+    {
+      "scenario": "semantic",
+      "audit_exit": 0,
+      "audit_receipt": {
+        "version": "MPC_ATLAS_SEMANTIC_PARITY_V12",
+        "status": "BLOCKED_ATLAS_SEMANTIC_DRIFT",
+        "mismatched_tables": [
+          "atlas_methods"
+        ],
+        "seed_fingerprint_matches": true,
+        "tables_checked": 7,
+        "rows_checked": 4274,
+        "tables": [
+          {
+            "table": "atlas_sources",
+            "expected_count": 65,
+            "actual_count": 65,
+            "matching": true,
+            "expected_sha256": "cc714a86a8ea6343bb145cfaa5c03e1551c4fd34087350b34d40b95c6433be89",
+            "actual_sha256": "cc714a86a8ea6343bb145cfaa5c03e1551c4fd34087350b34d40b95c6433be89"
+          },
+          {
+            "table": "atlas_methods",
+            "expected_count": 239,
+            "actual_count": 239,
+            "matching": false,
+            "expected_sha256": "c2f3907c6f5ca50087b5988f45d3f4be3408be192ae628960b3889f98da25043",
+            "actual_sha256": "de5b1e092138b0655af74bfa07b6741512255632796ef639e3710a32b8393383"
+          },
+          {
+            "table": "atlas_triggers",
+            "expected_count": 478,
+            "actual_count": 478,
+            "matching": true,
+            "expected_sha256": "df82f1d6b05594607a9ba9fa9990a659c57af0dac3693d0a26390269423c2cde",
+            "actual_sha256": "df82f1d6b05594607a9ba9fa9990a659c57af0dac3693d0a26390269423c2cde"
+          },
+          {
+            "table": "atlas_classifiers",
+            "expected_count": 239,
+            "actual_count": 239,
+            "matching": true,
+            "expected_sha256": "8047264dd7dfdbff0c7214279d86f3c67b679cddb619db270bbf43ad2355e08c",
+            "actual_sha256": "8047264dd7dfdbff0c7214279d86f3c67b679cddb619db270bbf43ad2355e08c"
+          },
+          {
+            "table": "atlas_crosswalk",
+            "expected_count": 444,
+            "actual_count": 444,
+            "matching": true,
+            "expected_sha256": "f2518cc383e803d4daca294e7c4a233f1fce46fe44de0a01ef08c25bddf42ee9",
+            "actual_sha256": "f2518cc383e803d4daca294e7c4a233f1fce46fe44de0a01ef08c25bddf42ee9"
+          },
+          {
+            "table": "atlas_method_relations",
+            "expected_count": 212,
+            "actual_count": 212,
+            "matching": true,
+            "expected_sha256": "0911c4880b549575cc1aacd04e1830f2900e37d87cc9de7489e6c5ef0e44ae9c",
+            "actual_sha256": "0911c4880b549575cc1aacd04e1830f2900e37d87cc9de7489e6c5ef0e44ae9c"
+          },
+          {
+            "table": "atlas_method_taxonomy",
+            "expected_count": 2597,
+            "actual_count": 2597,
+            "matching": true,
+            "expected_sha256": "59954c4344b3333f2d2e538e56a4ddc89d7890d9adcf66a46c900cc03394d410",
+            "actual_sha256": "59954c4344b3333f2d2e538e56a4ddc89d7890d9adcf66a46c900cc03394d410"
+          }
+        ],
+        "reference": "BUNDLED_REPO_SOURCE_NOT_EXTERNAL_AUTHENTICATION",
+        "repair_policy": "DO_NOT_OVERWRITE;REBUILD_FRESH_DERIVED_CACHE_AFTER_REVIEW",
+        "no_canonical_promotion": true,
+        "no_external_actions": true
+      },
+      "status_exit": 1,
+      "expected_admission_error": "ATLAS_CACHE_CONTENT_DRIFT_REBUILD_PRIVATE_CACHE_REQUIRED",
+      "admission_rejected": true,
+      "before_sha256": "d796391bd64b696c060485f61876ad2b9b176b33b4288cfa5412c651b4efc621",
+      "after_audit_sha256": "d796391bd64b696c060485f61876ad2b9b176b33b4288cfa5412c651b4efc621",
+      "after_rejected_admission_sha256": "d796391bd64b696c060485f61876ad2b9b176b33b4288cfa5412c651b4efc621",
+      "bytes_unchanged": true,
+      "canary_retained": true
+    },
+    {
+      "scenario": "schema",
+      "audit_exit": 0,
+      "audit_receipt": {
+        "version": "MPC_ATLAS_SEMANTIC_PARITY_V12",
+        "status": "ATLAS_CONTENT_PARITY_PASS",
+        "mismatched_tables": [],
+        "seed_fingerprint_matches": true,
+        "tables_checked": 7,
+        "rows_checked": 4274,
+        "tables": [
+          {
+            "table": "atlas_sources",
+            "expected_count": 65,
+            "actual_count": 65,
+            "matching": true,
+            "expected_sha256": "cc714a86a8ea6343bb145cfaa5c03e1551c4fd34087350b34d40b95c6433be89",
+            "actual_sha256": "cc714a86a8ea6343bb145cfaa5c03e1551c4fd34087350b34d40b95c6433be89"
+          },
+          {
+            "table": "atlas_methods",
+            "expected_count": 239,
+            "actual_count": 239,
+            "matching": true,
+            "expected_sha256": "c2f3907c6f5ca50087b5988f45d3f4be3408be192ae628960b3889f98da25043",
+            "actual_sha256": "c2f3907c6f5ca50087b5988f45d3f4be3408be192ae628960b3889f98da25043"
+          },
+          {
+            "table": "atlas_triggers",
+            "expected_count": 478,
+            "actual_count": 478,
+            "matching": true,
+            "expected_sha256": "df82f1d6b05594607a9ba9fa9990a659c57af0dac3693d0a26390269423c2cde",
+            "actual_sha256": "df82f1d6b05594607a9ba9fa9990a659c57af0dac3693d0a26390269423c2cde"
+          },
+          {
+            "table": "atlas_classifiers",
+            "expected_count": 239,
+            "actual_count": 239,
+            "matching": true,
+            "expected_sha256": "8047264dd7dfdbff0c7214279d86f3c67b679cddb619db270bbf43ad2355e08c",
+            "actual_sha256": "8047264dd7dfdbff0c7214279d86f3c67b679cddb619db270bbf43ad2355e08c"
+          },
+          {
+            "table": "atlas_crosswalk",
+            "expected_count": 444,
+            "actual_count": 444,
+            "matching": true,
+            "expected_sha256": "f2518cc383e803d4daca294e7c4a233f1fce46fe44de0a01ef08c25bddf42ee9",
+            "actual_sha256": "f2518cc383e803d4daca294e7c4a233f1fce46fe44de0a01ef08c25bddf42ee9"
+          },
+          {
+            "table": "atlas_method_relations",
+            "expected_count": 212,
+            "actual_count": 212,
+            "matching": true,
+            "expected_sha256": "0911c4880b549575cc1aacd04e1830f2900e37d87cc9de7489e6c5ef0e44ae9c",
+            "actual_sha256": "0911c4880b549575cc1aacd04e1830f2900e37d87cc9de7489e6c5ef0e44ae9c"
+          },
+          {
+            "table": "atlas_method_taxonomy",
+            "expected_count": 2597,
+            "actual_count": 2597,
+            "matching": true,
+            "expected_sha256": "59954c4344b3333f2d2e538e56a4ddc89d7890d9adcf66a46c900cc03394d410",
+            "actual_sha256": "59954c4344b3333f2d2e538e56a4ddc89d7890d9adcf66a46c900cc03394d410"
+          }
+        ],
+        "reference": "BUNDLED_REPO_SOURCE_NOT_EXTERNAL_AUTHENTICATION",
+        "repair_policy": "DO_NOT_OVERWRITE;REBUILD_FRESH_DERIVED_CACHE_AFTER_REVIEW",
+        "no_canonical_promotion": true,
+        "no_external_actions": true
+      },
+      "status_exit": 1,
+      "expected_admission_error": "ATLAS_SCHEMA_DRIFT_EXPORT_HISTORY_AND_USE_NEW_PRIVATE_CACHE_REQUIRED",
+      "admission_rejected": true,
+      "before_sha256": "83e47aeb80de497bdbfcb4fee15adc7d2801f3691c83d2faa82827717abe3804",
+      "after_audit_sha256": "83e47aeb80de497bdbfcb4fee15adc7d2801f3691c83d2faa82827717abe3804",
+      "after_rejected_admission_sha256": "83e47aeb80de497bdbfcb4fee15adc7d2801f3691c83d2faa82827717abe3804",
+      "bytes_unchanged": true,
+      "canary_retained": true
+    }
+  ],
+  "pass": true
+}

@@ -1,0 +1,35 @@
+{
+  "scope": "Independent read-only operative-controller adversarial audit",
+  "controller_files_edited_by_audit_agent": false,
+  "network_or_remote_tool_calls_performed": false,
+  "source_authentication": false,
+  "fixture_only": true,
+  "before_receipt": "validation/audit/operative-controller-before.json",
+  "after_receipt": "validation/audit/operative-controller-after.json",
+  "after_probe_command_exit": 0,
+  "frozen_controller_source_sha256": "858dac2a9acad2799d312072c5439eb642a2a9e3ce1ed467a9db66e096a3904c",
+  "frozen_cli_source_sha256": "112b95e5eb5c1cee68fd099886e4de5e9119837996f044aaba922b06b2bb4d98",
+  "closing_cases": [
+    {"case": "Minimal rehashed forged operative task", "before": "Unregistered tool task returned", "after": "INVALID_CONTROLLER_STATE_SHAPE"},
+    {"case": "Injected tool task inside otherwise valid config state", "before": "Unregistered tool task returned", "after": "CONTROLLER_SEMANTIC_STATE_MISMATCH:tasks"},
+    {"case": "Forged checkpoint write/readback completion", "before": "COMPLETE without native protocol receipts", "after": "INVALID_STORED_ACTION_RECEIPT, including when forged event counters are adjusted"},
+    {"case": "Source receipts from a stale session", "before": "No blockers; evaluator request emitted", "after": "SOURCE_RECEIPT_SESSION_MISMATCH"},
+    {"case": "Negative control compares wrapper metadata rather than model result", "before": "A FINITE_GRAPH_VERIFIED nonviolating input marked negative_control_passed=true using /status", "after": "EXECUTABLE_NEGATIVE_CONTROL_REQUIRED"},
+    {"case": "Positive bounded result with empty body", "before": "Accepted and advanced", "after": "INVALID_NATIVE_RESULT_BODY"},
+    {"case": "Checkpoint targets existing native controller", "before": "Write request emitted against native controller identity", "after": "CHECKPOINT_CANNOT_OVERWRITE_NATIVE_CONTROLLER_OR_SOURCE"},
+    {"case": "Two aliases claim conflicting content for the same native identity and version", "before": "No blockers; evaluator request emitted", "after": "CONFLICTING_NATIVE_SOURCE_VERSION"},
+    {"case": "Symlink directory under .sites-runtime redirects state and history outside the root", "before": "CLI exit 0; state and history written to synthetic audit directory outside root", "after": "CLI exit 1 CONTROLLER_SYMLINK_PATH_REJECTED; no outside state or history created"}
+  ],
+  "historical_reuse_boundary": {
+    "observed": "An exact unchanged completed model action remains reusable after fresh current-session capability and source receipts.",
+    "original_receipt_session_retained": true,
+    "interpretation": "Allowed historical model reuse under the user's no-repeat rule; it is not claimed as a new execution or current-session authentication receipt."
+  },
+  "additional_repair_feedback": [
+    "Captured impossible event_sequence=0 with six completed records and revision=999 beyond the 128 cap; controller owner added event/revision/history and fixed trust-flag admission checks.",
+    "Corrected newly introduced abductive_cover result-key gate to actual minimal_explanations; actual local evaluator protected receipt subsequently admitted with zero blockers."
+  ],
+  "result_key_map_review": "Required result-key mappings checked against the source of all 24 current native evaluators; no method count or native evaluator implementation changed by this audit.",
+  "remaining_blocking_defects_in_audited_scope": [],
+  "limits": "Hashes and envelopes validate host-supplied content parity and internal state consistency. They do not cryptographically authenticate connector sources, grant target permission, prove real-world evidence, or demonstrate remote deployment. Root owns final exact-commit full-suite/build verification and durable checkpoint."
+}

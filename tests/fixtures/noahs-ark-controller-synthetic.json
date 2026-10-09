@@ -1,0 +1,640 @@
+{
+  "controller_id": "MPC_V13_OPERATIVE_SYNTHETIC_DEMO",
+  "project_id": "MPC_V13_DEVELOPMENT",
+  "mode": "SYNTHETIC_ONLY",
+  "source_revision": {
+    "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+    "branch": "feature/noahs-ark-reasoning-osi-v13",
+    "commit": "e9b0f55962a6c07acee4882812bb9dba291539ae"
+  },
+  "native_controller": {
+    "ref": "fixture:development-controller",
+    "namespace": "SYNTHETIC",
+    "native_id_type": "string",
+    "native_id": "fixture:development-controller",
+    "version": "fixture-v1",
+    "owner": "Synthetic controller test fixture",
+    "content": {
+      "purpose": "Local synthetic operative-controller demonstration",
+      "canonical_drive_controller_replaced": false
+    },
+    "content_sha256": "77e1175a06f5b5d717e9677eb42578e08376d486f1591dffc89e91cc29461df7",
+    "read_receipt": {
+      "tool": "fixture_native_read",
+      "call_ref": "fixture:source:fixture:development-controller",
+      "session_id": "fixture:local-controller-tests",
+      "status": "NATIVE_READ_SUPPLIED",
+      "native": {
+        "namespace": "SYNTHETIC",
+        "native_id_type": "string",
+        "native_id": "fixture:development-controller",
+        "version": "fixture-v1",
+        "owner": "Synthetic controller test fixture",
+        "content_sha256": "77e1175a06f5b5d717e9677eb42578e08376d486f1591dffc89e91cc29461df7"
+      }
+    }
+  },
+  "sources": [
+    {
+      "ref": "fixture:owned-ledger",
+      "namespace": "SYNTHETIC",
+      "native_id_type": "string",
+      "native_id": "fixture:owned-ledger",
+      "version": "fixture-v1",
+      "owner": "Synthetic controller test fixture",
+      "content": {
+        "primary_model": {
+          "invariant_label": "SYNTHETIC ONLY — finite declared finality invariant",
+          "states": [
+            {
+              "id": "fixture:pending",
+              "invariant_holds": true
+            },
+            {
+              "id": "fixture:final",
+              "invariant_holds": true
+            }
+          ],
+          "initial_states": [
+            "fixture:pending"
+          ],
+          "transitions": [
+            {
+              "id": "fixture:finalize",
+              "from": "fixture:pending",
+              "to": "fixture:final"
+            }
+          ],
+          "forbidden_states": [],
+          "max_states_examined": 2
+        },
+        "challenger_model": {
+          "invariant_label": "SYNTHETIC ONLY — separate finite alternative finality model",
+          "states": [
+            {
+              "id": "fixture:pending",
+              "invariant_holds": true
+            },
+            {
+              "id": "fixture:final",
+              "invariant_holds": true
+            }
+          ],
+          "initial_states": [
+            "fixture:pending"
+          ],
+          "transitions": [
+            {
+              "id": "fixture:finalize",
+              "from": "fixture:pending",
+              "to": "fixture:final"
+            }
+          ],
+          "forbidden_states": [],
+          "max_states_examined": 2
+        },
+        "negative_control_model": {
+          "invariant_label": "SYNTHETIC ONLY — deliberately violating negative control",
+          "states": [
+            {
+              "id": "fixture:pending",
+              "invariant_holds": true
+            },
+            {
+              "id": "fixture:final",
+              "invariant_holds": false
+            }
+          ],
+          "initial_states": [
+            "fixture:pending"
+          ],
+          "transitions": [
+            {
+              "id": "fixture:finalize",
+              "from": "fixture:pending",
+              "to": "fixture:final"
+            }
+          ],
+          "forbidden_states": [
+            "fixture:final"
+          ],
+          "max_states_examined": 2
+        }
+      },
+      "content_sha256": "fe35cbf305b0c4a838d453b3ea9346c89406282e8d8d63a2baa3b578adc38a80",
+      "read_receipt": {
+        "tool": "fixture_native_read",
+        "call_ref": "fixture:source:fixture:owned-ledger",
+        "session_id": "fixture:local-controller-tests",
+        "status": "NATIVE_READ_SUPPLIED",
+        "native": {
+          "namespace": "SYNTHETIC",
+          "native_id_type": "string",
+          "native_id": "fixture:owned-ledger",
+          "version": "fixture-v1",
+          "owner": "Synthetic controller test fixture",
+          "content_sha256": "fe35cbf305b0c4a838d453b3ea9346c89406282e8d8d63a2baa3b578adc38a80"
+        }
+      }
+    }
+  ],
+  "atom": {
+    "subject_id": "fixture:transaction",
+    "atom_id": "fixture:ledger",
+    "dimensions": [
+      "MONEY",
+      "FINALITY"
+    ],
+    "source_refs": [
+      "fixture:owned-ledger"
+    ],
+    "external_source_refs": []
+  },
+  "method_readiness": [
+    {
+      "method_id": "MHA-0053",
+      "input_state": "AVAILABLE",
+      "negative_control_state": "AVAILABLE",
+      "falsifier_state": "AVAILABLE",
+      "estimated_cost_units": 2
+    },
+    {
+      "method_id": "MHA-0035",
+      "input_state": "AVAILABLE",
+      "negative_control_state": "AVAILABLE",
+      "falsifier_state": "AVAILABLE",
+      "estimated_cost_units": 3
+    }
+  ],
+  "max_selected": 1,
+  "max_pairs": 1,
+  "require_challenger": true,
+  "adapters": [
+    {
+      "candidate_method_id": "MHA-0053",
+      "native_method_id": "finite_invariant",
+      "adapter_id": "fixture:MHA-0053:finite-labelled-graph",
+      "adapter_version": "1",
+      "binding_kind": "PROPOSED_BOUNDED_ADAPTATION",
+      "adaptation_limits": "Checks only the supplied finite state graph and caller-declared invariant labels for this synthetic MONEY/FINALITY atom. This is not an implementation of the named MHA mechanism, source authentication, inferred financial effect, or independent corroboration.",
+      "native_catalog_version": "1.2.0",
+      "schema_fingerprint": "9d22945539a1a8c4d005753f156374a91c1ab7dfe347368eeabb6c3939bee390",
+      "falsifier": {
+        "statement": "A supplied transition reaches a forbidden state or a state whose declared invariant is false.",
+        "source_refs": [
+          "fixture:owned-ledger"
+        ]
+      },
+      "model": {
+        "input": {
+          "invariant_label": "SYNTHETIC ONLY — finite declared finality invariant",
+          "states": [
+            {
+              "id": "fixture:pending",
+              "invariant_holds": true
+            },
+            {
+              "id": "fixture:final",
+              "invariant_holds": true
+            }
+          ],
+          "initial_states": [
+            "fixture:pending"
+          ],
+          "transitions": [
+            {
+              "id": "fixture:finalize",
+              "from": "fixture:pending",
+              "to": "fixture:final"
+            }
+          ],
+          "forbidden_states": [],
+          "max_states_examined": 2
+        },
+        "proof_inputs": [
+          {
+            "source_ref": "fixture:owned-ledger",
+            "source_version": "fixture-v1",
+            "source_pointer": "/primary_model",
+            "model_pointer": ""
+          }
+        ],
+        "model_fingerprint": "09caff3dad5825f86b4b564a076933e3981f159083b912aee7c8b538f4baa5d3"
+      },
+      "negative_control": {
+        "input": {
+          "invariant_label": "SYNTHETIC ONLY — deliberately violating negative control",
+          "states": [
+            {
+              "id": "fixture:pending",
+              "invariant_holds": true
+            },
+            {
+              "id": "fixture:final",
+              "invariant_holds": false
+            }
+          ],
+          "initial_states": [
+            "fixture:pending"
+          ],
+          "transitions": [
+            {
+              "id": "fixture:finalize",
+              "from": "fixture:pending",
+              "to": "fixture:final"
+            }
+          ],
+          "forbidden_states": [
+            "fixture:final"
+          ],
+          "max_states_examined": 2
+        },
+        "proof_inputs": [
+          {
+            "source_ref": "fixture:owned-ledger",
+            "source_version": "fixture-v1",
+            "source_pointer": "/negative_control_model",
+            "model_pointer": ""
+          }
+        ],
+        "model_fingerprint": "c9ddcc705062b58c3ba09471fb337e71afa933cab16a4d1d770cd7c73d29fd11",
+        "expected": {
+          "pointer": "/result/status",
+          "equals": "COUNTEREXAMPLE_FOUND"
+        }
+      }
+    },
+    {
+      "candidate_method_id": "MHA-0035",
+      "native_method_id": "finite_invariant",
+      "adapter_id": "fixture:MHA-0035:finite-labelled-graph",
+      "adapter_version": "1",
+      "binding_kind": "PROPOSED_BOUNDED_ADAPTATION",
+      "adaptation_limits": "Checks only the supplied finite state graph and caller-declared invariant labels for this synthetic MONEY/FINALITY atom. This is not an implementation of the named MHA mechanism, source authentication, inferred financial effect, or independent corroboration.",
+      "native_catalog_version": "1.2.0",
+      "schema_fingerprint": "9d22945539a1a8c4d005753f156374a91c1ab7dfe347368eeabb6c3939bee390",
+      "falsifier": {
+        "statement": "A supplied transition reaches a forbidden state or a state whose declared invariant is false.",
+        "source_refs": [
+          "fixture:owned-ledger"
+        ]
+      },
+      "model": {
+        "input": {
+          "invariant_label": "SYNTHETIC ONLY — separate finite alternative finality model",
+          "states": [
+            {
+              "id": "fixture:pending",
+              "invariant_holds": true
+            },
+            {
+              "id": "fixture:final",
+              "invariant_holds": true
+            }
+          ],
+          "initial_states": [
+            "fixture:pending"
+          ],
+          "transitions": [
+            {
+              "id": "fixture:finalize",
+              "from": "fixture:pending",
+              "to": "fixture:final"
+            }
+          ],
+          "forbidden_states": [],
+          "max_states_examined": 2
+        },
+        "proof_inputs": [
+          {
+            "source_ref": "fixture:owned-ledger",
+            "source_version": "fixture-v1",
+            "source_pointer": "/challenger_model",
+            "model_pointer": ""
+          }
+        ],
+        "model_fingerprint": "c6188afdedad534459f00496bc8cad640c485298ef4989728e61452fc53ab162"
+      },
+      "negative_control": {
+        "input": {
+          "invariant_label": "SYNTHETIC ONLY — deliberately violating negative control",
+          "states": [
+            {
+              "id": "fixture:pending",
+              "invariant_holds": true
+            },
+            {
+              "id": "fixture:final",
+              "invariant_holds": false
+            }
+          ],
+          "initial_states": [
+            "fixture:pending"
+          ],
+          "transitions": [
+            {
+              "id": "fixture:finalize",
+              "from": "fixture:pending",
+              "to": "fixture:final"
+            }
+          ],
+          "forbidden_states": [
+            "fixture:final"
+          ],
+          "max_states_examined": 2
+        },
+        "proof_inputs": [
+          {
+            "source_ref": "fixture:owned-ledger",
+            "source_version": "fixture-v1",
+            "source_pointer": "/negative_control_model",
+            "model_pointer": ""
+          }
+        ],
+        "model_fingerprint": "c9ddcc705062b58c3ba09471fb337e71afa933cab16a4d1d770cd7c73d29fd11",
+        "expected": {
+          "pointer": "/result/status",
+          "equals": "COUNTEREXAMPLE_FOUND"
+        }
+      }
+    }
+  ],
+  "capabilities": {
+    "session_id": "fixture:local-controller-tests",
+    "available_tools": [
+      "evaluate_method",
+      "get_method_catalog",
+      "fixture_native_write",
+      "fixture_native_read"
+    ],
+    "runtime": {
+      "tool": "runtime_status",
+      "call_ref": "fixture:runtime_status",
+      "session_id": "fixture:local-controller-tests",
+      "response": {
+        "status": "HOSTED_MCP_READY",
+        "runtime_version": "FIXTURE_ONLY_NOT_LIVE",
+        "available_tools": [
+          "evaluate_method",
+          "get_method_catalog"
+        ],
+        "connector_dispatch": false,
+        "persistence_hosted": false
+      },
+      "response_sha256": "ae070b9af8be7b1b75ae15bbd57b25f3fe8720fa3e0bfcb2a5af9ae97ad8c25b"
+    },
+    "contract": {
+      "tool": "get_universal_contract",
+      "call_ref": "fixture:get_universal_contract",
+      "session_id": "fixture:local-controller-tests",
+      "response": {
+        "contract_version": "1.0.0",
+        "authorization": "FIXTURE_ONLY_NOT_LIVE"
+      },
+      "response_sha256": "74a1910f68337e3174afb1a35a0525807e2b8b98ec39f692dfab4fb3a693ddf0"
+    },
+    "protected_evaluator": {
+      "tool": "evaluate_method",
+      "call_ref": "fixture:evaluate_method",
+      "session_id": "fixture:local-controller-tests",
+      "arguments": {
+        "method": "finite_invariant",
+        "input": {
+          "invariant_label": "SYNTHETIC ONLY — deliberately violating negative control",
+          "states": [
+            {
+              "id": "fixture:pending",
+              "invariant_holds": true
+            },
+            {
+              "id": "fixture:final",
+              "invariant_holds": false
+            }
+          ],
+          "initial_states": [
+            "fixture:pending"
+          ],
+          "transitions": [
+            {
+              "id": "fixture:finalize",
+              "from": "fixture:pending",
+              "to": "fixture:final"
+            }
+          ],
+          "forbidden_states": [
+            "fixture:final"
+          ],
+          "max_states_examined": 2
+        }
+      },
+      "response": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "finite_invariant",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "c9ddcc705062b58c3ba09471fb337e71afa933cab16a4d1d770cd7c73d29fd11",
+        "result": {
+          "status": "COUNTEREXAMPLE_FOUND",
+          "invariant_label": "SYNTHETIC ONLY — deliberately violating negative control",
+          "predicate_basis": "NOT_FORBIDDEN_AND_SUPPLIED_INVARIANT_HOLDS",
+          "reachable_predicate_holds": false,
+          "reachability_complete": false,
+          "state_ids_examined": [
+            "fixture:pending",
+            "fixture:final"
+          ],
+          "states_examined": 2,
+          "states_discovered": 2,
+          "supplied_state_count": 2,
+          "frontier_state_ids": [],
+          "unknown_reachable_state_ids": [],
+          "counterexample": {
+            "state_path": [
+              "fixture:pending",
+              "fixture:final"
+            ],
+            "transition_ids": [
+              "fixture:finalize"
+            ],
+            "violating_state": "fixture:final",
+            "violations": [
+              "FORBIDDEN_STATE",
+              "SUPPLIED_INVARIANT_FALSE"
+            ]
+          },
+          "induction_obligations": {
+            "scope": "ALL_SUPPLIED_INITIAL_STATES_AND_TRANSITIONS",
+            "base": {
+              "status": "PASS",
+              "checked_count": 1,
+              "violations": [],
+              "unknowns": []
+            },
+            "step": {
+              "status": "FAIL",
+              "checked_count": 1,
+              "violations": [
+                {
+                  "transition_id": "fixture:finalize",
+                  "from": "fixture:pending",
+                  "to": "fixture:final",
+                  "from_predicate_value": true,
+                  "to_predicate_value": false
+                }
+              ],
+              "unknowns": []
+            },
+            "finite_induction_passed": false,
+            "checked_separately_from_bfs_budget": true
+          },
+          "model_scope": "SUPPLIED_FINITE_GRAPH_AND_CALLER_LABELS_ONLY",
+          "transition_relation_is_caller_supplied": true,
+          "model_completeness_proven": false,
+          "source_authentication": false,
+          "factual_truth_established": false,
+          "target_vulnerability_proven": false,
+          "unbounded_proof": false
+        },
+        "limitations": "BFS over at most 256 supplied states and 512 transitions, with forbidden states and caller-supplied true/false/unknown invariant labels. Checks base and step obligations separately. No unbounded induction, inferred state labels, or completeness beyond the supplied graph.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      },
+      "response_sha256": "c2edf163c6e16975a473223fbf6a627babca118f61a421d9753c73a317be7b69"
+    },
+    "catalogs": [
+      {
+        "tool": "get_method_catalog",
+        "call_ref": "fixture:get_method_catalog",
+        "session_id": "fixture:local-controller-tests",
+        "arguments": {
+          "method": "finite_invariant"
+        },
+        "response": {
+          "status": "METHOD_IMPLEMENTATION_CATALOG",
+          "version": "1.2.0",
+          "methods": [
+            {
+              "id": "finite_invariant",
+              "methods": "Finite reachability and induction obligations",
+              "level": "COMPUTATION",
+              "scope": "BFS over at most 256 supplied states and 512 transitions, with forbidden states and caller-supplied true/false/unknown invariant labels. Checks base and step obligations separately. No unbounded induction, inferred state labels, or completeness beyond the supplied graph."
+            }
+          ],
+          "input_schemas": {
+            "finite_invariant": {
+              "type": "object",
+              "properties": {
+                "invariant_label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "states": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "invariant_holds": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "invariant_holds"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 1,
+                  "maxItems": 256
+                },
+                "initial_states": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "minItems": 1,
+                  "maxItems": 256
+                },
+                "transitions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "from": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "to": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "from",
+                      "to"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 0,
+                  "maxItems": 512
+                },
+                "forbidden_states": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "minItems": 0,
+                  "maxItems": 256
+                },
+                "max_states_examined": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 256
+                }
+              },
+              "required": [
+                "invariant_label",
+                "states",
+                "initial_states",
+                "transitions",
+                "forbidden_states"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "response_sha256": "2e2990e2eec5e8caa1f27c6966534124c1e2164bb46b202569178e454971dcaa"
+      }
+    ],
+    "native_write_tool": "fixture_native_write",
+    "native_read_tool": "fixture_native_read"
+  },
+  "checkpoint_write_authorized": false,
+  "checkpoint_target": {
+    "namespace": "GITHUB",
+    "native_id_type": "string",
+    "native_id": "mjcustomcomputers-dotcom/Machine-Bug-Tool:docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+    "version": "e9b0f55962a6c07acee4882812bb9dba291539ae"
+  }
+}

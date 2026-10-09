@@ -21,13 +21,17 @@ try{
   const t=performance.now();
   const receipt=await detectMethodAtoms(adapter,q);
   sample.push(performance.now()-t);
-  if(receipt.automatic_execution!==false||receipt.source_authentication!==false)throw Error('BENCHMARK_BOUNDARY_VIOLATED');
+  if(receipt.automatic_execution!==false||receipt.evidence_completeness?.source_authentication!==false||
+    receipt.method_route?.source_authentication!==false||receipt.method_route?.no_method_executed!==true||
+    receipt.explicit_supplied_goal_graph_computed!==false||receipt.target_traffic!==false||
+    receipt.canonical_promotion!==false||receipt.external_action_authorized!==false)throw Error('BENCHMARK_BOUNDARY_VIOLATED');
  }
  sample.sort((a,b)=>a-b);
  const percentile=p=>Number(sample[Math.min(sample.length-1,Math.floor((sample.length-1)*p))].toFixed(4));
  console.log(JSON.stringify({
   kind:'OFFLINE_SYNTHETIC_ATLAS_QUERY_BENCHMARK',
   node:process.version,methods:inventory.methods,classifiers:inventory.classifiers,linked_methods:inventory.method_relations,
+  database:'NODE_SQLITE_IN_MEMORY',warmup_runs:10,atoms_per_query:q.atoms.length,
   runs,ms:{p50:percentile(.5),p95:percentile(.95),max:percentile(1)},
   no_network_actions:true,no_method_execution:true,source_authentication:false,
   disclaimer:'Not an independently replicated throughput comparison, latency SLA, hardware speedup, or live-bounty performance claim.'

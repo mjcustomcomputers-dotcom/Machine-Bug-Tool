@@ -1,0 +1,31 @@
+{
+  "controller_id": "MPC_NOAHS_ARK_V13_OPERATIVE_DEVELOPMENT",
+  "revision": 1,
+  "event_sequence": 6,
+  "integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+  "configuration_fingerprint": "2ca1ff22cd5363135702a6b41fb4504c04c910ea3c4a9b218604de6a626f584f",
+  "execution_source": {
+    "actual_git_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "working_tree_dirty": false,
+    "controller_source_fingerprint": "81d36bf20c8915e5d5ee0b15102fef485beb8f328e2a2166309dbc1c3cb4d7c4",
+    "source_authentication": false
+  },
+  "candidates_considered": 239,
+  "current_tasks": 4,
+  "completed_current_tasks": 4,
+  "retained_receipts": 6,
+  "source_authentication": false,
+  "canonical_promotion": false,
+  "status": "COMPLETE",
+  "action": null,
+  "scope": "BOUNDED_MODEL_RUN_AND_NATIVE_CHECKPOINT_PARITY",
+  "receipt_trust": "HOST_SUPPLIED_CONTENT_PARITY_ONLY",
+  "native_checkpoint": {
+    "namespace": "GITHUB",
+    "native_id_type": "string",
+    "native_id": "mjcustomcomputers-dotcom/Machine-Bug-Tool:docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+    "version": "047b2adcd2172374d25878998eebb3b089b6488d"
+  },
+  "content_sha256": "48cba3de818aedbcc8d606676f653c13867fad58469e9163de5550034b35c984",
+  "target_finding": false
+}

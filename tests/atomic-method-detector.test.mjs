@@ -75,11 +75,12 @@ test('Clock-domain mismatches remain unresolved; same-clock inverted event block
 });
 test('Typed detector refuses extra fields, duplicate atoms, huge batches and wrong time syntax',async()=>{
  const {db,adapter}=fresh();try{
+  const before=statusMethodAtlas(db);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE'),atom('a','MONEY')]}),/DUPLICATE_ATOM_ID/);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[{...atom('a','STATE'),arbitrary:'injection'}]}),/UNKNOWN_ATOM_FIELD/);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE',[],{observed_at:'tomorrow',clock_domain:'utc'})]}),/INVALID_OBSERVED_TIMESTAMP/);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:Array.from({length:33},(_,i)=>atom('a'+i,'STATE'))}),/ATOM_BATCH_BOUNDS/);
-  assert.equal(statusMethodAtlas(db).methods,239);
+  assert.deepEqual(statusMethodAtlas(db),before);
  }finally{db.close()}
 });
 test('Detector emits seven distinct stage receipts without inventing model execution',async()=>{
@@ -151,5 +152,70 @@ test('Explicit reverse-goal graph is a bounded supplied model and exact subject 
   assert.equal(r.goal_traversal.no_intent_or_guilt_determination,true);
   assert.equal(r.target_traffic,false);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','GOAL')],goal_graph:{...goal_graph,subject_id:'foreign'}}),/GOAL_GRAPH_SUBJECT_UNBOUND/);
+ }finally{db.close()}
+});
+
+test('Detector rejects missing and coerced native IDs before candidate retrieval',async()=>{
+ const {db,adapter}=fresh();try{
+  for(const id of [undefined,null,7,['a'],{}]){
+   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom(id,'STATE')]}),/INVALID_ATOM_ID_TYPE_OR_STATE/);
+   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE',[],{subject_id:id})]}),/INVALID_ATOM_ID_TYPE_OR_STATE/);
+  }
+  await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE',[],{source_refs:[7]})]}),/INVALID_ATOM_SOURCE_REFS/);
+  await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE',[7])]}),/INVALID_ATOM_DEPENDS_ON/);
+  await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE',[],{source_refs:Array(1)})]}),/INVALID_ATOM_SOURCE_REFS/);
+  await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE',Array(1))]}),/INVALID_ATOM_DEPENDS_ON/);
+  await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a',['STATE'])]}),/INVALID_ATOM_DIMENSION/);
+  await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE',[],{coordinate:['PROCESS']})]}),/UNKNOWN_MPC_COORDINATE/);
+ }finally{db.close()}
+});
+
+test('Unknown dimensions retain their unresolved signature and block mixed candidate selection',async()=>{
+ const {db,adapter}=fresh();try{
+  const r=await detectMethodAtoms(adapter,{atoms:[atom('known','STATE'),atom('unknown','UNKNOWN_DIMENSION')]});
+  assert.equal(r.status,'BLOCKED_STRUCTURAL_EVIDENCE_GATE');
+  assert.deepEqual(r.unrecognized_dimensions,['UNKNOWN_DIMENSION']);
+  assert.equal(r.method_route.selected_count,0);
+  assert.ok(r.method_route.deferred_count>0);
+  assert.equal(r.canonical_promotion,false);
+ }finally{db.close()}
+});
+
+test('Synchronization rejects impossible calendar days and coerced clock identities',async()=>{
+ const {db,adapter}=fresh();try{
+  for(const observed_at of ['2026-02-30T01:00:00Z','2026-02-29T01:00:00-05:00','2026-04-31T01:00:00Z']){
+   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','TIME',[],{observed_at,clock_domain:'clock'})]}),/INVALID_OBSERVED_TIMESTAMP/);
+  }
+  await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','TIME',[],{observed_at:'2026-10-09T01:00:00Z',clock_domain:7})]}),/CLOCK_DOMAIN_REQUIRED/);
+  const r=await detectMethodAtoms(adapter,{atoms:[atom('leap','TIME',[],{observed_at:'2024-02-29T01:00:00-05:00',clock_domain:'clock'})]});
+  assert.equal(r.status,'DETECTED_STRUCTURAL_METHOD_CANDIDATES');
+ }finally{db.close()}
+});
+
+test('Present optional review inputs cannot be silently ignored because of their type',async()=>{
+ const {db,adapter}=fresh();try{
+  for(const field of ['evidence_review','goal_graph'])for(const value of [null,undefined,false,0,'',[]]){
+   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE')],[field]:value}),/INVALID_OPTIONAL_/);
+  }
+ }finally{db.close()}
+});
+
+test('Graph checks retain self-cycles, disconnected cycles and bounded fanout correctly',async()=>{
+ const {db,adapter}=fresh();try{
+  const cases=[
+   {atoms:[atom('self','GRAPH',['self'])],acyclic:false,edges:1},
+   {atoms:[atom('root','GRAPH'),atom('left','GRAPH',['right']),atom('right','GRAPH',['left'])],acyclic:false,edges:2},
+   {atoms:[atom('root','GRAPH'),atom('left','GRAPH',['root']),atom('right','GRAPH',['root']),atom('sink','GRAPH',['left','right'])],acyclic:true,edges:4},
+   {atoms:[atom('root','GRAPH'),...Array.from({length:31},(_,i)=>atom('child'+String(i).padStart(2,'0'),'GRAPH',['root']))],acyclic:true,edges:31}
+  ];
+  for(const c of cases){
+   const r=await detectMethodAtoms(adapter,{atoms:c.atoms,max_candidates:4});
+   assert.equal(r.atom_graph.acyclic,c.acyclic);
+   assert.equal(r.atom_graph.edge_count,c.edges);
+   assert.equal(r.atom_graph.structural_algorithm_crosscheck,'KAHN_DFS_AGREE');
+   assert.equal(r.status,c.acyclic?'DETECTED_STRUCTURAL_METHOD_CANDIDATES':'BLOCKED_STRUCTURAL_EVIDENCE_GATE');
+   assert.ok(r.method_route.selected_count<=4);
+   assert.equal(r.independent_evidence_proven,false);
+  }
  }finally{db.close()}
 });

@@ -1,0 +1,118 @@
+{
+  "synthetic": true,
+  "targets_contacted": false,
+  "source_authentication": false,
+  "per_method_gate_checks": 956,
+  "per_method_gate_passed": 956,
+  "per_method_gate_failed": [],
+  "malformed_atom_checks": [
+    {
+      "field": "subject_id",
+      "supplied": "OMITTED",
+      "error": "INVALID_REASONING_ID",
+      "pass": true
+    },
+    {
+      "field": "subject_id",
+      "supplied": null,
+      "error": "INVALID_REASONING_ID",
+      "pass": true
+    },
+    {
+      "field": "subject_id",
+      "supplied": 123,
+      "error": "INVALID_REASONING_ID",
+      "pass": true
+    },
+    {
+      "field": "subject_id",
+      "supplied": true,
+      "error": "INVALID_REASONING_ID",
+      "pass": true
+    },
+    {
+      "field": "subject_id",
+      "supplied": [
+        "fixture:array"
+      ],
+      "error": "INVALID_REASONING_ID",
+      "pass": true
+    },
+    {
+      "field": "atom_id",
+      "supplied": "OMITTED",
+      "error": "INVALID_REASONING_ID",
+      "pass": true
+    },
+    {
+      "field": "atom_id",
+      "supplied": null,
+      "error": "INVALID_REASONING_ID",
+      "pass": true
+    },
+    {
+      "field": "atom_id",
+      "supplied": 123,
+      "error": "INVALID_REASONING_ID",
+      "pass": true
+    },
+    {
+      "field": "atom_id",
+      "supplied": true,
+      "error": "INVALID_REASONING_ID",
+      "pass": true
+    },
+    {
+      "field": "atom_id",
+      "supplied": [
+        "fixture:array"
+      ],
+      "error": "INVALID_REASONING_ID",
+      "pass": true
+    }
+  ],
+  "determinism": {
+    "runs": 100,
+    "all_equal": true,
+    "selected": [
+      "MHA-0080",
+      "MHA-0170",
+      "MHA-0021",
+      "MHA-0142"
+    ],
+    "pairs": [
+      {
+        "primary": "MHA-0080",
+        "challenger": "MHA-0053",
+        "relation": "CROSS_CHECK"
+      },
+      {
+        "primary": "MHA-0170",
+        "challenger": "MHA-0094",
+        "relation": "COMPLEMENT"
+      },
+      {
+        "primary": "MHA-0021",
+        "challenger": "MHA-0022",
+        "relation": "CHALLENGE"
+      },
+      {
+        "primary": "MHA-0142",
+        "challenger": "MHA-0028",
+        "relation": "CHALLENGE"
+      }
+    ],
+    "covered_dimensions": [
+      "AUTHORITY",
+      "CLOUD",
+      "CONTROL",
+      "FINALITY",
+      "GRAPH",
+      "MONEY",
+      "TIME",
+      "UNCERTAINTY"
+    ],
+    "unresolved_dimensions": []
+  },
+  "boundary": "Declared input state and source-locator gates only; no per-method payload-schema or evidence authenticity validation is established."
+}

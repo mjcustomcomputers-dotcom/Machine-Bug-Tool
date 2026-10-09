@@ -1,0 +1,696 @@
+{
+  "kind": "MPC_V13_FINAL_LOCAL_INTEGRATION_VALIDATION",
+  "recorded_at_utc": "2026-10-09T07:02:14.795484+00:00",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "development_branch": "feature/noahs-ark-reasoning-osi-v13",
+  "source_parent": "96aff8d09257a73e36066a64a5c883d4c9f38db8",
+  "reporting_commit_rule": "Resolve the containing development branch commit R. This document reports exact tested integration I; it does not claim that R was the executable HEAD.",
+  "tested_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+  "tested_tree": "14365cf138ecc5aed01197bebb8e67fb670b5c1c",
+  "historical_controller_executable_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "historical_controller_executable_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
+  "scope": "FINAL_BOUNDED_ENGINEERING_INTEGRATION_RESEARCH_STOPPED",
+  "execution_host": "CHATGPT_LINUX_EXECUTOR_NOT_CODEX_CLOUD_OR_WINDOWS",
+  "environment": {
+    "node": "24.19.0",
+    "pnpm": "11.25.0",
+    "python": "3.12.14",
+    "platform": "linux",
+    "architecture": "x64",
+    "dependency_installation_performed": false,
+    "prepared_dependencies_reused": true,
+    "reuse_gate": "package.json, pnpm-lock.yaml and pnpm-workspace.yaml bytes matched before reuse",
+    "wrangler_override": "/workspace/scratch/7bb825adb9fb/mpc-v13-final-integration/tested-integration/.sites-runtime/config",
+    "cloud_install_script": "PRESERVED_PRIOR_RECORD_NOT_RETRIEVED_FROM_CLOUD_HERE",
+    "cloud_start_skill": "PRESERVED_PRIOR_RECORD_NOT_RETRIEVED_FROM_CLOUD_HERE"
+  },
+  "validation": {
+    "status": "PASS",
+    "tested_worktree_clean_before": true,
+    "tested_worktree_clean_after": true,
+    "full_node": {
+      "tests": 405,
+      "suites": 0,
+      "pass": 405,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "build": {
+      "exit_status": 0,
+      "stdout": "evidence/build.stdout.log",
+      "stderr": "evidence/build.stderr.log",
+      "observations": [
+        "npm emitted an existing proxy-environment warning",
+        "Framework static route classification remained unknown for homepage; build completed"
+      ]
+    },
+    "unique_tests_added": 61,
+    "unique_test_files_added": 4,
+    "focused_new_test_counts": {
+      "path_boundary": 7,
+      "atlas_file_input": 40,
+      "local_receiver": 9,
+      "notebook_runner": 5
+    },
+    "focused_count_rule": "These 61 tests are included in the 405-test full run; do not add them again. Focused development runs occurred before the clean exact-I acceptance."
+  },
+  "changes": [
+    {
+      "area": "Windows path containment",
+      "demonstrated_problem": "path.relative on another Windows drive or UNC share can be absolute and evade a dot-dot-only escape check",
+      "repair": "Shared boundary helper rejects absolute relative results as well as parent traversal; controller source fingerprint includes the helper."
+    },
+    {
+      "area": "Portable Atlas input",
+      "demonstrated_problem": "Malformed inline JSON could create or seed a physical cache before argument parsing; complex PowerShell quoting lacked a file transport",
+      "repair": "All eleven JSON-taking commands accept --input-file with bounded regular UTF-8 JSON-object validation before SQLite access; inline syntax is retained. Domain-specific method validation remains separate."
+    },
+    {
+      "area": "Local historical receive",
+      "demonstrated_problem": "There was no repeatable Windows receiving path with exact source/state identity, occupied-path protection and durable success/failure evidence",
+      "repair": "Node receiver verifies Git blobs and hashes, creates an unused isolated S worktree with invocation-only LF checkout settings, restores exact bytes, and runs verify/status/next. PowerShell wrapper uses native arguments and exit propagation."
+    },
+    {
+      "area": "Notebook execution",
+      "demonstrated_problem": "Previous notebook execution depended on session-specific orchestration rather than a reusable repository entry point",
+      "repair": "Standard-library Python runner executes the original five cells in one namespace and saves exact subprocess and source receipts; it is not a Jupyter-kernel runner."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "lib/local-path-boundary.mjs",
+      "git_blob": "5a3fc9a52db404642852c57548dd1a9a30459797",
+      "bytes": 484,
+      "sha256": "178e7dfa4a1b481c0a2b7bf3609b228779d6bfa9d8c206fe97e9bc7b98c3288b"
+    },
+    {
+      "path": "scripts/Receive-MpcV13.ps1",
+      "git_blob": "d52976cc7694b82a7b045b3e42c80a9ab6127c8b",
+      "bytes": 1792,
+      "sha256": "885270acb5db29855e662072ad072fc77b33b78eb18613e0e3cb9e3715980ad2"
+    },
+    {
+      "path": "scripts/method-atlas-cli.mjs",
+      "git_blob": "b2b19670845ec5809be519e7fc625b3b89b3d035",
+      "bytes": 18811,
+      "sha256": "e412b99cf9dc522be4a6ebedf354a9eaaa6bea25950932b75b8bdf5f5e5b30ce"
+    },
+    {
+      "path": "scripts/noahs-ark-controller-cli.mjs",
+      "git_blob": "9d478a063258fc91d8f9987adf78bd0bf06ad8c6",
+      "bytes": 8044,
+      "sha256": "257f9224aae1698aa81848d8dde7f97f964fd7d2ec09cbdda38984da4da6f0d2"
+    },
+    {
+      "path": "scripts/receive-mpc-v13.mjs",
+      "git_blob": "e91db0263926d19c7de0f3f858ce1877a3cd8474",
+      "bytes": 19013,
+      "sha256": "10a61bb341782419aab5a93b595da195e64c3082945ca1b1631a54ffc1456c87"
+    },
+    {
+      "path": "scripts/run-v13-notebook.py",
+      "git_blob": "5ed435de8964678c91f15d3726465ac8547e9cd6",
+      "bytes": 13408,
+      "sha256": "2efc70cb9ebdbb0ec4eafa382e17b8d4763fbdd8af8f0471eb0d6ab2bd22a59c"
+    },
+    {
+      "path": "tests/local-path-boundary.test.mjs",
+      "git_blob": "20dd456975e31b6cd925b4bbed9401f29765068c",
+      "bytes": 3455,
+      "sha256": "bd858057be55b647ebe401f9ac916525a4414282a261e0c60a51455a2c41ed29"
+    },
+    {
+      "path": "tests/method-atlas-file-input.test.mjs",
+      "git_blob": "a09733fc202ef5b1b0915764f9cb07af4180000d",
+      "bytes": 10338,
+      "sha256": "8c866194e16ebfe679284f93692b29fb7398c74def4775e40b77518c6ab16a12"
+    },
+    {
+      "path": "tests/noahs-ark-controller.test.mjs",
+      "git_blob": "ed32453da0b7bcd4f356eca0377bcf3f4768c60c",
+      "bytes": 22138,
+      "sha256": "9714a8b5ec9827d742d2e757d320885d031ae0cce4f9fde04ca60ed3f68ce380"
+    },
+    {
+      "path": "tests/receive-mpc-v13.test.mjs",
+      "git_blob": "64f32e0fb98d8f852cd0158b4ffd6ebdceec821b",
+      "bytes": 12786,
+      "sha256": "31691d65979f437dd4ae951719e73a396c5570b39bb2f75a933fd294dcae6c13"
+    },
+    {
+      "path": "tests/v13-notebook-runner.test.mjs",
+      "git_blob": "e94844b722703bc6b06a294351a0b5673c86ef7e",
+      "bytes": 7529,
+      "sha256": "fe553d69d668b5855e9f4ad5efb8c2dcbe03751d1d9f348a7947c94a4c444fee"
+    }
+  ],
+  "commands": [
+    {
+      "name": "full-node-tests",
+      "command": [
+        "node",
+        "--test"
+      ],
+      "exit_status": 0,
+      "seconds": 18.003466878006293,
+      "stdout": "full-node-tests.stdout.log",
+      "stderr": "full-node-tests.stderr.log",
+      "environment_overrides": {}
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_status": 0,
+      "seconds": 6.850845022003341,
+      "stdout": "build.stdout.log",
+      "stderr": "build.stderr.log",
+      "environment_overrides": {}
+    },
+    {
+      "name": "receiver-inspect",
+      "command": [
+        "node",
+        "scripts/receive-mpc-v13.mjs",
+        "inspect",
+        "--repository",
+        "/workspace/scratch/7bb825adb9fb/mpc-v13-final-integration/tested-integration",
+        "--reporting-commit",
+        "a18a040f164e8ad4c47474f77bb10dc5289adac6"
+      ],
+      "exit_status": 0,
+      "seconds": 0.20238484300352866,
+      "stdout": "receiver-inspect.stdout.log",
+      "stderr": "receiver-inspect.stderr.log",
+      "environment_overrides": {}
+    },
+    {
+      "name": "receiver-acceptance",
+      "command": [
+        "node",
+        "scripts/receive-mpc-v13.mjs",
+        "receive",
+        "--repository",
+        "/workspace/scratch/7bb825adb9fb/mpc-v13-final-integration/tested-integration",
+        "--reporting-commit",
+        "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+        "--destination",
+        "/workspace/scratch/7bb825adb9fb/mpc-v13-final-integration/received historical controller Ω"
+      ],
+      "exit_status": 0,
+      "seconds": 0.9784773489955114,
+      "stdout": "receiver-acceptance.stdout.log",
+      "stderr": "receiver-acceptance.stderr.log",
+      "environment_overrides": {}
+    },
+    {
+      "name": "notebook",
+      "command": [
+        "python3",
+        "scripts/run-v13-notebook.py",
+        "--output-dir",
+        "/workspace/scratch/7bb825adb9fb/mpc-v13-final-integration/evidence/notebook"
+      ],
+      "exit_status": 0,
+      "seconds": 1.0501967209929717,
+      "stdout": "notebook.stdout.log",
+      "stderr": "notebook.stderr.log",
+      "environment_overrides": {}
+    },
+    {
+      "name": "atlas-init",
+      "command": [
+        "node",
+        "scripts/method-atlas-cli.mjs",
+        "init"
+      ],
+      "exit_status": 0,
+      "seconds": 0.19529568900179584,
+      "stdout": "atlas-init.stdout.log",
+      "stderr": "atlas-init.stderr.log",
+      "environment_overrides": {
+        "MPC_METHOD_ATLAS_DB": "/workspace/scratch/7bb825adb9fb/mpc-v13-final-integration/tested-integration/.sites-runtime/final-acceptance-atlas.sqlite"
+      }
+    },
+    {
+      "name": "atlas-status",
+      "command": [
+        "node",
+        "scripts/method-atlas-cli.mjs",
+        "status"
+      ],
+      "exit_status": 0,
+      "seconds": 0.19233684399659978,
+      "stdout": "atlas-status.stdout.log",
+      "stderr": "atlas-status.stderr.log",
+      "environment_overrides": {
+        "MPC_METHOD_ATLAS_DB": "/workspace/scratch/7bb825adb9fb/mpc-v13-final-integration/tested-integration/.sites-runtime/final-acceptance-atlas.sqlite"
+      }
+    },
+    {
+      "name": "atlas-audit-seed",
+      "command": [
+        "node",
+        "scripts/method-atlas-cli.mjs",
+        "audit-seed"
+      ],
+      "exit_status": 0,
+      "seconds": 0.16571745900000678,
+      "stdout": "atlas-audit-seed.stdout.log",
+      "stderr": "atlas-audit-seed.stderr.log",
+      "environment_overrides": {
+        "MPC_METHOD_ATLAS_DB": "/workspace/scratch/7bb825adb9fb/mpc-v13-final-integration/tested-integration/.sites-runtime/final-acceptance-atlas.sqlite"
+      }
+    },
+    {
+      "name": "detector-benchmark",
+      "command": [
+        "node",
+        "scripts/benchmark-atomic-method-detector.mjs"
+      ],
+      "exit_status": 0,
+      "seconds": 0.8323155910038622,
+      "stdout": "detector-benchmark.stdout.log",
+      "stderr": "detector-benchmark.stderr.log",
+      "environment_overrides": {
+        "MPC_ATLAS_BENCH_RUNS": "500"
+      }
+    },
+    {
+      "name": "variation-benchmark",
+      "command": [
+        "node",
+        "scripts/benchmark-atomic-variation-router.mjs"
+      ],
+      "exit_status": 0,
+      "seconds": 19.94682021100016,
+      "stdout": "variation-benchmark.stdout.log",
+      "stderr": "variation-benchmark.stderr.log",
+      "environment_overrides": {
+        "MPC_VARIATION_BENCH_RUNS": "500"
+      }
+    }
+  ],
+  "receiver": {
+    "status": "LOCAL_CONTROLLER_RECEIVE_PASS",
+    "reporting_metadata_read_at": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+    "executable_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "state": {
+      "blob": "fa80abb6b7336457cdf28e31890280a14e6c5deb",
+      "bytes": 591514,
+      "sha256": "d8ccd726902541cec0e468a0c3354781b7dadeecec1cc66754c20a13ba3d4508",
+      "integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae"
+    },
+    "restored_state_semantically_verified": true,
+    "state_bytes_and_history": "UNCHANGED",
+    "status_result": "COMPLETE",
+    "revision": 1,
+    "event_sequence": 6,
+    "completed_model_obligations": 4,
+    "retained_action_receipts": 6,
+    "next_action": null,
+    "new_model_calls": 0,
+    "new_controller_events": 0,
+    "original_checkout_unchanged": true,
+    "source_authentication": false,
+    "raw_receipt": "evidence/receiver-acceptance.stdout.log"
+  },
+  "atlas": {
+    "status": {
+      "schema_version": "METHOD-ATLAS-SQLITE-1.0",
+      "seed_fingerprint": "eae7dbb4dee41ec7e518f0587b2717abe6f503d1a610ac19f850e42a5f8544e5",
+      "schema_fingerprint": "0c2c81d94be45fff16d8734a86e264936528bf191794230feedd69a57458abe1",
+      "content_fingerprint": "af82723fa59894cc5309b3102f1d3f088a0e4d5e2ae67aebf66a67fa53cc76f5",
+      "taxonomy_policy_sha256": "d2f35b5115a7dc8df913c4c62d3f1ab7c8c653361c4d42831890e11dc67b13ae",
+      "taxonomy_compiler_sha256": "74e1cf1d854d963bd16c5536694c5a73cd75202f10c806538b9214899083f770",
+      "methods": 239,
+      "classifiers": 239,
+      "sources": 65,
+      "triggers": 478,
+      "proposed_crosswalk": 444,
+      "method_relations": 212,
+      "taxonomy_tags": 2597,
+      "taxonomy_version": "MPC_METHOD_RECLASSIFICATION_1.0",
+      "semantic_parity": {
+        "status": "ATLAS_CONTENT_PARITY_PASS",
+        "mismatched_tables": [],
+        "rows_checked": 4274,
+        "tables_checked": 7
+      },
+      "source_record_authoritative": false,
+      "method_execution_performed": false,
+      "canonical_registry_modified": false,
+      "validation": "STRUCTURAL_INVENTORY_PASS",
+      "sqlite_path": "/workspace/scratch/7bb825adb9fb/mpc-v13-final-integration/tested-integration/.sites-runtime/final-acceptance-atlas.sqlite"
+    },
+    "semantic_audit": {
+      "version": "MPC_ATLAS_SEMANTIC_PARITY_V12",
+      "status": "ATLAS_CONTENT_PARITY_PASS",
+      "mismatched_tables": [],
+      "seed_fingerprint_matches": true,
+      "tables_checked": 7,
+      "rows_checked": 4274,
+      "tables": [
+        {
+          "table": "atlas_sources",
+          "expected_count": 65,
+          "actual_count": 65,
+          "matching": true,
+          "expected_sha256": "cc714a86a8ea6343bb145cfaa5c03e1551c4fd34087350b34d40b95c6433be89",
+          "actual_sha256": "cc714a86a8ea6343bb145cfaa5c03e1551c4fd34087350b34d40b95c6433be89"
+        },
+        {
+          "table": "atlas_methods",
+          "expected_count": 239,
+          "actual_count": 239,
+          "matching": true,
+          "expected_sha256": "c2f3907c6f5ca50087b5988f45d3f4be3408be192ae628960b3889f98da25043",
+          "actual_sha256": "c2f3907c6f5ca50087b5988f45d3f4be3408be192ae628960b3889f98da25043"
+        },
+        {
+          "table": "atlas_triggers",
+          "expected_count": 478,
+          "actual_count": 478,
+          "matching": true,
+          "expected_sha256": "df82f1d6b05594607a9ba9fa9990a659c57af0dac3693d0a26390269423c2cde",
+          "actual_sha256": "df82f1d6b05594607a9ba9fa9990a659c57af0dac3693d0a26390269423c2cde"
+        },
+        {
+          "table": "atlas_classifiers",
+          "expected_count": 239,
+          "actual_count": 239,
+          "matching": true,
+          "expected_sha256": "8047264dd7dfdbff0c7214279d86f3c67b679cddb619db270bbf43ad2355e08c",
+          "actual_sha256": "8047264dd7dfdbff0c7214279d86f3c67b679cddb619db270bbf43ad2355e08c"
+        },
+        {
+          "table": "atlas_crosswalk",
+          "expected_count": 444,
+          "actual_count": 444,
+          "matching": true,
+          "expected_sha256": "f2518cc383e803d4daca294e7c4a233f1fce46fe44de0a01ef08c25bddf42ee9",
+          "actual_sha256": "f2518cc383e803d4daca294e7c4a233f1fce46fe44de0a01ef08c25bddf42ee9"
+        },
+        {
+          "table": "atlas_method_relations",
+          "expected_count": 212,
+          "actual_count": 212,
+          "matching": true,
+          "expected_sha256": "0911c4880b549575cc1aacd04e1830f2900e37d87cc9de7489e6c5ef0e44ae9c",
+          "actual_sha256": "0911c4880b549575cc1aacd04e1830f2900e37d87cc9de7489e6c5ef0e44ae9c"
+        },
+        {
+          "table": "atlas_method_taxonomy",
+          "expected_count": 2597,
+          "actual_count": 2597,
+          "matching": true,
+          "expected_sha256": "59954c4344b3333f2d2e538e56a4ddc89d7890d9adcf66a46c900cc03394d410",
+          "actual_sha256": "59954c4344b3333f2d2e538e56a4ddc89d7890d9adcf66a46c900cc03394d410"
+        }
+      ],
+      "reference": "BUNDLED_REPO_SOURCE_NOT_EXTERNAL_AUTHENTICATION",
+      "repair_policy": "DO_NOT_OVERWRITE;REBUILD_FRESH_DERIVED_CACHE_AFTER_REVIEW",
+      "no_canonical_promotion": true,
+      "no_external_actions": true
+    },
+    "previous_primary_source_inventory": {
+      "records": 65,
+      "used_source_ids": 64,
+      "unresolved_unused_source_id": "V6_METAMORPHIC",
+      "evidence": "docs/validation/MPC-V13-VALIDATION.json; unchanged source inventory"
+    },
+    "catalog_expansion_performed": false
+  },
+  "notebook": {
+    "summary": {
+      "status": "PASS",
+      "execution_mode": "SHARED_PYTHON_NAMESPACE_NOT_JUPYTER_KERNEL",
+      "code_cells_total": 5,
+      "code_cells_executed": 5,
+      "code_cells_passed": 5,
+      "code_cells_failed": 0,
+      "code_cells_not_run": 0,
+      "errors": [],
+      "receipt": "/workspace/scratch/7bb825adb9fb/mpc-v13-final-integration/evidence/notebook/v13-notebook-execution.json"
+    },
+    "source_sha256": "30607f5668d87f3eaf824aad8e25adccbde8ef694395ae8818490e3f48c4cf7c",
+    "runner_sha256": "2efc70cb9ebdbb0ec4eafa382e17b8d4763fbdd8af8f0471eb0d6ab2bd22a59c",
+    "original_source_unchanged": true,
+    "scenario_count": 3,
+    "reasoning_layers_per_scenario": 7,
+    "scenarios": [
+      {
+        "scenario": "Synthetic ledger finality",
+        "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+        "considered": "239",
+        "triggered": "23",
+        "eligible": "2",
+        "selected": "1",
+        "pairs": "1",
+        "dimensions_covered": "2",
+        "dimensions_unresolved": "0",
+        "controls_ready": "1",
+        "falsifiers_ready": "1",
+        "declared_cost_units": "2",
+        "source_authenticated": "False",
+        "method_executed": "False",
+        "security_impact_verified": "False",
+        "git_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+        "worktree_dirty": "False",
+        "node_version": "v24.19.0",
+        "python_version": "3.12.14",
+        "cache_fingerprint": "175b0985049996af3e242c86a9e00994a8d45f35cbc2efc66ccd1af4341d5879"
+      },
+      {
+        "scenario": "Cloud configuration — unknown inputs",
+        "status": "BLOCKED_NO_READY_METHOD",
+        "considered": "239",
+        "triggered": "28",
+        "eligible": "0",
+        "selected": "0",
+        "pairs": "0",
+        "dimensions_covered": "0",
+        "dimensions_unresolved": "2",
+        "controls_ready": "0",
+        "falsifiers_ready": "0",
+        "declared_cost_units": "0",
+        "source_authenticated": "False",
+        "method_executed": "False",
+        "security_impact_verified": "False",
+        "git_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+        "worktree_dirty": "False",
+        "node_version": "v24.19.0",
+        "python_version": "3.12.14",
+        "cache_fingerprint": "175b0985049996af3e242c86a9e00994a8d45f35cbc2efc66ccd1af4341d5879"
+      },
+      {
+        "scenario": "Casino meter — source unavailable",
+        "status": "BLOCKED_NATIVE_SOURCE",
+        "considered": "239",
+        "triggered": "31",
+        "eligible": "0",
+        "selected": "0",
+        "pairs": "0",
+        "dimensions_covered": "0",
+        "dimensions_unresolved": "2",
+        "controls_ready": "0",
+        "falsifiers_ready": "0",
+        "declared_cost_units": "0",
+        "source_authenticated": "False",
+        "method_executed": "False",
+        "security_impact_verified": "False",
+        "git_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+        "worktree_dirty": "False",
+        "node_version": "v24.19.0",
+        "python_version": "3.12.14",
+        "cache_fingerprint": "175b0985049996af3e242c86a9e00994a8d45f35cbc2efc66ccd1af4341d5879"
+      }
+    ],
+    "execution_mode": "SHARED_PYTHON_NAMESPACE_NOT_JUPYTER_KERNEL",
+    "drive_workbook": "NOT_REREAD_OR_CHANGED_IN_THIS_ENGINEERING_PASS"
+  },
+  "benchmarks": {
+    "detector": {
+      "kind": "OFFLINE_SYNTHETIC_ATLAS_QUERY_BENCHMARK",
+      "node": "v24.19.0",
+      "methods": 239,
+      "classifiers": 239,
+      "linked_methods": 212,
+      "database": "NODE_SQLITE_IN_MEMORY",
+      "warmup_runs": 10,
+      "atoms_per_query": 3,
+      "runs": 500,
+      "ms": {
+        "p50": 0.8653,
+        "p95": 1.9395,
+        "max": 34.1657
+      },
+      "no_network_actions": true,
+      "no_method_execution": true,
+      "source_authentication": false,
+      "disclaimer": "Not an independently replicated throughput comparison, latency SLA, hardware speedup, or live-bounty performance claim."
+    },
+    "variation": {
+      "kind": "OFFLINE_SYNTHETIC_V8_PERSISTENT_CACHE_BENCHMARK",
+      "node": "v24.19.0",
+      "platform": "linux",
+      "architecture": "x64",
+      "execution_scope": "CURRENT_NODE_HOST_NOT_A_CODEX_CLOUD_OR_DAYBREAK_ATTESTATION",
+      "database": "NODE_SQLITE_TEMPORARY_FILE",
+      "methods": 239,
+      "atoms_per_query": 1,
+      "slots_per_query": 956,
+      "initialization_ms": 62.9596,
+      "first_consideration_ms": 36.9782,
+      "first_consideration_samples": 1,
+      "first_rows_written": 956,
+      "reopened_database_cache_verified": true,
+      "warmup_runs": 10,
+      "runs": 500,
+      "cached_ms": {
+        "p50": 36.9901,
+        "p95": 47.1446,
+        "max": 143.6104
+      },
+      "cached_rows_written": 0,
+      "retained_rows": 956,
+      "no_network_actions": true,
+      "no_method_execution": true,
+      "source_authentication": false,
+      "disclaimer": "Synthetic planning/cache latency on this host. Cached percentiles include the validated persistence path; exclude process startup and initial atlas seeding. Not target traffic, a Cloud model-selection receipt, an SLA, or physical hardware acceleration."
+    },
+    "comparison_claim": "No before/after speedup claim; synthetic preparing-host observations only. Cloud latency is a separate acceptance gate."
+  },
+  "preservation": {
+    "original_files_checked": 182,
+    "original_files_unchanged": 182,
+    "mismatches": [],
+    "historical_records": [
+      {
+        "path": "docs/validation/MPC-V13-VALIDATION.json",
+        "git_blob": "823141921b7e56b41e7a66a186fad7896138f448",
+        "bytes": 32631,
+        "sha256": "6d57753fe7eb9329e8aebf6327cdc0dd06f9fa30409786a286f88881027edc00",
+        "unchanged_from": "96aff8d09257a73e36066a64a5c883d4c9f38db8"
+      },
+      {
+        "path": "docs/validation/MPC-V13-OPERATIVE-STATE.json",
+        "git_blob": "fa80abb6b7336457cdf28e31890280a14e6c5deb",
+        "bytes": 591514,
+        "sha256": "d8ccd726902541cec0e468a0c3354781b7dadeecec1cc66754c20a13ba3d4508",
+        "unchanged_from": "96aff8d09257a73e36066a64a5c883d4c9f38db8"
+      },
+      {
+        "path": "docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+        "git_blob": "8b10c58beac8933afcfc173b7114bda42a37a0a3",
+        "bytes": 4889,
+        "sha256": "48cba3de818aedbcc8d606676f653c13867fad58469e9163de5550034b35c984",
+        "unchanged_from": "96aff8d09257a73e36066a64a5c883d4c9f38db8"
+      },
+      {
+        "path": "connector-bridge/operative-controllers-v13.json",
+        "git_blob": "d5d91f065993113ca03400b54696c01f7b690eb9",
+        "bytes": 1974,
+        "sha256": "dc442921c76c7f9e3f51cf2b4958327f82d6ce21812dd75e34fe9c681d5f3bcd",
+        "unchanged_from": "96aff8d09257a73e36066a64a5c883d4c9f38db8"
+      },
+      {
+        "path": "connector-bridge/reasoning-artifacts-v13.json",
+        "git_blob": "74c88eb3c73f6c1c181712a48f7981f5c895d713",
+        "bytes": 2438,
+        "sha256": "ed26fd6ef1b5d01ed9b22a89b33b95e336f20f2f46dec3eba031f768adc84508",
+        "unchanged_from": "96aff8d09257a73e36066a64a5c883d4c9f38db8"
+      },
+      {
+        "path": "connector-bridge/source-pointers.v9.json",
+        "git_blob": "4db104750f8dfacce2a5a102e7c9a17fe01bc7a4",
+        "bytes": 4371,
+        "sha256": "40330cebb4d1c3201b82e2aa34512cdcfa814ad4ad1b0f9554ef84ecd8a5877f",
+        "unchanged_from": "96aff8d09257a73e36066a64a5c883d4c9f38db8"
+      },
+      {
+        "path": "notebooks/MPC-Noahs-Ark-Reasoning-V13.ipynb",
+        "git_blob": "12e7715524c726726fe9bfd558c627160f296725",
+        "bytes": 14717,
+        "sha256": "30607f5668d87f3eaf824aad8e25adccbde8ef694395ae8818490e3f48c4cf7c",
+        "unchanged_from": "96aff8d09257a73e36066a64a5c883d4c9f38db8"
+      },
+      {
+        "path": "docs/validation/MPC-V13-SESSION-BOOT-20261009-0626Z.json",
+        "git_blob": "9c2f0054a9645102beb4168a45697f396e28356d",
+        "bytes": 5526,
+        "sha256": "6d3605388dbba7b41c4de36c392dfb5011f1a50035886e3f5eb1d86da31bd694",
+        "unchanged_from": "96aff8d09257a73e36066a64a5c883d4c9f38db8"
+      }
+    ],
+    "canonical_registries_modified": false,
+    "original_native_site_binding_preserved": true,
+    "native_inventory_rule": "Keep 24 evaluators, 10 original hooks, framework operators, reductions, 17 transforms, mirrors and 239 Atlas research candidates separate; no inventory renumbering."
+  },
+  "connections": {
+    "github": "NATIVE_PROTECTED_GIT_OBJECT_READS_AND_WRITES_USED_FOR_THIS_FEATURE_BRANCH",
+    "github_authentication_scope": "Current ChatGPT GitHub connector; not a future Cloud or Windows Git login",
+    "mpc": "NO_NEW_CALLS_NEEDED_FOR_THIS_LOCAL_ENGINEERING_PASS_PRIOR_RECEIPTS_PRESERVED",
+    "drive": "NOT_REREAD_PRIOR_NATIVE_EVIDENCE_PRESERVED",
+    "dash": "NOT_REQUERIED_PRIOR_DISCOVERY_EVIDENCE_PRESERVED",
+    "dropbox": "NOT_REQUERIED_PRIOR_UNRESOLVED_BACKUP_STATUS_PRESERVED",
+    "daybreak": "CURRENT_SELECTION_NOT_EXPOSED_PRIOR_USER_REPORTED_UI_EVENT_PRESERVED",
+    "cloud_task_control": "NO_REGISTERED_TASK_LAUNCH_TOOL_USED"
+  },
+  "remaining_gates": {
+    "windows_native_run": {
+      "status": "NOT_RUN",
+      "reason": "Neither a Windows host nor powershell/pwsh executable is available in this preparing executor. Windows path.win32 and junction-aware fixtures pass on Linux, which is not Windows execution.",
+      "next": "Run docs/LOCAL-POWERSHELL-V13.md on the existing Windows host. Record actual process.platform and PowerShell version; receiver receipt publication requires filesystem hard-link support."
+    },
+    "actual_codex_cloud_run": {
+      "status": "NOT_RUN",
+      "reason": "This acceptance executed in ChatGPT Linux, not the prepared Codex Cloud task.",
+      "next": "Run docs/CODEX-V13-FINAL-INTEGRATION-RUN.md once in the existing environment. Record actual Cloud source, test counts, build, latency and tool/model visibility."
+    },
+    "preserved_research_dependencies": [
+      "356 dimension provenance unresolved; no invented ID/count",
+      "NESTMAX 174 enumerated IDs versus legacy 160 descriptor remains unresolved",
+      "V6_METAMORPHIC remains the known unused source locator",
+      "Drive workbook historical four authored rows differ from the three original executed notebook fixtures; no workbook edit or fabricated fourth input"
+    ]
+  },
+  "boundaries": {
+    "research_resumed": false,
+    "catalog_expanded": false,
+    "external_target_actions": false,
+    "bounty_submission": false,
+    "deployment": false,
+    "merge": false,
+    "credential_change": false,
+    "environment_reinstall": false,
+    "canonical_controller_overwrite": false,
+    "source_authentication": false,
+    "verified_security_impact": false
+  },
+  "evidence": {
+    "index": "docs/validation/local-v13-evidence-index.json",
+    "archive": "docs/validation/MPC-V13-LOCAL-INTEGRATION-EVIDENCE.zip",
+    "archive_sha256": "6f9bf28018dde123196447474260194044c467958eacf030757be4a6d11d157d",
+    "complete_raw_acceptance": "acceptance.json",
+    "complete_logs_and_notebook_outputs": true
+  },
+  "exact_next_action": "Run one final prepared-Codex destination acceptance at tested integration I, preserve historical controller at S, then receive locally with the PowerShell guide. Stop after checkpointing; do not reopen research.",
+  "reporting_files": [
+    "AGENTS.md",
+    "DAYBREAK-START.txt",
+    "connector-bridge/codex-resume-v13.json",
+    "docs/CODEX-V13-CURRENT-RESUME.md",
+    "docs/CODEX-V13-FINAL-INTEGRATION-RUN.md",
+    "docs/LOCAL-POWERSHELL-V13.md",
+    "docs/validation/MPC-V13-LOCAL-INTEGRATION-PASS.md",
+    "docs/validation/MPC-V13-LOCAL-INTEGRATION-VALIDATION.json",
+    "docs/validation/MPC-V13-LOCAL-INTEGRATION-EVIDENCE.zip",
+    "docs/validation/local-v13-evidence-index.json"
+  ]
+}

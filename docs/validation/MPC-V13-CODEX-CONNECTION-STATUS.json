@@ -1,0 +1,292 @@
+{
+  "version": "MPC_V13_CODEX_HANDOFF_CONNECTION_OBSERVATION_1",
+  "recorded_at_utc": "2026-10-09T06:05:51.960704+00:00",
+  "scope": "CURRENT_CHATGPT_SESSION_SOURCE_HANDOFF_AND_READ_ONLY_CONNECTION_CHECKS",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "development_branch": "feature/noahs-ark-reasoning-osi-v13",
+  "reporting_commit_read": "54e8d055aa6d71e1c91f33a7af9f282333890358",
+  "tested_executable_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "current_chatgpt_connections": {
+    "github": {
+      "status": "EXACT_SOURCE_READ_VERIFIED",
+      "branch_head": "54e8d055aa6d71e1c91f33a7af9f282333890358",
+      "native_state_blob": "fa80abb6b7336457cdf28e31890280a14e6c5deb",
+      "native_state_sha256": "d8ccd726902541cec0e468a0c3354781b7dadeecec1cc66754c20a13ba3d4508",
+      "write_scope": "Existing development branch only; publication is verified after the handoff commit is written."
+    },
+    "hosted_mpc": {
+      "status": "HOSTED_MCP_READY",
+      "runtime_version": "0.10.0-http.1",
+      "method_catalog_version": "1.2.0",
+      "implemented_evaluators": 24,
+      "research_hooks": 10,
+      "transformations": 17,
+      "protected_reads": [
+        "get_universal_contract",
+        "get_method_catalog:finite_invariant"
+      ],
+      "protected_reads_succeeded": true,
+      "protected_evaluator_this_update": "NOT_REPEATED_COMPLETED_NATIVE_MODEL_RECEIPTS_RETAINED",
+      "prior_evaluator_evidence": "docs/validation/MPC-V13-VALIDATION.json#live_controller",
+      "authentication_failure_observed": false,
+      "connector_dispatch": false,
+      "persistence_hosted": false,
+      "response_sha256": {
+        "runtime_status": "bb7610c7fe175e287b1d0825949bc4e84468a3f662ba025122c627a278904aa9",
+        "get_universal_contract": "94fcc7b378dbb9f6df888f1a35ff2d9a84d6dc5e87eb906b5550473a55f69142",
+        "finite_invariant_catalog": "8cbc92d9fdb78f2c54f3a3e1b872bdf7b32c52577b157f6be4258b986396c2ad"
+      }
+    },
+    "google_drive_workbook": {
+      "status": "NATIVE_SPREADSHEET_METADATA_READ_VERIFIED",
+      "native_id": "1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw",
+      "url": "https://docs.google.com/spreadsheets/d/1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw/edit",
+      "title": "MPC Noah's Ark — Method Reasoning V13 — DEVELOPMENT",
+      "tabs": [
+        "Ark Registry",
+        "OSI Reasoning",
+        "Outcome Scenarios",
+        "Source Pointers",
+        "Ark Dashboard"
+      ],
+      "earlier_same_conversation_cell_check": {
+        "registry_cells": 2390,
+        "differences": 0,
+        "scope": "Recorded in the preceding V13 status reconciliation; not repeated for this handoff update."
+      },
+      "response_sha256": "b2232be64e30b911e447047d9da6ff26c4de1b197d0ad1d0a9ece7c40b825568",
+      "canonical_controller_adjudicated": false
+    },
+    "google_drive_project_candidates": [
+      {
+        "id": "1-PkmF-4QLr5rZ4XTTxOjiBJlxZGkYFbvQypl69N6mhA",
+        "title": "01 - Social Deal Source Register - ACTUAL",
+        "mime_type": "application/vnd.google-apps.document",
+        "modified_time": "2026-10-08T20:29:01.989Z",
+        "version": null,
+        "source_visibility_status": "access_not_verified",
+        "status": "METADATA_RESPONSE_RECEIVED_CONTENT_AND_CANONICAL_CURRENCY_NOT_CHECKED",
+        "response_sha256": "3ca34b4b0dfc252608ea43e93ae9420b3ff4ce5bafc1d9dabd0b8da1de553aca"
+      },
+      {
+        "id": "1nLyRGtDf7DWMS3QGB28AvD9AFuG6n9JyhJ1Dy5-2n3s",
+        "title": "KOMOJU — Checkpoint 001 — Scope and High-Value Hooks — 2026-10-08",
+        "mime_type": "application/vnd.google-apps.document",
+        "modified_time": "2026-10-08T23:53:41.056Z",
+        "version": null,
+        "source_visibility_status": "access_not_verified",
+        "status": "METADATA_RESPONSE_RECEIVED_CONTENT_AND_CANONICAL_CURRENCY_NOT_CHECKED",
+        "response_sha256": "6100fec9981337cab7ec7ca4ece8ec5b3a85713e15567deae46484589dcd3fb6"
+      }
+    ],
+    "dash": {
+      "status": "SOURCE_INVENTORY_AND_BOUNDED_SEARCH_RESPONDED",
+      "query": "MPC",
+      "max_results": 3,
+      "results_returned": 3,
+      "relevant_source_statuses": [
+        {
+          "connector_type": "googledrive",
+          "connection_status": "connected",
+          "sync_state": "synced",
+          "last_successful_sync_time": "2026-10-09T06:01:20Z",
+          "upgrade_available": false
+        },
+        {
+          "connector_type": "dropbox",
+          "connection_status": "connected",
+          "sync_state": "synced",
+          "last_successful_sync_time": "2026-10-09T06:03:51Z",
+          "upgrade_available": false
+        }
+      ],
+      "source_inventory_sha256": "080a2632a1e2410d21e07f3de19701bb04b1cb1265a4e58d214444175d8b31e9",
+      "search_response_sha256": "a4f1dbafe3a327adf1df4884526755fbd70998f83526424c2c3e53edf96a1334",
+      "indexed_copy_is_independent_evidence": false
+    },
+    "native_dropbox": {
+      "status": "BOUNDED_SEARCH_SUCCEEDED_NO_MATCH",
+      "query": "MPC",
+      "search_mode": "title_only",
+      "max_results": 5,
+      "results_returned": 0,
+      "has_more": false,
+      "total_results": 0,
+      "native_mpc_backup_id_resolved": false,
+      "response_sha256": "2b64569dffadd3fcff602987a1cd7a042cc5b7bc6d600831428052389818f935"
+    }
+  },
+  "earlier_supervised_batch": {
+    "status": "INTERRUPTED_WITHOUT_INDIVIDUAL_RESULTS",
+    "duration_seconds_reported_by_tool": 433.8,
+    "tool_message": "aborted by user after 433.8s",
+    "interruption_requested_by": "SUPERVISING_ASSISTANT_AFTER_PROLONGED_NO_RESULT_WAIT",
+    "authentication_failure_observed": false,
+    "followup": "Direct root-session connector calls above succeeded; no credential repair was performed."
+  },
+  "resume_command_validation": {
+    "kind": "CODEX_V13_READ_ONLY_RESUME_COMMAND_VALIDATION",
+    "recorded_at_utc": "2026-10-09T05:59:18.190770+00:00",
+    "reporting_commit": "54e8d055aa6d71e1c91f33a7af9f282333890358",
+    "execution_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "checkout": "/workspace/scratch/7bb825adb9fb/codex-v13-update/tested-source",
+    "clean": true,
+    "state_path": "/workspace/scratch/7bb825adb9fb/codex-v13-update/tested-source/.sites-runtime/controllers/v13-resumed.state.json",
+    "native_state_blob": "fa80abb6b7336457cdf28e31890280a14e6c5deb",
+    "state_sha256": "d8ccd726902541cec0e468a0c3354781b7dadeecec1cc66754c20a13ba3d4508",
+    "state_bytes_unchanged": true,
+    "history_directory_created": false,
+    "native_model_calls": 0,
+    "native_checkpoint_writes": 0,
+    "dependency_installation": false,
+    "prepared_dependency_policy_matches": true,
+    "commands": [
+      {
+        "command": [
+          "node",
+          "--version"
+        ],
+        "exit_code": 0,
+        "started_at_utc": "2026-10-09T05:59:16.899425+00:00",
+        "result": "v24.19.0"
+      },
+      {
+        "command": [
+          "pnpm",
+          "--version"
+        ],
+        "exit_code": 0,
+        "started_at_utc": "2026-10-09T05:59:16.907286+00:00",
+        "result": "11.25.0"
+      },
+      {
+        "command": [
+          "node",
+          "scripts/noahs-ark-controller-cli.mjs",
+          "verify",
+          ".sites-runtime/controllers/v13-resumed.state.json"
+        ],
+        "exit_code": 0,
+        "started_at_utc": "2026-10-09T05:59:17.545186+00:00",
+        "result": {
+          "status": "LOCAL_CONTROLLER_PARITY_PASS",
+          "integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+          "source_authentication": false
+        }
+      },
+      {
+        "command": [
+          "node",
+          "scripts/noahs-ark-controller-cli.mjs",
+          "status",
+          ".sites-runtime/controllers/v13-resumed.state.json"
+        ],
+        "exit_code": 0,
+        "started_at_utc": "2026-10-09T05:59:17.744767+00:00",
+        "result": {
+          "controller_id": "MPC_NOAHS_ARK_V13_OPERATIVE_DEVELOPMENT",
+          "revision": 1,
+          "event_sequence": 6,
+          "integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+          "configuration_fingerprint": "2ca1ff22cd5363135702a6b41fb4504c04c910ea3c4a9b218604de6a626f584f",
+          "execution_source": {
+            "actual_git_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+            "working_tree_dirty": false,
+            "controller_source_fingerprint": "81d36bf20c8915e5d5ee0b15102fef485beb8f328e2a2166309dbc1c3cb4d7c4",
+            "source_authentication": false
+          },
+          "candidates_considered": 239,
+          "current_tasks": 4,
+          "completed_current_tasks": 4,
+          "retained_receipts": 6,
+          "source_authentication": false,
+          "canonical_promotion": false,
+          "status": "COMPLETE",
+          "action": null,
+          "scope": "BOUNDED_MODEL_RUN_AND_NATIVE_CHECKPOINT_PARITY",
+          "receipt_trust": "HOST_SUPPLIED_CONTENT_PARITY_ONLY",
+          "native_checkpoint": {
+            "namespace": "GITHUB",
+            "native_id_type": "string",
+            "native_id": "mjcustomcomputers-dotcom/Machine-Bug-Tool:docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+            "version": "047b2adcd2172374d25878998eebb3b089b6488d"
+          },
+          "content_sha256": "48cba3de818aedbcc8d606676f653c13867fad58469e9163de5550034b35c984",
+          "target_finding": false
+        }
+      },
+      {
+        "command": [
+          "node",
+          "scripts/noahs-ark-controller-cli.mjs",
+          "next",
+          ".sites-runtime/controllers/v13-resumed.state.json"
+        ],
+        "exit_code": 0,
+        "started_at_utc": "2026-10-09T05:59:17.962771+00:00",
+        "result": {
+          "controller_id": "MPC_NOAHS_ARK_V13_OPERATIVE_DEVELOPMENT",
+          "revision": 1,
+          "event_sequence": 6,
+          "integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+          "configuration_fingerprint": "2ca1ff22cd5363135702a6b41fb4504c04c910ea3c4a9b218604de6a626f584f",
+          "execution_source": {
+            "actual_git_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+            "working_tree_dirty": false,
+            "controller_source_fingerprint": "81d36bf20c8915e5d5ee0b15102fef485beb8f328e2a2166309dbc1c3cb4d7c4",
+            "source_authentication": false
+          },
+          "candidates_considered": 239,
+          "current_tasks": 4,
+          "completed_current_tasks": 4,
+          "retained_receipts": 6,
+          "source_authentication": false,
+          "canonical_promotion": false,
+          "status": "COMPLETE",
+          "action": null,
+          "scope": "BOUNDED_MODEL_RUN_AND_NATIVE_CHECKPOINT_PARITY",
+          "receipt_trust": "HOST_SUPPLIED_CONTENT_PARITY_ONLY",
+          "native_checkpoint": {
+            "namespace": "GITHUB",
+            "native_id_type": "string",
+            "native_id": "mjcustomcomputers-dotcom/Machine-Bug-Tool:docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+            "version": "047b2adcd2172374d25878998eebb3b089b6488d"
+          },
+          "content_sha256": "48cba3de818aedbcc8d606676f653c13867fad58469e9163de5550034b35c984",
+          "target_finding": false
+        }
+      }
+    ],
+    "scope": "CURRENT_CHATGPT_EXECUTION_HOST_NOT_A_DESTINATION_CODEX_TASK"
+  },
+  "destination_codex": {
+    "task_id": null,
+    "environment_id": null,
+    "source_checkout": "NOT_OBSERVED_IN_DESTINATION",
+    "source_execution": "NOT_OBSERVED_IN_DESTINATION",
+    "mpc_tool_exposure": "NOT_OBSERVED_IN_DESTINATION",
+    "protected_authentication": "NOT_OBSERVED_IN_DESTINATION",
+    "native_source_tools": "NOT_OBSERVED_IN_DESTINATION",
+    "cloud_task_control_in_updating_chat": "UNAVAILABLE",
+    "codex_cli_in_updating_host": "NOT_INSTALLED",
+    "daybreak_blue_selection": "NOT_OBSERVED",
+    "instruction": "Run the current resume guide in the existing Codex task and record its actual capabilities; preserve historical successful calls separately."
+  },
+  "preservation": {
+    "saved_install_script": "UNCHANGED",
+    "saved_start_skill": "UNCHANGED",
+    "saved_wrangler_override": "UNCHANGED",
+    "dependency_reinstallation": false,
+    "full_test_suite_rerun": false,
+    "native_model_calls_repeated": 0,
+    "existing_controller_reinitialized": false,
+    "canonical_native_sources_written": false,
+    "site_deployed": false,
+    "environment_republished": false,
+    "branches_merged": false,
+    "external_targets_tested": false,
+    "bounty_reports_submitted": false
+  },
+  "receipt_trust": "HOST_RECORDED_TOOL_OBSERVATIONS_AND_CONTENT_PARITY; NO TRANSFERRED_AUTHENTICATION_OR_SECURITY_FINDING",
+  "next_action": "Read docs/CODEX-V13-CURRENT-RESUME.md in the existing Codex task, restore exact saved state at tested source, check actual destination capabilities, and leave unchanged COMPLETE work intact."
+}

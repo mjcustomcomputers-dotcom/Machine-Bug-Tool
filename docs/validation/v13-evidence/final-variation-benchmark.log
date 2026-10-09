@@ -1,0 +1,29 @@
+{
+  "kind": "OFFLINE_SYNTHETIC_V8_PERSISTENT_CACHE_BENCHMARK",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "architecture": "x64",
+  "execution_scope": "CURRENT_NODE_HOST_NOT_A_CODEX_CLOUD_OR_DAYBREAK_ATTESTATION",
+  "database": "NODE_SQLITE_TEMPORARY_FILE",
+  "methods": 239,
+  "atoms_per_query": 1,
+  "slots_per_query": 956,
+  "initialization_ms": 64.9391,
+  "first_consideration_ms": 30.4328,
+  "first_consideration_samples": 1,
+  "first_rows_written": 956,
+  "reopened_database_cache_verified": true,
+  "warmup_runs": 10,
+  "runs": 200,
+  "cached_ms": {
+    "p50": 34.8284,
+    "p95": 42.9107,
+    "max": 60.6796
+  },
+  "cached_rows_written": 0,
+  "retained_rows": 956,
+  "no_network_actions": true,
+  "no_method_execution": true,
+  "source_authentication": false,
+  "disclaimer": "Synthetic planning/cache latency on this host. Cached percentiles include the validated persistence path; exclude process startup and initial atlas seeding. Not target traffic, a Cloud model-selection receipt, an SLA, or physical hardware acceleration."
+}

@@ -31,7 +31,7 @@ test('Read-only audit-seed reports semantic drift without altering the corrupted
   assert.equal(receipt.no_external_actions,true);
   const reject=run(path,'status');
   assert.notEqual(reject.status,0);
-  assert.match(reject.stderr,/ATLAS_SEMANTIC_DRIFT_REBUILD_PRIVATE_CACHE_REQUIRED/);
+  assert.match(reject.stderr,/ATLAS_CACHE_CONTENT_DRIFT_REBUILD_PRIVATE_CACHE_REQUIRED/);
   const after=new DatabaseSync(path,{readOnly:true});
   try{assert.equal(after.prepare('SELECT method_name FROM atlas_methods WHERE method_id=?').get('MHA-0001').method_name,'Altered method canary')}
   finally{after.close()}

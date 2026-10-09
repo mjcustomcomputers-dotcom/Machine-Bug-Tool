@@ -1,0 +1,110 @@
+{
+  "git_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "git_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
+  "worktree_dirty": false,
+  "worktree_status": [],
+  "node_version": "v24.19.0",
+  "python_version": "3.12.14",
+  "started_at": "2026-10-09T05:29:24.674206+00:00",
+  "source_identity_scope": "Actual local files at execution; a dirty worktree is not the recorded commit alone.",
+  "cache_path": "/workspace/scratch/5676560dc515/Machine-Bug-Tool/.sites-runtime/noahs-ark-v13-notebook-f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b.sqlite",
+  "cache_fingerprint": "f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b",
+  "cache_identity": {
+    "version": "MPC_NOAHS_ARK_NOTEBOOK_CACHE_V1",
+    "input_sha256": {
+      "source": "13f96c68344a029c48020f36cecf430cb173f2857cd4f195ac1f2c6cf1e123a9",
+      "schema": "da6609f263a8d0f064989df38bc555d9c0187bac3a91bcd87fb99d7f2eb1223f",
+      "catalog": "3c0a0f6577e37ac15575a9b1917e5527154cae6e8c07ed7750720bec885cc56b",
+      "taxonomy": "2e8c0f0d5df2798277e30060aa92e21ffde665ca33f30a3910cf5bc8f8d1d9b0"
+    },
+    "node_version": "v24.19.0"
+  },
+  "cache_inputs": {
+    "source": {
+      "sha256": "13f96c68344a029c48020f36cecf430cb173f2857cd4f195ac1f2c6cf1e123a9",
+      "files": {
+        "lib/atlas-seed-parity.mjs": "a04cf7ae04959120ea66bc1933edab150b28aab835054611dc34ed5408e809ef",
+        "lib/atomic-framework.json": "e722df707852f7e6074b6b4d81810bfa18950d7028c35e3d914660531f283fa8",
+        "lib/atomic-method-detector.mjs": "0bef71405e8893df823ab1e3197de7a2b4cfae7431cc6a25c16218870dc79af8",
+        "lib/atomic-models.mjs": "5f5e2ee7fce02d4c33831bbb2ddd701d534f5437e9c56a9ceada57224d1d9400",
+        "lib/atomic-review.mjs": "72916269900f9f95b73b0e4d7c3fa81c2bfaad37ca1fcb2e690ffe279c9ca6c9",
+        "lib/atomic-source-pointers.json": "271acd4262e9d970f787d0800f1e353a53d7dfb42c0d604913a3ce50e0ee2452",
+        "lib/atomic-variation-router.mjs": "f8379a2ca050a408f69fb1e6be729375299bd941577b726c7d24cc9d6eeac2e8",
+        "lib/audience-output.mjs": "de4a23f39dfe66444e182e07a92dbe6f817f2d526fc0b21e86b4069364db7f92",
+        "lib/backup.mjs": "cebafe24b1db4d4b17badd2951928e4a99dcff83e34fd9d1ad3995abaaf5f84b",
+        "lib/chatgpt-connector-bridge.mjs": "b9805ce911d30b2788447334a12cbff603e3956e08bef306653818f21a72b034",
+        "lib/connector-native-frontier.mjs": "2ef7877595038cf75cf775f86699eeb59f33cb39aa9f5dbea0c998c2baf96352",
+        "lib/deferred-models.mjs": "c01d9de2131c7cd812f4455aee08be402693b5c4663ae4752624827bb2f90c9f",
+        "lib/evidence-intent-review.mjs": "e6ffeb0c8588a0844b38f8d821bfd6d05f22a30e9ae2ba12ff9b26d8b72c68ab",
+        "lib/field-manual.json": "6415f9d084b6c2f534485735f1f3538ae8f76f72957f8ada52bcfdd02c2589ec",
+        "lib/forensic-models.mjs": "321f91e54b43b461a4f4300d36f0cde89ee8902605aac47b4eb362eae1f14ba6",
+        "lib/forensic-source-pointers.json": "17494ff0e93a7768edf100298477ea3b66809fed7904ca625ecd890ce45d412f",
+        "lib/mcp.mjs": "a37580e3c637f9dff8266413bc22adbdbdfee248fa8e32e7159caa6797bae20a",
+        "lib/method-ark-text.json": "03cb3bca39f4b856cbaf52a157861ba5d1f5ef6070aa611ef1fed8cd5232ddd7",
+        "lib/method-ark.mjs": "262ac52c7184776285a6c421bdc8c48e0ebf45dc3d22363683386baed51719ac",
+        "lib/method-atlas-router.mjs": "1e60516d1bd9bbcb8906ebdd876ffbbe40b3f39879a4afb65d5e038a2142691d",
+        "lib/method-diagnostic.mjs": "2c0c8ef141eb9f50ff16549e4dd185df62b9f57da625d5f6eb4a1e77fa1628b6",
+        "lib/method-hook-cascade.mjs": "405094e54a82e4d5ec08e109dc0dfd77fdec9939e69532077a6c37be969d4868",
+        "lib/method-hooks.json": "ae8640a9c0dd85eca98505a27124c8e3839470f02abd7b274d744c6e36d75187",
+        "lib/method-overlay.json": "952476051a85af31b77cb3a0ef6ee9887b0afb86e661484c24760993137a8f4c",
+        "lib/method-reclassification.mjs": "74e1cf1d854d963bd16c5536694c5a73cd75202f10c806538b9214899083f770",
+        "lib/methods.mjs": "1236c83eebefd95ea8f7d70fc7ad944d3520a60b6febd5b5edb011c12c7a756e",
+        "lib/native-mirror-dimension-audit.mjs": "81b6fd417abfe5030a6b30b13f6de9d1717a9a2c282f8ad851612881afeed67f",
+        "lib/noahs-ark-controller.mjs": "858dac2a9acad2799d312072c5439eb642a2a9e3ce1ed467a9db66e096a3904c",
+        "lib/noahs-ark-reasoning.mjs": "9f08918541453fdf3d7b9225e514f71b9e78d29552da29458aa920a297ff9e5a",
+        "lib/registry-bundle.json": "c3aaf4530f52998921745458596b8840f503158738ce13cb3d154ab8a4a230c9",
+        "lib/research-registry.json": "5b2d6d67f12a91d3de9a22a1dd1ae9a1fd2f641a5bdad3b654bb62b9a3119baf",
+        "lib/research.mjs": "d5024cda8aa26768faafca646ac2260c7077f218bc1b51c954e8da83621b9362",
+        "lib/reverse-goal-traversal.mjs": "da3f2a56ba7ee034ac0149ffff1867af5056dc563b25af47fba7b0d3bf6e2968",
+        "lib/review-bridge.mjs": "d768411687a4690fe1182e2a888f9dd53dd4e3fdd62b8db979bddab7b78a5714",
+        "lib/schema.mjs": "911de9caf890df62197a5a3d5f2e38b4e98b7ad242cd677e9efad50912f72afb",
+        "lib/schemas.json": "598cd00177f6d9a30a7f3b38d084aeb6949afe41abbcb2efd8714b10221ac242",
+        "lib/solid-state-pack.json": "08ff14056c3534d57540076535e8bf66acabb2dc09a10475a504fa810c7a27e5",
+        "lib/solid-state.mjs": "900639b8989d54ef356510df5d1aeef52d76fdb56c0e1859580e4992b5a8794d",
+        "lib/sqlite-method-strategy.mjs": "9b128a7466f190cccd1b8182e2db151f191b2c982578b3bfe38e1b10394ae106",
+        "lib/tools.mjs": "8d5ea7fc85c824f3fcffec9bb5c4ab0ede3a8d936e060a79c11fdc715e670f6c",
+        "lib/typed-references.mjs": "da9037e5784fde98354a4107b821312e3a13b331cf04d584f54e466752fc7f7d",
+        "lib/universal-bridge-text.json": "b5c577736c290e7d8c5a99964c84698c5b06d62b94bec54735997eaa30b27966",
+        "lib/universal-router.mjs": "639575fc50fcce37b039b3c6dbc4cbdeadc238a20123878e6a014785156b02b3",
+        "lib/universal.mjs": "0b44e9b90ffcb2af6f51f3db250ee29c2b50e624ff20c568735e6a2de97fda3e",
+        "scripts/method-atlas-cli.mjs": "f2b4790309089393f6b0276ace0d2d52dcd2a2ad14bcc3b3b5f3791f7ae9107d"
+      }
+    },
+    "schema": {
+      "sha256": "da6609f263a8d0f064989df38bc555d9c0187bac3a91bcd87fb99d7f2eb1223f",
+      "files": {
+        "method-atlas/schema.sql": "d6e512d85068f01bda4fb1a3835e052e8080ba5aa755ac3c254a925016e20b57"
+      }
+    },
+    "catalog": {
+      "sha256": "3c0a0f6577e37ac15575a9b1917e5527154cae6e8c07ed7750720bec885cc56b",
+      "files": {
+        "method-atlas/candidates.json": "723a82ad5a2cadd36391899c56be510c3906d00fa8c711e6f26befb9569e65e1",
+        "method-atlas/expansion-2026-v2.json": "8127c9a323e3e5aeead4dadf26f4ed5492329a4568bb59207d0aeb4d0ef20f27",
+        "method-atlas/expansion-abnormal-meta-v6.json": "4075eb5846a36d7a70bd2769013b1300a7812513896838228b32eab1e07c4a23",
+        "method-atlas/expansion-computation-schools-v4.json": "cfb2b5b50179b92670032269ee1e52fc6af81c4d39fc62bd1ce4d05e31f5a4bc",
+        "method-atlas/expansion-evidence-intent-v3.json": "db15def168f036a845f0442a944fd838e8a1150a40ee811e644bb5d0393608d4",
+        "method-atlas/expansion-nasa-chip-cloud-v5.json": "137785528e4cfc490253336bf6da2ea495b017ad6a6ee0905a185d14489e1d95",
+        "method-atlas/expansion-optical-v8.json": "58ce4c8e26a91ee0a1da32ab06f142bd3db2c874a91a76c0421df1f97e901fe3",
+        "method-atlas/method-relations.json": "e33a84e4d5b690df0ab78e53f4fadfa270b0f063a82d4fc6b5267ed9ea90a9cb"
+      }
+    },
+    "taxonomy": {
+      "sha256": "2e8c0f0d5df2798277e30060aa92e21ffde665ca33f30a3910cf5bc8f8d1d9b0",
+      "files": {
+        "lib/method-reclassification.mjs": "74e1cf1d854d963bd16c5536694c5a73cd75202f10c806538b9214899083f770",
+        "method-atlas/reclassification-policy-v7.json": "d2f35b5115a7dc8df913c4c62d3f1ab7c8c653361c4d42831890e11dc67b13ae"
+      }
+    }
+  },
+  "cache_existed_at_start": false,
+  "admitted_atlas_fingerprints": {
+    "seed_fingerprint": "eae7dbb4dee41ec7e518f0587b2717abe6f503d1a610ac19f850e42a5f8544e5",
+    "schema_fingerprint": "0c2c81d94be45fff16d8734a86e264936528bf191794230feedd69a57458abe1",
+    "content_fingerprint": "af82723fa59894cc5309b3102f1d3f088a0e4d5e2ae67aebf66a67fa53cc76f5",
+    "taxonomy_policy_sha256": "d2f35b5115a7dc8df913c4c62d3f1ab7c8c653361c4d42831890e11dc67b13ae",
+    "taxonomy_compiler_sha256": "74e1cf1d854d963bd16c5536694c5a73cd75202f10c806538b9214899083f770"
+  },
+  "cache_inputs_stable_through_execution": true,
+  "completed_at": "2026-10-09T05:29:25.470650+00:00"
+}

@@ -1,0 +1,312 @@
+{
+  "kind": "MPC_V13_CODEX_FINAL_ENGINEERING_ACCEPTANCE",
+  "version": "MPC_V13_CODEX_FINAL_ACCEPTANCE_1",
+  "recorded_at_utc": "2026-10-09T07:29:00Z",
+  "status": "PASS",
+  "scope": "FINAL_BOUNDED_ENGINEERING_ACCEPTANCE_RESEARCH_STOPPED",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "development_branch": "feature/noahs-ark-reasoning-osi-v13",
+  "identities": {
+    "reporting_input": {
+      "role": "R_READ_CURRENT_INSTRUCTIONS_AND_PRIOR_RECEIPTS",
+      "commit": "18cfa9ac07640dc3d7305087b4eef13892a0e037",
+      "tree": "7196205131ce41ecd22fe5de16435af984629548",
+      "remote_branch_matched_expected_at_fetch": true
+    },
+    "recorded_integration": {
+      "role": "I_ORIGINAL_TESTED_LOCAL_RECEIVER_INTEGRATION",
+      "commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+      "tree": "14365cf138ecc5aed01197bebb8e67fb670b5c1c",
+      "validation_agreed": true
+    },
+    "tested_source": {
+      "role": "BOUNDED_REPAIRED_RECEIVER_SOURCE",
+      "commit": "e0e7a7ad0f06d45470b4a396a72aef0434f7caed",
+      "tree": "ba0223afe9265bcfe3f692f94dc108b1128c1c78",
+      "parent": "18cfa9ac07640dc3d7305087b4eef13892a0e037",
+      "working_tree_status_after_tests_before_reporting_files": "CLEAN",
+      "exact_next_source_commit": true
+    },
+    "historical_controller": {
+      "role": "S_EXISTING_SAVED_CONTROLLER_EXECUTION_ONLY",
+      "commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
+      "historical_validation_resume_manifest_and_saved_state_agreed": true
+    },
+    "containing_reporting_checkpoint": {
+      "commit_rule": "Resolve the native Git commit containing this exact receipt on feature/noahs-ark-reasoning-osi-v13. The expected-head write must start from 18cfa9ac07640dc3d7305087b4eef13892a0e037 and the saved bytes must be read back from the resulting remote ref.",
+      "tested_source_remains": "e0e7a7ad0f06d45470b4a396a72aef0434f7caed"
+    }
+  },
+  "repair": {
+    "demonstrated": true,
+    "defect": "receiveController normalized options.destination with path.resolve before testing isAbsolute, so a caller-supplied relative destination could never reach the intended absolute-input rejection.",
+    "safe_reproduction": {
+      "test": "relative destination is rejected before worktree creation",
+      "pre_fix_exit_status": 1,
+      "pre_fix_observed_error": "RECEIVER_DESTINATION_PARENT_REQUIRED",
+      "expected_error": "RECEIVER_ABSOLUTE_DESTINATION_REQUIRED",
+      "missing_parent_prevented_worktree_creation": true
+    },
+    "fix": "Check isAbsolute(options.destination) before accepting the normalized path, then apply the existing outside-source boundary check to the normalized destination.",
+    "changed_source_files": [
+      {
+        "path": "scripts/receive-mpc-v13.mjs",
+        "git_blob": "715a2f6fea356ca4365f5c8bf94f1dbe6effb40d",
+        "sha256": "3aa15f29a1155bfde801339a00dd025f56c612678cda7ea153cdab2b8f71d946"
+      },
+      {
+        "path": "tests/receive-mpc-v13.test.mjs",
+        "git_blob": "e3b0eacb364264485dc94db7b0c11ddd920fac17",
+        "sha256": "c16979724e46a4eed7121a3498caa06b11215f0d9ced52b3bd93528bb1e03096"
+      }
+    ],
+    "other_runtime_behavior_changed": false,
+    "real_receive_repeated_after_repair": false,
+    "reason_not_repeated": "The successful real receive used an absolute destination. The repair affects only rejection of caller-supplied relative destinations; the new isolated regression and full suite cover it without replaying historical receipt work."
+  },
+  "receiver": {
+    "status": "LOCAL_CONTROLLER_RECEIVE_PASS",
+    "receiver_source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+    "reporting_metadata_commit": "18cfa9ac07640dc3d7305087b4eef13892a0e037",
+    "destination": "/workspace/Machine-Bug-Tool-v13-received-codex-18cfa9a",
+    "receipt_path": "/workspace/Machine-Bug-Tool-v13-received-codex-18cfa9a/.sites-runtime/receive-v13/receipt.json",
+    "receipt_recorded_at_utc": "2026-10-09T07:17:24.549Z",
+    "receipt_exact_readback": true,
+    "historical_execution_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "state": {
+      "blob": "fa80abb6b7336457cdf28e31890280a14e6c5deb",
+      "bytes": 591514,
+      "sha256": "d8ccd726902541cec0e468a0c3354781b7dadeecec1cc66754c20a13ba3d4508",
+      "integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+      "bytes_and_history_after_verify_status_next": "UNCHANGED"
+    },
+    "commands": [
+      {"command": "verify", "exit_status": 0},
+      {"command": "status", "exit_status": 0},
+      {"command": "next", "exit_status": 0}
+    ],
+    "controller_status": "COMPLETE",
+    "revision": 1,
+    "event_sequence": 6,
+    "completed_model_obligations": 4,
+    "retained_receipts": 6,
+    "next_action": null,
+    "new_model_calls": 0,
+    "new_controller_events": 0,
+    "original_checkout_head_before_and_after": "97704161bfc2c3f0af42ead986dbfb7b405c8c5c",
+    "original_checkout_head_and_porcelain_status_unchanged": true
+  },
+  "validation": {
+    "focused_integration_at_i": {
+      "tests": 86,
+      "suites": 0,
+      "pass": 86,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "initial_full_at_i": {
+      "tests": 405,
+      "suites": 0,
+      "pass": 405,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "final_affected_receiver_at_tested_source": {
+      "tests": 10,
+      "suites": 0,
+      "pass": 10,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "final_full_at_tested_source": {
+      "tests": 406,
+      "suites": 0,
+      "pass": 406,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 13289.684029
+    },
+    "final_build_at_tested_source": {
+      "exit_status": 0,
+      "wrangler_override": "/workspace/Machine-Bug-Tool-v13-integration-a18a040f/.sites-runtime/config",
+      "observations": [
+        "Existing proxy-environment warning emitted.",
+        "Framework reported an unknown static route classification; build completed."
+      ]
+    },
+    "failure_coverage": {
+      "cross_drive_and_unc": "LEXICAL_WINDOWS_PATH_COVERAGE_ON_LINUX; NATIVE_WINDOWS_NOT_RUN",
+      "linked_paths": "POSIX_SYMLINK_RUN; WINDOWS_JUNCTION_BRANCH_NOT_RUN",
+      "occupied_destination": "PASS_SENTINEL_PRESERVED",
+      "dirty_source": "PASS_UNTRACKED_FILE_STATUS_AND_LOCAL_AUTOCRLF_PRESERVED",
+      "tampered_state": "PASS_REJECTED_BEFORE_DESTINATION",
+      "controller_failure": "PASS_NONZERO_CHILD_PERSISTED_FAILED_RECEIPT",
+      "receipt_persistence_failure": "PASS_STAGED_FSYNC_FAILURE_LEFT_NO_FINAL_PASS_AND_OCCUPIED_RECEIPT_UNCHANGED",
+      "transport_encoding_and_size": "PASS_UTF8_BOM_UTF16_INVALID_MALFORMED_NONOBJECT_EMPTY_AND_4_MIB_BOUNDARY",
+      "rejected_transport_cache_preservation": "PASS"
+    }
+  },
+  "atlas": {
+    "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+    "fresh_cache": "/workspace/Machine-Bug-Tool-v13-integration-a18a040f/.sites-runtime/final-codex-acceptance/atlas-18cfa9a.sqlite",
+    "commands": ["init", "status", "audit-seed", "sql-audit", "dimension-audit"],
+    "exit_statuses": [0, 0, 0, 0, 0],
+    "methods": 239,
+    "paired_classifiers": 239,
+    "sources": 65,
+    "used_primary_source_ids": 64,
+    "triggers": 478,
+    "crosswalk_rows": 444,
+    "method_relations": 212,
+    "taxonomy_rows": 2597,
+    "semantic_parity": {"status": "ATLAS_CONTENT_PARITY_PASS", "tables": 7, "rows": 4274, "mismatches": []},
+    "sqlite_quick_check": "ok",
+    "foreign_key_violations": 0,
+    "variation_semantics": {
+      "baseline_slots": 956,
+      "formula": "239 methods x 2 directions x 2 evidence boundaries",
+      "persistent_reopen": true,
+      "unchanged_repeat_new_rows": 0,
+      "historical_rewind": true,
+      "subject_identity_boundary": true,
+      "source_role_boundary": true,
+      "changed_single_method_slots_reopened": 4,
+      "considerations_are_executed_evaluators": false
+    },
+    "dimension_audit_status": "REPORTED_DIMENSION_COUNT_UNRESOLVED",
+    "reported_dimension_count": 356,
+    "reported_dimension_registry_owner": "UNSPECIFIED",
+    "reported_dimension_accepted_as_canonical": false,
+    "unused_source_id": "V6_METAMORPHIC",
+    "catalog_expansion_performed": false,
+    "canonical_registry_modified": false
+  },
+  "notebook": {
+    "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+    "status": "PASS",
+    "execution_mode": "SHARED_PYTHON_NAMESPACE_NOT_JUPYTER_KERNEL",
+    "cells_total": 5,
+    "cells_executed": 5,
+    "cells_passed": 5,
+    "cells_failed": 0,
+    "cells_not_run": 0,
+    "source_sha256_before_and_after": "30607f5668d87f3eaf824aad8e25adccbde8ef694395ae8818490e3f48c4cf7c",
+    "actual_node_subprocess_receipts": true,
+    "scenarios": [
+      {"name": "Synthetic ledger finality", "status": "EVIDENCE_REVIEW_PLAN_ONLY", "candidates": 239, "reasoning_layers": 7},
+      {"name": "Cloud configuration — unknown inputs", "status": "BLOCKED_NO_READY_METHOD", "candidates": 239, "reasoning_layers": 7},
+      {"name": "Casino meter — source unavailable", "status": "BLOCKED_NATIVE_SOURCE", "candidates": 239, "reasoning_layers": 7}
+    ],
+    "run_repeated": false,
+    "native_drive_workbook": "NOT_REREAD_OR_CHANGED_THIS_TASK; FOUR_HISTORICAL_AUTHORED_ROWS_PRESERVED"
+  },
+  "benchmarks": {
+    "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+    "source_tree": "14365cf138ecc5aed01197bebb8e67fb670b5c1c",
+    "worktree_status_at_run": "CLEAN",
+    "node": "v24.19.0",
+    "os": "Linux 6.18.44",
+    "architecture": "x86_64",
+    "detector": {"warmups": 10, "runs": 500, "p50_ms": 0.5823, "p95_ms": 0.9332, "max_ms": 2.663},
+    "variation": {"warmups": 10, "runs": 500, "initialization_ms": 52.9242, "first_consideration_ms": 25.0002, "first_rows_written": 956, "cached_p50_ms": 27.05, "cached_p95_ms": 33.3731, "cached_max_ms": 45.5615, "cached_rows_written": 0, "retained_rows": 956},
+    "scope": "OFFLINE_SYNTHETIC_PLANNING_AND_CACHE_MEASUREMENT; NOT_TARGET_IMPACT_HOSTED_MPC_LATENCY_DAYBREAK_SELECTION_SLA_OR_HARDWARE_SPEEDUP",
+    "repeat_performed": false
+  },
+  "preservation": {
+    "daybreak_original_entries": {"checked": 182, "unchanged": 182, "mismatches": [], "total_bytes": 3412494, "modes": {"100644": 178, "100755": 4}},
+    "original_native_source_commit_available_for_rederivation": false,
+    "manifest_expectation_matched_s_i_r_and_tested_source": true,
+    "native_sites_binding_changed": false,
+    "package_manifest_changed": false,
+    "lockfile_changed": false,
+    "workspace_dependency_policy_changed": false,
+    "historical_controller_changed": false,
+    "saved_state_changed": false,
+    "checkpoint_changed": false,
+    "historical_validation_changed": false,
+    "prior_receipts_changed": false,
+    "drive_or_dash_record_changed": false,
+    "deployment_performed": false,
+    "canonical_research_write_performed": false,
+    "bounty_target_contacted": false,
+    "report_submitted": false,
+    "merge_performed": false
+  },
+  "capabilities": {
+    "github": {
+      "git_fetch": "PASS",
+      "exact_object_read": "PASS",
+      "api_tool_exposure": "UNAVAILABLE",
+      "checkpoint_update_rule": "EXPECTED_HEAD_EQUALS_18cfa9ac07640dc3d7305087b4eef13892a0e037; NO_FORCE_OVER_CONCURRENT_CHANGE",
+      "receipt_readback_rule": "READ_EXACT_SAVED_BYTES_FROM_UPDATED_NATIVE_REMOTE_REF"
+    },
+    "mpc": {"tool_exposure": "UNAVAILABLE", "protected_call": "NOT_RUN", "authentication_failure_observed": false},
+    "drive": {"tool_exposure": "UNAVAILABLE", "protected_call": "NOT_RUN", "authentication_failure_observed": false},
+    "dash": {"tool_exposure": "UNAVAILABLE", "protected_call": "NOT_RUN", "authentication_failure_observed": false},
+    "dropbox": {"tool_exposure": "UNAVAILABLE", "protected_call": "NOT_RUN", "authentication_failure_observed": false},
+    "prior_successful_connection_evidence": [
+      {"path": "docs/validation/MPC-V13-CODEX-CONNECTION-STATUS.json", "blob": "a7d6d12aa2df442ebd6a461c34ce4f1be8b5a5a1", "scope": "PRIOR_SESSION"},
+      {"path": "docs/validation/MPC-V13-CODEX-DESTINATION-REPORT.json", "blob": "a8607cd2423110a0ce7820e14becfde2925adaba", "scope": "PRIOR_USER_SUPPLIED_CODEX_TASK"},
+      {"path": "docs/validation/MPC-V13-SESSION-BOOT-20261009-0626Z.json", "blob": "9c2f0054a9645102beb4168a45697f396e28356d", "scope": "PRIOR_SESSION"}
+    ],
+    "model": {
+      "selector_exposed_this_task": false,
+      "actual_selection_this_task": "NOT_OBSERVED",
+      "preserved_user_report": "Model changed from GPT-6.1 Sol to Daybreak Blue",
+      "preserved_user_report_scope": "PRIOR_UI_EVENT_NOT_CURRENT_TASK_OR_PER_COMMAND_ATTESTATION"
+    }
+  },
+  "windows": {
+    "windows_native_run": "NOT_RUN",
+    "host": "LINUX",
+    "powershell_available": false,
+    "static_wrapper_review": "PASS_WITH_NATIVE_WINDOWS_GAP",
+    "sysinternals": {
+      "role": "OPTIONAL_NATIVE_DIAGNOSTIC_EVIDENCE_SEPARATE_FROM_RECEIVER_PASS",
+      "availability_this_host": "NOT_AVAILABLE_LINUX_HOST",
+      "expected_existing_tools": ["sigcheck64.exe", "junction64.exe", "handle64.exe"],
+      "installation_or_download_performed": false,
+      "windows_receipt": "NOT_RUN",
+      "guide": "docs/LOCAL-POWERSHELL-V13.md"
+    },
+    "first_local_receiving_action": "& node $MpcReceiver inspect --repository $MpcRepository --reporting-commit 18cfa9ac07640dc3d7305087b4eef13892a0e037",
+    "failure_guard": "if ($LASTEXITCODE -ne 0) { throw 'Source inspection failed; no receive was performed.' }",
+    "next_if_inspect_passes": "Run receive exactly once with a new unused absolute sibling destination."
+  },
+  "remaining_dependencies": [
+    "Actual Windows/NTFS execution, including cross-drive, UNC/SMB, junction, hard-link publication and the optional Sysinternals receipt, remains unrun.",
+    "MPC, Drive, Dash and Dropbox tools are not exposed in this task; current protected authentication was not tested and no authentication failure was observed.",
+    "The Daybreak selector is not exposed in this task; the prior user-reported Daybreak Blue UI event remains separately attributed.",
+    "The package pin remains pnpm@11.25.0 while the fallback pnpm currently on PATH reports 11.19.0; no install or Corepack materialization was authorized or performed.",
+    "The exact native owner of the reported 356 dimensions, the NESTMAX 174/160 descriptor discrepancy and unused V6_METAMORPHIC source remain unresolved.",
+    "The original native source commit named by the Daybreak import is absent locally, so the 182-entry expectation was verified against its committed manifest and every retained S/I/R/tested tree rather than rederived from that missing commit.",
+    "Receipt readback is proven; the receiver does not fsync the containing directory after hard-link publication, and unsupported hard-link filesystems may prevent persistence of both PASS and fallback failure receipts.",
+    "Windows path alias equivalence beyond symlink/junction rejection, including mapped-drive or other filesystem aliases, has no native-host proof.",
+    "The pre-existing duplicate RESOURCE key in parentByDimension remains unchanged; internal parity proves bundle/cache agreement, not external semantic correctness."
+  ],
+  "evidence": {
+    "path": "docs/validation/v13-codex-final-acceptance-20261009",
+    "raw_archive": {"path": "RAW-EVIDENCE.zip", "bytes": 558427, "sha256": "8eeac25e8a196e9838164ca15ce099309613633b5e5bd1a9ca197effa8dc7007", "integrity_test": "PASS"},
+    "index": "EVIDENCE-INDEX.json",
+    "command_manifest": "COMMAND-MANIFEST.json",
+    "host_receipt": "HOST-RECEIPT.json",
+    "pass": "MPC-V13-CODEX-FINAL-ACCEPTANCE-PASS.md"
+  },
+  "exact_resume": {
+    "read_reporting_documents_from": "ACTUAL_LATEST_NATIVE_DEVELOPMENT_BRANCH_HEAD_AFTER_EXPECTED_HEAD_READBACK",
+    "execute_receiver_and_source_checks_from_commit": "e0e7a7ad0f06d45470b4a396a72aef0434f7caed",
+    "execute_historical_saved_controller_only_from_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "controller_next_action": null,
+    "research_next_action": null,
+    "next_action": "STOP. Preserve this acceptance and wait for a new explicit dependency or source request."
+  }
+}

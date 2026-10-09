@@ -1,0 +1,123 @@
+{
+  "status": "SOURCE_REGISTRY_MATCH_NOTEBOOK_PASS_SCENARIO_ALIGNMENT_OPEN",
+  "repository": {
+    "commit": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+    "tree": "b172584a3088dc8991bc5579e118ebcb5828d55b",
+    "changed": false
+  },
+  "drive": {
+    "id": "1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw",
+    "title": "MPC Noah's Ark — Method Reasoning V13 — DEVELOPMENT",
+    "url": "https://docs.google.com/spreadsheets/d/1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw/edit",
+    "file_modified_time": "2026-10-09T04:54:12.796Z",
+    "revision": "7",
+    "revision_modified_time": "2026-10-09T04:54:12.770Z",
+    "previous_revision": "2",
+    "read_window_start": "2026-10-09T05:01:34.939Z",
+    "read_window_end": "2026-10-09T05:05:40.403Z",
+    "revision_unchanged_through_read": true,
+    "owner_authenticity_or_source_permissions_not_inferred": true
+  },
+  "registry": {
+    "rows": 239,
+    "unique_continuous_ids": true,
+    "cells_compared": 2390,
+    "cell_differences": 0,
+    "content_sha256": "4a8e1085a030b461741c322d6586999e2f778639483f0595164ac931857bb26c",
+    "catalog_sources": 65,
+    "referenced_sources": 64,
+    "unused_source": "V6_METAMORPHIC",
+    "research_hooks": 239,
+    "source_review_counts": {
+      "LOCATOR_ONLY": 35,
+      "DIRECTLY_RETRIEVED": 204
+    }
+  },
+  "dashboard": {
+    "formulas_checked": 7,
+    "effective_values": [
+      239,
+      239,
+      0,
+      64,
+      7,
+      4,
+      0
+    ],
+    "errors": 0
+  },
+  "notebook": {
+    "status": "PASS",
+    "all_code_cells": 5,
+    "executed_code_cells": 5,
+    "node": "v24.19.0",
+    "python": "3.12.14",
+    "started_at": "2026-10-09T05:05:08.319299+00:00",
+    "completed_at": "2026-10-09T05:05:09.423293+00:00",
+    "source_sha256": "bfddc85565fb66f39ea0993c868e1b26e48d98192eebedbf268d09f89ac2b26a",
+    "executor": "Sequential unchanged Python code cells, shared namespace; actual Node CLI init/reason subprocesses; no Jupyter package installation",
+    "actual_scenarios": [
+      {
+        "name": "Synthetic ledger finality",
+        "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+        "considered": 239,
+        "triggered": 23,
+        "eligible": 2,
+        "selected": [
+          "MHA-0053"
+        ],
+        "proposed_pairs": [
+          "MHA-0035"
+        ],
+        "covered_dimensions": 2,
+        "unresolved_dimensions": 0,
+        "declared_cost_units": 2
+      },
+      {
+        "name": "Cloud configuration — unknown inputs",
+        "status": "BLOCKED_NO_READY_METHOD",
+        "considered": 239,
+        "triggered": 28,
+        "eligible": 0,
+        "selected": [],
+        "proposed_pairs": [],
+        "covered_dimensions": 0,
+        "unresolved_dimensions": 2
+      },
+      {
+        "name": "Casino meter — source unavailable",
+        "status": "BLOCKED_NATIVE_SOURCE",
+        "considered": 239,
+        "triggered": 31,
+        "eligible": 0,
+        "selected": [],
+        "proposed_pairs": [],
+        "covered_dimensions": 0,
+        "unresolved_dimensions": 2
+      }
+    ]
+  },
+  "open_discrepancies": [
+    {
+      "id": "WORKBOOK_NOTEBOOK_SCENARIO_SET",
+      "observed": "Workbook Outcome Scenarios contains four examples; notebook executes three and omits Meta method graph. Cloud/casino names and input-receipt representation differ.",
+      "fix_suggestion": "Version a shared complete scenario manifest, preserve scenario identities, derive notebook inputs and workbook observed-result fields from it."
+    },
+    {
+      "id": "CLOUD_STATUS_AND_SELECTION_ALIGNMENT",
+      "observed": "Workbook CLOUD,AUTHORITY / fixture:config-snapshot with UNKNOWN input/control/falsifier reports BLOCKED_INPUT_SCHEMA and names MHA-0170/MHA-0095. Notebook same dimensions/source with no readiness receipts actually returns BLOCKED_NO_READY_METHOD with no selected method/pair.",
+      "qualification": "Workbook is labeled synthetic comparison and columns say top candidate / paired challenger; these may be manual examples rather than claimed execution. They still must not be represented as matching actual CLI receipts.",
+      "fix_suggestion": "Record actual runtime decision and selected/proposed lists in explicit observed columns; keep illustrative candidates in a separately labeled input/hypothesis field if retained."
+    },
+    {
+      "id": "NOTEBOOK_POINTER_STATUS",
+      "observed": "Source Pointers notebook status SAVED_IN_GITHUB_NOT_YET_EXECUTED remains at Drive revision 7, and artifact JSON says SAVED_NOT_YET_EXECUTED_IN_CODEX. This run occurred in ChatGPT execution host.",
+      "fix_suggestion": "Preserve original pending-in-Codex provenance; add exact current execution receipt, source commit, host, tool and timestamp without claiming Codex Cloud execution."
+    }
+  ],
+  "no_source_authentication": true,
+  "no_method_execution": true,
+  "no_security_findings": true,
+  "no_target_traffic": true,
+  "no_workbook_mutation": true
+}

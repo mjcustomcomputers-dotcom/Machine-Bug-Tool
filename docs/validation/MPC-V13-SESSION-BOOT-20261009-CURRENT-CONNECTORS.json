@@ -1,0 +1,150 @@
+{
+  "version": "MPC_V13_SESSION_BOOT_NATIVE_RECEIPT_20261009_1",
+  "status": "SESSION_CAPABILITY_VERIFIED_HISTORICAL_CONTROLLER_UNCHANGED",
+  "project_id": "MPC_V13_DEVELOPMENT",
+  "mode": "DEVELOPMENT_RECEIPT_ONLY",
+  "retrieval_cutpoint_utc": "2026-10-09",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "branch": "feature/noahs-ark-reasoning-osi-v13",
+  "reporting_head_before_write": "5ea7529b8fe8eadcea1d41bdd9e3de39186484b5",
+  "review": {
+    "pr": 11,
+    "draft": true,
+    "merged": false
+  },
+  "source_roles": {
+    "historical_controller_S": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "original_integration_I": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+    "tested_repaired_receiver": "e0e7a7ad0f06d45470b4a396a72aef0434f7caed",
+    "development_reporting_head": "5ea7529b8fe8eadcea1d41bdd9e3de39186484b5"
+  },
+  "pinned_controller": {
+    "source": "docs/validation/MPC-V13-OPERATIVE-STATE.json",
+    "native_blob": "fa80abb6b7336457cdf28e31890280a14e6c5deb",
+    "file_sha256_from_prior_validation": "d8ccd726902541cec0e468a0c3354781b7dadeecec1cc66754c20a13ba3d4508",
+    "integrity_from_prior_validation": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+    "revision": 1,
+    "event_sequence": 6,
+    "status": "COMPLETE",
+    "four_model_obligations_completed": 4,
+    "three_distinct_native_evaluations": 3,
+    "one_explicit_reused_control": 1,
+    "next_action": null,
+    "executor_this_session": "UNAVAILABLE_EXACT_S_CHECKOUT",
+    "replay_performed": false
+  },
+  "capability_receipts": {
+    "github": "GitHub PR11/head/file native reads succeeded in this session",
+    "mpc": {
+      "tool": "runtime_status",
+      "status": "HOSTED_MCP_READY",
+      "runtime": "0.10.0-http.1",
+      "method_catalog": "1.2.0",
+      "contract": "1.0.0",
+      "protected_test": {
+        "method": "finite_invariant",
+        "kind": "NEW_ISOLATED_SESSION_DIAGNOSTIC_SYNTHETIC_ONLY",
+        "model_fingerprint": "17aecbdfc74958d95c27b2f9188ec8f2724a9c88eaaaa05011b74cf10ca8a9f3",
+        "result": "COUNTEREXAMPLE_FOUND",
+        "base": "PASS",
+        "step": "FAIL",
+        "examined_states": 2,
+        "not_bound_to_preserved_controller": true,
+        "not_a_target_finding": true
+      }
+    },
+    "drive": {
+      "social_source_register": {
+        "id": "1-PkmF-4QLr5rZ4XTTxOjiBJlxZGkYFbvQypl69N6mhA",
+        "revision": "AHj4eMRdWRbCCFIwUpZUN_8aZ9JatEtWUoTo73Wz0qBDQc_jELo6e9Dzx09dnhvrooGM3HmOAW9ISW2TPGja05XzGr0C3zAxTBKV6u26IZY",
+        "source_headings_through": "SRC-182",
+        "note": "Live native source register tail not automatically operative PASS index"
+      },
+      "historical_komoju_checkpoint": {
+        "id": "1nLyRGtDf7DWMS3QGB28AvD9AFuG6n9JyhJ1Dy5-2n3s",
+        "revision": "ANLCKQkDC8wBa3uPwCC-VzwJ-fHv7ai6cB15Kt9NtQTbHPRan3amXCIGiD9y12vjCpBl7JQvezylUOFGh0xxKSg4LfkGD7OzxngYE-S8SV0",
+        "status": "OLDER_NOT_CONTROLLER"
+      },
+      "v13_workbook_id": "1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw"
+    },
+    "airtable": {
+      "social_pass_navigation": {
+        "base": "appZPanYDOUZRinwr",
+        "table": "tbluibwWV5Es4ySQT",
+        "record": "rec2JHa11sXYW5knC",
+        "observed": "PASS102"
+      },
+      "komoju_current": {
+        "base": "appdD5WC0CVuRirtP",
+        "table": "tblC9KnJuUvwxbikS",
+        "record": "rech8Afm8n1P1qgMD",
+        "checkpoint": "KOMOJU-CKPT-002-DELTA-044-20261009"
+      }
+    },
+    "dash": {
+      "connection_types": [
+        "googledrive",
+        "airtable",
+        "googleCalendar",
+        "dashhelpcenter",
+        "dropbox",
+        "dashstacks"
+      ],
+      "sync": "SYNCED_AS_OF_2026-10-09_08_30Z_APPROX",
+      "role": "DISCOVERY_PROJECTION_ONLY_NOT_NATIVE_CORROBORATION"
+    },
+    "dropbox": {
+      "query": "MPC",
+      "mode": "title_only",
+      "result_count": 0,
+      "backup_native_path": "UNRESOLVED"
+    },
+    "local": {
+      "node": "v22.16.0",
+      "git": "AVAILABLE",
+      "exact_private_repo_checkout": "UNAVAILABLE_PRIVATE_GIT_REMOTE_DNS_FAILURE",
+      "historical_controller_commands": "NOT_REEXECUTED"
+    }
+  },
+  "cross_reference_reconciliation": {
+    "reopen_historical_v13_controller": false,
+    "reason": "No changed source/version/method/model binding in preserved completed synthetic controller",
+    "new_source_delta": "Social Deal register SRC-182; independent real bounty research namespace only",
+    "observed_pass_navigation": "PASS102; source heading advancement does not imply pass103 was committed",
+    "dash_independent_evidence": false,
+    "negative_control_original_reused": true,
+    "challenger_prior_result_reused": true
+  },
+  "latest_branch_change_gate": {
+    "latest_head": "5ea7529b8fe8eadcea1d41bdd9e3de39186484b5",
+    "prior_acceptance_source": "e0e7a7ad0f06d45470b4a396a72aef0434f7caed",
+    "later_unverified_at_exact_head": [
+      "app/page.tsx",
+      "package.json",
+      "pnpm-lock.yaml",
+      "eslint.config.mjs",
+      "tests/framework-synchronicity.test.mjs"
+    ],
+    "status": "REQUIRES_SEPARATE_FULL_VALIDATION_BEFORE_SOURCE_RELEASE",
+    "not_claimed_revalidated": true
+  },
+  "remaining_blockers": [
+    "No exact authenticated S checkout in this host for fresh CLI verify/status/next",
+    "Native Windows/NTFS receiving unrun",
+    "Current reporting HEAD has changes after the repaired-tested acceptance; no full-suite/build receipt for current head verified",
+    "Dropbox native MPC backup unresolved",
+    "Real Social Deal paid pair/reward ledger not found",
+    "No semantic basis to promote synthetic results to a real finding"
+  ],
+  "next_action": "For V13 engineering, validate the current reporting-head dependency/test delta in exact native Codex checkout without replaying completed controller or merging/deploying. For independent Social Deal research, continue from native source register SRC-182 using its own controller/pass gate; do not conflate source heading number with PASS count.",
+  "boundaries": {
+    "merge": false,
+    "deploy": false,
+    "contact_targets": false,
+    "report_submission": false,
+    "canonical_controller_overwrite": false,
+    "original_mpc_registry_mutation": false,
+    "original_pass_overwrite": false,
+    "saved_state_modified": false
+  }
+}

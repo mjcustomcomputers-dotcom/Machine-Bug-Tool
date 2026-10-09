@@ -12,8 +12,9 @@ const expectDrift=(db,table)=>{
  const r=verifyCurrentAtlas(db);
  assert.equal(r.status,'BLOCKED_ATLAS_SEMANTIC_DRIFT');
  assert.ok(r.mismatched_tables.includes(table));
- assert.equal(statusMethodAtlas(db).validation,'INVENTORY_MISMATCH');
- assert.throws(()=>loadMethodAtlas(db),/ATLAS_SEMANTIC_DRIFT_REBUILD_PRIVATE_CACHE_REQUIRED/);
+ // Restored V8 admission fails closed; the read-only verifier above retains table diagnostics.
+ assert.throws(()=>statusMethodAtlas(db),/ATLAS_CACHE_CONTENT_DRIFT/);
+ assert.throws(()=>loadMethodAtlas(db),/ATLAS_CACHE_CONTENT_DRIFT_REBUILD_PRIVATE_CACHE_REQUIRED/);
 };
 test('Exact seven-table source parity is checked and pinned, without authenticating external records',()=>{
  const db=fixture();try{
@@ -67,10 +68,10 @@ test('Same-row-count tampering in crosswalk, relations or taxonomy is rejected',
 test('Legitimate append-only variation receipts do not rewrite or poison immutable source tables',()=>{
  const db=fixture();try{
   db.prepare(`INSERT INTO atlas_variation_ledger
-    (subject_id,atom_id,variant_id,variation_kind,method_id,direction,boundary,evidence_digest,variant_digest,source_signature,dimension_signature,decision)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`).run(
+    (subject_id,atom_id,variant_id,variation_kind,method_id,direction,boundary,evidence_digest,variant_digest,source_signature,dimension_signature,method_signature,decision)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(
     'fixture:subject','fixture:atom','BASELINE','BASELINE','MHA-0001','FORWARD','INTERNAL_MODEL',
-    'a'.repeat(64),'a'.repeat(64),'fixture:native','GRAPH','DIMENSION_NOT_MATCHED');
+    'a'.repeat(64),'a'.repeat(64),'SOURCE_BINDINGS_V2:[["fixture:native"],[],[]]','GRAPH','METHOD_STATE_V2:'+'b'.repeat(64),'DIMENSION_NOT_MATCHED');
   assert.equal(verifyCurrentAtlas(db).status,'ATLAS_CONTENT_PARITY_PASS');
   assert.equal(loadMethodAtlas(db).validation,'STRUCTURAL_INVENTORY_PASS');
  }finally{db.close()}

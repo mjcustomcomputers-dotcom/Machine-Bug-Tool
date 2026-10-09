@@ -1,0 +1,19 @@
+{
+  "label": "final-notebook-json",
+  "command": [
+    "python3",
+    "-m",
+    "json.tool",
+    "notebooks/MPC-Noahs-Ark-Reasoning-V13.ipynb"
+  ],
+  "cwd": "/workspace/scratch/5676560dc515/Machine-Bug-Tool",
+  "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_before": "",
+  "start_utc": "2026-10-09T05:29:21.374861+00:00",
+  "exit_code": 0,
+  "duration_seconds": 0.064008,
+  "end_utc": "2026-10-09T05:29:21.438912+00:00",
+  "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_after": "",
+  "log_sha256": "c74a950d945d8bb2746be3be9685f6463a2c6c9c52af9b5767a2779a8a1c5809"
+}

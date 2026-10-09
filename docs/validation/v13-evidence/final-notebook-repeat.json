@@ -1,0 +1,19 @@
+{
+  "label": "final-notebook-repeat",
+  "command": [
+    "env",
+    "MPC_NOTEBOOK_VALIDATION_DIR=/workspace/scratch/5676560dc515/validation/notebook-final-repeat",
+    "python3",
+    "/workspace/scratch/5676560dc515/validation/drive/run_v13_notebook_repaired.py"
+  ],
+  "cwd": "/workspace/scratch/5676560dc515/Machine-Bug-Tool",
+  "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_before": "",
+  "start_utc": "2026-10-09T05:29:28.627103+00:00",
+  "exit_code": 0,
+  "duration_seconds": 0.868356,
+  "end_utc": "2026-10-09T05:29:29.495545+00:00",
+  "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_after": "",
+  "log_sha256": "d4b31aa50fe0c9a38519cea7168f9098d1c9fbef132ee42a570356372cffeee3"
+}

@@ -1,0 +1,132 @@
+{
+  "kind": "MPC_V13_FINAL_ACCEPTANCE_COMMAND_MANIFEST",
+  "working_directory": "/workspace/Machine-Bug-Tool-v13-integration-a18a040f",
+  "commands": [
+    {
+      "name": "receiver-inspect",
+      "argv": ["node", "scripts/receive-mpc-v13.mjs", "inspect", "--repository", "/workspace/Machine-Bug-Tool", "--reporting-commit", "18cfa9ac07640dc3d7305087b4eef13892a0e037"],
+      "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+      "exit_status": 0
+    },
+    {
+      "name": "receiver-receive-once",
+      "argv": ["node", "scripts/receive-mpc-v13.mjs", "receive", "--repository", "/workspace/Machine-Bug-Tool", "--reporting-commit", "18cfa9ac07640dc3d7305087b4eef13892a0e037", "--destination", "/workspace/Machine-Bug-Tool-v13-received-codex-18cfa9a"],
+      "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+      "exit_status": 0,
+      "repeat_performed": false
+    },
+    {
+      "name": "focused-integration-tests",
+      "argv": ["node", "--test", "tests/receive-mpc-v13.test.mjs", "tests/local-path-boundary.test.mjs", "tests/method-atlas-file-input.test.mjs", "tests/noahs-ark-controller.test.mjs", "tests/v13-notebook-runner.test.mjs"],
+      "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+      "exit_status": 0,
+      "tests": 86,
+      "pass": 86,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "name": "initial-full-tests",
+      "argv": ["node", "--test"],
+      "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+      "exit_status": 0,
+      "tests": 405,
+      "pass": 405,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "name": "initial-build",
+      "argv": ["npm", "run", "build"],
+      "environment": {"XDG_CONFIG_HOME": "/workspace/Machine-Bug-Tool-v13-integration-a18a040f/.sites-runtime/config"},
+      "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+      "exit_status": 0
+    },
+    {
+      "name": "atlas-init-status-audit",
+      "argv_sequence": [
+        ["node", "scripts/method-atlas-cli.mjs", "init"],
+        ["node", "scripts/method-atlas-cli.mjs", "status"],
+        ["node", "scripts/method-atlas-cli.mjs", "audit-seed"],
+        ["node", "scripts/method-atlas-cli.mjs", "sql-audit", "--input-file", ".sites-runtime/final-codex-acceptance/final-sql-audit.json"],
+        ["node", "scripts/method-atlas-cli.mjs", "dimension-audit", "--input-file", ".sites-runtime/final-codex-acceptance/final-dimension-audit.json"]
+      ],
+      "environment": {"MPC_METHOD_ATLAS_DB": "/workspace/Machine-Bug-Tool-v13-integration-a18a040f/.sites-runtime/final-codex-acceptance/atlas-18cfa9a.sqlite"},
+      "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+      "exit_statuses": [0, 0, 0, 0, 0]
+    },
+    {
+      "name": "notebook",
+      "argv": ["python3", "scripts/run-v13-notebook.py"],
+      "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+      "exit_status": 0,
+      "repeat_performed": false
+    },
+    {
+      "name": "detector-benchmark",
+      "argv": ["node", "scripts/benchmark-atomic-method-detector.mjs"],
+      "environment": {"MPC_ATLAS_BENCH_RUNS": "500"},
+      "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+      "exit_status": 0,
+      "repeat_performed": false
+    },
+    {
+      "name": "variation-benchmark",
+      "argv": ["node", "scripts/benchmark-atomic-variation-router.mjs"],
+      "environment": {"MPC_VARIATION_BENCH_RUNS": "500"},
+      "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+      "exit_status": 0,
+      "repeat_performed": false
+    },
+    {
+      "name": "relative-destination-reproduction",
+      "argv": ["node", "--test", "--test-name-pattern=relative destination", "tests/receive-mpc-v13.test.mjs"],
+      "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+      "test_file_modified_only_to_add_failing_regression": true,
+      "exit_status": 1,
+      "observed_error": "RECEIVER_DESTINATION_PARENT_REQUIRED",
+      "expected_error": "RECEIVER_ABSOLUTE_DESTINATION_REQUIRED",
+      "worktree_created": false
+    },
+    {
+      "name": "relative-destination-regression",
+      "argv": ["node", "--test", "--test-name-pattern=relative destination", "tests/receive-mpc-v13.test.mjs"],
+      "exit_status": 0
+    },
+    {
+      "name": "final-affected-receiver-tests",
+      "argv": ["node", "--test", "tests/receive-mpc-v13.test.mjs"],
+      "source_commit": "e0e7a7ad0f06d45470b4a396a72aef0434f7caed",
+      "exit_status": 0,
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "name": "final-full-tests",
+      "argv": ["node", "--test"],
+      "source_commit": "e0e7a7ad0f06d45470b4a396a72aef0434f7caed",
+      "exit_status": 0,
+      "tests": 406,
+      "pass": 406,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "name": "final-build",
+      "argv": ["npm", "run", "build"],
+      "environment": {"XDG_CONFIG_HOME": "/workspace/Machine-Bug-Tool-v13-integration-a18a040f/.sites-runtime/config"},
+      "source_commit": "e0e7a7ad0f06d45470b4a396a72aef0434f7caed",
+      "exit_status": 0
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "status": "SQLITE_DIAGNOSTIC_RECEIPT",
+  "version": "MPC_SQLITE_STRATEGY_V11",
+  "plans": [
+    {
+      "query_id": "TRIGGER",
+      "plan_entries": [
+        {
+          "id": 4,
+          "parent": 0,
+          "detail": "SEARCH atlas_triggers USING COVERING INDEX atlas_trigger_strength_lookup (dimension=?)"
+        },
+        {
+          "id": 28,
+          "parent": 0,
+          "detail": "USE TEMP B-TREE FOR LAST TERM OF ORDER BY"
+        }
+      ],
+      "estimated_speedup": null,
+      "explain_diagnostic_only": true
+    },
+    {
+      "query_id": "REVERSE",
+      "plan_entries": [
+        {
+          "id": 4,
+          "parent": 0,
+          "detail": "SEARCH atlas_method_relations USING COVERING INDEX atlas_method_relation_reverse (related_method_id=?)"
+        },
+        {
+          "id": 20,
+          "parent": 0,
+          "detail": "USE TEMP B-TREE FOR ORDER BY"
+        }
+      ],
+      "estimated_speedup": null,
+      "explain_diagnostic_only": true
+    },
+    {
+      "query_id": "ACTIONABLE",
+      "plan_entries": [
+        {
+          "id": 4,
+          "parent": 0,
+          "detail": "SEARCH atlas_variation_ledger USING COVERING INDEX atlas_variation_actionable (method_id=?)"
+        },
+        {
+          "id": 22,
+          "parent": 0,
+          "detail": "USE TEMP B-TREE FOR ORDER BY"
+        }
+      ],
+      "estimated_speedup": null,
+      "explain_diagnostic_only": true
+    },
+    {
+      "query_id": "TAXONOMY",
+      "plan_entries": [
+        {
+          "id": 4,
+          "parent": 0,
+          "detail": "SEARCH atlas_method_taxonomy USING COVERING INDEX atlas_method_taxonomy_axis (axis=? AND class_key=?)"
+        }
+      ],
+      "estimated_speedup": null,
+      "explain_diagnostic_only": true
+    }
+  ],
+  "quick_check": {
+    "result": [
+      "ok"
+    ],
+    "ok": true
+  },
+  "foreign_key_check": {
+    "violations": 0,
+    "ok": true,
+    "details": []
+  },
+  "source_authentication": false,
+  "performance_gain_measured": false,
+  "optimizer_command_run": false,
+  "writes_performed": false,
+  "external_target_actions": false,
+  "canonical_promotion": false,
+  "next_step": "Compare this plan and p50/p95 latency against baseline on the same SQLite host and exact fixture before adopting index changes."
+}
