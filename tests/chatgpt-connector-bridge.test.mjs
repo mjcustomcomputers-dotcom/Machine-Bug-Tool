@@ -41,3 +41,39 @@ test('Unavailable write or target test cannot be promoted into performed operati
  assert.equal(a.write_performed,false);
  assert.equal(b.host_action_called,false);
 });
+
+
+test('A controlling pointer visible only through Dash is blocked until native provider read',()=>{
+ const r=reconcileConnectorRecords({objective:'Controller',records:[dash],current_pointer:'GOOGLE_DRIVE:'+native.native_id});
+ assert.equal(r.status,'BLOCKED_POINTER_NOT_NATIVE');
+ assert.equal(r.current_pointer_state,'BLOCKED_POINTER_NOT_NATIVE');
+ assert.equal(r.groups[0].status,'PROJECTION_ONLY_UNVERIFIED');
+ assert.equal(r.source_authentication,false);
+});
+test('A native record cannot claim to be a projection of another native record',()=>{
+ const forged={...native,native_id:'another-object',projection_of:{native_source:'GOOGLE_DRIVE',native_id:native.native_id}};
+ assert.throws(()=>reconcileConnectorRecords({objective:'Controller',records:[forged],current_pointer:'GOOGLE_DRIVE:'+native.native_id}),/PROJECTION_NATIVE_IDENTITY_CONFLICT/);
+ const mismatched={...dash,native_source:'DROPBOX'};
+ assert.throws(()=>reconcileConnectorRecords({objective:'Controller',records:[mismatched],current_pointer:null}),/PROJECTION_NATIVE_IDENTITY_CONFLICT/);
+});
+test('A transport alias without an explicitly typed source binding is rejected',()=>{
+ const unbound={...dash,projection_of:undefined};
+ assert.throws(()=>reconcileConnectorRecords({objective:'Recover',records:[unbound],current_pointer:null}),/PROJECTION_BINDING_REQUIRED/);
+ const extras={...dash,projection_of:{native_source:'GOOGLE_DRIVE',native_id:native.native_id,verified:true}};
+ assert.throws(()=>reconcileConnectorRecords({objective:'Recover',records:[extras],current_pointer:null}),/INVALID_NATIVE_PROJECTION/);
+});
+test('Projection version differences are surfaced for review, never counted as a new source',()=>{
+ const stale={...dash,version:'indexed-v0'};
+ const r=reconcileConnectorRecords({objective:'Compare',records:[native,stale],current_pointer:'GOOGLE_DRIVE:'+native.native_id});
+ assert.equal(r.status,'READ_ONLY_SOURCE_MAP');
+ assert.equal(r.groups[0].projection_version_difference_requires_review,true);
+ assert.equal(r.evidence_source_count,1);
+ assert.equal(r.groups[0].native_source_authentication,false);
+});
+test('Source bridge cannot authorize target tests even when a caller falsely advertises that capability',()=>{
+ const r=planConnectorDispatch({capabilities:[{surface:'GITHUB',available:true,operations:['TARGET_TEST']}],
+ operation:'TARGET_TEST',surface:'GITHUB',object_id:'fixture:target'});
+ assert.equal(r.state,'OUTSIDE_CONNECTOR_BRIDGE_SCOPE');
+ assert.equal(r.authorization_conferred,false);
+ assert.equal(r.host_action_called,false);
+});
