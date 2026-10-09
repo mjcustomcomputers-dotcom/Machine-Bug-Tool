@@ -1,0 +1,159 @@
+{
+  "kind": "MPC_WORK_TRIAGE_NATIVE_RELEASE",
+  "recorded_at_utc": "2026-10-09T15:39:09.767Z",
+  "plugin": {
+    "id": "Plugin_8ac3267f78148191a431496c9ea0c0be",
+    "version": "0.4.9",
+    "release_id": "pluginrel_6ac909cbc60c81919fd38e10ccd6fe96",
+    "url": "https://chatgpt.com/plugins/Plugin_8ac3267f78148191a431496c9ea0c0be",
+    "scope": "USER",
+    "discoverability": "PRIVATE"
+  },
+  "source": {
+    "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+    "branch": "feature/mpc-work-triage-v16",
+    "native_code_commit": "284f13c4dbd56a9bceb842e1dd0885a8994419ac",
+    "exact_tree": "888b47a991273815d536bd7202b63bd50753d50c",
+    "local_equivalent_commit": "77c22d6fb7c4a1e458605c55d44ea43c10060a95",
+    "text_files_read_back": [
+      {
+        "path": "AGENTS.md",
+        "git_blob_sha": "35d1d357489608be46727f3f980c9e4d9ed36bc2",
+        "exact_content_match": true
+      },
+      {
+        "path": "MPC-Work.cmd",
+        "git_blob_sha": "9cfb7a0eaaf16c33e424bef3457b7333da29e281",
+        "exact_content_match": true
+      },
+      {
+        "path": "MPC-Work.ps1",
+        "git_blob_sha": "59fbd90c52cddb5c179280ee681fc17360b59915",
+        "exact_content_match": true
+      },
+      {
+        "path": "docs/LOCAL-LIVE-INTELLIGENCE-V16-REPORT.html",
+        "git_blob_sha": "937a5ccf522cc6a2cb1a447edf41f08ee53b7242",
+        "exact_content_match": true
+      },
+      {
+        "path": "docs/MPC-WORK-TRIAGE-V16.md",
+        "git_blob_sha": "a80f0518ff10ee3ce8a890e899108319252b373a",
+        "exact_content_match": true
+      },
+      {
+        "path": "docs/validation/MPC-LOCAL-LIVE-V16-VALIDATION.json",
+        "git_blob_sha": "bb4390a3d2e43de348c1f8d833dea3e9fd1fa76e",
+        "exact_content_match": true
+      },
+      {
+        "path": "docs/validation/MPC-WORK-TRIAGE-V16-VALIDATION.json",
+        "git_blob_sha": "dec56174fed80be5abab7d0b331b35d106dc9a26",
+        "exact_content_match": true
+      },
+      {
+        "path": "plugin-source/mpc-machine-legal/.codex-plugin/plugin.json",
+        "git_blob_sha": "9642da1c900fa711e8fdfd74b526ef37426fd3ae",
+        "exact_content_match": true
+      },
+      {
+        "path": "plugin-source/mpc-machine-legal/BUILD_INTEGRITY.json",
+        "git_blob_sha": "7040c6582ddc6c06ca01aaa0b25b0a23d667d07d",
+        "exact_content_match": true
+      },
+      {
+        "path": "plugin-source/mpc-machine-legal/plugin.json",
+        "git_blob_sha": "b3ffe07e16f89ee5a725711ec8594f9f79988179",
+        "exact_content_match": true
+      },
+      {
+        "path": "plugin-source/mpc-machine-legal/scripts/validate_package.py",
+        "git_blob_sha": "78ba22bb87cf3a2c26ee882c5e2f3571269d9f6d",
+        "exact_content_match": true
+      },
+      {
+        "path": "plugin-source/mpc-machine-legal/skills/index/SKILL.md",
+        "git_blob_sha": "9988045b024e64c3e176daaad71967860c87efcd",
+        "exact_content_match": true
+      },
+      {
+        "path": "plugin-source/mpc-machine-legal/skills/machine-legal-live-source-router/SKILL.md",
+        "git_blob_sha": "9be42e01613b79ce39b1574455e250efe66e776a",
+        "exact_content_match": true
+      },
+      {
+        "path": "plugin-source/mpc-machine-legal/skills/machine-legal-work-triage/SKILL.md",
+        "git_blob_sha": "7b360bcdeaa99254d0f49fb9d8223be3a75861f9",
+        "exact_content_match": true
+      },
+      {
+        "path": "plugin-source/mpc-machine-legal/skills/machine-legal-work-triage/agents/openai.yaml",
+        "git_blob_sha": "acfadc4512af6b0342a512e64c840ebf76f15977",
+        "exact_content_match": true
+      },
+      {
+        "path": "scripts/export-reasoning-intelligence.mjs",
+        "git_blob_sha": "2ecfa6d1c40df04b502a32efd52a98b0a7d61807",
+        "exact_content_match": true
+      },
+      {
+        "path": "scripts/run-mpc-work.mjs",
+        "git_blob_sha": "7b2ec0feb3d52062198f2da991dbcdeeb81942af",
+        "exact_content_match": true
+      },
+      {
+        "path": "tests/mpc-work-launcher.test.mjs",
+        "git_blob_sha": "4472d819037b918a0ff8d5896276ecc5ebee9027",
+        "exact_content_match": true
+      }
+    ],
+    "binary_blob_matches": [
+      {
+        "path": "docs/validation/MPC-LOCAL-LIVE-V16-EVIDENCE.zip",
+        "git_blob_sha": "f21bc69b2b181f2ec8d76c55d45852a246a93c9e"
+      },
+      {
+        "path": "docs/validation/MPC-LOCAL-LIVE-V16-RUNS.zip",
+        "git_blob_sha": "df17f628d3b53ff39c282be7b897c5d971d8ccd7"
+      }
+    ]
+  },
+  "plugin_source_readback": {
+    "release_id": "pluginrel_6ac909cbc60c81919fd38e10ccd6fe96",
+    "verified_changed_paths": [
+      ".codex-plugin/plugin.json",
+      "BUILD_INTEGRITY.json",
+      "plugin.json",
+      "scripts/validate_package.py",
+      "skills/index/SKILL.md",
+      "skills/machine-legal-live-source-router/SKILL.md",
+      "skills/machine-legal-work-triage/SKILL.md",
+      "skills/machine-legal-work-triage/agents/openai.yaml"
+    ],
+    "original_files": 58,
+    "final_files": 60,
+    "original_skills_preserved": 14,
+    "final_skills": 15,
+    "removed_paths": []
+  },
+  "review": {
+    "number": 17,
+    "url": "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/pull/17",
+    "draft": true,
+    "merged": false
+  },
+  "completion": {
+    "work_triage_skill": "PRIVATE_PLUGIN_UPDATED_AND_READ_BACK",
+    "local_launcher": "SOURCE_SAVED_AND_LINUX_NODE_CHECKS_PASSED",
+    "v16_delivery": "COMPLETED_FROM_RECORDED_RESULTS",
+    "hosted_computation_service": "EXISTING_TOOL_SURFACE",
+    "windows_receiver": "NATIVE_WINDOWS_RUN_PENDING"
+  },
+  "next_action": "Use MPC Work Triage on the next authorized task; acquire the current record, extract its facts, and continue from the result.",
+  "do_not_repeat": [
+    "The completed V16 48-case local/live capture",
+    "The completed 318-case reasoning pass",
+    "Unchanged source reads already acquired in the active task"
+  ],
+  "later_engineering_candidate": "Robust interval observation choice remains an optional future engineering item."
+}

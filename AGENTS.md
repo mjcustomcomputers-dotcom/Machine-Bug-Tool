@@ -1,5 +1,24 @@
 # MPC Machine Legal BugTools — Daybreak development
 
+## Operative work entry — triage, acquire, analyze, advance
+
+For normal MPC work, use `docs/MPC-WORK-TRIAGE-V16.md` and the existing
+`machine-legal-work-triage` plugin skill. Select the phase from the active task
+and its material. Acquire the identified missing source, extract cited facts
+from the returned text, and run the existing methods when they advance the
+question. Continue the next authorized action after a bounded checkpoint.
+
+`MPC-Work.cmd`, `MPC-Work.ps1`, and `scripts/run-mpc-work.mjs` open the existing
+V16 evidence workflow. Each execution saves a new complete receipt. The host
+performs source connector reads and substantive fact extraction; the runtime's
+record-availability summary and prepared tool arguments keep their own states.
+Use the actual current hosted schema when bridging to MPC tools.
+
+The V15/V16 reasoning lab below is the preserved engineering workflow for an
+explicit intelligence scan or implementation task. Its completed experiments
+and source-bound continuation remain available. A routine evidence task
+continues from its records and operational frontier.
+
 ## V16 operational intelligence — evidence, facts, acquisition, progress
 
 The user directed the product to recognize EVIDENCE_ACQUISITION and lead with

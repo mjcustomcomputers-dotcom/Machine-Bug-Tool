@@ -1,0 +1,4 @@
+interface:
+  display_name: "MPC Work Triage"
+  short_description: "Acquire evidence, extract facts, and advance MPC work"
+  default_prompt: "Use $machine-legal-work-triage to continue the current MPC task and complete its next evidence or analysis action."

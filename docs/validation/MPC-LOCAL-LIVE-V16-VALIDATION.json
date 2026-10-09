@@ -1,0 +1,413 @@
+{
+  "kind": "MPC_LOCAL_LIVE_INTELLIGENCE_V16_VALIDATION",
+  "recorded_at_utc": "2026-10-09T15:24:48.298282+00:00",
+  "outcome": "EVIDENCE_WORKFLOW_IMPLEMENTED_AND_LOCAL_LIVE_COMPARISON_COMPLETED",
+  "working_output": [
+    "acquired facts",
+    "what the facts establish",
+    "next concrete action"
+  ],
+  "source": {
+    "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+    "branch": "feature/mpc-local-live-intelligence-v16",
+    "tested_local_commit": "f2f92fe6e979b45b5c1b81f287aec9c73a7364aa",
+    "native_commit": "e6f5ed4269743b423e64b06a7ccb9ad7a3f62dfa",
+    "exact_tree": "8c085e043c7e5f2e3fee9db9c3a1562dc96446df"
+  },
+  "native_source_readback": {
+    "files": 27,
+    "exact_native_content_matches": true,
+    "evidence": "native-code-readback.json"
+  },
+  "live_site": {
+    "observed_at_utc": "2026-10-09 14:40:16 UTC",
+    "site": {
+      "id": "appgprj_6abf0bb684648191a38324d33d1aa8cc",
+      "title": "MPC Machine Legal BugTools",
+      "status": "active",
+      "current_live_url": "https://mpc-machine-legal-tools.mjcustomcomputers.chatgpt.site",
+      "latest_version_number": 15,
+      "updated_at": "2026-10-09T01:15:20.115495+00:00"
+    },
+    "versions": [
+      {
+        "id": "appgprj_6abf0bb684648191a38324d33d1aa8cc~appgver_f0a9b79aae9c8191bce4b1f9c6a6ee32",
+        "project_id": "appgprj_6abf0bb684648191a38324d33d1aa8cc",
+        "version_number": 15,
+        "source": {
+          "commit_sha": "765923c9839f32502e5c0f1f1b919b827596012e"
+        },
+        "archive_storage": {
+          "archive_format": "tar",
+          "sediment_file_id": "file_00000000317481f59a0cb6b00a4ded33",
+          "content_hash": "sha256:a32da666b5f6c1153fec085125715445a8ef5e958d39dd40183d4787255197a3",
+          "size_bytes": 3287040,
+          "file_count": 63
+        },
+        "deployment_id": "appgdep_6ac83ff3e5f08191bd4ec40a8a9bb186"
+      },
+      {
+        "id": "appgprj_6abf0bb684648191a38324d33d1aa8cc~appgver_1078404ae7888191bfdcabf74a0c1494",
+        "project_id": "appgprj_6abf0bb684648191a38324d33d1aa8cc",
+        "version_number": 14,
+        "source": {
+          "commit_sha": "47196d116bf511467ab69e6391015eb15d05ec27"
+        },
+        "archive_storage": {
+          "archive_format": "tar",
+          "sediment_file_id": "file_00000000dca8820db31a6a19db39fffd",
+          "content_hash": "sha256:2f855a95a91aae26a65c47dafb191c4852600afb718cdde5d6aadaa888c0045f",
+          "size_bytes": 3184640,
+          "file_count": 63
+        },
+        "deployment_id": "appgdep_6ac80a7ec8f881919089ab95b6843920"
+      },
+      {
+        "id": "appgprj_6abf0bb684648191a38324d33d1aa8cc~appgver_80d49f140e9881918b0b3792bdaefc1b",
+        "project_id": "appgprj_6abf0bb684648191a38324d33d1aa8cc",
+        "version_number": 13,
+        "source": {
+          "commit_sha": "c4012a6e71b96942faa63ad269443a2d7850f203"
+        },
+        "archive_storage": {
+          "archive_format": "tar",
+          "sediment_file_id": "file_00000000fa3081f5a10e8486bbf96c23",
+          "content_hash": "sha256:ffe2f21be8db319465dcab733ef29adb72ac748d90a30f2cec092f185df2fccc",
+          "size_bytes": 3174400,
+          "file_count": 63
+        },
+        "deployment_id": "appgdep_6ac5b2fab7f88191abc2fc3affba9f8e"
+      },
+      {
+        "id": "appgprj_6abf0bb684648191a38324d33d1aa8cc~appgver_1ee504c2b3348191a3d95307df46136c",
+        "project_id": "appgprj_6abf0bb684648191a38324d33d1aa8cc",
+        "version_number": 12,
+        "source": {
+          "commit_sha": "b4f0a57f6cfac9006d6ef414b4e440d7cab307be"
+        },
+        "archive_storage": {
+          "archive_format": "tar",
+          "sediment_file_id": "file_000000005b5c81f584699efb7b3170cb",
+          "content_hash": "sha256:32b18128f6709f5b3d120073c043f3d20fcfd347b1284772eedadbe64408cfbb",
+          "size_bytes": 3174400,
+          "file_count": 63
+        },
+        "deployment_id": "appgdep_6ac5b287d7f481919700b077b8a12408"
+      },
+      {
+        "id": "appgprj_6abf0bb684648191a38324d33d1aa8cc~appgver_f6f6764a88fc8191853556b7e5e183d7",
+        "project_id": "appgprj_6abf0bb684648191a38324d33d1aa8cc",
+        "version_number": 11,
+        "source": {
+          "commit_sha": "fbf974e8c44971c1e80baa977b7656ab9a98bcc5"
+        },
+        "archive_storage": {
+          "archive_format": "tar",
+          "sediment_file_id": "file_00000000458081f58abdb530e239d343",
+          "content_hash": "sha256:40585047cb40db9df25abf9627822956bf45d8c24be58637c10b036fb9286df5",
+          "size_bytes": 3153920,
+          "file_count": 63
+        },
+        "deployment_id": "appgdep_6ac5af1c45ac81918b64abf461cf4bbe"
+      }
+    ],
+    "deployment": {
+      "id": "appgdep_6ac83ff3e5f08191bd4ec40a8a9bb186",
+      "project_id": "appgprj_6abf0bb684648191a38324d33d1aa8cc",
+      "title": "MPC Machine Legal BugTools",
+      "version_id": "appgprj_6abf0bb684648191a38324d33d1aa8cc~appgver_f0a9b79aae9c8191bce4b1f9c6a6ee32",
+      "type": "publish",
+      "status": "succeeded",
+      "url": "https://mpc-machine-legal-tools.mjcustomcomputers.chatgpt.site",
+      "has_mcp": true,
+      "screenshot_asset_pointer": "sediment://file_000000009ccc81f8ac7d2be2c473e4cb",
+      "provider_deployment_id": "site---6abf0bb684648191a38324d33d1aa8cc",
+      "failure_message": null,
+      "env_set_revision": 0,
+      "updated_at": "2026-10-09T01:15:19.994502+00:00"
+    }
+  },
+  "operating_plugin": {
+    "id": "Plugin_8ac3267f78148191a431496c9ea0c0be",
+    "version": "0.4.8",
+    "release_id": "pluginrel_6ac90174023c819184749e0875ca75f8",
+    "url": "https://chatgpt.com/plugins/Plugin_8ac3267f78148191a431496c9ea0c0be",
+    "verified_changed_file_count": 8,
+    "preserved_skill_count": 14,
+    "preserved_packaged_file_count": 58,
+    "source_texts_read_back": true,
+    "evidence": "plugin-update-readback.json"
+  },
+  "native_differential": {
+    "cases": 48,
+    "native_evaluator_ids": [
+      "abductive_cover",
+      "ach",
+      "authority_graph",
+      "casino_meter_finality",
+      "claw_accumulator",
+      "coin_pusher_deferred",
+      "conservation",
+      "coverage",
+      "fault_tree",
+      "finite_invariant",
+      "fmea",
+      "harsanyi",
+      "identity",
+      "identity_graph",
+      "ledger",
+      "metamorphic",
+      "minimal_cut_sets",
+      "nash",
+      "partial_order",
+      "propositional_entailment",
+      "relational",
+      "selten",
+      "state_trace",
+      "temporal"
+    ],
+    "successful_receipts": 41,
+    "expected_semantic_rejections": 7,
+    "classifications": {
+      "SAME_RESULT": 45,
+      "SHARED_ORACLE_COUNTEREXAMPLE": 3,
+      "VERSION_DIVERGENCE": 0,
+      "MISSING_LIVE_OBSERVATION": 0
+    },
+    "comparison_fingerprint": "8ad4155d218604062c5fb4699a0182f43307ec00e562e16b831d2059300db79a",
+    "comparison_file_sha256": "2da6f04dbe4eab04f1c2f2f434da8946be26dc0d8b5b1b4bc4aa9b66e84de850",
+    "live_observations_file_sha256": "3f3f9c8996d4a04e13c277821c1c4a2dcdaf0a2cddcc9b554b8639af393d8f56",
+    "unresolved_numerical_reviews": [],
+    "observation_mode": "Live native calls captured during this task; local comparison replays those acquired responses."
+  },
+  "repairs": [
+    {
+      "id": "EVIDENCE_WORKFLOW",
+      "effect": "Source content and task criteria select acquisition, analysis or verification; prepared models follow the selected phase."
+    },
+    {
+      "id": "REQUIRED_METHOD_PRIORITY",
+      "effect": "Required questions keep their methods across all 120 question-order permutations."
+    },
+    {
+      "id": "ACTUAL_EXECUTION_PROGRESS",
+      "effect": "The sweep summary reports nested evaluation counts, completion and pending frontiers."
+    },
+    {
+      "id": "EXACT_NUMERICAL_REVIEW",
+      "effect": "A separate exact local result refines Nash and conservation decisions while retaining their raw native receipts.",
+      "shared_numeric_issues": 2,
+      "shared_counterexample_cases": 3
+    }
+  ],
+  "actual_source_acquisition": {
+    "source_ref": {
+      "id": "MPC-CORE-77561659",
+      "owner": "mjcustomcomputers-dotcom",
+      "type": "GITHUB_SOURCE",
+      "version": "77561659fad5f68858b3c2da142301c50b9f3646",
+      "time": "2026-10-09",
+      "native_locator": "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/77561659fad5f68858b3c2da142301c50b9f3646/plugin-source/mpc-machine-legal/skills/index/SKILL.md"
+    },
+    "native_blob": "3b2b2a77e969e77793ed94b1ef7ca7ca9a09c6f4",
+    "phase_sequence": [
+      "EVIDENCE_ACQUISITION",
+      "ANALYSIS",
+      "VERIFICATION"
+    ],
+    "extracted_fact_count": 4,
+    "evidence": "workflow-acquisition-progression.json"
+  },
+  "integration_gates": {
+    "kind": "MPC_V16_INTEGRATION_GATES",
+    "recorded_at_utc": "2026-10-09T15:16:12.706094+00:00",
+    "tested_local_commit": "f2f92fe6e979b45b5c1b81f287aec9c73a7364aa",
+    "equivalent_native_commit": "e6f5ed4269743b423e64b06a7ccb9ad7a3f62dfa",
+    "exact_tree": "8c085e043c7e5f2e3fee9db9c3a1562dc96446df",
+    "environment": {
+      "node": "v24.19.0",
+      "platform": "Linux",
+      "prepared_dependencies_reused": true
+    },
+    "tests": {
+      "command": "node --test",
+      "exit_code": 0,
+      "tests": 571,
+      "pass": 571,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "raw_output": "full-suite.raw.log",
+      "raw_output_sha256": "a2753470593e0f1602d51358e811fa93db6a24355c78923163ff595fcfa7d0bd"
+    },
+    "build": {
+      "command": "XDG_CONFIG_HOME=.sites-runtime/config npm run build",
+      "exit_code": 0,
+      "raw_output": "build.raw.log",
+      "raw_output_sha256": "61aabfb8d76972d956628fdfddc929e29a3d74bc4d00daf608ed1c588c5a507f"
+    },
+    "source_status_after_execution": ""
+  },
+  "reasoning_continuation": {
+    "kind": "MPC_V16_SOURCE_BOUND_CONTINUATION",
+    "recorded_at_utc": "2026-10-09T15:16:12.706094+00:00",
+    "engine_fingerprint": "dc60b978d2eecf57c0421c803a81d2ddf96e9c9f453008fc9c56dc5a26efa6e3",
+    "runtime_file_count": 27,
+    "seed": 20261011,
+    "next_seed": 20261012,
+    "summary": {
+      "cases_executed": 318,
+      "passed": 318,
+      "failed": 0,
+      "anchor_replays": 105,
+      "new_exploratory_cases": 213,
+      "new_coverage_cases": 318,
+      "duplicates_skipped": 3,
+      "distinct_native_evaluators": 11,
+      "native_evaluator_calls": 990,
+      "native_evaluator_call_counts": {
+        "conservation": 98,
+        "fault_tree": 64,
+        "harsanyi": 520,
+        "ledger": 72,
+        "minimal_cut_sets": 64,
+        "nash": 101,
+        "partial_order": 6,
+        "selten": 50,
+        "state_trace": 6,
+        "temporal": 6,
+        "finite_invariant": 3
+      },
+      "evaluate_method_entry_calls": 987,
+      "direct_finite_invariant_calls": 3,
+      "evaluator_count_complete": true,
+      "known_native_numerical_disagreements": 40,
+      "catalog_candidates": 239,
+      "catalog_relations": 212,
+      "catalog_methods_promoted": 0,
+      "local_adapter_cases": 172
+    },
+    "prior_cursor_digest": "0c354d2d1864a0d1b213f62fce29f70cf9e0c7d0cd406ad703525c3f37c3c23b",
+    "cursor_digest": "1102e555999a13770f4e404f1c81d2ffdf48ae1c59f1a00071ef298fa6833d30",
+    "cursor_file_sha256": "c44a394f290582a326f7971733fad396142bd4492ca360f2dfdf488b103404b4",
+    "scan_sha256": "63e90d31adb897a567388e092118708d91dc60b8a44c6b3eb46b495a731d569c",
+    "last_run": "2026-10-09T15-10-04-279Z-20261011-63685a18",
+    "preserved_run_directories": [
+      "2026-10-09T14-22-59-873Z-20261011-b6339252",
+      "2026-10-09T15-10-04-279Z-20261011-63685a18"
+    ],
+    "new_numeric_family_cases": {
+      "native_numerical_independence": 25,
+      "native_numerical_control": 1
+    },
+    "family_counts": {
+      "abstraction_concretization": 2,
+      "adaptive_two_stage_computation": 26,
+      "already_known_observation": 1,
+      "budget_sensitive_search": 26,
+      "cancellation_noop": 6,
+      "decision_relevant_information": 1,
+      "event_order_crosscheck": 6,
+      "fault_tree_cut_sets": 64,
+      "hidden_policy_rejected": 1,
+      "imperfect_information_regret": 26,
+      "incomplete_graph": 1,
+      "information_value": 24,
+      "ledger_conservation": 24,
+      "missing_source": 1,
+      "nash_expected_utility": 24,
+      "native_numerical_control": 1,
+      "native_numerical_independence": 25,
+      "ready_challenger": 3,
+      "sequential_backward_induction": 24,
+      "source_alignment_conflict": 3,
+      "stochastic_observation_value": 26,
+      "tiny_positive_information": 2,
+      "unavailable_observation": 1
+    },
+    "archive": {
+      "path": "docs/validation/MPC-LOCAL-LIVE-V16-RUNS.zip",
+      "bytes": 745806,
+      "sha256": "ba71a90a404def16069a08005cd6f116a28cc53f4e4e1f3a97d4822988ed9cfb",
+      "files": 13,
+      "all_archived_bytes_read_back": true
+    },
+    "restore_instruction": "Extract Runs into a fresh output root; retain latest.json and its named scan, then run node scripts/run-reasoning-selfplay.mjs --output-root RESTORED_RUNS --rounds 24."
+  },
+  "portable_execution": {
+    "runtime_files": 43,
+    "engine_fingerprint": "dc60b978d2eecf57c0421c803a81d2ddf96e9c9f453008fc9c56dc5a26efa6e3",
+    "summary": {
+      "cases_executed": 318,
+      "passed": 318,
+      "failed": 0,
+      "anchor_replays": 105,
+      "new_exploratory_cases": 213,
+      "new_coverage_cases": 318,
+      "duplicates_skipped": 3,
+      "distinct_native_evaluators": 11,
+      "native_evaluator_calls": 990,
+      "native_evaluator_call_counts": {
+        "conservation": 98,
+        "fault_tree": 64,
+        "harsanyi": 520,
+        "ledger": 72,
+        "minimal_cut_sets": 64,
+        "nash": 101,
+        "partial_order": 6,
+        "selten": 50,
+        "state_trace": 6,
+        "temporal": 6,
+        "finite_invariant": 3
+      },
+      "evaluate_method_entry_calls": 987,
+      "direct_finite_invariant_calls": 3,
+      "evaluator_count_complete": true,
+      "known_native_numerical_disagreements": 40,
+      "catalog_candidates": 239,
+      "catalog_relations": 212,
+      "catalog_methods_promoted": 0,
+      "local_adapter_cases": 172
+    },
+    "seed": 20261011,
+    "next_seed": 20261012,
+    "purpose": "Execution from copied, dependency-complete source; repeated delivery validation is kept separate from experimental novelty.",
+    "platform": {
+      "node": "v24.19.0",
+      "platform": "Linux",
+      "prepared_dependencies_reused": true
+    }
+  },
+  "archives": {
+    "evidence": {
+      "path": "docs/validation/MPC-LOCAL-LIVE-V16-EVIDENCE.zip",
+      "bytes": 769157,
+      "sha256": "7ebf6fd9d606be25f8090cddf54ee31107cc470a349a613f8da68f782e8d967c"
+    },
+    "runs": {
+      "path": "docs/validation/MPC-LOCAL-LIVE-V16-RUNS.zip",
+      "bytes": 745806,
+      "sha256": "ba71a90a404def16069a08005cd6f116a28cc53f4e4e1f3a97d4822988ed9cfb"
+    }
+  },
+  "preserved": {
+    "development_base": "cb15df82c76063262caae3ab6e3e557cd00cf4b7",
+    "development_base_tree": "a746767c86c9f26f5f3413f296e99feba48dc395",
+    "prior_automation_families": [
+      "stochastic_observation_value",
+      "imperfect_information_regret",
+      "budget_sensitive_search",
+      "adaptive_two_stage_computation"
+    ],
+    "historical_controller_executable": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "historical_controller_state_sha256": "d8ccd726902541cec0e468a0c3354781b7dadeecec1cc66754c20a13ba3d4508",
+    "delivered_v15_zip_sha256": "623bb6b11fcf6557bcaab7890dc606532becf61192c5f25f0f12bd2fa62ccf82"
+  },
+  "next_action": "Continue the saved source-bound seed 20261012. For the next new experiment family, evaluate robust observation choice under interval likelihoods using an endpoint oracle and zero-width control.",
+  "remaining_engineering_question": "Bind the atomic continuation enumeration plan as well as its base if a future task requires plan identity across reordered transform pages.",
+  "deployment_state": {
+    "local_v16": "Tested package and GitHub development source",
+    "chatgpt_operating_instructions": "Private MPC plugin release 0.4.8",
+    "hosted_computation_service": "Observed published Site version 15 at source 765923c9839f32502e5c0f1f1b919b827596012e"
+  }
+}

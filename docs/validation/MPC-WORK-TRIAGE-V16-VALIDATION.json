@@ -1,0 +1,251 @@
+{
+  "kind": "MPC_WORK_TRIAGE_V16_VALIDATION",
+  "recorded_at_utc": "2026-10-09T15:33:54.708189+00:00",
+  "status": "SOURCE_SAVED_AND_PRIVATE_PLUGIN_UPDATED",
+  "base_source": {
+    "native_commit": "e6f5ed4269743b423e64b06a7ccb9ad7a3f62dfa",
+    "tree": "8c085e043c7e5f2e3fee9db9c3a1562dc96446df"
+  },
+  "changed_source_files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "78365274465f69bee816b9e33ef1dc9ace0c8ab1fd0d76c8f968dfc5fd993fbd",
+      "bytes": 28165
+    },
+    {
+      "path": "MPC-Work.cmd",
+      "sha256": "9a5628bcef3638657e434e9f8394f2dd25a627a2a350ba703906766030eb852c",
+      "bytes": 290
+    },
+    {
+      "path": "MPC-Work.ps1",
+      "sha256": "c7a0a8c54a1e35a08abe642944661ef169096b7fb347cd65c90798308e62ccf5",
+      "bytes": 804
+    },
+    {
+      "path": "scripts/run-mpc-work.mjs",
+      "sha256": "fed4d8db3eefc3511de3819f1b0b8791e0560b5647cd2c3ac66e5772862b9257",
+      "bytes": 4794
+    },
+    {
+      "path": "scripts/export-reasoning-intelligence.mjs",
+      "sha256": "3515d3f4ee8db3e55b67c1af3c8f6f4458d3124ff2ecae8e81d53568199cf3b7",
+      "bytes": 7928
+    },
+    {
+      "path": "tests/mpc-work-launcher.test.mjs",
+      "sha256": "38064f3216840fc1d21914e3691c5fde63ab97894d313f4fa5860c574ddf2f8f",
+      "bytes": 4058
+    },
+    {
+      "path": "docs/MPC-WORK-TRIAGE-V16.md",
+      "sha256": "9bd2cce8632036efc401273a12add38fe3a007188f486d2b8712e9e044fc2748",
+      "bytes": 4867
+    },
+    {
+      "path": "plugin-source/mpc-machine-legal/.codex-plugin/plugin.json",
+      "sha256": "9416dcb0445b8a85700475bd40f0255472980e4609a0ffc21636f3ddbc01c022",
+      "bytes": 1975
+    },
+    {
+      "path": "plugin-source/mpc-machine-legal/BUILD_INTEGRITY.json",
+      "sha256": "4017bb9cc047f4ebfd7e83ee857534810d5579f0eff6ec3c069aaa57096b510d",
+      "bytes": 8500
+    },
+    {
+      "path": "plugin-source/mpc-machine-legal/plugin.json",
+      "sha256": "a09389aaf5f075b345cf368db7a99e2d8632a8c78bc88fab9179e9a9a0009fca",
+      "bytes": 2146
+    },
+    {
+      "path": "plugin-source/mpc-machine-legal/scripts/validate_package.py",
+      "sha256": "9672af362da49851fef1a6d95ca59acd39c431804b07910bf1484406365ea216",
+      "bytes": 3691
+    },
+    {
+      "path": "plugin-source/mpc-machine-legal/skills/index/SKILL.md",
+      "sha256": "21234dc0f93bc9d71030e711fa2e115c79957121be1e9f5998694216fe536ac4",
+      "bytes": 16726
+    },
+    {
+      "path": "plugin-source/mpc-machine-legal/skills/machine-legal-live-source-router/SKILL.md",
+      "sha256": "8eb8295f7e7659ba7271972a5684028b140d627efec524df86e8456dbf0e605f",
+      "bytes": 6459
+    },
+    {
+      "path": "plugin-source/mpc-machine-legal/skills/machine-legal-work-triage/SKILL.md",
+      "sha256": "dada36411a95f3604c94beff88b5491f47daf4fb20226971d624abe47402660a",
+      "bytes": 8034
+    },
+    {
+      "path": "plugin-source/mpc-machine-legal/skills/machine-legal-work-triage/agents/openai.yaml",
+      "sha256": "c88696864b93cdea1723fe7c06b2e8d813a9910115bc2e313806ba435279fd3b",
+      "bytes": 257
+    }
+  ],
+  "native_runtime_methods_registries_and_controller_unchanged": true,
+  "launcher_checks": {
+    "command": "node --test tests/mpc-work-launcher.test.mjs tests/evidence-workflow-cli.test.mjs",
+    "exit_code": 0,
+    "tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "new_launcher_checks": 4,
+    "existing_workflow_checks": 2,
+    "node": "v24.19.0",
+    "platform": "Linux",
+    "covered": [
+      "paths with spaces and punctuation",
+      "distinct receipts on repeated invocation",
+      "matching-source analysis through launcher",
+      "explicit output-root handling",
+      "existing evidence preserved",
+      "missing packet and conflicting output arguments"
+    ]
+  },
+  "portable_dependency_closure": {
+    "runtime_files": 44,
+    "new_work_launcher_included": true
+  },
+  "native_acquired_source": {
+    "plugin_id": "Plugin_8ac3267f78148191a431496c9ea0c0be",
+    "version": "0.4.8",
+    "release_id": "pluginrel_6ac90174023c819184749e0875ca75f8",
+    "phase_definitions_extracted": 4,
+    "continuation_clauses_reconciled": 3,
+    "packet_phase_sequence": [
+      "EVIDENCE_ACQUISITION",
+      "ANALYSIS"
+    ],
+    "execution_basis": "Previously completed native plugin source read reused as actual source content in the launchers before/after packets."
+  },
+  "candidate_plugin": {
+    "version": "0.4.9",
+    "file_count": 60,
+    "skill_count": 15,
+    "original_skills_preserved": 14,
+    "unchanged_original_files": 52,
+    "added_paths": [
+      "skills/machine-legal-work-triage/SKILL.md",
+      "skills/machine-legal-work-triage/agents/openai.yaml"
+    ],
+    "changed_original_paths": [
+      ".codex-plugin/plugin.json",
+      "BUILD_INTEGRITY.json",
+      "plugin.json",
+      "scripts/validate_package.py",
+      "skills/index/SKILL.md",
+      "skills/machine-legal-live-source-router/SKILL.md"
+    ],
+    "removed_paths": [],
+    "manifest_preservation": [
+      {
+        "path": "plugin.json",
+        "only_version_changed": true,
+        "identity_presentation_prompts_and_connections_preserved": true
+      },
+      {
+        "path": ".codex-plugin/plugin.json",
+        "only_version_changed": true,
+        "identity_presentation_prompts_and_connections_preserved": true
+      }
+    ],
+    "validation": [
+      {
+        "name": "skill_validation",
+        "exit_code": 0,
+        "stdout": "Skill is valid!",
+        "stderr": ""
+      },
+      {
+        "name": "full_package_validation",
+        "exit_code": 0,
+        "stdout": "{\"ok\": true, \"errors\": [], \"skills\": 15, \"integrity_mode\": \"DELTA_WITH_PINNED_BASE\", \"scope\": \"local structural/hash checks; canonical promotion unverified\"}",
+        "stderr": ""
+      }
+    ],
+    "negative_controls": [
+      {
+        "name": "original_skill_renamed",
+        "expected_rejection_observed": true,
+        "exit_code": 1,
+        "errors": [
+          "expected all 14 original skills and machine-legal-work-triage",
+          "skill directory/name mismatch: source-state-renamed",
+          "missing pinned base file: skills/source-state-classifier/SKILL.md"
+        ]
+      },
+      {
+        "name": "pinned_registry_changed",
+        "expected_rejection_observed": true,
+        "exit_code": 1,
+        "errors": [
+          "pinned base hash mismatch: skills/machine-legal-prototype/assets/registry/maxvar256.json"
+        ]
+      }
+    ],
+    "overlay_sha256": "9bd2be5621c6bc76d23984ac497eb283e6f51d7146dacaf96c7d06a6327a9a24"
+  },
+  "usage_check": {
+    "kind": "FRESH_AGENT_SOURCE_TASK",
+    "agent": "/root/plugin_triage/triage_usage_check",
+    "task": "Use machine-legal-work-triage to determine the candidate operational entrypoint and changes from the already acquired native plugin release, then identify the concrete next release action. Read-only; no outside research.",
+    "source_artifacts": [
+      "/workspace/scratch/e75009b4057a/triage-plugin-validation/native-release-0.4.8.json",
+      "/workspace/scratch/e75009b4057a/triage-plugin-validation/native-0.4.8",
+      "/workspace/scratch/e75009b4057a/triage-plugin-validation/candidate-0.4.9"
+    ],
+    "completed_result": {
+      "candidate_version": "0.4.9",
+      "operational_entrypoint": "machine-legal-work-triage",
+      "display_name": "MPC Work Triage",
+      "acquired_native_version": "0.4.8",
+      "native_release_id": "pluginrel_6ac90174023c819184749e0875ca75f8",
+      "original_files": 58,
+      "candidate_files": 60,
+      "added": 2,
+      "changed": 6,
+      "unchanged": 52,
+      "removed": 0,
+      "pending_action": "Apply the candidate through the existing plugin update flow and retrieve the resulting native release.",
+      "model_executions": 0,
+      "outside_research": false,
+      "live_mutations": false
+    },
+    "scope": "Read-only source-answer usage from acquired artifacts. No new native runtime experiments. Two subsequent concise instruction additions (direct answer can finish; preserve enumeration plan) received final package and hash validation; that final validation is in validation-receipt.json."
+  },
+  "observed_live_surface": {
+    "runtime_version": "0.10.0-http.1",
+    "registered_route_accepts_workflow": false,
+    "hosted_connector_dispatch": false,
+    "integration": "Host performs current native connector calls and uses current accepted live fields; V16 local workflow handles supplied source content."
+  },
+  "native_windows_execution": {
+    "status": "RECEIVER_OBSERVATION_PENDING",
+    "node_launcher_executed_on": "Linux",
+    "powershell_and_cmd": "source reviewed"
+  },
+  "inherited_v16_evidence": {
+    "path": "MPC-LOCAL-LIVE-V16-VALIDATION.json",
+    "tests_passed": 571,
+    "build_exit_code": 0,
+    "local_live_cases": 48,
+    "native_evaluators": 24,
+    "ordinary_agreement_cases": 45,
+    "shared_numerical_counterexample_cases": 3,
+    "reasoning_cases": 318,
+    "reexecuted_this_continuation": false
+  },
+  "next_action": "Use MPC Work Triage on the next authorized task; acquire the current record, extract its facts, and continue from the result.",
+  "native_release_receipt": "MPC-WORK-TRIAGE-NATIVE-RELEASE.json",
+  "native_code_commit": "284f13c4dbd56a9bceb842e1dd0885a8994419ac",
+  "private_plugin_release": {
+    "id": "Plugin_8ac3267f78148191a431496c9ea0c0be",
+    "version": "0.4.9",
+    "release_id": "pluginrel_6ac909cbc60c81919fd38e10ccd6fe96",
+    "url": "https://chatgpt.com/plugins/Plugin_8ac3267f78148191a431496c9ea0c0be",
+    "scope": "USER",
+    "discoverability": "PRIVATE"
+  },
+  "updated_at_utc": "2026-10-09T15:39:11.519855+00:00"
+}

@@ -24,6 +24,8 @@ Machine Legal / Research OS already exists. Boot the existing system; do not rec
 
 Choose the working phase from the user's task and the available material before choosing a method.
 
+For MPC triage, work mode, evidence acquisition, method use, or continuation, follow [machine-legal-work-triage](../machine-legal-work-triage/SKILL.md) to perform the next native read, extract its facts, and dispatch a ready existing method when it advances the task. Reuse current same-session source reads and preserve the specific question's source/version boundaries.
+
 | Phase | Enter when | Perform |
 | --- | --- | --- |
 | EVIDENCE_ACQUISITION | A needed record, source text, fact, or observation is still to be obtained. | Identify the exact record and owner, use the available source connector to obtain it, read its contents, extract the relevant facts, and record the source and retrieval receipt. |
@@ -74,7 +76,7 @@ Each pass must have one precise scope and normally 1–3 objects/slices. At clos
 
 Do not stuff the checkpoint with the full research record. Source objects and prior durable artifacts remain where they already live; the checkpoint is a pointer-and-state receipt.
 
-If a pass cannot finish the whole user request, say so plainly and stop at a clean boundary. The expected user-visible close is equivalent to: `Checkpoint updated. This pass completed X. The full job is not complete. Next pass starts at Y.` Do not imply completion just because a pass completed.
+After a bounded pass, save its frontier and continue the next authorized action while the user's task remains active and the necessary tools are available. At task completion, an interruption, or a dependency requiring the user's decision, close with the completed work and exact remaining action. Do not imply completion just because a pass completed.
 
 ## 3B. Maintenance isolation
 Maintenance must not consume the research project unless the defect actually blocks the current pass.
@@ -102,7 +104,7 @@ Retrieval discipline:
 2. retrieve the current controller/frontier once;
 3. run one bounded classifier/MPC delta;
 4. fetch one additional source only for a precise unresolved node;
-5. checkpoint and stop at the pass boundary.
+5. checkpoint the completed delta and continue the next authorized bounded action without repeating completed acquisition.
 
 Never repeat an identical failing call. Before retrying, record: failure class, changed argument/state, and why the changed call can succeed. A retry with unchanged payload after schema rejection is prohibited. A reconnect is justified only by evidence of connection/authentication failure.
 
@@ -143,7 +145,7 @@ For each legally operative atom, preserve where applicable:
 - downstream consequence;
 - unresolved target.
 
-Escalation grammar: narrow exact node -> full-text authority pass -> authority/fact functional match -> classifier delta -> Story Through Law slice -> checkpoint -> stop.
+Escalation grammar: narrow exact node -> full-text authority pass -> authority/fact functional match -> classifier delta -> Story Through Law slice -> checkpoint -> next authorized bounded action.
 
 ## 7. Jackson Story Through Law
 Court-facing writing must use the user's controlling architecture rather than generic IRAC/CREAC, facts-first/law-later exposition, ceremonial transitions, or end-of-paragraph citation dumping.

@@ -19,7 +19,16 @@ for key,value in legacy.items():
     if key=='skills':req(value in ('./skills','./skills/'),'unexpected legacy skills location')
     elif key in ('interface','apps'):req(ext.get(key)==value,f'compatibility mismatch: {key}')
     else:req(portable.get(key)==value,f'compatibility mismatch: {key}')
-skills=list(root.glob('skills/*/SKILL.md'));req(len(skills)==14,'expected all 14 skills')
+expected_skills={
+    'adversarial-check','boot-research-os','business-logic-systems-analysis',
+    'courtlistener-source-gate','index','machine-legal-artifact-identity',
+    'machine-legal-boot-receipt','machine-legal-filing-status-verifier',
+    'machine-legal-live-source-router','machine-legal-pass-checkpoint',
+    'machine-legal-prototype','machine-legal-provenance-ledger',
+    'source-state-classifier','story-through-law','machine-legal-work-triage'
+}
+skills=list(root.glob('skills/*/SKILL.md'))
+req({path.parent.name for path in skills}==expected_skills,'expected all 14 original skills and machine-legal-work-triage')
 for path in skills:
     content=path.read_text();parts=content.split('---',2)
     req(content.startswith('---\n') and len(parts)==3,f'missing skill frontmatter: {path.parent.name}')
