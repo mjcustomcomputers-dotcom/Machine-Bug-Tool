@@ -40,8 +40,10 @@ The exporter rejects an existing output directory. It creates:
 - an optional, separately scoped receipt for an existing Microsoft
   Sysinternals installation.
 
-The PowerShell Desktop installer refuses overwrite. Double-clicking
-`MPC-Method-Self-Scan.cmd` opens the targeted-query GUI without invoking
+The PowerShell Desktop installer refuses overwrite and creates only the clearly
+named `OPEN-MPC-METHOD-LAB.cmd` browser launcher, not an unsigned Desktop
+`.ps1`. Double-clicking
+`OPEN-MPC-METHOD-LAB.cmd` opens the targeted-query GUI without invoking
 PowerShell, so Windows script-signing policy does not affect the normal product
 path. The prebuilt product needs no runtime. A refresh needs flag-free
 `node:sqlite` (22.13+, 23.4+, or 24+) and always writes a new result

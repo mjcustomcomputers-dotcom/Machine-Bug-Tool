@@ -63,7 +63,7 @@ function Test-OfflineBundle {
         }
     }
     if ($RequireBaseProduct) {
-        foreach ($required in @('scan.json','summary.json','REPORT.md','MPC-Method-Lab.html','MPC-Method-Self-Scan.cmd','method-atlas.sqlite','implemented-capsules.json','Run-Method-Self-Scan.ps1','Install-Method-Self-Scan.ps1','scripts/portable-method-self-scan.mjs','lib/method-self-scan.mjs','lib/method-self-scan-offline.mjs','lib/method-self-scan-ui.mjs')) {
+        foreach ($required in @('scan.json','summary.json','REPORT.md','MPC-Method-Lab.html','OPEN-MPC-METHOD-LAB.cmd','MPC-Method-Self-Scan.cmd','method-atlas.sqlite','implemented-capsules.json','Run-Method-Self-Scan.ps1','Install-Method-Self-Scan.ps1','scripts/portable-method-self-scan.mjs','lib/method-self-scan.mjs','lib/method-self-scan-offline.mjs','lib/method-self-scan-ui.mjs')) {
             if (-not $seen.Contains($required)) { throw "Required bundle artifact is absent from manifest: $required" }
         }
     }
