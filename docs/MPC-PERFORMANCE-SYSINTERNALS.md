@@ -2,6 +2,18 @@
 
 Use a small, reproducible local task to determine where screen capture, OCR, or reasoning waits. Sysinternals provides useful process, file-I/O, and memory evidence. It does not change the classifier framework or turn an unmeasured guess into a demonstrated speedup.
 
+## Native network observation and Sysinternals cross-check (Windows)
+
+The **Network** workspace view reads process/port metadata without invoking screen OCR. Check the local observation consent box and click **Take snapshot** to retrieve one bounded TCP/UDP listing. Process names and PIDs, TCP remote IP/port/state and UDP bound ports come from Windows native PowerShell NetTCPIP functions. Take another snapshot for added, disappeared and state-changed endpoints. View and Filter narrow the displayed table without collecting new data.
+
+The bundled fixed script at scripts/mpc-network-snapshot.ps1 is read by the local host and passed to Windows PowerShell with NoProfile, NonInteractive and Command arguments. It uses Get-NetTCPConnection, Get-NetUDPEndpoint and best-effort Get-Process PID names. The application does not run arbitrary scripts, install a Python runtime, bundle Sysinternals binaries, contact target hosts, resolve DNS names, capture packets, terminate connections or alter Windows Defender/firewall settings.
+
+Collection is one-shot and explicit, limited to 256 TCP plus 256 UDP records, with finite process/output bounds. At most one prior snapshot is held in memory for comparison. **Stop & clear** revokes a pending read and releases retained results. Copy JSON, Save .json and Use in chat are separate user actions. IP addresses, ports and PIDs can be sensitive; review before sharing. This is OS-reported metadata, not authenticated attribution or evidence of transmitted data. Partial/truncated tables mean the comparison cannot establish absence of traffic.
+
+For an independent cross-check use Microsoft's [Sysinternals TCPView](https://learn.microsoft.com/en-us/sysinternals/downloads/tcpview) manually. Its tcpvcon executable supports -a -c -n for local CSV without reverse name resolution. Do not use TCPView's Close Connections action during a baseline. <https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection> and <https://learn.microsoft.com/powershell/module/nettcpip/get-netudpendpoint> document the built-in underlying native tables.
+
+An Android/ADB bridge would be a separate explicitly authorized device adapter and is not included here. Socket tables also do not expose URL paths, application HTTP calls, DNS histories or payloads; those need different reviewed sensors. This layer is an addition to the existing MPC classifiers and evidence routing, not a replacement.
+
 ## Start with the app's own evidence
 
 Keep the build/source commit, Windows version, monitor dimensions and scale, selected capture region, capture interval, OCR language, local model, and model context size with the test. Record the app's available capture counters, skipped/duplicate frames, cache usage, OCR elapsed time, and process memory/CPU observations. This build runs its OCR coordinator and Tesseract engine in Node worker threads inside the main process; its process CPU/RSS include those threads. The displayed CPU percentage uses 100% for one logical core and can exceed 100%. The separate capture renderer, other Electron renderer/GPU processes and Ollama need their own process observations. Compare like-for-like CPU scales when using another utility.

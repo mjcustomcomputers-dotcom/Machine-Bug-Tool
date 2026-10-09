@@ -88,6 +88,10 @@ test('real loopback service completes and restores the source-bound workspace jo
   assert.equal(sourceChoice.headers['content-type'],'text/javascript; charset=utf-8');
   assert.equal(sourceChoice.headers['cache-control'],'no-store');
   assert.match(sourceChoice.text,/export function screenSourceStartGate/u);
+  const networkReader=await callHttp(running,{path:'/network-reader.js'});
+  assert.equal(networkReader.status,200);
+  assert.equal(networkReader.headers['content-type'],'text/javascript; charset=utf-8');
+  assert.match(networkReader.text,/initializeNetworkPanel/u);
 
   const empty=await callHttp(running,{path:'/api/workspace/bootstrap'});
   assert.equal(empty.status,200,empty.text);

@@ -277,6 +277,24 @@ try {
   breadcrumb('CHECK_PASSED', {check: 'ACTUAL_APP_START_AND_ISOLATED_PROJECT'});
   await layout(1366, 768);
   await layout(1920, 1080);
+  // Native Linux smoke: an actual trusted IPC call must refuse Windows-only network reads.
+  phase('LOCAL_NETWORK_BRIDGE_REQUIRES_WINDOWS_AND_PERMISSION');
+  const networkStatus=await js("return window.mpcWorkspace.networkStatus();");
+  assert.equal(networkStatus.platform_supported,false);
+  const noConsent=await js("try{await window.mpcWorkspace.networkSnapshot({projectId:'NATIVE-SMOKE',consent:false});return 'ALLOWED';}catch(error){return String(error.message??error);}");
+  assert.match(noConsent,/NETWORK_SNAPSHOT_INPUT_INVALID|NETWORK_EXPLICIT_CONSENT_REQUIRED/u);
+  const noWindows=await js("try{await window.mpcWorkspace.networkSnapshot({projectId:'NATIVE-SMOKE',consent:true});return 'ALLOWED';}catch(error){return String(error.message??error);}");
+  assert.match(noWindows,/NETWORK_WINDOWS_ONLY/u);
+  const clearNetwork=await js("return window.mpcWorkspace.networkClear();");
+  assert.equal(clearNetwork.state,'CLEARED');
+  await js("document.querySelector('[data-view=network]').click();");
+  const networkLayout=await js("const v=document.querySelector('#view-network'),r=v.getBoundingClientRect(),t=document.querySelector('.network-table-scroll').getBoundingClientRect();return {body_width:document.documentElement.scrollWidth,viewport:innerWidth,panel_right:r.right,table_right:t.right};");
+  assert.ok(networkLayout.body_width<=networkLayout.viewport+1,'Network view caused horizontal workspace overflow');
+  assert.ok(networkLayout.table_right<=networkLayout.viewport+1,'Network results table overflows page');
+  await diagnosticScreenshot('network-1920x1080.png');
+  checks.push({check:'NETWORK_BRIDGE_FAILS_CLOSED_AND_VIEW_FITS',status:'PASS'});
+  breadcrumb('CHECK_PASSED',{check:'NETWORK_BRIDGE_FAILS_CLOSED_AND_VIEW_FITS'});
+  await js("document.querySelector('[data-view=screen]').click();");
 
   phase('CREATE_SYNTHETIC_FIXTURE');
   fixture = new BrowserWindow({title: 'MPC Synthetic Screen Fixture', x: 0, y: 0, width: 1280, height: 480,
