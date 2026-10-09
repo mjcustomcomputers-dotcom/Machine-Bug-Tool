@@ -61,24 +61,24 @@ export function initializeNetworkPanel({bridge,getProjectId,onUseEvidence,announ
     text('network-summary','No native network snapshot collected.');
     text('network-diff','No prior observation to compare.');
     text('network-visible','No endpoint rows.');
-    text('network-status',message);buttons();
+    text('network-observation-status',message);buttons();
     try{await bridge?.networkClear?.();}catch{}
   }
   async function capture(){
     if(!available)return;
-    if(!$('network-consent').checked)return text('network-status','Check the permission box before reading local ports.');
+    if(!$('network-consent').checked)return text('network-observation-status','Check the permission box before reading local ports.');
     const current=getProjectId();
-    if(!current)return text('network-status','Create or select a project before taking a network snapshot.');
+    if(!current)return text('network-observation-status','Create or select a project before taking a network snapshot.');
     const attempt=++revision;running=true;buttons();
-    text('network-status','Reading Windows TCP/UDP endpoint metadata once…');
+    text('network-observation-status','Reading Windows TCP/UDP endpoint metadata once…');
     try{
       const result=await bridge.networkSnapshot({projectId:current,consent:true});
       if(attempt!==revision||!$('network-consent').checked||getProjectId()!==current)return;
       if(result?.snapshot?.kind!=='MPC_NETWORK_ENDPOINT_OBSERVATION')throw Error('NETWORK_RESPONSE_INVALID');
-      latest=result;render();text('network-status','Native snapshot observed at '+result.snapshot.observed_at+'. Nothing probed or uploaded.');
+      latest=result;render();text('network-observation-status','Native snapshot observed at '+result.snapshot.observed_at+'. Nothing probed or uploaded.');
     }catch(error){
       if(attempt!==revision)return;
-      text('network-status',safeError(error)+'. Windows NetTCPIP commands must be available; no source data was adopted.');
+      text('network-observation-status',safeError(error)+'. Windows NetTCPIP commands must be available; no source data was adopted.');
     }finally{if(attempt===revision){running=false;buttons();}}
   }
   $('network-consent').addEventListener('change',()=>{
@@ -92,7 +92,7 @@ export function initializeNetworkPanel({bridge,getProjectId,onUseEvidence,announ
   $('network-select').addEventListener('click',()=>{$('network-text').focus();$('network-text').select();});
   $('network-copy').addEventListener('click',()=>bridge.copyText($('network-text').value)
     .then(()=>announce('Local network snapshot copied to clipboard.'))
-    .catch(()=>text('network-status','NETWORK_CLIPBOARD_UNAVAILABLE')));
+    .catch(()=>text('network-observation-status','NETWORK_CLIPBOARD_UNAVAILABLE')));
   $('network-save').addEventListener('click',()=>{if(latest)downloadJson($('network-text').value);});
   $('network-use').addEventListener('click',()=>{
     if(!latest||latest.snapshot.project_id!==getProjectId())return;
@@ -103,6 +103,6 @@ export function initializeNetworkPanel({bridge,getProjectId,onUseEvidence,announ
     announce('Network metadata prepared as selected evidence in chat. Nothing was automatically sent.');
   });
   buttons();
-  text('network-status',available?'Ready for an explicit Windows network snapshot.':'This reader requires the native Windows MPC executable.');
+  text('network-observation-status',available?'Ready for an explicit Windows network snapshot.':'This reader requires the native Windows MPC executable.');
   return {clear,refreshButtons:buttons};
 }
