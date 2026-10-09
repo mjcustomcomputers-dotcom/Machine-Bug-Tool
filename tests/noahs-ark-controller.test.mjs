@@ -277,7 +277,7 @@ test('CLI rejects symlink escapes and refuses a stale source commit before writi
  const cli=resolve(root,'scripts/noahs-ark-controller-cli.mjs'),configPath=resolve(dir,'config.json');
  try{
   const current=copy(fixture);current.source_revision.commit=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
-  writeFileSync(configPath,JSON.stringify(current));symlinkSync(outside,resolve(dir,'escape'),'dir');
+  writeFileSync(configPath,JSON.stringify(current));symlinkSync(outside,resolve(dir,'escape'),process.platform==='win32'?'junction':'dir');
   const escaped=spawnSync(process.execPath,[cli,'init',configPath,resolve(dir,'escape/state.json')],{cwd:root,encoding:'utf8'});
   assert.equal(escaped.status,1);assert.match(escaped.stderr,/SYMLINK_PATH_REJECTED/u);assert.equal(existsSync(resolve(outside,'state.json')),false);
   current.source_revision.commit='0'.repeat(40);writeFileSync(configPath,JSON.stringify(current));

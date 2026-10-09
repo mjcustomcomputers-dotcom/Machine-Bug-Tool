@@ -6,6 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {randomUUID} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {controllerContract,controllerHash,createController,reconcileController,acceptControllerReceipt,nextControllerAction,verifyControllerState} from '../lib/noahs-ark-controller.mjs';
+import {isPathWithin} from '../lib/local-path-boundary.mjs';
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const STATE_ROOT=resolve(ROOT,'.sites-runtime');
 const catalogFiles=['candidates.json','expansion-2026-v2.json','expansion-evidence-intent-v3.json',
@@ -21,14 +22,14 @@ function loadCatalog(){
   relations:readJson(resolve(ROOT,'method-atlas/method-relations.json')).relationships};
 }
 function localStatePath(path){
- const full=resolve(path),rel=relative(STATE_ROOT,full);
- if(!rel||rel==='..'||rel.startsWith('..'+sep)||!full.endsWith('.json'))throw Error('STATE_MUST_BE_JSON_UNDER_DOT_SITES_RUNTIME');
+ const full=resolve(path);
+ if(!isPathWithin(STATE_ROOT,full)||!full.endsWith('.json'))throw Error('STATE_MUST_BE_JSON_UNDER_DOT_SITES_RUNTIME');
  noSymlinks(full);
  return full;
 }
 function noSymlinks(path){
  const rel=relative(ROOT,path);
- if(rel==='..'||rel.startsWith('..'+sep))throw Error('STATE_PATH_OUTSIDE_CHECKOUT');
+ if(!isPathWithin(ROOT,path,{allowRoot:true}))throw Error('STATE_PATH_OUTSIDE_CHECKOUT');
  let current=ROOT;
  for(const part of rel.split(sep)){
   current=resolve(current,part);
@@ -36,13 +37,13 @@ function noSymlinks(path){
  }
  let parent=dirname(path);
  while(!existsSync(parent))parent=dirname(parent);
- const real=realpathSync(parent),rootReal=realpathSync(ROOT),rr=relative(rootReal,real);
- if(rr==='..'||rr.startsWith('..'+sep))throw Error('CONTROLLER_REALPATH_OUTSIDE_CHECKOUT');
+ const real=realpathSync(parent),rootReal=realpathSync(ROOT);
+ if(!isPathWithin(rootReal,real,{allowRoot:true}))throw Error('CONTROLLER_REALPATH_OUTSIDE_CHECKOUT');
 }
 function checkoutState(){
  const commit=execFileSync('git',['rev-parse','HEAD'],{cwd:ROOT,encoding:'utf8'}).trim();
  const dirty=execFileSync('git',['status','--porcelain','--untracked-files=normal'],{cwd:ROOT,encoding:'utf8'}).trim().length>0;
- const files=['lib/noahs-ark-controller.mjs','scripts/noahs-ark-controller-cli.mjs','lib/noahs-ark-reasoning.mjs',
+ const files=['lib/noahs-ark-controller.mjs','scripts/noahs-ark-controller-cli.mjs','lib/local-path-boundary.mjs','lib/noahs-ark-reasoning.mjs',
   'lib/methods.mjs','lib/schema.mjs','lib/universal.mjs','lib/atomic-models.mjs','lib/deferred-models.mjs','lib/forensic-models.mjs',
   ...catalogFiles.map(name=>'method-atlas/'+name),'method-atlas/method-relations.json'];
  return {actual_git_commit:commit,working_tree_dirty:dirty,

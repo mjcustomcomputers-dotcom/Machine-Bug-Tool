@@ -1,10 +1,14 @@
 // Local-only SQLite/D1 compatible Method Atlas builder and read-only query CLI.
 // node scripts/method-atlas-cli.mjs init|status|query '{"dimensions":["MONEY"],...}'
+// Every JSON-taking command also accepts: <command> --input-file <path>
+// File input: regular file, <= 4 MiB, UTF-8 with optional BOM; never shell code.
+// Arg/file/encoding/JSON-object checks precede opening the derived cache.
+// Command-specific domain validation remains in the existing command handlers.
 import {DatabaseSync} from 'node:sqlite';
 import {createHash} from 'node:crypto';
 import {buildExpectedAtlasRows,verifyAtlasSeedParity} from '../lib/atlas-seed-parity.mjs';
 import {planNoahsArkReasoning} from '../lib/noahs-ark-reasoning.mjs';
-import {readFileSync,mkdirSync} from 'node:fs';
+import {readFileSync,mkdirSync,lstatSync,openSync,fstatSync,readSync,closeSync,constants} from 'node:fs';
 import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {routeMethodAtlas} from '../lib/method-atlas-router.mjs';
@@ -198,10 +202,64 @@ export function runNoahsArkReasoning(input){
  if(Object.keys(input).some(k=>!['atom','method_receipts','max_selected','max_pairs'].includes(k)))throw Error('UNKNOWN_REASONING_INPUT');
  return planNoahsArkReasoning({...input,methods:catalog.methods,relations:methodRelations.relationships});
 }
+const INPUT_FILE_MAX_BYTES=4*1024*1024;
+const JSON_COMMANDS=new Set(['query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit','reason']);
+function readInputFile(path){
+ const listed=lstatSync(path);
+ if(!listed.isFile())throw Error('INPUT_FILE_REGULAR_FILE_REQUIRED');
+ if(listed.size>INPUT_FILE_MAX_BYTES)throw Error('INPUT_FILE_TOO_LARGE_MAX_4194304_BYTES');
+ // Check the opened descriptor as well, and bound the read even if the file
+ // changes after stat. O_NONBLOCK prevents a replaced FIFO from hanging open.
+ const fd=openSync(path,constants.O_RDONLY|(constants.O_NONBLOCK??0)|(constants.O_NOFOLLOW??0));
+ let bytes;
+ try{
+  const before=fstatSync(fd);
+  if(!before.isFile())throw Error('INPUT_FILE_REGULAR_FILE_REQUIRED');
+  if(before.dev!==listed.dev||before.ino!==listed.ino)throw Error('INPUT_FILE_CHANGED_DURING_READ');
+  if(before.size>INPUT_FILE_MAX_BYTES)throw Error('INPUT_FILE_TOO_LARGE_MAX_4194304_BYTES');
+  const buffer=Buffer.alloc(INPUT_FILE_MAX_BYTES+1);
+  let length=0;
+  while(length<buffer.length){
+   const count=readSync(fd,buffer,length,buffer.length-length,null);
+   if(count===0)break;
+   length+=count;
+  }
+  if(length>INPUT_FILE_MAX_BYTES)throw Error('INPUT_FILE_TOO_LARGE_MAX_4194304_BYTES');
+  const after=fstatSync(fd);
+  if(length!==before.size||after.size!==before.size||after.mtimeMs!==before.mtimeMs||after.ctimeMs!==before.ctimeMs)throw Error('INPUT_FILE_CHANGED_DURING_READ');
+  bytes=buffer.subarray(0,length);
+ }finally{closeSync(fd)}
+ // Windows PowerShell's UTF-16 output is not UTF-8 JSON. Reject it rather
+ // than replacing undecodable bytes or silently changing source values.
+ if(bytes.includes(0)||(bytes[0]===0xff&&bytes[1]===0xfe)||(bytes[0]===0xfe&&bytes[1]===0xff))throw Error('INPUT_FILE_UTF8_REQUIRED');
+ try{return new TextDecoder('utf-8',{fatal:true}).decode(bytes)}
+ catch{throw Error('INPUT_FILE_UTF8_REQUIRED')}
+}
+function cliInput(command,args){
+ if(!JSON_COMMANDS.has(command)){
+  if(args.length)throw Error('UNEXPECTED_CLI_ARGUMENTS');
+  return undefined;
+ }
+ if(!args.length)throw Error('QUERY_JSON_REQUIRED');
+ let text;
+ if(args[0]==='--input-file'){
+  if(args.length!==2||!args[1]||args[1].startsWith('--'))throw Error('USAGE_INPUT_FILE_REQUIRES_ONE_PATH');
+  text=readInputFile(args[1]);
+ }else{
+  if(args[0].startsWith('--'))throw Error('UNKNOWN_CLI_OPTION');
+  if(args.length!==1)throw Error('UNEXPECTED_CLI_ARGUMENTS');
+  text=args[0];
+ }
+ let input;
+ try{input=JSON.parse(text)}catch{throw Error('INVALID_INPUT_JSON')}
+ if(!input||typeof input!=='object'||Array.isArray(input))throw Error('QUERY_JSON_OBJECT_REQUIRED');
+ return input;
+}
 const calledAsMain=process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url);
 if(calledAsMain){
  const command=process.argv[2]??'status';
- if(!['init','status','query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit','audit-seed','reason'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE_CLASSIFY_VARIATION');
+ if(!['init','status','audit-seed',...JSON_COMMANDS].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE_CLASSIFY_VARIATION');
+ const query=cliInput(command,process.argv.slice(3));
  mkdirSync(dirname(DB_PATH),{recursive:true});
  const db=command==='audit-seed'?new DatabaseSync(DB_PATH,{readOnly:true}):new DatabaseSync(DB_PATH);
  try{
@@ -209,9 +267,7 @@ if(calledAsMain){
    process.stdout.write(JSON.stringify(verifyCurrentAtlas(db),null,2)+'\n');
   }else{
   const stats=loadMethodAtlas(db);
-  if(['query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit','reason'].includes(command)){
-   if(!process.argv[3])throw Error('QUERY_JSON_REQUIRED');
-   const query=JSON.parse(process.argv[3]);
+  if(JSON_COMMANDS.has(command)){
    let result;
    if(command==='variation'){
      result=runAtomicVariationReview(db,query);
