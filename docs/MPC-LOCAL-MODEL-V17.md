@@ -23,6 +23,8 @@ The Qwen3 4B instruct weights are downloaded once; the `mpc-daybreak-local` name
 # Uses the existing native evidence workflow; no model call is made while a required record is missing.
 .\scripts\Run-MPC-Local-Model.ps1 -PlanOnly
 # After a source's exact version and content have been added to workflow.records:
+.\scripts\Run-MPC-Local-Model.ps1 -Model mpc-daybreak-local -InputFile .\data\mpc-local-model-demo.json
+# After confirming that the model works, switch to acquired authorized source content:
 .\scripts\Run-MPC-Local-Model.ps1 -Model mpc-daybreak-local -InputFile .\my-source-case.json
 ```
 
