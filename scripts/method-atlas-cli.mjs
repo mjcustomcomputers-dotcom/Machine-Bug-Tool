@@ -1,6 +1,7 @@
 // Local-only SQLite/D1 compatible Method Atlas builder and read-only query CLI.
 // node scripts/method-atlas-cli.mjs init|status|query '{"dimensions":["MONEY"],...}'
 import {DatabaseSync} from 'node:sqlite';
+import {createHash} from 'node:crypto';
 import {readFileSync,mkdirSync} from 'node:fs';
 import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -12,6 +13,9 @@ const baseCatalog=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/candidates.
 const extension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expansion-2026-v2.json'),'utf8'));
 const catalog={...baseCatalog,sources:[...baseCatalog.sources,...extension.sources],methods:[...baseCatalog.methods,...extension.methods]};
 const methodRelations=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/method-relations.json'),'utf8'));
+const seedFingerprint=createHash('sha256').update(JSON.stringify({
+ sources:catalog.sources,methods:catalog.methods,methodRelations:methodRelations.relationships
+})).digest('hex');
 const DB_PATH=process.env.MPC_METHOD_ATLAS_DB??resolve(ROOT,'.sites-runtime/method-atlas.sqlite');
 const parentByDimension={
  MONEY:'BL29',STATE:'BL12',TIME:'BL03',REPLAY:'BL15',RNG:'BL23',FINALITY:'BL13',
@@ -25,6 +29,10 @@ const parentByDimension={
 const run=(db,sql,values)=>db.prepare(sql).run(...values);
 export function loadMethodAtlas(db){
  db.exec(schema);
+ const stored=db.prepare("SELECT value FROM atlas_metadata WHERE key='seed_fingerprint'").get();
+ if(stored && stored.value!==seedFingerprint)throw Error('ATLAS_SEED_DRIFT_REBUILD_PRIVATE_CACHE_REQUIRED');
+ if(!stored && db.prepare('SELECT COUNT(*) AS n FROM atlas_methods').get().n!==0)
+  throw Error('UNPINNED_LEGACY_ATLAS_REBUILD_PRIVATE_CACHE_REQUIRED');
  // Canonical MPC tables are never opened or altered. All writes are atlas_-prefixed.
  db.exec('BEGIN TRANSACTION');
  try{
@@ -51,6 +59,7 @@ export function loadMethodAtlas(db){
     run(db,'INSERT OR IGNORE INTO atlas_method_relations (method_id,related_method_id,relation_type,rationale,evidence_independent,link_status) VALUES (?,?,?,?,?,?)',
       [relation.method_id,relation.related_method_id,relation.relation_type,relation.rationale,0,relation.link_status]);
   }
+  run(db,"INSERT OR IGNORE INTO atlas_metadata (key,value) VALUES ('seed_fingerprint',?)",[seedFingerprint]);
   db.exec('COMMIT');
  }catch(error){db.exec('ROLLBACK');throw error}
  return statusMethodAtlas(db);
@@ -60,7 +69,7 @@ export function statusMethodAtlas(db){
  const methods=count('atlas_methods'),classifiers=count('atlas_classifiers'),sources=count('atlas_sources'),triggers=count('atlas_triggers'),crosswalk=count('atlas_crosswalk');
  const methodRelationsCount=count('atlas_method_relations');
  const mismatch=methods!==catalog.methods.length||classifiers!==methods||sources!==catalog.sources.length||methodRelationsCount!==methodRelations.relationships.length;
- return {schema_version:catalog.atlas_version,methods,classifiers,sources,triggers,proposed_crosswalk:crosswalk,method_relations:methodRelationsCount,source_record_authoritative:false,method_execution_performed:false,canonical_registry_modified:false,validation:mismatch?'INVENTORY_MISMATCH':'STRUCTURAL_INVENTORY_PASS'};
+ return {schema_version:catalog.atlas_version,seed_fingerprint:seedFingerprint,methods,classifiers,sources,triggers,proposed_crosswalk:crosswalk,method_relations:methodRelationsCount,source_record_authoritative:false,method_execution_performed:false,canonical_registry_modified:false,validation:mismatch?'INVENTORY_MISMATCH':'STRUCTURAL_INVENTORY_PASS'};
 }
 export function dbAdapter(db){
  return {prepare(sql){return {bind(...values){return {all(){return {results:db.prepare(sql).all(...values)}}}}}}};
