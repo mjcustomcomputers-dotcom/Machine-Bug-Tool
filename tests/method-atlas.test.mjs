@@ -11,16 +11,16 @@ function fixture(){
 function query(dimensions,overrides={}){
  return {dimensions,subject_ids:['fixture-object-001'],source_refs:['fixture-source-001'],domain_profile:'BUSINESS',...overrides};
 }
-test('Atlas has 74 methods 74 candidate classifier questions and 18 sources with separate namespaces',()=>{
+test('Atlas has 86 methods 86 candidate classifier questions and 20 sources with separate namespaces',()=>{
  const {db,inventory}=fixture();
  try{
   assert.equal(inventory.validation,'STRUCTURAL_INVENTORY_PASS');
-  assert.equal(inventory.methods,74);
-  assert.equal(inventory.classifiers,74);
-  assert.equal(inventory.sources,18);
+  assert.equal(inventory.methods,86);
+  assert.equal(inventory.classifiers,86);
+  assert.equal(inventory.sources,20);
   const tables=db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all().map(x=>x.name);
   assert.ok(tables.every(x=>x.startsWith('atlas_')));
-  assert.equal(db.prepare("SELECT COUNT(*) AS n FROM atlas_methods WHERE family LIKE 'GAMING_%'").get().n,23);
+  assert.equal(db.prepare("SELECT COUNT(*) AS n FROM atlas_methods WHERE family LIKE 'GAMING_%'").get().n,31);
   assert.equal(db.prepare("SELECT COUNT(*) AS n FROM atlas_methods WHERE quantum_requirement!='NONE'").get().n,9);
  }finally{db.close()}
 });
@@ -28,8 +28,8 @@ test('Repeated seed remains idempotent and no canonical table is created',()=>{
  const {db}=fixture();try{
   const again=loadMethodAtlas(db);
   assert.equal(again.validation,'STRUCTURAL_INVENTORY_PASS');
-  assert.equal(again.methods,74);
-  assert.equal(statusMethodAtlas(db).classifiers,74);
+  assert.equal(again.methods,86);
+  assert.equal(statusMethodAtlas(db).classifiers,86);
   assert.deepEqual(db.prepare("SELECT name FROM sqlite_master WHERE name IN ('maxvar','BL','mbss')").all(),[]);
  }finally{db.close()}
 });
@@ -81,6 +81,6 @@ test('Typed router rejects unknown fields duplicate dimensions and bound violati
   await assert.rejects(()=>routeMethodAtlas(adapter,query(["RNG'); DROP TABLE atlas_methods; --"])),/INVALID_TYPED_DIMENSIONS/);
   await assert.rejects(()=>routeMethodAtlas(adapter,{...query(['RNG']),extra_field:true}),/UNKNOWN_ROUTER_FIELD/);
   await assert.rejects(()=>routeMethodAtlas(adapter,query(['RNG'],{max_candidates:25})),/INVALID_CANDIDATE_LIMIT/);
-  assert.equal(statusMethodAtlas(db).methods,74);
+  assert.equal(statusMethodAtlas(db).methods,86);
  }finally{db.close()}
 });
