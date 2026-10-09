@@ -1,0 +1,46 @@
+{
+  "interface": {
+    "displayName": "MPC Machine Legal",
+    "shortDescription": "Machine Legal research tools",
+    "longDescription": "MPC Machine Legal restores current canonical project state, works in bounded passes, preserves source/procedural distinctions, applies MAXVAR/micro-classification, runs adversarial checks, and automatically accounts for a 32-branch/384-child solid-state business-logic classifier lattice derived from STPA, Alloy-style relational analysis, NASA systems engineering, system dynamics, and structured challenge methods.",
+    "developerName": "MPC / Machine Legal",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Boot Machine Legal and resume the current project frontier.",
+      "Continue from the latest checkpoint and run the next bounded pass.",
+      "Research this issue through CourtListener full text and classify the delta.",
+      "Run the solid-state business-logic classifier sweep on this authorized workflow.",
+      "Render this verified record slice through Jackson Story Through Law."
+    ]
+  },
+  "name": "mpc-machine-legal",
+  "version": "0.4.7",
+  "description": "Operate the user's existing Machine Legal / Research OS with canonical-state recovery, delta-only execution, bounded pass/checkpoint continuation, source-state classification, full-text legal research, Jackson Story Through Law, schema-aware MCP routing, and a solid-state business-logic classifier lattice for authorized research.",
+  "author": {
+    "name": "MPC / Machine Legal"
+  },
+  "keywords": [
+    "legal research",
+    "courtlistener",
+    "evidence",
+    "source provenance",
+    "legal drafting",
+    "research os",
+    "machine legal",
+    "maxvar",
+    "story through law",
+    "checkpoint",
+    "next pass",
+    "business logic",
+    "stpa",
+    "systems analysis",
+    "solid state",
+    "classifiers"
+  ],
+  "license": "Proprietary",
+  "skills": "./skills/"
+}

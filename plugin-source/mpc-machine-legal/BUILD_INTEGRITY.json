@@ -1,0 +1,24 @@
+{
+  "version": "0.4.7",
+  "algorithm": "SHA-256",
+  "mode": "DELTA_WITH_PINNED_BASE",
+  "base_release_id": "pluginrel_6ac593772f24819185c6da4a326aeee5",
+  "base_version": "0.4.6",
+  "files": {
+    "skills/index/SKILL.md": "aacc8a87ca7f7a4b17fc2e0fecebb0be4d2fe5402f2fc8b4a040d5a26bbc04be",
+    "skills/boot-research-os/SKILL.md": "da2eb0295b0b9a43e25c1a57e87fde6ce9262764e08a15a437f59316bf755a24",
+    "skills/machine-legal-live-source-router/SKILL.md": "258bfbeed35e5dfab099b00aa7633709b1e4b5c697d5b773c88751256b1d34d9",
+    "skills/machine-legal-pass-checkpoint/SKILL.md": "d0cc981fdf2f4ccc0b05b3fbcd4d80dd805b8ea3c208c5de136635cb5c113366",
+    "plugin.json": "ef41d2838b2a586aad4cfdabad6c17775a756f07b9c50d3229cbdbafc6f816a6",
+    ".codex-plugin/plugin.json": "b39e17d98efb215e9670f9052b3bdf5659933cd5febc504f5564ac77ad1d2cfc"
+  },
+  "pinned_unchanged": {
+    "skills/machine-legal-prototype/assets/registry/maxvar256.json": "30b3937212d96f74b96812bcb17fdab30ea1124ddb0566be02f306146d7102db",
+    "skills/machine-legal-prototype/assets/registry/nestmax_program_iid_pack.json": "1436bb965b503339506057d47bde6bb03105c883f70c9b609e8280dd50c6a5e0",
+    "skills/machine-legal-prototype/assets/registry/storage_map.json": "288bc72a35523e463a05bb9e0e901520bdd5d44ef4a1224cdcf88c167825ffad"
+  },
+  "notes": [
+    "Operational phase selection advances acquisition, fact extraction, analysis, and verification from actual source state.",
+    "The delta preserves the native classifier assets and all omitted source files from the pinned base release."
+  ]
+}
