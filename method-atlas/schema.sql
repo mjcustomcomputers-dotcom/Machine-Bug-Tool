@@ -60,3 +60,17 @@ INSERT OR IGNORE INTO atlas_metadata(key,value) VALUES
  ('source_authentication','false'),
  ('target_network_actions','false'),
  ('bounty_finding_promotion','false');
+
+
+-- Source-bound proposed corroboration/complement/challenge links. No truth promotion.
+CREATE TABLE IF NOT EXISTS atlas_method_relations (
+ method_id TEXT NOT NULL REFERENCES atlas_methods(method_id),
+ related_method_id TEXT NOT NULL REFERENCES atlas_methods(method_id),
+ relation_type TEXT NOT NULL CHECK(relation_type IN ('COMPLEMENT','CHALLENGE','CROSS_CHECK')),
+ rationale TEXT NOT NULL,
+ evidence_independent INTEGER NOT NULL DEFAULT 0 CHECK(evidence_independent=0),
+ link_status TEXT NOT NULL DEFAULT 'PROPOSED_METHOD_COMPARISON' CHECK(link_status IN ('PROPOSED_METHOD_COMPARISON','REVIEWED_METHOD_COMPARISON')),
+ PRIMARY KEY(method_id,related_method_id,relation_type),
+ CHECK(method_id != related_method_id)
+);
+CREATE INDEX IF NOT EXISTS atlas_method_relations_lookup ON atlas_method_relations(method_id,related_method_id);
