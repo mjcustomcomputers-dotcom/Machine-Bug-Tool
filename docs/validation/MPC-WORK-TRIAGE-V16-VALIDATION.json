@@ -1,7 +1,7 @@
 {
   "kind": "MPC_WORK_TRIAGE_V16_VALIDATION",
   "recorded_at_utc": "2026-10-09T15:33:54.708189+00:00",
-  "status": "IMPLEMENTED_AND_VALIDATED",
+  "status": "SOURCE_SAVED_AND_PRIVATE_PLUGIN_UPDATED",
   "base_source": {
     "native_commit": "e6f5ed4269743b423e64b06a7ccb9ad7a3f62dfa",
     "tree": "8c085e043c7e5f2e3fee9db9c3a1562dc96446df"
@@ -236,5 +236,16 @@
     "reasoning_cases": 318,
     "reexecuted_this_continuation": false
   },
-  "next_action": "Save the reviewed code and apply the guarded private plugin update; use operative triage for the next authorized task."
+  "next_action": "Use MPC Work Triage on the next authorized task; acquire the current record, extract its facts, and continue from the result.",
+  "native_release_receipt": "MPC-WORK-TRIAGE-NATIVE-RELEASE.json",
+  "native_code_commit": "284f13c4dbd56a9bceb842e1dd0885a8994419ac",
+  "private_plugin_release": {
+    "id": "Plugin_8ac3267f78148191a431496c9ea0c0be",
+    "version": "0.4.9",
+    "release_id": "pluginrel_6ac909cbc60c81919fd38e10ccd6fe96",
+    "url": "https://chatgpt.com/plugins/Plugin_8ac3267f78148191a431496c9ea0c0be",
+    "scope": "USER",
+    "discoverability": "PRIVATE"
+  },
+  "updated_at_utc": "2026-10-09T15:39:11.519855+00:00"
 }
