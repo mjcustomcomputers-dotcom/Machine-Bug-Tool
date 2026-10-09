@@ -112,12 +112,9 @@ if(calledAsMain){
      if(result.ledger_rows.length){
        db.exec('BEGIN TRANSACTION');
        try {
-         const put=db.prepare(`INSERT INTO atlas_variation_ledger
+         const put=db.prepare(`INSERT OR IGNORE INTO atlas_variation_ledger
            (subject_id,atom_id,variant_id,variation_kind,method_id,direction,boundary,evidence_digest,variant_digest,source_signature,dimension_signature,decision)
-           VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
-           ON CONFLICT(subject_id,atom_id,variant_id,method_id,direction,boundary)
-           DO UPDATE SET variation_kind=excluded.variation_kind,evidence_digest=excluded.evidence_digest,variant_digest=excluded.variant_digest,
-           source_signature=excluded.source_signature,dimension_signature=excluded.dimension_signature,decision=excluded.decision,recorded_at=CURRENT_TIMESTAMP`);
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`);
          for(const row of result.ledger_rows)put.run(row.subject_id,row.atom_id,row.variant_id,row.variation_kind,row.method_id,row.direction,row.boundary,row.evidence_digest,row.variant_digest,row.source_signature,row.dimension_signature,row.decision);
          db.exec('COMMIT');
        }catch(error){db.exec('ROLLBACK');throw error}
