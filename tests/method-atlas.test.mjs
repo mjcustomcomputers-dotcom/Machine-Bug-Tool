@@ -11,13 +11,13 @@ function fixture(){
 function query(dimensions,overrides={}){
  return {dimensions,subject_ids:['fixture-object-001'],source_refs:['fixture-source-001'],domain_profile:'BUSINESS',...overrides};
 }
-test('Atlas has 118 methods 118 candidate classifier questions and 30 sources with separate namespaces',()=>{
+test('Atlas has 143 methods 143 candidate classifier questions and 44 sources with separate namespaces',()=>{
  const {db,inventory}=fixture();
  try{
   assert.equal(inventory.validation,'STRUCTURAL_INVENTORY_PASS');
-  assert.equal(inventory.methods,118);
-  assert.equal(inventory.classifiers,118);
-  assert.equal(inventory.sources,30);
+  assert.equal(inventory.methods,143);
+  assert.equal(inventory.classifiers,143);
+  assert.equal(inventory.sources,44);
   const tables=db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all().map(x=>x.name);
   assert.ok(tables.every(x=>x.startsWith('atlas_')));
   assert.equal(db.prepare("SELECT COUNT(*) AS n FROM atlas_methods WHERE family LIKE 'GAMING_%'").get().n,31);
@@ -28,8 +28,8 @@ test('Repeated seed remains idempotent and no canonical table is created',()=>{
  const {db}=fixture();try{
   const again=loadMethodAtlas(db);
   assert.equal(again.validation,'STRUCTURAL_INVENTORY_PASS');
-  assert.equal(again.methods,118);
-  assert.equal(statusMethodAtlas(db).classifiers,118);
+  assert.equal(again.methods,143);
+  assert.equal(statusMethodAtlas(db).classifiers,143);
   assert.deepEqual(db.prepare("SELECT name FROM sqlite_master WHERE name IN ('maxvar','BL','mbss')").all(),[]);
  }finally{db.close()}
 });
@@ -81,6 +81,18 @@ test('Typed router rejects unknown fields duplicate dimensions and bound violati
   await assert.rejects(()=>routeMethodAtlas(adapter,query(["RNG'); DROP TABLE atlas_methods; --"])),/INVALID_TYPED_DIMENSIONS/);
   await assert.rejects(()=>routeMethodAtlas(adapter,{...query(['RNG']),extra_field:true}),/UNKNOWN_ROUTER_FIELD/);
   await assert.rejects(()=>routeMethodAtlas(adapter,query(['RNG'],{max_candidates:25})),/INVALID_CANDIDATE_LIMIT/);
-  assert.equal(statusMethodAtlas(db).methods,118);
+  assert.equal(statusMethodAtlas(db).methods,143);
+ }finally{db.close()}
+});
+
+test('School-computation methods are discovered by typed process/synthesis and privacy dimensions',async()=>{
+ const {db,adapter}=fixture();try{
+  const process=await routeMethodAtlas(adapter,query(['PROCESS'],{max_candidates:12}));
+  assert.ok(process.selected_methods.some(x=>x.family==='PROCESS_MINING'));
+  const synth=await routeMethodAtlas(adapter,query(['SYNTHESIS'],{max_candidates:12}));
+  assert.ok(synth.selected_methods.some(x=>x.family==='MIT_FORMAL_COMPUTATION'||x.family==='BERKELEY_SYNTHESIS'));
+  const privacy=await routeMethodAtlas(adapter,query(['PRIVACY'],{max_candidates:12}));
+  assert.ok(privacy.selected_methods.some(x=>x.family==='HARVARD_PRIVACY_COMPUTATION'));
+  assert.ok([process,synth,privacy].every(x=>x.no_method_executed&&!x.authorization_determined));
  }finally{db.close()}
 });
