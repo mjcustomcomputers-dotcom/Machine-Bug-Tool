@@ -74,3 +74,16 @@ CREATE TABLE IF NOT EXISTS atlas_method_relations (
  CHECK(method_id != related_method_id)
 );
 CREATE INDEX IF NOT EXISTS atlas_method_relations_lookup ON atlas_method_relations(method_id,related_method_id);
+
+
+-- Multi-axis deterministic Method Atlas reclassification (non-canonical).
+CREATE TABLE IF NOT EXISTS atlas_method_taxonomy (
+ method_id TEXT NOT NULL REFERENCES atlas_methods(method_id),
+ axis TEXT NOT NULL CHECK(axis IN ('DISCIPLINE','PURPOSE','MODEL_KIND','DIRECTION','EVIDENCE','IMPLEMENTATION','SOURCE_REVIEW','QUANTUM_REQUIREMENT')),
+ class_key TEXT NOT NULL,
+ classification_basis TEXT NOT NULL CHECK(classification_basis IN ('FAMILY_DECLARED','DIMENSION_TYPED','METHOD_ID_OVERRIDE','NATIVE_METHOD_METADATA','SOURCE_LOCATOR_METADATA')),
+ review_state TEXT NOT NULL DEFAULT 'PROPOSED' CHECK(review_state IN ('PROPOSED','REVIEWED')),
+ PRIMARY KEY (method_id,axis,class_key)
+);
+CREATE INDEX IF NOT EXISTS atlas_method_taxonomy_axis ON atlas_method_taxonomy(axis,class_key,method_id);
+CREATE INDEX IF NOT EXISTS atlas_method_taxonomy_method ON atlas_method_taxonomy(method_id,axis);
