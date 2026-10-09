@@ -8,7 +8,9 @@ import {routeMethodAtlas} from '../lib/method-atlas-router.mjs';
 import {detectMethodAtoms} from '../lib/atomic-method-detector.mjs';
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const schema=readFileSync(resolve(ROOT,'method-atlas/schema.sql'),'utf8');
-const catalog=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/candidates.json'),'utf8'));
+const baseCatalog=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/candidates.json'),'utf8'));
+const extension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expansion-2026-v2.json'),'utf8'));
+const catalog={...baseCatalog,sources:[...baseCatalog.sources,...extension.sources],methods:[...baseCatalog.methods,...extension.methods]};
 const methodRelations=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/method-relations.json'),'utf8'));
 const DB_PATH=process.env.MPC_METHOD_ATLAS_DB??resolve(ROOT,'.sites-runtime/method-atlas.sqlite');
 const parentByDimension={
