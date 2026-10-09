@@ -109,3 +109,12 @@ program's current authorization and testing rules.
 For each concrete change, report the source/native record, applicable methods
 and classifiers, falsifier, actual change, verification, remaining dependency,
 and exact next action. Do not manufacture a pass number or completion score.
+
+
+## Daybreak authorized bounty field missions (additive)
+
+This repository is also the prepared **Daybreak Blue / Codex field workspace** for explicitly authorized professional bug bounty research. It is not limited to source repair. When the user's Codex task is a bounty mission, read `docs/daybreak-authorized-bounty-field-ops.md` and use `docs/nasa-inspired-bounty-verification-report.md` for evidence-driven reporting. The current official program scope and canonical Drive/Dash PASS control over these generic templates.
+
+Do not turn a field mission into another Node/pnpm setup run after the existing environment is restored, unless a concrete environment defect blocks the task. Use the Daybreak selection actually available and selected in the Codex product surface; a checked-in instruction cannot enable model access or transfer credentials. The user's FIDO hardware security key authenticates account access, not bounty target permission.
+
+Recover a single current program frontier, verify scope and automation limits, prioritize payout-relevant *falsifiable* security impact, exhaust passive/native/fixture checks, then execute only target interactions independently restricted to the program's explicit allowances. Preserve private evidence, typed registries and adverse interpretations. Any NASA-inspired report is an engineering discipline, not an endorsement or certified audit. Never infer that source tests, Cloud restoration, an MPC model calculation or a proposed exploit proves a live finding.
