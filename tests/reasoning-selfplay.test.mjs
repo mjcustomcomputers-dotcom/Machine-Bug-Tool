@@ -28,6 +28,10 @@ test('Finite curriculum executes actual method contracts and preserves independe
  assert.equal(stochastic.observed.selected_option,'accurate');
  assert.equal(stochastic.observed.ranked_observations.find(row=>row.observation_id==='coin-flip').gross_evsi,0);
  assert.ok(result.summary.local_adapter_cases>=result.cases.filter(c=>c.family==='stochastic_observation_value').length);
+ const regret=result.cases.find(c=>c.family==='imperfect_information_regret'&&c.shape.reward===1&&c.shape.rowWeights[0]===1&&c.shape.rowWeights[1]===1&&c.shape.columnWeights[0]===1&&c.shape.columnWeights[1]===1);
+ assert.equal(regret.observed.equilibrium_consistent,true);
+ assert.equal(regret.observed.max_unilateral_regret,0);
+ assert.equal(regret.observed.boundaries.cfr_performed,false);
  const real=result.cases.find(c=>c.family==='abstraction_concretization'&&c.shape.real);
  assert.equal(real.observed.status,'REAL_MODEL_COUNTEREXAMPLE');
  assert.deepEqual(real.observed.counterexample.state_path,['S','A','F']);

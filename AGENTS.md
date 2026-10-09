@@ -35,6 +35,14 @@ evaluator or Atlas ID. Keep its expansion at 16 states or fewer; do not infer
 likelihoods, learn a policy, claim calibration, perform sequential search/CFR,
 or treat a synthetic result as target evidence.
 
+The additive imperfect-information regret family accepts one finite 2–8 action
+simultaneous-move game with bounded integer payoffs and strategy weights. It
+enumerates every pure unilateral response with exact integer arithmetic and
+cross-checks the supplied game through the retained Nash and Harsanyi
+evaluators. Uniform matching pennies is its equilibrium-consistent negative
+control. It adds no evaluator or Atlas ID and does not perform CFR, solve a
+game tree, infer beliefs, learn opponent play, or claim general poker solving.
+
 ## Final engineering scope — local receiving and Codex acceptance
 
 The user has ended research for this phase. The current authorized action is one

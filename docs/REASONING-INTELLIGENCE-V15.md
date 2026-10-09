@@ -1,6 +1,6 @@
 # V15 — Local Reasoning Intelligence Lab
 
-The local lab executes finite models through MPC's existing methods, checks their answers against explicit mathematical relationships, and keeps a reproducible cursor for the next bounded pass. It adds information reasoning, bounded stochastic observation value, concrete counterexample refinement, and seeded scenario variation to the existing product.
+The local lab executes finite models through MPC's existing methods, checks their answers against explicit mathematical relationships, and keeps a reproducible cursor for the next bounded pass. It adds information reasoning, bounded stochastic observation value, bounded imperfect-information regret, concrete counterexample refinement, and seeded scenario variation to the existing product.
 
 **Baseline source:** `e3a8f15806388d9c0d3705970ec7fd18c44d3439`. The V15 additions extend that baseline. The baseline commit does not identify the new files: each execution receipt records the exact runtime and catalog file hashes, available Git identity, and working-tree state.
 
@@ -47,6 +47,7 @@ Run the same command again for continuation. The launcher starts one bounded pas
 | Planner challenges | Source removal blocks planning; missing or unknown preferred challenger inputs permit a ready linked alternative; input order preserves the answer. |
 | Actor information and decision value | Identical visible histories require the same legal actions and policy. Compare admissible expected utility with an omniscient upper bound, then price supplied observation partitions. |
 | Stochastic observation value | Expand supplied finite signal likelihoods into joint hidden-state/signal states, execute posterior choices through the retained Harsanyi evaluator, compare against a closed-form fair-bit oracle, and reject costs above a supplied utility-unit budget. |
+| Imperfect-information regret | Enumerate every pure unilateral response to a supplied finite simultaneous-move strategy profile with exact integer arithmetic, cross-check with retained Nash/Harsanyi evaluators, and require uniform matching pennies to return exact zero regret. |
 | Abstraction refinement | Build an over-approximation, replay its failure path in the concrete graph, and split a group responsible for an unrealizable path or label. |
 | Fault structure | Compare direct Boolean evaluation, the native fault tree, and native minimal cut sets while preserving shared leaf identity. |
 | Accounting | Reconcile each account with conservation, split and reorder equivalent transfers, and check that a changed amount with stale balances produces residuals. |
@@ -74,6 +75,27 @@ Observation partitions refine existing knowledge by intersection. Unavailable, l
 The contract admits at most 8 observations, 8 outcomes per observation, and 16 expanded joint states. Each state-specific likelihood row must be complete, bounded in `[0,1]`, and sum to one within `1e-12`. A supplied observation whose cost exceeds the supplied utility-unit budget is blocked before evaluator calls. Likelihoods, costs, access, and budget are never inferred.
 
 The curriculum's independent oracle uses a fair hidden bit with reward `r` and a binary symmetric signal of accuracy `q` in `[0.5,1]`: prior value is `r/2`, posterior value is `r*q`, gross information value is `r*(q-0.5)`, and net value subtracts the supplied cost. Accuracy `0.5` is the mandatory no-information negative control. This is a bounded single-decision experiment, not sequential search, calibration, CFR, a general poker solver, or evidence that a real source is accurate.
+
+## Bounded imperfect-information regret
+
+`lib/finite-imperfect-information-regret.mjs` evaluates one supplied two-player
+simultaneous-move game with 2–8 actions per player. Payoffs are bounded integers
+and mixed strategies are supplied as bounded nonnegative integer weights, so
+the profile utility and every pure unilateral best response are accumulated
+exactly with `BigInt`. Linearity means pure-response enumeration is sufficient
+to measure unilateral regret for this finite normal-form contract.
+
+The adapter makes one retained `nash` call and two retained `harsanyi` calls as
+native cross-checks. It adds no hosted evaluator or Method Atlas ID. The
+curriculum independently checks matching pennies with a separate closed-form
+integer oracle; uniform weights are the exact zero-regret negative control and
+biased weights must expose the corresponding player's profitable deviation.
+
+This family does not traverse a game tree, construct or learn information
+sets, infer beliefs, model an opponent, run CFR, or solve arbitrary poker.
+Exact zero unilateral regret means only that the supplied strategy profile is
+equilibrium-consistent in the supplied finite game; it does not authenticate
+the game, establish uniqueness, or describe real-world play.
 
 ## Counterexamples and finite evidence boundaries
 
