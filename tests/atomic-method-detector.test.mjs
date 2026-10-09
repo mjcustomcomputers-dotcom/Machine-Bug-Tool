@@ -13,7 +13,7 @@ test('Method cross references are seeded with exact typed source-linked candidat
  try{
   const stat=statusMethodAtlas(db);
   assert.equal(stat.validation,'STRUCTURAL_INVENTORY_PASS');
-  assert.equal(stat.method_relations,104);
+  assert.equal(stat.method_relations,204);
   assert.equal(db.prepare("SELECT count(*) AS n FROM atlas_method_relations WHERE evidence_independent!=0").get().n,0);
   assert.equal(db.prepare("SELECT count(*) AS n FROM atlas_method_relations WHERE link_status!='PROPOSED_METHOD_COMPARISON'").get().n,0);
  }finally{db.close()}
@@ -79,7 +79,7 @@ test('Typed detector refuses extra fields, duplicate atoms, huge batches and wro
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[{...atom('a','STATE'),arbitrary:'injection'}]}),/UNKNOWN_ATOM_FIELD/);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE',[],{observed_at:'tomorrow',clock_domain:'utc'})]}),/INVALID_OBSERVED_TIMESTAMP/);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:Array.from({length:33},(_,i)=>atom('a'+i,'STATE'))}),/ATOM_BATCH_BOUNDS/);
-  assert.equal(statusMethodAtlas(db).methods,143);
+  assert.equal(statusMethodAtlas(db).methods,231);
  }finally{db.close()}
 });
 test('Detector emits seven distinct stage receipts without inventing model execution',async()=>{
