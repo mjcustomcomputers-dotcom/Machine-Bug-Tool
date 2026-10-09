@@ -1,5 +1,33 @@
 # MPC Machine Legal BugTools — Daybreak development
 
+## Current V17 scope — MPC Security Assistant
+
+The user authorized a Windows/Codex assistant and ChatGPT operating profile for
+the existing security-consulting and bug-bounty platform, with the explicit
+workflow **ACQUIRED → ANALYZED → DECIDED**. Read
+`docs/MPC-SECURITY-ASSISTANT-GUIDE.md` and `assistant/GPT-INSTRUCTIONS.txt` for
+this additive review branch. `scripts/start-mpc-security-assistant.mjs` is a
+local stdio server; Codex is its client. The engine reuses the original native
+tools and V15 synthetic reasoning curriculum without changing their IDs.
+
+Acquisition reads exact bounded workspace files. Analysis selects its arguments
+from those acquired JSON bytes. A decision records a review disposition with
+falsifier and next action. It does not authorize target traffic or adopt a
+finding. The server has no network or shell-execution tool. Existing Codex host
+capabilities, approved engagements, and the original hosted plugin remain
+separate. Do not fabricate Daybreak selection or hosted authentication from
+local status, and do not feed local receipts into the historical V13 gate.
+
+The source guard covers the transitive tool, data, transport and profile files;
+restart after changing them. Preserve invalidated receipt history. All new
+assistant state is per-process memory; use host-owned artifact saving for
+durable results and reacquire/reanalyze files after restart. Do not reopen the
+completed V13 controller. Validate actual adapter behavior with
+`node --test tests/security-assistant*.test.mjs tests/local-mcp-stdio.test.mjs tests/bounded-json.test.mjs`,
+then the required full suite/build. Preserve unrelated active V16 work. Changes
+remain on a separate review branch; no merge, deployment or target test follows
+from this setup task.
+
 ## V16 operational intelligence — evidence, facts, acquisition, progress
 
 The user directed the product to recognize EVIDENCE_ACQUISITION and lead with

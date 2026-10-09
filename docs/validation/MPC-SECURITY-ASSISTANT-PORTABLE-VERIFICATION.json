@@ -1,0 +1,149 @@
+{
+  "kind": "MPC_SECURITY_ASSISTANT_PORTABLE_EXECUTION_VERIFICATION_1.0",
+  "verified_at_utc": "2026-10-09T15:28:34.572Z",
+  "status": "PASS",
+  "output_directory": "/workspace/scratch/b2cf7bbceb46/mpc-security-assistant-windows-v17-final",
+  "engine_fingerprint": "24185cc8762fe62fd2b35b9d3e8b7105ee109583412f644bec2351d2ef0438fc",
+  "manifest_sha256": "f68be9eba372df5c3b07cef774939fbb5dd5788e836b48db1aaf354c1b81229d",
+  "runtime_source_files": 52,
+  "copied_file_count_including_manifest": 58,
+  "total_bytes": 2526193,
+  "host": {
+    "platform": "linux",
+    "architecture": "x64",
+    "node": "v24.19.0"
+  },
+  "startup_check": {
+    "status": "MPC_LOCAL_STDIO_STARTUP_CHECK",
+    "exit_code": 0,
+    "tool_count": 27,
+    "native_tools": 20,
+    "native_evaluators": 24,
+    "fingerprint_matches_manifest": true
+  },
+  "roundtrips": [
+    {
+      "protocol_version": "2026-07-28",
+      "era": "MODERN_DISCOVERY",
+      "status": "PASS",
+      "responses": 10,
+      "tools": 27,
+      "selected_catalog_schema": "nash",
+      "optional_undefined_catalog_field_omitted": true,
+      "native_evaluator": "nash",
+      "pure_equilibria": [],
+      "mixed_probabilities": {
+        "row": [
+          0.5,
+          0.5
+        ],
+        "column": [
+          0.5,
+          0.5
+        ]
+      },
+      "workflow": [
+        "ACQUIRED",
+        "ANALYZED",
+        "DECIDED"
+      ],
+      "source_content_sha256": "c4645c700050ed2964c311045d93ae91cb7b78830ce00070a2578045b29136ee",
+      "analysis_result_sha256": "f2257a4e4ec14529929c7b4f25f1ac42016ab1bca5e7311c5a805f4672b067d0",
+      "acquisition_id": "ACQ:6f18e56024b47f6a085abf403c669cf1ecbada1596bdbcc751eb8bfdb3b3ae70",
+      "analysis_id": "ANA:60eef4fb684c05ac014813ddf33a0fa4fad4ed65bfeb0f40541986620ba2dc72",
+      "decision_id": "DEC:c0414238119e25f2106f3cfc381329c1c20270d176644c709e377897846b5f8e",
+      "final_session": {
+        "acquisitions": 1,
+        "analyses": 1,
+        "decisions": 1,
+        "invalidated_acquisitions": 0
+      },
+      "exit_code": 0,
+      "stderr_bytes": 0
+    },
+    {
+      "protocol_version": "2025-11-25",
+      "era": "LEGACY_INITIALIZE",
+      "status": "PASS",
+      "responses": 10,
+      "tools": 27,
+      "selected_catalog_schema": "nash",
+      "optional_undefined_catalog_field_omitted": true,
+      "native_evaluator": "nash",
+      "pure_equilibria": [],
+      "mixed_probabilities": {
+        "row": [
+          0.5,
+          0.5
+        ],
+        "column": [
+          0.5,
+          0.5
+        ]
+      },
+      "workflow": [
+        "ACQUIRED",
+        "ANALYZED",
+        "DECIDED"
+      ],
+      "source_content_sha256": "c4645c700050ed2964c311045d93ae91cb7b78830ce00070a2578045b29136ee",
+      "analysis_result_sha256": "f2257a4e4ec14529929c7b4f25f1ac42016ab1bca5e7311c5a805f4672b067d0",
+      "acquisition_id": "ACQ:4992fff370e3f7ca99951daa48016b4321e2b17cfe00a1dbb0b76ab12e97b8b2",
+      "analysis_id": "ANA:b2e638597938e03f40f2accf244763d36a58e8ca359b69e0dcdb33c22a6d87c3",
+      "decision_id": "DEC:e6e36e4517816f4f029d42c7369d3dc2962dacfb9a5e662be589dcf6f4b304fc",
+      "final_session": {
+        "acquisitions": 1,
+        "analyses": 1,
+        "decisions": 1,
+        "invalidated_acquisitions": 0
+      },
+      "exit_code": 0,
+      "stderr_bytes": 0
+    },
+    {
+      "protocol_version": "2025-06-18",
+      "era": "LEGACY_INITIALIZE",
+      "status": "PASS",
+      "responses": 10,
+      "tools": 27,
+      "selected_catalog_schema": "nash",
+      "optional_undefined_catalog_field_omitted": true,
+      "native_evaluator": "nash",
+      "pure_equilibria": [],
+      "mixed_probabilities": {
+        "row": [
+          0.5,
+          0.5
+        ],
+        "column": [
+          0.5,
+          0.5
+        ]
+      },
+      "workflow": [
+        "ACQUIRED",
+        "ANALYZED",
+        "DECIDED"
+      ],
+      "source_content_sha256": "c4645c700050ed2964c311045d93ae91cb7b78830ce00070a2578045b29136ee",
+      "analysis_result_sha256": "f2257a4e4ec14529929c7b4f25f1ac42016ab1bca5e7311c5a805f4672b067d0",
+      "acquisition_id": "ACQ:24af187aead54469bb5d2644bc97e6fa0fd681b32c60ebbb63121e50e7536ec9",
+      "analysis_id": "ANA:c2c0f917186a33b5f696e32982284410776441d8cc4480742e3e310530c5f663",
+      "decision_id": "DEC:e54fe7cf62a9dd9cae5acff4d52ab7cadccc21515b09ee325c47dd4e45982c2e",
+      "final_session": {
+        "acquisitions": 1,
+        "analyses": 1,
+        "decisions": 1,
+        "invalidated_acquisitions": 0
+      },
+      "exit_code": 0,
+      "stderr_bytes": 0
+    }
+  ],
+  "manifest_files_match_before_and_after": true,
+  "package_install_performed": false,
+  "codex_account_registration_performed": false,
+  "native_windows_execution_performed": false,
+  "account_gpt_created": false,
+  "hosted_deployment_performed": false
+}

@@ -1,0 +1,115 @@
+{
+  "kind": "MPC_SECURITY_ASSISTANT_V17_VALIDATION",
+  "recorded_at_utc": "2026-10-09T15:30:34.172345+00:00",
+  "status": "REVIEW_BUILD_VERIFIED",
+  "workflow": [
+    "ACQUIRED",
+    "ANALYZED",
+    "DECIDED"
+  ],
+  "source": {
+    "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+    "branch": "feature/mpc-security-assistant-aad-v17",
+    "initially_acquired_commit": "77561659fad5f68858b3c2da142301c50b9f3646",
+    "integrated_native_base_commit": "e6f5ed4269743b423e64b06a7ccb9ad7a3f62dfa",
+    "integrated_native_base_tree": "8c085e043c7e5f2e3fee9db9c3a1562dc96446df",
+    "native_v16_changed_blobs_verified": 27,
+    "tested_engine_fingerprint": "24185cc8762fe62fd2b35b9d3e8b7105ee109583412f644bec2351d2ef0438fc",
+    "runtime_source_file_count": 52,
+    "reporting_commit_is_enclosing_git_commit": true
+  },
+  "verification": {
+    "host": {
+      "platform": "linux",
+      "architecture": "x64",
+      "node": "v24.19.0"
+    },
+    "focused_tests": {
+      "tests": 51,
+      "pass": 51,
+      "fail": 0
+    },
+    "full_repository_tests": {
+      "command": "node --test",
+      "tests": 622,
+      "pass": 622,
+      "fail": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    "web_build": {
+      "command": "npm run build",
+      "exit_code": 0,
+      "dependency_install_performed": false,
+      "existing_framework_warnings": "Plugin timings, mixed dynamic/static imports, and static route classification limitations."
+    },
+    "log_sha256": {
+      "MPC-SECURITY-ASSISTANT-V17-TESTS.log": "236014a78a36a58f2d2ba56c5f71d5312b5df736af96d30716d83c89807e8ade",
+      "MPC-SECURITY-ASSISTANT-V17-BUILD.log": "fedecc280023396926051c1b946021d4516d25083d379bd8960d7e42d4e3430b"
+    },
+    "self_test": {
+      "receipt": "docs/validation/MPC-SECURITY-ASSISTANT-SELF-TEST.json",
+      "cases": 123,
+      "stage_checks": 6,
+      "native_evaluator_calls": 334,
+      "unexpected_failures": 0,
+      "known_native_numerical_disagreements": 8,
+      "known_disagreements_are_retained_controls_not_claimed_native_solver_repairs": true
+    },
+    "portable_receipt": "docs/validation/MPC-SECURITY-ASSISTANT-PORTABLE-VERIFICATION.json",
+    "protocol_versions": [
+      "2026-07-28",
+      "2025-11-25",
+      "2025-06-18"
+    ],
+    "hosted_synthetic_receipts": "docs/validation/MPC-SECURITY-ASSISTANT-HOSTED-AAD.json",
+    "private_plugin_receipt": "assistant/CREATED-PLUGIN.json",
+    "skill_trial_scenarios": 3,
+    "skill_trial_passed": 3,
+    "log_normalization": "Saved readable logs remove ANSI control sequences and trailing whitespace only.",
+    "original_captured_log_sha256": {
+      "MPC-SECURITY-ASSISTANT-V17-TESTS.log": "236014a78a36a58f2d2ba56c5f71d5312b5df736af96d30716d83c89807e8ade",
+      "MPC-SECURITY-ASSISTANT-V17-BUILD.log": "73043d5206f25ecd69b179b732ecefe8bb83dd7b9f24c419dbe98f1ceeb0823a"
+    }
+  },
+  "defects_addressed": [
+    "Incomplete nested atomic execution cannot be promoted by route_problem or either compatibility wrapper.",
+    "Optional native object fields normalize to actual JSON without hiding nonfinite numeric or invalid array values.",
+    "Transitive runtime/data/profile fingerprint rejects disk drift and stale process module cache relabeling.",
+    "Strict acquired-source and protocol JSON rejects decoded duplicate keys and bounded complexity failures.",
+    "Typed source/subject identity and engagement bindings, stale-source rejection, immutable decisions, replay and invalidation preserve evidence history."
+  ],
+  "verification_environment_repair": {
+    "initial_previous_base_full_run": {
+      "tests": 559,
+      "pass": 558,
+      "fail": 1
+    },
+    "cause": "Historical checkout fixture lacked native ancestry in connector-restored local Git object database.",
+    "repair": "Restored11 SHA-verified native commit objects; unchanged receiver fixture passed10/10. No source/test weakening or skipped test.",
+    "full_historical_object_database_restored": false
+  },
+  "preserved": {
+    "implemented_evaluators": 24,
+    "method_atlas_candidates": 239,
+    "native_tool_entries": 20,
+    "assistant_tool_entries": 7,
+    "native_method_ids": true,
+    "v13_completed_controller": true,
+    "parallel_v16_source": true
+  },
+  "boundaries": {
+    "account_private_plugin_created": true,
+    "account_custom_gpt_created": false,
+    "native_windows_execution_performed": false,
+    "local_codex_registration_performed": false,
+    "daybreak_selection_observed": false,
+    "new_api_inference_added": false,
+    "target_network_test_performed": false,
+    "existing_hosted_runtime_deployed_by_this_pass": false,
+    "merged": false,
+    "session_state": "IN_MEMORY",
+    "source_hash_is_authentication": false
+  },
+  "next_action": "Open the private assistant; extract the verified Windows companion, register its Node STDIO entry point with installed Codex, and observe assistant_status plus the supplied synthetic AAD control on the actual Windows host."
+}

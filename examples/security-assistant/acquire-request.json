@@ -1,0 +1,9 @@
+{
+  "relative_path": "examples/security-assistant/matching-pennies.json",
+  "engagement_id": "MPC-SELF-REVIEW",
+  "owner": "MPC local synthetic lab",
+  "source_identity": {"namespace": "LOCAL_FIXTURE", "native_id_type": "string", "native_id": "matching-pennies-v1"},
+  "subject_identity": {"namespace": "SYNTHETIC_MODEL", "native_id_type": "string", "native_id": "matching-pennies"},
+  "declared_version": "1",
+  "source_kind": "SYNTHETIC_FIXTURE"
+}

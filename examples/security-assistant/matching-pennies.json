@@ -1,0 +1,18 @@
+{
+  "case_id": "synthetic:matching-pennies",
+  "purpose": "Exercise the existing Nash evaluator through ACQUIRED, ANALYZED, DECIDED using a known negative control.",
+  "native_args": {
+    "method": "nash",
+    "input": {
+      "row_payoffs": [[1, -1], [-1, 1]],
+      "column_payoffs": [[-1, 1], [1, -1]]
+    }
+  },
+  "expected": {
+    "pure_equilibria_count": 0,
+    "row_probabilities": [0.5, 0.5],
+    "column_probabilities": [0.5, 0.5]
+  },
+  "evidence_state": "SYNTHETIC_FIXTURE",
+  "external_action_authorized": false
+}
