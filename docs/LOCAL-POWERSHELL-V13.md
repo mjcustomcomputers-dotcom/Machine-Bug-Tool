@@ -16,19 +16,20 @@ remain separate capabilities.
 | Name | Source | Meaning |
 |---|---|---|
 | `R` | Actual fetched development branch head | Current reporting documents and saved-state references |
-| `I` | `tested_commit` in `docs/validation/MPC-V13-LOCAL-INTEGRATION-VALIDATION.json` at `R` | Tested receiver, file-input, path-boundary, and notebook-runner source |
+| `I` | `identities.recorded_integration.commit` in the final Codex acceptance at `R` | Original receiver/file-input/notebook integration baseline |
+| `T` | `identities.tested_source.commit` in the final Codex acceptance at `R` | Current repaired and tested receiver source |
 | `S` | Historical validation and saved controller, both read at `R` | Existing controller's executable source, currently `4ffde83e587db829b9cd2124c0a8587e868402d6` |
 
-Use the new integration validation record's `validation.status`, `tested_tree`,
-and `remaining_gates.windows_native_run` / `actual_codex_cloud_run` to distinguish
-completed source validation from host-specific work that remains. A Linux test
-or a caller-supplied PowerShell label is not a Windows execution receipt.
+Use the final Codex acceptance record's `status`, exact identity trees, and
+`windows.windows_native_run` to distinguish completed source validation from
+host-specific work that remains. A Linux test, a Sysinternals inventory, or a
+caller-supplied PowerShell label is not a Windows receiver execution receipt.
 
-The receiver runs from `I`, reads the metadata at `R`, and creates its new
+The receiver runs from `T`, reads the metadata at `R`, and creates its new
 controller checkout at `S`. It does not change the historical
 `docs/validation/MPC-V13-VALIDATION.json`, saved controller, or original
-checkpoint. Do not change their source commit to `I` to make an old state pass
-the current-source guard.
+checkpoint. Do not change their source commit to `I`, `T`, or `R` to make an
+old state pass the current-source guard.
 
 ## 1. Choose the local repository
 
@@ -94,31 +95,35 @@ $MpcOriginalStatus = Invoke-MpcGit -Arguments @('status', '--porcelain=v1', '--u
 Invoke-MpcGit -Arguments @('fetch', '--no-tags', 'origin', 'refs/heads/feature/noahs-ark-reasoning-osi-v13:refs/remotes/origin/feature/noahs-ark-reasoning-osi-v13')
 $R = (Invoke-MpcGit -Arguments @('rev-parse', 'refs/remotes/origin/feature/noahs-ark-reasoning-osi-v13')).Trim()
 
-$MpcValidationText = Invoke-MpcGit -Arguments @('show', ($R + ':docs/validation/MPC-V13-LOCAL-INTEGRATION-VALIDATION.json'))
-$MpcValidation = ($MpcValidationText -join "`n") | ConvertFrom-Json
-$I = [string] $MpcValidation.tested_commit
-if ($I -notmatch '^[a-f0-9]{40}$' -or $MpcValidation.tested_tree -notmatch '^[a-f0-9]{40}$') {
-    throw 'Integration validation must identify an exact commit and tree.'
+$MpcAcceptancePath = 'docs/validation/v13-codex-final-acceptance-20261009/MPC-V13-CODEX-FINAL-ACCEPTANCE.json'
+$MpcAcceptanceText = Invoke-MpcGit -Arguments @('show', ($R + ':' + $MpcAcceptancePath))
+$MpcAcceptance = ($MpcAcceptanceText -join "`n") | ConvertFrom-Json
+$I = [string] $MpcAcceptance.identities.recorded_integration.commit
+$T = [string] $MpcAcceptance.identities.tested_source.commit
+$MpcTestedTree = [string] $MpcAcceptance.identities.tested_source.tree
+if ($I -notmatch '^[a-f0-9]{40}$' -or $T -notmatch '^[a-f0-9]{40}$' -or $MpcTestedTree -notmatch '^[a-f0-9]{40}$') {
+    throw 'Final acceptance must identify exact integration and tested source commits and tree.'
 }
-if ($MpcValidation.validation.status -ne 'PASS') {
-    throw 'The recorded integration validation is not PASS; inspect its unresolved results.'
+if ($MpcAcceptance.status -ne 'PASS') {
+    throw 'The final Codex engineering acceptance is not PASS; inspect its actual result.'
 }
-$MpcActualIntegrationTree = (Invoke-MpcGit -Arguments @('rev-parse', ($I + '^{tree}'))).Trim()
-if ($MpcActualIntegrationTree -ne $MpcValidation.tested_tree) {
-    throw 'Integration commit/tree disagreement.'
+$MpcActualTestedTree = (Invoke-MpcGit -Arguments @('rev-parse', ($T + '^{tree}'))).Trim()
+if ($MpcActualTestedTree -ne $MpcTestedTree) {
+    throw 'Repaired tested source commit/tree disagreement.'
 }
-$MpcValidation.remaining_gates | Format-List
+$MpcAcceptance.windows | Format-List
 
 $MpcParent = Split-Path -Parent $MpcRepository
 $MpcSuffix = [Guid]::NewGuid().ToString('N').Substring(0, 8)
-$MpcIntegration = Join-Path $MpcParent ('Machine-Bug-Tool-integration-' + $I.Substring(0, 8) + '-' + $MpcSuffix)
+$MpcIntegration = Join-Path $MpcParent ('Machine-Bug-Tool-tested-' + $T.Substring(0, 8) + '-' + $MpcSuffix)
 if (Test-Path -LiteralPath $MpcIntegration) { throw 'Choose an unused integration worktree path.' }
-Invoke-MpcGit -Arguments @('-c', 'core.autocrlf=false', '-c', 'core.eol=lf', 'worktree', 'add', '--detach', $MpcIntegration, $I)
+Invoke-MpcGit -Arguments @('-c', 'core.autocrlf=false', '-c', 'core.eol=lf', 'worktree', 'add', '--detach', $MpcIntegration, $T)
 
 & node --version
 if ($LASTEXITCODE -ne 0) { throw 'Node version check failed.' }
 Write-Output ('Reporting R: ' + $R)
-Write-Output ('Integration I: ' + $I)
+Write-Output ('Recorded integration I: ' + $I)
+Write-Output ('Repaired tested source T: ' + $T)
 Write-Output ('Original checkout retained at: ' + $MpcOriginalHead)
 ```
 
@@ -184,7 +189,107 @@ The wrapper reports its PowerShell version as a `CALLER_SUPPLIED_LABEL`.
 `host.windows_execution` records whether Node actually ran on Windows; the
 label itself does not independently attest a particular shell.
 
-## 4. Supply Atlas JSON from PowerShell files
+## 4. Optional Sysinternals native evidence
+
+When the Microsoft Sysinternals Suite is already installed, retain a separate
+native diagnostic receipt after the receiver succeeds. Sysinternals is not a
+receiver dependency and cannot turn a failed receive into a PASS. Do not
+download a suite, alter execution policy, auto-accept a license, or add a live
+network share merely to complete this optional record. Review the
+[Microsoft Sysinternals license and documentation](https://learn.microsoft.com/sysinternals/)
+before the first local execution.
+
+Set the actual existing suite directory. This bounded receipt expects the
+64-bit `Sigcheck`, `Junction`, and `Handle` tools. It hashes those exact native
+binaries, records their versions, asks Sigcheck for the actual Node and Git
+executable provenance, records Junction output for the repository and received
+checkout roots, and records Handle output for the saved receiver receipt.
+Tool exit codes remain visible and separate from the receiver status.
+
+```powershell
+$MpcSysinternalsRoot = 'C:\your-existing-path\Sysinternals'
+$MpcSigcheck = Join-Path $MpcSysinternalsRoot 'sigcheck64.exe'
+$MpcJunction = Join-Path $MpcSysinternalsRoot 'junction64.exe'
+$MpcHandle = Join-Path $MpcSysinternalsRoot 'handle64.exe'
+$MpcSysinternalsTools = @($MpcSigcheck, $MpcJunction, $MpcHandle)
+
+foreach ($MpcTool in $MpcSysinternalsTools) {
+    if (-not (Test-Path -LiteralPath $MpcTool -PathType Leaf)) {
+        throw ('Existing Sysinternals tool not found: ' + $MpcTool)
+    }
+    $MpcToolItem = Get-Item -LiteralPath $MpcTool -Force
+    if (($MpcToolItem.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+        throw ('Sysinternals tool path is a reparse point: ' + $MpcTool)
+    }
+}
+
+function Invoke-MpcDiagnostic {
+    param(
+        [Parameter(Mandatory = $true)][string] $Executable,
+        [Parameter(Mandatory = $true)][string[]] $Arguments
+    )
+    $output = & $Executable @Arguments 2>&1 | Out-String
+    $exitCode = $LASTEXITCODE
+    return [ordered]@{
+        executable = $Executable
+        arguments = $Arguments
+        exit_status = $exitCode
+        output = $output
+    }
+}
+
+$MpcNode = (Get-Command node -CommandType Application -ErrorAction Stop).Source
+$MpcGit = (Get-Command git -CommandType Application -ErrorAction Stop).Source
+$MpcSysinternalsReceipt = [ordered]@{
+    kind = 'MPC_V13_OPTIONAL_SYSINTERNALS_WINDOWS_RECEIPT'
+    recorded_at_utc = [DateTime]::UtcNow.ToString('o')
+    windows_native = ($env:OS -eq 'Windows_NT')
+    receiver_status = [string] $MpcReceipt.status
+    reporting_commit = [string] $MpcReceipt.reporting_commit
+    received_checkout = $MpcReceived
+    tools = @($MpcSysinternalsTools | ForEach-Object {
+        $item = Get-Item -LiteralPath $_ -Force
+        [ordered]@{
+            path = $item.FullName
+            version = $item.VersionInfo.FileVersion
+            sha256 = (Get-FileHash -LiteralPath $item.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+        }
+    })
+    sigcheck_node = Invoke-MpcDiagnostic -Executable $MpcSigcheck -Arguments @('-nobanner', '-h', $MpcNode)
+    sigcheck_git = Invoke-MpcDiagnostic -Executable $MpcSigcheck -Arguments @('-nobanner', '-h', $MpcGit)
+    junction_repository = Invoke-MpcDiagnostic -Executable $MpcJunction -Arguments @('-nobanner', $MpcRepository)
+    junction_received = Invoke-MpcDiagnostic -Executable $MpcJunction -Arguments @('-nobanner', $MpcReceived)
+    handle_receiver_receipt = Invoke-MpcDiagnostic -Executable $MpcHandle -Arguments @('-nobanner', $MpcReceiptPath)
+    changes_receiver_result = $false
+    target_actions_performed = $false
+}
+
+$MpcSysinternalsReceiptPath = Join-Path $MpcReceived '.sites-runtime\receive-v13\sysinternals-receipt.json'
+if (Test-Path -LiteralPath $MpcSysinternalsReceiptPath) {
+    throw 'Preserve the existing Sysinternals receipt; use a new received checkout for another run.'
+}
+$MpcSysinternalsBytes = (New-Object System.Text.UTF8Encoding($false)).GetBytes(
+    (($MpcSysinternalsReceipt | ConvertTo-Json -Depth 12) + "`n")
+)
+$MpcSysinternalsStream = [IO.File]::Open(
+    $MpcSysinternalsReceiptPath,
+    [IO.FileMode]::CreateNew,
+    [IO.FileAccess]::Write,
+    [IO.FileShare]::None
+)
+try { $MpcSysinternalsStream.Write($MpcSysinternalsBytes, 0, $MpcSysinternalsBytes.Length) }
+finally { $MpcSysinternalsStream.Dispose() }
+Write-Output ('Sysinternals receipt: ' + $MpcSysinternalsReceiptPath)
+```
+
+If a first tool run presents its license, make that choice interactively and
+record what actually ran; this guide does not embed `-accepteula`. A missing
+suite is `SYSINTERNALS_NOT_RUN`, not a receiver failure. Preserve the raw output
+because an unsigned third-party Node/Git binary, a normal non-junction path, or
+no matching open handle can produce tool-specific nonzero status without
+changing the already saved receiver receipt.
+
+## 5. Supply Atlas JSON from PowerShell files
 
 Use the integration checkout for the new Atlas file-input interface. The
 receiver's historical `S` checkout remains the execution home of the old saved
@@ -244,7 +349,7 @@ remain distinct from the 24 implemented native MPC evaluators. No hosted model,
 target test, source authentication, security finding, or payout is established
 by this command.
 
-## 5. Optional offline notebook
+## 6. Optional offline notebook
 
 With Python 3.10+ already available, the portable runner requires no Jupyter
 installation. It reserves a new output directory by default:

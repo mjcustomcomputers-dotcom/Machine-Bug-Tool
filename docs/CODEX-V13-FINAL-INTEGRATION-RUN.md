@@ -14,6 +14,20 @@ native Git identity before execution. It records source validation already
 performed by the preparing host. Its `remaining_gates.windows_native_run` and
 `remaining_gates.actual_codex_cloud_run` are distinct destination observations.
 
+## Completion notice
+
+This run is complete. Read the new
+[Codex final acceptance](validation/v13-codex-final-acceptance-20261009/MPC-V13-CODEX-FINAL-ACCEPTANCE.json)
+and [PASS](validation/v13-codex-final-acceptance-20261009/MPC-V13-CODEX-FINAL-ACCEPTANCE-PASS.md)
+at the actual latest development head. A bounded relative-destination repair
+was tested at exact source `e0e7a7ad0f06d45470b4a396a72aef0434f7caed`, tree
+`ba0223afe9265bcfe3f692f94dc108b1128c1c78`; the historical controller remains
+bound to `S`. Do not repeat the real receive, notebook, hosted work or
+benchmarks. Native Windows remains `NOT_RUN`; the local guide now includes an
+optional, separately scoped receipt for an existing Sysinternals installation.
+The saved controller is `COMPLETE` with action `null`, so stop unless a new
+explicit dependency or source request arrives.
+
 ## Objective and stop boundary
 
 Prove that a local Git/Node/PowerShell user can receive the existing completed

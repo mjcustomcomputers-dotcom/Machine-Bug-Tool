@@ -1,0 +1,102 @@
+{
+  "kind": "MPC_V13_CODEX_CLOUD_HOST_RECEIPT",
+  "recorded_at_utc": "2026-10-09T07:27:26Z",
+  "context": "CODEX_CLOUD_LINUX_WORKSPACE",
+  "host": {
+    "os": "Linux",
+    "kernel": "6.18.44",
+    "architecture": "x86_64",
+    "node": "v24.19.0",
+    "python": "3.12.14",
+    "pnpm_on_path": "11.19.0",
+    "package_manager_pin": "pnpm@11.25.0",
+    "package_manager_observation": "The saved package-manager pin is unchanged. The fallback pnpm currently on PATH is 11.19.0; no reinstall or Corepack materialization was performed. Tests and build used node/npm."
+  },
+  "prepared_environment": {
+    "original_checkout": "/workspace/Machine-Bug-Tool",
+    "original_checkout_head": "97704161bfc2c3f0af42ead986dbfb7b405c8c5c",
+    "original_checkout_status": "CLEAN",
+    "install_script": "PRESERVED",
+    "start_skill": "PRESERVED",
+    "dependency_reinstallation_performed": false,
+    "prepared_dependencies_reused": true,
+    "reuse_gate": "package.json, pnpm-lock.yaml and pnpm-workspace.yaml matched before reuse",
+    "saved_wrangler_override": "XDG_CONFIG_HOME=/workspace/Machine-Bug-Tool/.sites-runtime/config",
+    "acceptance_wrangler_override": "XDG_CONFIG_HOME=/workspace/Machine-Bug-Tool-v13-integration-a18a040f/.sites-runtime/config",
+    "native_sites_binding": {
+      "project_id": "appgprj_6abf0bb684648191a38324d33d1aa8cc",
+      "git_blob": "560eafa442026c10096d1529d997fa12655b48a5",
+      "sha256": "aa152221412e5831493ece32c1a115b8f0fd6e4e53c6be1afac489fa82881431",
+      "changed": false,
+      "deployment_performed": false
+    }
+  },
+  "source": {
+    "reporting_input_commit": "18cfa9ac07640dc3d7305087b4eef13892a0e037",
+    "reporting_input_tree": "7196205131ce41ecd22fe5de16435af984629548",
+    "recorded_integration_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+    "recorded_integration_tree": "14365cf138ecc5aed01197bebb8e67fb670b5c1c",
+    "repaired_tested_commit": "e0e7a7ad0f06d45470b4a396a72aef0434f7caed",
+    "repaired_tested_tree": "ba0223afe9265bcfe3f692f94dc108b1128c1c78",
+    "repaired_tested_status": "CLEAN",
+    "historical_controller_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "historical_controller_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c"
+  },
+  "benchmarks": {
+    "source_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+    "source_tree": "14365cf138ecc5aed01197bebb8e67fb670b5c1c",
+    "source_worktree_status_at_run": "CLEAN",
+    "detector_completed_at_utc": "2026-10-09T07:18:58.904866557Z",
+    "detector": {
+      "kind": "OFFLINE_SYNTHETIC_ATLAS_QUERY_BENCHMARK",
+      "warmup_runs": 10,
+      "runs": 500,
+      "atoms_per_query": 3,
+      "p50_ms": 0.5823,
+      "p95_ms": 0.9332,
+      "max_ms": 2.663,
+      "disclaimer": "Not an independently replicated throughput comparison, latency SLA, hardware speedup, or live-bounty performance claim."
+    },
+    "variation_completed_at_utc": "2026-10-09T07:19:16.672885911Z",
+    "variation": {
+      "kind": "OFFLINE_SYNTHETIC_V8_PERSISTENT_CACHE_BENCHMARK",
+      "warmup_runs": 10,
+      "runs": 500,
+      "initialization_ms": 52.9242,
+      "first_consideration_ms": 25.0002,
+      "first_consideration_samples": 1,
+      "first_rows_written": 956,
+      "cached_p50_ms": 27.05,
+      "cached_p95_ms": 33.3731,
+      "cached_max_ms": 45.5615,
+      "cached_rows_written": 0,
+      "retained_rows": 956,
+      "disclaimer": "Synthetic planning/cache latency on this host. Cached percentiles include the validated persistence path; exclude process startup and initial atlas seeding. Not target traffic, a Cloud model-selection receipt, an SLA, or physical hardware acceleration."
+    },
+    "repeat_performed": false
+  },
+  "destination_capabilities": {
+    "github_git": "FETCH_AND_OBJECT_READ_SUCCEEDED; EXPECTED_HEAD_WRITE_AND_NATIVE_READBACK_RECORDED_SEPARATELY",
+    "github_api_tool": "UNAVAILABLE",
+    "hosted_mpc_tools": "UNAVAILABLE",
+    "protected_mpc_authentication": "NOT_VERIFIED_THIS_TASK",
+    "google_drive_tools": "UNAVAILABLE",
+    "dash_tools": "UNAVAILABLE",
+    "dropbox_tools": "UNAVAILABLE",
+    "authentication_failure_observed": false,
+    "prior_successful_connection_receipts": "PRESERVED_WITH_ORIGINAL_SESSION_SCOPE",
+    "daybreak_selector_exposed": false,
+    "daybreak_actual_selection_this_task": "NOT_OBSERVED",
+    "daybreak_user_report_preserved": "Model changed from GPT-6.1 Sol to Daybreak Blue",
+    "daybreak_user_report_scope": "PRIOR_USER_SUPPLIED_UI_EVENT; NOT PER_COMMAND ATTESTATION"
+  },
+  "windows_native_run": "NOT_RUN",
+  "sysinternals": {
+    "availability_on_this_linux_host": "NOT_AVAILABLE",
+    "windows_role": "OPTIONAL_NATIVE_DIAGNOSTIC_EVIDENCE",
+    "expected_existing_tools": ["sigcheck64.exe", "junction64.exe", "handle64.exe"],
+    "installation_or_download_performed": false,
+    "receipt_status": "NOT_RUN_WITH_WINDOWS_NATIVE_GATE"
+  },
+  "scope": "Source integration, local historical-state receipt, regression/build, notebook, Atlas and synthetic cache timing only. No target action, hosted model calculation, deployment, credential change, canonical research write, or report submission occurred."
+}

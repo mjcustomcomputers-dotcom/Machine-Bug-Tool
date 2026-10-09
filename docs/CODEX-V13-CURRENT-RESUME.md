@@ -11,36 +11,40 @@ at the actual latest development branch head. They supersede the old
 pending-validation directions for this continuation. Original handoffs and
 native PASS records retain their historical meaning.
 
-## Current final integration action — research stops here
+## Final engineering acceptance checkpoint — research stopped
 
-The current user instruction is one final engineering pass for local PowerShell
-receiving, then an exact Codex acceptance/checkpoint. Use
-[the final Codex run](CODEX-V13-FINAL-INTEGRATION-RUN.md) and
-[the local PowerShell guide](LOCAL-POWERSHELL-V13.md). The
-[new validation](validation/MPC-V13-LOCAL-INTEGRATION-VALIDATION.json) and
-[PASS](validation/MPC-V13-LOCAL-INTEGRATION-PASS.md) report **405/405 tests and a
-passing build** at integration **I =
-`a18a040f164e8ad4c47474f77bb10dc5289adac6`**, tree
-`14365cf138ecc5aed01197bebb8e67fb670b5c1c`, on the preparing ChatGPT Linux host.
+The final bounded Codex acceptance is saved under
+[`v13-codex-final-acceptance-20261009`](validation/v13-codex-final-acceptance-20261009/MPC-V13-CODEX-FINAL-ACCEPTANCE-PASS.md).
+Its reporting input was exact `R`
+`18cfa9ac07640dc3d7305087b4eef13892a0e037`; recorded integration `I` remains
+`a18a040f164e8ad4c47474f77bb10dc5289adac6`; historical controller `S` remains
+`4ffde83e587db829b9cd2124c0a8587e868402d6`. A reproduced relative-destination
+receiver defect was repaired and validated at exact source commit
+`e0e7a7ad0f06d45470b4a396a72aef0434f7caed`, tree
+`ba0223afe9265bcfe3f692f94dc108b1128c1c78`.
 
-R is the containing current reporting head. I is the new receiver/test/notebook
-source. The saved controller's historical executable S remains
-`4ffde83e587db829b9cd2124c0a8587e868402d6`. Its state remains COMPLETE and is never
-rebound to I or R. The new receiver already restored its exact bytes and passed
-verify/status/next on the preparing host with zero new model calls or events.
+Read the acceptance receipt at the actual latest development head. Run any
+future receiver/source continuation from that exact repaired source, and run
+the preserved historical controller only at `S`. The repaired source passed
+its 10 receiver tests, the 406-test full suite and build. The one real receive
+was not repeated: it used an absolute destination and remains an exact saved
+`LOCAL_CONTROLLER_RECEIVE_PASS`; the new regression proves a relative input is
+rejected before worktree creation.
 
-Run one destination acceptance of this new receiver, full tests/build, unchanged
-notebook and synthetic benchmarks in the existing Codex environment. Record
-actual Cloud and Windows execution separately. Native Windows has not run in
-the preparing host; PowerShell is unavailable there. No new hosted model call
-is needed just to check connectivity. Retain existing connection receipts and
-report actual destination tool exposure/model visibility without inferring it.
+Native Windows remains unrun. The updated
+[local PowerShell guide](LOCAL-POWERSHELL-V13.md) includes an optional evidence
+receipt for an existing Microsoft Sysinternals installation (`sigcheck64.exe`,
+`junction64.exe`, and `handle64.exe`). That diagnostic record remains separate
+from receiver success and is not a reason to download tools or repeat a receive.
+MPC, Drive, Dash and Dropbox tools and the model selector were unavailable in
+the accepting task; prior connection receipts and the separately attributed
+Daybreak Blue UI event retain their original scope.
 
 The historical recovery and future-project sections below remain reference
-material. They do not override the current stop on research. Do not initialize
-or reconcile the completed controller, expand methods, reopen old source
-questions, change credentials, merge, deploy, contact targets or submit reports
-in this final pass. Stop after the destination receipt and checkpoint.
+material. The saved controller is `COMPLETE` with `action: null`. Do not
+initialize or reconcile it, expand methods, reopen old source questions, change
+credentials, merge, deploy, contact targets or submit reports. Stop at this
+checkpoint until a new explicit dependency or source request arrives.
 
 ## Latest destination result and operating workflow
 

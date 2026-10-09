@@ -1,6 +1,6 @@
 {
-  "version": "MPC_CODEX_CURRENT_RESUME_V13_3",
-  "status": "FINAL_INTEGRATION_SOURCE_VALIDATED_DESTINATION_GATES_PENDING",
+  "version": "MPC_CODEX_CURRENT_RESUME_V13_4",
+  "status": "FINAL_CODEX_ENGINEERING_ACCEPTANCE_PASS_RESEARCH_STOPPED",
   "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
   "development_branch": "feature/noahs-ark-reasoning-osi-v13",
   "review": {
@@ -13,7 +13,7 @@
   "tested_execution_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
   "tested_execution_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
   "checkpoint_readback_commit": "047b2adcd2172374d25878998eebb3b089b6488d",
-  "source_identity_rule": "Resolve current reporting head R and read current guides/receipts there. Derive new integration I from local_integration_validation.tested_commit/tree; execute the new receiver, tests, build and notebook at exact I. Preserve historical S from validation.tested_commit and saved config.source_revision.commit; only the restored historical controller executes at exact S. Never rebind completed state to I or R.",
+  "source_identity_rule": "Resolve current reporting head and read current guides/receipts there. Preserve original integration I at a18a040f164e8ad4c47474f77bb10dc5289adac6. Execute any future receiver/source continuation at exact repaired tested source e0e7a7ad0f06d45470b4a396a72aef0434f7caed. Preserve historical S from validation.tested_commit and saved config.source_revision.commit; only the restored historical controller executes at exact S. Never rebind completed state to I, the repaired source or the reporting head.",
   "paths": {
     "resume_guide": "docs/CODEX-V13-CURRENT-RESUME.md",
     "operative_guide": "docs/CHATGPT-MPC-OPERATIVE-CONTROLLERS-V13.md",
@@ -32,7 +32,13 @@
     "local_integration_pass": "docs/validation/MPC-V13-LOCAL-INTEGRATION-PASS.md",
     "local_integration_evidence_index": "docs/validation/local-v13-evidence-index.json",
     "local_powershell_guide": "docs/LOCAL-POWERSHELL-V13.md",
-    "final_codex_integration_run": "docs/CODEX-V13-FINAL-INTEGRATION-RUN.md"
+    "final_codex_integration_run": "docs/CODEX-V13-FINAL-INTEGRATION-RUN.md",
+    "final_codex_acceptance": "docs/validation/v13-codex-final-acceptance-20261009/MPC-V13-CODEX-FINAL-ACCEPTANCE.json",
+    "final_codex_acceptance_pass": "docs/validation/v13-codex-final-acceptance-20261009/MPC-V13-CODEX-FINAL-ACCEPTANCE-PASS.md",
+    "final_codex_host_receipt": "docs/validation/v13-codex-final-acceptance-20261009/HOST-RECEIPT.json",
+    "final_codex_command_manifest": "docs/validation/v13-codex-final-acceptance-20261009/COMMAND-MANIFEST.json",
+    "final_codex_evidence_index": "docs/validation/v13-codex-final-acceptance-20261009/EVIDENCE-INDEX.json",
+    "final_codex_raw_evidence": "docs/validation/v13-codex-final-acceptance-20261009/RAW-EVIDENCE.zip"
   },
   "preserved_state": {
     "native_read_version": "54e8d055aa6d71e1c91f33a7af9f282333890358",
@@ -51,6 +57,7 @@
   "environment": {
     "node": "24.19.0",
     "pnpm": "11.25.0",
+    "pnpm_rule": "Preserve the pnpm@11.25.0 package pin. The accepting task observed fallback pnpm 11.19.0 on PATH, did not reinstall, and used node/npm for validation.",
     "install_script": "PRESERVE_EXISTING",
     "start_skill": "PRESERVE_EXISTING",
     "recorded_cloud_wrangler_override": "XDG_CONFIG_HOME=/workspace/Machine-Bug-Tool/.sites-runtime/config",
@@ -84,7 +91,7 @@
     "catalog_expansion": false,
     "research_resumption": false
   },
-  "next_action": "Run docs/CODEX-V13-FINAL-INTEGRATION-RUN.md once in the existing prepared environment at exact tested integration I, retaining original controller execution at S. Save a separate destination receipt, including actual Cloud latency and any Windows gate left NOT_RUN. Use docs/LOCAL-POWERSHELL-V13.md for the actual Windows receiver. Stop after final integration checkpointing; do not resume research, expand the catalog or repeat completed models.",
+  "next_action": "STOP. The final Codex engineering acceptance is complete and the saved controller action is null. Preserve the evidence and wait for a new explicit dependency or source request. If a Windows receipt is later authorized, use docs/LOCAL-POWERSHELL-V13.md at exact repaired tested source e0e7a7ad0f06d45470b4a396a72aef0434f7caed; optional existing Sysinternals diagnostics remain separate from receiver success.",
   "local_integration": {
     "tested_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
     "tested_tree": "14365cf138ecc5aed01197bebb8e67fb670b5c1c",
@@ -92,8 +99,28 @@
     "execution_host": "CHATGPT_LINUX_NOT_CODEX_CLOUD_OR_WINDOWS",
     "historical_state_rule": "Keep tested_execution_commit and preserved_state unchanged. New receiver creates an unused isolated historical S worktree and runs only verify/status/next.",
     "windows_native_run": "NOT_RUN",
-    "actual_codex_cloud_run": "NOT_RUN",
+    "actual_codex_cloud_run": "PASS_WITH_WINDOWS_AND_UNEXPOSED_CONNECTORS_RECORDED_SEPARATELY",
     "research_state": "STOPPED_BY_USER_AFTER_FINAL_ENGINEERING_PASS",
-    "destination_acceptance_rule": "One real destination receive validates the new receiver; it is not a new model run, controller initialization or research continuation."
+    "destination_acceptance_rule": "The one real destination receive passed and was not repeated after the relative-input repair. It is not a new model run, controller initialization or research continuation."
+  },
+  "final_acceptance": {
+    "reporting_input_commit": "18cfa9ac07640dc3d7305087b4eef13892a0e037",
+    "reporting_input_tree": "7196205131ce41ecd22fe5de16435af984629548",
+    "recorded_integration_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+    "recorded_integration_tree": "14365cf138ecc5aed01197bebb8e67fb670b5c1c",
+    "repaired_tested_commit": "e0e7a7ad0f06d45470b4a396a72aef0434f7caed",
+    "repaired_tested_tree": "ba0223afe9265bcfe3f692f94dc108b1128c1c78",
+    "historical_controller_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "receiver": "LOCAL_CONTROLLER_RECEIVE_PASS_COMPLETE_UNCHANGED_ACTION_NULL",
+    "focused_tests": "86_OF_86_AT_I",
+    "final_tests": "406_OF_406_AT_REPAIRED_TESTED_SOURCE",
+    "build": "PASS",
+    "windows_native_run": "NOT_RUN",
+    "sysinternals_receipt": "NOT_RUN_OPTIONAL_WINDOWS_DIAGNOSTIC",
+    "connector_tools": "MPC_DRIVE_DASH_DROPBOX_UNAVAILABLE_THIS_TASK",
+    "model_selection": "NOT_OBSERVED_THIS_TASK_PRIOR_USER_REPORTED_DAYBREAK_BLUE_EVENT_PRESERVED",
+    "exact_resume_source_commit": "e0e7a7ad0f06d45470b4a396a72aef0434f7caed",
+    "controller_next_action": null,
+    "research_next_action": null
   }
 }
