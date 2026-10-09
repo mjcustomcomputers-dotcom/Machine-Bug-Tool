@@ -1,0 +1,530 @@
+{
+  "version": "MPC_METHOD_RECLASSIFICATION_1.0",
+  "purpose": "EXACT_TYPED_MULTI_AXIS_QUERY_OVER_EXISTING_IDS",
+  "classification_status": "PROPOSED_DETERMINISTIC_METADATA_NOT_SOURCE_AUTHENTICATION",
+  "source_status": "INHERIT_METHOD_SOURCE_CLASS_AND_REVIEW_STATE",
+  "manual_review_required": true,
+  "families": {
+    "PHYSICS_STATISTICS": {
+      "discipline": "PHYSICS",
+      "primary_purpose": "MODEL_CHECK",
+      "model_kind": "FORMAL_OR_QUANTITATIVE",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "TOPOLOGY": {
+      "discipline": "MATHEMATICS",
+      "primary_purpose": "ANOMALY_DETECTION",
+      "model_kind": "GRAPH_MODEL",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "INFORMATION_THEORY": {
+      "discipline": "INFORMATION_SCIENCE",
+      "primary_purpose": "INFER",
+      "model_kind": "DISTRIBUTION_OR_TRACE",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "CAUSAL_UNCERTAINTY": {
+      "discipline": "CAUSAL_INFERENCE",
+      "primary_purpose": "INFER",
+      "model_kind": "STATISTICAL_MODEL",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "OPTIMIZATION_GEOMETRY": {
+      "discipline": "OPTIMIZATION",
+      "primary_purpose": "OPTIMIZE",
+      "model_kind": "QUANTITATIVE_MODEL",
+      "reasoning_direction": "FORWARD"
+    },
+    "NETWORK_SYSTEMS": {
+      "discipline": "SYSTEMS_ENGINEERING",
+      "primary_purpose": "VERIFY",
+      "model_kind": "STATE_OR_GRAPH",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "PRIVACY_SECURITY": {
+      "discipline": "SECURITY_ENGINEERING",
+      "primary_purpose": "VERIFY",
+      "model_kind": "POLICY_OR_TRACE",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "QUANTUM_REAL": {
+      "discipline": "QUANTUM_PHYSICS",
+      "primary_purpose": "MODEL_CHECK",
+      "model_kind": "QUANTUM_EXPERIMENT",
+      "reasoning_direction": "FORWARD"
+    },
+    "QUANTUM_INSPIRED_CLASSICAL": {
+      "discipline": "COMPUTATIONAL_MATHEMATICS",
+      "primary_purpose": "OPTIMIZE",
+      "model_kind": "CLASSICAL_MODEL",
+      "reasoning_direction": "FORWARD"
+    },
+    "GAMING_SLOT_METER": {
+      "discipline": "GAMING_ACCOUNTING",
+      "primary_purpose": "RECONCILE",
+      "model_kind": "LEDGER_OR_TRACE",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "GAMING_POKER_STRATEGY": {
+      "discipline": "GAME_THEORY",
+      "primary_purpose": "INFER",
+      "model_kind": "GAME_MODEL",
+      "reasoning_direction": "COUNTERFACTUAL"
+    },
+    "GAMING_RANDOMNESS": {
+      "discipline": "STATISTICAL_ASSURANCE",
+      "primary_purpose": "ANOMALY_DETECTION",
+      "model_kind": "DISTRIBUTION",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "TOPOLOGICAL_SIGNALS": {
+      "discipline": "TOPOLOGICAL_SIGNAL_PROCESSING",
+      "primary_purpose": "MODEL_CHECK",
+      "model_kind": "GRAPH_MODEL",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "GAMING_CONTROL_SYSTEMS": {
+      "discipline": "GAMING_CONTROL",
+      "primary_purpose": "VERIFY",
+      "model_kind": "LEDGER_OR_POLICY",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "EVIDENCE_DECEPTION": {
+      "discipline": "EVIDENCE_FORENSICS",
+      "primary_purpose": "FALSIFY",
+      "model_kind": "ATTRIBUTED_RECORDS",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "CYBER_DEFENSE_PATTERNS": {
+      "discipline": "CYBER_DEFENSE",
+      "primary_purpose": "DETECT",
+      "model_kind": "LOG_OR_POLICY",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "FINANCIAL_FRAUD_PATTERNS": {
+      "discipline": "FINANCIAL_CONTROLS",
+      "primary_purpose": "RECONCILE",
+      "model_kind": "LEDGER_OR_TRACE",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "INTENT_NEUTRAL_INFERENCE": {
+      "discipline": "GOAL_INFERENCE",
+      "primary_purpose": "INFER",
+      "model_kind": "ALTERNATIVE_HYPOTHESES",
+      "reasoning_direction": "COUNTERFACTUAL"
+    },
+    "UNCONVENTIONAL_RIGOR": {
+      "discipline": "FORMAL_EPISTEMOLOGY",
+      "primary_purpose": "FALSIFY",
+      "model_kind": "MULTI_SOURCE_MODELS",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "MIT_FORMAL_COMPUTATION": {
+      "discipline": "FORMAL_METHODS",
+      "primary_purpose": "SYNTHESIZE",
+      "model_kind": "CONSTRAINT_MODEL",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "HARVARD_MARKET_COMPUTATION": {
+      "discipline": "MECHANISM_DESIGN",
+      "primary_purpose": "OPTIMIZE",
+      "model_kind": "PAYOFF_MODEL",
+      "reasoning_direction": "COUNTERFACTUAL"
+    },
+    "HARVARD_PRIVACY_COMPUTATION": {
+      "discipline": "PRIVACY_ACCOUNTING",
+      "primary_purpose": "VERIFY",
+      "model_kind": "PRIVACY_LEDGER",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "HARVARD_VERIFIED_SYSTEMS": {
+      "discipline": "FORMAL_VERIFICATION",
+      "primary_purpose": "VERIFY",
+      "model_kind": "PROOF_OR_SYMBOLIC_TRACE",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "PROCESS_MINING": {
+      "discipline": "PROCESS_ANALYSIS",
+      "primary_purpose": "DIAGNOSE",
+      "model_kind": "EVENT_LOG",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "CMU_THREAT_PROCESS": {
+      "discipline": "THREAT_MODELING",
+      "primary_purpose": "DIAGNOSE",
+      "model_kind": "ASSET_POLICY_MODEL",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "BERKELEY_SYNTHESIS": {
+      "discipline": "PROGRAM_SYNTHESIS",
+      "primary_purpose": "SYNTHESIZE",
+      "model_kind": "CONSTRAINT_MODEL",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "CALTECH_CONTROL": {
+      "discipline": "CONTROL_THEORY",
+      "primary_purpose": "DIAGNOSE",
+      "model_kind": "FEEDBACK_TRACE",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "STANFORD_CAUSAL": {
+      "discipline": "CAUSAL_INFERENCE",
+      "primary_purpose": "FALSIFY",
+      "model_kind": "CAUSAL_GRAPH",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "NASA_FAULT_MANAGEMENT": {
+      "discipline": "SAFETY_ASSURANCE",
+      "primary_purpose": "DIAGNOSE",
+      "model_kind": "FAULT_OR_TELEMETRY",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "CHIP_HARDWARE_ASSURANCE": {
+      "discipline": "HARDWARE_ASSURANCE",
+      "primary_purpose": "VERIFY",
+      "model_kind": "FIRMWARE_OR_ATTESTATION",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "ACCESS_LOCK_UNLOCK_STATE": {
+      "discipline": "ACCESS_CONTROL",
+      "primary_purpose": "VERIFY",
+      "model_kind": "POLICY_OR_STATE_TRACE",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "CLOUD_PASSIVE_OVERWATCH": {
+      "discipline": "CLOUD_ASSURANCE",
+      "primary_purpose": "OBSERVE",
+      "model_kind": "AUDIT_OR_CONFIG",
+      "reasoning_direction": "FORWARD"
+    },
+    "ADMIN_CONTROL_PLANE": {
+      "discipline": "ADMIN_SECURITY",
+      "primary_purpose": "VERIFY",
+      "model_kind": "POLICY_OR_AUDIT",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "CONNECTOR_FEDERATION_METHODS": {
+      "discipline": "CONNECTOR_SECURITY",
+      "primary_purpose": "RECONCILE",
+      "model_kind": "SCHEMA_OR_PROVENANCE",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "METHODS_ON_METHODS_DIAGNOSTIC": {
+      "discipline": "META_METHODS",
+      "primary_purpose": "DIAGNOSE",
+      "model_kind": "METHOD_RECEIPT",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "BOUNTY_DEFENSIVE_RECON": {
+      "discipline": "BOUNTY_RESEARCH",
+      "primary_purpose": "DISCOVER",
+      "model_kind": "AUTHORIZED_RECORDS",
+      "reasoning_direction": "FORWARD"
+    },
+    "ABNORMAL_SIGNAL_DIAGNOSTICS": {
+      "discipline": "ANOMALY_ENGINEERING",
+      "primary_purpose": "DETECT",
+      "model_kind": "TIME_SERIES_OR_LOG",
+      "reasoning_direction": "COMPARATIVE"
+    },
+    "META_ORACLE_FALSIFICATION": {
+      "discipline": "META_METHODS",
+      "primary_purpose": "FALSIFY",
+      "model_kind": "METHOD_RECEIPT",
+      "reasoning_direction": "BIDIRECTIONAL"
+    },
+    "RECURSIVE_METHOD_GRAPH": {
+      "discipline": "META_METHODS",
+      "primary_purpose": "ROUTE",
+      "model_kind": "METHOD_GRAPH",
+      "reasoning_direction": "BIDIRECTIONAL"
+    }
+  },
+  "dimension_purposes": {
+    "FAULT": [
+      "DIAGNOSE"
+    ],
+    "VERIFICATION": [
+      "VERIFY"
+    ],
+    "GRAPH": [
+      "TRAVERSE"
+    ],
+    "TIME": [
+      "SYNCHRONIZE"
+    ],
+    "STATE": [
+      "COMPARE_STATE"
+    ],
+    "ANOMALY": [
+      "DETECT"
+    ],
+    "UNCERTAINTY": [
+      "CALIBRATE"
+    ],
+    "AUTHORITY": [
+      "VERIFY_AUTHORITY"
+    ],
+    "IDENTITY": [
+      "VERIFY_IDENTITY"
+    ],
+    "MONEY": [
+      "RECONCILE"
+    ],
+    "FINALITY": [
+      "VERIFY_FINALITY"
+    ],
+    "FORENSIC": [
+      "RECONSTRUCT"
+    ],
+    "INFORMATION": [
+      "ANALYZE_INFORMATION"
+    ],
+    "DIAGNOSTIC": [
+      "DIAGNOSE_METHOD"
+    ],
+    "LOCK": [
+      "CHECK_LOCK_STATE"
+    ],
+    "ADMIN": [
+      "CHECK_ADMIN_CONTROL"
+    ],
+    "CLOUD": [
+      "OBSERVE_CLOUD"
+    ],
+    "CONNECTOR": [
+      "RECONCILE_CONNECTOR"
+    ],
+    "PROCESS": [
+      "TRACE_PROCESS"
+    ],
+    "CHIP": [
+      "CHECK_HARDWARE"
+    ],
+    "BOUNTY": [
+      "CHECK_SCOPE"
+    ],
+    "REPLAY": [
+      "CHECK_REPLAY"
+    ],
+    "CRYPTO": [
+      "CHECK_CRYPTO"
+    ],
+    "SYNTHESIS": [
+      "SYNTHESIZE"
+    ],
+    "INVARIANT": [
+      "VERIFY_INVARIANT"
+    ],
+    "CONTROL": [
+      "CHECK_CONTROL"
+    ],
+    "GOAL": [
+      "COMPARE_GOALS"
+    ],
+    "INTENT": [
+      "INTENT_NEUTRAL"
+    ],
+    "DECEPTION": [
+      "CHECK_CLAIM_CONSISTENCY"
+    ],
+    "COMPARISON": [
+      "COMPARE"
+    ],
+    "REDUCTION": [
+      "REDUCE"
+    ],
+    "PRIVACY": [
+      "CHECK_PRIVACY"
+    ],
+    "RNG": [
+      "CHECK_RANDOMNESS"
+    ],
+    "TOPOLOGY": [
+      "CHECK_TOPOLOGY"
+    ],
+    "RELATION": [
+      "CHECK_RELATIONS"
+    ],
+    "RESOURCE": [
+      "CHECK_RESOURCE"
+    ],
+    "OBSERVABILITY": [
+      "CHECK_OBSERVABILITY"
+    ],
+    "CONSISTENCY": [
+      "CHECK_CONSISTENCY"
+    ],
+    "OPTIMIZATION": [
+      "OPTIMIZE"
+    ],
+    "QUANTUM": [
+      "QUANTUM_ONLY"
+    ],
+    "QUANTUM_INSPIRED": [
+      "CLASSICAL_QUANTUM_INSPIRED"
+    ],
+    "VERSION": [
+      "COMPARE_VERSIONS"
+    ],
+    "FLOW": [
+      "CHECK_FLOW"
+    ],
+    "NETWORK": [
+      "CHECK_NETWORK"
+    ],
+    "GAME": [
+      "CHECK_GAME"
+    ],
+    "UNIT": [
+      "CHECK_UNIT"
+    ],
+    "QUEUE": [
+      "CHECK_QUEUE"
+    ],
+    "INCENTIVE": [
+      "CHECK_INCENTIVE"
+    ],
+    "CAUSAL": [
+      "CHECK_CAUSAL"
+    ],
+    "ENTITLEMENT": [
+      "CHECK_ENTITLEMENT"
+    ],
+    "INTERFACE": [
+      "CHECK_INTERFACE"
+    ],
+    "ATTRIBUTION": [
+      "CHECK_ATTRIBUTION"
+    ]
+  },
+  "dimension_evidence": {
+    "FAULT": "FAULT_TRACE",
+    "VERIFICATION": "REQUIREMENT_OR_ORACLE",
+    "GRAPH": "DECLARED_GRAPH",
+    "TIME": "TIMESTAMPED_TRACE",
+    "STATE": "STATE_TRACE",
+    "ANOMALY": "BASELINE_OR_NEGATIVE_CONTROL",
+    "UNCERTAINTY": "CALIBRATION_MODEL",
+    "AUTHORITY": "POLICY_AND_ACTOR",
+    "IDENTITY": "NATIVE_SUBJECT_ID",
+    "MONEY": "LEDGER",
+    "FINALITY": "FINALIZER_RECORD",
+    "FORENSIC": "CUSTODY_OR_LOG",
+    "INFORMATION": "INFORMATION_MODEL",
+    "DIAGNOSTIC": "METHOD_RECEIPT",
+    "LOCK": "LOCK_LEASE_OR_POLICY",
+    "ADMIN": "ADMIN_AUDIT",
+    "CLOUD": "CLOUD_CONFIG_OR_LOG",
+    "CONNECTOR": "CONNECTOR_CONTRACT",
+    "PROCESS": "PROCESS_EVENT_LOG",
+    "CHIP": "FIRMWARE_ATTESTATION",
+    "BOUNTY": "PROGRAM_SCOPE_RULE",
+    "REPLAY": "EVENT_IDEMPOTENCY",
+    "CRYPTO": "CRYPTO_POLICY",
+    "SYNTHESIS": "CONSTRAINT_GRAMMAR",
+    "INVARIANT": "DECLARED_INVARIANT",
+    "CONTROL": "CONTROL_FEEDBACK",
+    "GOAL": "GOAL_GRAPH",
+    "INTENT": "ALTERNATIVE_GOALS",
+    "DECEPTION": "ATTRIBUTED_CLAIMS",
+    "COMPARISON": "COMPARABLE_SOURCES",
+    "REDUCTION": "FULL_AND_REDUCED_MODEL",
+    "PRIVACY": "PRIVACY_BUDGET_OR_POLICY",
+    "RNG": "SAMPLE_DISTRIBUTION",
+    "TOPOLOGY": "METRIC_OR_COMPLEX",
+    "RELATION": "TYPED_RELATIONS",
+    "RESOURCE": "RESOURCE_BUDGET",
+    "OBSERVABILITY": "INSTRUMENTATION_SCOPE",
+    "CONSISTENCY": "INVARIANT_AND_VERSIONS",
+    "OPTIMIZATION": "OBJECTIVE_CONSTRAINTS",
+    "QUANTUM": "QUANTUM_EXPERIMENT",
+    "QUANTUM_INSPIRED": "CLASSICAL_OPTIMIZATION_MODEL",
+    "VERSION": "VERSIONED_RECORD",
+    "FLOW": "TRANSFER_GRAPH",
+    "NETWORK": "NETWORK_GRAPH",
+    "GAME": "PAYOFF_AND_INFORMATION",
+    "UNIT": "UNIT_CONVERSION",
+    "QUEUE": "QUEUE_TRACE",
+    "INCENTIVE": "PAYOFF_CONTRACT",
+    "CAUSAL": "CAUSAL_GRAPH",
+    "ENTITLEMENT": "ELIGIBILITY_RULE",
+    "INTERFACE": "INTERFACE_CONTRACT",
+    "ATTRIBUTION": "ACTOR_PROVENANCE"
+  },
+  "method_overrides": {
+    "MHA-0112": {
+      "reasoning_direction": "REVERSE",
+      "secondary_purposes": [
+        "TRAVERSE"
+      ]
+    },
+    "MHA-0116": {
+      "reasoning_direction": "REVERSE",
+      "secondary_purposes": [
+        "FALSIFY"
+      ]
+    },
+    "MHA-0192": {
+      "primary_purpose": "DIAGNOSE_METHOD",
+      "secondary_purposes": [
+        "VERIFY"
+      ]
+    },
+    "MHA-0224": {
+      "primary_purpose": "ROUTE",
+      "secondary_purposes": [
+        "TRAVERSE"
+      ]
+    },
+    "MHA-0225": {
+      "primary_purpose": "FALSIFY",
+      "secondary_purposes": [
+        "ROUTE"
+      ]
+    },
+    "MHA-0226": {
+      "primary_purpose": "QUARANTINE",
+      "secondary_purposes": [
+        "DIAGNOSE_METHOD"
+      ]
+    },
+    "MHA-0227": {
+      "primary_purpose": "CHECK_INDEPENDENCE",
+      "secondary_purposes": [
+        "FALSIFY"
+      ]
+    },
+    "MHA-0228": {
+      "primary_purpose": "PRIORITIZE",
+      "secondary_purposes": [
+        "OPTIMIZE"
+      ]
+    },
+    "MHA-0229": {
+      "primary_purpose": "STOP",
+      "secondary_purposes": [
+        "ROUTE"
+      ]
+    },
+    "MHA-0230": {
+      "primary_purpose": "DIAGNOSE_METHOD",
+      "secondary_purposes": [
+        "FALSIFY"
+      ]
+    },
+    "MHA-0231": {
+      "primary_purpose": "BLOCK_PROMOTION",
+      "secondary_purposes": [
+        "VERIFY"
+      ]
+    }
+  },
+  "notes": [
+    "Names of institutions remain source lineage, not method function.",
+    "Purpose and evidence tags are routing metadata, not proofs or automatic execution.",
+    "A method can have many secondary purposes; never collapse inverse/forward hypotheses.",
+    "Risk, speed, payout, and evidentiary independence are not inferred from tags.",
+    "Existing method IDs and native canonical registry identities remain immutable."
+  ]
+}
