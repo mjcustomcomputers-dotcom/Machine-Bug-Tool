@@ -52,6 +52,7 @@ test('unavailable local model preserves the evidence-driven action',async()=>{
 });
 test('cloud-suffixed models and arbitrary phases are refused',async()=>{
  await assert.rejects(()=>runMpcLocalModel(input,base(),{model:'qwen3:cloud'}),/LOCAL_MODEL_NAME_REQUIRED/);
+ await assert.rejects(()=>runMpcLocalModel(input,base(),{model:'gpt-oss:120b-cloud'}),/LOCAL_MODEL_NAME_REQUIRED/);
  await assert.rejects(()=>runMpcLocalModel(input,base('ARCHITECTURE')),/INVALID_LOCAL_REASONING_INPUT/);
 });
 test('HTML-like prompt injection in record content is never executed',async()=>{
