@@ -109,3 +109,10 @@ program's current authorization and testing rules.
 For each concrete change, report the source/native record, applicable methods
 and classifiers, falsifier, actual change, verification, remaining dependency,
 and exact next action. Do not manufacture a pass number or completion score.
+
+
+## Additive Method Atlas / atom detector (Codex development branch)
+
+When the user requests fast method detection, recovery of uncommon physics/quantum/casino/poker hooks, or cross-method checks, read `docs/method-atlas-detector.md` before work. The feature branch contains `method-atlas/schema.sql`, versioned source-linked MHA/MHC candidate catalogs, `lib/method-atlas-router.mjs`, `lib/atomic-method-detector.mjs`, and an offline SQLite CLI/benchmark. It is not the canonical MPC Method Ark or a deployed tool.
+
+Use exact typed MPC atom coordinates and source IDs; do not promote coordinate hints or proposed method cross-links into native classifier equivalence. Keep the original 24 evaluators, 10 hooks, 17 transforms, MAXVAR/NESTMAX/BL/MBSS/EXT registries and all original checkpoint formats unchanged. Run the feature branch's Node/SQLite tests, full suite, build and synthetic benchmark at the actual checked-out commit before claiming performance or release readiness. Do not confuse a queued model, method listing, or Kahn/DFS structural agreement with independent security evidence or authorized target validation.
