@@ -1,11 +1,11 @@
 {
-  "version": "MPC_CODEX_CURRENT_RESUME_V13_1",
+  "version": "MPC_CODEX_CURRENT_RESUME_V13_2",
   "status": "RESUME_COMPLETED_DEVELOPMENT_STATE",
   "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
   "development_branch": "feature/noahs-ark-reasoning-osi-v13",
   "review": {"pull_request": 11, "parent_pull_request": 10, "merge_authorized": false},
   "read_instructions_at": "ACTUAL_CURRENT_DEVELOPMENT_BRANCH_HEAD",
-  "reviewed_reporting_head_before_this_update": "54e8d055aa6d71e1c91f33a7af9f282333890358",
+  "reviewed_reporting_head_before_this_update": "33e8d99610d6ec6bb19c0e9a7624071b23217d40",
   "tested_execution_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
   "tested_execution_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
   "checkpoint_readback_commit": "047b2adcd2172374d25878998eebb3b089b6488d",
@@ -18,6 +18,9 @@
     "checkpoint": "docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
     "evidence_index": "docs/validation/v13-evidence-index.json",
     "connection_observation": "docs/validation/MPC-V13-CODEX-CONNECTION-STATUS.json",
+    "destination_user_report": "docs/validation/MPC-V13-CODEX-DESTINATION-REPORT.json",
+    "additional_session_observation": "docs/validation/MPC-V13-SESSION-BOOT-20261009-0626Z.json",
+    "authorized_hunt_workflow": "docs/CHATGPT-BOUNTY-WORKFLOW-V13.md",
     "bound_operative_manifest": "connector-bridge/operative-controllers-v13.json",
     "native_source_locators": "connector-bridge/source-pointers.v9.json",
     "workbook_pointer": "connector-bridge/reasoning-artifacts-v13.json"
@@ -47,6 +50,18 @@
     "republish_performed": false
   },
   "destination_status_rule": "Observe GitHub, source execution, hosted MPC tool exposure, protected authentication, native Drive, Dash, Dropbox and Daybreak independently in the destination. A ChatGPT receipt is not a Codex task capability receipt.",
+  "latest_destination_user_report": {
+    "evidence_kind": "USER_SUPPLIED_CODEX_TASK_TRANSCRIPT",
+    "reporting_head": "e53edae7db6a9e2083fbbc4998b0c9b97482cf3e",
+    "executable_head": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "controller_restore": "VERIFY_STATUS_NEXT_REPORTED_COMPLETE_UNCHANGED",
+    "controller_next_action": null,
+    "github_git_reads": "REPORTED_SUCCEEDED",
+    "research_tool_exposure": "MPC_DRIVE_DASH_DROPBOX_REPORTED_UNAVAILABLE",
+    "daybreak_blue": "USER_REPORTED_UI_MODEL_CHANGE_TASK_SELECTOR_NOT_EXPOSED",
+    "raw_destination_receipt_retrieved_here": false,
+    "repeat_restore_for_this_documentation_update": false
+  },
   "unchanged_state_rule": "Read-only verify/status/next may inspect historical COMPLETE state. A connection-only observation does not reopen completed model work. Deliberate continuation uses actual refreshed receipts and reconcile, preserving explicit prior-result reuse.",
   "native_binding_rule": "This file is navigation, not the canonical native controller or a replacement for the exact source/version bound in saved state.",
   "boundaries": {
@@ -59,5 +74,5 @@
     "synthetic_security_findings": false,
     "catalog_expansion": false
   },
-  "next_action": "Have the existing Codex task read this manifest and latest guide, restore the exact completed state at tested S, verify its actual destination capabilities, and report the new observation without repeating the completed V13 validation or models."
+  "next_action": "The user-reported Codex restoration is complete and the saved synthetic controller has no pending action. Preserve that state and the reported Daybreak selection. For an existing authorized bounty project, use current native connections in the ChatGPT host to resolve its actual controller and program scope, then reconcile only real changed dependencies. Continue independent source work in the existing Cloud environment; absent research tools remain a separate capability dependency."
 }

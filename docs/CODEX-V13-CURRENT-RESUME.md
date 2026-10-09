@@ -11,11 +11,45 @@ at the actual latest development branch head. They supersede the old
 pending-validation directions for this continuation. Original handoffs and
 native PASS records retain their historical meaning.
 
+## Latest destination result and operating workflow
+
+The user supplied the Codex task's completed restore report for reporting HEAD
+`e53edae7db6a9e2083fbbc4998b0c9b97482cf3e` and executable HEAD
+`4ffde83e587db829b9cd2124c0a8587e868402d6`. It reports successful
+`verify`, `status` and `next`, an unchanged `COMPLETE` state, and no next action,
+new model calls or checkpoint writes. The state's byte count, blob and hashes
+agree with the repository records. The raw receipt belongs to that Cloud
+filesystem and was not retrieved in this ChatGPT host. Preserve the
+[attributed destination report](validation/MPC-V13-CODEX-DESTINATION-REPORT.json)
+separately from the earlier ChatGPT connection checks.
+
+That task reports working Git source reads and unavailable MPC, Drive, Dash
+and Dropbox tools. Its final response could not inspect the model selector;
+the user also supplied the activity event **Model changed from GPT-6.1 Sol to
+Daybreak Blue.** Retain that as user-reported UI selection evidence. It does
+not establish which model ran earlier commands or transfer connector access.
+Keep the reported selection and completed state.
+
+A separate session concurrently saved
+[another capability observation](validation/MPC-V13-SESSION-BOOT-20261009-0626Z.json)
+at `33e8d99610d6ec6bb19c0e9a7624071b23217d40`. Preserve that file unchanged.
+Its recorded MPC and native Drive reads belong to that session; they do not
+establish tool exposure in the Cloud task described above. Its suggested
+restore remains relevant only where recovery is actually needed, since the
+user-reported Cloud restore is already complete.
+
+The restore instructions below remain available for a genuine future recovery.
+Do not repeat them merely to consume this documentation update. For real
+project work, follow [the ChatGPT bounty workflow](CHATGPT-BOUNTY-WORKFLOW-V13.md)
+and resolve the active native controller and current scope before choosing the
+next unresolved question. The completed synthetic V13 state has no pending
+hunting task of its own.
+
 ## 1. Resolve the three source identities
 
 | Role | Verified reference before this handoff update |
 |---|---|
-| Reporting branch head containing completed receipts | `54e8d055aa6d71e1c91f33a7af9f282333890358` |
+| Reporting branch head used by the user-reported Cloud restore | `e53edae7db6a9e2083fbbc4998b0c9b97482cf3e` |
 | Tested executable source, `S` | `4ffde83e587db829b9cd2124c0a8587e868402d6` |
 | Native development checkpoint with exact readback | `047b2adcd2172374d25878998eebb3b089b6488d` |
 | Review | PR #11, stacked on PR #10 |
@@ -113,7 +147,10 @@ Use the existing supported plugins and registered schemas. Keep source code,
 MPC calculation, native source access, Cloud publication and Daybreak selection
 as separate statuses. [The current connection receipt](validation/MPC-V13-CODEX-CONNECTION-STATUS.json)
 records observations from the updating ChatGPT session; it does not transfer
-access into a new Codex task.
+access into a new Codex task. The later
+[destination report](validation/MPC-V13-CODEX-DESTINATION-REPORT.json) preserves
+the user's supplied Cloud outcome and UI event without rewriting that prior
+receipt.
 
 | Surface | Check in the destination | If unavailable |
 |---|---|---|
@@ -124,7 +161,7 @@ access into a new Codex task.
 | Google Drive | Read the exact native object required for the next action; preserve native ID, owner, version and content | Retain the unresolved source gate; a Dash projection cannot replace this read |
 | Dash | Check available sources and use bounded discovery when needed | Keep discovery optional to source-only work |
 | Native Dropbox | Read a known native file ID when actually required | An empty search does not prove a backup exists |
-| Daybreak Blue | Record the actual offering/selection if the interface exposes it | Keep selection `NOT_VERIFIED`; do not infer entitlement from a prompt |
+| Daybreak Blue | Record the actual offering/selection if the interface exposes it; attribute a user-supplied UI event separately | Keep the task's inspection status `NOT_VERIFIED`; preserve reported selection evidence without inferring per-command use or entitlement |
 
 For this saved controller the native evaluator is `finite_invariant`, catalog
 1.2.0. Its four obligations used three distinct hosted calculations, including
