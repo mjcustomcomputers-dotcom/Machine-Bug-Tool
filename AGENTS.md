@@ -19,7 +19,7 @@ Follow the supported Sites workflow for any separately authorized deployment.
 - Node.js must satisfy the manifest (`>=22.13.0`). Use exactly `pnpm@11.25.0`.
 - Preserve `pnpm-lock.yaml` and the dependency policy in `pnpm-workspace.yaml`.
 - Do not introduce a second lockfile or run overlapping installers.
-- On managed Sites Linux, use the Sites dependency helper. On a separate
+- On managed Sites Linux, use the Sites dependency helper. For an unprepared
   portable Linux/macOS checkout, run `bash scripts/setup-daybreak.sh` after
   supplying the manifest's Node and pnpm versions. The script preserves the
   checked-in dependency policy and runs the existing tests and build.
@@ -45,8 +45,8 @@ Nash evaluation. Retain that receipt as prior verification of that connection.
 It does not verify tool exposure or caller authentication in another session.
 
 If the destination does not expose the MPC tools, record the capability as
-unavailable there and continue source installation, tests, build, and otherwise
-ready Cloud environment publication. Tool absence alone does not identify an
+unavailable there and continue independently authorized source work, including
+preparation or otherwise-ready environment publication when still needed. Tool absence alone does not identify an
 authentication failure or a broken hosted service. Keep destination MPC access
 and Daybreak availability as separate pending observations; neither is a gate
 for preparing this source environment.
@@ -61,23 +61,40 @@ copy credentials into this repository.
 
 ## Cloud setup progress
 
-`docs/daybreak-cloud-environment-status.json` preserves the user's setup
-report at commit `97704161bfc2c3f0af42ead986dbfb7b405c8c5c`: frozen install,
-166 passing tests, successful build, and saved `install_script`/`start_skill`.
-Those destination observations are user-reported; parent-workspace test
-receipts remain separate. The user has already started publication.
+`docs/daybreak-cloud-environment-status.json` records the latest status.
+`docs/daybreak-fresh-task-restoration.json` preserves the complete receipt
+supplied by the user, recorded at `2026-10-09T02:51:22.635629+00:00`.
 
-Allow that publication to finish. Do not restart preparation solely because
-MPC tools were absent. Preserve the prepared environment instructions and the
-actual writable Wrangler configuration override described in that session;
-its exact contents have not been retrieved here, so do not invent a setting
-or replace it with the generic portable setup script.
+The receipt verifies restoration for the clean `work` checkout at
+`97704161bfc2c3f0af42ead986dbfb7b405c8c5c`: Node 24.19.0, pnpm 11.25.0,
+dependencies and build output already present, no dependency reinstall,
+166 passing tests, both expected homepages served, and a successful rebuild.
+The restored Worker was checked before rebuilding. These are observations
+reported by that Cloud task and supplied by the user; they are not executions
+reproduced by the originating session.
 
-Once publication is confirmed by the app, check restoration in a fresh task.
-Read the current `origin/main` handoff safely, preserving any local changes.
-Record the actual checkout commit and whether the saved setup, dependencies,
-and task-start instructions restore. Later receipt/documentation commits do
-not retroactively change which source commit the earlier setup validated.
+Source-environment preparation and the fresh-task restoration check are
+complete within that receipt's scope. Continue authorized source work.
+Preserve `install_script`, `start_skill`, and the Cloud checkout's reported
+Wrangler override:
+`XDG_CONFIG_HOME=/workspace/Machine-Bug-Tool/.sites-runtime/config`.
+Its path belongs to that checkout; keep runtime state local in other checkouts.
+Do not reinstall or repeat the full setup validation solely because another
+session lacks MPC tools or a separate publication-status receipt.
+
+The fresh task read the handoff at
+`c99f0120e7e8df69ceb1c9e99d5fad105fe92b78` without merging it into the tested
+checkout. Its three referenced document blob IDs match repository records.
+That identity check does not independently reproduce destination execution.
+Read the current `origin/main` handoff safely before source changes, preserving
+local work and reporting the actual checkout commit. Later documentation
+commits do not retroactively change which commit was tested.
+
+Publication completion was not separately observed in the originating session.
+Destination MPC tools were unavailable, no authentication failure was observed,
+and Daybreak selection/entitlement remained unverified. Keep those statuses
+separate from the resolved source-restoration result. Service states in the
+receipt describe that task at recording time, not guaranteed later uptime.
 
 ## Continuing the research and repair queue
 

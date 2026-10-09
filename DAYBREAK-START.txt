@@ -9,10 +9,14 @@ Use this private development copy of the existing MPC source with the user's
 approved Daybreak surface. The model/access program, source repository,
 prepared environment, and hosted MPC connection have separate setup receipts.
 
-CURRENT NO-BROWSER ENTRY POINT
-The private source import is complete. Continue through the installed MPC and
-connected GitHub tools. From a portable Linux/macOS checkout with Node and
-pnpm already meeting the manifest versions, run:
+CURRENT NO-BROWSER STATUS
+The source environment is ready for work according to the user's complete
+fresh-task receipt in docs/daybreak-fresh-task-restoration.json. Preparation
+and restoration are complete for the recorded checkout; continue authorized
+source work through supported tools.
+
+For an unprepared portable Linux/macOS checkout only, with Node and pnpm
+already meeting the manifest versions, run:
 
   bash scripts/setup-daybreak.sh
 
@@ -21,10 +25,10 @@ the existing tests, and builds the source. It does not create an account,
 select a model, configure a production MCP login, or publish an environment.
 See docs/daybreak-no-browser-verification.json for this pass's actual checks.
 The originating session's successful hosted MPC calls are preserved in
-docs/mpc-parent-session-verification.json. The user's separate successful
-Cloud setup report and already-started publication are recorded in
-docs/daybreak-cloud-environment-status.json. Missing MPC tools in that setup
-session do not block source preparation or otherwise-ready publication.
+docs/mpc-parent-session-verification.json. The user's setup and restoration
+receipts are tracked in docs/daybreak-cloud-environment-status.json.
+Destination MPC access and Daybreak selection remain separate observations;
+missing MPC tools there do not reopen the completed source preparation.
 
 1. CONTINUE THE EXISTING SYSTEM
 
@@ -124,8 +128,10 @@ this preparation workspace do not prove a separate Cloud or Windows setup.
 
 5. REUSABLE CODEX CLOUD ENVIRONMENT
 
-For the user's no-browser workflow, use the ChatGPT desktop app's environment
-interface. Official flow: Work in > Cloud > Select environment > Create
+The existing source environment has a successful fresh-task receipt; retain it.
+For any future environment that still needs creation, the no-browser workflow
+uses the ChatGPT desktop app's environment interface. Official flow:
+Work in > Cloud > Select environment > Create
 environment; select mjcustomcomputers-dotcom/Machine-Bug-Tool; choose Get started. Keep
 access private. Ask the setup task to follow AGENTS.md and the manifest pins,
 install dependencies, run node --test and npm run build, and show the results.
@@ -138,24 +144,51 @@ It does not document a reusable environment create/publish command. The
 current connected tools also expose no such action. Do not substitute an
 undocumented endpoint or treat source setup as environment publication.
 
-CURRENT USER-REPORTED PROGRESS
+CURRENT RECEIPT AND CONTINUATION
 
-The user supplied a completed setup report at source-import commit
-97704161bfc2c3f0af42ead986dbfb7b405c8c5c: Node 24.19.0, pnpm 11.25.0,
-frozen install, 166 passing tests, successful build, expected development and
-built Worker homepages, and unchanged repository files. The setup saved
-install_script and start_skill, including a writable Wrangler configuration
-override. The exact saved instructions have not been retrieved in this
-originating session; preserve them without guessing their implementation.
+The user supplied the complete FRESH_TASK_ENVIRONMENT_RESTORATION receipt,
+recorded at 2026-10-09T02:51:22.635629+00:00. It is saved unchanged as
+docs/daybreak-fresh-task-restoration.json. Its source is
+USER_PROVIDED_CLOUD_TASK_RECEIPT; the originating session did not retrieve
+that task's raw command logs or independently repeat its execution.
 
-The user has already started publishing. Allow that operation to complete.
-Publication completion and restoration in a fresh task are still unverified.
-Do not restart setup merely because the setup session lacked MPC tools.
-A later handoff/receipt commit does not replace the reported tested commit or
-silently update an already-running checkout. In the next task, read the
-current origin/main instructions safely while preserving local changes.
+The tested /workspace/Machine-Bug-Tool checkout remained at
+97704161bfc2c3f0af42ead986dbfb7b405c8c5c on branch work, clean, with no
+tracked changes. Node 24.19.0, pnpm 11.25.0, dependencies, build output,
+and writable configuration restored before validation. No dependency
+reinstallation was performed. All 166 tests passed; the development server
+and the restored Worker each returned HTTP 200 with the expected homepage.
+The Worker was tested from restored build output before the successful
+rebuild, preserving evidence of restoration rather than just a fresh build.
 
-Suggested prompt for a future environment-preparation task:
+The saved install_script and start_skill were preserved with this exact
+Cloud-checkout setting:
+XDG_CONFIG_HOME=/workspace/Machine-Bug-Tool/.sites-runtime/config
+Keep runtime paths local to each checkout. The complete install_script and
+start_skill contents have not been retrieved in the originating session.
+
+The fresh task fetched origin/main at
+c99f0120e7e8df69ceb1c9e99d5fad105fe92b78 and read AGENTS.md,
+DAYBREAK-START.txt, and docs/mpc-parent-session-verification.json without
+merging them. Their supplied Git blob IDs match repository records. This
+checks document identity; test/build results belong to the unchanged
+97704161bfc2c3f0af42ead986dbfb7b405c8c5c checkout.
+
+Close source-environment preparation and the restoration check. Continue
+independently authorized source work from CODEX-HANDOFF.txt and the current
+native controller, preserving the established architecture and source IDs.
+Read the latest handoff safely before edits; record the actual source
+revision and use focused validation for concrete changes. Do not repeat
+installation or full setup checks solely to finish this completed pass.
+
+The user previously started publishing; no separate publication-status
+receipt was supplied. That does not reopen the successful restoration
+check. Destination MPC tools were unavailable, no authentication failure
+was observed, and Daybreak entitlement/selection remained unverified.
+At receipt time the task had started the development server on loopback
+5173 and stopped the validated Worker. Later uptime is not established.
+
+Reference prompt for a different environment that still needs preparation:
 
   Prepare this existing MPC Machine Legal BugTools repository for my Daybreak
   workflow. Read AGENTS.md, DAYBREAK-START.txt, package.json, pnpm-lock.yaml,
@@ -193,7 +226,8 @@ source_authentication=false flag refers to supplied evidence/target facts,
 not a failure of the protected caller-authenticated dispatch.
 
 When a destination has no MPC namespace, record that capability as unavailable
-there. Continue installation, tests, build, and otherwise-ready publication.
+there. Continue independently authorized source work; perform preparation
+and otherwise-ready publication only when they are still needed.
 Do not infer an authentication failure, recreate the hosted system, or repeat
 already successful parent-session checks solely because that destination
 cannot expose them.

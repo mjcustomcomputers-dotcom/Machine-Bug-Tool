@@ -26,18 +26,21 @@
     "install_script": "SAVED_PER_SETUP_REPORT",
     "start_skill": "SAVED_PER_SETUP_REPORT",
     "writable_wrangler_configuration_override": "INCLUDED_PER_SETUP_REPORT",
-    "exact_instruction_contents": "NOT_RETRIEVED_IN_ORIGINATING_SESSION"
+    "exact_instruction_contents": "Full install_script and start_skill contents have not been retrieved in the originating session. Their preservation and the exact Wrangler override are supplied by the fresh-task receipt.",
+    "preservation_in_fresh_task": "INSTALL_SCRIPT_AND_START_SKILL_PRESERVED_PER_RECEIPT",
+    "wrangler_override": "XDG_CONFIG_HOME=/workspace/Machine-Bug-Tool/.sites-runtime/config"
   },
   "publication": {
     "status": "STARTED_PER_USER_REPORT",
     "user_statement": "i already started publishing it",
-    "completion": "NOT_YET_VERIFIED",
-    "instruction": "Allow the already-started publication to complete; do not restart setup solely because the setup session lacked MPC tools."
+    "completion": "NOT_SEPARATELY_OBSERVED_IN_ORIGINATING_SESSION",
+    "instruction": "Keep the existing environment. The fresh-task restoration check is resolved by the supplied receipt; do not restart publication or preparation solely to collect separate publication metadata.",
+    "scope_note": "The fresh-task receipt reports successful restoration and expressly says that task performed no publication action. It does not include a control-plane publication status."
   },
-  "fresh_task_restoration": "NOT_YET_VERIFIED",
-  "destination_mpc_tool_exposure": "UNAVAILABLE_PER_SETUP_REPORT",
-  "destination_mpc_authentication": "UNVERIFIED_IN_DESTINATION",
-  "daybreak_access": "UNVERIFIED_IN_DESTINATION",
+  "fresh_task_restoration": "PREPARED_ENVIRONMENT_RESTORATION_VERIFIED_PER_USER_PROVIDED_RECEIPT",
+  "destination_mpc_tool_exposure": "UNAVAILABLE_PER_FRESH_TASK_RECEIPT",
+  "destination_mpc_authentication": "NOT_VERIFIED_PER_FRESH_TASK_RECEIPT",
+  "daybreak_access": "NOT_VERIFIED_PER_FRESH_TASK_RECEIPT",
   "parent_session_mpc_verification": "docs/mpc-parent-session-verification.json",
   "needs_attention_badge": {
     "count_reported": 1,
@@ -49,7 +52,58 @@
     "later_preparation_commit": "1752158a0ed624bee27b0574a1f33b27db7b328c",
     "original_source_files": 182,
     "original_source_at_later_preparation_commit": "ALL_ORIGINAL_GIT_BLOBS_AND_MODES_VERIFIED_UNCHANGED",
-    "handoff_note": "A running checkout at the reported setup commit may not contain later instructions and receipts. Read current origin/main safely in the next task, preserving any local changes."
+    "handoff_note": "The fresh task fetched and read origin/main at c99f0120e7e8df69ceb1c9e99d5fad105fe92b78 without merging it into the clean work checkout at 97704161bfc2c3f0af42ead986dbfb7b405c8c5c. The referenced document blob IDs match repository records. Later documentation commits do not change that tested baseline.",
+    "tested_fresh_task_checkout": "97704161bfc2c3f0af42ead986dbfb7b405c8c5c",
+    "handoff_revision_read_in_fresh_task": "c99f0120e7e8df69ceb1c9e99d5fad105fe92b78",
+    "handoff_merged_into_tested_checkout": false
   },
-  "next_action": "After the app reports publication complete, start a fresh task using that environment and verify restoration of the saved setup, dependencies, and task-start instructions. Record the actual checkout commit and keep destination MPC availability separate."
+  "next_action": "Close source-environment preparation and resume independently authorized source work from the existing handoff and current native project controller. Preserve the prepared configuration and source baseline, read the current handoff safely before changes, and run focused validation for actual changes. Keep destination MPC and Daybreak availability separate.",
+  "status_updated_at_utc": "2026-10-09T02:59:50.749Z",
+  "source_environment_status": "READY_FOR_SOURCE_WORK_PER_USER_PROVIDED_RESTORATION_RECEIPT",
+  "fresh_task_restoration_receipt": {
+    "path": "docs/daybreak-fresh-task-restoration.json",
+    "evidence_origin": "USER_PROVIDED_CLOUD_TASK_RECEIPT",
+    "original_task_path": "/workspace/.cloud-tools/reports/fresh-task-restoration-r5q3dg76/receipt.json",
+    "recorded_at_utc": "2026-10-09T02:51:22.635629+00:00",
+    "received_in_originating_conversation_at_utc": "2026-10-09T02:55:15Z",
+    "saved_at_utc": "2026-10-09T02:59:50.749Z",
+    "original_task_file_directly_accessible_from_originating_session": false,
+    "original_task_logs_retrieved": false,
+    "original_receipt_result": "PREPARED_ENVIRONMENT_RESTORATION_VERIFIED",
+    "scope": "Current fresh-task filesystem restoration and local development workflow. No publication action, deployment, target work, or hosted MPC call was performed.",
+    "checkout": {
+      "path": "/workspace/Machine-Bug-Tool",
+      "commit": "97704161bfc2c3f0af42ead986dbfb7b405c8c5c",
+      "branch": "work",
+      "working_tree_status": "CLEAN",
+      "tracked_files_changed": false
+    },
+    "handoff_document_identity_check": {
+      "evidence": "INDEPENDENT_REPOSITORY_DOCUMENT_IDENTITY_CHECK",
+      "commit": "c99f0120e7e8df69ceb1c9e99d5fad105fe92b78",
+      "blob_ids": {
+        "AGENTS.md": "b2d9b3e773c872ff617feb2e79c75c9bb6d996fd",
+        "DAYBREAK-START.txt": "256d9d3b0d25f8464bfa40516bef1c6305530ab6",
+        "docs/mpc-parent-session-verification.json": "939ce198826f7d7aa849c85863699642964218d7"
+      },
+      "matches": true,
+      "scope": "Document identity only; does not independently reproduce destination execution."
+    },
+    "validation_summary": {
+      "dependencies_and_build_present_before_validation": true,
+      "dependency_reinstallation_performed": false,
+      "tests_passed": 166,
+      "tests_failed": 0,
+      "dev_homepage_http_status": 200,
+      "restored_worker_before_rebuild_http_status": 200,
+      "expected_homepage_content_verified_for_both": true,
+      "rebuild_exit_status": 0
+    }
+  },
+  "destination_mpc_authentication_failure_observed": false,
+  "service_state_at_receipt_time": {
+    "development_server": "STARTED_BY_THIS_TASK_ON_LOOPBACK_5173",
+    "built_worker": "STOPPED_BY_THIS_TASK_AFTER_VALIDATION"
+  },
+  "service_state_note": "Receipt-time observations only; no claim that a task-started process remains reachable after that task ends."
 }

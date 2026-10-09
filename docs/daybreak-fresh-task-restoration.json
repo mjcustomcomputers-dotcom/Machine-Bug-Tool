@@ -1,0 +1,89 @@
+{
+  "kind": "FRESH_TASK_ENVIRONMENT_RESTORATION",
+  "recorded_at_utc": "2026-10-09T02:51:22.635629+00:00",
+  "checkout": {
+    "path": "/workspace/Machine-Bug-Tool",
+    "commit": "97704161bfc2c3f0af42ead986dbfb7b405c8c5c",
+    "branch": "work",
+    "working_tree_status": "CLEAN",
+    "tracked_files_changed": false
+  },
+  "latest_handoff": {
+    "origin_main_commit": "c99f0120e7e8df69ceb1c9e99d5fad105fe92b78",
+    "operation": "git fetch --no-tags origin main",
+    "read_files": [
+      "AGENTS.md",
+      "DAYBREAK-START.txt",
+      "docs/mpc-parent-session-verification.json"
+    ],
+    "file_blob_ids": {
+      "AGENTS.md": "b2d9b3e773c872ff617feb2e79c75c9bb6d996fd",
+      "DAYBREAK-START.txt": "256d9d3b0d25f8464bfa40516bef1c6305530ab6",
+      "docs/mpc-parent-session-verification.json": "939ce198826f7d7aa849c85863699642964218d7"
+    },
+    "merged_into_checkout": false
+  },
+  "restored_before_validation": {
+    "node": "24.19.0",
+    "pnpm": "11.25.0",
+    "dependencies": true,
+    "build_output": true,
+    "writable_wrangler_directory": true,
+    "execution_profile": "portable",
+    "existing_live_servers_found": false,
+    "dependency_reinstallation_performed": false
+  },
+  "configuration": {
+    "install_script": "PRESERVED",
+    "start_skill": "PRESERVED",
+    "draft_update_performed": false,
+    "wrangler_override": "XDG_CONFIG_HOME=/workspace/Machine-Bug-Tool/.sites-runtime/config"
+  },
+  "validation": [
+    {
+      "command": "node --test",
+      "exit_status": 0,
+      "tests": 166,
+      "passed": 166,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/machine-bug-restore-tests.log"
+    },
+    {
+      "command": "npm run dev -- --hostname 127.0.0.1",
+      "http_status": 200,
+      "expected_homepage_content_verified": true,
+      "log": "/tmp/machine-bug-restore-dev.log"
+    },
+    {
+      "command": "XDG_CONFIG_HOME=/workspace/Machine-Bug-Tool/.sites-runtime/config npm start -- --port 8787",
+      "artifact": "RESTORED_BUILD_BEFORE_REBUILD",
+      "http_status": 200,
+      "expected_homepage_content_verified": true,
+      "log": "/tmp/machine-bug-restore-worker.log"
+    },
+    {
+      "command": "npm run build",
+      "exit_status": 0,
+      "log": "/tmp/machine-bug-restore-build.log"
+    }
+  ],
+  "hosted_mpc": {
+    "parent_status": "HOSTED_MPC_PROTECTED_TOOL_CALL_SUCCEEDED",
+    "parent_evidence_scope": "Existing hosted MPC service accessed through the installed plugin in the originating session. This record does not assert tool exposure or authentication in a separate Cloud setup session or future task.",
+    "receipt_read_from_commit": "c99f0120e7e8df69ceb1c9e99d5fad105fe92b78",
+    "this_session_tool_exposure": "UNAVAILABLE",
+    "this_session_protected_authentication": "NOT_VERIFIED",
+    "authentication_failure_observed": false
+  },
+  "daybreak": {
+    "this_session_availability": "NOT_VERIFIED",
+    "entitlement_or_selection_evidence_available": false
+  },
+  "result": "PREPARED_ENVIRONMENT_RESTORATION_VERIFIED",
+  "scope": "Current fresh-task filesystem restoration and local development workflow. No publication action, deployment, target work, or hosted MPC call was performed.",
+  "services": {
+    "development_server": "STARTED_BY_THIS_TASK_ON_LOOPBACK_5173",
+    "built_worker": "STOPPED_BY_THIS_TASK_AFTER_VALIDATION"
+  }
+}
