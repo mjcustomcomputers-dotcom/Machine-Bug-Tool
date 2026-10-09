@@ -1,0 +1,9 @@
+Continue the existing Machine-Bug-Tool build in your active working checkout.
+
+Read command-center-build/CODEX-BUILD.txt and every file it marks required from the review branch feature/mpc-workspace-build-20261009 in mjcustomcomputers-dotcom/Machine-Bug-Tool. Treat the pack as the updated implementation contract. Preserve in-flight work and reconcile the exact component manifest before bringing changes across.
+
+Build MPC Workspace as a Windows GUI with the existing cross-platform MPC/Node core. Deliver the complete first journey: open a project, attach a whole folder or paste/drop text/files, choose an available actual reasoner, ask a question, acquire and compare evidence, save a report, close, reopen and resume. Include local SQL/search, standard clipboard behavior, project progress, exact Drive/local snapshot comparison, a usable connection wizard and explained scripts for manual execution with returned-output ingestion.
+
+Use the included tested control, comparison and SQL foundations. Provider observations must not block a first user-selected request. Keep workspace project, API project, source artifact, compared subject, native ID types and classifier namespaces distinct. Use the current documented Daybreak profile when the configured account allows it; keep local model selection explicit.
+
+Complete that working journey before expanding the provider catalog or research methods. Run the repository's required tests/build after integration and produce the Windows installer or portable build, exact source commit, actual acceptance results and remaining machine/account setup. The pack itself is build input; do not report its synthetic tests as Windows execution, model inference or installed connections.

@@ -1,0 +1,82 @@
+{
+  "schema_version": "MPC-COMMAND-CENTER-PROFILE-1",
+  "id": "mpc-command-center",
+  "display_name": "MPC Workspace",
+  "state": "EDITABLE_BUILD_CONFIGURATION",
+  "extends": {
+    "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+    "path": "assistant/PROFILE.json",
+    "commit": "297f586a3828c6d50b783fe1fdce766bce5344cd",
+    "installed_plugin_identity_preserved": true
+  },
+  "instructions_file": "assistant/INSTRUCTIONS.txt",
+  "workflow": [
+    "ACQUIRED",
+    "ANALYZED",
+    "DECIDED"
+  ],
+  "default_view": "work",
+  "default_mode": "CONTINUE_CURRENT_TASK",
+  "user_requested_model_program": "Daybreak Blue",
+  "actual_model": null,
+  "actual_access_program": null,
+  "model_entitlement_state": "NOT_OBSERVED_ON_WINDOWS",
+  "provider_selection": "EXPLICIT_PROJECT_CHOICE",
+  "implicit_cloud_fallback": false,
+  "configurable": [
+    "display_name",
+    "tone",
+    "domain_profile",
+    "instructions_revision",
+    "provider_profile_id",
+    "reasoning_effort_if_supported",
+    "retention",
+    "default_project",
+    "selected_destinations",
+    "task_budget",
+    "theme"
+  ],
+  "domain_profiles": [
+    "general_research",
+    "security_research",
+    "machine_legal",
+    "investigation",
+    "software_development"
+  ],
+  "retention": {
+    "raw_input": "ASK_ON_PROJECT_SETUP",
+    "raw_input_if_unset": "DO_NOT_PERSIST",
+    "source_metadata_and_receipts": "PROJECT_POLICY",
+    "search_index": "RETAINED_MATERIAL_ONLY",
+    "secret_values": "HOST_CREDENTIAL_STORE_ONLY"
+  },
+  "report_destinations": [],
+  "portable_task": {
+    "include": [
+      "task",
+      "profile_revision",
+      "source_pointers",
+      "source_versions",
+      "method_references",
+      "next_action",
+      "limitations"
+    ],
+    "raw_source_bytes": "EXPLICIT_SELECTION_ONLY",
+    "credentials": "NEVER"
+  },
+  "source_storage": "SEPARATE_COMMAND_CENTER_DATABASE",
+  "code_and_methods": "EXISTING_PRIVATE_GITHUB_REPOSITORY",
+  "native_windows_execution_performed": false,
+  "account_gpt_or_plugin_update_performed": false,
+  "model_training_performed": false,
+  "capabilities_requested": [
+    "conversational_reasoner",
+    "clipboard_text_files_images",
+    "attached_folders_index_in_place",
+    "native_snapshot_comparison",
+    "project_progress_and_triage",
+    "manual_script_workshop",
+    "connected_source_search",
+    "reports_and_selected_exports"
+  ]
+}

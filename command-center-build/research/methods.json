@@ -1,0 +1,931 @@
+{
+  "schema_version": "mpc-research-operator-proposals-1",
+  "prepared_utc_date": "2026-10-09",
+  "purpose": "Bounded primary-source research for additive improvement of Nate's existing MPC Method Atlas and command center.",
+  "status": "ACQUIRED_AND_ANALYZED_RESEARCH_PROPOSALS",
+  "source_policy": "Only original papers, author manuscripts, or author/university presentations support claims. Retrieval and section review are recorded per source.",
+  "current_evaluator_claim": "Root read the current hosted catalog: 24 finite evaluators. These eleven broader proposals are not thereby implemented; mappings are in docs/METHODS.md.",
+  "novelty_claim": "No source here is asserted to be abandoned, unbuilt, or unique. Published research and local engineering adaptations are separated.",
+  "architecture_rule": "Map to existing classifier and Method Atlas IDs first. Preserve existing registry, evidence states, checkpoint schemas, and implementation. Add aliases/cross-references; do not inflate counts with duplicate names.",
+  "common_result_contract": {
+    "run_id": "uuid",
+    "native_method_id": "existing or explicitly proposed ID",
+    "evaluator_hash": "exact code hash or null",
+    "source_versions": "array",
+    "input_hash": "sha256",
+    "result_state": "existing native evidence-state enum",
+    "observations": "array",
+    "counterexample": "object|null",
+    "limitations": "array",
+    "next_action": "specific action",
+    "elapsed_ms": "number"
+  },
+  "promotion_order": [
+    "P0: provenance, metamorphic tests, controller analysis, adapter labels",
+    "P1: CEGAR, model-based diagnosis, useful-acquisition selector, controlled schedules",
+    "P2: contextual policy learning and calibration only after labels/propensities exist; reverse provenance as bounded research extension"
+  ],
+  "shared_acceptance_principle": "Thresholds above are proposed acceptance criteria for owned fixtures, not tests executed in this pass or claims of real target coverage.",
+  "meta_selection_rules": [
+    "A source-backed idea is a candidate; a registered description is not an evaluator.",
+    "Eligible methods require valid input schema, applicable classifier predicates, an available versioned evaluator, satisfied dependencies, and the existing authorized work mode.",
+    "Use the user's selected program/payout priority tier first; optimize information gain and cost within that tier rather than inventing payout probabilities.",
+    "Rank outputs by independently resolved uncertainty and reproducible evidence, not volume of findings, candidate count, or prose.",
+    "Keep ACQUIRED, ANALYZED, DECIDED, runtime result, and user-facing finality as separate state dimensions.",
+    "Unchanged native source versions do not warrant repeat acquisition absent a concrete remaining dependency."
+  ],
+  "sources": [
+    {
+      "id": "S01",
+      "title": "Counterexample-guided Abstraction Refinement",
+      "authors": [
+        "Edmund Clarke",
+        "Orna Grumberg",
+        "Somesh Jha",
+        "Yuan Lu",
+        "Helmut Veith"
+      ],
+      "year": 2000,
+      "institution_or_venue": "CAV; CMU/Technion/Vienna",
+      "url": "https://web.stanford.edu/class/cs357/cegar.pdf",
+      "access": "PRIMARY_FULL_TEXT_RETRIEVED",
+      "reviewed_sections": [
+        "Abstract",
+        "Introduction, pp. 1-2"
+      ],
+      "supported_point": "An over-approximating model may produce a spurious counterexample; refine only the distinctions needed to remove it. Correctness transfers only under the formal abstraction assumptions."
+    },
+    {
+      "id": "S02",
+      "title": "Metamorphic Testing: A New Approach for Generating Next Test Cases",
+      "authors": [
+        "T. Y. Chen",
+        "S. C. Cheung",
+        "S. M. Yiu"
+      ],
+      "year": 1998,
+      "institution_or_venue": "HKUST-CS98-01, Hong Kong University of Science and Technology",
+      "url": "https://www.cse.ust.hk/faculty/scc/publ/CS98-01-metamorphictesting.pdf",
+      "access": "PRIMARY_FULL_TEXT_RETRIEVED",
+      "reviewed_sections": [
+        "Abstract",
+        "Introduction",
+        "Metamorphic relations and worked examples"
+      ],
+      "supported_point": "Relations among multiple executions can expose faults when an exact output oracle is unavailable."
+    },
+    {
+      "id": "S03",
+      "title": "Dynamic Partial-Order Reduction for Model Checking Software",
+      "authors": [
+        "Cormac Flanagan",
+        "Patrice Godefroid"
+      ],
+      "year": 2005,
+      "institution_or_venue": "POPL; UC Santa Cruz/Bell Labs",
+      "url": "https://users.soe.ucsc.edu/~cormac/papers/popl05.pdf",
+      "access": "PRIMARY_FULL_TEXT_RETRIEVED",
+      "reviewed_sections": [
+        "Abstract",
+        "Introduction",
+        "DPOR algorithm"
+      ],
+      "supported_point": "Track interactions dynamically and introduce backtracking points to avoid redundant interleavings under the assumed dependence relation."
+    },
+    {
+      "id": "S04",
+      "title": "Finding and Reproducing Heisenbugs in Concurrent Programs",
+      "authors": [
+        "Madanlal Musuvathi",
+        "Shaz Qadeer",
+        "Thomas Ball",
+        "Gerard Basler",
+        "Piramanayagam Arumuga Nainar",
+        "Iqbal Neamtiu"
+      ],
+      "year": 2008,
+      "institution_or_venue": "OSDI; Microsoft Research",
+      "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/chess-osdi2008-chess.pdf",
+      "access": "PRIMARY_FULL_TEXT_RETRIEVED",
+      "reviewed_sections": [
+        "Introduction",
+        "Preemption bounding",
+        "Happens-before caching"
+      ],
+      "supported_point": "CHESS controls and replays schedules, prioritizing fewer preemptions. This is distinct from the original DPOR algorithm."
+    },
+    {
+      "id": "S05",
+      "title": "STPA Handbook (MIT-STAMP-001)",
+      "authors": [
+        "Nancy G. Leveson",
+        "John P. Thomas"
+      ],
+      "year": 2018,
+      "institution_or_venue": "MIT",
+      "url": "https://psas.scripts.mit.edu/home/get_file.php?name=STPA_Handbook.pdf",
+      "landing_url": "https://psas.scripts.mit.edu/home/books-and-handbooks/",
+      "access": "PRIMARY_FULL_TEXT_RETRIEVED",
+      "reviewed_sections": [
+        "Basic STPA",
+        "Unsafe control actions, pp. 35-39"
+      ],
+      "supported_point": "Analyze a control action in context: omitted, provided, wrong timing/order, or inappropriate duration. Duration applies to continuous actions; discrete start/stop events require timing analysis. STPA originates at MIT."
+    },
+    {
+      "id": "S06",
+      "title": "A Model-based Approach to Reactive Self-Configuring Systems",
+      "authors": [
+        "Brian C. Williams",
+        "P. Pandurang Nayak"
+      ],
+      "year": 1996,
+      "institution_or_venue": "AAAI; Recom Technologies/NASA Ames Research Center",
+      "url": "https://www.cs.cmu.edu/~mmv/planning/readings/livingstone.pdf",
+      "publication_url": "https://aaai.org/papers/144-aaai96-144-a-model-based-approach-to-reactive-self-configuring-systems/",
+      "access": "PRIMARY_FULL_TEXT_RETRIEVED",
+      "reviewed_sections": [
+        "Abstract",
+        "Introduction",
+        "Mode identification",
+        "Conflict-directed best-first search"
+      ],
+      "supported_point": "Livingstone is an implemented model-based configuration manager using component transition models and conflict-based diagnosis. It is not an unbuilt or abandoned invention."
+    },
+    {
+      "id": "S07",
+      "title": "Provenance Semirings",
+      "authors": [
+        "Todd J. Green",
+        "Grigoris Karvounarakis",
+        "Val Tannen"
+      ],
+      "year": 2007,
+      "institution_or_venue": "PODS; University of Pennsylvania",
+      "url": "https://repository.upenn.edu/bitstreams/b598c0a7-0d24-4162-8279-5f51a17d29c2/download",
+      "doi": "10.1145/1265530.1265535",
+      "access": "PRIMARY_SEARCH_RECORD_ACQUIRED_FULL_TEXT_OPEN_FAILED",
+      "reviewed_sections": [
+        "Search record only; operational details supported by S08"
+      ],
+      "supported_point": "Original publication identity for the semiring provenance framework."
+    },
+    {
+      "id": "S08",
+      "title": "The Semiring Framework for Database Provenance",
+      "authors": [
+        "Val Tannen"
+      ],
+      "year": 2017,
+      "institution_or_venue": "PODS author presentation; University of Pennsylvania",
+      "url": "https://www.cis.upenn.edu/~val/15MayPODS.pdf",
+      "access": "PRIMARY_AUTHOR_FULL_PRESENTATION_RETRIEVED",
+      "reviewed_sections": [
+        "Slides 8-15: tokens, joint/alternative use, positive relational algebra, deletion propagation"
+      ],
+      "supported_point": "Multiplication represents jointly used facts and addition alternative derivations. The positive relational algebra scope must be explicit; token algebra is not a source-truth probability."
+    },
+    {
+      "id": "S09",
+      "title": "Information-based objective functions for active data selection",
+      "authors": [
+        "David J. C. MacKay"
+      ],
+      "year": 1992,
+      "institution_or_venue": "Neural Computation; Caltech",
+      "url": "https://authors.library.caltech.edu/records/efefp-2j353",
+      "doi": "10.1162/neco.1992.4.4.590",
+      "access": "PRIMARY_REPOSITORY_ABSTRACT_ACQUIRED_PDF_OPEN_FAILED",
+      "reviewed_sections": [
+        "Abstract"
+      ],
+      "supported_point": "Bayesian selection can rank candidate measurements by expected informativeness; dependence on a correct hypothesis space is an explicit weakness. Proposed MPC utility adaptation is our design, not a result established for bug bounty work."
+    },
+    {
+      "id": "S10",
+      "title": "A Contextual-Bandit Approach to Personalized News Article Recommendation",
+      "authors": [
+        "Lihong Li",
+        "Wei Chu",
+        "John Langford",
+        "Robert E. Schapire"
+      ],
+      "year": 2010,
+      "institution_or_venue": "WWW; Yahoo! Labs/Princeton",
+      "url": "https://arxiv.org/pdf/1003.0146",
+      "publication_url": "https://www.microsoft.com/en-us/research/publication/a-contextual-bandit-approach-to-personalized-news-article-recommendation-3/",
+      "access": "PRIMARY_AUTHOR_FULL_TEXT_RETRIEVED",
+      "reviewed_sections": [
+        "Algorithm 1",
+        "Offline evaluation",
+        "Randomized logging requirements"
+      ],
+      "supported_point": "Context can guide arm selection; valid offline replay depends on the logging design. Publication is 2010; the retrieved arXiv version may contain later revisions."
+    },
+    {
+      "id": "S11",
+      "title": "Doubly Robust Policy Evaluation and Learning",
+      "authors": [
+        "Miroslav Dudik",
+        "John Langford",
+        "Lihong Li"
+      ],
+      "year": 2011,
+      "institution_or_venue": "ICML",
+      "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/double_robust.pdf",
+      "access": "PRIMARY_FULL_TEXT_RETRIEVED",
+      "reviewed_sections": [
+        "Introduction",
+        "Section 2.2",
+        "Bias and variance"
+      ],
+      "supported_point": "Combine a reward model and action-propensity correction. Off-policy estimation still needs supported actions and appropriate statistical assumptions; small propensities increase variance."
+    },
+    {
+      "id": "S12",
+      "title": "On Calibration of Modern Neural Networks",
+      "authors": [
+        "Chuan Guo",
+        "Geoff Pleiss",
+        "Yu Sun",
+        "Kilian Q. Weinberger"
+      ],
+      "year": 2017,
+      "institution_or_venue": "ICML/PMLR; Cornell",
+      "url": "https://proceedings.mlr.press/v70/guo17a.html",
+      "full_text_url": "https://proceedings.mlr.press/v70/guo17a/guo17a.pdf",
+      "access": "PRIMARY_FULL_TEXT_RETRIEVED",
+      "reviewed_sections": [
+        "Abstract",
+        "Temperature scaling",
+        "Reliability diagrams"
+      ],
+      "supported_point": "Post-hoc temperature scaling can improve probabilistic calibration in the studied datasets; positive scalar scaling leaves the predicted class unchanged. It does not establish calibration for arbitrary LLM-written confidence numbers."
+    },
+    {
+      "id": "S13",
+      "title": "Protecting Privacy using the Decentralized Label Model",
+      "authors": [
+        "Andrew C. Myers",
+        "Barbara Liskov"
+      ],
+      "year": 2000,
+      "institution_or_venue": "ACM TOSEM; Cornell/MIT",
+      "url": "https://www.cs.cornell.edu/andru/papers/iflow-tosem.pdf",
+      "access": "PRIMARY_FULL_TEXT_RETRIEVED",
+      "reviewed_sections": [
+        "Decentralized label model",
+        "Static checking and implicit flows",
+        "Limitations"
+      ],
+      "supported_point": "Owner policies, label joins, and information-flow checks support controlled propagation; implicit and timing channels limit naive runtime-label guarantees."
+    },
+    {
+      "id": "S14",
+      "title": "Provenance Analysis and Semiring Semantics for First-Order Logic",
+      "authors": [
+        "Erich Graedel",
+        "Val Tannen"
+      ],
+      "year": 2024,
+      "institution_or_venue": "Author manuscript; RWTH Aachen/University of Pennsylvania",
+      "url": "https://arxiv.org/html/2412.07986v1",
+      "access": "PRIMARY_AUTHOR_FULL_TEXT_RETRIEVED",
+      "reviewed_sections": [
+        "Abstract",
+        "Introduction",
+        "Reverse provenance analysis",
+        "Missing query answers"
+      ],
+      "supported_point": "A dual-indeterminate construction handles negation and reverse provenance under explicit interpretations; potential applications include missing answers and integrity-constraint repairs. Research interpretation must not equate unknown evidence with a proved false fact."
+    }
+  ],
+  "methods": [
+    {
+      "id": "candidate.provenance_semiring",
+      "aliases": [
+        "provenance",
+        "semiring",
+        "lineage",
+        "K-relations"
+      ],
+      "name": "SQL provenance expressions",
+      "priority": "P0",
+      "sources": [
+        "S07",
+        "S08"
+      ],
+      "integration_state": "CANDIDATE_PENDING_NATIVE_CATALOG_MATCH",
+      "evaluator_state": "NOT_ESTABLISHED_BY_THIS_RESEARCH_PASS",
+      "target_execution": "OFFLINE_FIXTURES_ONLY",
+      "authoring_note": "Operator, schema, and acceptance experiment are proposed MPC engineering adaptations, not claims made by the source paper.",
+      "purpose": "Keep every finding connected to the exact native facts and transformations that support it; update only affected conclusions when an artifact version changes.",
+      "input_shape": {
+        "facts": [
+          {
+            "fact_id": "string",
+            "native_id": "string",
+            "native_version": "string",
+            "content_sha256": "string",
+            "polarity": "positive",
+            "evidence_state": "existing enum"
+          }
+        ],
+        "query_ast": "restricted positive relational algebra",
+        "source_dependencies": "fact ID graph"
+      },
+      "operator": "annotate_provenance(query_ast, facts) -> result rows + shared expression DAG + affected-result index",
+      "execution_detail": "Assign one token per native artifact fact/version. AND/join multiplies dependencies; OR/union records alternatives. Keep multiplicity separate from independent-source corroboration; two Dash routes to the same Drive artifact resolve to one native identity.",
+      "failure_mode": "Alias duplicates inflate support; an unsupported SQL operation silently loses lineage; a changed input leaves a cached conclusion current.",
+      "falsifier": "Introduce two route aliases for one native object, change that object's version, and check whether support or currentness changes incorrectly.",
+      "acceptance_experiment": {
+        "fixture": "Small fixed fact graph containing joins, alternative derivations, alias duplicates, one source update, and unrelated findings.",
+        "must_hold": [
+          "Every result has reproducible native fact/version leaves.",
+          "Aliases never increase independent-source count.",
+          "Source updates invalidate exactly dependent cached results.",
+          "Unsupported negation/aggregate operations return explicit unsupported status."
+        ],
+        "metrics": [
+          "Lineage coverage over promoted results",
+          "Incorrect invalidation count",
+          "Independent-source overcount",
+          "Incremental recomputation versus full recomputation"
+        ]
+      },
+      "method_on_methods": "Attach source, implementation hash, applicability predicates, and test receipt as provenance leaves of every operator-selection decision."
+    },
+    {
+      "id": "candidate.metamorphic_router",
+      "aliases": [
+        "metamorphic testing",
+        "metamorphic relations",
+        "representation invariance"
+      ],
+      "name": "Metamorphic tests of atoms and router",
+      "priority": "P0",
+      "sources": [
+        "S02"
+      ],
+      "integration_state": "CANDIDATE_PENDING_NATIVE_CATALOG_MATCH",
+      "evaluator_state": "NOT_ESTABLISHED_BY_THIS_RESEARCH_PASS",
+      "target_execution": "OFFLINE_FIXTURES_ONLY",
+      "authoring_note": "Operator, schema, and acceptance experiment are proposed MPC engineering adaptations, not claims made by the source paper.",
+      "purpose": "Expose classifier inversion, source-identity confusion, and fragile ranking without needing an oracle for every prose answer.",
+      "input_shape": {
+        "base_fixture": "typed atoms + expected relation",
+        "transform_id": "string",
+        "preconditions": [
+          "typed predicates"
+        ],
+        "relation": "invariant|equivariant|monotone_with_proof",
+        "comparison_projection": [
+          "stable semantic fields"
+        ]
+      },
+      "operator": "run_metamorphic(base_fixture, transform_id, relation) -> paired outcomes + relation violations",
+      "execution_detail": "Use explicit relations: artifact display-name changes preserve native identity; order changes preserve set-valued facts; equivalent serialization preserves classifier results; duplicate routes preserve corroboration count; removing required evidence prevents promotion. Bind each relation to its semantic preconditions.",
+      "failure_mode": "A purported invariant is false in the actual domain; arbitrary paraphrases alter legal or protocol meaning; scoring rewards superficial consistency.",
+      "falsifier": "Use negative-control transformations that change actor, scope, version, or required evidence while preserving surface words. The semantic change must be detected.",
+      "acceptance_experiment": {
+        "fixture": "A versioned suite of valid transformations plus intentionally relation-breaking mutations.",
+        "must_hold": [
+          "All valid invariants hold on deterministic semantic projections.",
+          "Each declared negative control causes the intended semantic difference.",
+          "Failures include both traces and the violated relation; no bare pass count."
+        ],
+        "metrics": [
+          "Valid-relation violation rate",
+          "Semantic mutation detection rate",
+          "False invariance count",
+          "Regression delta by classifier ID"
+        ]
+      },
+      "method_on_methods": "Permute candidate order, rename aliases, duplicate a catalog entry, and remove an evaluator. The selected runnable method must follow semantics and availability."
+    },
+    {
+      "id": "candidate.stpa_controller",
+      "aliases": [
+        "STPA",
+        "STAMP",
+        "unsafe control actions"
+      ],
+      "name": "Control-action and feedback analysis",
+      "priority": "P0",
+      "sources": [
+        "S05"
+      ],
+      "integration_state": "CANDIDATE_PENDING_NATIVE_CATALOG_MATCH",
+      "evaluator_state": "NOT_ESTABLISHED_BY_THIS_RESEARCH_PASS",
+      "target_execution": "OFFLINE_FIXTURES_ONLY",
+      "authoring_note": "Operator, schema, and acceptance experiment are proposed MPC engineering adaptations, not claims made by the source paper.",
+      "purpose": "Turn the command center's acquisition, retry, promotion, report, and external-action workflow into explicit controller/context cases.",
+      "input_shape": {
+        "controllers": [
+          {
+            "id": "string",
+            "process_model": "typed state"
+          }
+        ],
+        "control_actions": [
+          {
+            "id": "string",
+            "kind": "discrete|continuous",
+            "context": "predicate",
+            "feedback_refs": [
+              "event IDs"
+            ]
+          }
+        ],
+        "losses": [
+          "project-specific loss"
+        ],
+        "constraints": [
+          "predicate"
+        ],
+        "feedback_delay_ms": "number"
+      },
+      "operator": "enumerate_control_contexts(model) -> action/context cases + linked loss scenarios + testable constraints",
+      "execution_detail": "Check omission, inappropriate provision, wrong timing/order, and duration for continuous actions. Include stale success feedback, repeated acquisition with unchanged source version, report-before-evidence, and credentials unavailable despite green UI state.",
+      "failure_mode": "A control diagram omits the real connector or async callback; a generic safety label produces no executable constraint; duration is applied incorrectly to a discrete event.",
+      "falsifier": "Replay delayed, missing, duplicated, and reordered connector feedback and see whether the displayed state diverges from completed operations.",
+      "acceptance_experiment": {
+        "fixture": "Offline event traces for lost receipt, stale cache, duplicate success, source-version update, user cancellation, and disconnected connector.",
+        "must_hold": [
+          "Every generated scenario links action, context, loss, and testable constraint.",
+          "No state advances from requested to completed without matching feedback.",
+          "Unchanged-source retry has bounded stopping behavior and a different next useful action.",
+          "Discrete actions receive timing checks; continuous operations receive duration checks."
+        ],
+        "metrics": [
+          "Seeded control defects detected",
+          "False scenario rate on valid traces",
+          "Unproductive retry count",
+          "Time from new evidence to correctly updated state"
+        ]
+      },
+      "method_on_methods": "Analyze the selector as a controller: wrong method, no method despite runnable work, late method after state change, or repeated same method after no information gain."
+    },
+    {
+      "id": "candidate.cegar_classifier",
+      "aliases": [
+        "CEGAR",
+        "counterexample guided abstraction refinement",
+        "predicate refinement"
+      ],
+      "name": "Counterexample-guided classifier refinement",
+      "priority": "P1",
+      "sources": [
+        "S01"
+      ],
+      "integration_state": "CANDIDATE_PENDING_NATIVE_CATALOG_MATCH",
+      "evaluator_state": "NOT_ESTABLISHED_BY_THIS_RESEARCH_PASS",
+      "target_execution": "OFFLINE_FIXTURES_ONLY",
+      "authoring_note": "Operator, schema, and acceptance experiment are proposed MPC engineering adaptations, not claims made by the source paper.",
+      "purpose": "Refine a coarse atom/state abstraction only when a counterexample shows which missing distinction matters.",
+      "input_shape": {
+        "concrete_model_ref": "owned local finite transition model",
+        "abstraction_map": "typed predicate map",
+        "property": "formal invariant",
+        "candidate_trace": [
+          "state/action IDs"
+        ],
+        "budget": {
+          "max_states": "integer",
+          "max_refinements": "integer"
+        }
+      },
+      "operator": "check_trace_then_refine(model, abstraction, property) -> concrete_counterexample | refined_abstraction | satisfied_within_model | unresolved",
+      "execution_detail": "Replay a suspected cross-actor or state-transition violation against the concrete model. If it is spurious, split only the predicate implicated by infeasibility, such as identity, resource ownership, token audience, or source version.",
+      "failure_mode": "An unsound abstraction is called proof; missing observations are treated as infeasible; heuristic LLM plausibility substitutes for concrete trace checking.",
+      "falsifier": "Provide an apparently violating abstract trace that cannot occur because of ownership or version constraints, followed by a real feasible violation.",
+      "acceptance_experiment": {
+        "fixture": "Tiny owned transition systems whose full reachable state spaces can be enumerated independently.",
+        "must_hold": [
+          "Spurious abstract traces are rejected with a specific infeasible prefix.",
+          "Feasible violations remain detectable after refinement.",
+          "Reported satisfaction is scoped to the model, property, and bounds.",
+          "Refinement preserves existing schema IDs and classifier history."
+        ],
+        "metrics": [
+          "Spurious counterexamples removed",
+          "Concrete counterexamples retained",
+          "State count versus unrefined and full model",
+          "Refinement cost"
+        ]
+      },
+      "method_on_methods": "A falsely applicable method is a counterexample to the applicability abstraction. Refine its predicate from the actual failure; avoid broadly disabling the entire method family."
+    },
+    {
+      "id": "candidate.livingstone_diagnosis",
+      "aliases": [
+        "Livingstone",
+        "model based diagnosis",
+        "conflict directed diagnosis"
+      ],
+      "name": "Model-based connector and workflow diagnosis",
+      "priority": "P1",
+      "sources": [
+        "S06"
+      ],
+      "integration_state": "CANDIDATE_PENDING_NATIVE_CATALOG_MATCH",
+      "evaluator_state": "NOT_ESTABLISHED_BY_THIS_RESEARCH_PASS",
+      "target_execution": "OFFLINE_FIXTURES_ONLY",
+      "authoring_note": "Operator, schema, and acceptance experiment are proposed MPC engineering adaptations, not claims made by the source paper.",
+      "purpose": "Explain a broken command-center state through a small set of component-mode hypotheses and identify the next discriminating observation.",
+      "input_shape": {
+        "components": [
+          {
+            "id": "string",
+            "modes": [
+              "operational",
+              "disconnected",
+              "stale",
+              "rate_limited",
+              "schema_mismatch"
+            ],
+            "transition_constraints": [
+              "predicate"
+            ]
+          }
+        ],
+        "observations": [
+          {
+            "id": "string",
+            "timestamp": "ISO8601",
+            "value": "typed",
+            "source_ref": "string"
+          }
+        ],
+        "mode_costs": "optional explicit assumptions",
+        "desired_state": "predicate"
+      },
+      "operator": "diagnose_modes(model, observations) -> ranked_consistent_diagnoses + conflict_sets + discriminating_observations",
+      "execution_detail": "Use constraints across local API, SQL cache, remote MCP endpoint, credential store, and connector receipt. Return competing explanations and a concrete observation that can distinguish them; applying repairs remains a separate command.",
+      "failure_mode": "The component model omits the real fault, assigns unsupported probabilities, or recommends retries that cannot distinguish hypotheses.",
+      "falsifier": "Inject an unmodeled schema-version fault and two different modeled faults with identical current observations; the operator must preserve uncertainty.",
+      "acceptance_experiment": {
+        "fixture": "Deterministic local fault injection across adapter boundaries; no live third-party target traffic.",
+        "must_hold": [
+          "The injected modeled fault appears among diagnoses consistent with observations.",
+          "Ambiguous observations do not collapse to one asserted cause.",
+          "No consistent diagnosis yields model-incomplete status with the unresolved conflict.",
+          "Recommended observation distinguishes at least two surviving explanations."
+        ],
+        "metrics": [
+          "Top-k diagnosis recall",
+          "False certainty count",
+          "Observations required to isolate fault",
+          "Repair recommendation cost versus restart-all baseline"
+        ]
+      },
+      "method_on_methods": "Diagnose whether failure is missing input, bad method applicability, evaluator bug, stale source, or unavailable dependency before changing the whole framework."
+    },
+    {
+      "id": "candidate.information_gain",
+      "aliases": [
+        "active learning",
+        "value of information",
+        "expected information gain"
+      ],
+      "name": "Choose the next evidence acquisition",
+      "priority": "P1",
+      "sources": [
+        "S09"
+      ],
+      "integration_state": "CANDIDATE_PENDING_NATIVE_CATALOG_MATCH",
+      "evaluator_state": "NOT_ESTABLISHED_BY_THIS_RESEARCH_PASS",
+      "target_execution": "OFFLINE_FIXTURES_ONLY",
+      "authoring_note": "Operator, schema, and acceptance experiment are proposed MPC engineering adaptations, not claims made by the source paper.",
+      "purpose": "Choose a source lookup or local observation that can change a decision, with costs and the user's priority order made explicit.",
+      "input_shape": {
+        "hypotheses": [
+          {
+            "id": "string",
+            "weight": "optional calibrated probability",
+            "predicted_observations": "typed"
+          }
+        ],
+        "candidate_observations": [
+          {
+            "id": "string",
+            "cost_ms": "number",
+            "cost_money": "number",
+            "native_version": "optional string",
+            "available": "boolean"
+          }
+        ],
+        "decision_loss": "explicit task-specific table or null",
+        "user_priority": "program/payout tier already chosen"
+      },
+      "operator": "rank_discriminating_observations(context) -> next_observation + predicted_discrimination + assumptions",
+      "execution_detail": "If a defensible probability/likelihood model exists, rank expected information gain or expected decision-loss reduction minus cost. Otherwise use transparent eliminations and prerequisite coverage; label the ranking heuristic. A cached unchanged native source contributes no assumed novelty.",
+      "failure_mode": "A wrong or closed hypothesis space makes confidence rise while the true explanation is absent; high entropy reduction is confused with financial value.",
+      "falsifier": "Add an unknown-explanation bucket, redundant source alias, or expensive low-impact observation and test whether the ranking explains its changed assumptions.",
+      "acceptance_experiment": {
+        "fixture": "Owned finite mystery-state fixtures with known costs and known observation outcomes.",
+        "must_hold": [
+          "Never choose an unavailable or duplicate unchanged acquisition when a useful feasible observation exists.",
+          "Probability-based estimates state their likelihood model; no invented calibration.",
+          "Respect the user's chosen priority tier before within-tier method optimization.",
+          "Stop or switch tasks when expected useful gain is exhausted."
+        ],
+        "metrics": [
+          "Decision error at a fixed acquisition budget",
+          "Number of useful new facts per unit cost",
+          "Redundant call rate",
+          "Distance from an oracle policy on the finite fixtures"
+        ]
+      },
+      "method_on_methods": "Use the expected information gain from running an evaluator to choose which method uncertainty to resolve next."
+    },
+    {
+      "id": "candidate.controlled_scheduling",
+      "aliases": [
+        "CHESS",
+        "DPOR",
+        "partial order reduction",
+        "schedule replay"
+      ],
+      "name": "Controlled concurrency exploration",
+      "priority": "P1",
+      "sources": [
+        "S03",
+        "S04"
+      ],
+      "integration_state": "CANDIDATE_PENDING_NATIVE_CATALOG_MATCH",
+      "evaluator_state": "NOT_ESTABLISHED_BY_THIS_RESEARCH_PASS",
+      "target_execution": "OFFLINE_FIXTURES_ONLY",
+      "authoring_note": "Operator, schema, and acceptance experiment are proposed MPC engineering adaptations, not claims made by the source paper.",
+      "purpose": "Find and reproduce ordering defects in local evidence writes, receipt processing, cancellation, cache invalidation, and job resumptions.",
+      "input_shape": {
+        "owned_harness_ref": "string",
+        "events": [
+          {
+            "id": "string",
+            "thread": "string",
+            "reads": [
+              "resource"
+            ],
+            "writes": [
+              "resource"
+            ],
+            "sync": "typed"
+          }
+        ],
+        "invariant": "predicate",
+        "schedule_bound": {
+          "max_preemptions": "integer",
+          "max_events": "integer"
+        },
+        "dependence_relation": "explicit model"
+      },
+      "operator": "explore_schedules(harness, bounds, dependence) -> unique-trace outcomes + minimal replay schedule",
+      "execution_detail": "Adopt CHESS-style deterministic control/replay and low-preemption ordering. Use a separately implemented DPOR reduction only if its dependence relation is correct. A plain permutation loop is not DPOR; a rate-limited live scanner is not a concurrency model checker.",
+      "failure_mode": "Hidden shared state makes supposedly independent events dependent; mocked schedules fail to represent actual runtime ordering; bounded exploration is advertised as complete.",
+      "falsifier": "Seed write-write, check-then-write, stale-read, duplicate-delivery, and cancellation/commit races; include one bug beyond the selected schedule bound.",
+      "acceptance_experiment": {
+        "fixture": "Small instrumented local models where exhaustive schedule enumeration is feasible, then the real owned queue/cache adapter.",
+        "must_hold": [
+          "Reduced exploration preserves all invariant violations found by exhaustive enumeration within the same model/bounds.",
+          "Saved failure schedule reproduces under repeated replay.",
+          "The beyond-bound case is reported as outside coverage.",
+          "Every output records dependence model, schedule bound, seed, and evaluator hash."
+        ],
+        "metrics": [
+          "Violations preserved",
+          "Schedules eliminated relative to exhaustive enumeration",
+          "Replay success rate",
+          "Time to first reproducible violation"
+        ]
+      },
+      "method_on_methods": "Exercise two simultaneous agents selecting or promoting the same method, a method update during an active run, and cancellation at checkpoint commit."
+    },
+    {
+      "id": "candidate.contextual_selector",
+      "aliases": [
+        "contextual bandit",
+        "LinUCB",
+        "doubly robust policy evaluation"
+      ],
+      "name": "Learn which implemented method helps",
+      "priority": "P2_AFTER_RELIABLE_OUTCOME_LOGS",
+      "sources": [
+        "S10",
+        "S11"
+      ],
+      "integration_state": "CANDIDATE_PENDING_NATIVE_CATALOG_MATCH",
+      "evaluator_state": "NOT_ESTABLISHED_BY_THIS_RESEARCH_PASS",
+      "target_execution": "OFFLINE_FIXTURES_ONLY",
+      "authoring_note": "Operator, schema, and acceptance experiment are proposed MPC engineering adaptations, not claims made by the source paper.",
+      "purpose": "Improve selection among runnable methods using actual resolution outcomes and cost rather than a growing list of impressive method names.",
+      "input_shape": {
+        "context": {
+          "gap_type": "string",
+          "artifact_type": "string",
+          "evidence_state": "string",
+          "priority_tier": "string"
+        },
+        "eligible_methods": [
+          {
+            "method_id": "native existing ID",
+            "evaluator_hash": "string"
+          }
+        ],
+        "logged_choices": [
+          {
+            "context": "typed",
+            "method_id": "string",
+            "selection_probability": "number in (0,1]",
+            "outcome": "independent label",
+            "elapsed_ms": "number"
+          }
+        ]
+      },
+      "operator": "select_method(context, eligible, policy_version) -> method_id + propensity + reason; evaluate_policy(logs) -> value_estimate + uncertainty + support",
+      "execution_detail": "Start with the current deterministic router as baseline. Restrict learning to implemented, schema-valid, authorized, applicable operators; record exact choice probabilities. Evaluate candidate policies offline using supported logs before changing defaults.",
+      "failure_mode": "Reward counts findings, prose length, or novelty; selection bias and low propensities create misleading improvement; no outcome exists for unchosen actions.",
+      "falsifier": "Use logs with missing or zero support for a candidate policy; duplicate candidate aliases; include a verbose method yielding no independently confirmed resolution.",
+      "acceptance_experiment": {
+        "fixture": "Offline logged or simulated local tasks with hidden held-out outcomes and explicit action propensities.",
+        "must_hold": [
+          "Unsupported policy evaluation returns insufficient-support status.",
+          "Candidate-only or missing evaluators are never selected for execution.",
+          "Aliases map to one arm.",
+          "Policy promotion requires a held-out improvement interval and no regression in priority-tier adherence or false promotion."
+        ],
+        "metrics": [
+          "Correctly resolved hypotheses per minute",
+          "False-promotion rate",
+          "Effective sample size and propensity overlap",
+          "Cost-adjusted held-out policy value",
+          "Performance by gap type"
+        ]
+      },
+      "method_on_methods": "This is the meta-selector itself. Keep its policy, assumptions, and training/evaluation data disjoint and versioned as ordinary evidence artifacts."
+    },
+    {
+      "id": "candidate.calibrated_triage",
+      "aliases": [
+        "calibration",
+        "temperature scaling",
+        "reliability diagram"
+      ],
+      "name": "Calibrated triage scores",
+      "priority": "P2_AFTER_LABELS_AND_MODEL_SCORES",
+      "sources": [
+        "S12"
+      ],
+      "integration_state": "CANDIDATE_PENDING_NATIVE_CATALOG_MATCH",
+      "evaluator_state": "NOT_ESTABLISHED_BY_THIS_RESEARCH_PASS",
+      "target_execution": "OFFLINE_FIXTURES_ONLY",
+      "authoring_note": "Operator, schema, and acceptance experiment are proposed MPC engineering adaptations, not claims made by the source paper.",
+      "purpose": "Make a claimed probability correspond to an observed outcome frequency on a defined task and dataset; keep priority and probability separate.",
+      "input_shape": {
+        "model_id": "string",
+        "model_version": "string",
+        "label_definition": "independently adjudicated outcome",
+        "logits": "optional numeric vector",
+        "scores": "numeric data with documented origin",
+        "labels": "held-out outcomes",
+        "split_ids": {
+          "fit": "array",
+          "calibrate": "array",
+          "test": "array"
+        },
+        "strata": [
+          "program family",
+          "gap type"
+        ]
+      },
+      "operator": "fit_calibration(calibration_split) -> versioned calibration artifact; evaluate_calibration(test_split) -> reliability metrics",
+      "execution_detail": "Use temperature scaling only where model logits and labels support that method. Arbitrary LLM-written confidence numbers need a separately justified scoring model; missing labels remain uncalibrated. Assess negative log-likelihood, Brier score, reliability plots, and selective error versus coverage.",
+      "failure_mode": "Train/test leakage, distribution shift, tiny samples, or task-definition changes make apparent certainty unreliable; confidence becomes a proxy for payout.",
+      "falsifier": "Evaluate on a later time split and an unseen program family; test confidently wrong synthetic cases and compare with always-base-rate scoring.",
+      "acceptance_experiment": {
+        "fixture": "Versioned outcomes split by source/project/time to reduce correlated leakage.",
+        "must_hold": [
+          "No instance appears in both calibration and evaluation sets.",
+          "The score displays its target event, calibration version, and evaluated scope.",
+          "Release uses held-out proper-score improvement with uncertainty; otherwise retain uncalibrated state.",
+          "Model accuracy changes are evaluated separately from calibration."
+        ],
+        "metrics": [
+          "Brier score",
+          "Negative log-likelihood",
+          "Reliability curves with counts",
+          "Selective error versus coverage",
+          "Per-stratum sample size and shift"
+        ]
+      },
+      "method_on_methods": "Calibrate the prediction that a method will resolve a specific gap, not a universal intelligence or security rating."
+    },
+    {
+      "id": "candidate.information_flow_labels",
+      "aliases": [
+        "information flow",
+        "decentralized label model",
+        "taint",
+        "DLM"
+      ],
+      "name": "Owner and data-flow labels across apps",
+      "priority": "P0_FOR_ADAPTER_BOUNDARIES",
+      "sources": [
+        "S13"
+      ],
+      "integration_state": "CANDIDATE_PENDING_NATIVE_CATALOG_MATCH",
+      "evaluator_state": "NOT_ESTABLISHED_BY_THIS_RESEARCH_PASS",
+      "target_execution": "OFFLINE_FIXTURES_ONLY",
+      "authoring_note": "Operator, schema, and acceptance experiment are proposed MPC engineering adaptations, not claims made by the source paper.",
+      "purpose": "Preserve artifact owner, confidentiality, provenance, and instruction origin through local SQL, chat prompts, reports, and connected-app exports.",
+      "input_shape": {
+        "object_id": "native ID",
+        "labels": {
+          "owners": [
+            "principal IDs"
+          ],
+          "allowed_destinations": [
+            "destination IDs"
+          ],
+          "source_integrity": "observed class",
+          "instruction_origin": "user|developer|tool_data|document_data"
+        },
+        "operation": {
+          "kind": "join|summarize|index|export|tool_call",
+          "destination": "ID"
+        },
+        "authority_ref": "existing authorization receipt"
+      },
+      "operator": "propagate_labels(inputs, operation) -> derived_labels + explicit flow decision",
+      "execution_detail": "A join or summary preserves the restrictions of its inputs. Referenced content remains data when assembling a tool request. Credentials stay as credential-store references. Any intended downgrade needs an explicit existing authority record, not text found in an attachment.",
+      "failure_mode": "Removing labels from summaries creates an export route; document text is mistaken for an instruction; coarse runtime labels miss implicit flows or logs.",
+      "falsifier": "Inject an attachment containing a fake tool instruction, mix public and restricted artifacts, and route derived output to search indexes, logs, and export previews.",
+      "acceptance_experiment": {
+        "fixture": "Offline connector fixtures with mock destinations and synthetic secrets only.",
+        "must_hold": [
+          "Derived objects retain all required owner/flow labels.",
+          "Untrusted document instructions cannot change a tool destination or authority.",
+          "No synthetic secret appears in logs or unapproved mock destinations.",
+          "The report states that boundary tests do not prove full information-flow noninterference."
+        ],
+        "metrics": [
+          "Canary leakage count",
+          "Label-loss count across transforms",
+          "False rejection count on allowed fixtures",
+          "Instruction-origin confusion count"
+        ]
+      },
+      "method_on_methods": "Research text can supply evidence and candidate descriptions but cannot register an executable, change permissions, or overwrite canonical classifier definitions."
+    },
+    {
+      "id": "candidate.reverse_provenance",
+      "aliases": [
+        "reverse provenance",
+        "dual indeterminates",
+        "why not provenance"
+      ],
+      "name": "Explain missing answers and blocked promotions",
+      "priority": "P2_RESEARCH_EXTENSION",
+      "sources": [
+        "S14"
+      ],
+      "integration_state": "CANDIDATE_PENDING_NATIVE_CATALOG_MATCH",
+      "evaluator_state": "NOT_ESTABLISHED_BY_THIS_RESEARCH_PASS",
+      "target_execution": "OFFLINE_FIXTURES_ONLY",
+      "authoring_note": "Operator, schema, and acceptance experiment are proposed MPC engineering adaptations, not claims made by the source paper.",
+      "purpose": "Explain the exact facts or constraints responsible when a expected classification, report row, or method does not appear.",
+      "input_shape": {
+        "finite_model": "explicit domain and facts",
+        "formula": "first-order formula in supported fragment",
+        "positive_tokens": "map",
+        "negative_tokens": "explicit map",
+        "unknown_facts": "separate set",
+        "desired_result": "typed",
+        "allowed_hypothetical_changes": "bounded set"
+      },
+      "operator": "explain_missing_result(model, query, desired) -> alternative support/repair sets + required observations",
+      "execution_detail": "Treat positive facts, known negative facts, and unobserved facts distinctly. On small finite models, enumerate explanations for missing answers and propose minimal hypothetical changes as questions to test, never as newly acquired evidence.",
+      "failure_mode": "Closed-world negation turns missing source access into proof of absence; a mathematically possible repair is written back as a real-world fact; positive semiring algebra is stretched silently to unsupported negation.",
+      "falsifier": "Remove access to a source while leaving the real-world state unchanged; the answer must become unknown/dependent rather than false. Supply contradictory positive/negative assignments and require an explicit conflict.",
+      "acceptance_experiment": {
+        "fixture": "Small finite databases with exhaustively enumerable models, positive/negative facts, unknowns, and missing query results.",
+        "must_hold": [
+          "Explanations agree with independent brute-force evaluation within the supported fragment.",
+          "Unknown and known-negative remain separate.",
+          "Hypothetical repairs do not mutate the source ledger.",
+          "Proof conditions, finite scope, and complexity budget are recorded."
+        ],
+        "metrics": [
+          "Explanation soundness on exhaustive fixtures",
+          "Unknown-to-false conversion count",
+          "Minimal repair agreement within the enumerated scope",
+          "Runtime growth versus fact count"
+        ]
+      },
+      "method_on_methods": "Explain why a requested method is absent: unavailable evaluator, input mismatch, unmet source dependency, or exclusion by a documented predicate."
+    }
+  ],
+  "native_catalog_version": "1.2.0",
+  "proposal_count": 11,
+  "source_record_count": 14
+}

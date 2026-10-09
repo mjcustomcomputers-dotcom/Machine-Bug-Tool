@@ -1,0 +1,26 @@
+{
+  "schema_version": "MPC-CONNECTION-WIZARD-1",
+  "configuration_state_is_authentication": false,
+  "observation_context": ["provider", "surface", "host_id", "account_id", "workspace_project_id", "connection_id", "operation", "observed_at", "expires_at"],
+  "observation_is_execution_authorization": false,
+  "first_use": "The first user-selected authorized operation may establish the first observed success. Prior verification is not required.",
+  "secret_storage": "OS_OR_SUPPORTED_HOST_CREDENTIAL_STORE",
+  "database_secret_field": "credential_ref",
+  "transports": ["stdio", "loopback_http", "streamable_http", "secure_mcp_tunnel"],
+  "wizard_fields": ["display_name", "provider_type", "transport", "endpoint_or_command", "account_id", "scopes", "credential_ref"],
+  "services": [
+    {"id":"github","label":"GitHub","local_state":"NOT_CONFIGURED","first_operation":"Read the selected repository and exact commit","purpose":"Code, method packages, branch/review and release state"},
+    {"id":"google_drive","label":"Google Drive","local_state":"NOT_CONFIGURED","first_operation":"Read one user-selected native file","purpose":"Chosen documents, evidence and report destinations"},
+    {"id":"gmail","label":"Gmail","local_state":"NOT_CONFIGURED","first_operation":"Read one user-selected message or run a bounded search","purpose":"Search, evidence intake, draft messages; send only on instruction"},
+    {"id":"dropbox","label":"Dropbox","local_state":"NOT_CONFIGURED","first_operation":"Read one selected native file","purpose":"Files, selected backups and source versions"},
+    {"id":"dropbox_dash","label":"Dropbox Dash","local_state":"NOT_CONFIGURED","first_operation":"Resolve one result to its native source","purpose":"Cross-service discovery; aliases never add independent evidence"},
+    {"id":"hosted_mpc","label":"MPC hosted tools","local_state":"NOT_CONFIGURED","first_operation":"Read contract and run one permitted supplied-model operation","purpose":"Current native evaluators; preserve installed plugin identity"},
+    {"id":"local_mpc","label":"MPC on this computer","local_state":"NOT_CONFIGURED","first_operation":"Read current local contract and run one owned synthetic model","purpose":"Existing local engine and tracked assistant receipts"},
+    {"id":"ollama","label":"Local model","local_state":"NOT_CONFIGURED","first_operation":"Complete the user's selected first request; optional model discovery supports setup","purpose":"Private/offline language-model inference"},
+    {"id":"openai_api","label":"OpenAI / Daybreak API","local_state":"NOT_CONFIGURED","first_operation":"Complete a permitted selected request with actual model/program readback","purpose":"Explicit cloud inference on an entitled project"},
+    {"id":"chatgpt_sign_in","label":"Continue with ChatGPT","local_state":"OPTIONAL_REGISTRATION_REQUIRED","first_operation":"Supported OAuth flow then account-specific model discovery","purpose":"Eligible plan inference; local connectors remain separately owned"},
+    {"id":"custom_mcp","label":"Add MCP connection","local_state":"NOT_CONFIGURED","first_operation":"Discover schema and complete one permitted non-destructive operation","purpose":"User-configured local, remote or tunnel endpoint"}
+  ],
+  "connection_receipts_from_this_chat": "evidence/hosted-mpc-receipts.json",
+  "chat_receipts_establish_windows_access": false
+}

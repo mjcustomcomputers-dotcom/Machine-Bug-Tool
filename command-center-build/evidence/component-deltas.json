@@ -1,0 +1,185 @@
+{
+  "pr_changed_paths": {
+    "security": [
+      "AGENTS.md",
+      "assistant/CREATED-PLUGIN.json",
+      "assistant/GPT-INSTRUCTIONS.txt",
+      "assistant/PROFILE.json",
+      "assistant/mpc-security-assistant/.codex-plugin/plugin.json",
+      "assistant/mpc-security-assistant/plugin.json",
+      "assistant/mpc-security-assistant/skills/operate-security-assistant/SKILL.md",
+      "assistant/mpc-security-assistant/skills/operate-security-assistant/agents/openai.yaml",
+      "assistant/mpc-security-assistant/skills/operate-security-assistant/references/local-contract.md",
+      "docs/MPC-SECURITY-ASSISTANT-GUIDE.md",
+      "docs/validation/MPC-SECURITY-ASSISTANT-HOSTED-AAD.json",
+      "docs/validation/MPC-SECURITY-ASSISTANT-PORTABLE-VERIFICATION.json",
+      "docs/validation/MPC-SECURITY-ASSISTANT-SELF-TEST.json",
+      "docs/validation/MPC-SECURITY-ASSISTANT-V17-BUILD.log",
+      "docs/validation/MPC-SECURITY-ASSISTANT-V17-TESTS.log",
+      "docs/validation/MPC-SECURITY-ASSISTANT-V17.json",
+      "examples/security-assistant/acquire-request.json",
+      "examples/security-assistant/matching-pennies.json",
+      "lib/assistant-source-identity.mjs",
+      "lib/bounded-json.mjs",
+      "lib/local-mcp-stdio.mjs",
+      "lib/security-assistant.mjs",
+      "scripts/Connect-MpcSecurityAssistant.ps1",
+      "scripts/export-mpc-security-assistant.mjs",
+      "scripts/start-mpc-security-assistant.mjs",
+      "tests/bounded-json.test.mjs",
+      "tests/local-mcp-stdio.test.mjs",
+      "tests/security-assistant-completion.test.mjs",
+      "tests/security-assistant.test.mjs"
+    ],
+    "reasoner": [
+      ".gitignore",
+      "data/mpc-local-model-demo.json",
+      "docs/MPC-LOCAL-MODEL-V17.md",
+      "lib/mpc-local-model.mjs",
+      "models/MPC-Daybreak-Local.Modelfile",
+      "scripts/Run-MPC-Local-Model.ps1",
+      "scripts/run-mpc-local-model.mjs",
+      "tests/mpc-local-model.test.mjs"
+    ],
+    "triage": [
+      "AGENTS.md",
+      "MPC-Work.cmd",
+      "MPC-Work.ps1",
+      "data/acquired-mpc-work-sources.json",
+      "docs/LOCAL-LIVE-INTELLIGENCE-V16-REPORT.html",
+      "docs/MPC-WORK-REPORT.html",
+      "docs/MPC-WORK-TRIAGE-V16.md",
+      "docs/validation/MPC-LOCAL-LIVE-V16-EVIDENCE.zip",
+      "docs/validation/MPC-LOCAL-LIVE-V16-RUNS.zip",
+      "docs/validation/MPC-LOCAL-LIVE-V16-VALIDATION.json",
+      "docs/validation/MPC-WORK-TRIAGE-NATIVE-RELEASE.json",
+      "docs/validation/MPC-WORK-TRIAGE-V16-VALIDATION.json",
+      "plugin-source/mpc-machine-legal/.codex-plugin/plugin.json",
+      "plugin-source/mpc-machine-legal/BUILD_INTEGRITY.json",
+      "plugin-source/mpc-machine-legal/plugin.json",
+      "plugin-source/mpc-machine-legal/scripts/validate_package.py",
+      "plugin-source/mpc-machine-legal/skills/index/SKILL.md",
+      "plugin-source/mpc-machine-legal/skills/machine-legal-live-source-router/SKILL.md",
+      "plugin-source/mpc-machine-legal/skills/machine-legal-work-triage/SKILL.md",
+      "plugin-source/mpc-machine-legal/skills/machine-legal-work-triage/agents/openai.yaml",
+      "scripts/export-reasoning-intelligence.mjs",
+      "scripts/run-mpc-work.mjs",
+      "tests/mpc-work-launcher.test.mjs"
+    ]
+  },
+  "workbench_changed_paths": [
+    {
+      "filename": "docs/METHOD-SELF-SCAN-OFFLINE.md",
+      "status": "modified",
+      "additions": 40,
+      "deletions": 24,
+      "changes": 64,
+      "previous_filename": null
+    },
+    {
+      "filename": "docs/MPC-RESEARCH-WORKBENCH.md",
+      "status": "added",
+      "additions": 132,
+      "deletions": 0,
+      "changes": 132,
+      "previous_filename": null
+    },
+    {
+      "filename": "lib/method-self-scan-offline.mjs",
+      "status": "modified",
+      "additions": 16,
+      "deletions": 5,
+      "changes": 21,
+      "previous_filename": null
+    },
+    {
+      "filename": "lib/method-self-scan-ui.mjs",
+      "status": "added",
+      "additions": 95,
+      "deletions": 0,
+      "changes": 95,
+      "previous_filename": null
+    },
+    {
+      "filename": "lib/research-workbench-store.mjs",
+      "status": "added",
+      "additions": 593,
+      "deletions": 0,
+      "changes": 593,
+      "previous_filename": null
+    },
+    {
+      "filename": "lib/research-workbench-ui.mjs",
+      "status": "added",
+      "additions": 426,
+      "deletions": 0,
+      "changes": 426,
+      "previous_filename": null
+    },
+    {
+      "filename": "scripts/export-method-self-scan.mjs",
+      "status": "modified",
+      "additions": 10,
+      "deletions": 4,
+      "changes": 14,
+      "previous_filename": null
+    },
+    {
+      "filename": "scripts/offline/Install-Method-Self-Scan.ps1",
+      "status": "modified",
+      "additions": 12,
+      "deletions": 12,
+      "changes": 24,
+      "previous_filename": null
+    },
+    {
+      "filename": "scripts/offline/README-OFFLINE.md",
+      "status": "modified",
+      "additions": 90,
+      "deletions": 52,
+      "changes": 142,
+      "previous_filename": null
+    },
+    {
+      "filename": "scripts/offline/Run-Method-Self-Scan.ps1",
+      "status": "modified",
+      "additions": 5,
+      "deletions": 3,
+      "changes": 8,
+      "previous_filename": null
+    },
+    {
+      "filename": "scripts/portable-method-self-scan.mjs",
+      "status": "modified",
+      "additions": 14,
+      "deletions": 3,
+      "changes": 17,
+      "previous_filename": null
+    },
+    {
+      "filename": "scripts/research-workbench-server.mjs",
+      "status": "added",
+      "additions": 432,
+      "deletions": 0,
+      "changes": 432,
+      "previous_filename": null
+    },
+    {
+      "filename": "tests/method-self-scan-offline.test.mjs",
+      "status": "modified",
+      "additions": 238,
+      "deletions": 13,
+      "changes": 251,
+      "previous_filename": null
+    },
+    {
+      "filename": "tests/research-workbench-server.test.mjs",
+      "status": "added",
+      "additions": 422,
+      "deletions": 0,
+      "changes": 422,
+      "previous_filename": null
+    }
+  ],
+  "state": "ACQUIRED_SOURCE_DELTAS_NOT_MERGED"
+}

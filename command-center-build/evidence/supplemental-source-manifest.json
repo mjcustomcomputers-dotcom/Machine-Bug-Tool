@@ -1,0 +1,73 @@
+{
+  "schema_version": "MPC_WORKSPACE_SUPPLEMENTAL_SOURCE_MANIFEST_1",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "pinned_commit": "0f8bc5eec399f729d03e262ee9a90b18c1a825f4",
+  "review_scope": "Exactly five AGENTS-referenced documents at PR17. Additive proposed build pack only; no production merge, deployment, database migration, or canonical method promotion.",
+  "acquisition": "Native GitHub connector fetch_file at exact commit; complete UTF-8 contents retained.",
+  "sources": [
+    {
+      "repository_path": "docs/CHATGPT-CONNECTOR-BRIDGE-V9.md",
+      "source_url": "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/0f8bc5eec399f729d03e262ee9a90b18c1a825f4/docs/CHATGPT-CONNECTOR-BRIDGE-V9.md",
+      "acquisition_state": "ACQUIRED",
+      "byte_count": 6859,
+      "sha256": "3d38a16cbd52b19f9732646a4a2fc83030f3026412641fb98f6b5f93520dc23e",
+      "native_git_blob_sha1": "58afd3b6f45f69efbae5bba52ea95529dbf428d6",
+      "computed_git_blob_sha1": "58afd3b6f45f69efbae5bba52ea95529dbf428d6",
+      "native_blob_match": true
+    },
+    {
+      "repository_path": "docs/CHATGPT-CONNECTOR-BRIDGE-V10-NATIVE-GATES.md",
+      "source_url": "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/0f8bc5eec399f729d03e262ee9a90b18c1a825f4/docs/CHATGPT-CONNECTOR-BRIDGE-V10-NATIVE-GATES.md",
+      "acquisition_state": "ACQUIRED",
+      "byte_count": 7544,
+      "sha256": "edd3013087f106a3d00e6d5c6d95319fe65798aa97976121435b13055d07b4cf",
+      "native_git_blob_sha1": "14415bac0d7439b24be4b881fa1c885794342c9c",
+      "computed_git_blob_sha1": "14415bac0d7439b24be4b881fa1c885794342c9c",
+      "native_blob_match": true
+    },
+    {
+      "repository_path": "docs/SQLITE-MIRROR-DIMENSIONS-V11.md",
+      "source_url": "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/0f8bc5eec399f729d03e262ee9a90b18c1a825f4/docs/SQLITE-MIRROR-DIMENSIONS-V11.md",
+      "acquisition_state": "ACQUIRED",
+      "byte_count": 7141,
+      "sha256": "4de682f52864387fd7006ec8805b1079f9972086fcbb219f4b78efdb62bdf693",
+      "native_git_blob_sha1": "bb9164d2137de4162a365f37808dae301e30ead6",
+      "computed_git_blob_sha1": "bb9164d2137de4162a365f37808dae301e30ead6",
+      "native_blob_match": true
+    },
+    {
+      "repository_path": "docs/METHOD-ON-METHOD-SEMANTIC-INTEGRITY-V12.md",
+      "source_url": "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/0f8bc5eec399f729d03e262ee9a90b18c1a825f4/docs/METHOD-ON-METHOD-SEMANTIC-INTEGRITY-V12.md",
+      "acquisition_state": "ACQUIRED",
+      "byte_count": 7615,
+      "sha256": "937acd07342b82d84f45bd8d43b2329a3110b3850f95459410f12f674836bc7c",
+      "native_git_blob_sha1": "8f7d462299296afd1576b57d74d76f7f6d4e8281",
+      "computed_git_blob_sha1": "8f7d462299296afd1576b57d74d76f7f6d4e8281",
+      "native_blob_match": true
+    },
+    {
+      "repository_path": "docs/NOAHS-ARK-REASONING-OSI-V13.md",
+      "source_url": "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/0f8bc5eec399f729d03e262ee9a90b18c1a825f4/docs/NOAHS-ARK-REASONING-OSI-V13.md",
+      "acquisition_state": "ACQUIRED",
+      "byte_count": 10203,
+      "sha256": "937cbb128344e221b5d46d606df9c35cf7f7a1d42576c677fba1f7b413af0058",
+      "native_git_blob_sha1": "fb196af9cb86044fddb9798e01c253c8aa02d217",
+      "computed_git_blob_sha1": "fb196af9cb86044fddb9798e01c253c8aa02d217",
+      "native_blob_match": true
+    }
+  ],
+  "review": {
+    "state": "COMPLETE",
+    "material_contradictions": [],
+    "material_missing_instructions": [],
+    "conclusion": "No material contradiction or missing instruction identified for the additive proposed build pack. Existing source ownership, completed historical work, separate-database boundary, native delivery receipts, and legacy diagnostic requirements remain controlling.",
+    "preservation_notes": [
+      "V13 itself marks older pending-test and initialization examples historical; they do not reopen completed validation.",
+      "Byte hashes establish equality to the acquired pinned Git objects, not deployment, source freshness beyond that commit, or source authentication in other services."
+    ],
+    "additional_tests_run": false,
+    "historical_source_chain_recursed": false,
+    "pack_code_changed": false
+  },
+  "content_retrieval": "Use each exact-commit source_url; original acquired copies were retained during the build pass."
+}

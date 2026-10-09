@@ -1,0 +1,14 @@
+{
+  "name": "Forest Afterglow",
+  "direction": "Bob Ross meets raver professional",
+  "colors": {
+    "background": "#0B151B", "panel": "#14252C", "panel_raised": "#1C333A",
+    "forest": "#2C594A", "dusk": "#28365B", "text": "#EEF5F2",
+    "text_secondary": "#BDD1CF", "accent": "#77E9DB", "accent_warm": "#FFA791",
+    "focus": "#D7FF91", "border": "#426063"
+  },
+  "typography": {"font_family":"Segoe UI, system-ui, sans-serif","base_px":16,"line_height":1.5,"code_family":"Cascadia Code, Consolas, monospace"},
+  "layout": {"persistent_composer":true,"minimum_control_height_px":40,"navigation_collapsible":true,"evidence_panel_collapsible":true},
+  "motion": {"respect_reduced_motion":true,"flashing":false,"decorative_animation_default":false},
+  "accessibility_acceptance": ["Keyboard reachability","Visible focus","200 percent zoom","Text/control contrast measured on rendered UI","Readable error and offline states"]
+}

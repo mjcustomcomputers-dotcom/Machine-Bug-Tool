@@ -1,0 +1,360 @@
+{
+  "observed_date": "2026-10-09",
+  "scope": "HOSTED_MPC_AND_SYNTHETIC_DESIGN_MODELS",
+  "runtime": {
+    "runtime_version": "0.10.0-http.1",
+    "research_storage_version": "RESEARCH-STORAGE-2.0",
+    "private_export_default": true,
+    "dash_reference_projection": true,
+    "registry_authenticated_identity_required": true,
+    "universal_router_version": "UMTB-4.0",
+    "semantic_branch_gate": true,
+    "semantic_gate_implementation": "DECLARED_TYPE_AND_QUESTION_RULES",
+    "child_classifier_gate": true,
+    "method_ark": "enabled",
+    "method_dna_lookup": "enabled",
+    "inversion_engine": "METADATA_AND_COMPLEMENT_ROUTING",
+    "dual_epistemic_finality": "enabled",
+    "cross_border_adapter": "TYPED_ENTITY_AND_CONTEXT_BINDING",
+    "audience_morphology": "EVIDENCE_PRESERVING_TEMPLATE_RENDERER",
+    "routing_basis": "CALLER_TYPED_STRUCTURES_NOT_AUTOMATIC_NATURAL_LANGUAGE_UNDERSTANDING",
+    "automatic_method_execution": false,
+    "boot_instruction": "Read get_universal_contract before analysis. Existing business_logic_sweep supports UMTB4 JSON in context, including method_lookup, presentation and explicit atomic_review, when client discovery has not yet exposed dedicated tools.",
+    "method_catalog_version": "1.2.0",
+    "research_registry": {
+      "mbss_branches": 64,
+      "mbss_classifiers": 512,
+      "separate_candidate_extension_templates": 96,
+      "jacket_axes": 14,
+      "output_contract": "RECON-OUTPUT-1.0"
+    },
+    "implemented_evaluators": 24,
+    "atomic_execution_version": "ATOMIC-EXECUTION-1.0",
+    "atomic_transform_operators": 17,
+    "atomic_review_available": true,
+    "method_inventory": {
+      "implemented_evaluators": 24,
+      "research_hooks": 10,
+      "framework_operators": 15,
+      "reduction_methods": 12,
+      "transformations": 17,
+      "mirrors": 15,
+      "object_coordinates": 25,
+      "jacket_axes": 14,
+      "layers": [
+        "IMPLEMENTED",
+        "METHOD_HOOKS",
+        "FRAMEWORK_OPERATORS",
+        "REDUCTION_METHODS",
+        "TRANSFORMATIONS",
+        "MIRRORS"
+      ],
+      "counting_rule": "Overlapping framework families, mirrors, transformations and executable evaluators are separate inventories. Do not sum them as executed methods.",
+      "rule": [
+        "METHODS ARE TRIGGERED BY DIMENSION.",
+        "Do not run every method blindly.",
+        "Run the methods capable of changing the active classifier state."
+      ]
+    },
+    "business_logic_registry": {
+      "status": "FROZEN_REGISTRY",
+      "pack_id": "BL-SOLID-STATE-384",
+      "version": "1.0.0",
+      "pack_fingerprint": "7db8a73e32016a8d3df560f649125221615b42a669231ec066ce74fee9d8a58d",
+      "branch_count": 32,
+      "classifier_count": 384,
+      "canonical_maxvar_range": [
+        1,
+        256
+      ]
+    },
+    "request_limits": {
+      "message_bytes": 2000000,
+      "response_bytes": 1000000,
+      "body_deadline_ms": 5000,
+      "inflight_per_isolate": 8,
+      "tool_calls_per_minute_per_user_per_isolate": 60,
+      "automatic_retries": 0
+    },
+    "transport": "streamable-http",
+    "available_tools": [
+      "runtime_status",
+      "review_atomic_variants",
+      "route_problem",
+      "get_method_ark",
+      "render_output",
+      "prepare_research_backup",
+      "get_research_registry",
+      "cross_reference_methods",
+      "compare_operative_states",
+      "get_method_catalog",
+      "evaluate_method",
+      "get_nestmax_registry",
+      "business_logic_sweep",
+      "analyze_business_logic",
+      "get_business_logic_registry",
+      "get_registry",
+      "delta_plan",
+      "refine_counterexample",
+      "validate_evidence_packet",
+      "get_universal_contract"
+    ],
+    "registry": {
+      "maxvar": 256,
+      "microclassifiers": 174,
+      "branch_counts": {
+        "A": 20,
+        "B": 28,
+        "C": 26,
+        "D": 20,
+        "E": 20,
+        "F": 20,
+        "G": 20,
+        "H": 20
+      },
+      "legacy_descriptor": 160,
+      "descriptor_matches_enumeration": false,
+      "status": "LOCAL_REGISTRY_STRUCTURE_PASS",
+      "canonical_promotion": false
+    },
+    "local_only_tools": [
+      "stage_source",
+      "inspect_atom",
+      "compare_meanings",
+      "test_variation",
+      "reconcile_methods",
+      "self_test"
+    ],
+    "proof_gate_hosted": false,
+    "persistence_hosted": false,
+    "connector_dispatch": false,
+    "status": "HOSTED_MCP_READY",
+    "prototype_version": "0.4.2",
+    "canonical_promotion": false,
+    "court_release_allowed": false
+  },
+  "case_count": 3,
+  "evaluator_ids": [
+    "state_trace",
+    "relational"
+  ],
+  "cases": [
+    {
+      "id": "connection-positive",
+      "method": "state_trace",
+      "input": {
+        "initial": "NOT_CONFIGURED",
+        "transitions": [
+          {
+            "from": "NOT_CONFIGURED",
+            "event": "configure",
+            "to": "CONFIGURED_UNTESTED"
+          },
+          {
+            "from": "CONFIGURED_UNTESTED",
+            "event": "read_success",
+            "to": "CONNECTED_READ"
+          },
+          {
+            "from": "CONNECTED_READ",
+            "event": "read_failure",
+            "to": "DEGRADED"
+          },
+          {
+            "from": "DEGRADED",
+            "event": "read_success",
+            "to": "CONNECTED_READ"
+          }
+        ],
+        "events": [
+          {
+            "event": "configure",
+            "observed_state": "CONFIGURED_UNTESTED",
+            "source_ref": "SYNTHETIC:connection-positive/config"
+          },
+          {
+            "event": "read_success",
+            "observed_state": "CONNECTED_READ",
+            "source_ref": "SYNTHETIC:connection-positive/read"
+          },
+          {
+            "event": "read_failure",
+            "observed_state": "DEGRADED",
+            "source_ref": "SYNTHETIC:connection-positive/failure"
+          },
+          {
+            "event": "read_success",
+            "observed_state": "CONNECTED_READ",
+            "source_ref": "SYNTHETIC:connection-positive/recovery"
+          }
+        ]
+      },
+      "receipt": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "state_trace",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "5e6416cc6309dcd685ffaca3e8bf7557fe3f98c1ba459b2e1e6a1be94abfd9d6",
+        "result": {
+          "trace_matches": true,
+          "reviewed_events": 4,
+          "final_state": "CONNECTED_READ",
+          "remaining_events": 0,
+          "model_completeness_proven": false
+        },
+        "limitations": "Validate a supplied event trace against an explicit deterministic transition table; stop at the first divergence. Not an Alloy solver, STPA hazard analysis, or exhaustive state-space proof.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      }
+    },
+    {
+      "id": "connection-config-is-not-auth",
+      "method": "state_trace",
+      "input": {
+        "initial": "NOT_CONFIGURED",
+        "transitions": [
+          {
+            "from": "NOT_CONFIGURED",
+            "event": "configure",
+            "to": "CONFIGURED_UNTESTED"
+          },
+          {
+            "from": "CONFIGURED_UNTESTED",
+            "event": "read_success",
+            "to": "CONNECTED_READ"
+          },
+          {
+            "from": "CONNECTED_READ",
+            "event": "read_failure",
+            "to": "DEGRADED"
+          },
+          {
+            "from": "DEGRADED",
+            "event": "read_success",
+            "to": "CONNECTED_READ"
+          }
+        ],
+        "events": [
+          {
+            "event": "configure",
+            "observed_state": "CONNECTED_READ",
+            "source_ref": "SYNTHETIC:connection-adverse/config-marked-connected"
+          }
+        ]
+      },
+      "receipt": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "state_trace",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "e1dee1553706cca469fa9d8cce54f45e6b26b78efa4ada905052ee34fdc7f257",
+        "result": {
+          "trace_matches": false,
+          "reviewed_events": 1,
+          "first_divergence": {
+            "index": 0,
+            "prior_state": "NOT_CONFIGURED",
+            "event": "configure",
+            "expected_state": "CONFIGURED_UNTESTED",
+            "observed_state": "CONNECTED_READ",
+            "source_ref": "SYNTHETIC:connection-adverse/config-marked-connected"
+          },
+          "remaining_events": 0
+        },
+        "limitations": "Validate a supplied event trace against an explicit deterministic transition table; stop at the first divergence. Not an Alloy solver, STPA hazard analysis, or exhaustive state-space proof.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      }
+    },
+    {
+      "id": "provider-silent-substitution",
+      "method": "relational",
+      "input": {
+        "rows": [
+          {
+            "id": "explicit-local",
+            "fields": [
+              {
+                "field": "requested",
+                "value": "ollama:qwen3:4b-instruct"
+              },
+              {
+                "field": "observed",
+                "value": "ollama:qwen3:4b-instruct"
+              }
+            ],
+            "source_ref": "SYNTHETIC:explicit-local"
+          },
+          {
+            "id": "substituted-cloud",
+            "fields": [
+              {
+                "field": "requested",
+                "value": "ollama:qwen3:4b-instruct"
+              },
+              {
+                "field": "observed",
+                "value": "openai:gpt-6-sol"
+              }
+            ],
+            "source_ref": "SYNTHETIC:silent-substitution"
+          }
+        ],
+        "rules": [
+          {
+            "id": "provider-must-match-selection",
+            "kind": "EQUAL_FIELDS",
+            "field": "requested",
+            "other_field": "observed",
+            "source_ref": "DESIGN:command-center-explicit-model-selection"
+          }
+        ]
+      },
+      "receipt": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "relational",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "45c8e92752cdd635ec45400adbaf94dd96323d5cd1de691fd349c0a3594636d3",
+        "result": {
+          "rules": [
+            {
+              "rule_id": "provider-must-match-selection",
+              "status": "MISMATCH_IN_SUPPLIED_ROWS",
+              "violations": [
+                {
+                  "row_ids": [
+                    "substituted-cloud"
+                  ]
+                }
+              ],
+              "unknown_row_ids": [],
+              "rule_source_ref": "DESIGN:command-center-explicit-model-selection"
+            }
+          ],
+          "rows": [
+            {
+              "id": "explicit-local",
+              "source_ref": "SYNTHETIC:explicit-local"
+            },
+            {
+              "id": "substituted-cloud",
+              "source_ref": "SYNTHETIC:silent-substitution"
+            }
+          ],
+          "scope": "SUPPLIED_ROWS_ONLY",
+          "model_search_performed": false,
+          "global_completeness_proven": false
+        },
+        "limitations": "Check unique values, foreign keys and field equality in up to 64 supplied rows and 16 declared rules. Missing fields stay unresolved. No Alloy solver or hypothetical counterexample search.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      }
+    }
+  ],
+  "windows_inference_performed": false,
+  "live_target_testing_performed": false
+}

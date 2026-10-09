@@ -1,0 +1,254 @@
+{
+  "schema_version": "MPC_WORKSPACE_BUILD_PACK_VALIDATION_1",
+  "recorded_at_utc": "2026-10-09T16:28:12.904599+00:00",
+  "deliverable_state": "COMPLETE_ADDITIVE_BUILD_INSTRUCTIONS_AND_TESTED_STARTER_CODE",
+  "product_integration_state": "PENDING_EXISTING_CODEX_BUILD_TASK",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "base_branch": "feature/mpc-work-triage-v16",
+  "base_commit": "0f8bc5eec399f729d03e262ee9a90b18c1a825f4",
+  "runtime": {
+    "node": "v24.19.0",
+    "python": "3.12.14",
+    "sqlite": "3.53.1",
+    "os": "Linux",
+    "architecture": "x64"
+  },
+  "tests": [
+    {
+      "command": "node --test tests/*.test.mjs",
+      "working_directory": "command-center-build",
+      "exit_code": 0,
+      "passed": 89,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "duration_ms": 260.494075,
+      "components": {
+        "provider_connector_controls": 45,
+        "snapshot_comparison": 44
+      },
+      "log": "evidence/node-contracts.txt",
+      "scope": "Pure functions with synthetic host observations and supplied snapshot manifests"
+    },
+    {
+      "command": "python3 -B tests/test_command_center_sql.py -v",
+      "working_directory": "command-center-build",
+      "exit_code": 0,
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 0.148,
+      "log": "evidence/sql-contracts.txt",
+      "scope": "Fresh temporary SQLite databases and owned synthetic fixtures"
+    }
+  ],
+  "local_test_total": 115,
+  "native_source_parity": {
+    "component_files": 29,
+    "supplemental_instruction_files": 5,
+    "total": 34,
+    "native_git_blob_matches": 34,
+    "sha256_matches": 34,
+    "mismatches": 0,
+    "manifests": [
+      "evidence/native-source-manifest.json",
+      "evidence/supplemental-source-manifest.json"
+    ],
+    "parity_is_source_authentication": false
+  },
+  "hosted_mpc": {
+    "supplied_model_calls": 3,
+    "native_evaluator_ids": [
+      "state_trace",
+      "relational"
+    ],
+    "distinct_evaluators_executed": 2,
+    "observed_finite_evaluator_catalog": 24,
+    "inputs_and_receipts": "evidence/hosted-mpc-receipts.json",
+    "scope": "Synthetic supplied-model analysis; no target or account authentication"
+  },
+  "research": {
+    "proposals": 11,
+    "primary_source_records": 14,
+    "full_text_or_author_presentation_retrieved_with_identified_reviewed_sections": 12,
+    "abstract_only": 1,
+    "original_pdf_not_acquired": 1,
+    "new_methods_promoted_to_native_runtime": 0
+  },
+  "boundaries": {
+    "full_repository_tests_run_this_pass": false,
+    "repository_build_run_this_pass": false,
+    "native_windows_execution": false,
+    "desktop_gui_wired": false,
+    "folder_or_drive_acquisition_wired": false,
+    "actual_model_inference": false,
+    "daybreak_entitlement_verified": false,
+    "oauth_or_remote_connection_installed": false,
+    "plugin_account_update": false,
+    "trained_model_weights_created": false,
+    "merge": false,
+    "deployment": false,
+    "target_traffic": false,
+    "messages_or_submissions_sent": false
+  },
+  "next_acceptance": "Integrate the pack into the active source, complete the specified end-to-end GUI journey, run repository gates and separately record Windows/model/account observations.",
+  "file_hash_scope": "Every other build-pack file at validation time; this receipt excludes itself. The subsequent Git commit supplies immutable identity for all saved files.",
+  "files": [
+    {
+      "path": "CODEX-BUILD.txt",
+      "bytes": 24444,
+      "sha256": "b594253b4370e18f790d4cc17c693781006363227a86b0aea787442b33b8bc15",
+      "git_blob_sha1": "1c29248255e51e4cf4640c72a890a451bb8dfa05"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4730,
+      "sha256": "17c8347b94fc961a2ae3765b691f7a2756685bedbd9c008141868d0fa77ef223",
+      "git_blob_sha1": "dae02c39a6858dc319af5f207ac5905a4db20da8"
+    },
+    {
+      "path": "START-CODEX.txt",
+      "bytes": 1733,
+      "sha256": "fa5f853a1d432b4e6b0102768d93799cdb56118c7c93655d7f5d4c78e5d92367",
+      "git_blob_sha1": "14bc9d1951a2e0c68b983d11880228683680d660"
+    },
+    {
+      "path": "assistant/INSTRUCTIONS.txt",
+      "bytes": 7283,
+      "sha256": "f210c6a3ba30abf1db65048ed121dd5fca8f0e0b51168d637bdb37a95e7997c3",
+      "git_blob_sha1": "5adfec577c65f6fdf9aa8cb49a6ac7d26b4e4514"
+    },
+    {
+      "path": "assistant/PROFILE.json",
+      "bytes": 2376,
+      "sha256": "e436cd469f4fd6b7aa118899b32283652d33d4ab777bd3c584bd14ff2fc416c5",
+      "git_blob_sha1": "f5af30a7cf383d78d6f387666565f618a9f7649e"
+    },
+    {
+      "path": "config/connections.json",
+      "bytes": 3379,
+      "sha256": "b16e289ead2ab881b4c39f4fbbf490731d31390e281ec172327a62af5ebdae43",
+      "git_blob_sha1": "2b9400f59365e6471434e039661815cc072972f2"
+    },
+    {
+      "path": "config/design-tokens.json",
+      "bytes": 928,
+      "sha256": "bdccaa0cf1d093d2af2febc74dba4549863d33a38434011e3eab64393150a899",
+      "git_blob_sha1": "1de89adcb50e6ba89d5830363052637b8bbc9309"
+    },
+    {
+      "path": "config/provider-profiles.json",
+      "bytes": 4374,
+      "sha256": "f3ba9ad2541729d38f6485c163ea803c729d1bf3b2ea3f0a3fc8f61c5dbf957c",
+      "git_blob_sha1": "a700559d51715a7ff6e8ee5e66f90605051eedba"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "bytes": 7943,
+      "sha256": "3d00e9cf848ec29a841e0c5a70b5df9ac99fceacaef931ab2d0d077c58247273",
+      "git_blob_sha1": "f7637da6927a5d597e98ee38b8857a00e8a3fc62"
+    },
+    {
+      "path": "docs/METHODS.md",
+      "bytes": 7768,
+      "sha256": "01c5d87d5860c47795333f9070c6894710c040aa37433d7c22b17d6a80aa92ee",
+      "git_blob_sha1": "fe64066a0fd814c5351cd077f006e3cd5b127b9b"
+    },
+    {
+      "path": "docs/PLATFORMS.md",
+      "bytes": 4070,
+      "sha256": "608e1c07fec152706eac3cdcb715821fb67f39866df87a43a73fde3de3a4a63f",
+      "git_blob_sha1": "38ebab695a1a68574ace3dd96a43b806619a8707"
+    },
+    {
+      "path": "docs/STARTER-API.md",
+      "bytes": 6037,
+      "sha256": "e214b74d658e25e4bc668ae7329cf7b88db70c117d91aec89609a2ccc9988040",
+      "git_blob_sha1": "73d8ad31687edb3f2fb07b6cbd5d7fd0ef4f54b1"
+    },
+    {
+      "path": "docs/USABILITY-AND-INGEST.md",
+      "bytes": 9967,
+      "sha256": "fba8b5ed56dcd7a7512065d8c12b245a8f104f0898ead81f99d2e74aac359beb",
+      "git_blob_sha1": "2bd6afca29cdf70bbd571ba6a2a1381f50207a02"
+    },
+    {
+      "path": "evidence/component-deltas.json",
+      "bytes": 6002,
+      "sha256": "74df0cac9d21fbe231fc774028e9319464c4c6f985dc55d6dba320a0ac4b6f25",
+      "git_blob_sha1": "399099dad1511b1c6269e47c421fd64ea65a22ae"
+    },
+    {
+      "path": "evidence/hosted-mpc-receipts.json",
+      "bytes": 11724,
+      "sha256": "6be82d77bbbd959580743cb9d2d2cf7b0e2473c723977680b530d036ebbea326",
+      "git_blob_sha1": "6c88e1fc02a9ec3980e6a73a856cc50555e8ad80"
+    },
+    {
+      "path": "evidence/native-source-manifest.json",
+      "bytes": 22250,
+      "sha256": "059f52c9e1babf3cf75b19248835f5047f8147ae637354b4dd8f1f46a977c4de",
+      "git_blob_sha1": "e6dc580764f4eb07b4cb3687d02578ddcd669209"
+    },
+    {
+      "path": "evidence/node-contracts.txt",
+      "bytes": 8363,
+      "sha256": "b02a31a2f0181c76072f62da98d63aa749bd0ec86bd0df0c5ef49cccda952626",
+      "git_blob_sha1": "24f01d7c952b1fdd6d8af56af9cc6038b689e2d5"
+    },
+    {
+      "path": "evidence/sql-contracts.txt",
+      "bytes": 4698,
+      "sha256": "adce4c418a8e7231469dcf8aa72e797920ba241fba0d7f3fcc1a081ffafdc05d",
+      "git_blob_sha1": "f017c91d5d212a90cd323dfb34b2464d61ba200e"
+    },
+    {
+      "path": "evidence/supplemental-source-manifest.json",
+      "bytes": 4405,
+      "sha256": "f7c4eaec06df2e674c82958af732f86bac4d9d2fcddbfc12ea364d3c07b910f8",
+      "git_blob_sha1": "1767ff169019473575742eaa1c16d275716d9e31"
+    },
+    {
+      "path": "lib/control-contracts.mjs",
+      "bytes": 15480,
+      "sha256": "42008ed239ac2de68bb2b5a2a1fde193e0d423ecc84724bf3c0f9debceab2d2a",
+      "git_blob_sha1": "6d6ab114024de13c0415c2a811f17f4b0341c8b7"
+    },
+    {
+      "path": "lib/snapshot-compare.mjs",
+      "bytes": 20619,
+      "sha256": "837b1d1a20f5a5132268b1a724cd1f5dba4072e28bd057655aae962c55863111",
+      "git_blob_sha1": "b6ccb7fc499d4c01c1294973f3b1ed94747080f0"
+    },
+    {
+      "path": "research/methods.json",
+      "bytes": 47178,
+      "sha256": "d23f6e6d035770a0155849bc7c707b536d888b96511a03db058ee790ec826812",
+      "git_blob_sha1": "78930fbe79c0b7e9b1ee6214193f7c3291800054"
+    },
+    {
+      "path": "sql/001-command-center.sql",
+      "bytes": 30904,
+      "sha256": "73b6340eceb1e91ec70ca6c83486db287177d75c5ba79e09f353e0a4c3cec973",
+      "git_blob_sha1": "c541c9a7f4bd8128ee30da24419b76b6472c15b7"
+    },
+    {
+      "path": "tests/control-contracts.test.mjs",
+      "bytes": 18858,
+      "sha256": "cc1f7b2d7a98b9ac8d8f961f3dadc326c223a98f5204dec927309e45f59c82bf",
+      "git_blob_sha1": "cf091f5f5f919bdd227559de73aa14993cc425fc"
+    },
+    {
+      "path": "tests/snapshot-compare.test.mjs",
+      "bytes": 20906,
+      "sha256": "9ff9fd58baa4b03b9541843f297ef4a37a3f28caafa24302a9fb8f1b670bd6f8",
+      "git_blob_sha1": "d5179b61649b9523ed7f3bebb28cbc971d8dd167"
+    },
+    {
+      "path": "tests/test_command_center_sql.py",
+      "bytes": 34207,
+      "sha256": "e6b1f1c2d9ab5fec97c8732188f2582a771b18359f0fa6d211ca847b056f85d8",
+      "git_blob_sha1": "1592164c38f79ef288e0a5a65dfbcfe2a2f0c080"
+    }
+  ]
+}
