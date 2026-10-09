@@ -10,7 +10,8 @@ import v3 from '../method-atlas/expansion-evidence-intent-v3.json' with {type:'j
 import v4 from '../method-atlas/expansion-computation-schools-v4.json' with {type:'json'};
 import v5 from '../method-atlas/expansion-nasa-chip-cloud-v5.json' with {type:'json'};
 import v6 from '../method-atlas/expansion-abnormal-meta-v6.json' with {type:'json'};
-const records=[first,v2,v3,v4,v5,v6];
+import v8 from '../method-atlas/expansion-optical-v8.json' with {type:'json'};
+const records=[first,v2,v3,v4,v5,v6,v8];
 const rawMethods=records.flatMap(x=>x.methods);
 const rawSources=records.flatMap(x=>x.sources);
 const fixture=()=>{const db=new DatabaseSync(':memory:');loadMethodAtlas(db);return {db,adapter:dbAdapter(db)};};
@@ -18,22 +19,22 @@ const fixture=()=>{const db=new DatabaseSync(':memory:');loadMethodAtlas(db);ret
 test('Every candidate has a typed taxonomy without ID replacement or method execution',()=>{
  const rawMethodsSnapshot=structuredClone(rawMethods);
  const a=compileAtlasTaxonomy(rawMethods,rawSources);
- assert.equal(a.method_count,231);
- assert.equal(a.tag_count,2511);
+ assert.equal(a.method_count,239);
+ assert.equal(a.tag_count,2597);
  assert.deepEqual(rawMethods,rawMethodsSnapshot);
- assert.equal(new Set(rawMethods.map(m=>m.method_id)).size,231);
+ assert.equal(new Set(rawMethods.map(m=>m.method_id)).size,239);
  assert.deepEqual(new Set(a.tags.map(t=>t.method_id)),new Set(rawMethods.map(m=>m.method_id)));
  assert.ok(a.tags.every(x=>x.review_state==='PROPOSED' && x.method_id.startsWith('MHA-')));
  assert.equal(a.canonical_promotion,false);
  assert.equal(a.method_execution_performed,false);
 });
-test('SQLite persists typed classifications across all 231 methods and 9 axes',()=>{
+test('SQLite persists typed classifications across all 239 methods and 9 axes',()=>{
  const {db}=fixture();
  try{
   const status=statusMethodAtlas(db);
   assert.equal(status.validation,'STRUCTURAL_INVENTORY_PASS');
-  assert.equal(status.taxonomy_tags,2511);
-  assert.equal(db.prepare("SELECT COUNT(DISTINCT method_id) AS n FROM atlas_method_taxonomy").get().n,231);
+  assert.equal(status.taxonomy_tags,2597);
+  assert.equal(db.prepare("SELECT COUNT(DISTINCT method_id) AS n FROM atlas_method_taxonomy").get().n,239);
   assert.equal(db.prepare("SELECT COUNT(DISTINCT axis) AS n FROM atlas_method_taxonomy").get().n,9);
   assert.equal(db.prepare("SELECT COUNT(*) AS n FROM atlas_method_taxonomy WHERE review_state!='PROPOSED'").get().n,0);
   assert.equal(db.prepare("SELECT COUNT(*) AS n FROM atlas_method_taxonomy WHERE method_id LIKE 'MAXVAR%'").get().n,0);
