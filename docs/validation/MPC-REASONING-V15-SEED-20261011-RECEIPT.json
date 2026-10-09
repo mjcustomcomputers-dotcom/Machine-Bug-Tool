@@ -1,0 +1,101 @@
+{
+  "kind": "MPC_REASONING_V15_BOUNDED_CONTINUATION_RECEIPT",
+  "version": 1,
+  "status": "BOUNDED_SELF_CHALLENGES_PASS",
+  "recorded_at_utc": "2026-10-09T10:20:32.120Z",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "source": {
+    "pr": 14,
+    "branch": "feature/mpc-reasoning-selfplay-v15",
+    "commit": "23d2a69f3b67ef298a3b6c7dab7b2d16fe96a4c0",
+    "tree": "9622a1158505c75a5e59dd7480c6be1278a80784",
+    "engine_fingerprint": "c4cc73e9f5dd3339d7b5d2c09ce4c6c767029454c1963ac40f5f8f1e1cde5dae",
+    "source_changed_since_prior": false,
+    "source_files_changed": []
+  },
+  "no_redo": {
+    "action_fingerprint": "6e4fb4b5835fbd8ba4b59cea15623fe2e105d2ca1f864a4ec7a86e9beda5178a",
+    "inputs": {
+      "commit": "23d2a69f3b67ef298a3b6c7dab7b2d16fe96a4c0",
+      "engine_fingerprint": "c4cc73e9f5dd3339d7b5d2c09ce4c6c767029454c1963ac40f5f8f1e1cde5dae",
+      "method": "scripts/run-reasoning-selfplay.mjs",
+      "prior_cursor_sha256": "4450916ed04d60602c97a3ff9a0053d68584fb63bd32f45aa5ffc37e90bc5aa5",
+      "rounds": 24,
+      "seed": 20261011
+    }
+  },
+  "restored_input": {
+    "initial_archive_path": "docs/validation/MPC-REASONING-V15-RUNS.zip",
+    "initial_archive_sha256": "b9087581be55571c84099a62ad5da153aa6d242a1cea62db728945722a199380",
+    "prior_cursor_sha256": "4450916ed04d60602c97a3ff9a0053d68584fb63bd32f45aa5ffc37e90bc5aa5",
+    "prior_scan_sha256": "2642b69d9fe897542fab3680d7b64aba692cb6a920016f9e58cf67621fca6553"
+  },
+  "execution": {
+    "command": "node scripts/run-reasoning-selfplay.mjs --rounds 24 --output-root <isolated-restored-history>/Runs",
+    "node": "v24.19.0",
+    "host": "CHATGPT_LINUX_PORTABLE_RUNTIME",
+    "seed": 20261011,
+    "next_seed": 20261012,
+    "rounds": 24,
+    "cases_executed": 178,
+    "passed": 178,
+    "failed": 0,
+    "anchor_replays": 93,
+    "new_exploratory_cases": 85,
+    "new_coverage_cases": 85,
+    "duplicates_skipped": 11,
+    "distinct_native_evaluators": 11,
+    "native_evaluator_calls": 518,
+    "evaluate_method_entry_calls": 515,
+    "direct_finite_invariant_calls": 3,
+    "counterexamples": 0,
+    "family_new_coverage": {
+      "information_value": 23,
+      "ledger_conservation": 24,
+      "nash_expected_utility": 14,
+      "sequential_backward_induction": 24
+    },
+    "duplicate_suppression": {
+      "information_value": 1,
+      "nash_expected_utility": 10
+    }
+  },
+  "result_hashes": {
+    "scan_sha256": "bd2ea412f90ef09ae55814a0425bdf762371a9e4d142489fb6e76d0705caf9fb",
+    "cursor_file_sha256": "61deb00a37e15e8c4b53453d244c9a9f8d545cd4031224c2be05c42ddcf3f206",
+    "cursor_sha256": "687a8d9b95f893a3ea6e9bf5580bdb0d58400af9505d8337a385cc711e0334ea",
+    "summary_sha256": "08211d2a54824f97b0c6e26d759a4dbb26448eabe69f159769ef8045bba6984d",
+    "runtime_receipt_sha256": "5bd54af6bb5ec4adfc7bc386f72dc0aa5bb3793599f6282d4e2d0395efcb636f",
+    "manifest_sha256": "0da48206b2c4f1ee8645fbca9d2777723778a09a04662b0324d849f686500e2f",
+    "report_sha256": "5a004d57aec8e90e732ab0aeb7ee5d7d9c392b5474e345adc3b376176e487fe1"
+  },
+  "continuation_archive": {
+    "path": "docs/validation/MPC-REASONING-V15-SEED-20261011-RUNS.zip",
+    "bytes": 198015,
+    "sha256": "2d7730970b37e6f9a2df73cce34a22d05366ca931bb79a3cfb1c3795a7777cda",
+    "contains": [
+      "Runs/latest.json",
+      "Runs/2026-10-09T10-20-31-939Z-20261011-b4ec2496/"
+    ],
+    "restore_rule": "Extract into a fresh directory and pass its Runs directory as --output-root; never merge with another history."
+  },
+  "preserved": {
+    "native_evaluator_ids": 24,
+    "atlas_candidates": 239,
+    "atlas_relations": 212,
+    "catalog_methods_promoted": 0,
+    "original_v13_controller_untouched": true,
+    "target_actions": false,
+    "external_network_calls": false,
+    "connector_dispatch": false,
+    "github_source_mutation": false,
+    "merged": false,
+    "deployed": false,
+    "windows_execution_claimed": false
+  },
+  "next_unresolved_experiment": {
+    "family": "BOUNDED_STOCHASTIC_OBSERVATION_VALUE",
+    "requirement": "Implement only as reviewed source code with explicit probability bounds, an independent exact expectation oracle, a no-information negative control, and budget-sensitive observation cost.",
+    "state": "UNIMPLEMENTED_PROPOSAL"
+  }
+}
