@@ -1,4 +1,5 @@
 import {screenSettings,screenEvidenceText} from './screen-policy.js';
+import {screenSourceStartGate} from './screen-source-choice.js';
 
 const $=id=>document.getElementById(id);
 const number=id=>Number($(id).value);
@@ -11,12 +12,18 @@ function saveText(name,text,type='text/plain;charset=utf-8'){
 }
 export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announce}){
   let active=false,starting=false,revision=0,receipt=null,pending=null,previewUrl=null,stats=null,project=null,lastCaptureMs=null;
+  let sourcesListedAt=0,sourceRequest=0;
   const masks=[];
   const available=typeof bridge?.screenStart==='function';
   const message=value=>{$('screen-status').textContent=value;};
   function clearPreview(){if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=null;$('screen-preview').removeAttribute('src');$('screen-preview').hidden=true;}
+  function selectionGate(){
+    const select=$('screen-source');
+    return screenSourceStartGate({sourceIds:[...select.options].filter(option=>!option.disabled&&option.value).map(option=>option.value),
+      selectedId:select.value,consent:$('screen-consent').checked,listedAt:sourcesListedAt,now:Date.now()});
+  }
   function buttons(){
-    $('screen-start').disabled=!available||active||starting;$('screen-stop').disabled=!active&&!starting;$('screen-now').disabled=!active;
+    $('screen-start').disabled=!available||active||starting||!selectionGate().allowed;$('screen-stop').disabled=!active&&!starting;$('screen-now').disabled=!active;
     for(const id of ['screen-copy','screen-save','screen-use','screen-select','screen-copy-packet'])$(id).disabled=!receipt;
     $('screen-apply-result').disabled=!pending;
   }
@@ -64,21 +71,46 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
         preview:$('screen-preview-enabled').checked,printScreen:$('screen-print-key').checked,
         excludeMpc:$('screen-exclude-mpc').checked,durationMinutes:number('screen-duration'),imageMode:$('screen-image-mode').value};
       screenSettings(input);if(!project)throw Error('Create or choose a project first. OCR works without a model.');
+      const admission=selectionGate();
+      if(!admission.allowed)throw Error(admission.code==='SCREEN_REFRESH_SOURCE_LIST'
+        ? 'The source list expired. Choose / refresh sources and select the window again.'
+        : 'Choose / refresh sources, select a window or monitor, and allow this session.');
       $('screen-start').disabled=true;message('Starting local screen reader…');
       const result=await bridge.screenStart(input);
       if(attempt!==revision)return;starting=false;active=result.state==='CAPTURING';buttons();
       message(active?'Reading the selected source locally. Ctrl + Shift + F8 stops capture.':'Capture stopped.');
       if(input.printScreen&&!result.print_screen_registered)announce('Print Screen is already in use. Capture now and repeated capture still work.');
-    }catch(error){if(attempt!==revision)return;starting=false;active=false;buttons();message(safeCode(error));}
+    }catch(error){
+      if(attempt!==revision)return;
+      starting=false;active=false;
+      const detail=safeCode(error);
+      if(detail.includes('SCREEN_REFRESH_SOURCE_LIST'))sourcesListedAt=0;
+      buttons();
+      message(detail.includes('SCREEN_REFRESH_SOURCE_LIST')
+        ? 'The selected source expired. Choose / refresh sources, select the window or monitor again, then Start.'
+        : detail);
+    }
   }
   async function sources(){
+    const request=++sourceRequest;
     try{
       if(!available)return message('Screen reading is available in the Windows desktop build.');
-      const result=await bridge.screenSources();const select=$('screen-source');select.replaceChildren();
-      for(const row of result.sources??[]){const option=document.createElement('option');option.value=row.id;
+      if(active||starting)await stop('Source list refreshed. Select a new source to resume capture.');
+      const result=await bridge.screenSources();
+      if(request!==sourceRequest)return;
+      const select=$('screen-source'),previous=select.value;
+      select.replaceChildren();
+      const prompt=document.createElement('option');prompt.value='';prompt.disabled=true;prompt.textContent='Select a window or monitor';
+      select.append(prompt);
+      const rows=result.sources??[];
+      for(const row of rows){const option=document.createElement('option');option.value=row.id;
         option.textContent=`${row.kind==='window'?'Window':'Screen'} · ${row.name}${row.pixelWidth?` · ${row.pixelWidth} × ${row.pixelHeight}`:''}`;select.append(option);}
-      message('Choose the source, set any crop or masks, allow this session, then Start.');
-    }catch(error){message(safeCode(error));}
+      select.value=rows.some(row=>row.id===previous)?previous:'';
+      sourcesListedAt=Date.now();buttons();
+      message(rows.length
+        ? 'Select a window or monitor, allow this session, then Start. The source list lasts five minutes.'
+        : 'Windows returned no selectable screens or windows. Restart MPC if this continues; no capture started.');
+    }catch(error){if(request!==sourceRequest)return;sourcesListedAt=0;buttons();message(safeCode(error));}
   }
   function renderMasks(){
     const list=$('screen-mask-list');list.replaceChildren();
@@ -87,7 +119,7 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
       button.type='button';button.className='button compact';button.textContent='Remove';button.setAttribute('aria-label',`Remove mask ${index+1}`);
       button.addEventListener('click',()=>{void stop('Mask changed. Start a new session when ready.');masks.splice(index,1);renderMasks()});row.append(button);list.append(row);});
   }
-  $('screen-refresh').addEventListener('click',sources);$('screen-start').addEventListener('click',start);
+  $('screen-refresh').addEventListener('click',()=>{void sources()});$('screen-start').addEventListener('click',start);
   $('screen-stop').addEventListener('click',()=>void stop());$('screen-now').addEventListener('click',()=>bridge.screenNow().catch(error=>message(safeCode(error))));
   $('screen-clear').addEventListener('click',async()=>{await stop('Stopped and cleared.');receipt=pending=null;$('screen-text').value='';$('screen-result-meta').textContent='';$('screen-pending').textContent='';clearClassification();buttons()});
   $('screen-add-mask').addEventListener('click',()=>{
@@ -95,8 +127,8 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
       screenSettings({consent:true,mode:'single',fps:1,durationMinutes:5,crop:{x:0,y:0,width:1,height:1},masks:[mask]});
       void stop('Mask added. Start a new session when ready.');masks.push(mask);renderMasks();}catch(error){message(safeCode(error))}
   });
-  for(const input of document.querySelectorAll('#screen-capture-settings input,#screen-capture-settings select,#screen-consent'))input.addEventListener('change',()=>{if(active||starting)void stop('Settings changed. Start again to apply them.')});
-  $('screen-source').addEventListener('change',()=>{if(active||starting)void stop('Source changed. Start again when ready.')});
+  for(const input of document.querySelectorAll('#screen-capture-settings input,#screen-capture-settings select,#screen-consent'))input.addEventListener('change',()=>{if(active||starting)void stop('Settings changed. Start again to apply them.');buttons()});
+  $('screen-source').addEventListener('change',()=>{if(active||starting)void stop('Source changed. Start again when ready.');buttons()});
   $('screen-select').addEventListener('click',()=>{$('screen-text').focus();$('screen-text').select()});
   $('screen-copy').addEventListener('click',()=>bridge.copyText($('screen-text').value).then(()=>announce('Recognized text copied.')));
   $('screen-copy-packet').addEventListener('click',()=>bridge.copyText(screenEvidenceText(receipt)).then(()=>announce('Source-bound screen packet copied for ChatGPT or Codex.')));
@@ -125,6 +157,9 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
     if(value.metrics)showMetrics(value.metrics);
   });
   const timer=setInterval(async()=>{
+    if(sourcesListedAt&&!active&&!starting&&selectionGate().code==='SCREEN_REFRESH_SOURCE_LIST'){
+      sourcesListedAt=0;buttons();message('Source list expired. Choose / refresh sources and select your window or monitor again.');
+    }
     if((active||starting)&&project!==getProjectId()||receipt&&receipt.context?.projectId!==getProjectId()){
       await stop('Project changed. Choose a source for the new project.');receipt=pending=null;$('screen-text').value='';$('screen-result-meta').textContent='';$('screen-pending').textContent='';clearClassification();buttons();
     }
