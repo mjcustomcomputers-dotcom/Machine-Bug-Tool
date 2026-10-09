@@ -3,6 +3,7 @@
 import {DatabaseSync} from 'node:sqlite';
 import {createHash} from 'node:crypto';
 import {buildExpectedAtlasRows,verifyAtlasSeedParity} from '../lib/atlas-seed-parity.mjs';
+import {planNoahsArkReasoning} from '../lib/noahs-ark-reasoning.mjs';
 import {readFileSync,mkdirSync} from 'node:fs';
 import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -104,7 +105,7 @@ export function dbAdapter(db){
 const calledAsMain=process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url);
 if(calledAsMain){
  const command=process.argv[2]??'status';
- if(!['init','status','query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit','audit-seed'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE_CLASSIFY_VARIATION');
+ if(!['init','status','query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit','audit-seed','reason'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE_CLASSIFY_VARIATION');
  mkdirSync(dirname(DB_PATH),{recursive:true});
  const db=command==='audit-seed'?new DatabaseSync(DB_PATH,{readOnly:true}):new DatabaseSync(DB_PATH);
  try{
@@ -112,7 +113,7 @@ if(calledAsMain){
    process.stdout.write(JSON.stringify(verifyCurrentAtlas(db),null,2)+'\n');
   }else{
   const stats=loadMethodAtlas(db);
-  if(['query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit'].includes(command)){
+  if(['query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit','reason'].includes(command)){
    if(!process.argv[3])throw Error('QUERY_JSON_REQUIRED');
    const query=JSON.parse(process.argv[3]);
    let result;
@@ -139,6 +140,7 @@ if(calledAsMain){
      command==='reverse-links'?traceInverseMethodEdges(db,query):
      command==='mirrors'?reviewNativeMirrors(query):
      command==='dimension-audit'?auditNativeDimensionClaims(query):
+     command==='reason'?planNoahsArkReasoning({methods:catalog.methods,relations:methodRelations.relationships,...query}):
      command==='detect'?await detectMethodAtoms(dbAdapter(db),query):command==='cascade'?await traceMethodHooks(dbAdapter(db),query):command==='diagnose'?diagnoseMethod(query):command==='classify'?await queryMethodTaxonomy(dbAdapter(db),query):await routeMethodAtlas(dbAdapter(db),query);
    process.stdout.write(JSON.stringify(result,null,2)+'\n');
   }else process.stdout.write(JSON.stringify({...stats,sqlite_path:DB_PATH},null,2)+'\n');
