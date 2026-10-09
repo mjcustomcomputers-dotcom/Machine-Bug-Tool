@@ -93,3 +93,19 @@ test('Detector emits seven distinct stage receipts without inventing model execu
   assert.equal(result.independent_evidence_proven,false);
  }finally{db.close()}
 });
+
+
+test('Canonical MPC atomic coordinate selects typed dimension with explicit non-equivalence metadata',async()=>{
+ const {db,adapter}=fresh();try{
+  const a=atom('meter','MONEY');
+  delete a.dimension;
+  a.coordinate='MONEY/INCENTIVE';
+  a.jacket_axis='FINALITY';
+  const r=await detectMethodAtoms(adapter,{atoms:[a],domain_profile:'BUSINESS'});
+  assert.equal(r.atom_signals[0].dimension,'MONEY');
+  assert.equal(r.atom_signals[0].trigger_basis,'CANONICAL_COORDINATE_HINT_NOT_FACT');
+  assert.equal(r.atom_signals[0].jacket_axis,'FINALITY');
+  assert.ok(r.method_route.selected_count>0);
+  await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[{...a,coordinate:'IMAGINARY'}]}),/UNKNOWN_MPC_COORDINATE/);
+ }finally{db.close()}
+});
