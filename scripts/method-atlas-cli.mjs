@@ -12,7 +12,8 @@ const schema=readFileSync(resolve(ROOT,'method-atlas/schema.sql'),'utf8');
 const baseCatalog=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/candidates.json'),'utf8'));
 const extension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expansion-2026-v2.json'),'utf8'));
 const evidenceExtension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expansion-evidence-intent-v3.json'),'utf8'));
-const catalog={...baseCatalog,sources:[...baseCatalog.sources,...extension.sources,...evidenceExtension.sources],methods:[...baseCatalog.methods,...extension.methods,...evidenceExtension.methods]};
+const schoolExtension=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/expansion-computation-schools-v4.json'),'utf8'));
+const catalog={...baseCatalog,sources:[...baseCatalog.sources,...extension.sources,...evidenceExtension.sources,...schoolExtension.sources],methods:[...baseCatalog.methods,...extension.methods,...evidenceExtension.methods,...schoolExtension.methods]};
 const methodRelations=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/method-relations.json'),'utf8'));
 const seedFingerprint=createHash('sha256').update(JSON.stringify({
  sources:catalog.sources,methods:catalog.methods,methodRelations:methodRelations.relationships
