@@ -1633,6 +1633,70 @@
       "rationale": "Calibrating a method requires a separate oracle and held-out controls",
       "link_status": "PROPOSED_METHOD_COMPARISON",
       "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-232",
+      "related_method_id": "MHA-142",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Source-bound optical-link engineering comparison only; no claim that software method detection uses physical optical hardware",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-233",
+      "related_method_id": "MHA-208",
+      "relation_type": "CHALLENGE",
+      "rationale": "Source-bound optical-link engineering comparison only; no claim that software method detection uses physical optical hardware",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-234",
+      "related_method_id": "MHA-167",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Source-bound optical-link engineering comparison only; no claim that software method detection uses physical optical hardware",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-235",
+      "related_method_id": "MHA-19",
+      "relation_type": "CHALLENGE",
+      "rationale": "Source-bound optical-link engineering comparison only; no claim that software method detection uses physical optical hardware",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-236",
+      "related_method_id": "MHA-184",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Source-bound optical-link engineering comparison only; no claim that software method detection uses physical optical hardware",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-237",
+      "related_method_id": "MHA-167",
+      "relation_type": "CHALLENGE",
+      "rationale": "Source-bound optical-link engineering comparison only; no claim that software method detection uses physical optical hardware",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-238",
+      "related_method_id": "MHA-215",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Source-bound optical-link engineering comparison only; no claim that software method detection uses physical optical hardware",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-239",
+      "related_method_id": "MHA-226",
+      "relation_type": "CHALLENGE",
+      "rationale": "Source-bound optical-link engineering comparison only; no claim that software method detection uses physical optical hardware",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
     }
   ]
 }
