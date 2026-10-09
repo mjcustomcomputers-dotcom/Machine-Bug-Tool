@@ -993,6 +993,12 @@ function modelMessage(job) {
     return {text: `Native evaluator completed: ${receipt.result?.method ?? receipt.tool}.\nExact comparison: ${classification}.\n${JSON.stringify(exact.exact_result ?? receipt.result?.result ?? null, null, 2)}`,
       label: 'Native MPC evaluator'};
   }
+  if (result.status === 'MODEL_PROPOSAL_REJECTED') {
+    const code = typeof result.error?.validation_code === 'string' &&
+      /^[A-Z][A-Z0-9_]{2,90}$/u.test(result.error.validation_code)
+      ? ` (${result.error.validation_code})` : '';
+    return {text: `Local model answer rejected by MPC evidence checks${code}. No unsupported model claim was adopted. The captured text and native classifiers remain available. Try a focused question or review the exact source text.`, label: 'Model validation'};
+  }
   if (result.status && result.status !== 'EVIDENCE_ACTION_READY') {
     const detail = result.model_error_code ? ` (${result.model_error_code})` : '';
     return {text: `Selected model result: ${result.status}${detail}. Local source routing remains available.`, label: 'Model status'};

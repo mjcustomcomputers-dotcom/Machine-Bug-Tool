@@ -120,6 +120,8 @@ test('a quotation from omitted text or an inserted gap marker cannot be promoted
     const local=provider({respond:()=>({observations:[{source_ref:'SCREEN-A',quote,meaning:'Unsupported interpretation.'}],interpretation:'Invalid evidence.',assessment:'UNDETERMINED'})});
     const result=await runOllamaWorkspaceModel(sample.input,sample.routed,{fetchImpl:local.fetchImpl});
     assert.equal(result.status,'MODEL_PROPOSAL_REJECTED');assert.equal(result.proposal,null);
+    assert.equal(result.error.code,'UNTRUSTED_OR_INVALID_MODEL_OUTPUT');
+    assert.equal(result.error.validation_code,'UNSUPPORTED_MODEL_QUOTATION');
   }
 });
 
@@ -128,8 +130,22 @@ test('screen prompt-injection text and model tool calls cannot invoke a native o
   const local=provider({extraMessage:{tool_calls:[{function:{name:'credentialSave',arguments:{provider:'GITHUB',token:'NOT_A_REAL_TOKEN'}}}]}});
   const result=await runOllamaWorkspaceModel(sample.input,sample.routed,{fetchImpl:local.fetchImpl});
   assert.equal(result.status,'MODEL_PROPOSAL_REJECTED');assert.equal(result.proposal,null);
+  assert.equal(result.error.validation_code,'OLLAMA_TOOL_CALL_UNSUPPORTED');
   assert.equal(result.guarantees.model_tool_dispatch,false);
   assert.ok(local.calls.every(call=>['/api/show','/api/chat'].includes(new URL(call.url).pathname)));
+});
+
+test('invalid local model response records an allowlisted rule, never the rejected raw text',async()=>{
+  const sample=pair('A screen document provides one safe observation.');
+  const privateOutput='SYNTHETIC_SECRET_DO_NOT_RETAIN_34AA';
+  const local=provider({respond:()=>({observations:[],
+    interpretation:'This is a provisional interpretation.',
+    assessment:'UNDETERMINED',unrecognized_payload:privateOutput})});
+  const result=await runOllamaWorkspaceModel(sample.input,sample.routed,{fetchImpl:local.fetchImpl});
+  assert.equal(result.status,'MODEL_PROPOSAL_REJECTED');
+  assert.equal(result.error.validation_code,'UNEXPECTED_MODEL_RESPONSE_FIELDS');
+  assert.equal(result.proposal,null);
+  assert.equal(JSON.stringify(result).includes(privateOutput),false);
 });
 
 test('named remote aliases are rejected before any evidence is sent to inference',async()=>{
