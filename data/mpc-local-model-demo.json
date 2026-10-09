@@ -1,0 +1,54 @@
+{
+  "problem": "Extract the identity stated by the supplied synthetic record.",
+  "object_id": "SYNTHETIC-DOCUMENT-1",
+  "unit_of_analysis": "one synthetic source record and its declared identity",
+  "domain_profile": "GENERAL",
+  "sources": [
+    {
+      "id": "EXAMPLE-RECORD",
+      "owner": "Synthetic example author",
+      "type": "SYNTHETIC_RECORD",
+      "version": "SYNTHETIC-REVISION-1",
+      "time": "2026-10-09",
+      "native_locator": "synthetic:example-record"
+    }
+  ],
+  "structures": [
+    {
+      "id": "EXAMPLE-SOURCE-STRUCTURE",
+      "type": "SOURCE_RECORD",
+      "subject_ids": [
+        "SYNTHETIC-DOCUMENT-1"
+      ],
+      "source_refs": [
+        "EXAMPLE-RECORD"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "EXAMPLE-IDENTITY-QUESTION",
+      "kind": "SOURCE_AUTHORITY",
+      "invariant": "Determine the identity declared at SYNTHETIC-REVISION-1.",
+      "structure_ids": [
+        "EXAMPLE-SOURCE-STRUCTURE"
+      ],
+      "rule_source_refs": [
+        "EXAMPLE-RECORD"
+      ],
+      "necessity": "REQUIRED",
+      "applicability": "APPLIES",
+      "lenses": []
+    }
+  ],
+  "workflow": {
+    "requested_phase": "AUTO",
+    "records": [
+      {
+        "source_ref": "EXAMPLE-RECORD",
+        "version": "SYNTHETIC-REVISION-1",
+        "content": "This is a synthetic source record. Its document identity is SYNTHETIC-DOCUMENT-1, revision SYNTHETIC-REVISION-1."
+      }
+    ]
+  }
+}
