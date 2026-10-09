@@ -26,7 +26,7 @@ test('Missing controlling native pointer stays blocked',()=>{
  assert.equal(r.status,'BLOCKED_POINTER_NOT_IN_SUPPLIED_RECORDS');
 });
 test('Connector transport IDs and typed native projection must remain distinct',()=>{
- const v={...dash,projection_of:{native_source:'GOOGLE_DRIVE',native_id:'not same'}};
+ const v={...dash,projection_of:{native_source:'GOOGLE_DRIVE',native_id:'not-same'}};
  const r=reconcileConnectorRecords({objective:'Separate',records:[native,v],current_pointer:null});
  assert.equal(r.groups.length,2);
 });
