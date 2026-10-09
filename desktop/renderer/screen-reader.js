@@ -45,7 +45,7 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
       ['Waiting',pipe?.pending??0],['Active frame',pipe?.in_flight??0],['Capture / encode ms',lastCaptureMs===null?'—':lastCaptureMs.toFixed(1)],
       ['OCR result cache KiB',((pipe?.cache_bytes??0)/1024).toFixed(1)],['Queued PNG KiB',((pipe?.pending_bytes??0)/1024).toFixed(1)],
       ['Main memory MiB',value?.main_rss_bytes?(value.main_rss_bytes/1048576).toFixed(1):'—'],
-      ['Main CPU %',Number.isFinite(value?.main_cpu_percent)?value.main_cpu_percent.toFixed(1):'—']];
+      ['Process CPU % (1 core)',Number.isFinite(value?.main_cpu_percent)?value.main_cpu_percent.toFixed(1):'—']];
     const list=$('screen-metrics');list.replaceChildren();
     for(const [name,value] of rows){const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');
       dt.textContent=name;dd.textContent=String(value);row.append(dt,dd);list.append(row);}

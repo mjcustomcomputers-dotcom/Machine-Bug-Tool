@@ -4,7 +4,7 @@ Use a small, reproducible local task to determine where screen capture, OCR, or 
 
 ## Start with the app's own evidence
 
-Keep the build/source commit, Windows version, monitor dimensions and scale, selected capture region, capture interval, OCR language, local model, and model context size with the test. Record the app's available capture counters, skipped/duplicate frames, cache usage, OCR elapsed time, and process memory/CPU observations. Host-process CPU or RSS alone does not describe Electron renderer/GPU children, a separate OCR helper, or Ollama; inspect those processes separately when needed.
+Keep the build/source commit, Windows version, monitor dimensions and scale, selected capture region, capture interval, OCR language, local model, and model context size with the test. Record the app's available capture counters, skipped/duplicate frames, cache usage, OCR elapsed time, and process memory/CPU observations. This build runs its OCR coordinator and Tesseract engine in Node worker threads inside the main process; its process CPU/RSS include those threads. The displayed CPU percentage uses 100% for one logical core and can exceed 100%. The separate capture renderer, other Electron renderer/GPU processes and Ollama need their own process observations. Compare like-for-like CPU scales when using another utility.
 
 Use a harmless local text document. Run three finite 30-second conditions: an unchanged screen, a slowly changing text area, and the same area with a local model request. Stop capture between conditions and record times before changing any setting. Compare the identical task after changing only one option. These durations are a suggested test design, not product benchmark results.
 
@@ -22,7 +22,7 @@ Microsoft describes [Process Explorer](https://learn.microsoft.com/en-us/sysinte
 ## A practical Process Explorer pass
 
 1. Obtain the tool from Microsoft's linked download page and confirm that its current version supports your Windows release. The current Process Explorer and Process Monitor pages checked on 2026-10-09 list Windows 11 or later for clients; the workspace's own Windows requirements do not override each diagnostic tool's requirements. On another Windows release, use a supported Microsoft diagnostic such as the built-in Task Manager/Resource Monitor or a compatible WPR installation.
-2. Find the running `MPC-Workspace.exe` process tree. Identify its renderer/GPU children by observed command line; find the actual OCR helper and Ollama process names from the current run.
+2. Find the running `MPC-Workspace.exe` process tree. Identify its renderer/GPU children by observed command line, and locate Ollama separately. For this build's OCR work, inspect the main process's **Properties → Threads** rather than assuming a separate OCR executable exists.
 3. Watch CPU, Private Bytes, Working Set and handle counts at idle, during the selected capture window, after OCR, and after Stop. Use **Properties → Threads** only on the process exhibiting the stall or unexpected CPU load.
 4. Record the observed high-cost process and timestamp. A growing working set alone is not proof of a leak. Repeated growth that fails to settle after the same bounded workload is a reason to inspect retained buffers, child processes and handles.
 
@@ -30,7 +30,7 @@ Do not change process priority, affinity, or kill processes while collecting the
 
 ## A finite Process Monitor pass
 
-Pause capture before configuring filters. Include the exact workspace process IDs and observed OCR helper IDs. Include relevant temporary/workspace/model paths if the question concerns those paths. Inspect your installed version's **Drop Filtered Events** option when you want unrelated events discarded instead of only hidden; ordinary display filters are non-destructive.
+Pause capture before configuring filters. Include the exact workspace main-process ID (which owns the OCR threads) and the relevant observed renderer/model PIDs. Include relevant temporary/workspace/model paths if the question concerns those paths. Inspect your installed version's **Drop Filtered Events** option when you want unrelated events discarded instead of only hidden; ordinary display filters are non-destructive.
 
 Clear the existing trace, start one 15–30 second recording, reproduce the issue once, and stop capture. Inspect repeated `CreateFile`, `ReadFile`, `WriteFile`, process start, and error events around the app's timestamp. Use a backing file only when needed for a larger trace. Stop after obtaining a discriminating observation; do not leave broad monitoring running for a normal workday.
 

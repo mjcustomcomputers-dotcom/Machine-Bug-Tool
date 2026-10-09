@@ -334,17 +334,20 @@ renderer-to-shell bridge.
 
 ## Receive and launch the Windows portable build
 
-The release receipt above provides the archive name, SHA-256, source commit and
-minimum supported Windows version. This makes the archive receivable and
-verifiable. It remains an unsigned portable build whose native Windows journey
-must be observed on the receiving Windows host.
+Use the build receipt included with the specific download for its archive name,
+SHA-256, source commit and minimum supported Windows version. The GitHub artifact
+ZIP contains the inner portable ZIP, its checksum file, the build receipt and
+the packaged OCR smoke receipt. It remains an unsigned portable build whose
+native Windows journey must be observed on the receiving Windows host.
 
 On the Windows computer, receiving is intentionally manual and does not require
 a PowerShell policy change:
 
-1. Download the final portable ZIP named in the receipt into **Downloads**.
-2. Compare its SHA-256 with the receipt (Windows file Properties or
-   `Get-FileHash -Algorithm SHA256` entered interactively).
+1. Download the GitHub artifact into **Downloads** and extract its outer ZIP to
+   reach the portable ZIP and receipts.
+2. Compare the inner portable ZIP's SHA-256 with its checksum file or build
+   receipt. In PowerShell opened in that folder, enter
+   `Get-FileHash -LiteralPath '.\MPC-Workspace-0.1.0-windows-x64-portable.zip' -Algorithm SHA256`.
 3. In File Explorer, choose **Extract All** into a new versioned folder such as
    `C:\Users\<Windows-user>\Desktop\MPC Workspace\<release-version>`. Keep the
    previous version as rollback; do not extract over it.

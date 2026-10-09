@@ -80,7 +80,7 @@ The built-in read-only provider routes and exact fields are in [MPC-CONNECTION-S
 
 ## Measure before tuning Windows
 
-The Screen reader metrics distinguish samples, skips before encoding, admitted PNGs, OCR completions, cache reuse, queue size and capture/encoding/OCR/classifier time. Export the current performance snapshot and record the source commit and exact workload. Main-process memory/CPU metrics exclude separate renderer, GPU, OCR and model processes.
+The Screen reader metrics distinguish samples, skips before encoding, admitted PNGs, OCR completions, cache reuse, queue size and capture/encoding/OCR/classifier time. Export the current performance snapshot and record the source commit and exact workload. Main-process CPU/RSS include the OCR worker threads; the displayed CPU uses 100% for one logical core. Separate renderer, GPU and model processes need their own observations.
 
 [MPC-PERFORMANCE-SYSINTERNALS.md](MPC-PERFORMANCE-SYSINTERNALS.md) gives finite Process Explorer, Process Monitor, RAMMap and WPR/WPA procedures to identify the slow stage. Use their actual observations to choose the next change. Repeatedly emptying the Windows standby list, using realtime priority or disabling security controls is not part of this capture implementation.
 

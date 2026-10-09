@@ -29,9 +29,9 @@ export function createScreenCaptureHost({electron,getWindow,getWorkspace,getOrig
   function metrics(){
     const elapsed=Math.max(1,now()-cpuAt),used=process.cpuUsage(cpu);cpu=process.cpuUsage();cpuAt=now();
     const memory=process.memoryUsage();
-    return {main_cpu_percent:(used.user+used.system)/1000/elapsed*100,main_rss_bytes:memory.rss,main_heap_bytes:memory.heapUsed,
+    return {main_cpu_percent:(used.user+used.system)/1000/elapsed*100,cpu_percent_basis:'ONE_LOGICAL_CORE',main_rss_bytes:memory.rss,main_heap_bytes:memory.heapUsed,
       pipeline:pipeline?.status?.()??lastMetrics,sampler:{...sampler},classifier:classifier.status?.(),capture_active:!!current,
-      note:'Main-process measurements; use Process Explorer to inspect capture and OCR child processes.'};
+      note:'Main-process CPU/RSS include its OCR worker threads. CPU 100% means one logical core. Capture/GPU renderer processes and Ollama are separate; inspect their observed PIDs and the main process Threads in Process Explorer.'};
   }
   function status(){return {state:current?'CAPTURING':'STOPPED',session:current?{sessionId:current.sessionId,sourceId:current.sourceId,
     sourceName:current.sourceName,projectId:current.projectId,settings:current.settings,startedAt:current.startedAt}:null,

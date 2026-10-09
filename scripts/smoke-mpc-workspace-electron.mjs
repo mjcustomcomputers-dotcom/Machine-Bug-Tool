@@ -3,7 +3,7 @@
 // Exercises production IPC, capture permissions, pixels and OCR unchanged.
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
+import {appendFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -19,21 +19,28 @@ app.setPath('userData', DATA);
 const started = Date.now();
 const checks = [];
 let main = null, fixture = null, finished = false;
-const receipt = {schema_version: 'MPC_ELECTRON_NATIVE_SMOKE_1', status: 'RUNNING',
+const receipt = {schema_version: 'MPC_ELECTRON_NATIVE_SMOKE_2', status: 'RUNNING', phase: 'INITIALIZING',
   host: {platform: process.platform, architecture: process.arch, electron: process.versions.electron, node: process.versions.node},
-  source_fingerprints: Object.fromEntries(['desktop/main.mjs', 'desktop/screen-host.mjs', 'desktop/renderer/capture.js',
+  source_fingerprints: Object.fromEntries(['scripts/smoke-mpc-workspace-electron.mjs', 'desktop/main.mjs', 'desktop/screen-host.mjs', 'desktop/renderer/capture.js',
     'desktop/renderer/screen-reader.js', 'scripts/mpc-workspace-server.mjs'].map(path =>
     [path, createHash('sha256').update(readFileSync(join(ROOT, path))).digest('hex')])),
   data_isolated: true, source: 'SYNTHETIC_LOCAL_FIXTURE_ONLY', native_windows_capture_performed: false,
-  production_permission_handlers_used: true, checks};
+  production_permission_handlers_used: true, checks, breadcrumbs: [], runtime_events: [], cleanup_errors: []};
 const pause = ms => new Promise(resolvePause => setTimeout(resolvePause, ms));
 const js = expression => main.webContents.executeJavaScript(`(async()=>{${expression}})()`);
 
 async function waitFor(label, predicate, maximum = 15_000) {
+  phase(`WAIT: ${label}`, {maximum_ms: maximum});
   const until = Date.now() + maximum;
   let lastError;
   while (Date.now() < until && Date.now() - started < 85_000) {
-    try { const result = await predicate(); if (result) return result; } catch (error) { lastError = error; }
+    try {
+      const result = await predicate();
+      if (result) { breadcrumb('WAIT_COMPLETED', {label}); return result; }
+    } catch (error) {
+      if (String(error?.message) !== String(lastError?.message)) breadcrumb('WAIT_PREDICATE_ERROR', {label, error: errorText(error)});
+      lastError = error;
+    }
     await pause(60);
   }
   throw Error(`SMOKE_TIMEOUT:${label}${lastError ? `:${String(lastError.message).slice(0, 200)}` : ''}`);
@@ -41,8 +48,33 @@ async function waitFor(label, predicate, maximum = 15_000) {
 function saveReceipt(status, error = null) {
   receipt.status = status;
   receipt.elapsed_ms = Date.now() - started;
-  if (error) receipt.error = String(error?.stack ?? error).slice(0, 12_000);
+  if (error && !receipt.error) { receipt.error = errorText(error); receipt.error_phase = receipt.phase; }
   writeFileSync(join(OUTPUT, 'receipt.json'), `${JSON.stringify(receipt, null, 2)}\n`);
+}
+function errorText(error) { return String(error?.stack ?? error).slice(0, 12_000); }
+function runtimeState() {
+  const ready = app.isReady();
+  return {app_ready: ready, windows: ready ? BrowserWindow.getAllWindows().filter(window => !window.isDestroyed()).map(window => ({
+    id: window.id, title: window.getTitle(), loading: window.webContents.isLoading(),
+    url: window.webContents.getURL().startsWith('data:') ? 'data:synthetic-or-error-page' : window.webContents.getURL().slice(0, 300)
+  })) : []};
+}
+function breadcrumb(event, details = {}) {
+  const row = {elapsed_ms: Date.now() - started, event, phase: receipt.phase, ...details};
+  if (receipt.breadcrumbs.length < 200) receipt.breadcrumbs.push(row);
+  appendFileSync(join(OUTPUT, 'breadcrumbs.jsonl'), `${JSON.stringify(row)}\n`);
+  saveReceipt(receipt.status);
+  process.stdout.write(`MPC_NATIVE_SMOKE ${JSON.stringify(row)}\n`);
+}
+function phase(value, details = {}) {
+  receipt.phase = value;
+  receipt.runtime_state = runtimeState();
+  breadcrumb('PHASE', details);
+}
+function runtimeEvent(event, details = {}) {
+  if (receipt.runtime_events.length >= 100) return;
+  receipt.runtime_events.push({elapsed_ms: Date.now() - started, event, ...details});
+  saveReceipt(receipt.status);
 }
 async function diagnosticScreenshot(name) {
   if (main && !main.isDestroyed()) {
@@ -52,28 +84,62 @@ async function diagnosticScreenshot(name) {
 async function finish(status, error) {
   if (finished) return;
   finished = true;
+  // Persist the original assertion/phase before any asynchronous cleanup. A
+  // later stuck screenshot or IPC must not replace the useful failure cause.
+  receipt.validation_status = status;
+  saveReceipt(status, error);
+  breadcrumb('VALIDATION_FINISHED', {status, error: error ? errorText(error) : null});
+  let finalStatus = status;
+  async function cleanup(label, operation) {
+    phase(`CLEANUP: ${label}`);
+    let timeout;
+    try {
+      return await Promise.race([Promise.resolve().then(operation), new Promise((_, reject) => {
+        timeout = setTimeout(() => reject(Error(`SMOKE_CLEANUP_TIMEOUT:${label}`)), 2_000);
+      })]);
+    } catch (failure) {
+      finalStatus = 'FAIL';
+      receipt.cleanup_errors.push({phase: receipt.phase, error: errorText(failure)});
+      saveReceipt('FAIL', failure);
+    } finally { clearTimeout(timeout); }
+  }
   // Keep the global deadline active during cleanup as well: an unresponsive
   // renderer or native service must not leave the CI process running forever.
-  try { if (main && !main.isDestroyed()) await js('return window.mpcWorkspace.screenStop();'); } catch {}
-  if (error) await diagnosticScreenshot('failure.png');
-  try {
-    if (main && !main.isDestroyed()) receipt.final_screen_status = await js('return window.mpcWorkspace.screenStatus();');
-  } catch {}
-  saveReceipt(status, error);
+  if (main && !main.isDestroyed()) await cleanup('screen stop', () => js('return window.mpcWorkspace.screenStop();'));
+  if (error) await cleanup('failure screenshot', () => diagnosticScreenshot('failure.png'));
+  if (main && !main.isDestroyed()) receipt.final_screen_status = await cleanup('screen status', () => js('return window.mpcWorkspace.screenStatus();'));
   if (fixture && !fixture.isDestroyed()) fixture.destroy();
-  process.stdout.write(`${JSON.stringify({status, elapsed_ms: receipt.elapsed_ms, checks: checks.length, output: OUTPUT, error: error ? String(error.message ?? error) : null})}\n`);
-  process.exitCode = status === 'PASS' ? 0 : 1;
+  phase(finalStatus === 'PASS' ? 'APP_QUIT' : 'APP_EXIT_FAILURE');
+  saveReceipt(finalStatus);
+  process.stdout.write(`${JSON.stringify({status: finalStatus, elapsed_ms: receipt.elapsed_ms, checks: checks.length, output: OUTPUT, error: receipt.error ?? null})}\n`);
+  process.exitCode = finalStatus === 'PASS' ? 0 : 1;
   // A normal successful quit exercises the app's cleanup. Its own before-quit
   // handler chooses a zero exit code, so a failed test must retain exit code 1.
-  if (status === 'PASS') app.quit();
+  if (finalStatus === 'PASS') app.quit();
   else app.exit(1);
 }
 const watchdog = setTimeout(() => {
+  receipt.deadline = {phase: receipt.phase, runtime_state: runtimeState(), elapsed_ms: Date.now() - started};
   saveReceipt('FAIL', Error('SMOKE_GLOBAL_90_SECOND_DEADLINE'));
+  breadcrumb('GLOBAL_DEADLINE');
   process.stderr.write('MPC native Electron smoke exceeded its 90-second deadline.\n');
   app.exit(1);
 }, 90_000);
 process.once('exit', () => { try { rmSync(DATA, {recursive: true, force: true}); } catch {} });
+app.on('ready', () => runtimeEvent('APP_READY'));
+app.on('browser-window-created', (_event, window) => {
+  runtimeEvent('WINDOW_CREATED', {id: window.id});
+  window.webContents.on('did-finish-load', () => runtimeEvent('WINDOW_LOADED', {id: window.id, title: window.getTitle()}));
+  window.webContents.on('did-fail-load', (_event, code, description, _url, isMainFrame) => runtimeEvent('WINDOW_LOAD_FAILED', {id: window.id, code, description, isMainFrame}));
+  window.webContents.on('preload-error', (_event, _path, error) => runtimeEvent('PRELOAD_ERROR', {id: window.id, error: errorText(error)}));
+  window.webContents.on('render-process-gone', (_event, details) => runtimeEvent('RENDER_PROCESS_GONE', {id: window.id, reason: details.reason, exit_code: details.exitCode}));
+  window.webContents.on('console-message', (event, legacyLevel, legacyMessage) => {
+    const level = event.level ?? legacyLevel, message = event.message ?? legacyMessage;
+    if (level >= 2 || level === 'warning' || level === 'error') runtimeEvent('RENDERER_CONSOLE', {id: window.id, level, message: String(message).slice(0, 1_200)});
+  });
+});
+process.on('uncaughtException', error => { void finish('FAIL', error); });
+process.on('unhandledRejection', error => { void finish('FAIL', error); });
 
 function cleanEvents(events) {
   return events.map(event => ({type: event.type, reason: event.reason, code: event.code,
@@ -81,7 +147,9 @@ function cleanEvents(events) {
       capture_to_delivery_ms: event.receipt.capture_to_delivery_ms, ocr_duration_ms: event.receipt.ocr_duration_ms} : {})}));
 }
 async function captureRun(input, name) {
+  phase(`CAPTURE: ${name} clear events`);
   await js('window.__mpcNativeSmoke.events=[];');
+  phase(`CAPTURE: ${name} native start`);
   const state = await js(`return window.mpcWorkspace.screenStart(${JSON.stringify(input)});`);
   assert.equal(state.state, 'CAPTURING');
   const result = await waitFor(`${name} OCR result`, async () => {
@@ -92,9 +160,11 @@ async function captureRun(input, name) {
   await waitFor(`${name} automatic stop`, async () => (await js('return window.mpcWorkspace.screenStatus();')).state === 'STOPPED');
   const events = await js('return window.__mpcNativeSmoke.events;');
   receipt[name] = {events: cleanEvents(events), result: result.receipt};
+  breadcrumb('CAPTURE_COMPLETED', {name, event_count: events.length});
   return {result: result.receipt, events};
 }
 async function layout(width, height) {
+  phase(`LAYOUT: ${width}x${height} resize`);
   main.setContentSize(width, height);
   main.show(); main.focus();
   await pause(200);
@@ -125,11 +195,16 @@ async function layout(width, height) {
   await diagnosticScreenshot(`connection-${width}x${height}.png`);
   await js("document.querySelector('#close-connection-dialog').click();");
   checks.push({check: 'NATIVE_RENDERED_LAYOUT', width, height, screen, dialog});
+  breadcrumb('CHECK_PASSED', {check: 'NATIVE_RENDERED_LAYOUT', width, height});
 }
 
+async function run() {
 try {
+  phase('IMPORT_PRODUCTION_MAIN');
   await import('../desktop/main.mjs');
+  phase('AWAIT_APP_READY');
   await app.whenReady();
+  phase('FIND_PRODUCTION_RENDERER');
   main = await waitFor('actual app renderer startup', async () => {
     const candidate = BrowserWindow.getAllWindows().find(window => !window.isDestroyed() &&
       /^http:\/\/127\.0\.0\.1:\d+\//u.test(window.webContents.getURL()));
@@ -142,6 +217,7 @@ try {
     const level = event.level ?? legacyLevel, message = event.message ?? legacyMessage;
     if ((level >= 2 || level === 'warning' || level === 'error') && uiErrors.length < 50) uiErrors.push(String(message).slice(0, 1000));
   });
+  phase('CREATE_ISOLATED_PROJECT');
   await js(`
     const boot=await fetch('/api/workspace/bootstrap').then(response=>response.json());
     const response=await fetch('/api/workspace/projects',{method:'POST',headers:{'Content-Type':'application/json','X-MPC-CSRF':boot.csrf_token},
@@ -150,6 +226,7 @@ try {
   `);
   // Wait for a completed navigation before querying readiness so the old
   // document cannot satisfy the condition and discard the observer on reload.
+  phase('RELOAD_ISOLATED_PROJECT');
   await new Promise((resolveLoad, rejectLoad) => {
     const loaded = () => { clearTimeout(timeout); resolveLoad(); };
     const timeout = setTimeout(() => {
@@ -166,18 +243,22 @@ try {
     const copy={...event};if(copy.png)copy.png=Array.from(copy.png);window.__mpcNativeSmoke.events.push(copy);
     if(window.__mpcNativeSmoke.events.length>60)window.__mpcNativeSmoke.events.shift();});`);
   checks.push({check: 'ACTUAL_APP_START_AND_ISOLATED_PROJECT', status: 'PASS'});
+  breadcrumb('CHECK_PASSED', {check: 'ACTUAL_APP_START_AND_ISOLATED_PROJECT'});
   await layout(1366, 768);
   await layout(1920, 1080);
 
+  phase('CREATE_SYNTHETIC_FIXTURE');
   fixture = new BrowserWindow({title: 'MPC Synthetic Screen Fixture', x: 0, y: 0, width: 1280, height: 480,
     frame: false, show: true, alwaysOnTop: true, resizable: false,
     webPreferences: {sandbox: true, contextIsolation: true, nodeIntegration: false}});
   const html = `<!doctype html><html><head><meta charset="utf-8"><title>MPC Synthetic Screen Fixture</title>
     <style>html,body{margin:0;width:100%;height:100%;background:white;color:black;font:48px/1.2 Arial,sans-serif}p{position:absolute;left:32px;margin:0;white-space:nowrap}.one{top:36px}.two{top:130px}.secret{top:240px}.digits{top:345px}</style></head>
     <body><p class="one">MPC SCREEN OCR</p><p class="two">LOCAL PRIVATE CAPTURE</p><p class="secret">MASKED SECRET 778899</p><p class="digits">1234567890</p></body></html>`;
+  phase('LOAD_SYNTHETIC_FIXTURE');
   await fixture.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`);
   fixture.show(); fixture.moveTop();
   await pause(300);
+  phase('ENUMERATE_NATIVE_SOURCES');
   const sourceList = await js('return window.mpcWorkspace.screenSources();');
   const selectedWindow = sourceList.sources.find(source => source.kind === 'window' && source.name === 'MPC Synthetic Screen Fixture');
   const selected = selectedWindow ?? sourceList.sources.find(source => source.kind === 'screen');
@@ -198,6 +279,7 @@ try {
   assert.equal(unmasked.result.context.projectId, 'NATIVE-SMOKE');
   checks.push({check: 'NATIVE_PIXELS_REAL_LOCAL_OCR', width: unmasked.result.frame.width,
     height: unmasked.result.frame.height, word_count: unmasked.result.ocr.words.length, status: 'PASS'});
+  breadcrumb('CHECK_PASSED', {check: 'NATIVE_PIXELS_REAL_LOCAL_OCR'});
 
   const masked = await captureRun({...input, masks: [mask]}, 'masked');
   const maskedText = masked.result.ocr.text.replace(/\s+/gu, ' ');
@@ -212,11 +294,14 @@ try {
   assert.deepEqual([...pixels.subarray(offset, offset + 3)], [0, 0, 0], 'Privacy region was not black in the delivered preview');
   writeFileSync(join(OUTPUT, 'masked-preview.png'), image.toPNG());
   checks.push({check: 'MASK_APPLIED_BEFORE_OCR_AND_PREVIEW', preview: size, status: 'PASS'});
+  breadcrumb('CHECK_PASSED', {check: 'MASK_APPLIED_BEFORE_OCR_AND_PREVIEW'});
 
   // Exercise the visible Start and Stop controls as well as the direct trusted
   // IPC used above. The test consents only to its own synthetic fixture.
+  phase('LIVE_UI_SOURCE_REFRESH');
   await js("document.querySelector('[data-view=screen]').click();document.querySelector('#screen-refresh').click();");
   await waitFor('UI source enumeration', () => js(`return [...document.querySelector('#screen-source').options].some(option=>option.value===${JSON.stringify(selected.id)});`));
+  phase('LIVE_UI_START');
   await js(`
     window.__mpcNativeSmoke.events=[];
     document.querySelector('#screen-source').value=${JSON.stringify(selected.id)};
@@ -230,6 +315,7 @@ try {
   `);
   await waitFor('live pixels before Stop', () => js("return window.__mpcNativeSmoke.events.some(event=>event.type==='PREVIEW');"), 15_000);
   assert.equal(await js("return document.querySelector('#screen-stop').disabled;"), false);
+  phase('LIVE_UI_STOP');
   await js("document.querySelector('#screen-stop').click();");
   await waitFor('actual UI Stop', async () => (await js('return window.mpcWorkspace.screenStatus();')).state === 'STOPPED');
   const atStop = await js("return window.__mpcNativeSmoke.events.filter(event=>event.type==='RESULT').length;");
@@ -239,9 +325,18 @@ try {
   const remaining = BrowserWindow.getAllWindows().filter(window => window !== main && window !== fixture && !window.isDestroyed());
   assert.equal(remaining.length, 0, 'Capture or indicator window survived Stop');
   checks.push({check: 'UI_START_STOP_REVOKES_MEDIA_AND_NO_LATE_RESULT', status: 'PASS'});
+  breadcrumb('CHECK_PASSED', {check: 'UI_START_STOP_REVOKES_MEDIA_AND_NO_LATE_RESULT'});
   fixture.hide();
   receipt.ui_console_errors = uiErrors;
   await finish('PASS');
 } catch (error) {
   await finish('FAIL', error);
 }
+}
+
+// Electron waits for main-entry ESM evaluation before emitting ready. Awaiting
+// app.whenReady at module level creates a readiness cycle. All pre-ready path
+// isolation above is synchronous; launch the asynchronous smoke without making
+// the module itself wait for ready. See electronjs.org/docs/latest/tutorial/esm.
+phase('ENTRY_EVALUATED_STARTING_ASYNC_SMOKE');
+void run().catch(error => { saveReceipt('FAIL', error); app.exit(1); });
