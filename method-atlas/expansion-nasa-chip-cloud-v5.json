@@ -1,0 +1,1607 @@
+{
+  "atlas_extension": "METHOD-ATLAS-EXT-5.0",
+  "scope": "NASA_CHIP_LOCK_CLOUD_ADMIN_CONNECTOR_BOUNTY_METADIAGNOSTIC",
+  "sources": [
+    {
+      "source_id": "V5_NASA_SE",
+      "title": "NASA Systems Engineering Handbook – Fault Management and verification",
+      "native_url": "https://www.nasa.gov/reference/system-engineering-handbook-appendix/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_NIST_FW",
+      "title": "NIST SP 800-193 Platform Firmware Resiliency Guidelines",
+      "native_url": "https://www.nist.gov/publications/platform-firmware-resiliency-guidelines",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_IETF_RATS",
+      "title": "RFC 9334 Remote Attestation Procedures Architecture",
+      "native_url": "https://www.rfc-editor.org/rfc/rfc9334.html",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_NIST_AUTH",
+      "title": "NIST SP 800-63B-4 Digital Identity Authentication",
+      "native_url": "https://pages.nist.gov/800-63-4/sp800-63b/security/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_NIST_ZTA",
+      "title": "NIST SP 800-207 Zero Trust Architecture",
+      "native_url": "https://nvlpubs.nist.gov/nistpubs/specialpublications/NIST.SP.800-207.pdf",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_CEDAR",
+      "title": "Cedar Policy Language – Authorization semantics",
+      "native_url": "https://docs.cedarpolicy.com/auth/authorization.html",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_RFC9700",
+      "title": "RFC 9700 OAuth 2.0 Security BCP",
+      "native_url": "https://www.rfc-editor.org/rfc/rfc9700.html",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_SPIFFE",
+      "title": "SPIFFE Federation and Trust Domains",
+      "native_url": "https://spiffe.io/docs/latest/spiffe-specs/spiffe_federation/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_AWS_CT",
+      "title": "AWS CloudTrail Security Best Practices",
+      "native_url": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/best-practices-security.html",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_AWS_IAM",
+      "title": "AWS IAM Access Analyzer policy validation",
+      "native_url": "https://docs.aws.amazon.com/us_en/IAM/latest/UserGuide/access-analyzer-policy-validation.html",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_OTEL",
+      "title": "OpenTelemetry Context Propagation",
+      "native_url": "https://opentelemetry.io/docs/concepts/context-propagation/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_OWASP_ASVS",
+      "title": "OWASP Application Security Verification Standard 5.0",
+      "native_url": "https://github.com/OWASP/ASVS/blob/master/5.0/docs_en/OWASP_Application_Security_Verification_Standard_5.0.0_en.json",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_OWASP_API",
+      "title": "OWASP API Top 10 2023",
+      "native_url": "https://api-security.owasp.org/editions/2023/en/0x11-t10/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_LOCK",
+      "title": "Martin Kleppmann – Fencing Tokens and Distributed Locks",
+      "native_url": "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html",
+      "source_class": "RESEARCH_REFERENCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V5_OTEL_SPEC",
+      "title": "OpenTelemetry tracing span/link API specification",
+      "native_url": "https://opentelemetry.io/docs/specs/otel/trace/api/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    }
+  ],
+  "methods": [
+    {
+      "method_id": "MHA-0144",
+      "method_name": "Telemetry health-invariant sentinel",
+      "family": "NASA_FAULT_MANAGEMENT",
+      "mechanism": "Compare observed health signals to a source-owned nominal constraint",
+      "required_input": "Named health requirement and authentic telemetry windows",
+      "falsifier": "Sensor coverage or calibration invalidates measured deviation",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FAULT",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0144",
+        "question": "What source-owned observation, negative control and falsifier can validate telemetry health-invariant sentinel?",
+        "missing_evidence": "Named health requirement and authentic telemetry windows",
+        "falsifier": "Sensor coverage or calibration invalidates measured deviation",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0145",
+      "method_name": "Fault detection isolation response sequence",
+      "family": "NASA_FAULT_MANAGEMENT",
+      "mechanism": "Separate detection isolation and response transitions and ownership",
+      "required_input": "Finite event log and fault action policy",
+      "falsifier": "Observed state belongs to intended recovery process",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FAULT",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0145",
+        "question": "What source-owned observation, negative control and falsifier can validate fault detection isolation response sequence?",
+        "missing_evidence": "Finite event log and fault action policy",
+        "falsifier": "Observed state belongs to intended recovery process",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0146",
+      "method_name": "Fault-containment boundary partition",
+      "family": "NASA_FAULT_MANAGEMENT",
+      "mechanism": "Trace whether declared barrier contains propagation within permitted envelope",
+      "required_input": "System fault tree and barrier ownership",
+      "falsifier": "Alternate permitted propagation edge crosses boundary",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FAULT",
+        "GRAPH"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0146",
+        "question": "What source-owned observation, negative control and falsifier can validate fault-containment boundary partition?",
+        "missing_evidence": "System fault tree and barrier ownership",
+        "falsifier": "Alternate permitted propagation edge crosses boundary",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0147",
+      "method_name": "Recovery safe-mode transition review",
+      "family": "NASA_FAULT_MANAGEMENT",
+      "mechanism": "Compare post-fault safe-state guards and recovery preconditions",
+      "required_input": "Owned safe-state rules and post-fault trace",
+      "falsifier": "Recovery action occurred only under valid alternate rule",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "STATE",
+        "FINALITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0147",
+        "question": "What source-owned observation, negative control and falsifier can validate recovery safe-mode transition review?",
+        "missing_evidence": "Owned safe-state rules and post-fault trace",
+        "falsifier": "Recovery action occurred only under valid alternate rule",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0148",
+      "method_name": "Redundant sensor agreement and common cause",
+      "family": "NASA_FAULT_MANAGEMENT",
+      "mechanism": "Compare sensor disagreement without assuming independence",
+      "required_input": "Independent source provenance and sensor calibration",
+      "falsifier": "Common upstream input explains apparent independent anomalies",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FAULT",
+        "COMPARISON"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0148",
+        "question": "What source-owned observation, negative control and falsifier can validate redundant sensor agreement and common cause?",
+        "missing_evidence": "Independent source provenance and sensor calibration",
+        "falsifier": "Common upstream input explains apparent independent anomalies",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0149",
+      "method_name": "Fault-management detection observability gap",
+      "family": "NASA_FAULT_MANAGEMENT",
+      "mechanism": "Distinguish undetected fault from unobserved detection channels",
+      "required_input": "Fault taxonomy sensor coverage and channel audit",
+      "falsifier": "Uninstrumented fault cannot be classified from absence of log",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FAULT",
+        "INFORMATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0149",
+        "question": "What source-owned observation, negative control and falsifier can validate fault-management detection observability gap?",
+        "missing_evidence": "Fault taxonomy sensor coverage and channel audit",
+        "falsifier": "Uninstrumented fault cannot be classified from absence of log",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0150",
+      "method_name": "Requirements-to-recovery trace closure",
+      "family": "NASA_FAULT_MANAGEMENT",
+      "mechanism": "Bind each failure requirement to detection and verified recovery evidence",
+      "required_input": "Versioned NASA-style requirements and test/event records",
+      "falsifier": "Requirement only documented but not exercised",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "VERIFICATION",
+        "PROCESS"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0150",
+        "question": "What source-owned observation, negative control and falsifier can validate requirements-to-recovery trace closure?",
+        "missing_evidence": "Versioned NASA-style requirements and test/event records",
+        "falsifier": "Requirement only documented but not exercised",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0151",
+      "method_name": "Mission state hazard cut-point challenge",
+      "family": "NASA_FAULT_MANAGEMENT",
+      "mechanism": "Find an evidence-bound single control whose absence changes declared hazard reachability",
+      "required_input": "Finite typed hazard graph and validated control semantics",
+      "falsifier": "Hazard path only exists under false model edge",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "FAULT"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0151",
+        "question": "What source-owned observation, negative control and falsifier can validate mission state hazard cut-point challenge?",
+        "missing_evidence": "Finite typed hazard graph and validated control semantics",
+        "falsifier": "Hazard path only exists under false model edge",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0152",
+      "method_name": "Firmware protect detect recover separation",
+      "family": "CHIP_HARDWARE_ASSURANCE",
+      "mechanism": "Distinguish firmware update prevention detection and trusted recovery roots",
+      "required_input": "Firmware trust architecture and versioned update log",
+      "falsifier": "Attestation measurement refers to wrong component",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_FW",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CHIP",
+        "CRYPTO"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0152",
+        "question": "What source-owned observation, negative control and falsifier can validate firmware protect detect recover separation?",
+        "missing_evidence": "Firmware trust architecture and versioned update log",
+        "falsifier": "Attestation measurement refers to wrong component",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0153",
+      "method_name": "Measured boot chain coverage",
+      "family": "CHIP_HARDWARE_ASSURANCE",
+      "mechanism": "Audit declared measured components versus expected firmware manifest",
+      "required_input": "Authorized boot measurements and native version manifest",
+      "falsifier": "Measurement gap is intentional architecture boundary",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_FW",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CHIP",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0153",
+        "question": "What source-owned observation, negative control and falsifier can validate measured boot chain coverage?",
+        "missing_evidence": "Authorized boot measurements and native version manifest",
+        "falsifier": "Measurement gap is intentional architecture boundary",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0154",
+      "method_name": "Root of trust endorser-verifier separation",
+      "family": "CHIP_HARDWARE_ASSURANCE",
+      "mechanism": "Separate attester evidence verifier appraisal and relying-party permission",
+      "required_input": "RATS role/identity claims and appraisal policy",
+      "falsifier": "Attester controls supposedly independent reference values",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_IETF_RATS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CHIP",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0154",
+        "question": "What source-owned observation, negative control and falsifier can validate root of trust endorser-verifier separation?",
+        "missing_evidence": "RATS role/identity claims and appraisal policy",
+        "falsifier": "Attester controls supposedly independent reference values",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0155",
+      "method_name": "Attestation freshness and replay window",
+      "family": "CHIP_HARDWARE_ASSURANCE",
+      "mechanism": "Compare nonce/epoch and measured state timestamp freshness",
+      "required_input": "Signed attestation fixture nonce scope and policy",
+      "falsifier": "Counterexample uses stale or unrelated attester identity",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_IETF_RATS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CHIP",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0155",
+        "question": "What source-owned observation, negative control and falsifier can validate attestation freshness and replay window?",
+        "missing_evidence": "Signed attestation fixture nonce scope and policy",
+        "falsifier": "Counterexample uses stale or unrelated attester identity",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0156",
+      "method_name": "Secure update rollback policy guard",
+      "family": "CHIP_HARDWARE_ASSURANCE",
+      "mechanism": "Evaluate signed update and permitted rollback transition states",
+      "required_input": "Release manifests version monotonicity/rollback policy",
+      "falsifier": "Known good fallback rollback is explicitly authorized",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_FW",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CHIP",
+        "VERSION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0156",
+        "question": "What source-owned observation, negative control and falsifier can validate secure update rollback policy guard?",
+        "missing_evidence": "Release manifests version monotonicity/rollback policy",
+        "falsifier": "Known good fallback rollback is explicitly authorized",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0157",
+      "method_name": "Security chip debug-lock state review",
+      "family": "CHIP_HARDWARE_ASSURANCE",
+      "mechanism": "Check declared production/debug interface state without bypassing protections",
+      "required_input": "Authorized device configuration and lock policy",
+      "falsifier": "Diagnostic interface permitted by documented maintenance state",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_FW",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CHIP",
+        "LOCK"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0157",
+        "question": "What source-owned observation, negative control and falsifier can validate security chip debug-lock state review?",
+        "missing_evidence": "Authorized device configuration and lock policy",
+        "falsifier": "Diagnostic interface permitted by documented maintenance state",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0158",
+      "method_name": "Side-channel measurement provenance check",
+      "family": "CHIP_HARDWARE_ASSURANCE",
+      "mechanism": "Challenge correlation claims with noise and identical-workload controls",
+      "required_input": "Owned lab traces controlled workloads and statistical assumptions",
+      "falsifier": "Power/timing shift explained by environment drift",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_FW",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CHIP",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0158",
+        "question": "What source-owned observation, negative control and falsifier can validate side-channel measurement provenance check?",
+        "missing_evidence": "Owned lab traces controlled workloads and statistical assumptions",
+        "falsifier": "Power/timing shift explained by environment drift",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0159",
+      "method_name": "Hardware key presence versus authorization owner",
+      "family": "CHIP_HARDWARE_ASSURANCE",
+      "mechanism": "Separate authenticator proof from cloud target permission and workload trust",
+      "required_input": "Verifier challenge transcript, account owner and target policy",
+      "falsifier": "Authenticated principal has no resource permission",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_AUTH",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CHIP",
+        "IDENTITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0159",
+        "question": "What source-owned observation, negative control and falsifier can validate hardware key presence versus authorization owner?",
+        "missing_evidence": "Verifier challenge transcript, account owner and target policy",
+        "falsifier": "Authenticated principal has no resource permission",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0160",
+      "method_name": "Default deny and forbid precedence",
+      "family": "ACCESS_LOCK_UNLOCK_STATE",
+      "mechanism": "Check policy precedence for unlock eligibility under trusted decision logic",
+      "required_input": "Bounded Cedar-style policy assertions and request fixtures",
+      "falsifier": "A higher-priority forbid or contextual rule changes outcome",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_CEDAR",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "LOCK",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0160",
+        "question": "What source-owned observation, negative control and falsifier can validate default deny and forbid precedence?",
+        "missing_evidence": "Bounded Cedar-style policy assertions and request fixtures",
+        "falsifier": "A higher-priority forbid or contextual rule changes outcome",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0161",
+      "method_name": "Lease expiration fencing-token guard",
+      "family": "ACCESS_LOCK_UNLOCK_STATE",
+      "mechanism": "Compare stale lease holder writes against increasing fencing tokens",
+      "required_input": "Local simulated lock server and ordered token log",
+      "falsifier": "Storage resource enforces stale-token rejection",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_LOCK",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "LOCK",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0161",
+        "question": "What source-owned observation, negative control and falsifier can validate lease expiration fencing-token guard?",
+        "missing_evidence": "Local simulated lock server and ordered token log",
+        "falsifier": "Storage resource enforces stale-token rejection",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0162",
+      "method_name": "Lock acquire release atomicity",
+      "family": "ACCESS_LOCK_UNLOCK_STATE",
+      "mechanism": "Verify mutually exclusive acquire/release transitions in finite trace",
+      "required_input": "Finite authorized lock state model",
+      "falsifier": "Supposed overlap is different lock namespace",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_CEDAR",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "LOCK",
+        "STATE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0162",
+        "question": "What source-owned observation, negative control and falsifier can validate lock acquire release atomicity?",
+        "missing_evidence": "Finite authorized lock state model",
+        "falsifier": "Supposed overlap is different lock namespace",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0163",
+      "method_name": "Revocation propagation and stale privilege",
+      "family": "ACCESS_LOCK_UNLOCK_STATE",
+      "mechanism": "Compare revocation time to later authorization under cache expiry",
+      "required_input": "Owned identity grant/revoke logs and policy timing",
+      "falsifier": "Grace period explicitly allowed with compensating guard",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_CEDAR",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "LOCK",
+        "FINALITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0163",
+        "question": "What source-owned observation, negative control and falsifier can validate revocation propagation and stale privilege?",
+        "missing_evidence": "Owned identity grant/revoke logs and policy timing",
+        "falsifier": "Grace period explicitly allowed with compensating guard",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0164",
+      "method_name": "Session open close finalization race",
+      "family": "ACCESS_LOCK_UNLOCK_STATE",
+      "mechanism": "Distinguish socket/session close from revoked authorization state",
+      "required_input": "Owned session lifecycle and policy records",
+      "falsifier": "Connection closed while session credential remains legitimately active",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_CEDAR",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "LOCK",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0164",
+        "question": "What source-owned observation, negative control and falsifier can validate session open close finalization race?",
+        "missing_evidence": "Owned session lifecycle and policy records",
+        "falsifier": "Connection closed while session credential remains legitimately active",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0165",
+      "method_name": "Phishing-resistant authenticator binding",
+      "family": "ACCESS_LOCK_UNLOCK_STATE",
+      "mechanism": "Test declared verifier name/channel binding in synthetic transcripts",
+      "required_input": "NIST 800-63B-4 requirements and protocol fixture",
+      "falsifier": "Binding verifies intended origin and challenge",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_AUTH",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "LOCK",
+        "CRYPTO"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0165",
+        "question": "What source-owned observation, negative control and falsifier can validate phishing-resistant authenticator binding?",
+        "missing_evidence": "NIST 800-63B-4 requirements and protocol fixture",
+        "falsifier": "Binding verifies intended origin and challenge",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0166",
+      "method_name": "Unlock recovery and break-glass accountability",
+      "family": "ACCESS_LOCK_UNLOCK_STATE",
+      "mechanism": "Check emergency recovery path has bounded authority and audit closure",
+      "required_input": "Owned emergency policy authorization and audit receipts",
+      "falsifier": "Emergency pathway separately approved and fully logged",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_CEDAR",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "LOCK",
+        "ADMIN"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0166",
+        "question": "What source-owned observation, negative control and falsifier can validate unlock recovery and break-glass accountability?",
+        "missing_evidence": "Owned emergency policy authorization and audit receipts",
+        "falsifier": "Emergency pathway separately approved and fully logged",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0167",
+      "method_name": "Optimistic lock version compare-and-swap",
+      "family": "ACCESS_LOCK_UNLOCK_STATE",
+      "mechanism": "Check that state transition requires expected current version",
+      "required_input": "Finite versioned update log and legitimate concurrency fixtures",
+      "falsifier": "Conflict is correctly rejected or rolled back",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_CEDAR",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "LOCK",
+        "VERSION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0167",
+        "question": "What source-owned observation, negative control and falsifier can validate optimistic lock version compare-and-swap?",
+        "missing_evidence": "Finite versioned update log and legitimate concurrency fixtures",
+        "falsifier": "Conflict is correctly rejected or rolled back",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0168",
+      "method_name": "Cloud audit coverage and trail scope",
+      "family": "CLOUD_PASSIVE_OVERWATCH",
+      "mechanism": "Check cloud event categories coverage across configured accounts/regions",
+      "required_input": "Authorized archived audit configuration and log policy",
+      "falsifier": "Unlogged event type was excluded by configuration",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_AWS_CT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CLOUD",
+        "OBSERVABILITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0168",
+        "question": "What source-owned observation, negative control and falsifier can validate cloud audit coverage and trail scope?",
+        "missing_evidence": "Authorized archived audit configuration and log policy",
+        "falsifier": "Unlogged event type was excluded by configuration",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0169",
+      "method_name": "Signed audit digest continuity check",
+      "family": "CLOUD_PASSIVE_OVERWATCH",
+      "mechanism": "Differentiate encrypted data from integrity-validated event files",
+      "required_input": "Owned audit digest chain, signatures and retention scope",
+      "falsifier": "Digest missing due to normal delivery/retention delay",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_AWS_CT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CLOUD",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0169",
+        "question": "What source-owned observation, negative control and falsifier can validate signed audit digest continuity check?",
+        "missing_evidence": "Owned audit digest chain, signatures and retention scope",
+        "falsifier": "Digest missing due to normal delivery/retention delay",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0170",
+      "method_name": "Cloud IAM external access delta",
+      "family": "CLOUD_PASSIVE_OVERWATCH",
+      "mechanism": "Compare policy snapshot potential external access before/after config change",
+      "required_input": "Owner-authorized IAM policy versions and trust zone",
+      "falsifier": "Principal is an approved cross-account trustee",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_AWS_IAM",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CLOUD",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0170",
+        "question": "What source-owned observation, negative control and falsifier can validate cloud iam external access delta?",
+        "missing_evidence": "Owner-authorized IAM policy versions and trust zone",
+        "falsifier": "Principal is an approved cross-account trustee",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0171",
+      "method_name": "Passive control-plane permission drift",
+      "family": "CLOUD_PASSIVE_OVERWATCH",
+      "mechanism": "Analyze config snapshots for privilege gain and source owner",
+      "required_input": "Owned before/after policy and actual authorization logic",
+      "falsifier": "New role grant intended for migration and time-limited",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_AWS_CT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CLOUD",
+        "VERSION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0171",
+        "question": "What source-owned observation, negative control and falsifier can validate passive control-plane permission drift?",
+        "missing_evidence": "Owned before/after policy and actual authorization logic",
+        "falsifier": "New role grant intended for migration and time-limited",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0172",
+      "method_name": "Cloud runtime signal triangulation",
+      "family": "CLOUD_PASSIVE_OVERWATCH",
+      "mechanism": "Cross reference metrics events and spans without equating them",
+      "required_input": "Source-bound timestamps and instrument coverage metadata",
+      "falsifier": "Different sampling policies explain disagreement",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_AWS_CT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CLOUD",
+        "OBSERVABILITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0172",
+        "question": "What source-owned observation, negative control and falsifier can validate cloud runtime signal triangulation?",
+        "missing_evidence": "Source-bound timestamps and instrument coverage metadata",
+        "falsifier": "Different sampling policies explain disagreement",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0173",
+      "method_name": "Overwatch freshness window guard",
+      "family": "CLOUD_PASSIVE_OVERWATCH",
+      "mechanism": "Measure evidence age and whether current claim remains supported",
+      "required_input": "Signed observation time coverage window and clock calibration",
+      "falsifier": "Evidence expired or later controller superseded source",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_AWS_CT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CLOUD",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0173",
+        "question": "What source-owned observation, negative control and falsifier can validate overwatch freshness window guard?",
+        "missing_evidence": "Signed observation time coverage window and clock calibration",
+        "falsifier": "Evidence expired or later controller superseded source",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0174",
+      "method_name": "Cloud dependency blast-radius model",
+      "family": "CLOUD_PASSIVE_OVERWATCH",
+      "mechanism": "Trace shared control plane and region dependency cut points",
+      "required_input": "Owned cloud architecture and service dependency graph",
+      "falsifier": "Failover removes purported single point of failure",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_AWS_CT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CLOUD",
+        "GRAPH"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0174",
+        "question": "What source-owned observation, negative control and falsifier can validate cloud dependency blast-radius model?",
+        "missing_evidence": "Owned cloud architecture and service dependency graph",
+        "falsifier": "Failover removes purported single point of failure",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0175",
+      "method_name": "Passive cloud source trust-level ledger",
+      "family": "CLOUD_PASSIVE_OVERWATCH",
+      "mechanism": "Keep cloud provider alert, raw record and investigation finding separate",
+      "required_input": "Native alert IDs raw logs and custody provenance",
+      "falsifier": "Provider heuristic alert never becomes independent finding",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_AWS_CT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CLOUD",
+        "FORENSIC"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0175",
+        "question": "What source-owned observation, negative control and falsifier can validate passive cloud source trust-level ledger?",
+        "missing_evidence": "Native alert IDs raw logs and custody provenance",
+        "falsifier": "Provider heuristic alert never becomes independent finding",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0176",
+      "method_name": "Administrative function authorization contrast",
+      "family": "ADMIN_CONTROL_PLANE",
+      "mechanism": "Compare admin action eligibility with ordinary user and service-role policy",
+      "required_input": "Owner-supplied role/asset/action matrix",
+      "falsifier": "Function is delegated legitimately for the named service",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_ZTA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ADMIN",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0176",
+        "question": "What source-owned observation, negative control and falsifier can validate administrative function authorization contrast?",
+        "missing_evidence": "Owner-supplied role/asset/action matrix",
+        "falsifier": "Function is delegated legitimately for the named service",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0177",
+      "method_name": "Policy decision versus enforcement split",
+      "family": "ADMIN_CONTROL_PLANE",
+      "mechanism": "Check that enforcement actually follows trusted decision outputs",
+      "required_input": "NIST ZTA policy decision/admin/enforcer architecture and logs",
+      "falsifier": "Enforcement point is intentionally offline with valid control",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_ZTA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ADMIN",
+        "LOCK"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0177",
+        "question": "What source-owned observation, negative control and falsifier can validate policy decision versus enforcement split?",
+        "missing_evidence": "NIST ZTA policy decision/admin/enforcer architecture and logs",
+        "falsifier": "Enforcement point is intentionally offline with valid control",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0178",
+      "method_name": "Break-glass grant expiration evidence",
+      "family": "ADMIN_CONTROL_PLANE",
+      "mechanism": "Verify emergency access is revoked and reviewed as required",
+      "required_input": "Admin elevation request expiry and revocation receipts",
+      "falsifier": "Access is explicitly extended by proper authority",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_ZTA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ADMIN",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0178",
+        "question": "What source-owned observation, negative control and falsifier can validate break-glass grant expiration evidence?",
+        "missing_evidence": "Admin elevation request expiry and revocation receipts",
+        "falsifier": "Access is explicitly extended by proper authority",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0179",
+      "method_name": "Administrator action dual-control guard",
+      "family": "ADMIN_CONTROL_PLANE",
+      "mechanism": "Map high-impact approval to a distinct second actor when required",
+      "required_input": "Source-defined separation-of-duties policy and action log",
+      "falsifier": "Second approver is documented under another native identity",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_ZTA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ADMIN",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0179",
+        "question": "What source-owned observation, negative control and falsifier can validate administrator action dual-control guard?",
+        "missing_evidence": "Source-defined separation-of-duties policy and action log",
+        "falsifier": "Second approver is documented under another native identity",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0180",
+      "method_name": "Configuration rollback provenance",
+      "family": "ADMIN_CONTROL_PLANE",
+      "mechanism": "Compare rollback authority/config version and current desired state",
+      "required_input": "Change ticket policy owner and signed release snapshot",
+      "falsifier": "Emergency rollback complied with published policy",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_ZTA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ADMIN",
+        "VERSION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0180",
+        "question": "What source-owned observation, negative control and falsifier can validate configuration rollback provenance?",
+        "missing_evidence": "Change ticket policy owner and signed release snapshot",
+        "falsifier": "Emergency rollback complied with published policy",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0181",
+      "method_name": "Admin API object- and function-scope split",
+      "family": "ADMIN_CONTROL_PLANE",
+      "mechanism": "Separate BOLA object-level from BFLA function-level permission",
+      "required_input": "Authorized API security design and owned test fixtures",
+      "falsifier": "Object access is intentionally shared without admin capability",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OWASP_ASVS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ADMIN",
+        "IDENTITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0181",
+        "question": "What source-owned observation, negative control and falsifier can validate admin api object- and function-scope split?",
+        "missing_evidence": "Authorized API security design and owned test fixtures",
+        "falsifier": "Object access is intentionally shared without admin capability",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0182",
+      "method_name": "Policy grammar vs effective-permission differential",
+      "family": "ADMIN_CONTROL_PLANE",
+      "mechanism": "Compare syntax-valid policies with actually permitted operations",
+      "required_input": "Provider policy engine simulation and approved policy snapshots",
+      "falsifier": "Difference is due to service condition key semantics",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_AWS_IAM",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ADMIN",
+        "CRYPTO"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0182",
+        "question": "What source-owned observation, negative control and falsifier can validate policy grammar vs effective-permission differential?",
+        "missing_evidence": "Provider policy engine simulation and approved policy snapshots",
+        "falsifier": "Difference is due to service condition key semantics",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0183",
+      "method_name": "Privileged connector consent lifecycle",
+      "family": "ADMIN_CONTROL_PLANE",
+      "mechanism": "Link consent approval, token issue/revoke, delegated actor and connector scope",
+      "required_input": "Native consent grants scopes and lifecycle receipts",
+      "falsifier": "Scope was never granted to acting connector identity",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NIST_ZTA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ADMIN",
+        "CONNECTOR"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0183",
+        "question": "What source-owned observation, negative control and falsifier can validate privileged connector consent lifecycle?",
+        "missing_evidence": "Native consent grants scopes and lifecycle receipts",
+        "falsifier": "Scope was never granted to acting connector identity",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0184",
+      "method_name": "Typed connector capability handshake",
+      "family": "CONNECTOR_FEDERATION_METHODS",
+      "mechanism": "Compare declared connector actions/schema against actually exposed tool surface",
+      "required_input": "Signed or versioned connector metadata and active schema",
+      "falsifier": "Unavailable call was never in current tool manifest",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OTEL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONNECTOR",
+        "INTERFACE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0184",
+        "question": "What source-owned observation, negative control and falsifier can validate typed connector capability handshake?",
+        "missing_evidence": "Signed or versioned connector metadata and active schema",
+        "falsifier": "Unavailable call was never in current tool manifest",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0185",
+      "method_name": "Source-owner ID namespace bridge",
+      "family": "CONNECTOR_FEDERATION_METHODS",
+      "mechanism": "Link equivalent representations without merging actor/resource native IDs",
+      "required_input": "Exact source namespace and signed mapping justification",
+      "falsifier": "Two records refer to different owners or entities",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OTEL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONNECTOR",
+        "IDENTITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0185",
+        "question": "What source-owned observation, negative control and falsifier can validate source-owner id namespace bridge?",
+        "missing_evidence": "Exact source namespace and signed mapping justification",
+        "falsifier": "Two records refer to different owners or entities",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0186",
+      "method_name": "Trace-context join with trust boundary",
+      "family": "CONNECTOR_FEDERATION_METHODS",
+      "mechanism": "Correlate events across services using guarded trace/span links",
+      "required_input": "Native span IDs parent context and trust boundary policy",
+      "falsifier": "Untrusted inbound trace header could be forged",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OTEL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONNECTOR",
+        "OBSERVABILITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0186",
+        "question": "What source-owned observation, negative control and falsifier can validate trace-context join with trust boundary?",
+        "missing_evidence": "Native span IDs parent context and trust boundary policy",
+        "falsifier": "Untrusted inbound trace header could be forged",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0187",
+      "method_name": "OAuth audience sender-bound token review",
+      "family": "CONNECTOR_FEDERATION_METHODS",
+      "mechanism": "Keep token issue audience/actor sender constraints separate",
+      "required_input": "OAuth issuance/resource server policy and owned fixture",
+      "falsifier": "Token is intended for the named audience and sender",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_RFC9700",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONNECTOR",
+        "CRYPTO"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0187",
+        "question": "What source-owned observation, negative control and falsifier can validate oauth audience sender-bound token review?",
+        "missing_evidence": "OAuth issuance/resource server policy and owned fixture",
+        "falsifier": "Token is intended for the named audience and sender",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0188",
+      "method_name": "SPIFFE workload federation authorization",
+      "family": "CONNECTOR_FEDERATION_METHODS",
+      "mechanism": "Separate identity bundle authenticity from cross-trust domain authorization",
+      "required_input": "Trust domain bundle owner SVID and policy",
+      "falsifier": "Foreign workload authenticated but not approved for resource",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_SPIFFE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONNECTOR",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0188",
+        "question": "What source-owned observation, negative control and falsifier can validate spiffe workload federation authorization?",
+        "missing_evidence": "Trust domain bundle owner SVID and policy",
+        "falsifier": "Foreign workload authenticated but not approved for resource",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0189",
+      "method_name": "Adapter input/output preservation proof obligation",
+      "family": "CONNECTOR_FEDERATION_METHODS",
+      "mechanism": "Check conversion preserves typed IDs units nulls versions and provenance",
+      "required_input": "Before/after fixture plus declared adapter schema",
+      "falsifier": "Irreversible mapping loses a material distinguishing coordinate",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OTEL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONNECTOR",
+        "CONSISTENCY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0189",
+        "question": "What source-owned observation, negative control and falsifier can validate adapter input/output preservation proof obligation?",
+        "missing_evidence": "Before/after fixture plus declared adapter schema",
+        "falsifier": "Irreversible mapping loses a material distinguishing coordinate",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0190",
+      "method_name": "Connector retry idempotency and checkpoint re-entry",
+      "family": "CONNECTOR_FEDERATION_METHODS",
+      "mechanism": "Test that retried connector call doesn't duplicate durable effect",
+      "required_input": "Idempotency keys write receipts and replay harness",
+      "falsifier": "Repeated request safely returns same original operation",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OTEL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONNECTOR",
+        "REPLAY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0190",
+        "question": "What source-owned observation, negative control and falsifier can validate connector retry idempotency and checkpoint re-entry?",
+        "missing_evidence": "Idempotency keys write receipts and replay harness",
+        "falsifier": "Repeated request safely returns same original operation",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0191",
+      "method_name": "Cross-app citation receipt reconciliation",
+      "family": "CONNECTOR_FEDERATION_METHODS",
+      "mechanism": "Bind Drive Dash GitHub method results to exact provenance and freshness",
+      "required_input": "Native document IDs object types versions and source owners",
+      "falsifier": "Matching names conceal different versions/permissions",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OTEL_SPEC",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONNECTOR",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0191",
+        "question": "What source-owned observation, negative control and falsifier can validate cross-app citation receipt reconciliation?",
+        "missing_evidence": "Native document IDs object types versions and source owners",
+        "falsifier": "Matching names conceal different versions/permissions",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0192",
+      "method_name": "Method input precondition gate",
+      "family": "METHODS_ON_METHODS_DIAGNOSTIC",
+      "mechanism": "Reject tempting candidate with absent required model or source binding",
+      "required_input": "Method contract source owner and input presence",
+      "falsifier": "Missing field is optional under actual method schema",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0192",
+        "question": "What source-owned observation, negative control and falsifier can validate method input precondition gate?",
+        "missing_evidence": "Method contract source owner and input presence",
+        "falsifier": "Missing field is optional under actual method schema",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0193",
+      "method_name": "Method applicability false-positive control",
+      "family": "METHODS_ON_METHODS_DIAGNOSTIC",
+      "mechanism": "Run a known negative fixture to challenge dimension-only retrieval",
+      "required_input": "Typed negative-control fixture and desired rejection rule",
+      "falsifier": "Control case still legitimately matches a different method",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0193",
+        "question": "What source-owned observation, negative control and falsifier can validate method applicability false-positive control?",
+        "missing_evidence": "Typed negative-control fixture and desired rejection rule",
+        "falsifier": "Control case still legitimately matches a different method",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0194",
+      "method_name": "Method result provenance-vs-truth partition",
+      "family": "METHODS_ON_METHODS_DIAGNOSTIC",
+      "mechanism": "Keep computed model result separate from real target fact and authenticated source",
+      "required_input": "Receipt fingerprint model input evidence owner and claims",
+      "falsifier": "Result wrongly treated as independent source evidence",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "FORENSIC"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0194",
+        "question": "What source-owned observation, negative control and falsifier can validate method result provenance-vs-truth partition?",
+        "missing_evidence": "Receipt fingerprint model input evidence owner and claims",
+        "falsifier": "Result wrongly treated as independent source evidence",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0195",
+      "method_name": "Cross-method dependency nonindependence audit",
+      "family": "METHODS_ON_METHODS_DIAGNOSTIC",
+      "mechanism": "Detect corroborators sharing common source/oracle/model assumptions",
+      "required_input": "Method relations source IDs and lineage diagram",
+      "falsifier": "Independent source path exists beyond common ancestor",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "GRAPH"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0195",
+        "question": "What source-owned observation, negative control and falsifier can validate cross-method dependency nonindependence audit?",
+        "missing_evidence": "Method relations source IDs and lineage diagram",
+        "falsifier": "Independent source path exists beyond common ancestor",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0196",
+      "method_name": "Method counterexample minimization diagnostic",
+      "family": "METHODS_ON_METHODS_DIAGNOSTIC",
+      "mechanism": "Test that smallest changed atom preserves actual outcome difference",
+      "required_input": "Bounded supplied metamorphic fixture and invariant",
+      "falsifier": "Reduced witness no longer violates control rule",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "REDUCTION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0196",
+        "question": "What source-owned observation, negative control and falsifier can validate method counterexample minimization diagnostic?",
+        "missing_evidence": "Bounded supplied metamorphic fixture and invariant",
+        "falsifier": "Reduced witness no longer violates control rule",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0197",
+      "method_name": "Method sensitivity and alternate parameter scan",
+      "family": "METHODS_ON_METHODS_DIAGNOSTIC",
+      "mechanism": "Compare candidate verdict across bounded justified parameters",
+      "required_input": "Source-bound parameter interval and finite samples",
+      "falsifier": "Verdict reverses under legitimate parameter selection",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "COMPARISON"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0197",
+        "question": "What source-owned observation, negative control and falsifier can validate method sensitivity and alternate parameter scan?",
+        "missing_evidence": "Source-bound parameter interval and finite samples",
+        "falsifier": "Verdict reverses under legitimate parameter selection",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0198",
+      "method_name": "Method calibration against held-out fixtures",
+      "family": "METHODS_ON_METHODS_DIAGNOSTIC",
+      "mechanism": "Measure false positives and false negatives on known controls",
+      "required_input": "Versioned held-out fixtures and documented truth labels",
+      "falsifier": "Labels or sample selection leak training decisions",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "ANOMALY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0198",
+        "question": "What source-owned observation, negative control and falsifier can validate method calibration against held-out fixtures?",
+        "missing_evidence": "Versioned held-out fixtures and documented truth labels",
+        "falsifier": "Labels or sample selection leak training decisions",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0199",
+      "method_name": "Method stop-rule information-gain guard",
+      "family": "METHODS_ON_METHODS_DIAGNOSTIC",
+      "mechanism": "Stop repeated lookups that make no material evidence/classifier change",
+      "required_input": "Before/after frontier IDs and exact delta receipt",
+      "falsifier": "Supposed progress is only reordered explanation",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "PROCESS"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0199",
+        "question": "What source-owned observation, negative control and falsifier can validate method stop-rule information-gain guard?",
+        "missing_evidence": "Before/after frontier IDs and exact delta receipt",
+        "falsifier": "Supposed progress is only reordered explanation",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0200",
+      "method_name": "Authorization scope lock before probe",
+      "family": "BOUNTY_DEFENSIVE_RECON",
+      "mechanism": "Bind potential test action to current written scope and restriction",
+      "required_input": "Program native terms target action account timestamp",
+      "falsifier": "Asset or technique is explicitly excluded",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OWASP_ASVS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "BOUNTY",
+        "LOCK"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0200",
+        "question": "What source-owned observation, negative control and falsifier can validate authorization scope lock before probe?",
+        "missing_evidence": "Program native terms target action account timestamp",
+        "falsifier": "Asset or technique is explicitly excluded",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0201",
+      "method_name": "Passive public configuration exposure inventory",
+      "family": "BOUNTY_DEFENSIVE_RECON",
+      "mechanism": "Identify published security configuration clues without authenticating/exploiting targets",
+      "required_input": "Authorized public records release scope and provenance",
+      "falsifier": "Record belongs to unrelated tenant or superseded version",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OWASP_API",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "BOUNTY",
+        "CLOUD"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0201",
+        "question": "What source-owned observation, negative control and falsifier can validate passive public configuration exposure inventory?",
+        "missing_evidence": "Authorized public records release scope and provenance",
+        "falsifier": "Record belongs to unrelated tenant or superseded version",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0202",
+      "method_name": "API object owner versus displayed ID check",
+      "family": "BOUNTY_DEFENSIVE_RECON",
+      "mechanism": "Review owner identity/authorization in supplied API fixture",
+      "required_input": "Own-account request/response records and object policy",
+      "falsifier": "Different object ID is legitimately shared",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OWASP_API",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "BOUNTY",
+        "IDENTITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0202",
+        "question": "What source-owned observation, negative control and falsifier can validate api object owner versus displayed id check?",
+        "missing_evidence": "Own-account request/response records and object policy",
+        "falsifier": "Different object ID is legitimately shared",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0203",
+      "method_name": "Session downgrade and policy version guard",
+      "family": "BOUNTY_DEFENSIVE_RECON",
+      "mechanism": "Find claimed auth assurance transition under versioned policy",
+      "required_input": "Owned session policy and versioned application fixture",
+      "falsifier": "Lower assurance permitted with strict limited scope",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OWASP_API",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "BOUNTY",
+        "VERSION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0203",
+        "question": "What source-owned observation, negative control and falsifier can validate session downgrade and policy version guard?",
+        "missing_evidence": "Owned session policy and versioned application fixture",
+        "falsifier": "Lower assurance permitted with strict limited scope",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0204",
+      "method_name": "Rate-limit and resource protection design review",
+      "family": "BOUNTY_DEFENSIVE_RECON",
+      "mechanism": "Review safeguards using owned synthetic resource-budget model",
+      "required_input": "Published rules resource limits and fixture traces",
+      "falsifier": "System properly rejects excess consumption",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OWASP_API",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "BOUNTY",
+        "RESOURCE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0204",
+        "question": "What source-owned observation, negative control and falsifier can validate rate-limit and resource protection design review?",
+        "missing_evidence": "Published rules resource limits and fixture traces",
+        "falsifier": "System properly rejects excess consumption",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0205",
+      "method_name": "Bounty reporting evidence completeness gate",
+      "family": "BOUNTY_DEFENSIVE_RECON",
+      "mechanism": "Require reproducible scope expected/observed provenance and benign falsifier",
+      "required_input": "Current program rules actual minimal record and negative control",
+      "falsifier": "Only hypothesis exists, no authorized reproduction",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OWASP_API",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "BOUNTY",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0205",
+        "question": "What source-owned observation, negative control and falsifier can validate bounty reporting evidence completeness gate?",
+        "missing_evidence": "Current program rules actual minimal record and negative control",
+        "falsifier": "Only hypothesis exists, no authorized reproduction",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0206",
+      "method_name": "Recon false positive asset ownership gate",
+      "family": "BOUNTY_DEFENSIVE_RECON",
+      "mechanism": "Reject candidate when public asset label cannot establish target owner",
+      "required_input": "Program current scope native DNS/certificate/ownership record",
+      "falsifier": "Lookalike domain is out of scope or third party",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OWASP_API",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "BOUNTY",
+        "CONSISTENCY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0206",
+        "question": "What source-owned observation, negative control and falsifier can validate recon false positive asset ownership gate?",
+        "missing_evidence": "Program current scope native DNS/certificate/ownership record",
+        "falsifier": "Lookalike domain is out of scope or third party",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0207",
+      "method_name": "Safe passive cloud observation checkpoint",
+      "family": "BOUNTY_DEFENSIVE_RECON",
+      "mechanism": "Save observed source and what it cannot prove without target interaction",
+      "required_input": "Public source location timestamp and retention rules",
+      "falsifier": "No active test was run and the claim remains OPEN",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V5_OWASP_API",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "BOUNTY",
+        "FORENSIC"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0207",
+        "question": "What source-owned observation, negative control and falsifier can validate safe passive cloud observation checkpoint?",
+        "missing_evidence": "Public source location timestamp and retention rules",
+        "falsifier": "No active test was run and the claim remains OPEN",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    }
+  ],
+  "boundary": {
+    "method_execution": false,
+    "network_actions": false,
+    "canonical_registry_mutation": false,
+    "source_authentication": false,
+    "physical_hardware_evaluated": false
+  }
+}
