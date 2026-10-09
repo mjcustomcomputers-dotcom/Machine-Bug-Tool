@@ -1,0 +1,261 @@
+{
+  "type": "object",
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "enum": [
+        "1.0.0"
+      ]
+    },
+    "namespace": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10000
+    },
+    "domain_profile": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10000
+    },
+    "packet_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10000
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "namespace": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "source_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "subject_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 10000
+            },
+            "minItems": 1,
+            "maxItems": 64
+          },
+          "native_locator": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "representation": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200000
+          },
+          "text_sha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "namespace",
+          "source_id",
+          "version",
+          "owner",
+          "subject_ids",
+          "native_locator",
+          "representation",
+          "text",
+          "text_sha256"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 8
+    },
+    "spans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "span_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "source_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "source_version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "source_fingerprint": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64
+          },
+          "subject_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "start": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200000
+          },
+          "end": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200000
+          },
+          "exact_text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200000
+          }
+        },
+        "required": [
+          "span_id",
+          "source_id",
+          "source_version",
+          "source_fingerprint",
+          "subject_id",
+          "start",
+          "end",
+          "exact_text"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 64
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claim_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "subject_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "actor": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "capacity": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "OBSERVED",
+              "DERIVED",
+              "INFERRED",
+              "ADOPTED"
+            ]
+          },
+          "span_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 10000
+            },
+            "minItems": 1,
+            "maxItems": 64
+          },
+          "parent_claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 10000
+            },
+            "minItems": 0,
+            "maxItems": 64
+          },
+          "method": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 10000
+            },
+            "minItems": 1,
+            "maxItems": 64
+          }
+        },
+        "required": [
+          "claim_id",
+          "subject_id",
+          "actor",
+          "capacity",
+          "statement",
+          "state",
+          "span_ids",
+          "parent_claim_ids",
+          "method",
+          "limitations"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 64
+    }
+  },
+  "required": [
+    "contract_version",
+    "namespace",
+    "domain_profile",
+    "packet_id",
+    "sources",
+    "spans",
+    "claims"
+  ],
+  "additionalProperties": false
+}

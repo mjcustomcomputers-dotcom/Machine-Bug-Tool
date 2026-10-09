@@ -1,0 +1,246 @@
+{
+  "project_id": "SYNTHETIC-MPC",
+  "object_id": "demo-object",
+  "namespace": "SYNTHETIC",
+  "mode": "EXECUTE_SUPPLIED_MODELS",
+  "atoms": [
+    {
+      "id": "OWNER-A",
+      "parent_id": null,
+      "depth": 0,
+      "subject": {
+        "namespace": "SYNTHETIC",
+        "native_id_type": "string",
+        "native_id": "demo-object"
+      },
+      "coordinate": "ACTOR",
+      "jacket_axis": "OWNER_ATTRIBUTION",
+      "variable": "OWNER-A",
+      "value": "alpha",
+      "source_refs": [
+        "FIXTURE"
+      ],
+      "epistemic_state": "SYNTHETIC",
+      "classifier_refs": [
+        {
+          "namespace": "MAXVAR",
+          "native_id_type": "integer",
+          "native_id": 31
+        },
+        {
+          "namespace": "BL",
+          "native_id_type": "string",
+          "native_id": "BL10.01"
+        }
+      ],
+      "depends_on": [],
+      "falsifier": "A contrary source-bound owner record defeats the input assumption.",
+      "expected_record": "An exact synthetic owner record.",
+      "custodian": "fixture-author",
+      "material_change_basis": "Owner identity is material to the declared identity invariant."
+    },
+    {
+      "id": "OWNER-B",
+      "parent_id": null,
+      "depth": 0,
+      "subject": {
+        "namespace": "SYNTHETIC",
+        "native_id_type": "string",
+        "native_id": "demo-object"
+      },
+      "coordinate": "ACTOR",
+      "jacket_axis": "OWNER_ATTRIBUTION",
+      "variable": "OWNER-B",
+      "value": "beta",
+      "source_refs": [
+        "FIXTURE"
+      ],
+      "epistemic_state": "SYNTHETIC",
+      "classifier_refs": [
+        {
+          "namespace": "MAXVAR",
+          "native_id_type": "integer",
+          "native_id": 31
+        },
+        {
+          "namespace": "BL",
+          "native_id_type": "string",
+          "native_id": "BL10.01"
+        }
+      ],
+      "depends_on": [],
+      "falsifier": "A contrary source-bound owner record defeats the input assumption.",
+      "expected_record": "An exact synthetic owner record.",
+      "custodian": "fixture-author",
+      "material_change_basis": "Owner identity is material to the declared identity invariant."
+    },
+    {
+      "id": "NUMBER-A",
+      "parent_id": null,
+      "depth": 0,
+      "subject": {
+        "namespace": "SYNTHETIC",
+        "native_id_type": "string",
+        "native_id": "demo-object"
+      },
+      "coordinate": "INPUT",
+      "jacket_axis": "LITERAL",
+      "variable": "NUMBER-A",
+      "value": 1,
+      "source_refs": [
+        "FIXTURE"
+      ],
+      "epistemic_state": "SYNTHETIC",
+      "classifier_refs": [
+        {
+          "namespace": "MAXVAR",
+          "native_id_type": "integer",
+          "native_id": 31
+        },
+        {
+          "namespace": "BL",
+          "native_id_type": "string",
+          "native_id": "BL10.01"
+        }
+      ],
+      "depends_on": [],
+      "falsifier": "A contrary source-bound owner record defeats the input assumption.",
+      "expected_record": "An exact synthetic owner record.",
+      "custodian": "fixture-author",
+      "material_change_basis": "Owner identity is material to the declared identity invariant."
+    },
+    {
+      "id": "NUMBER-B",
+      "parent_id": null,
+      "depth": 0,
+      "subject": {
+        "namespace": "SYNTHETIC",
+        "native_id_type": "string",
+        "native_id": "demo-object"
+      },
+      "coordinate": "INPUT",
+      "jacket_axis": "LITERAL",
+      "variable": "NUMBER-B",
+      "value": 2,
+      "source_refs": [
+        "FIXTURE"
+      ],
+      "epistemic_state": "SYNTHETIC",
+      "classifier_refs": [
+        {
+          "namespace": "MAXVAR",
+          "native_id_type": "integer",
+          "native_id": 31
+        },
+        {
+          "namespace": "BL",
+          "native_id_type": "string",
+          "native_id": "BL10.01"
+        }
+      ],
+      "depends_on": [],
+      "falsifier": "A contrary source-bound owner record defeats the input assumption.",
+      "expected_record": "An exact synthetic owner record.",
+      "custodian": "fixture-author",
+      "material_change_basis": "Owner identity is material to the declared identity invariant."
+    }
+  ],
+  "sources": [
+    {
+      "id": "FIXTURE",
+      "project_id": "SYNTHETIC-MPC",
+      "role": "SYNTHETIC_FIXTURE",
+      "owner": "fixture-author",
+      "version": "1",
+      "native_locator": "tests/fixtures/atomic-owner-variation.json"
+    },
+    {
+      "id": "RULE",
+      "project_id": "SYNTHETIC-MPC",
+      "role": "RULE",
+      "owner": "fixture-author",
+      "version": "1",
+      "native_locator": "Synthetic analytical requirement: supplied native key equality"
+    }
+  ],
+  "transforms": [
+    {
+      "id": "OWNER-SWAP",
+      "operator": "SWAP",
+      "atom_ids": [
+        "OWNER-A",
+        "OWNER-B"
+      ],
+      "rationale": "Controlled owner-coordinate swap.",
+      "material_change_basis": "Changes the owner in exactly one explicitly bound model operand.",
+      "source_refs": [
+        "FIXTURE"
+      ]
+    }
+  ],
+  "models": [
+    {
+      "id": "IDENTITY-MODEL",
+      "method": "identity",
+      "input": {
+        "left": {
+          "native_id": "item-1",
+          "version": "1",
+          "owner": "alpha",
+          "namespace": "SYNTHETIC",
+          "label": "Demo item",
+          "source_ref": "FIXTURE"
+        },
+        "right": {
+          "native_id": "item-1",
+          "version": "1",
+          "owner": "alpha",
+          "namespace": "SYNTHETIC",
+          "label": "Demo item",
+          "source_ref": "FIXTURE"
+        }
+      },
+      "bindings": [
+        {
+          "atom_id": "OWNER-A",
+          "input_pointer": "/left/owner",
+          "facet": "value"
+        }
+      ],
+      "source_refs": [
+        "FIXTURE"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "NATIVE-KEY-EQUALITY",
+      "target": "MODEL_OUTPUT",
+      "subject_id": "IDENTITY-MODEL",
+      "pointer": "/native_key_match",
+      "operator": "EQ",
+      "expected": true,
+      "source_refs": [
+        "RULE"
+      ],
+      "falsifier": "A valid owner mapping that restores native key equality.",
+      "expected_record": "Authoritative owner mapping for the object and version.",
+      "custodian": "fixture-author"
+    }
+  ],
+  "method_applicability": [
+    {
+      "method": "identity",
+      "state": "APPLIES",
+      "atom_ids": [
+        "OWNER-A",
+        "OWNER-B"
+      ],
+      "reason": "A source-owned identity coordinate is the controlled variable.",
+      "source_refs": [
+        "RULE"
+      ]
+    }
+  ],
+  "stop_condition": "Stop after the controlled comparison. A synthetic counterexample is not target evidence."
+}

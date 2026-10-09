@@ -1,0 +1,805 @@
+{
+  "version": "ATOMIC-EXECUTION-1.0",
+  "role": "ADDITIVE_EXECUTION_ENVELOPE_EXISTING_MPC_CONTRACTS_PRESERVED",
+  "framework_source_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+  "object_coordinates": [
+    "OBJECT",
+    "ACTOR",
+    "CAPACITY",
+    "AUTHORITY",
+    "INPUT",
+    "TRANSFORMATION",
+    "OUTPUT",
+    "RECIPIENT",
+    "CHANNEL",
+    "ACCESS/POWER",
+    "DECISION STANDARD",
+    "PROCESS",
+    "TIME",
+    "LOCATION/JURISDICTION",
+    "DATA GOVERNANCE",
+    "ASSENT/CONTRACT",
+    "MONEY/INCENTIVE",
+    "FINALITY/CAUSATION",
+    "COMPARATOR",
+    "ADVERSE/FALSIFIER",
+    "RECORD/CUSTODIAN",
+    "VERSION",
+    "EVIDENTIARY WEIGHT",
+    "REMEDY",
+    "SEARCH/COMPLETION STATE."
+  ],
+  "jacket_axes": [
+    "LITERAL",
+    "OWNER_ATTRIBUTION",
+    "AUTHENTICATION",
+    "ACTOR_CAPACITY",
+    "PROCEDURAL_FUNCTION",
+    "AUTHORITY",
+    "ELECTION_WAIVER",
+    "CORROBORATION",
+    "CONDITIONAL_OPERATION",
+    "ADOPTION",
+    "IMPLEMENTATION",
+    "FINALITY",
+    "TEMPORAL_VERSION",
+    "ADVERSE_FALSIFIER"
+  ],
+  "proof_certificate_fields": [
+    "SOURCE ID",
+    "SOURCE OWNER",
+    "EXACT LOCATOR",
+    "OBJECT ID",
+    "ACTOR",
+    "CAPACITY",
+    "TIME STATE",
+    "MAXVAR PARENT",
+    "NESTMAX CHILD",
+    "MICROCLASSIFIER",
+    "PROPOSITION",
+    "WHAT IT PROVES",
+    "WHAT IT DOES NOT PROVE",
+    "ADVERSE/FALSIFIER",
+    "EDGE STATE",
+    "AUTHORITY STATE",
+    "TARGET IF OPEN",
+    "PROMOTION STATUS."
+  ],
+  "child_fields": [
+    "parent ID;",
+    "depth;",
+    "source IDs;",
+    "variable map;",
+    "state;",
+    "edge map;",
+    " falsifier;",
+    "expected record;",
+    "custodian;",
+    "promotion result."
+  ],
+  "recursive_id_format": "MLC-[PROJECT]-[OBJECT]-[BRANCH]-[DEPTH]-[SEQUENCE]",
+  "material_split_coordinates": [
+    "legal classification;",
+    "element/predicate;",
+    "authority;",
+    "causation;",
+    "finality;",
+    "evidentiary weight;",
+    "remedy;",
+    "or record-acquisition strategy."
+  ],
+  "stop_rule": "No fixed maximum depth; stop if the split cannot change any material coordinate, proof gap, or record-acquisition strategy.",
+  "dimension_trigger_rule": [
+    "METHODS ARE TRIGGERED BY DIMENSION.",
+    "Do not run every method blindly.",
+    "Run the methods capable of changing the active classifier state."
+  ],
+  "transformation_algebra": [
+    "REMOVE / ABLATE: −x",
+    "RESTORE: +x",
+    "SUBSTITUTE: x→y",
+    "SWAP: x↔y",
+    "INVERT EDGE: A→B ⇄ B→A",
+    "REORDER / PERMUTE: π(sequence)",
+    "PERTURB: x±δ",
+    "MASK / HIDE CHANNEL: M(x)",
+    "PROJECT / REDUCE: P_S(x)",
+    "EXPAND / RECURSE: R(x)",
+    "COMPOSE: f∘g",
+    "CROSS PRODUCT: A×B",
+    "STATE DIFFERENCE: Δ(S1,S2)",
+    "INVARIANT TEST",
+    "QUALITATIVE SENSITIVITY / LOAD-BEARING TEST",
+    "NULL / NO-EDGE TEST",
+    "ALTERNATIVE-MODEL SET"
+  ],
+  "variation_output_fields": [
+    "BASE STATE",
+    "TRANSFORMATION",
+    "VARIANT STATE",
+    "LEGAL DELTA",
+    "EVIDENCE DELTA",
+    "LOAD-BEARING VARIABLE",
+    "INVARIANT VARIABLES",
+    "ACTIVE FALSIFIER",
+    "DISCRIMINATING RECORD",
+    "RESTORE PATH",
+    "STOP CONDITION"
+  ],
+  "variation_rule": "Each transform creates a child state. Historical source never changes. Counterfactual variants are TEST ONLY, not facts.",
+  "framework_operators": [
+    {
+      "code": "A",
+      "name": "RELATIONAL MODEL / COUNTEREXAMPLE FINDER",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 268,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": "Daniel Jackson / Alloy / lightweight formal methods.",
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "B",
+      "name": "SYNTHESIS / SEARCH-SPACE PRUNING",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 297,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": "Armando Solar-Lezama / program synthesis / Sketch.",
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "C",
+      "name": "PROOF OBLIGATION / REFINEMENT",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 332,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": "Adam Chlipala / Coq / high-assurance software and proof-generating compilation.",
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "D",
+      "name": "STATE MACHINE / INVARIANT / LIVENESS",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 367,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": "Nancy Lynch / distributed systems / I/O automata / state-transition specifications.",
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "E",
+      "name": "ADVERSARIAL ROBUSTNESS / WORST-CASE PERTURBATION",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 410,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": "Aleksander Madry / adversarial robustness.",
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "F",
+      "name": "CAUSAL GRAPH / COUNTERFACTUAL CONTROL",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 449,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": "MIT causal-inference work including Caroline Uhler and Alberto Abadie.",
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "G",
+      "name": "ROBUST CONTROL / FEEDBACK / SYSTEMIC RISK",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 483,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": "Munther Dahleh / robust control, information and control, networked systems.",
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "H",
+      "name": "NETWORK / GRAPH INFERENCE",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 518,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": "Devavrat Shah / complex networks and large-scale statistical inference.",
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "I",
+      "name": "IMPOSSIBILITY / LOWER-BOUND TEST",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 550,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": "distributed-algorithm impossibility/lower-bound reasoning.",
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "J",
+      "name": "INFORMATION GAIN / REQUEST MINIMIZATION",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 575,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": "Machine Legal internal optimization.",
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "K",
+      "name": "ERROR-CORRECTING REDUNDANCY",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 600,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": null,
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "L",
+      "name": "BITEMPORAL STATE",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 623,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": null,
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "M",
+      "name": "UNCERTAINTY PRESERVATION",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 641,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": null,
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "N",
+      "name": "COMPOSITIONALITY",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 659,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": null,
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    },
+    {
+      "code": "O",
+      "name": "ANTI-OVERFITTING",
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 685,
+        "snapshot": "native_framework.drive-text-snapshot.json#content"
+      },
+      "declared_inspiration": null,
+      "inspiration_limit": "Retained native source attribution; conceptual inspiration, not institutional certification or proof that a named solver runs."
+    }
+  ],
+  "reconciliation_rule": "No averaging of method outputs; contradiction creates a contradiction object and target; method agreement is not independent evidence.",
+  "reach_audit_rule": "All applicable downstream layers must be explicitly resolved, quarantined, targeted, or marked not applicable; existing source presence is insufficient.",
+  "canonical_promotion": false,
+  "canonical_declarations_note": "Sanitized exact source declarations recovered for inclusion in an additive runtime metadata envelope. Container keys are implementation metadata; they do not replace the original prose METHOD PACKET or mint evaluator IDs.",
+  "reduction_source_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+  "method_packet_fields_exact": [
+    "METHOD ID",
+    "INPUT OBJECT ID",
+    "PARENT CLASSIFIERS",
+    "PROPOSED STATE",
+    "PROPOSED EDGE STATE",
+    "SUPPORTING SOURCE",
+    "COUNTEREXAMPLE / FALSIFIER",
+    "CONTRADICTION",
+    "TARGET",
+    "METHOD LIMITATION",
+    "LEGAL EFFECT CLAIMED? = NO"
+  ],
+  "method_packet_source_ref": {
+    "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+    "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+    "start_line": 158,
+    "end_line": 168
+  },
+  "reconciliation_relations_exact": {
+    "CONVERGENT": "Two or more independent methods reach compatible state constraints.",
+    "COMPLEMENTARY": "Methods answer different parts of the same object.",
+    "CONTRADICTORY": "Methods imply incompatible states.",
+    "DEPENDENT": "One method relies on an unresolved output from another.",
+    "DOMINATED": "One method adds no new legally material information.",
+    "QUARANTINED": "Method result exceeds source support or depends on speculation.",
+    "SOURCE-CLASS BLOCKED": "Method cannot resolve because the available source class is incapable."
+  },
+  "reconciliation_matrix_exact": [
+    "1. What does relational consistency permit?",
+    "2. What state-machine transition is proved?",
+    "3. What proof obligation remains?",
+    "4. What adversarial perturbation breaks the claim?",
+    "5. What causal edge is missing?",
+    "6. What control/feedback actor can correct it?",
+    "7. What graph edge is the bottleneck?",
+    "8. What source class can prove the missing proposition?",
+    "9. What record has highest information gain?",
+    "10. Do 31/32 swaps alter the legal classification?"
+  ],
+  "mirrors": [
+    {
+      "name": "MIRROR 1 — FACT / NON-FACT",
+      "questions_exact": [
+        "What does source actually state?",
+        "What is being inferred?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 183
+      }
+    },
+    {
+      "name": "MIRROR 2 — ACTOR / CAPACITY",
+      "questions_exact": [
+        "Same actor in different role?",
+        "Different actor performing same function?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 188
+      }
+    },
+    {
+      "name": "MIRROR 3 — INPUT / OUTPUT",
+      "questions_exact": [
+        "What entered a process?",
+        "What came out?",
+        "What transformation is actually proved?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 193
+      }
+    },
+    {
+      "name": "MIRROR 4 — PRIVATE / STATE",
+      "questions_exact": [
+        "Private technical/commercial action?",
+        "Public legal/program action?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 199
+      }
+    },
+    {
+      "name": "MIRROR 5 — TECHNICAL / LEGAL",
+      "questions_exact": [
+        "Technical capability?",
+        "Legal authority?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 204
+      }
+    },
+    {
+      "name": "MIRROR 6 — RECEIPT / USE",
+      "questions_exact": [
+        "Received?",
+        "Reviewed?",
+        "Relied on?",
+        "Adopted?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 209
+      }
+    },
+    {
+      "name": "MIRROR 7 — LABEL / FINDING",
+      "questions_exact": [
+        "Machine/provider label?",
+        "Human finding?",
+        "State finding?",
+        "Court finding?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 216
+      }
+    },
+    {
+      "name": "MIRROR 8 — SEQUENCE / CAUSATION",
+      "questions_exact": [
+        "Earlier event?",
+        "Actual causal bridge?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 223
+      }
+    },
+    {
+      "name": "MIRROR 9 — RULE / IMPLEMENTATION",
+      "questions_exact": [
+        "What law/SOP says?",
+        "What system/actor did?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 228
+      }
+    },
+    {
+      "name": "MIRROR 10 — CLAIM / FALSIFIER",
+      "questions_exact": [
+        "Best supporting state?",
+        "Strongest benign/adverse explanation?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 233
+      }
+    },
+    {
+      "name": "MIRROR 11 — OBSERVED WORLD / COUNTERFACTUAL WORLD",
+      "questions_exact": [
+        "What changes if actor, recipient, authority, timing, or decisionmaker is swapped?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 238
+      }
+    },
+    {
+      "name": "MIRROR 12 — SOURCE PRESENT / EXPECTED SOURCE",
+      "questions_exact": [
+        "What record exists?",
+        "What record should exist if claimed process is true?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 242
+      }
+    },
+    {
+      "name": "MIRROR 13 — CURRENT VERSION / ALTERNATE VERSION",
+      "questions_exact": [
+        "Which law/SOP/config/software version governs?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 247
+      }
+    },
+    {
+      "name": "MIRROR 14 — REVERSIBLE / FINAL",
+      "questions_exact": [
+        "Can state still be changed?",
+        "Has legal effect become final?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 251
+      }
+    },
+    {
+      "name": "MIRROR 15 — LIABILITY / REMEDY",
+      "questions_exact": [
+        "Underlying violation?",
+        "Separate damages standard?",
+        "Correct relief actor?"
+      ],
+      "source_ref": {
+        "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 256
+      }
+    }
+  ],
+  "reduction_methods": [
+    {
+      "name": "METHOD 1 — RELATIONAL / ALLOY-STYLE",
+      "purpose_exact": [
+        "actor-record-authority-relation consistency;",
+        "counterexample search;",
+        "non-equivalence enforcement."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 58
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    },
+    {
+      "name": "METHOD 2 — STATE-MACHINE / LYNCH-STYLE",
+      "purpose_exact": [
+        "process states;",
+        "valid transitions;",
+        "liveness;",
+        "missing transition;",
+        "failure point."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 65
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    },
+    {
+      "name": "METHOD 3 — SYNTHESIS / SOLAR-LEZAMA-STYLE",
+      "purpose_exact": [
+        "candidate pathway generation from constraints;",
+        "search-space pruning;",
+        "minimum viable explanation set."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 74
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    },
+    {
+      "name": "METHOD 4 — PROOF / REFINEMENT / CHLIPALA-STYLE",
+      "purpose_exact": [
+        "high-level claim decomposed into proof obligations;",
+        "promotion certificate;",
+        "abstraction-preservation check."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 81
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    },
+    {
+      "name": "METHOD 5 — ADVERSARIAL / MADRY-STYLE",
+      "purpose_exact": [
+        "perturb actor/capacity/time/recipient/authority/version;",
+        "identify brittle classifier dependencies;",
+        "worst-case benign interpretation."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 88
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    },
+    {
+      "name": "METHOD 6 — CAUSAL / COUNTERFACTUAL",
+      "purpose_exact": [
+        "sequence versus causation;",
+        "intervening decisionmaker;",
+        "counterfactual comparator;",
+        "causal-edge quarantine."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 95
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    },
+    {
+      "name": "METHOD 7 — ROBUST CONTROL / DAHLEH-STYLE",
+      "purpose_exact": [
+        "input-controller-output-feedback;",
+        "error propagation;",
+        "correction path;",
+        "systemic control point."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 103
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    },
+    {
+      "name": "METHOD 8 — GRAPH / NETWORK / SHAH-STYLE",
+      "purpose_exact": [
+        "bridge edge;",
+        "bottleneck actor;",
+        "duplicate custodian;",
+        "articulation point;",
+        "shortest proof path."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 111
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    },
+    {
+      "name": "METHOD 9 — EVIDENCE LOWER-BOUND / IMPOSSIBILITY",
+      "purpose_exact": [
+        "determine when a source class cannot prove a proposition;",
+        "stop overclaiming;",
+        "redirect to proper source class."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 120
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    },
+    {
+      "name": "METHOD 10 — INFORMATION-GAIN / REQUEST-MINIMIZATION",
+      "purpose_exact": [
+        "choose the next record/action that resolves the most material variables at the lowest request cost."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 127
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    },
+    {
+      "name": "METHOD 11 — 31/32 CONTROLLED SWAPS",
+      "purpose_exact": [
+        "same actor/different capacity;",
+        "same function/different entity;",
+        "same data/different recipient;",
+        "same consequence/different factfinder;",
+        "pre/post version;",
+        "human/automated;",
+        "with/without override;",
+        "with/without notice."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 132
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    },
+    {
+      "name": "METHOD 12 — EXPECTED-RECORD / CUSTODIAN",
+      "purpose_exact": [
+        "what record should exist;",
+        "who should hold it;",
+        "what absence means;",
+        "when broad search stops."
+      ],
+      "source_ref": {
+        "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+        "locator_kind": "LINE_NUMBER_IN_EXACT_READABLE_TEXT_SNAPSHOT",
+        "line": 144
+      },
+      "callable_evaluator_id": "NOT_DEFINED_BY_THIS_DECLARATION"
+    }
+  ],
+  "reduction_identity": {
+    "id_pattern": "MMR-[PROJECT]-[OBJECT]-[VERSION]",
+    "fields_exact": [
+      "source hash;",
+      "MAXVAR parents;",
+      "NESTMAX children;",
+      "methods run;",
+      "method outputs;",
+      "contradictions;",
+      "active falsifiers;",
+      "promotion state;",
+      "next target;",
+      "stop condition."
+    ],
+    "identity_vs_sha256": "Native heading calls this a reduction hash, but the declared MMR string is an identity format; it is not a SHA256 digest algorithm.",
+    "recursive_child_id_pattern": "MLC-[PROJECT]-[OBJECT]-[BRANCH]-[DEPTH]-[SEQUENCE]",
+    "runtime_receipt_rule": "Original object/child/MMR identities and declared source-version namespaces remain distinct from computed source, base-state, model, run, or artifact SHA256 digests. A digest never establishes source authenticity or occurrence of an event."
+  },
+  "canonical_packet_runtime_boundary": {
+    "original_legal_effect_declaration": "LEGAL EFFECT CLAIMED? = NO",
+    "runtime_json_mapping_if_used": {
+      "key": "LEGAL EFFECT CLAIMED?",
+      "value": "NO",
+      "status": "EXPLICIT_SERIALIZATION_ADAPTATION_NOT_AN_ORIGINAL_JSON_SCHEMA"
+    },
+    "exact_falsifier_field_label": "COUNTEREXAMPLE / FALSIFIER",
+    "versioned_runtime_envelope_only": [
+      "typed atom/value bindings",
+      "JSON-pointer projections",
+      "method evaluator IDs",
+      "schema validation states",
+      "invocation and completion receipts",
+      "source/model/run fingerprints",
+      "resource-budget frontiers"
+    ],
+    "same_object_rule": "Each method receives the SAME source-owned reduced object.",
+    "promotion_rule": "No method may directly promote a legal conclusion. Promotion occurs only after reconciliation."
+  },
+  "canonical_minimum_core_exact": [
+    "1. relational;",
+    "2. state-machine;",
+    "3. proof/refinement;",
+    "4. adversarial;",
+    "5. causal;",
+    "6. expected-record."
+  ],
+  "canonical_extended_triggers_exact": [
+    "- synthesis when multiple plausible pathways exist;",
+    "- robust control when feedback/correction/system propagation matters;",
+    "- graph when multiple actors/systems/custodians exist;",
+    "- information-gain when acquisition order matters;",
+    "- 31/32 whenever actor/capacity/entity/recipient/factfinder sensitivity is material."
+  ],
+  "canonical_convergence_conditions_exact": [
+    "- methods are genuinely independent in logic;",
+    "- they rely on source-owned inputs;",
+    "- they do not merely restate the same assumption;",
+    "- no active falsifier defeats the common result."
+  ],
+  "canonical_stop_rules_exact": [
+    "- methods converge on a source-supported legal state;",
+    "- active contradiction is converted to a specific target;",
+    "- further method runs cannot change legal classification/remedy/acquisition;",
+    "- or source-class impossibility blocks resolution."
+  ],
+  "source_representation_receipts": [
+    {
+      "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+      "native_modified_time": "2026-10-01T04:35:55.189Z",
+      "sha256": "510c294c56ecbde497dbf4e3080c492d11adba57ef2baf10be8ecfc00a565e32",
+      "digest_representation": "UTF-8 encoding of exact provider-returned readable content string, including BOM and original line endings; not internal native-document bytes",
+      "snapshot_not_bundled": true
+    },
+    {
+      "document_id": "1aHJIEI9E1aKaA9ao37XKnSvAhBp8Fq6_QqusYJFZvOk",
+      "native_modified_time": "2026-10-01T04:08:00.358Z",
+      "sha256": "462e59af1580ddb7c820386e9e6d97d77b61c40b88f954c76030a65fd1fc0cd1",
+      "digest_representation": "UTF-8 encoding of exact provider-returned readable content string, including BOM and original line endings; not internal native-document bytes",
+      "snapshot_not_bundled": true
+    }
+  ],
+  "provenance_limit": "These private native sources were read; the enrichment contains only general method/contract language and no case examples. Neither this metadata nor a method name establishes NASA certification, scholarly endorsement, source authentication or legal/target action authority."
+}

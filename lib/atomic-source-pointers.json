@@ -1,0 +1,61 @@
+{
+  "role": "PRIMARY_LINEAGE_FOR_BOUNDED_ADAPTATIONS_NOT_IMPLEMENTATION_CERTIFICATION",
+  "methods": {
+    "propositional_entailment": [
+      {
+        "key": "aima_propositional_entailment",
+        "title": "Artificial Intelligence: A Modern Approach — Logical Agents",
+        "author_or_owner": "Stuart Russell and Peter Norvig; official book website",
+        "url": "https://aima.cs.berkeley.edu/newchap07.pdf",
+        "retrieval": "Author-provided chapter opened with parsed text.",
+        "locator": "Section 7.4; TT-ENTAILS?/TT-CHECK-ALL, Figure 7.10.",
+        "supports": "Finite truth-assignment enumeration checks whether every model satisfying a propositional knowledge base also satisfies a query."
+      }
+    ],
+    "finite_invariant": [
+      {
+        "key": "lamport_invariants_refinement",
+        "title": "Specifying Systems",
+        "author_or_owner": "Leslie Lamport; original author-provided book",
+        "url": "https://lamport.azurewebsites.net/tla/book-02-08-08.pdf",
+        "retrieval": "Author-provided PDF opened with parsed text.",
+        "locator": "Invariant/inductive invariant discussion and specification/refinement chapters; search for inductive invariant.",
+        "supports": "Initial-state and transition-preservation obligations justify invariance relative to a specification. A refinement relation needs explicit proof obligations, not similar labels or traces."
+      }
+    ],
+    "abductive_cover": [
+      {
+        "key": "reggia_nau_wang_set_cover",
+        "title": "Diagnostic Expert Systems Based on a Set Covering Model",
+        "author_or_owner": "James Reggia, Dana Nau and Pearl Wang; original author-hosted paper",
+        "url": "https://www.cs.umd.edu/~nau/papers/reggia1983diagnostic.pdf",
+        "retrieval": "Original PDF opened, but parsed text length was zero. Primary search excerpt verified a set-cover hypothesize-and-test mechanism. Tavily basic extraction failed. Fine-grained implementation equivalence was not verified.",
+        "locator": "Paper title/primary indexed abstract; detailed local set-cover semantics below are an explicit adaptation.",
+        "supports": "Diagnostic hypotheses can be organized through a set-cover model. This source does not certify the proposed bounded cover implementation."
+      },
+      {
+        "key": "kakas_kowalski_toni_abduction",
+        "title": "Abductive Logic Programming",
+        "author_or_owner": "Kakas, Kowalski and Toni; original authors, Imperial College archive",
+        "url": "https://www.doc.ic.ac.uk/~rak/papers/abdsurv.pdf",
+        "retrieval": "Original PDF opened; parsed text has substantial character-encoding artifacts. Broad framework confirmed by primary indexed description; no claim of reproducing its proof procedure.",
+        "locator": "Abduction, background theory, abducibles and integrity constraints.",
+        "supports": "Abduction forms constrained explanatory hypotheses. Covering a supplied observation set is a narrower operation than general abductive logic programming."
+      }
+    ],
+    "minimal_cut_sets": [
+      {
+        "key": "nasa_model_based_cut_sets",
+        "title": "Model-Based Safety Analysis",
+        "author_or_owner": "NASA Langley formal-methods technical publication",
+        "url": "https://shemesh.larc.nasa.gov/fm/Model-BasedSafetyAnalysis.pdf",
+        "retrieval": "Official NASA-hosted PDF opened with parsed text.",
+        "locator": "PDF page 45 discussion of extracting minimal sets of basic events producing a top-level event.",
+        "supports": "Minimal cut sets identify minimally sufficient basic-event combinations in a model. The proposed AND/OR evaluator is a finite qualitative subset, not the publication's complete analysis system."
+      }
+    ]
+  },
+  "local_implementation": "lib/atomic-models.mjs",
+  "verification": "tests/atomic-models.test.mjs",
+  "authority_transfer": false
+}

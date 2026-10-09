@@ -1,0 +1,79 @@
+{
+  "manifest_version": "1.0.0",
+  "runtime_version": "0.7.0-http.1",
+  "packet_contract": "evidence-packet-v1.schema.json",
+  "kernel": "../lib/universal.mjs",
+  "transport": "streamable-http",
+  "tools": [
+    "runtime_status",
+    "get_registry",
+    "delta_plan",
+    "refine_counterexample",
+    "get_universal_contract",
+    "validate_evidence_packet",
+    "analyze_business_logic",
+    "get_business_logic_registry",
+    "business_logic_sweep",
+    "get_method_catalog",
+    "evaluate_method",
+    "get_nestmax_registry",
+    "get_research_registry",
+    "cross_reference_methods",
+    "compare_operative_states",
+    "prepare_research_backup"
+  ],
+  "source_adapters": {
+    "status": "CONTRACT_ONLY",
+    "required": [
+      "authenticated retrieval receipt",
+      "native source identifier",
+      "immutable version",
+      "representation",
+      "subject attribution review"
+    ]
+  },
+  "model_adapters": {
+    "status": "CONTRACT_ONLY",
+    "output": "typed claims",
+    "may_adopt": false
+  },
+  "domain_profiles": {
+    "status": "DECLARED_ONLY",
+    "canonical_legal_registry": "existing MAXVAR-256 and NESTMAX build pins"
+  },
+  "proof_gate": {
+    "status": "LOCAL_PYTHON_ONLY",
+    "automatic_promotion": false
+  },
+  "storage": {
+    "status": "STATELESS_HOSTED",
+    "canonical_replacement": false
+  },
+  "tests": "node --test tests/*.test.mjs",
+  "business_logic_pack": {
+    "pack_id": "BL-SOLID-STATE-384",
+    "version": "1.0.0",
+    "branches": 32,
+    "classifiers": 384,
+    "source_plugin_version": "0.4.6",
+    "accounting_is_not_evidence_verification": true
+  },
+  "review_bridge": "../lib/review-bridge.mjs",
+  "method_catalog": {
+    "version": "1.0.0",
+    "evaluators": 10,
+    "source": "../lib/methods.mjs",
+    "draft_overlay": "../lib/method-overlay.json",
+    "automatic_model_execution": false
+  },
+  "recovered_corpus": {
+    "source": "../lib/research-registry.json",
+    "mbss_branches": 64,
+    "mbss_review_definitions": 512,
+    "candidate_extension_templates": 96,
+    "jacket_axes": 14,
+    "automatic_tests": false
+  },
+  "normal_answer_contract": "RECON-OUTPUT-1.0",
+  "backup_contract": "RESEARCH-BACKUP-1.0"
+}

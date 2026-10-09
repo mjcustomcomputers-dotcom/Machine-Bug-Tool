@@ -1,0 +1,696 @@
+{
+  "version": "METHOD-HOOKS-1.0",
+  "role": "ADDITIVE_DISCOVERY_AND_IMPLEMENTATION_SPECIFICATIONS",
+  "reviewed_at_utc": "2026-10-09T01:02:00.515952+00:00",
+  "source_policy": "Only original research papers, original-author book material, and official NASA/MIT/CMU/Cornell/author sources are used for technical support. Secondary search results were not used as authority.",
+  "omission_claim_boundary": "Confirmed: none of the eight candidates is a standalone option in the inspected hosted evaluator enum. Unknown: whether a broader archival method definition, alias, or unretrieved implementation already covers the concept. Current exposure limits are compared explicitly.",
+  "candidate_count": 10,
+  "sources": [
+    {
+      "key": "herlihy_wing_linearizability",
+      "title": "Linearizability: A Correctness Condition for Concurrent Objects",
+      "author_or_owner": "Maurice Herlihy and Jeannette Wing; author-hosted original paper",
+      "url": "https://cs.brown.edu/people/mph/HerlihyW90/p463-herlihy.pdf",
+      "retrieval": "Original PDF opened with parsed text; definition located.",
+      "locator": "Definition of linearizability: legal sequential history and real-time ordering.",
+      "supports": "An object history must admit a legal sequential explanation consistent with non-overlap ordering, with pending operations handled under the chosen definition."
+    },
+    {
+      "key": "adya_weak_consistency",
+      "title": "Weak Consistency: A Generalized Theory and Optimistic Implementations for Distributed Transactions",
+      "author_or_owner": "Atul Adya; MIT original dissertation, MIT-LCS-TR-786",
+      "url": "https://publications.csail.mit.edu/lcs/pubs/pdf/MIT-LCS-TR-786.pdf",
+      "retrieval": "Original MIT PDF opened with parsed text.",
+      "locator": "Chapter 3 dependency definitions and serialization graphs; Chapter 4 isolation distinctions.",
+      "supports": "Transaction dependencies and prohibited graph structures express isolation guarantees; the edge meanings and history completeness matter."
+    },
+    {
+      "key": "clarke_cegar",
+      "title": "Counterexample-Guided Abstraction Refinement for Symbolic Model Checking",
+      "author_or_owner": "Clarke and coauthors; original paper on the CMU author archive",
+      "url": "https://www.cs.cmu.edu/~emc/papers/Papers%20In%20Refereed%20Journals/Counterexample-guided%20abstraction%20refinement.pdf",
+      "retrieval": "Original author-hosted PDF opened with parsed text.",
+      "locator": "Abstraction, model checking, counterexample analysis, and refinement loop.",
+      "supports": "An abstract counterexample must be checked for concrete feasibility; a spurious path refines the abstraction rather than becoming a system defect."
+    },
+    {
+      "key": "zeller_hildebrandt_delta_debugging",
+      "title": "Simplifying and Isolating Failure-Inducing Input",
+      "author_or_owner": "Andreas Zeller and Ralf Hildebrandt; original research paper hosted by Purdue",
+      "url": "https://www.cs.purdue.edu/homes/xyzhang/fall07/Papers/delta-debugging.pdf",
+      "retrieval": "Original paper PDF opened with parsed prose; some mathematical glyphs have extraction artifacts.",
+      "locator": "ddmin procedure and its 1-minimality discussion.",
+      "supports": "Oracle-driven subset/complement trials reduce failure-inducing input; one-element minimality is different from global minimum size."
+    },
+    {
+      "key": "nasa_assume_guarantee",
+      "title": "Learning Assumptions for Compositional Verification",
+      "author_or_owner": "Cobleigh, Giannakopoulou and Pasareanu; original paper in NASA NTRS",
+      "url": "https://ntrs.nasa.gov/api/citations/20030017771/downloads/20030017771.pdf",
+      "retrieval": "Original NASA-hosted PDF opened with parsed text.",
+      "locator": "Assume-guarantee rule and learned assumption automata; the stated rule is asymmetric and noncircular.",
+      "supports": "Checking a component under an assumption is insufficient unless the other component satisfies that assumption under the chosen composition rule."
+    },
+    {
+      "key": "clarkson_schneider_hyperproperties",
+      "title": "Hyperproperties",
+      "author_or_owner": "Michael Clarkson and Fred Schneider; original paper on Cornell author site",
+      "url": "https://www.cs.cornell.edu/fbs/publications/Hyperproperties.JCS.pdf",
+      "retrieval": "Original author-hosted PDF opened with parsed text.",
+      "locator": "Information-flow examples and discussion of relations among executions/self-composition.",
+      "supports": "Some security policies concern sets or relations of traces, so accepting individual traces does not establish those policies."
+    },
+    {
+      "key": "nasa_pra_event_dependencies",
+      "title": "Probabilistic Risk Assessment Procedures Guide for NASA Managers and Practitioners, Second Edition",
+      "author_or_owner": "NASA; NASA/SP-2011-3421",
+      "url": "https://ntrs.nasa.gov/api/citations/20120001369/downloads/20120001369.pdf",
+      "retrieval": "Official NASA PDF opened with parsed text.",
+      "locator": "Section 3.3.2, event sequence diagrams/event trees; Chapter 7, dependent and common-cause events.",
+      "supports": "Initiating events branch through consequential events; dependencies must be modeled rather than assumed independent. Numeric risk requires an independently supported probability model."
+    },
+    {
+      "key": "nisan_ronen_mechanism_design",
+      "title": "Algorithmic Mechanism Design",
+      "author_or_owner": "Noam Nisan and Amir Ronen; original paper reproduced in Ronen dissertation",
+      "url": "https://www.ee.columbia.edu/~tbma/files/GameCourse/Ronen_Thesis.pdf",
+      "retrieval": "Original author dissertation opened with parsed text; Chapter 2 identifies the reproduced original paper.",
+      "locator": "Chapter 2, mechanism definition and dominant-strategy implementation.",
+      "supports": "A mechanism specifies outcomes and payments from reports; incentive compatibility compares truthful utility with utility under alternative reports."
+    },
+    {
+      "key": "aima_propositional_entailment",
+      "title": "Artificial Intelligence: A Modern Approach — Logical Agents",
+      "author_or_owner": "Stuart Russell and Peter Norvig; official book website",
+      "url": "https://aima.cs.berkeley.edu/newchap07.pdf",
+      "retrieval": "Author-provided chapter opened with parsed text.",
+      "locator": "Section 7.4; TT-ENTAILS?/TT-CHECK-ALL, Figure 7.10.",
+      "supports": "Finite truth-assignment enumeration checks whether every model satisfying a propositional knowledge base also satisfies a query."
+    },
+    {
+      "key": "lamport_invariants_refinement",
+      "title": "Specifying Systems",
+      "author_or_owner": "Leslie Lamport; original author-provided book",
+      "url": "https://lamport.azurewebsites.net/tla/book-02-08-08.pdf",
+      "retrieval": "Author-provided PDF opened with parsed text.",
+      "locator": "Invariant/inductive invariant discussion and specification/refinement chapters; search for inductive invariant.",
+      "supports": "Initial-state and transition-preservation obligations justify invariance relative to a specification. A refinement relation needs explicit proof obligations, not similar labels or traces."
+    },
+    {
+      "key": "reggia_nau_wang_set_cover",
+      "title": "Diagnostic Expert Systems Based on a Set Covering Model",
+      "author_or_owner": "James Reggia, Dana Nau and Pearl Wang; original author-hosted paper",
+      "url": "https://www.cs.umd.edu/~nau/papers/reggia1983diagnostic.pdf",
+      "retrieval": "Original PDF opened, but parsed text length was zero. Primary search excerpt verified a set-cover hypothesize-and-test mechanism. Tavily basic extraction failed. Fine-grained implementation equivalence was not verified.",
+      "locator": "Paper title/primary indexed abstract; detailed local set-cover semantics below are an explicit adaptation.",
+      "supports": "Diagnostic hypotheses can be organized through a set-cover model. This source does not certify the proposed bounded cover implementation."
+    },
+    {
+      "key": "kakas_kowalski_toni_abduction",
+      "title": "Abductive Logic Programming",
+      "author_or_owner": "Kakas, Kowalski and Toni; original authors, Imperial College archive",
+      "url": "https://www.doc.ic.ac.uk/~rak/papers/abdsurv.pdf",
+      "retrieval": "Original PDF opened; parsed text has substantial character-encoding artifacts. Broad framework confirmed by primary indexed description; no claim of reproducing its proof procedure.",
+      "locator": "Abduction, background theory, abducibles and integrity constraints.",
+      "supports": "Abduction forms constrained explanatory hypotheses. Covering a supplied observation set is a narrower operation than general abductive logic programming."
+    },
+    {
+      "key": "nasa_model_based_cut_sets",
+      "title": "Model-Based Safety Analysis",
+      "author_or_owner": "NASA Langley formal-methods technical publication",
+      "url": "https://shemesh.larc.nasa.gov/fm/Model-BasedSafetyAnalysis.pdf",
+      "retrieval": "Official NASA-hosted PDF opened with parsed text.",
+      "locator": "PDF page 45 discussion of extracting minimal sets of basic events producing a top-level event.",
+      "supports": "Minimal cut sets identify minimally sufficient basic-event combinations in a model. The proposed AND/OR evaluator is a finite qualitative subset, not the publication's complete analysis system."
+    },
+    {
+      "key": "tsai_revised_scr",
+      "title": "A Revised and Verified Proof of the Scalable Commutativity Rule",
+      "authors": [
+        "Lillian Tsai",
+        "Eddie Kohler",
+        "M. Frans Kaashoek",
+        "Nickolai Zeldovich"
+      ],
+      "url": "https://pdos.csail.mit.edu/papers/tsai-scr-proof.pdf",
+      "source_kind": "Original research, MIT CSAIL and Harvard authors; hosted by MIT CSAIL",
+      "retrieved_ref": "turn43view0",
+      "inspected_location": "Sections 2.1-2.3 and 3, PDF pages 1-4",
+      "representation": "Parsed text of the 9-page primary PDF",
+      "source_claim_scope": "Defines state-dependent, interface-based and monotonic commutativity. Records a flaw in the original proof and a revised proof. Distinguishes a specification's allowed histories from the subset a reference implementation exhibits.",
+      "limitation": "Neither the paper's existence nor its verified theorem establishes commutativity, correctness or scalability of the user's system."
+    },
+    {
+      "key": "clements_commutativity_thesis",
+      "title": "The Scalable Commutativity Rule: Designing Scalable Software for Multicore Processors",
+      "authors": [
+        "Austin T. Clements"
+      ],
+      "url": "https://pdos.csail.mit.edu/papers/aclements-phd.pdf",
+      "source_kind": "Original MIT Ph.D. thesis",
+      "retrieved_ref": "turn43view2",
+      "inspected_location": "Primary thesis opened; use revised proof source for the precise theorem and correction",
+      "representation": "Parsed text of the 95-page primary PDF",
+      "source_claim_scope": "Original method lineage for interface-model commutativity and Commuter.",
+      "limitation": "The older proof must not be cited without the recorded later correction."
+    },
+    {
+      "key": "halpern_moses_knowledge",
+      "title": "Knowledge and Common Knowledge in a Distributed Environment",
+      "authors": [
+        "Joseph Y. Halpern",
+        "Yoram Moses"
+      ],
+      "url": "https://groups.csail.mit.edu/tds/papers/Halpern/JACM90.pdf",
+      "author_url": "https://www.cs.cornell.edu/home/halpern/papers/common_knowledge.pdf",
+      "source_kind": "Original 1990 Journal of the ACM paper, university-hosted copy",
+      "retrieved_refs": [
+        "turn43view1",
+        "turn44view0"
+      ],
+      "inspected_location": "Section 6 view-based interpretations, journal pages 559-563 / PDF pages 11-15",
+      "representation": "Readable parsed text of the 39-page MIT-hosted primary PDF",
+      "source_claim_scope": "Knowledge holds when a proposition is true at every point with the same agent view. Group distributed knowledge uses joint views; common knowledge uses reachability through the group's indistinguishability edges.",
+      "limitation": "The Cornell copy opened but yielded garbled text; detailed verification used the readable MIT copy. This is information-theoretic knowledge relative to a model, not a claim about human awareness or an agent's computational ability."
+    }
+  ],
+  "hooks": [
+    {
+      "review_key": "linearizability_history_check",
+      "name": "Linearizability checking of object histories",
+      "canonical_method_id": null,
+      "source_keys": [
+        "herlihy_wing_linearizability"
+      ],
+      "mechanism": "Search for a sequential ordering that respects known real-time precedence and the object's declared sequential specification. Each operation must have a legal placement; missing/pending operations need explicit treatment.",
+      "proposed_input_contract": [
+        "Source-bound operation IDs, actor/client IDs and object identities",
+        "Invocation/response boundaries and observed results",
+        "Known ordering relations with clock uncertainty recorded",
+        "Initial object state and exact sequential specification",
+        "Pending-operation policy and finite search budget"
+      ],
+      "current_mpc_attachment_points": {
+        "existing_methods_or_tools": [
+          "partial_order",
+          "state_trace",
+          "identity_graph"
+        ],
+        "existing_branch_labels": [
+          "BL03 TIMING / ORDER",
+          "BL12 STATE-TRANSITION LEGALITY",
+          "BL14 IDEMPOTENCY / EXACTLY-ONCE"
+        ],
+        "mapping_state": "PROPOSED_ATTACHMENT_INFERENCE_USING_OBSERVED_IDS; NOT_CANONICAL_MEMBERSHIP"
+      },
+      "exposure_comparison": "No standalone evaluator is exposed. partial_order explicitly checks one supplied complete order; it does not generate schedules or check whether a legal linearization exists.",
+      "implementation_route": "Add a separate bounded offline history checker that explores admissible orders and calls a pure sequential transition function. Return a legal witness, exhausted bounded counterexample, or inconclusive budget/incomplete-history result. Do not generate target traffic.",
+      "focused_acceptance_cases": [
+        "Two overlapping operations with a valid order produce that witness",
+        "Two successful removals from one modeled token are rejected under the one-token specification",
+        "Unknown invocation boundaries or exhausted search budget stay inconclusive"
+      ],
+      "falsifier_or_model_defeater": "A legal sequential witness defeats the claim for this modeled history. An incomplete trace, wrong specification, or unjustified clock order defeats the applicability of the conclusion.",
+      "limits": [
+        "Linearizability is appropriate only when that consistency contract is required",
+        "Finite history checking does not prove correctness of all executions",
+        "A modeled violation does not establish native exploitation or money loss"
+      ],
+      "implementation_state": "RESEARCH_HOOK_IMPLEMENTATION_REQUIRED",
+      "operator_attachments": [
+        "REORDER / PERMUTE",
+        "PROJECT / REDUCE",
+        "ALTERNATIVE-MODEL SET"
+      ],
+      "attachment_basis": "PROPOSED_STRUCTURAL_ADAPTATION_NOT_CANONICAL_CLASSIFIER_MEMBERSHIP",
+      "execution_performed": false
+    },
+    {
+      "review_key": "transaction_dependency_check",
+      "name": "Transaction dependency and serializability analysis",
+      "canonical_method_id": null,
+      "source_keys": [
+        "adya_weak_consistency"
+      ],
+      "mechanism": "Construct transaction dependencies from explicit reads, writes, versions and predicates, then check the prohibited cycles for the declared isolation criterion. Transaction-level constraints differ from ordering individual object operations.",
+      "proposed_input_contract": [
+        "Committed/aborted/pending transaction identities and boundaries",
+        "Read-from and write-version relations with provenance",
+        "Predicate-read coverage where applicable",
+        "Declared isolation/serializability criterion",
+        "Complete dependency domain or explicit missing-edge state"
+      ],
+      "current_mpc_attachment_points": {
+        "existing_methods_or_tools": [
+          "ledger",
+          "relational",
+          "partial_order",
+          "state_trace"
+        ],
+        "existing_branch_labels": [
+          "BL21 RELATIONAL INVARIANT PRESERVATION",
+          "BL27 STOCK / FLOW CONSERVATION",
+          "BL30 REVERSAL / REFUND / SETTLEMENT ALLOCATION"
+        ],
+        "mapping_state": "PROPOSED_ATTACHMENT_INFERENCE_USING_OBSERVED_IDS; NOT_CANONICAL_MEMBERSHIP"
+      },
+      "exposure_comparison": "No transaction-isolation evaluator is exposed. A generic cycle check in partial_order does not supply transactional edge semantics, read dependencies, or an isolation model.",
+      "implementation_route": "Implement a typed dependency-graph adapter and a finite cycle/witness routine. Reuse identity validation, but classify edges by the selected formal model. Return the transaction/edge witness and the exact criterion violated.",
+      "focused_acceptance_cases": [
+        "A serial schedule is accepted under its declared criterion",
+        "A fully specified write-skew fixture produces its relevant dependency cycle",
+        "Omitted read-from/predicate evidence prevents a completeness claim"
+      ],
+      "falsifier_or_model_defeater": "If an alleged edge is not a committed dependency, or the selected model permits it, the claimed anomaly fails. Acyclic observed fragments do not prove an incomplete history serializable.",
+      "limits": [
+        "API response order is not an observed database transaction history",
+        "Conflict, multiversion, strict and other serializability notions must not be interchanged",
+        "A cycle matters only under the chosen edge definitions and criterion"
+      ],
+      "implementation_state": "RESEARCH_HOOK_IMPLEMENTATION_REQUIRED",
+      "operator_attachments": [
+        "INVERT EDGE",
+        "NULL / NO-EDGE TEST",
+        "COMPOSE"
+      ],
+      "attachment_basis": "PROPOSED_STRUCTURAL_ADAPTATION_NOT_CANONICAL_CLASSIFIER_MEMBERSHIP",
+      "execution_performed": false
+    },
+    {
+      "review_key": "counterexample_guided_abstraction_refinement",
+      "name": "Counterexample-guided abstraction refinement (CEGAR)",
+      "canonical_method_id": null,
+      "source_keys": [
+        "clarke_cegar"
+      ],
+      "mechanism": "Build an abstraction, check a declared property, and test any abstract counterexample for feasibility in the concrete model. Refine the abstraction when the path is spurious; preserve a concrete model witness when it is feasible.",
+      "proposed_input_contract": [
+        "Concrete transition model and property",
+        "Abstraction mapping/predicates with version",
+        "Soundness or over-approximation obligation",
+        "Counterexample feasibility checker",
+        "Refinement rule and explicit state/time/iteration bounds"
+      ],
+      "current_mpc_attachment_points": {
+        "existing_methods_or_tools": [
+          "state_trace",
+          "relational",
+          "refine_counterexample",
+          "coverage"
+        ],
+        "existing_branch_labels": [
+          "BL22 BOUNDED COUNTEREXAMPLE",
+          "BL32 ASSUMPTIONS / ALTERNATIVES / DISCONFIRMATION"
+        ],
+        "mapping_state": "PROPOSED_ATTACHMENT_INFERENCE_USING_OBSERVED_IDS; NOT_CANONICAL_MEMBERSHIP"
+      },
+      "exposure_comparison": "No CEGAR/model-checking evaluator is exposed. refine_counterexample triages caller-supplied PASS/FAIL/UNKNOWN checks; state_trace explicitly excludes exhaustive state-space proof.",
+      "implementation_route": "Start with an explicit finite-state adapter outside the hosted enum. Record each abstraction version, feasibility result, refinement and termination reason. A later solver integration must declare its actual semantics and limits.",
+      "focused_acceptance_cases": [
+        "A deliberately coarse abstraction creates a spurious path that refinement removes",
+        "A feasible violating path survives concretization",
+        "Unsound abstraction or budget exhaustion never returns global VERIFIED"
+      ],
+      "falsifier_or_model_defeater": "Failure to concretize an abstract path defeats its promotion as a concrete defect. A new reachable transition outside the model defeats an unqualified real-system conclusion.",
+      "limits": [
+        "Not an Alloy/SAT/SMT solver merely because it uses abstraction language",
+        "Termination and coverage depend on the declared model and procedure",
+        "Counterexample feasibility in a model is not observed target behavior"
+      ],
+      "implementation_state": "RESEARCH_HOOK_IMPLEMENTATION_REQUIRED",
+      "operator_attachments": [
+        "PROJECT / REDUCE",
+        "EXPAND / RECURSE",
+        "INVARIANT TEST"
+      ],
+      "attachment_basis": "PROPOSED_STRUCTURAL_ADAPTATION_NOT_CANONICAL_CLASSIFIER_MEMBERSHIP",
+      "execution_performed": false
+    },
+    {
+      "review_key": "oracle_delta_debugging",
+      "name": "Oracle-driven delta debugging and witness minimization",
+      "canonical_method_id": null,
+      "source_keys": [
+        "zeller_hildebrandt_delta_debugging"
+      ],
+      "mechanism": "Use a reproducible oracle to test subsets and complements of a failure-inducing configuration. Retain smaller failing configurations and determine the declared form of minimality; unresolved tests are not successful removals.",
+      "proposed_input_contract": [
+        "Original immutable failing fixture/trace and hash",
+        "Explicit removable units and dependency constraints",
+        "PASS/FAIL/UNRESOLVED oracle with stable failure signature",
+        "Reset/isolation procedure",
+        "Budget and chosen minimality definition"
+      ],
+      "current_mpc_attachment_points": {
+        "existing_methods_or_tools": [
+          "refine_counterexample",
+          "metamorphic",
+          "state_trace",
+          "coverage"
+        ],
+        "existing_branch_labels": [
+          "BL22 BOUNDED COUNTEREXAMPLE",
+          "BL32 ASSUMPTIONS / ALTERNATIVES / DISCONFIRMATION"
+        ],
+        "mapping_state": "PROPOSED_ATTACHMENT_INFERENCE_USING_OBSERVED_IDS; NOT_CANONICAL_MEMBERSHIP"
+      },
+      "exposure_comparison": "No minimizer is exposed. refine_counterexample does not run an oracle; delta_plan computes changed-node dependency closure and is not delta debugging.",
+      "implementation_route": "Run a bounded local ddmin-style adapter on synthetic fixtures or already authorized reproducible local records. Preserve derivation links to the original. Use the existing one-variable comparator only for suitable final single-removal checks, not arbitrary multi-unit reductions.",
+      "focused_acceptance_cases": [
+        "Irrelevant fixture units are removed while the exact failure signature persists",
+        "Invalid reduced configurations return UNRESOLVED",
+        "All one-unit removals are checked before claiming 1-minimality"
+      ],
+      "falsifier_or_model_defeater": "A remaining unit removable without changing the failure defeats a 1-minimal claim. A flaky/different failure signature defeats the causal interpretation of the reduction.",
+      "limits": [
+        "1-minimal is not globally minimum or a proved root cause",
+        "It must not become an unauthorized automated target tester",
+        "Deleting source evidence does not simplify the original; only a linked derivative is reduced"
+      ],
+      "implementation_state": "RESEARCH_HOOK_IMPLEMENTATION_REQUIRED",
+      "operator_attachments": [
+        "REMOVE / ABLATE",
+        "RESTORE",
+        "QUALITATIVE SENSITIVITY / LOAD-BEARING TEST"
+      ],
+      "attachment_basis": "PROPOSED_STRUCTURAL_ADAPTATION_NOT_CANONICAL_CLASSIFIER_MEMBERSHIP",
+      "execution_performed": false
+    },
+    {
+      "review_key": "assume_guarantee_composition",
+      "name": "Assume-guarantee reasoning across components",
+      "canonical_method_id": null,
+      "source_keys": [
+        "nasa_assume_guarantee"
+      ],
+      "mechanism": "Check a component's property under an explicit environment assumption and separately check that the composing environment satisfies the assumption. Use a sound composition rule rather than joining independent component passes.",
+      "proposed_input_contract": [
+        "Component transition models and interface alphabets",
+        "Property and explicit assumptions",
+        "Synchronization/composition semantics",
+        "Environment-conformance obligation",
+        "Finite bounds and optional assumption-learning oracle"
+      ],
+      "current_mpc_attachment_points": {
+        "existing_methods_or_tools": [
+          "state_trace",
+          "authority_graph",
+          "partial_order",
+          "delta_plan"
+        ],
+        "existing_branch_labels": [
+          "BL17 PRODUCER / CONSUMER INTERFACE",
+          "BL23 REQUIREMENT VERIFICATION",
+          "BL24 END-TO-END VALIDATION"
+        ],
+        "mapping_state": "PROPOSED_ATTACHMENT_INFERENCE_USING_OBSERVED_IDS; NOT_CANONICAL_MEMBERSHIP"
+      },
+      "exposure_comparison": "No compositional proof evaluator is exposed. Per-trace conformance and dependency batching do not discharge environment assumptions or a composition theorem.",
+      "implementation_route": "Implement a finite two-component contract checker with separate component and environment results. Add learned assumptions only when a real query oracle exists. Store assumption versions and their source-linked obligations.",
+      "focused_acceptance_cases": [
+        "Components satisfying both obligations compose under the selected rule",
+        "An environment that violates the assumption blocks composition",
+        "Mutually assumed guarantees without a justified rule are rejected"
+      ],
+      "falsifier_or_model_defeater": "A permitted environment trace violating the assumed protocol defeats the component result's applicability. Passing each component in isolation does not repair this gap.",
+      "limits": [
+        "The cited rule is not permission to use circular reasoning",
+        "Unmodeled messages, failures or role changes stay outside coverage",
+        "No NASA certification or all-system proof follows from a local adapter"
+      ],
+      "implementation_state": "RESEARCH_HOOK_IMPLEMENTATION_REQUIRED",
+      "operator_attachments": [
+        "COMPOSE",
+        "CROSS PRODUCT",
+        "INVARIANT TEST"
+      ],
+      "attachment_basis": "PROPOSED_STRUCTURAL_ADAPTATION_NOT_CANONICAL_CLASSIFIER_MEMBERSHIP",
+      "execution_performed": false
+    },
+    {
+      "review_key": "information_flow_hyperproperty_check",
+      "name": "Information-flow / noninterference checks across executions",
+      "canonical_method_id": null,
+      "source_keys": [
+        "clarkson_schneider_hyperproperties"
+      ],
+      "mechanism": "Compare suitably related executions under an explicit information-flow policy. Vary protected information while preserving the allowed public context, then check the permitted relation on low-observable outputs, including any declared declassification.",
+      "proposed_input_contract": [
+        "Explicit secrecy/visibility policy and allowed declassification",
+        "Actor/owner/object identities and roles",
+        "Low-equivalent initial-state relation",
+        "Paired trace observations with version and environment controls",
+        "Observation channel and nondeterminism policy"
+      ],
+      "current_mpc_attachment_points": {
+        "existing_methods_or_tools": [
+          "metamorphic",
+          "identity_graph",
+          "authority_graph",
+          "relational"
+        ],
+        "existing_branch_labels": [
+          "BL08 ACTOR / CAPACITY",
+          "BL09 PERMISSION VS OWNERSHIP",
+          "BL10 OBJECT / EVENT IDENTITY"
+        ],
+        "mapping_state": "PROPOSED_ATTACHMENT_INFERENCE_USING_OBSERVED_IDS; NOT_CANONICAL_MEMBERSHIP"
+      },
+      "exposure_comparison": "No dedicated information-flow evaluator is exposed. A generic aligned-field comparison does not define low-equivalence, declassification, or a relation over sets of executions.",
+      "implementation_route": "Add a finite paired-trace policy adapter over owned/synthetic account fixtures. Return the first forbidden observable divergence plus its alignment evidence; do not turn sample agreement into universal noninterference.",
+      "focused_acceptance_cases": [
+        "A secret-only variation with equivalent permitted outputs satisfies the sampled obligation",
+        "A forbidden output divergence produces the paired witness",
+        "An expressly declassified difference is not mislabeled as a violation"
+      ],
+      "falsifier_or_model_defeater": "An authorized public-input difference, permitted declassification, or uncontrolled nondeterminism can defeat an apparent disclosure inference.",
+      "limits": [
+        "Not every hyperproperty reduces to checking one pair of traces",
+        "Both accounts must be appropriately authorized for any later live comparison",
+        "Timing differences need their own measurement/noise model"
+      ],
+      "implementation_state": "RESEARCH_HOOK_IMPLEMENTATION_REQUIRED",
+      "operator_attachments": [
+        "SUBSTITUTE",
+        "MASK / HIDE CHANNEL",
+        "STATE DIFFERENCE"
+      ],
+      "attachment_basis": "PROPOSED_STRUCTURAL_ADAPTATION_NOT_CANONICAL_CLASSIFIER_MEMBERSHIP",
+      "execution_performed": false
+    },
+    {
+      "review_key": "event_sequence_dependency_analysis",
+      "name": "NASA event-sequence analysis with common-cause/dependency guards",
+      "canonical_method_id": null,
+      "source_keys": [
+        "nasa_pra_event_dependencies"
+      ],
+      "mechanism": "Starting from a stated initiating event, enumerate modeled success/failure branches through later controls and consequences. Preserve conditional and shared-cause dependencies so apparently redundant controls are not treated as independent evidence.",
+      "proposed_input_contract": [
+        "Initiating event, states and time horizon",
+        "Pivotal controls and conditional branch rules",
+        "Explicit shared-cause/dependency identities",
+        "Mutually exclusive/exhaustive branch assumptions",
+        "Outcome definitions; probability inputs only if separately supported"
+      ],
+      "current_mpc_attachment_points": {
+        "existing_methods_or_tools": [
+          "fault_tree",
+          "fmea",
+          "partial_order",
+          "state_trace",
+          "identity_graph"
+        ],
+        "existing_branch_labels": [
+          "BL25 FAULT-TREE CAUSES",
+          "BL26 FMEA PROPAGATION",
+          "BL28 DELAY / FEEDBACK AMPLIFICATION"
+        ],
+        "mapping_state": "PROPOSED_ATTACHMENT_INFERENCE_USING_OBSERVED_IDS; NOT_CANONICAL_MEMBERSHIP"
+      },
+      "exposure_comparison": "No event-tree/dependency evaluator is exposed. fault_tree is an AND/OR truth evaluator; fmea computes caller-supplied RPN values. Neither establishes dependent-event sequence coverage.",
+      "implementation_route": "Implement a qualitative finite branch enumerator and shared-cause guard first. Link each branch to the relevant transition/actor/control atom. Keep probability calculations disabled without a defensible explicit model.",
+      "focused_acceptance_cases": [
+        "A shared credential/provider failure couples two modeled controls",
+        "Impossible branch combinations are excluded by explicit conditions",
+        "Missing branch/dependency evidence produces incomplete coverage, not an invented likelihood"
+      ],
+      "falsifier_or_model_defeater": "A claimed branch is defeated by an incompatible prerequisite; a redundancy claim is defeated by a documented shared cause. Changing the initiating event changes the question.",
+      "limits": [
+        "This combined hook is one implementation candidate, not two new registered methods",
+        "Do not multiply dependent probabilities or manufacture occurrence rates",
+        "Qualitative causal paths are model scenarios, not observed incidents"
+      ],
+      "implementation_state": "RESEARCH_HOOK_IMPLEMENTATION_REQUIRED",
+      "operator_attachments": [
+        "CROSS PRODUCT",
+        "REORDER / PERMUTE",
+        "NULL / NO-EDGE TEST"
+      ],
+      "attachment_basis": "PROPOSED_STRUCTURAL_ADAPTATION_NOT_CANONICAL_CLASSIFIER_MEMBERSHIP",
+      "execution_performed": false
+    },
+    {
+      "review_key": "finite_incentive_compatibility_check",
+      "name": "Mechanism-design incentive compatibility",
+      "canonical_method_id": null,
+      "source_keys": [
+        "nisan_ronen_mechanism_design"
+      ],
+      "mechanism": "Given an outcome/payment rule, compare an agent's utility under truthful reporting with allowed alternative reports across the declared finite type profiles. Keep incentive, participation and budget constraints separate.",
+      "proposed_input_contract": [
+        "Agents, finite private types and allowed reports",
+        "Outcome and transfer rules with source/version",
+        "Explicit valuation/cost utility functions",
+        "Dominant-strategy versus Bayesian criterion",
+        "Outside option, budget policy and any supplied belief distribution"
+      ],
+      "current_mpc_attachment_points": {
+        "existing_methods_or_tools": [
+          "nash",
+          "harsanyi",
+          "selten",
+          "ledger",
+          "authority_graph"
+        ],
+        "existing_branch_labels": [
+          "BL02 CONTROL PRECONDITIONS",
+          "BL08 ACTOR / CAPACITY",
+          "BL31 ENTITLEMENT / INVENTORY / ELIGIBILITY"
+        ],
+        "mapping_state": "PROPOSED_ATTACHMENT_INFERENCE_USING_OBSERVED_IDS; NOT_CANONICAL_MEMBERSHIP"
+      },
+      "exposure_comparison": "No mechanism-design evaluator is exposed. Nash equilibrium calculation on a supplied matrix and Harsanyi expected utility do not evaluate an allocation/payment mechanism over all declared report/type profiles.",
+      "implementation_route": "Add a finite report-deviation inequality checker with separate results for incentive compatibility, individual rationality and any declared budget constraint. Cross-reference an existing game-theory extension if it already provides this operation; do not count it twice.",
+      "focused_acceptance_cases": [
+        "A small truthful fixture has no profitable declared report deviation",
+        "A supplied profitable misreport produces its exact type/profile witness",
+        "Missing utility or belief inputs stay unresolved instead of becoming zero"
+      ],
+      "falsifier_or_model_defeater": "Changing an assumed utility, allowed report, or policy can defeat the claimed incentive defect. A profitable permitted strategy is not automatically a security vulnerability.",
+      "limits": [
+        "No inferred private beliefs, real-world payoffs, or expected bounty",
+        "Checking a fixed mechanism is not synthesizing an optimal mechanism",
+        "Bayesian and dominant-strategy conclusions require different inputs and quantifiers"
+      ],
+      "implementation_state": "RESEARCH_HOOK_IMPLEMENTATION_REQUIRED",
+      "operator_attachments": [
+        "SUBSTITUTE",
+        "CROSS PRODUCT",
+        "PERTURB"
+      ],
+      "attachment_basis": "PROPOSED_STRUCTURAL_ADAPTATION_NOT_CANONICAL_CLASSIFIER_MEMBERSHIP",
+      "execution_performed": false
+    },
+    {
+      "review_key": "guarded_operation_commutativity",
+      "name": "Guarded operation commutativity and distinguishable continuations",
+      "canonical_method_id": null,
+      "source_keys": [
+        "tsai_revised_scr",
+        "clements_commutativity_thesis"
+      ],
+      "mechanism": "Under an explicit precondition, compare admissible operation reorderings using operation-linked responses and the behavior observable after the reordered region. Preserve each actor/thread's own required order. A finite implementation can search for a distinguishing continuation without claiming universal SIM commutativity.",
+      "atomic_operator": "Guarded reordering plus comparison of typed observables",
+      "proposed_input_contract": [
+        "Source-bound state and operation IDs, actor/thread identities, object ownership and specification version",
+        "An explicit guard saying when the operations may commute and a pure transition/response model",
+        "Required per-actor precedence and cross-actor constraints",
+        "Exact comparison policy for per-operation responses, ledger entries, authority and final state",
+        "Observer model and finite continuation alphabet/depth; any permitted normalization must be justified",
+        "Model completeness declarations and separate budgets for reorderings and continuation search"
+      ],
+      "current_mpc_attachment_points": {
+        "existing_methods_or_tools": [
+          "partial_order",
+          "state_trace",
+          "metamorphic",
+          "ledger"
+        ],
+        "mapping_state": "PROPOSED_ATTACHMENT_INFERENCE_USING_OBSERVED_IDS; NOT_CANONICAL_MEMBERSHIP",
+        "attachment_limits": "partial_order validates a supplied order; it does not establish commutativity. Existing metamorphic checks do not prove all reorders or continuations equivalent. Its one-change discipline can represent one explicit order-coordinate variation only if the complete before/after cases are supplied."
+      },
+      "evidence_and_check": "Retain both complete histories, operation-to-response pairing, the guard evaluation, model/specification hashes and any distinguishing continuation. Equal aggregate money totals alone do not establish equivalence of owners, beneficiaries, liabilities or future authority.",
+      "implementation_route": "A future isolated offline checker could enumerate permitted adjacent swaps or bounded histories, replay a deterministic model, and search bounded continuations. Return COUNTEREXAMPLE, NO_DIFFERENCE_WITHIN_DECLARED_BOUND, INAPPLICABLE or INCONCLUSIVE. Keep the result distinct from linearizability and serializability.",
+      "focused_acceptance_cases": [
+        "Independent updates to different modeled objects commute under the supplied guard, with responses attached to their original operation IDs.",
+        "Credit and reset of the same balance produce an explicit order-sensitive counterexample.",
+        "Two histories have the same displayed balance but different pending liabilities; a later settle operation distinguishes them.",
+        "A guard that fails makes the proposed commutation inapplicable; it does not label the specified order dependence a vulnerability.",
+        "A budget limit or incomplete continuation model remains inconclusive, never universally commutative."
+      ],
+      "falsifier_or_model_defeater": "One valid distinguishing result or continuation defeats the asserted commutativity for that state and guard. Missing model state, inappropriate observable normalization or an unjustified guard defeats applicability. A lawful order-sensitive operation is not automatically a defect.",
+      "limits": [
+        "A finite reorder comparison is weaker than the paper's quantified SI/SIM definitions.",
+        "Pairwise observed equality does not establish all multi-operation reorderings or future histories.",
+        "Commutativity is distinct from idempotency: repeating one operation is a separate obligation.",
+        "No guarantee of multicore scalability, exploitability, target correctness or authorization follows from this proposed check.",
+        "This subtask supplies a research contract only; no checker or target interaction was executed."
+      ],
+      "implementation_state": "RESEARCH_HOOK_IMPLEMENTATION_REQUIRED",
+      "operator_attachments": [
+        "REORDER / PERMUTE",
+        "COMPOSE",
+        "STATE DIFFERENCE"
+      ],
+      "attachment_basis": "PROPOSED_STRUCTURAL_ADAPTATION_NOT_CANONICAL_CLASSIFIER_MEMBERSHIP",
+      "execution_performed": false
+    },
+    {
+      "review_key": "finite_epistemic_indistinguishability",
+      "name": "Finite evidence-view knowledge checking",
+      "canonical_method_id": null,
+      "source_keys": [
+        "halpern_moses_knowledge"
+      ],
+      "mechanism": "Evaluate whether an asserted fact is true at every modeled point that an actor cannot distinguish using its declared view. A point with the same view and a false fact is a concrete countermodel to a knowledge assertion even when the fact happens to be true at the actual point.",
+      "atomic_operator": "Counterworld construction plus finite universal checking over a view equivalence class",
+      "proposed_input_contract": [
+        "Finite model points with stable IDs, provenance and explicit actual-point selection",
+        "Actor/service identities and an exact view function based only on information they can observe",
+        "Typed ground facts per point; unknown truth values remain unknown",
+        "The proposition, any allowed Boolean structure, and the knowledge operator being tested",
+        "Model-world completeness and observation completeness declarations",
+        "If group operators are requested, exact group membership and a distinct operator for everyone, distributed or common knowledge"
+      ],
+      "current_mpc_attachment_points": {
+        "existing_methods_or_tools": [
+          "identity_graph",
+          "authority_graph",
+          "harsanyi",
+          "ach"
+        ],
+        "mapping_state": "PROPOSED_ATTACHMENT_INFERENCE_USING_OBSERVED_IDS; NOT_CANONICAL_MEMBERSHIP",
+        "attachment_limits": "Existing identity and authority graphs can supply source-bound participants and information boundaries. Harsanyi models supplied types/payoffs; it is not this modal-knowledge checker. ACH can retain the alternative world as a competing explanation but does not execute epistemic semantics."
+      },
+      "evidence_and_check": "Retain the actual point and counterworld IDs, identical view projections, conflicting proposition values, excluded observations and the model's assumptions. Use this to test unsupported promotions such as 'the client observed success, therefore the authority finalized payment'.",
+      "implementation_route": "A future isolated offline checker could partition finite points by canonical typed views and evaluate the proposition on each relevant class. It must distinguish FACT_TRUE, KNOWLEDGE_HOLDS_IN_SUPPLIED_MODEL, COUNTERWORLD_FOUND and INCONCLUSIVE. Optional group extensions require separate documented semantics; no bisimulation solver is implied.",
+      "focused_acceptance_cases": [
+        "Pending and committed states expose the same client view; finality is true at only one, so the checker returns the other as a counterworld.",
+        "A newly verified authoritative receipt separates those two modeled views, changing the finite knowledge result only if its authenticity and meaning are established outside this checker.",
+        "A false fact at the actual point cannot be reported as known when actual-point membership is enforced.",
+        "Removing a contrary world without evidence does not improve real-world certainty; a completeness downgrade must propagate.",
+        "Missing point valuation or observation provenance yields an unknown result instead of false certainty.",
+        "Numeric identity 7 and text identity '7' remain different when constructing views; lossy normalization cannot erase an information boundary."
+      ],
+      "falsifier_or_model_defeater": "One admissible counterworld with the same actor view defeats knowledge of the fact in that model. Conversely, proving that the counterworld is unreachable or that the actor can distinguish it may defeat that counterexample, with explicit evidence.",
+      "limits": [
+        "Finite supplied worlds do not establish that all real-world possibilities were represented.",
+        "Knowledge in this formal sense is relative to a view and model; it does not certify human awareness, belief, honesty or computational ability.",
+        "Unknown evidence authenticity cannot become trusted merely because the view includes a receipt-shaped object.",
+        "Every actor knowing a fact, joint evidence determining it and common knowledge are distinct operators.",
+        "This is separate from information-flow noninterference, which compares trace sets under a secrecy policy.",
+        "This subtask supplies a research contract only; no checker, classifier promotion or target request was executed."
+      ],
+      "implementation_state": "RESEARCH_HOOK_IMPLEMENTATION_REQUIRED",
+      "operator_attachments": [
+        "MASK / HIDE CHANNEL",
+        "ALTERNATIVE-MODEL SET",
+        "INVARIANT TEST"
+      ],
+      "attachment_basis": "PROPOSED_STRUCTURAL_ADAPTATION_NOT_CANONICAL_CLASSIFIER_MEMBERSHIP",
+      "execution_performed": false
+    }
+  ],
+  "canonical_promotion": false
+}

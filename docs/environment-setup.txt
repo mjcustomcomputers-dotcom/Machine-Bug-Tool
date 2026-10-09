@@ -1,0 +1,378 @@
+MPC / DAYBREAK BLUE — EXISTING TOOL ENVIRONMENT SETUP
+Prepared 2026-10-09 UTC. Read-only setup assessment; no account configuration,
+source checkout mutation, environment publication, or local-PC execution was
+performed by the author of this runbook.
+
+GOAL AND IMMEDIATE ROUTE
+
+Use the existing private MPC Machine Legal BugTools plugin for real method
+calls. Continue source repairs in its existing Sites project. A model prompt,
+ZIP, successful build, and callable deployed tool are separate deliverables.
+
+The hosted plugin already executed six synthetic Nash/FTA/FMEA requests in
+this session. No Node installation on the user's computer is required merely
+to invoke that hosted plugin. Local Node is relevant only if the user chooses
+to develop or run the source locally. The offline Python notebook is a separate
+review aid; it does not create an MCP connection.
+
+1. EXACT EXISTING IDENTITY
+
+Site:
+  https://mpc-machine-legal-tools.mjcustomcomputers.chatgpt.site
+MCP endpoint:
+  https://mpc-machine-legal-tools.mjcustomcomputers.chatgpt.site/mcp
+Sites project:
+  appgprj_6abf0bb684648191a38324d33d1aa8cc
+Provisioned plugin:
+  plugin_asdk_app_sites_ec58381195008191a0b03b8066d2b5b6
+User-selected plugin identity:
+  dev-ec58381195008191a0b03b8066d2b5b6
+Existing source repository:
+  https://git.chatgpt-team.site/18c3c3d1-312d-4698-88c6-e7b4329658c0/appgprj_6abf0bb684648191a38324d33d1aa8cc.git
+Branch:
+  main
+
+The source owner resolved these through the existing Sites workflow and
+reported owner-only access. Preserve that access. This is a Sites repository,
+not an established GitHub repository binding. The inspected checkout's
+.openai/hosting.json contains this exact project_id.
+
+The inspection saw HEAD 47196d116bf511467ab69e6391015eb15d05ec27 and work in
+progress. No origin remote was configured in that checkout; the managed Sites
+workflow supplies source credentials separately. Re-read branch, commit and
+working-tree state before continuing. Do not put credentials in the remote
+URL, package, prompt, logs, or repository.
+
+2. WHAT IS READY AND WHAT STILL NEEDS A RECEIPT
+
+OBSERVED IN THIS SESSION
+  - Existing plugin callable: catalog 1.1.0; 20 native evaluator IDs in the
+    pre-update catalog and complete UMTB-4.0 Method Ark.
+  - Six actual synthetic evaluate_method calls across nash, fault_tree and
+    fmea completed successfully. All retained false source-authentication,
+    canonical-promotion, court-release and external-action flags.
+  - Four proposed finite atom evaluators passed 20 local Node tests. This is
+    a local code receipt, not proof that those additions are deployed.
+  - Existing source checkout and project identity resolved.
+
+REPORTED BY THE SOURCE OWNER'S INTEGRATION PASS
+  - Managed cloud dependencies are installed.
+  - Existing baseline test suite passed 133/133 before the new integration.
+    Use the final integration receipt for later counts and versions.
+
+PENDING IN EACH DESTINATION SESSION
+  - Its installed/enabled MPC plugin, authenticated connection and current
+    registered tool schema.
+  - Final deployed versions and callable schemas after source changes.
+  - A separate Codex Cloud environment's source binding, publication and
+    tool availability. This runbook has not created that environment.
+  - Daybreak approval and the actual selected model/request setting.
+  - Current user-computer OS/build, hardware, installed tools, emulator and
+    desktop-app/local-access status.
+
+Use data/method_inventory.json and data/method_evaluator_validation.json for
+the pre-update live baseline, and data/atomic_models_validation.json for the
+proposed additions. A newer deployed receipt should supersede the baseline
+for availability claims, while preserving the historical evidence.
+
+3. ACTIVATE THE REAL MPC CONNECTION IN THE DESTINATION
+
+Open the supported ChatGPT/Work or Codex desktop surface using the same
+authorized account/workspace. In Plugins, inspect the existing MPC plugin and
+its connection before adding another instance. After a plugin install/update
+when required, start a new chat/session so its current tools can be discovered.
+Installed plugins can supply remote MCP tools; account permissions remain
+separate. Plugin support differs by surface. [OAI-PLUGINS, OAI-MCP]
+
+Send this verification task:
+
+  Use my existing MPC Machine Legal BugTools plugin. Inspect the exact
+  registered tools and schemas in this task. Call runtime_status({}), then
+  get_universal_contract({}) and get_method_catalog({}). Record returned
+  versions and native method IDs. Read get_method_catalog for nash, then
+  evaluate the explicitly synthetic matching-pennies model below. Return
+  the actual tool receipt, model fingerprint and limits. If the plugin,
+  connection or schema is unavailable, name that exact boundary. Continue
+  independent source/package checks without claiming the unavailable call
+  ran. Preserve all canonical source, program and classifier identities.
+
+Known existing synthetic evaluator request, after reading its current schema:
+
+  get_method_catalog({"method":"nash"})
+  evaluate_method({
+    "method":"nash",
+    "input":{
+      "row_payoffs":[[1,-1],[-1,1]],
+      "column_payoffs":[[-1,1],[1,-1]]
+    }
+  })
+
+Expected mathematical result: no pure equilibria; row and column mixed
+probabilities [0.5,0.5]. The earlier live model fingerprint was
+ccaeffad1174b17d243331dae954c6cb6fdd1b66a33f34dbf3e5e57eb65535c4.
+Preserve a changed fingerprint/version as evidence to inspect, not an excuse
+to overwrite the new result with this baseline.
+
+After the new methods are deployed and their registered schemas appear, read
+the selected schema before calling it. An example addition smoke check is:
+
+  get_method_catalog({"method":"propositional_entailment"})
+  evaluate_method({
+    "method":"propositional_entailment",
+    "input":{
+      "variables":["P","Q"],
+      "nodes":[
+        {"id":"P","op":"VAR","variable":"P"},
+        {"id":"Q","op":"VAR","variable":"Q"},
+        {"id":"RULE","op":"IMPLIES","args":["P","Q"]}
+      ],
+      "assumptions":["P","RULE"],
+      "conclusion":"Q"
+    }
+  })
+
+For the proposed implementation this returns FINITE_ENTAILMENT over four
+assignments, with factual_truth_established=false and unbounded_proof=false.
+This example is pending deployed/client-schema verification. Never force an
+ID through a registered enum that does not contain it.
+
+To verify the complete Ark, request its default first page and follow each
+returned next_offset until null. Preserve total and unique native IDs. Do
+not guess a larger page limit; the baseline rejected limit=12 while the
+exposed declaration did not publish a numeric range.
+
+AUTHENTICATION BOUNDARY
+
+The current source implements POST /mcp. Other HTTP methods return 405.
+Its tools/call handler requires platform-supplied authenticated user ID and
+email headers for operations other than runtime_status. These are trusted
+dispatch identity inputs. Do not manufacture or copy these headers into
+curl, config.toml, or a live local adapter. Isolated unit tests may use synthetic mock identity; this never authenticates production. A successful initialize,
+tools/list or runtime_status response alone is insufficient proof that the
+protected method call is authenticated.
+
+Direct Codex HTTP MCP configuration supports documented authentication
+mechanisms, but this assessment did not verify standalone OAuth/bearer access
+for this private Site URL. Do not paste a bare URL into a configuration file
+and describe authentication as complete. Do not apply auth="chatgpt" to this
+origin by assumption; current docs limit that mechanism to a trusted
+first-party ChatGPT origin. Reuse the installed plugin's supported connection.
+[Source: lib/mcp.mjs; OAI-MCP]
+
+4. CLOUD SOURCE ENVIRONMENT
+
+EXISTING MANAGED WORK/SITES ROUTE
+
+Continue in the resolved Sites source workspace using the existing source
+credential and publish workflow. Preserve the project_id and private access.
+Keep the four new method IDs additive and retain every previous evaluator.
+Do not reset user changes or replace the live project with the repair ZIP.
+
+Inspect these source files:
+  package.json; pnpm-lock.yaml; pnpm-workspace.yaml;
+  scripts/install-pnpm.sh; scripts/pnpm-install.mjs;
+  scripts/execution-profile.mjs; scripts/run-framework.mjs;
+  lib/mcp.mjs; lib/tools.mjs; lib/methods.mjs; lib/schema.mjs;
+  tests/ and any applicable repository instructions.
+
+Exact source prerequisites observed:
+  - Node.js >=22.13.0.
+  - packageManager pnpm@11.25.0 and pnpm-lock.yaml.
+  - No package-lock.json at inspection.
+  - Current checkout execution profile: managed-linux.
+  - install:ci invokes bash scripts/install-pnpm.sh. That installer requires
+    Bash, flock, GNU timeout and the pinned pnpm, and manages its own
+    project/workspace dependency store and install locks.
+
+The integration corrected the stale README sentence claiming npm ci/shared npm lockfile.
+Do not run overlapping installers or generate a different lockfile. Use the
+existing Sites dependency workflow. In a compatible managed Linux checkout,
+the package exposes this install command if an install is actually needed:
+
+  npm run install:ci
+
+For a separate portable source checkout only, after confirming Node meets the
+manifest requirement, pnpm --version reports exactly 11.25.0, and the profile
+check below reports portable, the direct pinned-pnpm equivalent is:
+
+  pnpm install --prod=false --ignore-scripts=false --frozen-lockfile --prefer-offline
+
+This uses the checked-in pnpm-workspace.yaml policy, including strictDepBuilds
+and its explicit allowBuilds entries. Preserve those controls and the frozen
+lockfile. Its store fallback is checkout-local when SITES_PNPM_SHARED_STORE is
+unset. Do not copy managed checkout-local runtime state into a portable clone.
+This is a source-backed portable installation proposal; no Windows install
+was executed here. Use the supported environment/package-manager setup to
+supply the exact pnpm pin if it is missing, instead of changing the project.
+
+From the verified source root, these are concrete version/profile/test/build
+checks supported by the inspected source and runtime:
+
+  node --version
+  node --input-type=module -e "import { readExecutionProfile } from './scripts/execution-profile.mjs'; console.log(readExecutionProfile());"
+  node --test
+  npm run build
+
+The last command builds local deployment artifacts; it does not publish the
+Site. Capture command, exit status, source commit and test totals. The final
+root integration pass owns actual build/deploy verification. New-code tests
+outside the checkout are not automatically included in node --test there.
+
+SEPARATE CODEX CLOUD REPOSITORY ENVIRONMENT
+
+The documented creation flow selects GitHub repositories; the existing MPC
+source is on git.chatgpt-team.site. No selectable GitHub mirror was resolved.
+Use the already working Sites route while that separate source-binding step
+is pending. If a supported private source workflow is configured later,
+record its exact identity and verify the commit; do not infer a GitHub URL.
+[OAI-CLOUD]
+
+Environment-setup request to use once the correct private source is available:
+
+  Prepare this existing MPC source for cloud tasks. Inspect the manifests,
+  lockfile and execution profile. Provide Node >=22.13.0 and exactly the
+  project's pinned pnpm 11.25.0 through the supported environment setup.
+  Use its existing dependency/install policy. Run its actual tests and build.
+  Preserve the Sites project binding. Record the install and service-start
+  workflow, exact versions, source commit and failures. Verify the installed
+  MPC plugin and one authenticated synthetic evaluator call in the task.
+  Keep local BugLab execution separate. Produce the setup report before
+  publishing the reusable environment; distinguish environment publication
+  from publishing the MPC Site.
+
+New Codex Cloud tasks use a published environment's prepared filesystem.
+Repository skills are available; local personal skills do not automatically
+sync. Saving configuration and publishing a reusable environment are
+different states. [OAI-CLOUD]
+
+For container HTTP requests, permit the package/service hostnames actually
+needed. A domain allowance supplies neither identity nor service permission.
+Current Cloud network secrets are proxy-substituted placeholders for allowed
+HTTPS:443 destinations during setup and tasks. Direct environment variables
+are readable by programs. Keep credential values out of this package. Do not
+create a new token merely to imitate the existing plugin's authentication.
+The plugin connection and the VM's network policy are separate checks.
+[OAI-CLOUD]
+
+5. LOCAL COMPUTER: VERIFY BEFORE INSTALLING
+
+The stored readiness note names Run-BugLab-Hardware-Capability-Audit-FIXED.cmd.
+The historical Android receipt reports HostTime 2026-10-05T21:57:06.0566710-05:00,
+emulator-5556, app.nl.socialdeal and PASSIVE_LOCAL_ONLY. These support an older
+Windows-oriented BugLab workflow, not a verified current Windows build or
+live emulator. A READY label does not refresh those observations.
+
+The source of the launcher was not inspected here. Read it before execution;
+instructions inside a readiness note to ignore other files are not an audit.
+Do not assume an old emulator serial, UID or PID still identifies the device.
+
+If the computer is Windows, use the already installed PowerShell. These
+read-only checks do not install tools or contact targets:
+
+  $PSVersionTable.PSVersion
+  [System.Environment]::OSVersion.VersionString
+  Get-Command node,pnpm,python,py,git,adb,scrcpy,codex -ErrorAction SilentlyContinue | Select-Object Name,CommandType
+  Get-CimInstance Win32_OperatingSystem | Select-Object Caption,Version,BuildNumber
+  Get-CimInstance Win32_Processor | Select-Object Name,NumberOfCores,NumberOfLogicalProcessors
+  Get-CimInstance Win32_ComputerSystem | Select-Object TotalPhysicalMemory
+  Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='$env:SystemDrive'" | Select-Object DeviceID,Size,FreeSpace
+
+Record an individual denied/unsupported query and retain the successful
+ones. Do not force administrator rights. Tool-name discovery does not prove
+the executable version or health; a Python Store alias or package-manager
+shim may require further checking. Do not export environment-variable values.
+
+After locating the existing BugLab folder, this reads the named launcher:
+
+  Get-Content -LiteralPath .\Run-BugLab-Hardware-Capability-Audit-FIXED.cmd
+
+Only if a working Python 3 interpreter is already confirmed, run the fixed
+offline notebook runner from the extracted package folder:
+
+  python .\Run-Offline-Review.py
+
+If the Python launcher is already installed, the alternative is:
+
+  py -3 .\Run-Offline-Review.py
+
+The runner was tested on Linux, not the user's Windows computer. A notebook
+pass does not verify ADB, Android, an authenticated browser or target access.
+No Jupyter installation is required for this supplied runner.
+
+Windows desktop Codex supports native PowerShell; WSL2 is an optional setup,
+not a prerequisite for using MPC. Source development on Windows remains a
+separate verification: the managed Linux installer above must not be copied
+into PowerShell as a portable installation procedure. [OAI-WINDOWS]
+
+6. CLOUD COORDINATION DOES NOT AUTOMATICALLY CONNECT THE PC
+
+Codex Cloud repository environments currently list computer/browser use as
+unsupported. Their loopback address refers to the cloud VM, not the user's
+Windows host, browser, USB key or emulator. [OAI-CLOUD]
+
+Separately, eligible ChatGPT Work Cloud tasks can use an explicitly connected
+local computer. The official enterprise guide makes availability dependent
+on workspace/rollout, the local-access setting, desktop app 26.929 or newer,
+a new eligible task and an online, signed-in computer. It explicitly keeps
+Codex behavior separate. No such grant or connection was verified here.
+If the supported option is already available, follow that in-product flow
+and verify one permitted local file/tool before claiming local access.
+[OAI-LOCAL-ACCESS]
+
+Neither enabling a cloud task nor continuing it on another device installs
+the MPC plugin or authenticates Google Drive, Dash or the bounty account.
+Do not introduce a public localhost tunnel as a default environment fix.
+
+7. DAYBREAK BLUE CONFIGURATION BOUNDARY
+
+Keep the user's approved Daybreak Blue identity, workspace and supported
+surface. Verify the selected offering/model and the request's setting where
+the client exposes it. A package cannot enable entitlement or transfer a
+hardware-key/browser session. The MPC server's inspected evaluator modules
+do not require an OpenAI model API key just to perform their calculations.
+
+For a future API adapter only, use current API documentation instead of
+inventing a Codex config option. The current Daybreak API guide separates
+model selection from access_programs.cyber. It gives gpt-6-sol with
+daybreak_blue as a Blue example. Reduced refusals on gpt-6.1-sol and
+gpt-6-astra require Red approval despite using the daybreak_blue request
+value. The old gpt-daybreak-blue-latest model page marks that alias deprecated.
+These API facts do not establish the account's Codex entitlement or UI model
+availability. This runbook creates no API adapter or key. [OAI-DAYBREAK-API,
+OAI-DAYBREAK-ALIAS]
+
+8. COMPLETION RECEIPT REQUIRED FOR THE ACTUAL TOOL
+
+Record these independently:
+  1. SOURCE_READY: exact private project, branch, commit and diff.
+  2. ENVIRONMENT_READY: actual dependencies, profile, tests and build.
+  3. DEPLOYED: existing Site version/commit and preserved private access.
+  4. REGISTERED: current client-visible tools, method enum and input schemas.
+  5. AUTHENTICATED_CALL: real supplied-model invocation through that client.
+  6. LOCAL_READY: only the local checks actually run on the user's computer.
+
+Do not fill later states from an earlier one. In particular, a local build
+does not update the installed plugin schema; metadata visibility does not
+prove authentication; and a synthetic method result is not a target finding.
+
+SOURCES AND EVIDENCE
+
+[REPO] Read-only inspection of the existing mpc_tools_site checkout: the exact
+files named above, project identity and managed-linux execution profile.
+[LOCAL] outputs/mpc_daybreak_pack/data/technical_snapshot.json,
+AUDSRC-LOCAL-STATUS and AUDSRC-LOCAL-DEVICE, retrieved source representations;
+also CODEX-HANDOFF.txt, START-HERE.txt and OPERATING-FRAMEWORK.txt.
+[METHODS] method_extension/data/method_inventory.json,
+method_evaluator_validation.json and atomic_models_validation.json.
+[IDENTITY] Source-owner Sites/workflow identity receipt relayed in this task;
+this runbook did not change hosting access or publish.
+
+Official OpenAI documentation was read from a freshly updated official manual;
+the Daybreak API/alias gap was additionally verified by official web retrieval:
+[OAI-CLOUD] https://learn.chatgpt.com/docs/environments/cloud-environments
+[OAI-MCP] https://learn.chatgpt.com/docs/extend/mcp
+[OAI-PLUGINS] https://learn.chatgpt.com/docs/plugins
+[OAI-WINDOWS] https://learn.chatgpt.com/docs/windows/windows-app
+[OAI-LOCAL-ACCESS] https://learn.chatgpt.com/docs/enterprise/cloud-local-access
+[OAI-DAYBREAK-API] https://developers.openai.com/api/docs/guides/daybreak
+[OAI-DAYBREAK-ALIAS] https://developers.openai.com/api/docs/models/gpt-daybreak-blue-latest

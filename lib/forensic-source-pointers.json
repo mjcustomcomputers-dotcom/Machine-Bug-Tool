@@ -1,0 +1,43 @@
+{
+  "version": "FORENSIC-POINTERS-1.0",
+  "sources": [
+    {
+      "role": "notebookMap",
+      "document_id": "1I4Vk0aEhedinCx7vTh2WdCBYkNWebcsH2nS83Vu73Z8",
+      "title": "MACHINE LEGAL — NOTEBOOK SOURCE MAP — RECURSIVE CLASSIFIER COMPILER MAIN",
+      "revision_id": "ANLCKQkfDtYba1dCK1eO3My3Rvwsv5QSaZP_S26Cpdtya9piQ2wY4yrqE7V7T9V4_joqH9LcqXIvC6Bi0drEHTUzFnZwXgXVYDdaG8vOUfE",
+      "locator_kind": "GOOGLE_DOC_PARAGRAPH_INDEX",
+      "notebook_execution_performed": false
+    },
+    {
+      "role": "extension",
+      "document_id": "12fE21L5kIAI6W2nJwxrxw-74jrgbQor1MRRiyaSGjz0",
+      "title": "01 — MACHINE BUG (LEGAL) — ADDITIVE METHOD EXTENSION PACK V1 — CONCURRENCY / TEMPORAL / AUTHORITY",
+      "revision_id": "AHj4eMRDD1T6-iqh-FnacHjGcaSZGkSyLKdebBXcUl6tQ4_ZlI0jEr_iCWT3lwNffdir1P_F3c6ZtCWcXu4gYex8nfNUC8i_FE5ktsE_QDA",
+      "locator_kind": "GOOGLE_DOC_PARAGRAPH_INDEX",
+      "notebook_execution_performed": false
+    },
+    {
+      "role": "compiler",
+      "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+      "title": "MACHINE LEGAL — RECURSIVE CLASSIFIER COMPILER — MAIN",
+      "revision_id": "AHj4eMRdsSIyHFpKSKmGpo8VSyuOka8WylIhsLV_COADIbEjyLTqaZWp6zsCuV0Cw-02v4iFvgnQuShRmnL_47nOq_JQtpFKQebioGI4QOw",
+      "locator_kind": "GOOGLE_DOC_PARAGRAPH_INDEX",
+      "notebook_execution_performed": false
+    },
+    {
+      "role": "jacket",
+      "document_id": "1Y9E9Ie7sjkDhSeUAgZcYVM7KtuP8R0wRIQnIY5Tj7B4",
+      "title": "MACHINE LEGAL — GEMINI WORKER INSTRUCTIONS V1 — CURRENT",
+      "revision_id": "ANLCKQm0-qmoMNPAmir31IL_WiDD4SdR5JoD4fwrXJRGp8nW3K47uMUjPeTeDKwS1XByEaeT9KuISO8igX8BVrDNTNuiR2xNzXh34D9EvZw",
+      "locator_kind": "GOOGLE_DOC_PARAGRAPH_INDEX",
+      "notebook_execution_performed": false
+    }
+  ],
+  "instructions": [
+    "Fetch current source revision before relying on deeper definitions.",
+    "Use exact classifier IDs with cross_reference_methods; shared parent is not equivalence.",
+    "Computations over supplied records do not authenticate sources or establish legal facts.",
+    "Preserve open atoms, missing edges, contradictions and stop conditions."
+  ]
+}

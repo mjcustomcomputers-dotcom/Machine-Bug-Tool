@@ -1,0 +1,719 @@
+{
+  "overlay_id": "BL-HOSTED-DRAFT-METHODS-0.1.0",
+  "source_sha256": "683319fd82dbf849879a2a9d72c8ab2939828e407a4252bef7842fccd5078312",
+  "status": "SEPARATE_DRAFT_OVERLAY",
+  "branches": [
+    {
+      "branch_id": "BL01",
+      "label": "CONTROL ACTION PRESENCE",
+      "proposed_parent_maxvar_ids": [
+        48,
+        52,
+        63,
+        95,
+        100,
+        179,
+        180,
+        184
+      ],
+      "method_sources": [
+        "STPA",
+        "Selten"
+      ]
+    },
+    {
+      "branch_id": "BL02",
+      "label": "CONTROL PRECONDITIONS",
+      "proposed_parent_maxvar_ids": [
+        31,
+        32,
+        33,
+        48,
+        95,
+        100,
+        102,
+        179,
+        180,
+        199
+      ],
+      "method_sources": [
+        "STPA",
+        "Nash"
+      ]
+    },
+    {
+      "branch_id": "BL03",
+      "label": "TIMING / ORDER",
+      "proposed_parent_maxvar_ids": [
+        48,
+        52,
+        56,
+        63,
+        179,
+        180,
+        184,
+        187,
+        219,
+        221
+      ],
+      "method_sources": [
+        "STPA",
+        "NASA",
+        "Selten"
+      ]
+    },
+    {
+      "branch_id": "BL04",
+      "label": "DURATION / REPETITION",
+      "proposed_parent_maxvar_ids": [
+        48,
+        52,
+        56,
+        63,
+        67,
+        179,
+        184,
+        187,
+        199
+      ],
+      "method_sources": [
+        "STPA",
+        "coin-pusher"
+      ]
+    },
+    {
+      "branch_id": "BL05",
+      "label": "CONTROLLER PROCESS-MODEL FRESHNESS",
+      "proposed_parent_maxvar_ids": [
+        47,
+        48,
+        56,
+        81,
+        88,
+        179,
+        180,
+        192,
+        199
+      ],
+      "method_sources": [
+        "STPA",
+        "Harsanyi",
+        "claw"
+      ]
+    },
+    {
+      "branch_id": "BL06",
+      "label": "FEEDBACK AUTHORITY",
+      "proposed_parent_maxvar_ids": [
+        40,
+        47,
+        48,
+        63,
+        80,
+        81,
+        88,
+        179,
+        180,
+        192,
+        231
+      ],
+      "method_sources": [
+        "STPA",
+        "Harsanyi",
+        "casino"
+      ]
+    },
+    {
+      "branch_id": "BL07",
+      "label": "CONFLICTING CONTROLLERS / FINALIZERS",
+      "proposed_parent_maxvar_ids": [
+        31,
+        32,
+        33,
+        88,
+        98,
+        99,
+        100,
+        179,
+        180,
+        189,
+        190,
+        199
+      ],
+      "method_sources": [
+        "STPA",
+        "Nash"
+      ]
+    },
+    {
+      "branch_id": "BL08",
+      "label": "ACTOR / CAPACITY",
+      "proposed_parent_maxvar_ids": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        31,
+        32,
+        33,
+        189,
+        199
+      ],
+      "method_sources": [
+        "Nash",
+        "Harsanyi",
+        "Susan"
+      ]
+    },
+    {
+      "branch_id": "BL09",
+      "label": "PERMISSION VS OWNERSHIP",
+      "proposed_parent_maxvar_ids": [
+        31,
+        32,
+        33,
+        91,
+        94,
+        95,
+        98,
+        99,
+        100,
+        102,
+        189,
+        199
+      ],
+      "method_sources": [
+        "Nash",
+        "Susan"
+      ]
+    },
+    {
+      "branch_id": "BL10",
+      "label": "OBJECT / EVENT IDENTITY",
+      "proposed_parent_maxvar_ids": [
+        1,
+        2,
+        3,
+        4,
+        47,
+        48,
+        179,
+        180,
+        207,
+        231
+      ],
+      "method_sources": [
+        "Alloy",
+        "Johnny5"
+      ]
+    },
+    {
+      "branch_id": "BL11",
+      "label": "PARENT / CHILD BINDING",
+      "proposed_parent_maxvar_ids": [
+        1,
+        4,
+        31,
+        32,
+        47,
+        48,
+        63,
+        179,
+        180,
+        192,
+        207
+      ],
+      "method_sources": [
+        "Alloy",
+        "Johnny5"
+      ]
+    },
+    {
+      "branch_id": "BL12",
+      "label": "STATE-TRANSITION LEGALITY",
+      "proposed_parent_maxvar_ids": [
+        48,
+        52,
+        63,
+        67,
+        95,
+        100,
+        179,
+        180,
+        184,
+        187,
+        199
+      ],
+      "method_sources": [
+        "STPA",
+        "NASA",
+        "Selten",
+        "casino"
+      ]
+    },
+    {
+      "branch_id": "BL13",
+      "label": "TERMINALITY / REVERSIBILITY",
+      "proposed_parent_maxvar_ids": [
+        52,
+        63,
+        67,
+        100,
+        179,
+        180,
+        184,
+        187,
+        188,
+        199
+      ],
+      "method_sources": [
+        "Selten",
+        "NASA",
+        "casino"
+      ]
+    },
+    {
+      "branch_id": "BL14",
+      "label": "IDEMPOTENCY / EXACTLY-ONCE",
+      "proposed_parent_maxvar_ids": [
+        48,
+        52,
+        56,
+        63,
+        68,
+        81,
+        88,
+        169,
+        177,
+        179,
+        184,
+        187,
+        199
+      ],
+      "method_sources": [
+        "NASA",
+        "coin-pusher",
+        "casino"
+      ]
+    },
+    {
+      "branch_id": "BL15",
+      "label": "RETRY / REPLAY",
+      "proposed_parent_maxvar_ids": [
+        48,
+        52,
+        56,
+        63,
+        81,
+        88,
+        179,
+        184,
+        187,
+        199,
+        204
+      ],
+      "method_sources": [
+        "NASA",
+        "coin-pusher",
+        "casino"
+      ]
+    },
+    {
+      "branch_id": "BL16",
+      "label": "ASYNC CONVERGENCE",
+      "proposed_parent_maxvar_ids": [
+        47,
+        48,
+        56,
+        63,
+        67,
+        81,
+        88,
+        179,
+        180,
+        184,
+        192,
+        199
+      ],
+      "method_sources": [
+        "STPA",
+        "Harsanyi",
+        "Sterman",
+        "coin-pusher",
+        "casino"
+      ]
+    },
+    {
+      "branch_id": "BL17",
+      "label": "PRODUCER / CONSUMER INTERFACE",
+      "proposed_parent_maxvar_ids": [
+        31,
+        32,
+        40,
+        47,
+        48,
+        80,
+        81,
+        88,
+        179,
+        180,
+        192,
+        199
+      ],
+      "method_sources": [
+        "NASA",
+        "Harsanyi"
+      ]
+    },
+    {
+      "branch_id": "BL18",
+      "label": "FIELD / SCHEMA AUTHORITY",
+      "proposed_parent_maxvar_ids": [
+        1,
+        4,
+        31,
+        32,
+        40,
+        47,
+        48,
+        56,
+        81,
+        179,
+        180,
+        207
+      ],
+      "method_sources": [
+        "NASA",
+        "Harsanyi",
+        "Alloy"
+      ]
+    },
+    {
+      "branch_id": "BL19",
+      "label": "VERSION / CONFIGURATION",
+      "proposed_parent_maxvar_ids": [
+        56,
+        219,
+        220,
+        221,
+        222,
+        226,
+        227,
+        199,
+        205
+      ],
+      "method_sources": [
+        "NASA",
+        "Johnny5"
+      ]
+    },
+    {
+      "branch_id": "BL20",
+      "label": "LEGACY-PATH COEXISTENCE",
+      "proposed_parent_maxvar_ids": [
+        56,
+        80,
+        81,
+        88,
+        179,
+        184,
+        219,
+        220,
+        221,
+        227,
+        199
+      ],
+      "method_sources": [
+        "NASA",
+        "Selten",
+        "Johnny5"
+      ]
+    },
+    {
+      "branch_id": "BL21",
+      "label": "RELATIONAL INVARIANT PRESERVATION",
+      "proposed_parent_maxvar_ids": [
+        1,
+        4,
+        31,
+        32,
+        47,
+        48,
+        63,
+        100,
+        179,
+        180,
+        207,
+        208
+      ],
+      "method_sources": [
+        "Alloy",
+        "Nash"
+      ]
+    },
+    {
+      "branch_id": "BL22",
+      "label": "BOUNDED COUNTEREXAMPLE",
+      "proposed_parent_maxvar_ids": [
+        1,
+        4,
+        48,
+        56,
+        179,
+        180,
+        199,
+        204,
+        207,
+        208
+      ],
+      "method_sources": [
+        "Alloy",
+        "Nash",
+        "Kryptonite"
+      ]
+    },
+    {
+      "branch_id": "BL23",
+      "label": "REQUIREMENT VERIFICATION",
+      "proposed_parent_maxvar_ids": [
+        48,
+        56,
+        63,
+        95,
+        100,
+        179,
+        180,
+        184,
+        219,
+        221,
+        231,
+        235
+      ],
+      "method_sources": [
+        "NASA"
+      ]
+    },
+    {
+      "branch_id": "BL24",
+      "label": "END-TO-END VALIDATION",
+      "proposed_parent_maxvar_ids": [
+        1,
+        4,
+        48,
+        63,
+        81,
+        88,
+        100,
+        179,
+        180,
+        184,
+        192,
+        199
+      ],
+      "method_sources": [
+        "NASA",
+        "STPA"
+      ]
+    },
+    {
+      "branch_id": "BL25",
+      "label": "FAULT-TREE CAUSES",
+      "proposed_parent_maxvar_ids": [
+        1,
+        4,
+        31,
+        32,
+        48,
+        52,
+        56,
+        63,
+        179,
+        180,
+        199,
+        204
+      ],
+      "method_sources": [
+        "NASA-FTA"
+      ]
+    },
+    {
+      "branch_id": "BL26",
+      "label": "FMEA PROPAGATION",
+      "proposed_parent_maxvar_ids": [
+        40,
+        47,
+        48,
+        52,
+        56,
+        63,
+        81,
+        88,
+        179,
+        184,
+        199
+      ],
+      "method_sources": [
+        "NASA-FMEA"
+      ]
+    },
+    {
+      "branch_id": "BL27",
+      "label": "STOCK / FLOW CONSERVATION",
+      "proposed_parent_maxvar_ids": [
+        47,
+        48,
+        63,
+        68,
+        159,
+        169,
+        175,
+        176,
+        177,
+        178,
+        179,
+        184
+      ],
+      "method_sources": [
+        "Sterman",
+        "recipe-math",
+        "claw",
+        "coin-pusher",
+        "casino"
+      ]
+    },
+    {
+      "branch_id": "BL28",
+      "label": "DELAY / FEEDBACK AMPLIFICATION",
+      "proposed_parent_maxvar_ids": [
+        47,
+        48,
+        52,
+        56,
+        63,
+        81,
+        88,
+        179,
+        184,
+        187,
+        199
+      ],
+      "method_sources": [
+        "Sterman",
+        "claw",
+        "coin-pusher"
+      ]
+    },
+    {
+      "branch_id": "BL29",
+      "label": "AMOUNT / CURRENCY / FEE OWNERSHIP",
+      "proposed_parent_maxvar_ids": [
+        1,
+        4,
+        47,
+        48,
+        63,
+        68,
+        159,
+        169,
+        170,
+        171,
+        173,
+        175,
+        176,
+        177,
+        178,
+        179
+      ],
+      "method_sources": [
+        "recipe-math",
+        "casino"
+      ]
+    },
+    {
+      "branch_id": "BL30",
+      "label": "REVERSAL / REFUND / SETTLEMENT ALLOCATION",
+      "proposed_parent_maxvar_ids": [
+        1,
+        4,
+        48,
+        52,
+        63,
+        68,
+        159,
+        169,
+        175,
+        176,
+        177,
+        178,
+        179,
+        184,
+        187
+      ],
+      "method_sources": [
+        "recipe-math",
+        "NASA",
+        "casino"
+      ]
+    },
+    {
+      "branch_id": "BL31",
+      "label": "ENTITLEMENT / INVENTORY / ELIGIBILITY",
+      "proposed_parent_maxvar_ids": [
+        1,
+        4,
+        31,
+        32,
+        48,
+        52,
+        63,
+        67,
+        95,
+        100,
+        169,
+        176,
+        177,
+        179,
+        180,
+        184,
+        199
+      ],
+      "method_sources": [
+        "STPA",
+        "claw",
+        "coin-pusher"
+      ]
+    },
+    {
+      "branch_id": "BL32",
+      "label": "ASSUMPTIONS / ALTERNATIVES / DISCONFIRMATION",
+      "proposed_parent_maxvar_ids": [
+        48,
+        56,
+        179,
+        180,
+        189,
+        190,
+        192,
+        197,
+        198,
+        199,
+        204,
+        207,
+        208,
+        231,
+        235
+      ],
+      "method_sources": [
+        "CIA-ACH",
+        "Harsanyi",
+        "Kryptonite"
+      ]
+    }
+  ],
+  "limits": [
+    "Draft parent mappings remain separate from canonical classifier definitions.",
+    "Method attribution is not proof of implementation or scholarly endorsement."
+  ]
+}
