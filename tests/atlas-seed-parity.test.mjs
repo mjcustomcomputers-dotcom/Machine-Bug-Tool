@@ -75,3 +75,16 @@ test('Legitimate append-only variation receipts do not rewrite or poison immutab
   assert.equal(loadMethodAtlas(db).validation,'STRUCTURAL_INVENTORY_PASS');
  }finally{db.close()}
 });
+
+
+test('Derived cache seed metadata cannot hide a method or taxonomy mismatch',()=>{
+ const db=fixture();try{
+  const fingerprint=db.prepare("SELECT value FROM atlas_metadata WHERE key='seed_fingerprint'").get().value;
+  db.prepare("UPDATE atlas_method_taxonomy SET class_key='FALSIFIED' WHERE rowid=(SELECT rowid FROM atlas_method_taxonomy LIMIT 1)").run();
+  assert.equal(db.prepare("SELECT value FROM atlas_metadata WHERE key='seed_fingerprint'").get().value,fingerprint);
+  const r=verifyCurrentAtlas(db);
+  assert.deepEqual(r.mismatched_tables,['atlas_method_taxonomy']);
+  assert.equal(r.seed_fingerprint_matches,true);
+  assert.equal(r.status,'BLOCKED_ATLAS_SEMANTIC_DRIFT');
+ }finally{db.close()}
+});
