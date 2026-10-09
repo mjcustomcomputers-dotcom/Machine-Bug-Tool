@@ -153,3 +153,10 @@ When asked to bridge connected ChatGPT apps and MPC methods, read `docs/CHATGPT-
 ## V10 Native source-identity falsifier and minimal read planner
 
 Read `docs/CHATGPT-CONNECTOR-BRIDGE-V10-NATIVE-GATES.md` after the earlier V9 connector bridge docs. A Dash projection (or other search index alias) is **never** a native Drive or Dropbox read receipt. The new bridge fails closed when the controlling native pointer has only a projection and rejects records that falsely declare themselves direct native sources for unrelated IDs. Prefer at most three source-bound native reads per pass, and use current session capability checks; no automatic connector dispatch or target activity. Retain all original MPC/Machine Legal methods, BL/MAXVAR/MBSS registries, typed source IDs and PASS structure. Test on the V10 branch before merging into PR #7; do not deploy private Sites or overwrite the canonical Drive/Dash controller.
+
+
+## V11 SQLite strategy, native mirrors and dimension-source boundary
+
+For SQLite tricks, mirrors, reverse method dependencies, or the user's `32/356` dimension phrase, read `docs/SQLITE-MIRROR-DIMENSIONS-V11.md`. This is an additive **development-only** quality-control layer. The native pinned registry remains BL 32 branches/384 child checks, 25 object coordinates, 14 jacket axes and 15 native MIRROR declarations; 356 has not been verified as a canonical independent dimension count and must not be invented, renumbered or substituted. All previous source, classifier, GPT/Codex and PASS contracts persist.
+
+The V11 CLI adds `sql-audit`, `reverse-links`, `mirrors`, and `dimension-audit`. SQL strategies return read-only execution-plan/integrity diagnostics and bounded inverse relationships; mirrors return source-bound **review candidates**, not independent truth. Verify performance only from actual same-host tests at exact branch commits. Never automatically install FTS5, enable SQLite optimizer writes on native private storage, run target traffic or deploy private MPC Sites due to a speculative performance suggestion.
