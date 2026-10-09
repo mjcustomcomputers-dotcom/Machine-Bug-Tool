@@ -30,6 +30,7 @@ test('offline exporter creates a checksum-bound SQLite and PowerShell product wi
  assert.ok(manifest.artifacts.some(row=>row.path==='Run-Method-Self-Scan.ps1'));
  assert.ok(manifest.artifacts.some(row=>row.path==='Install-Method-Self-Scan.ps1'));
  assert.ok(manifest.artifacts.some(row=>row.path==='MPC-Method-Lab.html'));
+ assert.ok(manifest.artifacts.some(row=>row.path==='OPEN-MPC-METHOD-LAB.cmd'));
  assert.ok(manifest.artifacts.some(row=>row.path==='MPC-Method-Self-Scan.cmd'));
  for(const artifact of manifest.artifacts){
   const raw=readFileSync(join(output,...artifact.path.split('/')));
@@ -70,8 +71,12 @@ test('offline exporter creates a checksum-bound SQLite and PowerShell product wi
  const installer=readFileSync(join(output,'Install-Method-Self-Scan.ps1'),'utf8');
  assert.match(installer,/start `"`" `"%MPC_APP%`"/);
  assert.match(installer,/MPC-Method-Lab\.html/);
+ assert.match(installer,/OPEN-MPC-METHOD-LAB\.cmd/);
+ assert.match(installer,/%~dp0MPC-Method-Self-Scan\\MPC-Method-Lab\.html/);
+ assert.doesNotMatch(installer,/\$psLauncher|Desktop 'MPC-Method-Self-Scan\.ps1'/u);
  assert.doesNotMatch(installer,/ExecutionPolicy\s+(?:Bypass|Unrestricted)/iu);
  const launcher=readFileSync(join(output,'MPC-Method-Self-Scan.cmd'));
+ assert.deepEqual(readFileSync(join(output,'OPEN-MPC-METHOD-LAB.cmd')),launcher);
  assert.match(launcher.toString('ascii'),/start "" "%MPC_APP%"/);
  assert.doesNotMatch(launcher.toString('ascii'),/powershell|\.ps1/iu);
  assert.ok(launcher.includes(Buffer.from('\r\n')));
@@ -90,6 +95,11 @@ test('offline exporter creates a checksum-bound SQLite and PowerShell product wi
  assert.ok(html.includes(`script-src 'sha256-${sha256Base64(script)}'`));
  assert.doesNotThrow(()=>new Script(script));
  assert.doesNotMatch(script,/\b(?:fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon)\b/u);
+ assert.match(script,/Object\.values\(m\.source\|\|\{\}\)/u);
+ assert.match(script,/Metadata overlap/);
+ assert.match(script,/Source lineage/);
+ assert.match(script,/Shared trigger profiles/);
+ assert.match(script,/Shared crosswalk parents/);
  const embedded=html.match(/<div id="data" hidden>([^]*?)<\/div>/u);
  assert.ok(embedded);
  const ui=JSON.parse(Buffer.from(embedded[1],'base64').toString('utf8'));

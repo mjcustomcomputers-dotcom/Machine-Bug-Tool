@@ -12,9 +12,11 @@ For the targeted-query screen, double-click either file; neither route invokes
 PowerShell, needs Node.js, starts a server, or makes a network request:
 
 ```text
-MPC-Method-Self-Scan.cmd
+OPEN-MPC-METHOD-LAB.cmd
 MPC-Method-Lab.html
 ```
+
+`MPC-Method-Self-Scan.cmd` remains as a compatible browser-only alias.
 
 The GUI searches method IDs, names, mechanisms, required evidence, source
 metadata and taxonomy; filters by family and dimension; and performs exact
@@ -40,10 +42,12 @@ powershell.exe -NoProfile -File .\Install-Method-Self-Scan.ps1
 ```
 
 The installer refuses to overwrite an existing directory or launcher. It
-creates both an optional PowerShell command-line launcher and a double-clickable
-`.cmd` GUI launcher on the Desktop, while copying only manifest-listed bundle
-files. The `.cmd` opens the HTML app in the default browser and therefore is not
-subject to PowerShell execution policy.
+creates one double-clickable `.cmd` GUI launcher on the Desktop, while copying
+only manifest-listed bundle files. It deliberately does not create an unsigned
+Desktop `.ps1`. The Desktop launcher is named `OPEN-MPC-METHOD-LAB.cmd` so it
+cannot be confused with an older PowerShell launcher. The `.cmd` opens the HTML app in the default browser and is not
+subject to PowerShell execution policy. To use a custom destination, pass
+`-NoDesktopLauncher` and launch the copied `.cmd` from that directory.
 
 The prebuilt JSON, CSV, Markdown, and SQLite files need no runtime. Refreshing
 the static scan requires a Node release with flag-free `node:sqlite` (22.13+,
