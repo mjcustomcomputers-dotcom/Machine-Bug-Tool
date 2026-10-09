@@ -1,0 +1,13 @@
+{
+  "schema_version": "DAYBREAK_DEFENSIVE_FORECAST_INPUT_V1",
+  "case_id": "SYNTHETIC_NO_TARGET_FIXTURE",
+  "sources": [
+    {"id":"src_tls","owner":"synthetic_local_fixture","revision":"fixture-only","locator":"fixture://local/mock-transport","sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+    {"id":"src_url","owner":"synthetic_local_fixture","revision":"fixture-only","locator":"fixture://local/mock-router","sha256":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}
+  ],
+  "signals": [
+    {"id":"tls_declared","pattern":"TLS_CERTIFICATE_CHECK_DISABLED","evidence_state":"SOURCE_CODE_OBSERVED","source_ids":["src_tls"],"predicates":[{"id":"SENSITIVE_AUTHENTICATED_TRAFFIC","state":"SUPPORTED","source_ids":["src_tls"],"check_cost":1}]},
+    {"id":"route_declared","pattern":"UNBOUND_BEARER_DESTINATION","evidence_state":"SOURCE_CODE_OBSERVED","source_ids":["src_url"],"predicates":[{"id":"BEARER_SENT_TO_DESTINATION","state":"SUPPORTED","source_ids":["src_url"]},{"id":"UNTRUSTED_DESTINATION_REACHABLE","state":"REFUTED","source_ids":["src_url"]}]}
+  ],
+  "program":{"scope":"DECLARED_IN_SCOPE","excluded_categories":["MITM_REQUIRED"]}
+}

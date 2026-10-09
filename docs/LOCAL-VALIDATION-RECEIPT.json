@@ -1,0 +1,52 @@
+{
+  "kind": "DAYBREAK_OFFLINE_DEFENSIVE_FORECAST_V16_LOCAL_DEVELOPMENT_RECEIPT",
+  "status": "FOCUSED_TESTS_PASS_NOT_INTEGRATION_VERIFIED",
+  "base_native_branch": "automation/mpc-reasoning-adaptive-two-stage-v15",
+  "base_native_commit": "cb15df82c76063262caae3ab6e3e557cd00cf4b7",
+  "runtime": "node v22.16.0 local container only",
+  "focused_test_command": "node --test tests/defensive-threat-forecast.test.mjs",
+  "focused_tests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "full_suite": "NOT_RUN_NO_NEED",
+  "build": "NOT_RUN",
+  "windows_machine": "NOT_RUN",
+  "github_write": "NOT_YET",
+  "target_hosts_touched": false,
+  "native_bounty_cursor_touched": false,
+  "new_evaluators": 0,
+  "new_mha_ids": 0,
+  "source_files": [
+    {
+      "path": "docs/CODEX-DEFENSIVE-THREAT-FORECAST-V16-HANDOFF.md",
+      "sha256": "b0f0708bcab0287a17dff84b3b5abf7cbcb4ec7e7717c3efc71a8b5a24a9c039",
+      "bytes": 7200
+    },
+    {
+      "path": "docs/local-synthetic-output.json",
+      "sha256": "f73287fceba25a5a9f36f8b59d1f6247d450572d58cdf6a63015362644f93b50",
+      "bytes": 5822
+    },
+    {
+      "path": "examples/local-synthetic-input.json",
+      "sha256": "b0fe3f529c6e0c31921bcf582227338a32dcda6b5d1ab8d778bd2b7ac502fc6f",
+      "bytes": 1191
+    },
+    {
+      "path": "lib/defensive-threat-forecast.mjs",
+      "sha256": "9cce1f589a9af91f22a81e288dbf4138c690a19db49b61b5f3e16f9e6b798a3a",
+      "bytes": 14628
+    },
+    {
+      "path": "scripts/run-defensive-threat-forecast.mjs",
+      "sha256": "dec781023281e61ce9d7160d6e9d61227e9cb2ebda85d9d367e6e760531c1e61",
+      "bytes": 994
+    },
+    {
+      "path": "tests/defensive-threat-forecast.test.mjs",
+      "sha256": "37d4d6d2696d93ce3ce94e30cb0964307c5bb527718f648b39da73bc25af4f59",
+      "bytes": 5754
+    }
+  ]
+}
