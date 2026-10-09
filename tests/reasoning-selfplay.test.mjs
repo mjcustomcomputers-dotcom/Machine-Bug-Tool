@@ -37,6 +37,14 @@ test('Finite curriculum executes actual method contracts and preserves independe
  assert.equal(dominated.observed.search_improves_decision,false);
  assert.equal(dominated.observed.native_receipt.method,'selten');
  assert.ok(result.summary.local_adapter_cases>=result.cases.filter(c=>c.family==='budget_sensitive_search').length);
+ const adaptive=result.cases.find(c=>c.family==='adaptive_two_stage_computation'&&!c.shape.uninformative&&c.anchor_regression);
+ assert.deepEqual(adaptive.observed.adaptive_policy.map(row=>row.second_choice_id),['confirm0','confirm1']);
+ assert.equal(adaptive.observed.adaptive_improves_on_nonadaptive,true);
+ assert.equal(adaptive.expected.contingent_policies_enumerated,9);
+ const adaptiveControl=result.cases.find(c=>c.family==='adaptive_two_stage_computation'&&c.shape.uninformative);
+ assert.equal(adaptiveControl.observed.nonadaptive_equivalence,true);
+ assert.deepEqual(adaptiveControl.observed.adaptive_policy.map(row=>row.second_choice_id),['STOP','STOP']);
+ assert.ok(result.summary.local_adapter_cases>=result.cases.filter(c=>c.family==='adaptive_two_stage_computation').length);
  const real=result.cases.find(c=>c.family==='abstraction_concretization'&&c.shape.real);
  assert.equal(real.observed.status,'REAL_MODEL_COUNTEREXAMPLE');
  assert.deepEqual(real.observed.counterexample.state_path,['S','A','F']);

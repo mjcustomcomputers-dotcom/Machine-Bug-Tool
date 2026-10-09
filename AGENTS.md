@@ -52,6 +52,16 @@ dominated-search negative control. It adds no evaluator or Atlas ID and does
 not perform graph search, target enumeration, heuristic learning, CFR, or
 general planning.
 
+The additive adaptive-two-stage-computation family accepts one finite model
+with 2–4 states, 2–4 actions, one first computation and at most three possible
+second computations. It uses exact integer-weight backward induction, permits
+the second computation choice to depend on the first result, and cross-checks
+the selected terminal information cells with the retained Harsanyi evaluator.
+The curriculum independently enumerates every contingent second-stage policy;
+uninformative second computations are the nonadaptive-equivalence control. It
+adds no evaluator or Atlas ID and does not learn a policy, infer likelihoods,
+run CFR, solve general poker, access targets, or authenticate supplied inputs.
+
 ## Final engineering scope — local receiving and Codex acceptance
 
 The user has ended research for this phase. The current authorized action is one

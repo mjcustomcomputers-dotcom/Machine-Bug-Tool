@@ -1,0 +1,163 @@
+{
+  "kind": "MPC_REASONING_V15_ADAPTIVE_TWO_STAGE_COMPUTATION_DEVELOPMENT_RECEIPT",
+  "version": 1,
+  "status": "VERIFIED_ADDITIVE_REASONING_FAMILY",
+  "recorded_at_utc": "2026-10-09T14:23:33Z",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "development_branch": "automation/mpc-reasoning-adaptive-two-stage-v15",
+  "source": {
+    "pr": 14,
+    "native_parent_branch": "automation/mpc-reasoning-budget-search-v15",
+    "native_parent_commit": "8f0c083d8546915fdd26c72a9730e993659501e2",
+    "native_parent_tree": "73b50d34442b3890596bc21cadb4cec693751d6b",
+    "local_parent_reconstruction_commit": "5efaa699e9d516838fd843e1a059f96fc3fd4a32",
+    "local_parent_tree": "73b50d34442b3890596bc21cadb4cec693751d6b",
+    "prior_engine_fingerprint": "b43d21b17b732aaec6555415800a3474a4671971f4ffb8e32e85e76a9d0d5b9a",
+    "engine_fingerprint": "b0f4fbcf10149c5ad9d98eb6a6c15e4aca8b943b01b39db3ceb09efb239df41b",
+    "source_changed_since_prior": true
+  },
+  "no_redo": {
+    "action_fingerprint": "625080792389eecefa1f599e8fe5eec31799ad51ac012367a64833efe85ce5c7",
+    "inputs": {
+      "base_commit": "8f0c083d8546915fdd26c72a9730e993659501e2",
+      "prior_cursor_sha256": "e6eafd073db0bff5cd80c0b40e0c748cbfbd96347cf758130c076c6c541abe4c",
+      "engine_fingerprint": "b0f4fbcf10149c5ad9d98eb6a6c15e4aca8b943b01b39db3ceb09efb239df41b",
+      "method": "BOUNDED_ADAPTIVE_TWO_STAGE_COMPUTATION_CHOICE",
+      "rounds": 24,
+      "seed": 20261011
+    },
+    "prior_action_fingerprint": "5832f30133e465c078e6da5f4b02f39dda0b6153b408ae3a34d5c5c695cf4f11",
+    "prior_continuation_commit": "8f0c083d8546915fdd26c72a9730e993659501e2"
+  },
+  "question": {
+    "family": "BOUNDED_ADAPTIVE_TWO_STAGE_COMPUTATION_CHOICE",
+    "question": "Can the local reasoning lab choose a different affordable second computation after each first-stage result, beat every fixed second-stage choice when useful, and collapse to the nonadaptive STOP control when the second computations carry no decision information?",
+    "independent_oracle": "Separate exhaustive enumeration of every contingent STOP/second-computation policy and every fixed second-stage policy in the curriculum.",
+    "negative_control": "Both second-stage computations have state-independent likelihoods and positive cost, so every first-stage branch must STOP and adaptive gain must be exactly zero.",
+    "bounds": {
+      "states": "2 through 4",
+      "actions": "2 through 4",
+      "outcomes_per_computation": "1 through 4",
+      "second_stage_options": "1 through 3",
+      "state_and_likelihood_weights": "positive state weights and likelihood weights in [0,1000], with each state row summing to the declared scale",
+      "utilities_and_costs": "integers in [-1000000,1000000] for utility and [0,1000000] for cost/budget",
+      "native_cross_check": "Retained Harsanyi evaluation at every nonzero terminal information cell selected by the adaptive policy"
+    }
+  },
+  "implementation": {
+    "changed_files": [
+      "AGENTS.md",
+      "docs/REASONING-INTELLIGENCE-V15.md",
+      "lib/finite-adaptive-two-stage-choice.mjs",
+      "lib/reasoning-selfplay.mjs",
+      "scripts/run-reasoning-selfplay.mjs",
+      "tests/finite-adaptive-two-stage-choice.test.mjs",
+      "tests/reasoning-selfplay.test.mjs"
+    ],
+    "behavior": [
+      "Validate one bounded caller-supplied two-stage computation model with exact typed IDs, dense integer weights, utilities, costs and budget.",
+      "Use exact rational backward induction to choose STOP or one affordable second computation independently after every first result.",
+      "Compare the adaptive policy against NO_COMPUTATION and every policy that fixes one second-stage choice across all first results.",
+      "Cross-check selected terminal actions and expected utility with the retained Harsanyi evaluator without adding an evaluator or Atlas ID.",
+      "Enumerate every bounded contingent policy independently in the curriculum and preserve STOP-first deterministic ties."
+    ],
+    "file_sha256": {
+      "AGENTS.md": "bffb5449c08748cec9729a7bd0ebc0c6d110b62ab023e356be6a5907f318cbd5",
+      "docs/REASONING-INTELLIGENCE-V15.md": "df6ee4d5cea2cef3366b9188b9aba327c27a0b9478418523c2cbd2ad4f305a08",
+      "lib/finite-adaptive-two-stage-choice.mjs": "74731e8787070293d604772611ff5f99c24f5c29eed943b38338690f51893592",
+      "lib/reasoning-selfplay.mjs": "46106342d3ed5a7ea468c7cac743e2bcb9a8ac6264f9e732ba1240166bdb1673",
+      "scripts/run-reasoning-selfplay.mjs": "1f5dedbc8674a84741f1565981cb132954fe5629a8be534ca268fcf1678d5b2c",
+      "tests/finite-adaptive-two-stage-choice.test.mjs": "ebc61d6e67e6b23eb953e2afe0bb1ab2b962ba84b945ea1ea7bce2d4df0776cf",
+      "tests/reasoning-selfplay.test.mjs": "4c8114eb68135384c7e71d6c8cef31e88e7848a8ef5a7d07c23e2bc2708fffd0"
+    }
+  },
+  "test_first": {
+    "initial_failing_test": "node --test tests/finite-adaptive-two-stage-choice.test.mjs",
+    "initial_failure": "ERR_MODULE_NOT_FOUND for lib/finite-adaptive-two-stage-choice.mjs",
+    "focused_final": {
+      "command": "node --test tests/finite-adaptive-two-stage-choice.test.mjs tests/reasoning-selfplay.test.mjs",
+      "passed": 10,
+      "failed": 0
+    },
+    "full_node_final": {
+      "command": "node --test",
+      "passed": 508,
+      "failed": 0
+    },
+    "build": {
+      "command": "npm run build",
+      "exit_code": 0,
+      "result": "Build complete"
+    }
+  },
+  "restored_input": {
+    "archive_path": "docs/validation/MPC-REASONING-V15-BUDGET-SEARCH-RUNS.zip",
+    "archive_sha256": "6030640c7657826ee6d6866cdcbe3b79f7d1f567ba9da1976fa98fa86c0a0c74",
+    "prior_cursor_sha256": "e6eafd073db0bff5cd80c0b40e0c748cbfbd96347cf758130c076c6c541abe4c",
+    "restore_rule_obeyed": "Extracted into a fresh output history; no existing history was replaced or merged."
+  },
+  "execution": {
+    "command": "node scripts/run-reasoning-selfplay.mjs --rounds 24 --output-root <fresh-restored-history>/Runs",
+    "node": "v24.19.0",
+    "host": "CHATGPT_LINUX_PORTABLE_RUNTIME",
+    "seed": 20261011,
+    "next_seed": 20261012,
+    "source_change_replay": true,
+    "cases_executed": 292,
+    "passed": 292,
+    "failed": 0,
+    "anchor_replays": 101,
+    "native_evaluator_calls": 913,
+    "distinct_native_evaluators": 11,
+    "counterexamples": 0,
+    "new_family": {
+      "cases": 26,
+      "anchors": 2,
+      "generated_parameter_cases": 24,
+      "passed": 26,
+      "native_evaluator_calls": 86,
+      "contingent_policies_enumerated": 170,
+      "positive_adaptivity_gain_cases": 9,
+      "nonadaptive_equivalence_cases": 17,
+      "budget_blocked_cases": 8
+    }
+  },
+  "result_hashes": {
+    "scan_sha256": "b1f4ef40cd45a117bf484df58fb87509b02893644e2aee86064dbbc003686c16",
+    "cursor_file_sha256": "9ac5ef93699841fd7ff3d62201253a046234a1fa2578994179ba53cc6890d826",
+    "cursor_sha256": "0c354d2d1864a0d1b213f62fce29f70cf9e0c7d0cd406ad703525c3f37c3c23b",
+    "summary_sha256": "774bdbb7fa606640c81512b5f21bec2ca5cea974f549cdcb6fba5ae5e1cf0935",
+    "runtime_receipt_sha256": "e166f7a8449701a4441903a51e5d6c8e4cd5e582119387eb6ac94526f2ac483b",
+    "manifest_sha256": "98513fc056c54c07809c6f3e74ae285175436b84679b58c25f93bec319b54b75",
+    "report_sha256": "0365b50445a5b1420be60e3811469f099537f556bdfb9f28ffbfc6cb52dd7404"
+  },
+  "continuation_archive": {
+    "path": "docs/validation/MPC-REASONING-V15-ADAPTIVE-TWO-STAGE-RUNS.zip",
+    "bytes": 391986,
+    "sha256": "98933d7ee2d0ba875242a8c0475d6c0004a1fcedb01310fb616b5efdcdbe66de",
+    "contains": [
+      "Runs/latest.json",
+      "Runs/2026-10-09T14-22-59-873Z-20261011-b6339252/"
+    ],
+    "restore_rule": "Extract into a fresh directory and pass its Runs directory as --output-root; never merge with another history."
+  },
+  "preserved": {
+    "native_evaluator_ids": 24,
+    "atlas_candidates": 239,
+    "atlas_relations": 212,
+    "catalog_methods_promoted": 0,
+    "maxvar_256_untouched": true,
+    "original_v13_controller_untouched": true,
+    "target_actions": false,
+    "external_network_calls_by_runner": false,
+    "connector_dispatch": false,
+    "merged": false,
+    "deployed": false,
+    "windows_execution_claimed": false
+  },
+  "next_unresolved_experiment": {
+    "family": "BOUNDED_ROBUST_OBSERVATION_CHOICE_UNDER_INTERVAL_LIKELIHOODS",
+    "requirement": "Use caller-supplied likelihood intervals, an independent endpoint/worst-case oracle, and a zero-width equivalence control without inferring calibration.",
+    "state": "UNIMPLEMENTED_PROPOSAL"
+  }
+}

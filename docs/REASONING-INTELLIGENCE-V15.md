@@ -1,6 +1,6 @@
 # V15 — Local Reasoning Intelligence Lab
 
-The local lab executes finite models through MPC's existing methods, checks their answers against explicit mathematical relationships, and keeps a reproducible cursor for the next bounded pass. It adds information reasoning, bounded stochastic observation value, bounded imperfect-information regret, bounded budget-sensitive search, concrete counterexample refinement, and seeded scenario variation to the existing product.
+The local lab executes finite models through MPC's existing methods, checks their answers against explicit mathematical relationships, and keeps a reproducible cursor for the next bounded pass. It adds information reasoning, bounded stochastic observation value, bounded imperfect-information regret, bounded budget-sensitive search, bounded adaptive two-stage computation choice, concrete counterexample refinement, and seeded scenario variation to the existing product.
 
 **Baseline source:** `e3a8f15806388d9c0d3705970ec7fd18c44d3439`. The V15 additions extend that baseline. The baseline commit does not identify the new files: each execution receipt records the exact runtime and catalog file hashes, available Git identity, and working-tree state.
 
@@ -49,6 +49,7 @@ Run the same command again for continuation. The launcher starts one bounded pas
 | Stochastic observation value | Expand supplied finite signal likelihoods into joint hidden-state/signal states, execute posterior choices through the retained Harsanyi evaluator, compare against a closed-form fair-bit oracle, and reject costs above a supplied utility-unit budget. |
 | Imperfect-information regret | Enumerate every pure unilateral response to a supplied finite simultaneous-move strategy profile with exact integer arithmetic, cross-check with retained Nash/Harsanyi evaluators, and require uniform matching pennies to return exact zero regret. |
 | Budget-sensitive search | Maximize supplied gross utility minus cumulative expansion cost within an explicit budget, cross-check finite dynamic programming with retained Selten backward induction, and require a dominated-search control to stop immediately. |
+| Adaptive two-stage computation | Choose STOP or one affordable second computation separately after every first result, cross-check selected terminal decisions with retained Harsanyi, compare with exhaustive contingent-policy enumeration, and require uninformative second computations to equal the fixed STOP control. |
 | Abstraction refinement | Build an over-approximation, replay its failure path in the concrete graph, and split a group responsible for an unrealizable path or label. |
 | Fault structure | Compare direct Boolean evaluation, the native fault tree, and native minimal cut sets while preserving shared leaf identity. |
 | Accounting | Reconcile each account with conservation, split and reorder equivalent transfers, and check that a changed amount with stale balances produces residuals. |
@@ -120,6 +121,31 @@ learn a heuristic, update probabilistic beliefs, run CFR, enumerate a bounty
 target, or establish general planning ability. Its result is optimal only for
 the complete finite tree, integer utilities, costs, and budget supplied by the
 caller.
+
+## Bounded adaptive two-stage computation choice
+
+`lib/finite-adaptive-two-stage-choice.mjs` evaluates one caller-supplied model
+with 2–4 hidden states, 2–4 terminal actions, one first-stage computation and
+at most three second-stage computation options. State priors and signal
+likelihoods are bounded integer weights. Each state's likelihood weights must
+sum to the declared scale, so expected terminal utility and realized
+computation costs remain exact rational values.
+
+After each first-stage result, backward induction compares STOP with every
+second computation that fits the supplied branch budget. A different second
+choice may be selected after each first result. The adapter also scores every
+fixed second-stage choice, including STOP, and reports exact adaptivity gain.
+The selected terminal information cells are cross-checked with the retained
+Harsanyi evaluator. The curriculum uses separate exhaustive enumeration of
+every contingent second-stage policy and every fixed policy. Identically
+uninformative second computations must select STOP and produce exact zero
+adaptivity gain.
+
+This family assumes the supplied first- and second-stage observations are
+conditionally independent given the hidden state. It does not infer or learn
+likelihoods, calibrate a source, train a policy, perform target search, run CFR,
+or solve general poker. A positive adaptivity gain is only a comparison inside
+the complete finite model and supplied utility/cost scale.
 
 ## Counterexamples and finite evidence boundaries
 
