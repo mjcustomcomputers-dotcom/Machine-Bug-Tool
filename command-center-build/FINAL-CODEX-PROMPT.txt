@@ -1,0 +1,59 @@
+CONTINUE OUR EXISTING MPC WORKSPACE BUILD AND FINISH THE HOST INTEGRATION.
+
+Repository: mjcustomcomputers-dotcom/Machine-Bug-Tool
+Updated build: PR #18, feature/mpc-workspace-build-20261009
+Product name: MPC Workspace. Preserve existing internal MPC, MAXVAR, method, source, plugin and controller identities.
+
+This is an implementation request. Preserve the current checkout's uncommitted work and continue the existing product. Inspect the actual latest PR #18 source and reconcile it with this task before changing files. Follow the current AGENTS.md and existing release process. The newly requested work is authorized; historical completion of V13 remains historical and intact.
+
+READ THESE TOGETHER:
+  command-center-build/CODEX-BUILD.txt
+  command-center-build/docs/USABILITY-AND-INGEST.md
+  command-center-build/docs/CAPABILITY-REVIEW.md
+  docs/HOST-CONNECTOR-INTEGRATION.md
+  LOCAL-CHAT-README.md
+  docs/validation/MPC-LOCAL-CHAT-VALIDATION.json
+
+THE OLLAMA PART NOW HAS WORKING SOURCE. INTEGRATE IT; DO NOT RETURN ANOTHER OLLAMA PLAN.
+  lib/ollama-local-chat.mjs: actual local status/show/tags, multi-turn streaming chat, pull/create, cancellation, requested/observed model identity and advertised thinking controls.
+  lib/local-chat-server.mjs: loopback application API and conversation orchestration.
+  lib/local-chat-store.mjs: separate SQLite chat retention service.
+  desktop/local-chat/: actual project/model/chat/input/setup UI.
+  scripts/start-mpc-local-chat.mjs and OPEN-MPC-LOCAL-CHAT.cmd: usable launchers.
+
+Run the new source tests and open this view in the receiving environment. Reuse its working conversation adapter inside the unified Workbench shell. Keep the existing V17 evidence-bound analysis adapter for source-dependent MPC work. Ordinary conversation must remain possible with an empty project and no cloud login. Preserve input and completed work when a model, provider, or source is unavailable.
+
+PRIORITY 1 — REAL HOST CALLS
+The native chatgpt-connector-bridge and connector-native-frontier are planners. They do not fetch records. The repository already has the actual hosted interface: lib/connector-contract.mts createConnectors(binding), getContext(), and invoke(connectorId,actionName,args), supplied per request through build/sites-worker.ts and connector-context.ts. Use that interface for the hosted app and the exact HOST_ADAPTER_1.0 contract in docs/HOST-CONNECTOR-INTEGRATION.md.
+
+Build the Windows host adapter around supported local/provider credentials or a configured MCP client. ChatGPT's existing connected account is not a Windows credential. Reuse PR #15 createSecurityAssistant({workspaceRoot}).callTool or its existing STDIO transport for local MPC, one execution path per job. First complete one native GitHub read, then Drive read/comparison when the selected account is available. Keep local work usable throughout setup. Display discovered tools, the actual protected operation result, host/account context, failure and next setup action. A saved connection card is configured; an actual result supports the observed operation state.
+
+Bind returned content by exact source reference/version into workflow.records and retain the full routeProblem result. Do not pass the compact run-mpc-work stdout summary to the evidence-bound model. Perform each useful native acquisition once, reuse unchanged content when appropriate, execute a ready_call before marking it complete, and stop looping when the user's question has been answered.
+
+PRIORITY 2 — FOLDERS, CLIPBOARD AND TRANSFER
+Implement the native whole-folder chooser and index selected files in place. Support nested folders, exclusions, unplug/reconnect, incremental content/version detection, detach, local search and visible index progress. Do not turn an attachment into a move/delete operation or call a browser file selection a durable mounted folder. Follow USABILITY-AND-INGEST.md for source IDs, encoding, extraction, original bytes and partial coverage.
+
+Keep Paste, file paste/drop, Copy answer and exports obvious. Add optional MPC_WORKSPACE_TRANSFER_1.0 task import/export around ordinary text input: objective, current task, sources, exact byte hashes, declared origins and historical receipts. Preserve project mapping, duplicates and versions. Pasting a Drive URL creates an acquisition target; pasted bytes are an imported/exported artifact unless a native read has actually been performed. A copied script is a draft for manual execution. Returned output is a new observation, not proof that the app ran the script.
+
+PRIORITY 3 — EVIDENCE AND EXACT RESULTS IN THE USER FLOW
+Use the existing methods, not a new catalog of impressive names. The source contains 239 Atlas candidates and 24 native evaluators; keep those distinct. Integrate the current exact numerical review into applicable Nash/conservation result and report paths. The retained native Nash fixture returns 0.4 while its exact comparison gives 1/3; the conservation fixture hides a nonzero residual under binary64 cancellation. Preserve original and exact receipts, show the disagreement, and show unreviewed scope. Do not claim the original evaluator was repaired merely because the regression suite passes.
+
+Support a practical professor-style method view: what question a method answers, required inputs and assumptions, a worked example, a counterexample, the executed result, limitations, and the primary reference. Keep hypotheses and candidate implementations distinct from demonstrated capability. For experiments, record the fixed baseline, independent oracle, benign/negative cases, unseen held-out tasks, versioned input and measured outcome. Do not present raw experiment counts, repeated anchor cases or catalog size as an intelligence benchmark.
+
+PRIORITY 4 — ONE DURABLE PROJECT JOURNEY
+Complete:
+  launch -> choose project -> paste/import or attach folder -> select local model ->
+  ask a source-dependent question -> acquire the needed native record -> extract reviewable facts ->
+  run an applicable MPC calculation -> inspect exact/source-bound results ->
+  save report -> close -> reopen -> resume the correct pending action.
+
+Respect retention throughout messages, extracted text, search indexes and exports. Use the separate command-center store; never add its schema to the legacy Workbench database. The newly supplied chat database also has an independent identity. Persist immutable native receipts and the original content when the user chose retention. On restart, old ACQ/ANA/DEC IDs are historical, not live process handles. Reacquire retained local bytes only when another operation needs a current handle; do not repeatedly refetch remote records without a changed dependency or need for current state.
+
+Source identity includes provider, owner/account, namespace, native type, ID and version. The legacy bridge's provider:ID key alone is not a globally sufficient database key. Keep integer/string IDs and identical display IDs from different owners distinct. Reports and outbox entries remain draft/queued/unknown until the precise destination action supplies its real receipt.
+
+PRIORITY 5 — FINISH AND PROVE THE RECEIVING BUILD
+Keep the pinned Node >=22.13/pnpm@11.25.0 environment, one existing lockfile, existing installer/update identity and data preservation. Integrate Workbench changes deliberately from its older branch; do not blindly replace later V16/V17 code. Package a compatible runtime so the eventual installer does not require a developer toolchain. The supplied .cmd launcher remains a useful fallback with visible errors.
+
+Run focused tests, the actual assembled repository node --test and build gates, and the current host/clipboard/folder/model acceptance cases. Record real Windows launch, model tag/digest, actual answer, time/memory when measured, saved report and restart. The Linux fixture tests in this update do not establish Windows/model acceptance. Historical 622 security-branch tests and 115 foundation tests are separate records, not one combined product score.
+
+DELIVER: the updated source commit, Windows installer or portable build, component manifest, exact tests/build receipt, completed versus pending acceptance, and concise opening instructions. Finish all independently available features when an account/setup action is missing. Keep the user's already authorized work moving; return the concrete remaining setup action instead of another generic handoff. No merge, deployment, external message, or target operation is implied by this build request.

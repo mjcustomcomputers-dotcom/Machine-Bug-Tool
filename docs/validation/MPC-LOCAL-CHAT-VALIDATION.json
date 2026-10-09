@@ -1,0 +1,151 @@
+{
+  "format": "MPC_LOCAL_CHAT_VALIDATION_1.0",
+  "recorded_at_utc": "2026-10-09T17:20:50.107393+00:00",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "branch": "feature/mpc-workspace-build-20261009",
+  "parent_commit": "e89a059761ae6cea8e08e61a1cfb0bc30b093a86",
+  "runtime": {
+    "node": "v24.19.0",
+    "sqlite": "3.53.3",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "tests": {
+    "command": "node --test tests/ollama-local-chat.test.mjs tests/local-chat-store.test.mjs tests/local-chat-server.test.mjs tests/local-chat-launcher.test.mjs",
+    "passed": 89,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "duration_ms": 1715.51468,
+    "scope_counts": {
+      "ollama_adapter": 40,
+      "chat_store": 34,
+      "http_host_integration": 12,
+      "launcher_process_integration": 3
+    },
+    "raw_log": "docs/validation/MPC-LOCAL-CHAT-TESTS.log"
+  },
+  "ui_checks": {
+    "javascript_syntax": "PASS",
+    "literal_dom_ids": "PASS",
+    "duplicate_ids": 0,
+    "dynamic_html_sinks": 0,
+    "private_browser_storage_apis": 0,
+    "functional_smoke": "A minimal-DOM harness exercised the actual local HTTP host and temporary SQLite with a synthetic Ollama client: bootstrap, ordinary chat, observed model, incomplete/error/cancel recovery, pull/create/start, attachment bound and history notice. Four synthetic chat calls. This is not rendered-browser validation.",
+    "thinking_control_revision": "Advertised boolean and string values are offered; host and adapter enforce actual membership."
+  },
+  "execution_boundaries": {
+    "actual_loopback_http_fixture": true,
+    "actual_sqlite_restart_and_retention": true,
+    "actual_node_launcher_child_processes": true,
+    "actual_ollama_service": false,
+    "model_weights_downloaded": false,
+    "actual_model_inference": false,
+    "native_windows_execution": false,
+    "rendered_browser_visual_qa": false,
+    "full_repository_suite": false,
+    "full_repository_build": false,
+    "unified_workbench_integration": false,
+    "folder_indexing_in_this_chat_view": false,
+    "windows_provider_credentials_connected": false,
+    "live_drive_acquisition": false,
+    "merge_or_deployment": false
+  },
+  "native_lineage": {
+    "bounded_json": "Copied unchanged from PR15 commit 297f586a3828c6d50b783fe1fdce766bce5344cd, lib/bounded-json.mjs.",
+    "mpc_modelfile": "Copied unchanged from PR16 commit 4ca57ff6c589176576270db5f2d2aa8259bdbda6, models/MPC-Daybreak-Local.Modelfile. MPC_SYSTEM_PROMPT was independently compared to the original SYSTEM text."
+  },
+  "historical_test_scopes": "The prior 622 security-branch and 115 foundation tests remain separate historical records. The current 89 tests are the four named local-chat files only.",
+  "files": [
+    {
+      "path": "LOCAL-CHAT-README.md",
+      "bytes": 7098,
+      "sha256": "2f51814bf3014ae39d0a45faaf47e403016dcfde149dbd3bbaf4fa530934024b"
+    },
+    {
+      "path": "OPEN-MPC-LOCAL-CHAT.cmd",
+      "bytes": 502,
+      "sha256": "6794a85c07701117c6a31c6b60aa46d54135fe61ec5799258f54e4675cb7feed"
+    },
+    {
+      "path": "OPEN-MPC-LOCAL-CHAT.sh",
+      "bytes": 147,
+      "sha256": "287cf5da6f61a6926fd3db4114619be4a45d91e5682849f08b65f7d7cb77bc09"
+    },
+    {
+      "path": "desktop/local-chat/app.js",
+      "bytes": 58735,
+      "sha256": "31d52653c9a4a9a66fca36cc8030aa8429d60d981fdbca8fd6f0a275aae438e3"
+    },
+    {
+      "path": "desktop/local-chat/index.html",
+      "bytes": 10195,
+      "sha256": "f2c510addf111000bf82443e15db03f5dd5c769f5f2e6d42f9e0eab59672bd05"
+    },
+    {
+      "path": "desktop/local-chat/styles.css",
+      "bytes": 17149,
+      "sha256": "87b79b3e36e1988d73c579161f75f3721f060489a55730ff2dc413cd679979d3"
+    },
+    {
+      "path": "docs/HOST-CONNECTOR-INTEGRATION.md",
+      "bytes": 19097,
+      "sha256": "38757ccc1bc8ebe18587ed19475988d7521efe1c9361fbc0da3d3e23cc41339a"
+    },
+    {
+      "path": "docs/validation/MPC-LOCAL-CHAT-TESTS.log",
+      "bytes": 8480,
+      "sha256": "97ebcd2e0679e87c85f9039bedaa370654444889c77bdf1d8cce36bfa0abc499"
+    },
+    {
+      "path": "lib/bounded-json.mjs",
+      "bytes": 2838,
+      "sha256": "9d4f7276eaa047309e43d685622746b33ac7f9f87efa788486826bf7a54986ab"
+    },
+    {
+      "path": "lib/local-chat-server.mjs",
+      "bytes": 22217,
+      "sha256": "122b4abafe163568d0f0bb0f4fe71bb320b662243574be7ff52ff3c45b5f7d60"
+    },
+    {
+      "path": "lib/local-chat-store.mjs",
+      "bytes": 23291,
+      "sha256": "bbe6030e2f71fdccfbdf9673f3f78968bc2e38b0155db5790cecfcd9847b17ad"
+    },
+    {
+      "path": "lib/ollama-local-chat.mjs",
+      "bytes": 28636,
+      "sha256": "af4fa2b33045243e311b9a066de9768c5a31c5094be3fe193f36aa2dee299bba"
+    },
+    {
+      "path": "models/MPC-Daybreak-Local.Modelfile",
+      "bytes": 1075,
+      "sha256": "18fd96b83b1fb9b535078463eb40e8314aced9bcbc3ffc0a3cd19cccf0061afd"
+    },
+    {
+      "path": "scripts/start-mpc-local-chat.mjs",
+      "bytes": 7261,
+      "sha256": "a87a7c1d17b91631fbfb42418f51eb56623c92d0b6f06558a00a6d9c55b9d06a"
+    },
+    {
+      "path": "tests/local-chat-launcher.test.mjs",
+      "bytes": 4079,
+      "sha256": "c468d5c2196110f868f86a3cecd3cb32894b24443d3a40f34551186bf74336e5"
+    },
+    {
+      "path": "tests/local-chat-server.test.mjs",
+      "bytes": 15851,
+      "sha256": "b65632a4e3d58db70abd25081128c7965f4b66fa04af09c3b0e7c47ae129c7f2"
+    },
+    {
+      "path": "tests/local-chat-store.test.mjs",
+      "bytes": 26732,
+      "sha256": "21a5efa99afe70b73a598be6941d84a5bd64f32bcd54d37b606ae0359181cf3b"
+    },
+    {
+      "path": "tests/ollama-local-chat.test.mjs",
+      "bytes": 21909,
+      "sha256": "af2141638ebf95989a047f3257b6666f00195d9d5e11f02e42c11c936cd64c01"
+    }
+  ]
+}
