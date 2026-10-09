@@ -61,6 +61,17 @@ implemented and tested. These inventories do not add up to executed methods.
 
 2. ORIGINAL REPAIR PACKAGE
 
+The complete original package is now readable from this private GitHub copy:
+handoff/original/MPC-Daybreak-Blue-Repair-Pack-2026-10-09.zip
+CODEX-HANDOFF.txt at the repository root is an unchanged direct copy.
+Read handoff/CONTINUE-REPAIR.txt and handoff/CURRENT-REPAIR-CHECKPOINT.json
+for the source-repair frontier and current acceptance results. Native control
+reads are in handoff/CONTROLLER-SNAPSHOTS.json and handoff/controllers/.
+They preserve source identities and their retrieval cutpoint; they do not
+replace live controllers. These repository paths resolve the missing-file
+blocker for the isolated source task.
+
+
 MPC-Daybreak-Blue-Repair-Pack-2026-10-09.zip
 Google Drive:
 https://drive.google.com/file/d/18zuAPESWQhjQ9Vf78aBbcPIqENFsZUvi/view

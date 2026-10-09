@@ -5,6 +5,27 @@ Read `DAYBREAK-START.txt`, `docs/environment-setup.txt`, and
 the existing MPC source. Preserve its architecture, project identity,
 registries, typed IDs, method contracts, and checkpoint format.
 
+## Readable source-repair handoff
+
+The original `CODEX-HANDOFF.txt` is at the repository root. Read
+`handoff/CONTINUE-REPAIR.txt` and `handoff/CURRENT-REPAIR-CHECKPOINT.json`
+before selecting the next source repair. The complete original 39-file
+package, including its workbook, notebook and data, is under
+`handoff/original/`. `handoff/SOURCE-MANIFEST.json` records verified hashes.
+
+`handoff/CONTROLLER-SNAPSHOTS.json` and `handoff/controllers/` preserve native
+control reads with their cutpoint and representation limits. They are
+transport copies; native canonical objects remain unchanged. Use them for
+the authorized isolated source/fixture task. Later canonical program writes
+still require fresh native reads and supported concurrency. Missing
+credentials for those later writes do not block this source task.
+
+The original handoff's statement that GitHub/Cloud setup had not occurred is
+historical. Preserve the imported source and prepared environment. The
+current checkpoint records Section A's successful registered synthetic
+acceptance and points to Section B / AUD-R002. Do not reimplement typed-backup
+fields or resolver operations already present and verified.
+
 ## Source continuity
 
 `docs/daybreak-source-import.json` records the exact upstream snapshot and every

@@ -1,0 +1,416 @@
+{
+  "schema_version": "MPC_CONTROL_SOURCE_SNAPSHOT_1",
+  "role": "READ_ONLY_TRANSPORT_COPY_OF_NATIVE_SOURCE_READS; NOT_A_REPLACEMENT_CONTROLLER",
+  "retrieved_at_utc": "2026-10-09T03:32:12.129Z",
+  "global_controller": {
+    "provider": "GOOGLE_DRIVE",
+    "native_file_id": "1CDKkE9Spnb7FyROt9Mo1ENxmxoLvUa1i-uCZP4ulD4Y",
+    "source_url": "https://docs.google.com/document/d/1CDKkE9Spnb7FyROt9Mo1ENxmxoLvUa1i-uCZP4ulD4Y/edit?usp=drivesdk",
+    "provider_modified_time": "2026-09-26T22:54:24.112Z",
+    "representation": "UTF-8 encoding of exact readable content string; leading BOM and CRLF retained. Not native Google Docs internal bytes.",
+    "text_path": "handoff/controllers/global-controller.txt",
+    "role": "Global identity/routing/collision rules; does not rank software repairs."
+  },
+  "social_deal": {
+    "provider": "AIRTABLE",
+    "base_id": "appZPanYDOUZRinwr",
+    "work_queue_table_id": "tblgkQOhVIBSiUzy7",
+    "work_queue_schema": {
+      "id": "tblgkQOhVIBSiUzy7",
+      "name": "Work Queue",
+      "description": "Social Deal organization, public-source intake, evidence triage and reporting administration. Local queue statuses are not Intigriti submission statuses. No automatic target actions or report submission. Highest eligible documented reward first only after scope, privacy and evidence checks; organization fixes have their own priority.",
+      "primaryFieldId": "fldFa1QZ0JoGSFDYX",
+      "fields": [
+        {
+          "id": "fldFa1QZ0JoGSFDYX",
+          "name": "Task",
+          "type": "singleLineText"
+        },
+        {
+          "id": "fldyL5q3uU2x0Buvh",
+          "name": "Stage",
+          "type": "singleSelect"
+        },
+        {
+          "id": "fldBmXWdudacMYxSV",
+          "name": "Status",
+          "type": "singleSelect"
+        },
+        {
+          "id": "fldKRtkf6ASElG5si",
+          "name": "Priority",
+          "type": "number"
+        },
+        {
+          "id": "fldBYNqL7zUtT4fa6",
+          "name": "Source / Record",
+          "type": "multilineText"
+        },
+        {
+          "id": "fldB7tqkMnwUDDbYL",
+          "name": "Required Result",
+          "type": "multilineText"
+        },
+        {
+          "id": "fldxRmasEzJ7iKwJ8",
+          "name": "Program",
+          "type": "singleLineText"
+        },
+        {
+          "id": "fldeiljC7hurJtBWJ",
+          "name": "Notes",
+          "type": "multilineText"
+        }
+      ]
+    },
+    "work_queue_read": {
+      "records": [
+        {
+          "id": "rec3q60Kqw9ZnnzTo",
+          "createdTime": "2026-10-09T00:04:08.000Z",
+          "cellValuesByFieldId": {
+            "fldB7tqkMnwUDDbYL": "Review permitted supplied evidence against current program scope, actual impact, contrary explanation and duplicate status. Preserve original candidate identities and separate facts from hypotheses.",
+            "fldBYNqL7zUtT4fa6": "Existing Gold Candidates table tblKHFcWGkk4v4LxX; original Pass102 and source register. Do not copy private evidence into this queue.",
+            "fldBmXWdudacMYxSV": {
+              "id": "selx9pgwUHfI3SGsw",
+              "name": "Blocked",
+              "color": "grayLight2"
+            },
+            "fldFa1QZ0JoGSFDYX": "Review evidence before promoting a report",
+            "fldKRtkf6ASElG5si": 2,
+            "fldeiljC7hurJtBWJ": "No security evidence was revalidated in the organization repair. A highest-reward label, method agreement or pass count cannot establish submission readiness.",
+            "fldxRmasEzJ7iKwJ8": "Social Deal",
+            "fldyL5q3uU2x0Buvh": {
+              "id": "selx2dwVGkHcMxX5q",
+              "name": "Triage",
+              "color": "grayLight2"
+            }
+          }
+        },
+        {
+          "id": "recBBJVslkiacgMiJ",
+          "createdTime": "2026-10-09T00:04:08.000Z",
+          "cellValuesByFieldId": {
+            "fldB7tqkMnwUDDbYL": "96 existing pass numbers indexed from 128 explicit heading occurrences. Social Deal remains at 102; no KOMOJU continuation in this table.",
+            "fldBYNqL7zUtT4fa6": "https://docs.google.com/document/d/1H6I-w8Ql94arz4jejPgIeaxJg0G86dB1Wtd3HhPcC7I/edit ; Passes table tbluibwWV5Es4ySQT",
+            "fldBmXWdudacMYxSV": {
+              "id": "selCO4H6PL6jRqMY2",
+              "name": "Done",
+              "color": "grayLight2"
+            },
+            "fldFa1QZ0JoGSFDYX": "Keep Social Deal passes separate",
+            "fldKRtkf6ASElG5si": 1,
+            "fldeiljC7hurJtBWJ": "Original full log contained zero KOMOJU/komodu terms. No original pass deletion or overwrite was needed. This is organization progress, not a research pass.",
+            "fldxRmasEzJ7iKwJ8": "Social Deal",
+            "fldyL5q3uU2x0Buvh": {
+              "id": "selx5CXy4iuvAvMqn",
+              "name": "Organization",
+              "color": "grayLight2"
+            }
+          }
+        },
+        {
+          "id": "recC9uf09KMdjQ8yH",
+          "createdTime": "2026-10-09T00:04:08.000Z",
+          "cellValuesByFieldId": {
+            "fldB7tqkMnwUDDbYL": "Before creating any new pass, fresh-read this program, reject another program's predecessor/base, check duplicates, and use a single writer or provider concurrency control. Read back before claiming saved.",
+            "fldBYNqL7zUtT4fa6": "Passes tbluibwWV5Es4ySQT; Work Queue tblgkQOhVIBSiUzy7; existing typed source identities.",
+            "fldBmXWdudacMYxSV": {
+              "id": "selBzfqGs6m59Jaov",
+              "name": "Queued",
+              "color": "grayLight2"
+            },
+            "fldFa1QZ0JoGSFDYX": "Add a single-writer check before future appends",
+            "fldKRtkf6ASElG5si": 1,
+            "fldeiljC7hurJtBWJ": "No global counter. No replacement base, schema downgrade, upsert or automatic report submission. A local validator is not an installed server-side lock.",
+            "fldxRmasEzJ7iKwJ8": "Social Deal",
+            "fldyL5q3uU2x0Buvh": {
+              "id": "selx5CXy4iuvAvMqn",
+              "name": "Organization",
+              "color": "grayLight2"
+            }
+          }
+        },
+        {
+          "id": "recD0BXclm0Qq9Ht0",
+          "createdTime": "2026-10-09T00:04:08.000Z",
+          "cellValuesByFieldId": {
+            "fldB7tqkMnwUDDbYL": "Locate exact original entries or linked files and append their source references. Preserve repeated heading occurrences. No fabricated missing passes, renumbering or deletion.",
+            "fldBYNqL7zUtT4fa6": "Original Social Deal log; heading index omits 8,10,11,71,72,73. Pass9 was found at line778 and added.",
+            "fldBmXWdudacMYxSV": {
+              "id": "selBzfqGs6m59Jaov",
+              "name": "Queued",
+              "color": "grayLight2"
+            },
+            "fldFa1QZ0JoGSFDYX": "Locate nonstandard historical pass headings",
+            "fldKRtkf6ASElG5si": 3,
+            "fldeiljC7hurJtBWJ": "A failed heading match is not proof that a pass was lost. Existing log remains the full historical record.",
+            "fldxRmasEzJ7iKwJ8": "Social Deal",
+            "fldyL5q3uU2x0Buvh": {
+              "id": "selx5CXy4iuvAvMqn",
+              "name": "Organization",
+              "color": "grayLight2"
+            }
+          }
+        },
+        {
+          "id": "recWgqwVWzHO1didE",
+          "createdTime": "2026-10-09T00:04:08.000Z",
+          "cellValuesByFieldId": {
+            "fldB7tqkMnwUDDbYL": "Fresh-read same-program sources, preserve the typed machine contract, then produce a separately reviewed additive continuation receipt. Never overwrite the shared state or reset to101 from an old snapshot.",
+            "fldBYNqL7zUtT4fa6": "Machine snapshot 1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU /social_deal/cursor = PASS101. Original log 1Yl3D6FdLkJvJpR_SD1a-lssSgYgPRFHE1N8Ra7eO5jk ends with Pass102.",
+            "fldBmXWdudacMYxSV": {
+              "id": "selBzfqGs6m59Jaov",
+              "name": "Queued",
+              "color": "grayLight2"
+            },
+            "fldFa1QZ0JoGSFDYX": "Reconcile the older resume pointer",
+            "fldKRtkf6ASElG5si": 1,
+            "fldeiljC7hurJtBWJ": "The new navigation index already points to102. Full original export ending was readable; tool-preview truncation must not be treated as a missing source.",
+            "fldxRmasEzJ7iKwJ8": "Social Deal",
+            "fldyL5q3uU2x0Buvh": {
+              "id": "selx5CXy4iuvAvMqn",
+              "name": "Organization",
+              "color": "grayLight2"
+            }
+          }
+        },
+        {
+          "id": "recw7MCfiSYe8vfqV",
+          "createdTime": "2026-10-09T00:04:08.000Z",
+          "cellValuesByFieldId": {
+            "fldB7tqkMnwUDDbYL": "Blank template matches Submission Title, Asset, Endpoint, Type, CVSS/severity, reproduction text, Impact, Recommended solution, IP, attachments and actual program questions.",
+            "fldBYNqL7zUtT4fa6": "https://docs.google.com/document/d/1H6I-w8Ql94arz4jejPgIeaxJg0G86dB1Wtd3HhPcC7I/edit ; https://kb.intigriti.com/en/articles/5379086-how-to-write-and-submit-a-good-report",
+            "fldBmXWdudacMYxSV": {
+              "id": "selCO4H6PL6jRqMY2",
+              "name": "Done",
+              "color": "grayLight2"
+            },
+            "fldFa1QZ0JoGSFDYX": "Use the Intigriti report fields",
+            "fldKRtkf6ASElG5si": 2,
+            "fldeiljC7hurJtBWJ": "Template only. No report created on Intigriti. Optional fields remain marked optional. Internal classifier/method IDs stay separate from platform vulnerability type.",
+            "fldxRmasEzJ7iKwJ8": "Social Deal",
+            "fldyL5q3uU2x0Buvh": {
+              "id": "selhOjkEoKhqOsCCA",
+              "name": "Report draft",
+              "color": "grayLight2"
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "totalRecordCount": 6
+      }
+    },
+    "pass_navigation_table_id": "tbluibwWV5Es4ySQT",
+    "pass_navigation_schema": {
+      "id": "tbluibwWV5Es4ySQT",
+      "name": "Passes",
+      "description": "Social Deal only. Navigation index over preserved research records, not replacement evidence. Plain names and Social Deal pass numbers only. Corrections are added as new records; original passes and classifier IDs stay unchanged. Review Work Queue before continuing.",
+      "primaryFieldId": "fldKWhlgvP0mjvIQ1",
+      "fields": [
+        {
+          "id": "fldKWhlgvP0mjvIQ1",
+          "name": "Name",
+          "type": "singleLineText"
+        },
+        {
+          "id": "fld5WrXXTvA1rvQ5f",
+          "name": "Pass Number",
+          "type": "number"
+        },
+        {
+          "id": "fldvStzOK47XHsIrw",
+          "name": "Original Reference",
+          "type": "singleLineText"
+        },
+        {
+          "id": "fld3umSSkAMcYZUnB",
+          "name": "Source",
+          "type": "multilineText"
+        },
+        {
+          "id": "fldFwYzafmHHTgeFB",
+          "name": "Record Status",
+          "type": "singleSelect"
+        },
+        {
+          "id": "fldIjkF4W0HlLC0Qr",
+          "name": "Notes",
+          "type": "multilineText"
+        },
+        {
+          "id": "fldiVDOhpKdzy69iH",
+          "name": "Program",
+          "type": "singleLineText"
+        }
+      ]
+    },
+    "highest_pass_navigation_read": {
+      "records": [
+        {
+          "id": "rec2JHa11sXYW5knC",
+          "createdTime": "2026-10-09T00:01:17.000Z",
+          "cellValuesByFieldId": {
+            "fld3umSSkAMcYZUnB": "https://docs.google.com/document/d/1Yl3D6FdLkJvJpR_SD1a-lssSgYgPRFHE1N8Ra7eO5jk/edit ; exported lines 9961-9969",
+            "fld5WrXXTvA1rvQ5f": 102,
+            "fldFwYzafmHHTgeFB": {
+              "id": "selz7GvWj6MqnNIj8",
+              "name": "Indexed",
+              "color": "grayLight2"
+            },
+            "fldIjkF4W0HlLC0Qr": "Highest pass heading located in the full original log export during this repair. Original ending and next-action text remain intact. Navigation only: no findings or readiness promoted. Shared machine snapshot still names Pass101; do not let that reset this history. Do not continue from a different program's pass.",
+            "fldKWhlgvP0mjvIQ1": "Social Deal - Pass 102",
+            "fldiVDOhpKdzy69iH": "Social Deal"
+          }
+        }
+      ],
+      "metadata": {
+        "totalRecordCount": 96
+      },
+      "nextCursor": "itrAWGVJQ9ckkIAZQ/rec2JHa11sXYW5knC"
+    },
+    "source_log_locator": "https://docs.google.com/document/d/1Yl3D6FdLkJvJpR_SD1a-lssSgYgPRFHE1N8Ra7eO5jk/edit",
+    "limits": "Highest indexed pass is navigation metadata. The full original log was not reread in this source-access pass; do not promote navigation to fresh target evidence."
+  },
+  "komoju": {
+    "provider": "AIRTABLE",
+    "base_id": "appdD5WC0CVuRirtP",
+    "controller_table_id": "tblC9KnJuUvwxbikS",
+    "controller_record_id": "rech8Afm8n1P1qgMD",
+    "controller_schema": {
+      "id": "tblC9KnJuUvwxbikS",
+      "name": "Target Control",
+      "description": "Canonical bounded-pass controller for authorized KOMOJU business-logic research.",
+      "primaryFieldId": "fldBi2fbt0xbqux7U",
+      "fields": [
+        {
+          "id": "fldBi2fbt0xbqux7U",
+          "name": "Target ID",
+          "type": "singleLineText"
+        },
+        {
+          "id": "fldigfCbTQ1mXfPgb",
+          "name": "Program / Asset",
+          "type": "singleLineText"
+        },
+        {
+          "id": "fldYgiHCtqFRBF3gU",
+          "name": "Scope URL",
+          "type": "url"
+        },
+        {
+          "id": "fldX1GGQUeVKVmvMO",
+          "name": "Rules Cutpoint",
+          "type": "singleLineText"
+        },
+        {
+          "id": "fld4GrmhWzfHxjMvt",
+          "name": "Mode",
+          "type": "singleSelect"
+        },
+        {
+          "id": "fldStAPFLSOutSble",
+          "name": "Current Cursor",
+          "type": "multilineText"
+        },
+        {
+          "id": "fldRLwNrArfS7GoH7",
+          "name": "Runtime State",
+          "type": "multilineText"
+        },
+        {
+          "id": "fldtvzFeFa2kiYeen",
+          "name": "Critical Rules",
+          "type": "multilineText"
+        },
+        {
+          "id": "fld18HFiqJzpcam9v",
+          "name": "Next Action",
+          "type": "multilineText"
+        },
+        {
+          "id": "fldX9QSEbv2HUrSD3",
+          "name": "Drive Checkpoint",
+          "type": "url"
+        },
+        {
+          "id": "fldlTSm4TH4VjA8n3",
+          "name": "Checkpoint ID",
+          "type": "singleLineText"
+        }
+      ]
+    },
+    "controller_read": {
+      "records": [
+        {
+          "id": "rech8Afm8n1P1qgMD",
+          "createdTime": "2026-10-07T00:17:29.000Z",
+          "cellValuesByFieldId": {
+            "fld18HFiqJzpcam9v": "{\"schema_version\":\"MPC_MACHINE_FIELD_REF_1.0\",\"role\":\"OPERATIVE_TYPED_REFERENCE\",\"component\":\"KOMOJU_ORDINARY_TEST_MODE_BASELINE\",\"read_mode\":\"STRUCTURED_STATE_FIRST\",\"subject\":{\"provider\":\"Airtable\",\"base_id\":\"appdD5WC0CVuRirtP\",\"table_id\":\"tblC9KnJuUvwxbikS\",\"record_id\":\"rech8Afm8n1P1qgMD\",\"field_id\":\"fld18HFiqJzpcam9v\"},\"state_ref\":{\"provider\":\"google_drive\",\"file_id\":\"1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU\",\"mime_type\":\"application/json\"},\"archive_ref\":{\"provider\":\"google_drive\",\"file_id\":\"18pPbZq-5jbVskGKdqoNP-uZ24SeSc031\",\"role\":\"ARCHIVE_ONLY_NON_OPERATIVE\",\"json_pointer\":\"/komoju/tables/0/records/0/original_fields/Next Action\"},\"source_record_role\":\"ANALYTICAL_METADATA\",\"native_business_proof\":false,\"automatic_action\":false}",
+            "fld4GrmhWzfHxjMvt": {
+              "id": "selK2kpnMx4L8j1iH",
+              "name": "PASSIVE / DOC-BASED",
+              "color": "grayLight2"
+            },
+            "fldBi2fbt0xbqux7U": "TARGET-002",
+            "fldRLwNrArfS7GoH7": "{\"schema_version\":\"MPC_MACHINE_FIELD_REF_1.0\",\"role\":\"OPERATIVE_TYPED_REFERENCE\",\"component\":\"MPC_RUNTIME_SNAPSHOT\",\"read_mode\":\"STRUCTURED_STATE_FIRST\",\"subject\":{\"provider\":\"Airtable\",\"base_id\":\"appdD5WC0CVuRirtP\",\"table_id\":\"tblC9KnJuUvwxbikS\",\"record_id\":\"rech8Afm8n1P1qgMD\",\"field_id\":\"fldRLwNrArfS7GoH7\"},\"state_ref\":{\"provider\":\"google_drive\",\"file_id\":\"1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU\",\"mime_type\":\"application/json\"},\"archive_ref\":{\"provider\":\"google_drive\",\"file_id\":\"18pPbZq-5jbVskGKdqoNP-uZ24SeSc031\",\"role\":\"ARCHIVE_ONLY_NON_OPERATIVE\",\"json_pointer\":\"/komoju/tables/0/records/0/original_fields/Runtime State\"},\"source_record_role\":\"ANALYTICAL_METADATA\",\"native_business_proof\":false,\"automatic_action\":false}",
+            "fldStAPFLSOutSble": "KOMOJU — CHECKPOINT 002 — 2026-10-08. Separate TARGET-002 working base appdD5WC0CVuRirtP; prior KOMOJU Checkpoint 001 and PASS107-109 preserved. Independent folder 1wxCmbQxnRdKyzonwELiJHz5ZFfRHBzpk NOW under existing BugLab/Targets 1X2r_IkVrW-WD_DfCJp3TDmkjEESWlp_6, beside untouched Social Deal TARGET-001. Shared BugLab Operating Plan and PASS104 Cross Project Handoff read; both preserved; no shared MAXVAR/method/classifier redesign. New public source K-SRC-039 stored credential compliance, K-SRC-040 2026-09-24 payment_cycle/proration_logic/awaiting change, K-SRC-041 pinned generated Node SDK missing newer fields. Source frontier 41; existing K-A001..010 preserved plus NEW unique K-A011 subscription awaiting/first charge state DOC-MODELED, variations K-V001..009 preserved plus K-V010 BLOCKED/UNTESTED, source total 41, atom total 11, variations total 10, candidates ZERO, native staging Merchant proof ZERO. UMTB-4 routed: input 08ba0b9c8e577a5054d9ef8fbec7625ddc620c045e44f479c888e0507343ee5c; 32/384 existing classifier accounting; 5 WATCH, 0 ACTIVE, no methods executed, no promotion. High-value priority: K-A008 Customer stored credential ownership; K-A011 first-cycle subscription money/timing under ordinary authorized self-owned Merchant Test Mode; K-A007 conditional gated platform capture. Source-version difference != security finding. Rules: only explicitly listed staging app or Hosted Fields docs asset tested, public doc/GitHub reference-only; no automated scanning, non-owned data, target traffic, public disclosure, or speculative report. YesWeHack hunter verification USER-CONFIRMED; staging Merchant access UNKNOWN. NEXT passive: official Sep 14, 2026 0JPY stored-card verification/9JPY fallback reversal; compare to existing K-A009, ingest only novel provenance. NEXT active if user-operated legal stage Test Mode access: one ordinary own Customer/Subscription baseline and single-variable manual comparison after safe guard. Typed Next Action remains unchanged; old global machine JSON is stale and no merge attempted. Checkpoint Google Doc 1NXzSd-0HuE9-HGdUPt2drMJbnixGQSB_D-HSj7cUBFs and HOME 1JFr7xwaTOv6W5kae4Cwx6e3uJkXVhs2K49BxaW27umI.",
+            "fldX1GGQUeVKVmvMO": "2026-10-08",
+            "fldX9QSEbv2HUrSD3": "https://docs.google.com/document/d/1NXzSd-0HuE9-HGdUPt2drMJbnixGQSB_D-HSj7cUBFs/edit",
+            "fldYgiHCtqFRBF3gU": "https://yeswehack.staging.komoju.com",
+            "fldigfCbTQ1mXfPgb": "KOMOJU Public Bug Bounty — Staging Payment Gateway",
+            "fldlTSm4TH4VjA8n3": "KOMOJU-CKPT-002-20261008",
+            "fldtvzFeFa2kiYeen": "No DoS/service degradation; no automated scanners/high-volume traffic; do not leak/manipulate/destroy user data; scope only listed assets. Business-logic errors require real security impact. Race conditions qualify only when leading to sensitive-information disclosure or authorization bypass. Staging database resets Sundays. Bug-bounty credentials provide Merchant users only."
+          }
+        }
+      ],
+      "metadata": {
+        "totalRecordCount": 1
+      }
+    },
+    "linked_checkpoint": {
+      "provider": "GOOGLE_DRIVE",
+      "native_file_id": "1NXzSd-0HuE9-HGdUPt2drMJbnixGQSB_D-HSj7cUBFs",
+      "source_url": "https://docs.google.com/document/d/1NXzSd-0HuE9-HGdUPt2drMJbnixGQSB_D-HSj7cUBFs/edit",
+      "provider_modified_time": "2026-10-09T00:02:31.346Z",
+      "text_path": "handoff/controllers/komoju-checkpoint-002.txt",
+      "representation": "UTF-8 encoding of exact readable content string; leading BOM and CRLF retained. Not native Google Docs internal bytes."
+    }
+  },
+  "shared_machine_projection": {
+    "provider": "GOOGLE_DRIVE",
+    "native_file_id": "1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU",
+    "metadata": {
+      "id": "1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU",
+      "title": "I_LOVE_BUGS_Machine_State_2026-10-08.json",
+      "mime_type": "application/json",
+      "size": "519891",
+      "url": "https://drive.google.com/file/d/1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU/view?usp=drivesdk",
+      "display_url": "https://drive.google.com/file/d/1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU/view?usp=drivesdk",
+      "file_or_folder": "file",
+      "created_time": null,
+      "modified_time": "2026-10-08T22:04:15.587Z",
+      "parent_ids": [
+        "1hIzoOyo1MpfFu4dTnb1UBjjsjYxbcrOi"
+      ],
+      "drive_id": null,
+      "current_user_can_share": null,
+      "has_augmented_permissions": null,
+      "shared": null,
+      "permissions": null,
+      "source_visibility_status": "access_not_verified"
+    },
+    "role": "STALE_TYPED_PROJECTION_ACCORDING_TO_CURRENT_KOMOJU_CONTROLLER_AND_SOCIAL_DEAL_WORK_QUEUE",
+    "current_fetch_state": "FILE_REFERENCE_RETURNED; CURRENT_BYTES_NOT_MATERIALIZED_IN_THIS_PASS",
+    "operative_hydration": "NOT_PERFORMED",
+    "limitation": "Do not use the stale projection to reset current native program counters."
+  },
+  "version_limits": "Airtable createdTime is record creation time, not a revision token. No provider row revision was invented. Drive modified_time is retained as returned.",
+  "allowed_use": "Read-only context for source/fixture work. Before any later authorized canonical write, fresh-read the affected native controller and use its supported version/concurrency mechanism.",
+  "mutations": {
+    "canonical_sources": 0,
+    "program_cursors": 0,
+    "target_requests": 0
+  }
+}

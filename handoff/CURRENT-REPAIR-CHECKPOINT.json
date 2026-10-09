@@ -1,0 +1,65 @@
+{
+  "schema_version": "MPC_CODE_REPAIR_CONTINUATION_1",
+  "checkpoint_id": "MPC-REPAIR-SOURCE-ACCESS-20261009",
+  "role": "DERIVED_SOURCE_REPAIR_CHECKPOINT; NOT_CANONICAL_PROGRAM_STATE",
+  "recorded_at_utc": "2026-10-09T03:32:12.129Z",
+  "project": "I LOVE BUGS / MPC Machine Legal BugTools source repair",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "base_repository_commit": "ebe131b80e97c60feeb9fece49c886c35cae9013",
+  "tested_source_baseline": "97704161bfc2c3f0af42ead986dbfb7b405c8c5c",
+  "native_source_commit": "765923c9839f32502e5c0f1f1b919b827596012e",
+  "environment_status": "PREPARED_ENVIRONMENT_RESTORATION_VERIFIED_PER_USER_SUPPLIED_RECEIPT",
+  "source_authority": {
+    "original_handoff": "CODEX-HANDOFF.txt",
+    "original_package": "handoff/original/MPC-Daybreak-Blue-Repair-Pack-2026-10-09.zip",
+    "original_queue_member": "mpc_daybreak_pack/data/audit_records.json#/work_items",
+    "visible_queue_member": "mpc_daybreak_pack/MPC-Repair-and-Submission.xlsx [Repair Queue]",
+    "implementation_order": "CODEX-HANDOFF.txt / IMPLEMENTATION ORDER AND REQUIRED RESULTS / A through F",
+    "native_control_snapshot": "handoff/CONTROLLER-SNAPSHOTS.json",
+    "global_control_text": "handoff/controllers/global-controller.txt"
+  },
+  "prior_cloud_gap": {
+    "evidence_origin": "USER_PASTED_CLOUD_TASK_REPORT",
+    "original_receipt_path": "/workspace/.cloud-tools/reports/bounded-repair-source-gap-mco_ayao/receipt.json",
+    "original_receipt_contents": "NOT_SUPPLIED_OR_DIRECTLY_READ; ONLY_THE_PASTED_TASK_SUMMARY_WAS_USED",
+    "reported_blocker": "Original CODEX-HANDOFF and current controller unavailable in destination; Drive proxy403 and nativeSites Git authentication unavailable.",
+    "resolution": "Original package and readable current controller/checkpoint snapshots are now supplied through the already-authorized private GitHub repository. No authentication material is transferred."
+  },
+  "completed_this_pass": [
+    "Recovered the original complete 39-file package and matched its original byte count and SHA-256.",
+    "Recovered live global controller, Social Deal work queue/navigation, and KOMOJU Target Control plus its linked checkpoint.",
+    "Verified the source and deployed advertised backup JSON Schemas match exactly.",
+    "Verified six registered synthetic interface cases, including both expected semantic rejections, through the originating session's installed plugin."
+  ],
+  "interface_receipt": "handoff/REGISTERED-INTERFACE-VERIFICATION.json",
+  "source_change_for_section_a": "NONE_INDICATED_BY_CURRENT_OBSERVATIONS; DO_NOT_REIMPLEMENT_PRESENT_FIELDS",
+  "frontier": {
+    "next_bounded_source_item": "AUD-R002",
+    "original_priority_basis": "Section B follows Section A in the original handoff. Section A's historical missing-fields observation is not reproduced and its retained typed/legacy/resolver acceptance cases now pass.",
+    "current_section_a_limits": "No claim of a code fix, historical root-cause identification, full client JSON Schema keyword parity, or reconciliation of all historical program aliases.",
+    "task": "Inspect the existing integration boundary and implement one additive, tested native-content completeness/fallback guard for the documented partial indexed JSON pattern.",
+    "acceptance": [
+      "Classify the documented 24000+1600-byte unterminated JSON with has_more=false as PARTIAL_INDEX_EXTRACT; do not hydrate it.",
+      "Preserve exact provider/native object identity and representation through supported native fallback.",
+      "Reject missing continuation, changed version/object, invalid JSON, and mismatched length/digest/schema.",
+      "Accept a complete same-object native fixture with its own verified representation; keep fixture results separate from live provider execution.",
+      "Preserve the core's current hosted persistence/connector-dispatch/canonical-promotion boundaries."
+    ],
+    "source_context": "No dedicated completeness/fallback guard was located in the inspected lib/scripts/tests source. Inspect actual code before editing; an absent search term alone is not a full implementation proof."
+  },
+  "blocked_or_unresolved": [
+    "Current shared-machine raw bytes were not materialized in this pass; it remains a stale projection according to live native controllers.",
+    "Actual provider fallback in the Cloud destination needs supported provider access; synthetic adapter validation must not be reported as a live provider pass.",
+    "Provider concurrency/canonical reconciliation remains Section C and requires fresh native reads before authorized writes.",
+    "Cloud destination MPC exposure and Daybreak access remain separate unverified capabilities."
+  ],
+  "do_not_repeat": [
+    "Environment creation, dependency installation, full restoration tests solely to resume this pass.",
+    "Cloning native Sites Git merely to obtain the already-imported source.",
+    "Reimplementing typed-backup fields or resolver operations already present and verified.",
+    "Resetting Social Deal or KOMOJU to the stale shared-machine projection.",
+    "Target traffic, Site deployment, canonical research writes or report submission during this bounded source task."
+  ],
+  "next_action": "Read handoff/CONTINUE-REPAIR.txt and the pinned original package; continue AUD-R002 as one reviewable source change with a meaningful regression test, full existing tests and build. Record any remaining live-provider dependency honestly.",
+  "canonical_promotion": false
+}

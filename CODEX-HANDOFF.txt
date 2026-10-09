@@ -1,0 +1,154 @@
+MPC / I LOVE BUGS — DAYBREAK BLUE CODEX REPAIR HANDOFF
+Audit source cutpoint: 2026-10-09 UTC (2026-10-08 in America/Chicago)
+Purpose: repair the existing system in the selected repository and return a reviewable implementation.
+
+TASK
+
+Work on my existing MPC / Machine Legal / BugTools architecture for I LOVE BUGS. Use the accompanying repair package as an evidence-backed starting point. Complete the repository repairs that can be made and tested in this environment. Keep the existing program records, methods, namespaces, classifier identities, pass format, privacy boundaries, and local BugLab workflow. Do not stop at a proposed architecture or a generic bug-bounty checklist.
+
+The desired result is a working connection between the existing MPC engine, program controls, native Google Drive evidence, Dash discovery, local capture tools, notebook/workbook views, and the report/triage workflow. Each layer must tell the truth about what it read, executed, saved, or could not do.
+
+This package is an additive audit and working view. Its AUD-R and AUDSRC identifiers belong to this audit, not to the canonical classifier registry or a new bounty finding. It contains no completed target report. Preserve the existing canonical Research OS and program-specific predecessors.
+
+START WITH THE ACTUAL REPOSITORY AND CURRENT STATE
+
+1. Read the repository's AGENTS.md and relevant MPC instructions, manifests, schemas, tests, adapters, and existing issue records. Record the repository, branch, commit, working-tree state, runtime versions, and exact source paths. The method-extension pass resolved the existing private Sites repository: https://git.chatgpt-team.site/18c3c3d1-312d-4698-88c6-e7b4329658c0/appgprj_6abf0bb684648191a38324d33d1aa8cc.git, branch main. Its verified release commit is 765923c9839f32502e5c0f1f1b919b827596012e. Preserve project appgprj_6abf0bb684648191a38324d33d1aa8cc. A separate GitHub binding/reusable Codex Cloud environment was not created; use the existing Sites source workflow and do not invent a mirror.
+
+2. Read START-HERE.txt, data/audit_records.json, data/technical_snapshot.json, the Drive/Airtable source-read receipt, and the Dash indexed-read/interface receipt. Use MPC-Repair-and-Submission.xlsx as the visible queue. Re-read live objects before any canonical continuation because the supplied receipts describe an earlier cutpoint.
+
+3. Run the supplied offline review and the repository's existing relevant checks. This package's notebook validates structure, identity, references, hashes, and documented gaps. It does not prove source authenticity, target impact, current program permission, or a successful deployed integration.
+
+4. Bind source ownership, source role, provider identity, version, representation, and program before comparing values. Preserve original evidence bytes. A readable Google Docs export hash is a hash of that returned representation; an Airtable record's createdTime is not a last-modified revision.
+
+5. Work in a branch or isolated checkout that preserves unrelated user changes. Make the already-authorized reversible code fixes and meaningful tests. For a dependency unavailable here, finish its adapter, fixtures, documentation, and exact runnable verification step, and label the remaining dependency. Do not convert an unavailable live test into a passing result.
+
+DAYBREAK BLUE AND CLOUD/LOCAL BOUNDARIES
+
+Daybreak Blue is an OpenAI access tier. It is not a replacement operating system, a browser session, an MCP bridge, or target authorization. Use the approved account/workspace and a currently supported Blue model, with the Daybreak setting enabled for the request where the product provides it. Current API guidance distinguishes the selected model and access_programs.cyber. It gives gpt-6-sol as a Blue-compatible example and requires Red approval for reduced refusals on gpt-6.1-sol and gpt-6-astra; the old gpt-daybreak-blue-latest alias is deprecated. Verify current client availability and approval rather than inferring a model from the package name. See MPC-ENVIRONMENT-SETUP.txt and its official source URLs. Do not claim that this audit verified the user's entitlement, account, selected model, or request setting.
+
+Cloud work runs in its selected environment. It does not inherit the user's local personal skills, Windows programs, authenticated browser, emulator, filesystem, USB devices, or hardware-key session. Put necessary nonsecret MPC instructions and fixtures in the existing repository. Verify current environment/network-secret configuration rather than copying legacy setup assumptions. Codex Cloud repository environments and eligible Work Cloud tasks with explicitly enabled local access have different capabilities. No local computer connection was verified here. Follow MPC-ENVIRONMENT-SETUP.txt and return an exact local verification step where access is missing.
+
+Keep existing hardware keys, passwords, cookies, API credentials, and account recovery material outside the package, notebook, workbook, source fixtures, and logs. Reuse the user's existing authentication mechanism. Do not propose new hardware, a required WSL migration, or a localhost tunnel without an observed need.
+
+PRESERVED MPC CONTRACT
+
+The current verified hosted release is runtime 0.10.0-http.1, catalog 1.2.0 and atomic execution ATOMIC-EXECUTION-1.0, with routing UMTB-4.0, storage RESEARCH-STORAGE-2.0 and output RECON-OUTPUT-1.0. It exposes 20 hosted tools and 24 finite evaluators. The 10 research hooks are separate from executable evaluators. data/technical_snapshot.json remains the earlier 0.9.1 audit snapshot; use current_runtime_receipt.json and atomic_deployment_receipt.json for the new availability state. Automatic method execution, hosted persistence, connector dispatch, hosted proof gate, and canonical promotion are false. Fix the surrounding integration without silently turning those boundaries into claimed engine features.
+
+Preserve MAXVAR 256, the frozen business-logic pack of 32 branches / 384 children, MBSS 64 / 512, the separate 96 candidate extension templates, and their distinct namespaces. The runtime enumerates 174 microclassifiers while retaining a legacy descriptor of 160. Investigate the counting rule and exact membership; do not invent a missing-14 explanation, delete entries, renumber IDs, or merge counts. The frozen business-logic fingerprint in the receipt is:
+7db8a73e32016a8d3df560f649125221615b42a669231ec066ce74fee9d8a58d
+
+Keep printed identity, operative function, actor/capacity, authority, temporal state, proof state, and finality separate. A listed method is not an invocation, several methods agreeing is not independent corroboration, and a synthetic fixture is not target evidence. Retain the existing normal-answer sections and stable atom-specific pass format. Avoid registry dumps in ordinary output.
+
+ATOMIC METHOD EXTENSION ALREADY IMPLEMENTED AND DEPLOYED
+
+Read METHODS-AND-ATOMIC-EXECUTION.txt, MPC-ENVIRONMENT-SETUP.txt and the current data receipts before redoing work. Preserve all 17 finite atom transformations and four new evaluator IDs: propositional_entailment, finite_invariant, abductive_cover, minimal_cut_sets. Keep all original 20 IDs. The six Ark layers must remain fully discoverable with exact counts 24 / 10 / 15 / 12 / 17 / 15; those are different inventories, not an execution total.
+
+The refreshed current session exposed review_atomic_variants and both fixture calls passed; data/atomic_direct_client_receipt.json retains the actual schemas and results. Use the existing review_atomic_variants tool when the destination exposes it. Otherwise the verified existing business_logic_sweep context supports UMTB4 JSON with atomic_review. Read the current contract first. Default PLAN does not evaluate models; EXECUTE_SUPPLIED_MODELS must be explicit and have source-bound inputs. Follow both variant pagination and next_execution_variant_offset, with the same base fingerprint. Missing models, unknown values, budget stops and unperformed reconciliation remain visible.
+
+Do not relabel the ten research hooks as implemented solvers. Their full primary-source contracts, atom/operator attachments and acceptance cases are in the Method Ark and data/method_ark_live_inventory.json. Implement a hook only from its exact required inputs and finite semantics, with a counterexample fixture and an unknown/budget case, and then update both implementation status and callable schema. Mere use of the name Nash, NASA, Alloy, CEGAR or induction cannot establish algorithm execution or a target defect.
+
+The source setup documentation now matches pnpm 11.25.0, Node >=22.13.0 and the Linux installer. Hosted plugin invocation needs no local Node install. All 166 repository tests passed, the build and private deployment succeeded, and six finite results in two retained live requests verified identity and the four additions. No Windows run, target test, native bounty proof or report submission is inferred from those results.
+
+IMPLEMENTATION ORDER AND REQUIRED RESULTS
+
+A. Repair the exposed typed-backup interface. Queue AUD-R001, AUD-R007.
+
+The advertised storage input has ten top-level properties. The current registered prepare_research_backup action exposes only checkpoint_id, next_action, project_id, records, and stop_condition. It omits record_contract, export_profile, resolver_action, dash_resolver, and expected_resolver_fingerprint. Its records omit typed, including identity, ordinal, classifier_refs, and method_refs.
+
+This is an observed interface-contract mismatch. The preparation session did not establish whether the root cause is handler implementation, generated schema, deployment, registration, or client discovery. Compare all of them. Repair the actual supported interface instead of passing unsupported arguments, silently dropping fields, or making a documentation-only change.
+
+Acceptance: a synthetic TYPED_V2 request passes through the real registered interface to the intended handler with all typed values intact. The existing LEGACY_V1 fixture retains its behavior. Check required fields, enums, limits, additionalProperties, defaults, and nested identity rules, beyond the notebook's property-name comparison. New typed references follow the advertised contract, including empty legacy classifier_ids/method_ids where required. Preserve integer 1 versus string "1", namespace, ordinal, exact alias, and native source identity. Existing resolver handles survive REUSE/ADVANCE; an incorrect expected resolver fingerprint rejects the update. Record source, deployed, and client schema versions.
+
+B. Make native content retrieval complete. Queue AUD-R002.
+
+Dash currently resolves connected sources but returns two incomplete indexed JSON extracts. For the machine state and pointer crosswalk, a 24,000-byte read plus a 1,600-byte continuation ends at 25,600 bytes with has_more=false and unterminated JSON. The machine state's native Google Drive object was separately fetched and parsed in full at 519,891 bytes. This evidence establishes a partial indexed representation, not native file corruption or a disconnected provider.
+
+Follow the existing STRUCTURED_NATIVE_STATE_FIRST and TARGET_LOOKUP_ONLY architecture: use Dash to resolve the native object identity, then fetch the complete content from that object's native provider. Preserve provider identity across the fallback. Validate representation, pagination completion, expected length where supplied, digest, parse result, and existing schema before hydration. A provider completion flag alone is insufficient. Do not parse missing content into an empty state or resume from a convenient old checkpoint.
+
+Acceptance: the exact 24,000+1,600 pattern is classified PARTIAL_INDEX_EXTRACT and cannot become operative state. A valid complete native fixture hydrates with the same object identity. Test missing continuation, changed version during read, wrong object, invalid JSON, and changed content. Preserve UTF-8 hashes, Unicode code-point span offsets, and original BOM/CRLF policy; any normalized derivative gets its own representation and hash. Do not describe the contract's serializer as a different canonicalization standard.
+
+C. Reconcile program cursors and implement real write discipline. Queue AUD-R003–008, AUD-R018, AUD-R027.
+
+Social Deal's native pass log ends at PASS102 / SRC-182. The shared machine projection still points to PASS101, and the GC-002 explanation carries older PASS87 material. PASS102 is a synthetic local lab. These are different source roles and freshness states; a current label cannot refresh older evidence by implication.
+
+KOMOJU's current Target Control and linked checkpoint are KOMOJU-CKPT-002-20261008, 41 sources / 11 atoms / 10 variations, zero candidates and zero native baselines. The shared machine projection still shows 19 / 7 / 6. The native control explicitly notes that no merge was attempted. Retain the current program-specific controller while preparing an additive, versioned reconciliation of the stale projection.
+
+Social Deal base: appZPanYDOUZRinwr. KOMOJU base: appdD5WC0CVuRirtP. Keep separate predecessors, counters, source aliases, authorization, candidate IDs, evidence folders, and report events. Shared method definitions do not merge programs. Reused source IDs need their exact qualified aliases; cross-provider identity does not establish content equality.
+
+The existing single-writer check remains queued. Implement a real provider-supported conditional update or a justified lock/serialization mechanism in the existing integration. Do not treat a read-then-write sequence or a checkbox as atomic. Preserve the expected predecessor and existing schema. Use idempotency, retry reconciliation, and recoverable checkpoints so interruption does not create duplicate or falsely committed state.
+
+The core prepares exports; the authorized external adapter performs persistence. Track preparation, provider write, and exact read-back verification distinctly. A persistence receipt must identify the provider, native object, version if exposed, representation, content hash, and result. If the provider lacks a revision token, record that limitation and use a real supported concurrency strategy. Never manufacture a provider version, ETag, or receipt.
+
+Acceptance: two writers starting from the same predecessor cannot both advance it; the stale writer sees a conflict. Retry after a lost response does not duplicate a commit. A failed or partial write cannot become COMMITTED. Fresh native read-back agrees with the written artifact. Against the supplied regression fixtures, resume preserves Social Deal PASS102 and KOMOJU 41/11/10 without inventing proof changes. For live continuation, use the newest verified same-program native predecessor and preserve later authorized progress; never overwrite it with this package's cutpoint. Locate historical nonstandard headings 8, 10, 11, 71, 72, and 73 only from their original sources; do not reconstruct them or repeat completed research.
+
+D. Make Dash capability and privacy truthful. Queue AUD-R009–011.
+
+All 15 exposed Dash tools in this audit are read-only. Connected/synced source status does not establish a stack mutation API; dash_list_search_actions returned an empty tools list despite a general supports_actions flag. Use supported native-provider writes. Do not claim a Dash stack was created, reordered, updated, or freshly indexed without a real supported operation and receipt.
+
+The private method document still produces body previews through Dash. Reference-only dashboard output does not prove underlying sources are excluded from indexing. Inspect the effective connector indexing scope, provider ACLs, resolver authorization, and exported content. Prepare exact exclusion or minimization changes where needed; verify them through the authorized account/admin route. Preserve originals and native identities. No public or outside-account disclosure was established by this audit.
+
+Acceptance: intended private bodies are absent from reference projections, logs, exports, and the surfaces meant to exclude them; an opaque handle alone does not grant access. Preserve PRIVATE as the default export profile. PRIVATE_WITH_DASH_REFERENCES is a projection choice, not encryption: the contract explicitly reports encryption=false. Do not claim that inaccessible-by-design content is protected merely because its labels are obscure.
+
+E. Reuse and verify the local BugLab. Queue AUD-R015–017.
+
+Inspect the existing Run-BugLab-Hardware-Capability-Audit-FIXED.cmd and its source before changing it. A recovered older receipt records an Android emulator and app.nl.socialdeal in PASSIVE_LOCAL_ONLY mode; its serial, UID, PID, and READY label are historical evidence, not current health. Current CPU/RAM/storage, OS build, Python/PowerShell/ADB versions, privileges, and emulator state remain unverified.
+
+Make fixes compatible with actual installed versions. Keep host, emulator, and Android evidence separated by source. Preserve encoding and line endings according to each existing file contract. A failed privileged host collector must not discard successful permitted Android evidence or force administrator rights for unrelated work. Capture timestamped capability and collector receipts with exit status, stderr, source identity, and precise unresolved dependency.
+
+Acceptance: cloud fixtures verify encoding, parsing, fallback, and failure isolation; the returned local command verifies the actual Windows runtime/device. Label those results separately. Use current capability discovery rather than a hardcoded emulator PID. No assumed GPU, WSL, proxy, browser session, or new hardware purchase is part of this task.
+
+F. Connect evidence, methods, organized views, and report events. Queue AUD-R012–014, AUD-R019–026.
+
+Use OPERATING-FRAMEWORK.txt for the full intake-to-triage workflow and smallest adequate OSINT/manual-testing capability inventory. Inventory installed capabilities before adding dependencies. Passive documentation analysis and offline fixture work can continue while a live permission or account dependency remains unresolved. Current native program terms govern dependent target requests, automation, rate, account, disclosure, and retention conditions separately. Social Deal's retained 2-requests/second ceiling does not authorize automation or apply to KOMOJU.
+
+Bind each explicit method invocation to its method ID/version, actual input reference/hash, invocation result, error, scope, and limitation. Use the existing supplied-record evaluators where appropriate. Keep inventory, applicability, invocation, completed evaluation, native observation, target impact, and finality separately countable. Stop speculative loops when the missing item is a named native witness.
+
+Social Deal GC-002 still needs all three native financial witness groups: (1) an authorized, distinct, eligible original/referee paid-and-issued same-Voucher pair; (2) a source-owned exclusive Recruitment-versus-Sharing decision joined to qualification/orders; (3) a source-coded posted/reversed credit lot with origin, event, owner, currency, and amount. Preserve 0/3 until the actual groups are supplied and reviewed. The provider label GOLD CANDIDATE is not proof.
+
+KOMOJU remains passive/document-based. Merchant Test Mode access is unknown. Its next native dependency is one ordinary permitted owned Customer or Subscription baseline. Keep delivery ID=headers.X-Komoju-ID, event ID=body.id, resource type=body.data.resource, and resource ID=body.data.id distinct. A payment ID is established only when the resource type is payment. No native identifier values were captured in this audit. Existing stored-credential, first-charge, proration, and split/capture ideas remain at their documented evidence states.
+
+Keep the existing 12 Intigriti submission fields and 17 internal triage fields from Social Deal - Start Here. Use SUBMISSION-AND-TRIAGE.txt as a companion and YesWeHack field crosswalk, not a replacement template. Current platform/program form fields control. A report needs a self-contained written reproduction, exact permitted asset/preconditions, observed versus expected behavior, source-linked impact, contrary explanation, and truthful limitations. Attachments support the text. Do not invent CVSS, reproduction steps, impact, verification status, submission IDs, or payout.
+
+Keep source data, rules, raw evidence, sanitized derivatives, reports, and checkpoints in each existing program's hierarchy. Dash remains a derived discovery surface. The workbook and notebook share native references and the supplied manifest; they do not create competing controllers or silently synchronize edits into canonical state. Import changes only through the existing validated adapter and expected predecessor.
+
+Record triage as exact native question/message ID, direct answer, evidence reference, change since the last version, remaining limitation, and next action. Separate draft saved, submission attempted, platform receipt, triage decision, acceptance, reward decision, and payment receipt. Replaying a notebook must never send a message or submit a report.
+
+Prioritize actionable, in-scope evidence by the highest verified eligible published reward tier, while keeping blocked high-value work visible with its exact dependency. Retained KOMOJU ceiling figures are internal source claims awaiting current primary verification. Do not treat a ceiling as expected payout or let speculative value override missing proof.
+
+ACCEPTANCE AND DELIVERY
+
+Finish with the implemented diff and a concise receipt for each affected AUD-R item: initial observation, root cause actually established, changed files/behavior, test command and result, remaining dependency, and exact next action. Leave unrelated preserved work intact.
+
+Run meaningful existing tests plus focused regression cases for the observed failures: actual registered typed/legacy interface, truncated native-source fallback, typed identity and alias separation, stale predecessor conflict, interruption/read-back recovery, private export contents, program separation, encoding/collector isolation, and report-event evidence. A passing mocked adapter is a cloud fixture result until the real provider path is verified. Avoid test suites that merely repeat the implementation or inflate a coverage count.
+
+Return:
+  • Repository/branch/commit and reviewable patch or draft PR, when repository permissions support it.
+  • Reproduced problems and established root causes; distinguish unresolved hypotheses.
+  • Exact changed contracts/adapters, with compatibility preserved.
+  • Cloud execution receipts and the smallest remaining local/native-provider validation steps.
+  • Updated derived repair views and source manifest, with no invented canonical promotion.
+  • Any concrete deployment/admin action still needed, its scope, validation, and rollback.
+  • One exact next checkpoint/action per program; no restart of completed passes.
+
+The preparation package contains 27 tracked items: 17 open, 6 blocked dependencies, 2 requiring local tests, and 2 existing capabilities preserved. These are not 27 proven software defects. No target exploit, full report submission, accepted finding, or payment was established. Mark an item VERIFIED_FIXED only when its stated acceptance evidence exists.
+
+REFERENCE LOCATORS
+
+Existing shared native machine state:
+https://drive.google.com/file/d/1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU/view
+Existing Social Deal pass log:
+https://docs.google.com/document/d/1Yl3D6FdLkJvJpR_SD1a-lssSgYgPRFHE1N8Ra7eO5jk/edit
+Existing Social Deal report/triage template:
+https://docs.google.com/document/d/1H6I-w8Ql94arz4jejPgIeaxJg0G86dB1Wtd3HhPcC7I/edit
+Current KOMOJU checkpoint:
+https://docs.google.com/document/d/1NXzSd-0HuE9-HGdUPt2drMJbnixGQSB_D-HSj7cUBFs/edit
+Daybreak overview and troubleshooting:
+https://help.openai.com/en/articles/20001258-openai-daybreak-trusted-access-for-cyber-overview
+https://help.openai.com/en/articles/20001259-openai-daybreak-common-issues-and-troubleshooting
+Codex cloud and environment guidance:
+https://learn.chatgpt.com/docs/cloud
+https://learn.chatgpt.com/docs/environments/cloud-environments
+Platform fields and workflow:
+https://kb.intigriti.com/en/articles/5379086-how-to-write-and-submit-a-good-report
+https://helpcenter.yeswehack.io/en/articles/376648-reports-metadata-and-title-generation
+https://helpcenter.yeswehack.io/en/articles/586823-submit-a-vulnerability-report

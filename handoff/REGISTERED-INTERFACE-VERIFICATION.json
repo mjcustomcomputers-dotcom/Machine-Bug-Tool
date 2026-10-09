@@ -1,0 +1,3253 @@
+{
+  "schema_version": "MPC_REGISTERED_INTERFACE_ACCEPTANCE_1",
+  "receipt_id": "MPC-REGISTERED-TYPED-BACKUP-20261009",
+  "saved_at_utc": "2026-10-09T03:32:12.129Z",
+  "exact_individual_call_timestamps": "NOT_CAPTURED",
+  "evidence_origin": "FIRSTHAND_INSTALLED_PLUGIN_CALLS_IN_ORIGINATING_SESSION",
+  "scope": "Synthetic Section A interface acceptance only. No native program record, target request, persistence or Dash mutation.",
+  "source_baseline": {
+    "native_commit": "765923c9839f32502e5c0f1f1b919b827596012e",
+    "github_source_import_commit": "97704161bfc2c3f0af42ead986dbfb7b405c8c5c",
+    "paths": [
+      "lib/backup.mjs",
+      "lib/typed-references.mjs",
+      "lib/tools.mjs",
+      "tests/backup.test.mjs",
+      "tests/backup-privacy.test.mjs"
+    ]
+  },
+  "source_schema": {
+    "type": "object",
+    "properties": {
+      "project_id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "checkpoint_id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "EVIDENCE",
+                "CLASSIFIER",
+                "METHOD",
+                "PROGRAM_RULE",
+                "TERMS_OF_SERVICE",
+                "REPORT_DRAFT",
+                "CHECKPOINT"
+              ]
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "source_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "source_version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "observed_at": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "DECLARED",
+                "OBSERVED",
+                "REVIEWED",
+                "DISPUTED",
+                "UNKNOWN",
+                "SUPERSEDED"
+              ]
+            },
+            "classifier_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "minItems": 0,
+              "maxItems": 16
+            },
+            "method_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "minItems": 0,
+              "maxItems": 16
+            },
+            "parent_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "minItems": 0,
+              "maxItems": 16
+            },
+            "notes": {
+              "type": "string",
+              "maxLength": 4000
+            },
+            "typed": {
+              "type": "object",
+              "properties": {
+                "identity": {
+                  "type": "object",
+                  "properties": {
+                    "namespace": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "native_id_type": {
+                      "type": "string",
+                      "enum": [
+                        "string",
+                        "integer"
+                      ]
+                    },
+                    "native_id": {
+                      "type": [
+                        "string",
+                        "integer"
+                      ],
+                      "minLength": 1,
+                      "maxLength": 200,
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "namespace",
+                    "native_id_type",
+                    "native_id"
+                  ],
+                  "additionalProperties": false
+                },
+                "ordinal": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "classifier_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "namespace": {
+                        "type": "string",
+                        "enum": [
+                          "MAXVAR",
+                          "NESTMAX",
+                          "BL",
+                          "MBSS",
+                          "EXT"
+                        ]
+                      },
+                      "native_id_type": {
+                        "type": "string",
+                        "enum": [
+                          "string",
+                          "integer"
+                        ]
+                      },
+                      "native_id": {
+                        "type": [
+                          "string",
+                          "integer"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 200,
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "namespace",
+                      "native_id_type",
+                      "native_id"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 0,
+                  "maxItems": 16
+                },
+                "method_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "namespace": {
+                        "type": "string",
+                        "enum": [
+                          "METHOD"
+                        ]
+                      },
+                      "native_id_type": {
+                        "type": "string",
+                        "enum": [
+                          "string"
+                        ]
+                      },
+                      "native_id": {
+                        "type": "string",
+                        "enum": [
+                          "claw_accumulator",
+                          "coin_pusher_deferred",
+                          "casino_meter_finality",
+                          "ledger",
+                          "relational",
+                          "partial_order",
+                          "metamorphic",
+                          "temporal",
+                          "identity_graph",
+                          "authority_graph",
+                          "propositional_entailment",
+                          "finite_invariant",
+                          "abductive_cover",
+                          "minimal_cut_sets",
+                          "nash",
+                          "harsanyi",
+                          "selten",
+                          "conservation",
+                          "identity",
+                          "state_trace",
+                          "fault_tree",
+                          "fmea",
+                          "ach",
+                          "coverage"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "namespace",
+                      "native_id_type",
+                      "native_id"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 0,
+                  "maxItems": 16
+                }
+              },
+              "required": [
+                "identity",
+                "ordinal",
+                "classifier_refs",
+                "method_refs"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "id",
+            "category",
+            "title",
+            "source_ref",
+            "source_version",
+            "observed_at",
+            "state",
+            "classifier_ids",
+            "method_ids",
+            "parent_record_ids",
+            "notes"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1,
+        "maxItems": 64
+      },
+      "next_action": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "stop_condition": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "record_contract": {
+        "type": "string",
+        "enum": [
+          "LEGACY_V1",
+          "TYPED_V2"
+        ]
+      },
+      "export_profile": {
+        "type": "string",
+        "enum": [
+          "PRIVATE",
+          "PRIVATE_WITH_DASH_REFERENCES"
+        ]
+      },
+      "resolver_action": {
+        "type": "string",
+        "enum": [
+          "CREATE",
+          "REUSE",
+          "ADVANCE"
+        ]
+      },
+      "dash_resolver": {
+        "type": "object",
+        "properties": {
+          "format_version": {
+            "type": "string",
+            "enum": [
+              "DASH-PRIVATE-RESOLVER-1.0"
+            ]
+          },
+          "record_contract": {
+            "type": "string",
+            "enum": [
+              "LEGACY_V1",
+              "TYPED_V2"
+            ]
+          },
+          "project_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "project_handle": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36
+          },
+          "checkpoints": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "checkpoint_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "checkpoint_handle": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36
+                },
+                "record_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "minItems": 1,
+                  "maxItems": 64
+                }
+              },
+              "required": [
+                "checkpoint_id",
+                "checkpoint_handle",
+                "record_ids"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1,
+            "maxItems": 128
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "record_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "record_handle": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36
+                },
+                "identity": {
+                  "type": "object",
+                  "properties": {
+                    "namespace": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "native_id_type": {
+                      "type": "string",
+                      "enum": [
+                        "string",
+                        "integer"
+                      ]
+                    },
+                    "native_id": {
+                      "type": [
+                        "string",
+                        "integer"
+                      ],
+                      "minLength": 1,
+                      "maxLength": 200,
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "namespace",
+                    "native_id_type",
+                    "native_id"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "record_id",
+                "record_handle",
+                "identity"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1,
+            "maxItems": 512
+          }
+        },
+        "required": [
+          "format_version",
+          "record_contract",
+          "project_id",
+          "project_handle",
+          "checkpoints",
+          "records"
+        ],
+        "additionalProperties": false
+      },
+      "expected_resolver_fingerprint": {
+        "type": "string",
+        "minLength": 64,
+        "maxLength": 64
+      }
+    },
+    "required": [
+      "project_id",
+      "checkpoint_id",
+      "records",
+      "next_action",
+      "stop_condition"
+    ],
+    "additionalProperties": false
+  },
+  "deployed_advertised_contract": {
+    "version": "RESEARCH-STORAGE-2.0",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "checkpoint_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "EVIDENCE",
+                  "CLASSIFIER",
+                  "METHOD",
+                  "PROGRAM_RULE",
+                  "TERMS_OF_SERVICE",
+                  "REPORT_DRAFT",
+                  "CHECKPOINT"
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "source_ref": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "source_version": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "observed_at": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "state": {
+                "type": "string",
+                "enum": [
+                  "DECLARED",
+                  "OBSERVED",
+                  "REVIEWED",
+                  "DISPUTED",
+                  "UNKNOWN",
+                  "SUPERSEDED"
+                ]
+              },
+              "classifier_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "minItems": 0,
+                "maxItems": 16
+              },
+              "method_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "minItems": 0,
+                "maxItems": 16
+              },
+              "parent_record_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "minItems": 0,
+                "maxItems": 16
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 4000
+              },
+              "typed": {
+                "type": "object",
+                "properties": {
+                  "identity": {
+                    "type": "object",
+                    "properties": {
+                      "namespace": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "native_id_type": {
+                        "type": "string",
+                        "enum": [
+                          "string",
+                          "integer"
+                        ]
+                      },
+                      "native_id": {
+                        "type": [
+                          "string",
+                          "integer"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 200,
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "namespace",
+                      "native_id_type",
+                      "native_id"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "ordinal": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "classifier_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "namespace": {
+                          "type": "string",
+                          "enum": [
+                            "MAXVAR",
+                            "NESTMAX",
+                            "BL",
+                            "MBSS",
+                            "EXT"
+                          ]
+                        },
+                        "native_id_type": {
+                          "type": "string",
+                          "enum": [
+                            "string",
+                            "integer"
+                          ]
+                        },
+                        "native_id": {
+                          "type": [
+                            "string",
+                            "integer"
+                          ],
+                          "minLength": 1,
+                          "maxLength": 200,
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "namespace",
+                        "native_id_type",
+                        "native_id"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 0,
+                    "maxItems": 16
+                  },
+                  "method_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "namespace": {
+                          "type": "string",
+                          "enum": [
+                            "METHOD"
+                          ]
+                        },
+                        "native_id_type": {
+                          "type": "string",
+                          "enum": [
+                            "string"
+                          ]
+                        },
+                        "native_id": {
+                          "type": "string",
+                          "enum": [
+                            "claw_accumulator",
+                            "coin_pusher_deferred",
+                            "casino_meter_finality",
+                            "ledger",
+                            "relational",
+                            "partial_order",
+                            "metamorphic",
+                            "temporal",
+                            "identity_graph",
+                            "authority_graph",
+                            "propositional_entailment",
+                            "finite_invariant",
+                            "abductive_cover",
+                            "minimal_cut_sets",
+                            "nash",
+                            "harsanyi",
+                            "selten",
+                            "conservation",
+                            "identity",
+                            "state_trace",
+                            "fault_tree",
+                            "fmea",
+                            "ach",
+                            "coverage"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "namespace",
+                        "native_id_type",
+                        "native_id"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 0,
+                    "maxItems": 16
+                  }
+                },
+                "required": [
+                  "identity",
+                  "ordinal",
+                  "classifier_refs",
+                  "method_refs"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "category",
+              "title",
+              "source_ref",
+              "source_version",
+              "observed_at",
+              "state",
+              "classifier_ids",
+              "method_ids",
+              "parent_record_ids",
+              "notes"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "next_action": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "stop_condition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "record_contract": {
+          "type": "string",
+          "enum": [
+            "LEGACY_V1",
+            "TYPED_V2"
+          ]
+        },
+        "export_profile": {
+          "type": "string",
+          "enum": [
+            "PRIVATE",
+            "PRIVATE_WITH_DASH_REFERENCES"
+          ]
+        },
+        "resolver_action": {
+          "type": "string",
+          "enum": [
+            "CREATE",
+            "REUSE",
+            "ADVANCE"
+          ]
+        },
+        "dash_resolver": {
+          "type": "object",
+          "properties": {
+            "format_version": {
+              "type": "string",
+              "enum": [
+                "DASH-PRIVATE-RESOLVER-1.0"
+              ]
+            },
+            "record_contract": {
+              "type": "string",
+              "enum": [
+                "LEGACY_V1",
+                "TYPED_V2"
+              ]
+            },
+            "project_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "project_handle": {
+              "type": "string",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "checkpoints": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "checkpoint_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "checkpoint_handle": {
+                    "type": "string",
+                    "minLength": 36,
+                    "maxLength": 36
+                  },
+                  "record_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "minItems": 1,
+                    "maxItems": 64
+                  }
+                },
+                "required": [
+                  "checkpoint_id",
+                  "checkpoint_handle",
+                  "record_ids"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1,
+              "maxItems": 128
+            },
+            "records": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "record_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "record_handle": {
+                    "type": "string",
+                    "minLength": 36,
+                    "maxLength": 36
+                  },
+                  "identity": {
+                    "type": "object",
+                    "properties": {
+                      "namespace": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "native_id_type": {
+                        "type": "string",
+                        "enum": [
+                          "string",
+                          "integer"
+                        ]
+                      },
+                      "native_id": {
+                        "type": [
+                          "string",
+                          "integer"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 200,
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "namespace",
+                      "native_id_type",
+                      "native_id"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "record_id",
+                  "record_handle",
+                  "identity"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1,
+              "maxItems": 512
+            }
+          },
+          "required": [
+            "format_version",
+            "record_contract",
+            "project_id",
+            "project_handle",
+            "checkpoints",
+            "records"
+          ],
+          "additionalProperties": false
+        },
+        "expected_resolver_fingerprint": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64
+        }
+      },
+      "required": [
+        "project_id",
+        "checkpoint_id",
+        "records",
+        "next_action",
+        "stop_condition"
+      ],
+      "additionalProperties": false
+    },
+    "default_profile": "PRIVATE",
+    "default_record_contract": "LEGACY_V1",
+    "new_work_record_contract": "TYPED_V2",
+    "dash_export_profile": "PRIVATE_WITH_DASH_REFERENCES",
+    "dash_artifact_fields": [
+      "dash_projection",
+      "dash_csv"
+    ],
+    "resolver_actions": {
+      "CREATE": "Explicit initial alias allocation; save private resolver and checksum.",
+      "REUSE": "Exact checkpoint membership with saved resolver and expected checksum.",
+      "ADVANCE": "New checkpoint; preserve existing project/record handles and typed identity, add only new handles."
+    },
+    "resolver_limits": {
+      "records": 512,
+      "checkpoints": 128,
+      "records_per_call": 64
+    },
+    "encryption": false,
+    "persistence_hosted": false,
+    "identity_rule": "Native namespace and ID type are exact; numeric MAXVAR is distinct from string registry IDs. Ordinal is separate. TYPED_V2 uses empty legacy classifier_ids/method_ids and registered typed references."
+  },
+  "source_and_deployed_advertised_schema_exactly_equal": true,
+  "current_registered_tool_declaration": {
+    "name": "mcp__codex_apps__mpc_machine_legal_bugtools_prepare_research_backup",
+    "description": "Private callable MCP tools for Machine Legal MAXVAR registry lookup and bounded research dependency planning.\n\nPrepare private hash-bound records and spreadsheet CSV. New work uses TYPED_V2 for exact native identity, numeric order and registered references. Explicit PRIVATE_WITH_DASH_REFERENCES plus CREATE/REUSE/ADVANCE produces a UUID-only projection and separate private resolver; never upload the entire result to Dash. No encryption, persistence or report submission. This tool is part of plugin `MPC Machine Legal Tools`.\n\nexec tool declaration:\n```ts\ndeclare const tools: { mcp__codex_apps__mpc_machine_legal_bugtools_prepare_research_backup(args: { checkpoint_id: string; dash_resolver?: { checkpoints: Array<{ checkpoint_handle: string; checkpoint_id: string; record_ids: Array<string>; }>; format_version: \"DASH-PRIVATE-RESOLVER-1.0\"; project_handle: string; project_id: string; record_contract: \"LEGACY_V1\" | \"TYPED_V2\"; records: Array<{ identity: { namespace: string; native_id: string | number; native_id_type: \"string\" | \"integer\"; }; record_handle: string; record_id: string; }>; }; expected_resolver_fingerprint?: string; export_profile?: \"PRIVATE\" | \"PRIVATE_WITH_DASH_REFERENCES\"; next_action: string; project_id: string; record_contract?: \"LEGACY_V1\" | \"TYPED_V2\"; records: Array<{ category: \"EVIDENCE\" | \"CLASSIFIER\" | \"METHOD\" | \"PROGRAM_RULE\" | \"TERMS_OF_SERVICE\" | \"REPORT_DRAFT\" | \"CHECKPOINT\"; classifier_ids: Array<string>; id: string; method_ids: Array<string>; notes: string; observed_at: string; parent_record_ids: Array<string>; source_ref: string; source_version: string; state: \"DECLARED\" | \"OBSERVED\" | \"REVIEWED\" | \"DISPUTED\" | \"UNKNOWN\" | \"SUPERSEDED\"; title: string; typed?: { classifier_refs: Array<{ namespace: \"MAXVAR\" | \"NESTMAX\" | \"BL\" | \"MBSS\" | \"EXT\"; native_id: string | number; native_id_type: \"string\" | \"integer\"; }>; identity: { namespace: string; native_id: string | number; native_id_type: \"string\" | \"integer\"; }; method_refs: Array<{ namespace: \"METHOD\"; native_id: \"claw_accumulator\" | \"coin_pusher_deferred\" | \"casino_meter_finality\" | \"ledger\" | \"relational\" | \"partial_order\" | \"metamorphic\" | \"temporal\" | \"identity_graph\" | \"authority_graph\" | \"propositional_entailment\" | \"finite_invariant\" | \"abductive_cover\" | \"minimal_cut_sets\" | \"nash\" | \"harsanyi\" | \"selten\" | \"conservation\" | \"identity\" | \"state_trace\" | \"fault_tree\" | \"fmea\" | \"ach\" | \"coverage\"; native_id_type: \"string\"; }>; ordinal: number; }; }>; resolver_action?: \"CREATE\" | \"REUSE\" | \"ADVANCE\"; stop_condition: string; }): Promise<CallToolResult>; };\n```"
+  },
+  "registered_metadata_limit": "The callable declaration exposes all ten top-level fields and nested typed fields. It is not a complete JSON Schema keyword export, so full client-side parity of unexposed constraints is not asserted.",
+  "calls": [
+    {
+      "case": "typed_create",
+      "input": {
+        "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+        "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+        "record_contract": "TYPED_V2",
+        "records": [
+          {
+            "id": "SYNTHETIC-STRING-01",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "01"
+              },
+              "ordinal": 20,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          },
+          {
+            "id": "SYNTHETIC-STRING-1",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "1"
+              },
+              "ordinal": 30,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          },
+          {
+            "id": "SYNTHETIC-INTEGER-1",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "integer",
+                "native_id": 1
+              },
+              "ordinal": 10,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          }
+        ],
+        "next_action": "Verify synthetic resolver continuity; do not advance a canonical program.",
+        "stop_condition": "Any schema rejection, dropped typed value, identity coercion or unexpected persistence.",
+        "export_profile": "PRIVATE_WITH_DASH_REFERENCES",
+        "resolver_action": "CREATE"
+      },
+      "tool_name": "mcp__codex_apps__mpc_machine_legal_bugtools_prepare_research_backup",
+      "observed_result": {
+        "status": "BACKUP_PREPARED_NOT_SAVED",
+        "backup_fingerprint": "f12aea743aac45630693138fadb4f7bd974bd98399ae5800b6fa9b43577f4d2d",
+        "manifest": {
+          "format_version": "RESEARCH-BACKUP-2.0",
+          "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+          "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+          "records": [
+            {
+              "id": "SYNTHETIC-INTEGER-1",
+              "category": "EVIDENCE",
+              "title": "SYNTHETIC interface canary",
+              "source_ref": "https://example.invalid/mpc-interface-canary",
+              "source_version": "synthetic-fixture-v1",
+              "observed_at": "2026-10-09T03:20:00Z",
+              "state": "DECLARED",
+              "classifier_ids": [],
+              "method_ids": [],
+              "parent_record_ids": [],
+              "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "typed": {
+                "identity": {
+                  "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                  "native_id_type": "integer",
+                  "native_id": 1
+                },
+                "ordinal": 10,
+                "classifier_refs": [
+                  {
+                    "namespace": "MAXVAR",
+                    "native_id_type": "integer",
+                    "native_id": 31
+                  },
+                  {
+                    "namespace": "BL",
+                    "native_id_type": "string",
+                    "native_id": "BL01.01"
+                  },
+                  {
+                    "namespace": "NESTMAX",
+                    "native_id_type": "string",
+                    "native_id": "A.01"
+                  },
+                  {
+                    "namespace": "MBSS",
+                    "native_id_type": "string",
+                    "native_id": "MBSS-B01-L01"
+                  },
+                  {
+                    "namespace": "EXT",
+                    "native_id_type": "string",
+                    "native_id": "EXT:MB49.01"
+                  }
+                ],
+                "method_refs": [
+                  {
+                    "namespace": "METHOD",
+                    "native_id_type": "string",
+                    "native_id": "conservation"
+                  }
+                ]
+              },
+              "record_fingerprint": "6a8a2afe2bbc3702a9580348658651835182ad830784c6ed7c18434c4d70a1b3"
+            },
+            {
+              "id": "SYNTHETIC-STRING-01",
+              "category": "EVIDENCE",
+              "title": "SYNTHETIC interface canary",
+              "source_ref": "https://example.invalid/mpc-interface-canary",
+              "source_version": "synthetic-fixture-v1",
+              "observed_at": "2026-10-09T03:20:00Z",
+              "state": "DECLARED",
+              "classifier_ids": [],
+              "method_ids": [],
+              "parent_record_ids": [],
+              "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "typed": {
+                "identity": {
+                  "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                  "native_id_type": "string",
+                  "native_id": "01"
+                },
+                "ordinal": 20,
+                "classifier_refs": [
+                  {
+                    "namespace": "MAXVAR",
+                    "native_id_type": "integer",
+                    "native_id": 31
+                  },
+                  {
+                    "namespace": "BL",
+                    "native_id_type": "string",
+                    "native_id": "BL01.01"
+                  },
+                  {
+                    "namespace": "NESTMAX",
+                    "native_id_type": "string",
+                    "native_id": "A.01"
+                  },
+                  {
+                    "namespace": "MBSS",
+                    "native_id_type": "string",
+                    "native_id": "MBSS-B01-L01"
+                  },
+                  {
+                    "namespace": "EXT",
+                    "native_id_type": "string",
+                    "native_id": "EXT:MB49.01"
+                  }
+                ],
+                "method_refs": [
+                  {
+                    "namespace": "METHOD",
+                    "native_id_type": "string",
+                    "native_id": "conservation"
+                  }
+                ]
+              },
+              "record_fingerprint": "991e75b66f860abccd54e6735409cb250f5689b79f1fd4edfc2f97cd557a9281"
+            },
+            {
+              "id": "SYNTHETIC-STRING-1",
+              "category": "EVIDENCE",
+              "title": "SYNTHETIC interface canary",
+              "source_ref": "https://example.invalid/mpc-interface-canary",
+              "source_version": "synthetic-fixture-v1",
+              "observed_at": "2026-10-09T03:20:00Z",
+              "state": "DECLARED",
+              "classifier_ids": [],
+              "method_ids": [],
+              "parent_record_ids": [],
+              "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "typed": {
+                "identity": {
+                  "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                  "native_id_type": "string",
+                  "native_id": "1"
+                },
+                "ordinal": 30,
+                "classifier_refs": [
+                  {
+                    "namespace": "MAXVAR",
+                    "native_id_type": "integer",
+                    "native_id": 31
+                  },
+                  {
+                    "namespace": "BL",
+                    "native_id_type": "string",
+                    "native_id": "BL01.01"
+                  },
+                  {
+                    "namespace": "NESTMAX",
+                    "native_id_type": "string",
+                    "native_id": "A.01"
+                  },
+                  {
+                    "namespace": "MBSS",
+                    "native_id_type": "string",
+                    "native_id": "MBSS-B01-L01"
+                  },
+                  {
+                    "namespace": "EXT",
+                    "native_id_type": "string",
+                    "native_id": "EXT:MB49.01"
+                  }
+                ],
+                "method_refs": [
+                  {
+                    "namespace": "METHOD",
+                    "native_id_type": "string",
+                    "native_id": "conservation"
+                  }
+                ]
+              },
+              "record_fingerprint": "54d4e854cad9cc65d48a0546637a46772c55d6f18887d33094573f8dcfaf7fd9"
+            }
+          ],
+          "next_action": "Verify synthetic resolver continuity; do not advance a canonical program.",
+          "stop_condition": "Any schema rejection, dropped typed value, identity coercion or unexpected persistence.",
+          "reference_registry_binding": {
+            "canonical_maxvar_type": "integer",
+            "string_namespaces": [
+              "NESTMAX",
+              "BL",
+              "MBSS",
+              "EXT",
+              "METHOD"
+            ],
+            "registry_bundle_sha256": {
+              "maxvar256.json": "30b3937212d96f74b96812bcb17fdab30ea1124ddb0566be02f306146d7102db",
+              "canonical_sources.json": "4ddb5b75f3c6d90125581daddd3ebfaba63127914be9de8a511c1aab8b57c87d",
+              "storage_map.json": "288bc72a35523e463a05bb9e0e901520bdd5d44ef4a1224cdcf88c167825ffad",
+              "nestmax_program_iid_pack.json": "1436bb965b503339506057d47bde6bb03105c883f70c9b609e8280dd50c6a5e0"
+            },
+            "business_logic_pack_fingerprint": "7db8a73e32016a8d3df560f649125221615b42a669231ec066ce74fee9d8a58d",
+            "research_registry_fingerprint": "436fe6b88f5b9202e85e52b8d6320f2fec3df88a5baa40d0b1110c2d90abf7f2",
+            "method_catalog_version": "1.2.0"
+          }
+        },
+        "spreadsheet": {
+          "columns": [
+            "id",
+            "category",
+            "title",
+            "source_ref",
+            "source_version",
+            "observed_at",
+            "state",
+            "classifier_ids",
+            "method_ids",
+            "parent_record_ids",
+            "notes",
+            "record_fingerprint",
+            "native_namespace",
+            "native_id_type",
+            "native_id_json",
+            "ordinal",
+            "classifier_refs_json",
+            "method_refs_json"
+          ],
+          "rows": [
+            [
+              "SYNTHETIC-INTEGER-1",
+              "EVIDENCE",
+              "SYNTHETIC interface canary",
+              "https://example.invalid/mpc-interface-canary",
+              "synthetic-fixture-v1",
+              "2026-10-09T03:20:00Z",
+              "DECLARED",
+              [],
+              [],
+              [],
+              "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "6a8a2afe2bbc3702a9580348658651835182ad830784c6ed7c18434c4d70a1b3",
+              "SYNTHETIC_NATIVE_ID_CANARY",
+              "integer",
+              "1",
+              10,
+              "[{\"namespace\":\"MAXVAR\",\"native_id_type\":\"integer\",\"native_id\":31},{\"namespace\":\"BL\",\"native_id_type\":\"string\",\"native_id\":\"BL01.01\"},{\"namespace\":\"NESTMAX\",\"native_id_type\":\"string\",\"native_id\":\"A.01\"},{\"namespace\":\"MBSS\",\"native_id_type\":\"string\",\"native_id\":\"MBSS-B01-L01\"},{\"namespace\":\"EXT\",\"native_id_type\":\"string\",\"native_id\":\"EXT:MB49.01\"}]",
+              "[{\"namespace\":\"METHOD\",\"native_id_type\":\"string\",\"native_id\":\"conservation\"}]"
+            ],
+            [
+              "SYNTHETIC-STRING-01",
+              "EVIDENCE",
+              "SYNTHETIC interface canary",
+              "https://example.invalid/mpc-interface-canary",
+              "synthetic-fixture-v1",
+              "2026-10-09T03:20:00Z",
+              "DECLARED",
+              [],
+              [],
+              [],
+              "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "991e75b66f860abccd54e6735409cb250f5689b79f1fd4edfc2f97cd557a9281",
+              "SYNTHETIC_NATIVE_ID_CANARY",
+              "string",
+              "\"01\"",
+              20,
+              "[{\"namespace\":\"MAXVAR\",\"native_id_type\":\"integer\",\"native_id\":31},{\"namespace\":\"BL\",\"native_id_type\":\"string\",\"native_id\":\"BL01.01\"},{\"namespace\":\"NESTMAX\",\"native_id_type\":\"string\",\"native_id\":\"A.01\"},{\"namespace\":\"MBSS\",\"native_id_type\":\"string\",\"native_id\":\"MBSS-B01-L01\"},{\"namespace\":\"EXT\",\"native_id_type\":\"string\",\"native_id\":\"EXT:MB49.01\"}]",
+              "[{\"namespace\":\"METHOD\",\"native_id_type\":\"string\",\"native_id\":\"conservation\"}]"
+            ],
+            [
+              "SYNTHETIC-STRING-1",
+              "EVIDENCE",
+              "SYNTHETIC interface canary",
+              "https://example.invalid/mpc-interface-canary",
+              "synthetic-fixture-v1",
+              "2026-10-09T03:20:00Z",
+              "DECLARED",
+              [],
+              [],
+              [],
+              "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "54d4e854cad9cc65d48a0546637a46772c55d6f18887d33094573f8dcfaf7fd9",
+              "SYNTHETIC_NATIVE_ID_CANARY",
+              "string",
+              "\"1\"",
+              30,
+              "[{\"namespace\":\"MAXVAR\",\"native_id_type\":\"integer\",\"native_id\":31},{\"namespace\":\"BL\",\"native_id_type\":\"string\",\"native_id\":\"BL01.01\"},{\"namespace\":\"NESTMAX\",\"native_id_type\":\"string\",\"native_id\":\"A.01\"},{\"namespace\":\"MBSS\",\"native_id_type\":\"string\",\"native_id\":\"MBSS-B01-L01\"},{\"namespace\":\"EXT\",\"native_id_type\":\"string\",\"native_id\":\"EXT:MB49.01\"}]",
+              "[{\"namespace\":\"METHOD\",\"native_id_type\":\"string\",\"native_id\":\"conservation\"}]"
+            ]
+          ],
+          "csv": "\"id\",\"category\",\"title\",\"source_ref\",\"source_version\",\"observed_at\",\"state\",\"classifier_ids\",\"method_ids\",\"parent_record_ids\",\"notes\",\"record_fingerprint\",\"native_namespace\",\"native_id_type\",\"native_id_json\",\"ordinal\",\"classifier_refs_json\",\"method_refs_json\"\r\n\"SYNTHETIC-INTEGER-1\",\"EVIDENCE\",\"SYNTHETIC interface canary\",\"https://example.invalid/mpc-interface-canary\",\"synthetic-fixture-v1\",\"2026-10-09T03:20:00Z\",\"DECLARED\",\"\",\"\",\"\",\"Synthetic registered-interface validation only; no target evidence or canonical research state.\",\"6a8a2afe2bbc3702a9580348658651835182ad830784c6ed7c18434c4d70a1b3\",\"SYNTHETIC_NATIVE_ID_CANARY\",\"integer\",\"1\",\"10\",\"[{\"\"namespace\"\":\"\"MAXVAR\"\",\"\"native_id_type\"\":\"\"integer\"\",\"\"native_id\"\":31},{\"\"namespace\"\":\"\"BL\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"BL01.01\"\"},{\"\"namespace\"\":\"\"NESTMAX\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"A.01\"\"},{\"\"namespace\"\":\"\"MBSS\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"MBSS-B01-L01\"\"},{\"\"namespace\"\":\"\"EXT\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"EXT:MB49.01\"\"}]\",\"[{\"\"namespace\"\":\"\"METHOD\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"conservation\"\"}]\"\r\n\"SYNTHETIC-STRING-01\",\"EVIDENCE\",\"SYNTHETIC interface canary\",\"https://example.invalid/mpc-interface-canary\",\"synthetic-fixture-v1\",\"2026-10-09T03:20:00Z\",\"DECLARED\",\"\",\"\",\"\",\"Synthetic registered-interface validation only; no target evidence or canonical research state.\",\"991e75b66f860abccd54e6735409cb250f5689b79f1fd4edfc2f97cd557a9281\",\"SYNTHETIC_NATIVE_ID_CANARY\",\"string\",\"\"\"01\"\"\",\"20\",\"[{\"\"namespace\"\":\"\"MAXVAR\"\",\"\"native_id_type\"\":\"\"integer\"\",\"\"native_id\"\":31},{\"\"namespace\"\":\"\"BL\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"BL01.01\"\"},{\"\"namespace\"\":\"\"NESTMAX\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"A.01\"\"},{\"\"namespace\"\":\"\"MBSS\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"MBSS-B01-L01\"\"},{\"\"namespace\"\":\"\"EXT\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"EXT:MB49.01\"\"}]\",\"[{\"\"namespace\"\":\"\"METHOD\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"conservation\"\"}]\"\r\n\"SYNTHETIC-STRING-1\",\"EVIDENCE\",\"SYNTHETIC interface canary\",\"https://example.invalid/mpc-interface-canary\",\"synthetic-fixture-v1\",\"2026-10-09T03:20:00Z\",\"DECLARED\",\"\",\"\",\"\",\"Synthetic registered-interface validation only; no target evidence or canonical research state.\",\"54d4e854cad9cc65d48a0546637a46772c55d6f18887d33094573f8dcfaf7fd9\",\"SYNTHETIC_NATIVE_ID_CANARY\",\"string\",\"\"\"1\"\"\",\"30\",\"[{\"\"namespace\"\":\"\"MAXVAR\"\",\"\"native_id_type\"\":\"\"integer\"\",\"\"native_id\"\":31},{\"\"namespace\"\":\"\"BL\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"BL01.01\"\"},{\"\"namespace\"\":\"\"NESTMAX\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"A.01\"\"},{\"\"namespace\"\":\"\"MBSS\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"MBSS-B01-L01\"\"},{\"\"namespace\"\":\"\"EXT\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"EXT:MB49.01\"\"}]\",\"[{\"\"namespace\"\":\"\"METHOD\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"conservation\"\"}]\"",
+          "formula_cells_escaped": true
+        },
+        "groups": {
+          "EVIDENCE": [
+            "SYNTHETIC-INTEGER-1",
+            "SYNTHETIC-STRING-01",
+            "SYNTHETIC-STRING-1"
+          ]
+        },
+        "private_resolver": {
+          "format_version": "DASH-PRIVATE-RESOLVER-1.0",
+          "record_contract": "TYPED_V2",
+          "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+          "project_handle": "e246a03c-a26b-46f4-a3b2-f7a2f772e171",
+          "checkpoints": [
+            {
+              "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+              "checkpoint_handle": "b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4",
+              "record_ids": [
+                "SYNTHETIC-INTEGER-1",
+                "SYNTHETIC-STRING-01",
+                "SYNTHETIC-STRING-1"
+              ]
+            }
+          ],
+          "records": [
+            {
+              "record_id": "SYNTHETIC-INTEGER-1",
+              "record_handle": "bf95690a-07f3-4697-a3d5-9847c71b96a2",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "integer",
+                "native_id": 1
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-01",
+              "record_handle": "6752dd9c-5579-4510-ad6d-c55182e40e87",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "01"
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-1",
+              "record_handle": "37c04bbf-5735-463d-a6d7-5cf1020296c1",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "1"
+              }
+            }
+          ]
+        },
+        "private_resolver_fingerprint": "ddbd82a68e285017851503129eeaa57ad60b258ce6a9f45647f24fcc299a8a5e",
+        "dash_projection": {
+          "format_version": "DASH-REFERENCE-1.0",
+          "project_handle": "e246a03c-a26b-46f4-a3b2-f7a2f772e171",
+          "checkpoint_handle": "b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4",
+          "records": [
+            {
+              "record_handle": "37c04bbf-5735-463d-a6d7-5cf1020296c1"
+            },
+            {
+              "record_handle": "6752dd9c-5579-4510-ad6d-c55182e40e87"
+            },
+            {
+              "record_handle": "bf95690a-07f3-4697-a3d5-9847c71b96a2"
+            }
+          ]
+        },
+        "dash_csv": "\"format_version\",\"project_handle\",\"checkpoint_handle\",\"record_handle\"\r\n\"DASH-REFERENCE-1.0\",\"e246a03c-a26b-46f4-a3b2-f7a2f772e171\",\"b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4\",\"37c04bbf-5735-463d-a6d7-5cf1020296c1\"\r\n\"DASH-REFERENCE-1.0\",\"e246a03c-a26b-46f4-a3b2-f7a2f772e171\",\"b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4\",\"6752dd9c-5579-4510-ad6d-c55182e40e87\"\r\n\"DASH-REFERENCE-1.0\",\"e246a03c-a26b-46f4-a3b2-f7a2f772e171\",\"b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4\",\"bf95690a-07f3-4697-a3d5-9847c71b96a2\"",
+        "disclosure": {
+          "export_profile": "PRIVATE_WITH_DASH_REFERENCES",
+          "entire_tool_result": "PRIVATE_NOT_DASH_EXPORTABLE",
+          "private_manifest_field": "manifest",
+          "private_artifacts": [
+            "manifest",
+            "spreadsheet",
+            "groups",
+            "private_resolver",
+            "private_resolver_fingerprint"
+          ],
+          "dash_artifacts": [
+            "dash_projection",
+            "dash_csv"
+          ],
+          "reference_validation": "REGISTERED_NAMESPACE_AND_NATIVE_TYPE_VERIFIED",
+          "identifier_coercion": false,
+          "alias_generation": "CSPRNG_UUID_V4_NEW_RESOLVER",
+          "encryption": false,
+          "access_control_changed": false,
+          "existing_indexed_content_changed": false,
+          "confidentiality_guaranteed": false,
+          "visible_dash_metadata": "Opaque handle equality, record count and export structure remain visible.",
+          "resolver_trust": "Caller-supplied private crosswalk and expected checksum; structural validation does not authenticate its history. Save and reload the same resolver to preserve aliases.",
+          "timestamp_validation": "observed_at is retained verbatim; timestamp semantics are not validated."
+        },
+        "storage_handoff": {
+          "private_canonical": "Save manifest, private spreadsheet and private_resolver only in an owner-controlled location excluded from Dash indexing. Verify saved content and retain native file IDs privately.",
+          "google_drive": "A private Drive file may still be readable through the owner's Dash connector. Verify indexing exclusion before saving private method or source content there; file ACL alone is not an indexing exclusion.",
+          "dash": "Only dash_projection or dash_csv is the Dash artifact. Never upload the entire tool result, manifest, private_resolver, source content or private spreadsheet to Dash.",
+          "spreadsheets": "Private CSV is formula-escaped but may be auto-typed by spreadsheet software. Use literal RAW/text for native IDs and JSON columns; ordinal is a separate numeric field. JSON manifest is the lossless record.",
+          "docs_notebook": "Keep executable notebooks, models, methods and source bindings private and excluded from indexing; derive review tables from the same manifest.",
+          "github": "Keep private artifacts in the existing intended private repository only after removing credentials and unnecessary personal data; check connected indexing exposure.",
+          "resume": "Reload private manifest and verify backup fingerprint. REUSE the saved resolver/checksum for a checkpoint; ADVANCE it for the next checkpoint, preserving prior record handles and typed identities. CREATE is only the explicit initial setup."
+        },
+        "persisted": false,
+        "rule_currentness_verified": false,
+        "submission_ready": false,
+        "external_action_authorized": false,
+        "canonical_promotion": false
+      },
+      "isError": false,
+      "interpretation": "SUCCESSFUL_PROTECTED_REGISTERED_CALL"
+    },
+    {
+      "case": "legacy",
+      "input": {
+        "project_id": "ILB-SYNTHETIC-LEGACY-INTERFACE",
+        "checkpoint_id": "SYNTHETIC-LEGACY-20261009",
+        "records": [
+          {
+            "id": "SYNTHETIC-LEGACY-1",
+            "category": "PROGRAM_RULE",
+            "title": "=1+1",
+            "source_ref": "https://example.invalid/rules",
+            "source_version": "v1",
+            "observed_at": "2026-10-09",
+            "state": "DECLARED",
+            "classifier_ids": [
+              "historical-unverified-reference"
+            ],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic legacy fixture; no target policy or evidence."
+          }
+        ],
+        "next_action": "Compare legacy manifest and formula escaping.",
+        "stop_condition": "Unexpected field change or persistence."
+      },
+      "tool_name": "mcp__codex_apps__mpc_machine_legal_bugtools_prepare_research_backup",
+      "observed_result": {
+        "status": "BACKUP_PREPARED_NOT_SAVED",
+        "backup_fingerprint": "dc8d0d30cb40c2713efa2c3f0e7fca1b11df36034a53c66527f8dd775db11878",
+        "manifest": {
+          "format_version": "RESEARCH-BACKUP-1.0",
+          "project_id": "ILB-SYNTHETIC-LEGACY-INTERFACE",
+          "checkpoint_id": "SYNTHETIC-LEGACY-20261009",
+          "records": [
+            {
+              "id": "SYNTHETIC-LEGACY-1",
+              "category": "PROGRAM_RULE",
+              "title": "=1+1",
+              "source_ref": "https://example.invalid/rules",
+              "source_version": "v1",
+              "observed_at": "2026-10-09",
+              "state": "DECLARED",
+              "classifier_ids": [
+                "historical-unverified-reference"
+              ],
+              "method_ids": [],
+              "parent_record_ids": [],
+              "notes": "Synthetic legacy fixture; no target policy or evidence.",
+              "record_fingerprint": "3ef96737cf30503e6c85e67183f61239b3a8a315075aa5bd1a274480b0109281"
+            }
+          ],
+          "next_action": "Compare legacy manifest and formula escaping.",
+          "stop_condition": "Unexpected field change or persistence."
+        },
+        "spreadsheet": {
+          "columns": [
+            "id",
+            "category",
+            "title",
+            "source_ref",
+            "source_version",
+            "observed_at",
+            "state",
+            "classifier_ids",
+            "method_ids",
+            "parent_record_ids",
+            "notes",
+            "record_fingerprint"
+          ],
+          "rows": [
+            [
+              "SYNTHETIC-LEGACY-1",
+              "PROGRAM_RULE",
+              "=1+1",
+              "https://example.invalid/rules",
+              "v1",
+              "2026-10-09",
+              "DECLARED",
+              [
+                "historical-unverified-reference"
+              ],
+              [],
+              [],
+              "Synthetic legacy fixture; no target policy or evidence.",
+              "3ef96737cf30503e6c85e67183f61239b3a8a315075aa5bd1a274480b0109281"
+            ]
+          ],
+          "csv": "\"id\",\"category\",\"title\",\"source_ref\",\"source_version\",\"observed_at\",\"state\",\"classifier_ids\",\"method_ids\",\"parent_record_ids\",\"notes\",\"record_fingerprint\"\r\n\"SYNTHETIC-LEGACY-1\",\"PROGRAM_RULE\",\"'=1+1\",\"https://example.invalid/rules\",\"v1\",\"2026-10-09\",\"DECLARED\",\"historical-unverified-reference\",\"\",\"\",\"Synthetic legacy fixture; no target policy or evidence.\",\"3ef96737cf30503e6c85e67183f61239b3a8a315075aa5bd1a274480b0109281\"",
+          "formula_cells_escaped": true
+        },
+        "groups": {
+          "PROGRAM_RULE": [
+            "SYNTHETIC-LEGACY-1"
+          ]
+        },
+        "disclosure": {
+          "export_profile": "PRIVATE",
+          "entire_tool_result": "PRIVATE_NOT_DASH_EXPORTABLE",
+          "private_manifest_field": "manifest",
+          "private_artifacts": [
+            "manifest",
+            "spreadsheet",
+            "groups"
+          ],
+          "dash_artifacts": [],
+          "reference_validation": "LEGACY_REFERENCES_UNVERIFIED",
+          "identifier_coercion": false,
+          "alias_generation": "NONE",
+          "encryption": false,
+          "access_control_changed": false,
+          "existing_indexed_content_changed": false,
+          "confidentiality_guaranteed": false,
+          "visible_dash_metadata": "Opaque handle equality, record count and export structure remain visible.",
+          "resolver_trust": "Caller-supplied private crosswalk and expected checksum; structural validation does not authenticate its history. Save and reload the same resolver to preserve aliases.",
+          "timestamp_validation": "observed_at is retained verbatim; timestamp semantics are not validated."
+        },
+        "storage_handoff": {
+          "private_canonical": "Save manifest, private spreadsheet and private_resolver only in an owner-controlled location excluded from Dash indexing. Verify saved content and retain native file IDs privately.",
+          "google_drive": "A private Drive file may still be readable through the owner's Dash connector. Verify indexing exclusion before saving private method or source content there; file ACL alone is not an indexing exclusion.",
+          "dash": "No Dash artifact was requested. Full outputs remain private; select PRIVATE_WITH_DASH_REFERENCES to prepare a minimal reference projection.",
+          "spreadsheets": "Private CSV is formula-escaped but may be auto-typed by spreadsheet software. Use literal RAW/text for native IDs and JSON columns; ordinal is a separate numeric field. JSON manifest is the lossless record.",
+          "docs_notebook": "Keep executable notebooks, models, methods and source bindings private and excluded from indexing; derive review tables from the same manifest.",
+          "github": "Keep private artifacts in the existing intended private repository only after removing credentials and unnecessary personal data; check connected indexing exposure.",
+          "resume": "Reload private manifest and verify backup fingerprint. REUSE the saved resolver/checksum for a checkpoint; ADVANCE it for the next checkpoint, preserving prior record handles and typed identities. CREATE is only the explicit initial setup."
+        },
+        "persisted": false,
+        "rule_currentness_verified": false,
+        "submission_ready": false,
+        "external_action_authorized": false,
+        "canonical_promotion": false
+      },
+      "isError": false,
+      "interpretation": "SUCCESSFUL_PROTECTED_REGISTERED_CALL"
+    },
+    {
+      "case": "typed_reuse",
+      "input": {
+        "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+        "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+        "record_contract": "TYPED_V2",
+        "records": [
+          {
+            "id": "SYNTHETIC-INTEGER-1",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "integer",
+                "native_id": 1
+              },
+              "ordinal": 10,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          },
+          {
+            "id": "SYNTHETIC-STRING-1",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "1"
+              },
+              "ordinal": 30,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          },
+          {
+            "id": "SYNTHETIC-STRING-01",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "01"
+              },
+              "ordinal": 20,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          }
+        ],
+        "next_action": "Verify synthetic resolver continuity; do not advance a canonical program.",
+        "stop_condition": "Any schema rejection, dropped typed value, identity coercion or unexpected persistence.",
+        "export_profile": "PRIVATE_WITH_DASH_REFERENCES",
+        "resolver_action": "REUSE",
+        "dash_resolver": {
+          "format_version": "DASH-PRIVATE-RESOLVER-1.0",
+          "record_contract": "TYPED_V2",
+          "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+          "project_handle": "e246a03c-a26b-46f4-a3b2-f7a2f772e171",
+          "checkpoints": [
+            {
+              "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+              "checkpoint_handle": "b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4",
+              "record_ids": [
+                "SYNTHETIC-INTEGER-1",
+                "SYNTHETIC-STRING-01",
+                "SYNTHETIC-STRING-1"
+              ]
+            }
+          ],
+          "records": [
+            {
+              "record_id": "SYNTHETIC-INTEGER-1",
+              "record_handle": "bf95690a-07f3-4697-a3d5-9847c71b96a2",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "integer",
+                "native_id": 1
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-01",
+              "record_handle": "6752dd9c-5579-4510-ad6d-c55182e40e87",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "01"
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-1",
+              "record_handle": "37c04bbf-5735-463d-a6d7-5cf1020296c1",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "1"
+              }
+            }
+          ]
+        },
+        "expected_resolver_fingerprint": "ddbd82a68e285017851503129eeaa57ad60b258ce6a9f45647f24fcc299a8a5e"
+      },
+      "tool_name": "mcp__codex_apps__mpc_machine_legal_bugtools_prepare_research_backup",
+      "observed_result": {
+        "status": "BACKUP_PREPARED_NOT_SAVED",
+        "backup_fingerprint": "f12aea743aac45630693138fadb4f7bd974bd98399ae5800b6fa9b43577f4d2d",
+        "manifest": {
+          "format_version": "RESEARCH-BACKUP-2.0",
+          "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+          "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+          "records": [
+            {
+              "id": "SYNTHETIC-INTEGER-1",
+              "category": "EVIDENCE",
+              "title": "SYNTHETIC interface canary",
+              "source_ref": "https://example.invalid/mpc-interface-canary",
+              "source_version": "synthetic-fixture-v1",
+              "observed_at": "2026-10-09T03:20:00Z",
+              "state": "DECLARED",
+              "classifier_ids": [],
+              "method_ids": [],
+              "parent_record_ids": [],
+              "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "typed": {
+                "identity": {
+                  "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                  "native_id_type": "integer",
+                  "native_id": 1
+                },
+                "ordinal": 10,
+                "classifier_refs": [
+                  {
+                    "namespace": "MAXVAR",
+                    "native_id_type": "integer",
+                    "native_id": 31
+                  },
+                  {
+                    "namespace": "BL",
+                    "native_id_type": "string",
+                    "native_id": "BL01.01"
+                  },
+                  {
+                    "namespace": "NESTMAX",
+                    "native_id_type": "string",
+                    "native_id": "A.01"
+                  },
+                  {
+                    "namespace": "MBSS",
+                    "native_id_type": "string",
+                    "native_id": "MBSS-B01-L01"
+                  },
+                  {
+                    "namespace": "EXT",
+                    "native_id_type": "string",
+                    "native_id": "EXT:MB49.01"
+                  }
+                ],
+                "method_refs": [
+                  {
+                    "namespace": "METHOD",
+                    "native_id_type": "string",
+                    "native_id": "conservation"
+                  }
+                ]
+              },
+              "record_fingerprint": "6a8a2afe2bbc3702a9580348658651835182ad830784c6ed7c18434c4d70a1b3"
+            },
+            {
+              "id": "SYNTHETIC-STRING-01",
+              "category": "EVIDENCE",
+              "title": "SYNTHETIC interface canary",
+              "source_ref": "https://example.invalid/mpc-interface-canary",
+              "source_version": "synthetic-fixture-v1",
+              "observed_at": "2026-10-09T03:20:00Z",
+              "state": "DECLARED",
+              "classifier_ids": [],
+              "method_ids": [],
+              "parent_record_ids": [],
+              "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "typed": {
+                "identity": {
+                  "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                  "native_id_type": "string",
+                  "native_id": "01"
+                },
+                "ordinal": 20,
+                "classifier_refs": [
+                  {
+                    "namespace": "MAXVAR",
+                    "native_id_type": "integer",
+                    "native_id": 31
+                  },
+                  {
+                    "namespace": "BL",
+                    "native_id_type": "string",
+                    "native_id": "BL01.01"
+                  },
+                  {
+                    "namespace": "NESTMAX",
+                    "native_id_type": "string",
+                    "native_id": "A.01"
+                  },
+                  {
+                    "namespace": "MBSS",
+                    "native_id_type": "string",
+                    "native_id": "MBSS-B01-L01"
+                  },
+                  {
+                    "namespace": "EXT",
+                    "native_id_type": "string",
+                    "native_id": "EXT:MB49.01"
+                  }
+                ],
+                "method_refs": [
+                  {
+                    "namespace": "METHOD",
+                    "native_id_type": "string",
+                    "native_id": "conservation"
+                  }
+                ]
+              },
+              "record_fingerprint": "991e75b66f860abccd54e6735409cb250f5689b79f1fd4edfc2f97cd557a9281"
+            },
+            {
+              "id": "SYNTHETIC-STRING-1",
+              "category": "EVIDENCE",
+              "title": "SYNTHETIC interface canary",
+              "source_ref": "https://example.invalid/mpc-interface-canary",
+              "source_version": "synthetic-fixture-v1",
+              "observed_at": "2026-10-09T03:20:00Z",
+              "state": "DECLARED",
+              "classifier_ids": [],
+              "method_ids": [],
+              "parent_record_ids": [],
+              "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "typed": {
+                "identity": {
+                  "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                  "native_id_type": "string",
+                  "native_id": "1"
+                },
+                "ordinal": 30,
+                "classifier_refs": [
+                  {
+                    "namespace": "MAXVAR",
+                    "native_id_type": "integer",
+                    "native_id": 31
+                  },
+                  {
+                    "namespace": "BL",
+                    "native_id_type": "string",
+                    "native_id": "BL01.01"
+                  },
+                  {
+                    "namespace": "NESTMAX",
+                    "native_id_type": "string",
+                    "native_id": "A.01"
+                  },
+                  {
+                    "namespace": "MBSS",
+                    "native_id_type": "string",
+                    "native_id": "MBSS-B01-L01"
+                  },
+                  {
+                    "namespace": "EXT",
+                    "native_id_type": "string",
+                    "native_id": "EXT:MB49.01"
+                  }
+                ],
+                "method_refs": [
+                  {
+                    "namespace": "METHOD",
+                    "native_id_type": "string",
+                    "native_id": "conservation"
+                  }
+                ]
+              },
+              "record_fingerprint": "54d4e854cad9cc65d48a0546637a46772c55d6f18887d33094573f8dcfaf7fd9"
+            }
+          ],
+          "next_action": "Verify synthetic resolver continuity; do not advance a canonical program.",
+          "stop_condition": "Any schema rejection, dropped typed value, identity coercion or unexpected persistence.",
+          "reference_registry_binding": {
+            "canonical_maxvar_type": "integer",
+            "string_namespaces": [
+              "NESTMAX",
+              "BL",
+              "MBSS",
+              "EXT",
+              "METHOD"
+            ],
+            "registry_bundle_sha256": {
+              "maxvar256.json": "30b3937212d96f74b96812bcb17fdab30ea1124ddb0566be02f306146d7102db",
+              "canonical_sources.json": "4ddb5b75f3c6d90125581daddd3ebfaba63127914be9de8a511c1aab8b57c87d",
+              "storage_map.json": "288bc72a35523e463a05bb9e0e901520bdd5d44ef4a1224cdcf88c167825ffad",
+              "nestmax_program_iid_pack.json": "1436bb965b503339506057d47bde6bb03105c883f70c9b609e8280dd50c6a5e0"
+            },
+            "business_logic_pack_fingerprint": "7db8a73e32016a8d3df560f649125221615b42a669231ec066ce74fee9d8a58d",
+            "research_registry_fingerprint": "436fe6b88f5b9202e85e52b8d6320f2fec3df88a5baa40d0b1110c2d90abf7f2",
+            "method_catalog_version": "1.2.0"
+          }
+        },
+        "spreadsheet": {
+          "columns": [
+            "id",
+            "category",
+            "title",
+            "source_ref",
+            "source_version",
+            "observed_at",
+            "state",
+            "classifier_ids",
+            "method_ids",
+            "parent_record_ids",
+            "notes",
+            "record_fingerprint",
+            "native_namespace",
+            "native_id_type",
+            "native_id_json",
+            "ordinal",
+            "classifier_refs_json",
+            "method_refs_json"
+          ],
+          "rows": [
+            [
+              "SYNTHETIC-INTEGER-1",
+              "EVIDENCE",
+              "SYNTHETIC interface canary",
+              "https://example.invalid/mpc-interface-canary",
+              "synthetic-fixture-v1",
+              "2026-10-09T03:20:00Z",
+              "DECLARED",
+              [],
+              [],
+              [],
+              "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "6a8a2afe2bbc3702a9580348658651835182ad830784c6ed7c18434c4d70a1b3",
+              "SYNTHETIC_NATIVE_ID_CANARY",
+              "integer",
+              "1",
+              10,
+              "[{\"namespace\":\"MAXVAR\",\"native_id_type\":\"integer\",\"native_id\":31},{\"namespace\":\"BL\",\"native_id_type\":\"string\",\"native_id\":\"BL01.01\"},{\"namespace\":\"NESTMAX\",\"native_id_type\":\"string\",\"native_id\":\"A.01\"},{\"namespace\":\"MBSS\",\"native_id_type\":\"string\",\"native_id\":\"MBSS-B01-L01\"},{\"namespace\":\"EXT\",\"native_id_type\":\"string\",\"native_id\":\"EXT:MB49.01\"}]",
+              "[{\"namespace\":\"METHOD\",\"native_id_type\":\"string\",\"native_id\":\"conservation\"}]"
+            ],
+            [
+              "SYNTHETIC-STRING-01",
+              "EVIDENCE",
+              "SYNTHETIC interface canary",
+              "https://example.invalid/mpc-interface-canary",
+              "synthetic-fixture-v1",
+              "2026-10-09T03:20:00Z",
+              "DECLARED",
+              [],
+              [],
+              [],
+              "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "991e75b66f860abccd54e6735409cb250f5689b79f1fd4edfc2f97cd557a9281",
+              "SYNTHETIC_NATIVE_ID_CANARY",
+              "string",
+              "\"01\"",
+              20,
+              "[{\"namespace\":\"MAXVAR\",\"native_id_type\":\"integer\",\"native_id\":31},{\"namespace\":\"BL\",\"native_id_type\":\"string\",\"native_id\":\"BL01.01\"},{\"namespace\":\"NESTMAX\",\"native_id_type\":\"string\",\"native_id\":\"A.01\"},{\"namespace\":\"MBSS\",\"native_id_type\":\"string\",\"native_id\":\"MBSS-B01-L01\"},{\"namespace\":\"EXT\",\"native_id_type\":\"string\",\"native_id\":\"EXT:MB49.01\"}]",
+              "[{\"namespace\":\"METHOD\",\"native_id_type\":\"string\",\"native_id\":\"conservation\"}]"
+            ],
+            [
+              "SYNTHETIC-STRING-1",
+              "EVIDENCE",
+              "SYNTHETIC interface canary",
+              "https://example.invalid/mpc-interface-canary",
+              "synthetic-fixture-v1",
+              "2026-10-09T03:20:00Z",
+              "DECLARED",
+              [],
+              [],
+              [],
+              "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "54d4e854cad9cc65d48a0546637a46772c55d6f18887d33094573f8dcfaf7fd9",
+              "SYNTHETIC_NATIVE_ID_CANARY",
+              "string",
+              "\"1\"",
+              30,
+              "[{\"namespace\":\"MAXVAR\",\"native_id_type\":\"integer\",\"native_id\":31},{\"namespace\":\"BL\",\"native_id_type\":\"string\",\"native_id\":\"BL01.01\"},{\"namespace\":\"NESTMAX\",\"native_id_type\":\"string\",\"native_id\":\"A.01\"},{\"namespace\":\"MBSS\",\"native_id_type\":\"string\",\"native_id\":\"MBSS-B01-L01\"},{\"namespace\":\"EXT\",\"native_id_type\":\"string\",\"native_id\":\"EXT:MB49.01\"}]",
+              "[{\"namespace\":\"METHOD\",\"native_id_type\":\"string\",\"native_id\":\"conservation\"}]"
+            ]
+          ],
+          "csv": "\"id\",\"category\",\"title\",\"source_ref\",\"source_version\",\"observed_at\",\"state\",\"classifier_ids\",\"method_ids\",\"parent_record_ids\",\"notes\",\"record_fingerprint\",\"native_namespace\",\"native_id_type\",\"native_id_json\",\"ordinal\",\"classifier_refs_json\",\"method_refs_json\"\r\n\"SYNTHETIC-INTEGER-1\",\"EVIDENCE\",\"SYNTHETIC interface canary\",\"https://example.invalid/mpc-interface-canary\",\"synthetic-fixture-v1\",\"2026-10-09T03:20:00Z\",\"DECLARED\",\"\",\"\",\"\",\"Synthetic registered-interface validation only; no target evidence or canonical research state.\",\"6a8a2afe2bbc3702a9580348658651835182ad830784c6ed7c18434c4d70a1b3\",\"SYNTHETIC_NATIVE_ID_CANARY\",\"integer\",\"1\",\"10\",\"[{\"\"namespace\"\":\"\"MAXVAR\"\",\"\"native_id_type\"\":\"\"integer\"\",\"\"native_id\"\":31},{\"\"namespace\"\":\"\"BL\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"BL01.01\"\"},{\"\"namespace\"\":\"\"NESTMAX\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"A.01\"\"},{\"\"namespace\"\":\"\"MBSS\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"MBSS-B01-L01\"\"},{\"\"namespace\"\":\"\"EXT\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"EXT:MB49.01\"\"}]\",\"[{\"\"namespace\"\":\"\"METHOD\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"conservation\"\"}]\"\r\n\"SYNTHETIC-STRING-01\",\"EVIDENCE\",\"SYNTHETIC interface canary\",\"https://example.invalid/mpc-interface-canary\",\"synthetic-fixture-v1\",\"2026-10-09T03:20:00Z\",\"DECLARED\",\"\",\"\",\"\",\"Synthetic registered-interface validation only; no target evidence or canonical research state.\",\"991e75b66f860abccd54e6735409cb250f5689b79f1fd4edfc2f97cd557a9281\",\"SYNTHETIC_NATIVE_ID_CANARY\",\"string\",\"\"\"01\"\"\",\"20\",\"[{\"\"namespace\"\":\"\"MAXVAR\"\",\"\"native_id_type\"\":\"\"integer\"\",\"\"native_id\"\":31},{\"\"namespace\"\":\"\"BL\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"BL01.01\"\"},{\"\"namespace\"\":\"\"NESTMAX\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"A.01\"\"},{\"\"namespace\"\":\"\"MBSS\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"MBSS-B01-L01\"\"},{\"\"namespace\"\":\"\"EXT\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"EXT:MB49.01\"\"}]\",\"[{\"\"namespace\"\":\"\"METHOD\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"conservation\"\"}]\"\r\n\"SYNTHETIC-STRING-1\",\"EVIDENCE\",\"SYNTHETIC interface canary\",\"https://example.invalid/mpc-interface-canary\",\"synthetic-fixture-v1\",\"2026-10-09T03:20:00Z\",\"DECLARED\",\"\",\"\",\"\",\"Synthetic registered-interface validation only; no target evidence or canonical research state.\",\"54d4e854cad9cc65d48a0546637a46772c55d6f18887d33094573f8dcfaf7fd9\",\"SYNTHETIC_NATIVE_ID_CANARY\",\"string\",\"\"\"1\"\"\",\"30\",\"[{\"\"namespace\"\":\"\"MAXVAR\"\",\"\"native_id_type\"\":\"\"integer\"\",\"\"native_id\"\":31},{\"\"namespace\"\":\"\"BL\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"BL01.01\"\"},{\"\"namespace\"\":\"\"NESTMAX\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"A.01\"\"},{\"\"namespace\"\":\"\"MBSS\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"MBSS-B01-L01\"\"},{\"\"namespace\"\":\"\"EXT\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"EXT:MB49.01\"\"}]\",\"[{\"\"namespace\"\":\"\"METHOD\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"conservation\"\"}]\"",
+          "formula_cells_escaped": true
+        },
+        "groups": {
+          "EVIDENCE": [
+            "SYNTHETIC-INTEGER-1",
+            "SYNTHETIC-STRING-01",
+            "SYNTHETIC-STRING-1"
+          ]
+        },
+        "private_resolver": {
+          "format_version": "DASH-PRIVATE-RESOLVER-1.0",
+          "record_contract": "TYPED_V2",
+          "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+          "project_handle": "e246a03c-a26b-46f4-a3b2-f7a2f772e171",
+          "checkpoints": [
+            {
+              "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+              "checkpoint_handle": "b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4",
+              "record_ids": [
+                "SYNTHETIC-INTEGER-1",
+                "SYNTHETIC-STRING-01",
+                "SYNTHETIC-STRING-1"
+              ]
+            }
+          ],
+          "records": [
+            {
+              "record_id": "SYNTHETIC-INTEGER-1",
+              "record_handle": "bf95690a-07f3-4697-a3d5-9847c71b96a2",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "integer",
+                "native_id": 1
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-01",
+              "record_handle": "6752dd9c-5579-4510-ad6d-c55182e40e87",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "01"
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-1",
+              "record_handle": "37c04bbf-5735-463d-a6d7-5cf1020296c1",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "1"
+              }
+            }
+          ]
+        },
+        "private_resolver_fingerprint": "ddbd82a68e285017851503129eeaa57ad60b258ce6a9f45647f24fcc299a8a5e",
+        "dash_projection": {
+          "format_version": "DASH-REFERENCE-1.0",
+          "project_handle": "e246a03c-a26b-46f4-a3b2-f7a2f772e171",
+          "checkpoint_handle": "b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4",
+          "records": [
+            {
+              "record_handle": "37c04bbf-5735-463d-a6d7-5cf1020296c1"
+            },
+            {
+              "record_handle": "6752dd9c-5579-4510-ad6d-c55182e40e87"
+            },
+            {
+              "record_handle": "bf95690a-07f3-4697-a3d5-9847c71b96a2"
+            }
+          ]
+        },
+        "dash_csv": "\"format_version\",\"project_handle\",\"checkpoint_handle\",\"record_handle\"\r\n\"DASH-REFERENCE-1.0\",\"e246a03c-a26b-46f4-a3b2-f7a2f772e171\",\"b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4\",\"37c04bbf-5735-463d-a6d7-5cf1020296c1\"\r\n\"DASH-REFERENCE-1.0\",\"e246a03c-a26b-46f4-a3b2-f7a2f772e171\",\"b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4\",\"6752dd9c-5579-4510-ad6d-c55182e40e87\"\r\n\"DASH-REFERENCE-1.0\",\"e246a03c-a26b-46f4-a3b2-f7a2f772e171\",\"b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4\",\"bf95690a-07f3-4697-a3d5-9847c71b96a2\"",
+        "disclosure": {
+          "export_profile": "PRIVATE_WITH_DASH_REFERENCES",
+          "entire_tool_result": "PRIVATE_NOT_DASH_EXPORTABLE",
+          "private_manifest_field": "manifest",
+          "private_artifacts": [
+            "manifest",
+            "spreadsheet",
+            "groups",
+            "private_resolver",
+            "private_resolver_fingerprint"
+          ],
+          "dash_artifacts": [
+            "dash_projection",
+            "dash_csv"
+          ],
+          "reference_validation": "REGISTERED_NAMESPACE_AND_NATIVE_TYPE_VERIFIED",
+          "identifier_coercion": false,
+          "alias_generation": "VALIDATED_CALLER_RESOLVER_REUSED",
+          "encryption": false,
+          "access_control_changed": false,
+          "existing_indexed_content_changed": false,
+          "confidentiality_guaranteed": false,
+          "visible_dash_metadata": "Opaque handle equality, record count and export structure remain visible.",
+          "resolver_trust": "Caller-supplied private crosswalk and expected checksum; structural validation does not authenticate its history. Save and reload the same resolver to preserve aliases.",
+          "timestamp_validation": "observed_at is retained verbatim; timestamp semantics are not validated."
+        },
+        "storage_handoff": {
+          "private_canonical": "Save manifest, private spreadsheet and private_resolver only in an owner-controlled location excluded from Dash indexing. Verify saved content and retain native file IDs privately.",
+          "google_drive": "A private Drive file may still be readable through the owner's Dash connector. Verify indexing exclusion before saving private method or source content there; file ACL alone is not an indexing exclusion.",
+          "dash": "Only dash_projection or dash_csv is the Dash artifact. Never upload the entire tool result, manifest, private_resolver, source content or private spreadsheet to Dash.",
+          "spreadsheets": "Private CSV is formula-escaped but may be auto-typed by spreadsheet software. Use literal RAW/text for native IDs and JSON columns; ordinal is a separate numeric field. JSON manifest is the lossless record.",
+          "docs_notebook": "Keep executable notebooks, models, methods and source bindings private and excluded from indexing; derive review tables from the same manifest.",
+          "github": "Keep private artifacts in the existing intended private repository only after removing credentials and unnecessary personal data; check connected indexing exposure.",
+          "resume": "Reload private manifest and verify backup fingerprint. REUSE the saved resolver/checksum for a checkpoint; ADVANCE it for the next checkpoint, preserving prior record handles and typed identities. CREATE is only the explicit initial setup."
+        },
+        "persisted": false,
+        "rule_currentness_verified": false,
+        "submission_ready": false,
+        "external_action_authorized": false,
+        "canonical_promotion": false
+      },
+      "isError": false,
+      "interpretation": "SUCCESSFUL_PROTECTED_REGISTERED_CALL"
+    },
+    {
+      "case": "typed_advance",
+      "input": {
+        "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+        "checkpoint_id": "SYNTHETIC-INTERFACE-ADVANCE-20261009",
+        "record_contract": "TYPED_V2",
+        "records": [
+          {
+            "id": "SYNTHETIC-STRING-01",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v2",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "01"
+              },
+              "ordinal": 20,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          },
+          {
+            "id": "SYNTHETIC-NEW-RECORD",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "new-native-id"
+              },
+              "ordinal": 40,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          }
+        ],
+        "next_action": "Verify synthetic resolver continuity; do not advance a canonical program.",
+        "stop_condition": "Any schema rejection, dropped typed value, identity coercion or unexpected persistence.",
+        "export_profile": "PRIVATE_WITH_DASH_REFERENCES",
+        "resolver_action": "ADVANCE",
+        "dash_resolver": {
+          "format_version": "DASH-PRIVATE-RESOLVER-1.0",
+          "record_contract": "TYPED_V2",
+          "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+          "project_handle": "e246a03c-a26b-46f4-a3b2-f7a2f772e171",
+          "checkpoints": [
+            {
+              "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+              "checkpoint_handle": "b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4",
+              "record_ids": [
+                "SYNTHETIC-INTEGER-1",
+                "SYNTHETIC-STRING-01",
+                "SYNTHETIC-STRING-1"
+              ]
+            }
+          ],
+          "records": [
+            {
+              "record_id": "SYNTHETIC-INTEGER-1",
+              "record_handle": "bf95690a-07f3-4697-a3d5-9847c71b96a2",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "integer",
+                "native_id": 1
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-01",
+              "record_handle": "6752dd9c-5579-4510-ad6d-c55182e40e87",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "01"
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-1",
+              "record_handle": "37c04bbf-5735-463d-a6d7-5cf1020296c1",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "1"
+              }
+            }
+          ]
+        },
+        "expected_resolver_fingerprint": "ddbd82a68e285017851503129eeaa57ad60b258ce6a9f45647f24fcc299a8a5e"
+      },
+      "tool_name": "mcp__codex_apps__mpc_machine_legal_bugtools_prepare_research_backup",
+      "observed_result": {
+        "status": "BACKUP_PREPARED_NOT_SAVED",
+        "backup_fingerprint": "9b4dcf3d7a7c4470c86b2d5842d4c8783a5f2f9435e28913bad19a40115bc215",
+        "manifest": {
+          "format_version": "RESEARCH-BACKUP-2.0",
+          "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+          "checkpoint_id": "SYNTHETIC-INTERFACE-ADVANCE-20261009",
+          "records": [
+            {
+              "id": "SYNTHETIC-STRING-01",
+              "category": "EVIDENCE",
+              "title": "SYNTHETIC interface canary",
+              "source_ref": "https://example.invalid/mpc-interface-canary",
+              "source_version": "synthetic-fixture-v2",
+              "observed_at": "2026-10-09T03:20:00Z",
+              "state": "DECLARED",
+              "classifier_ids": [],
+              "method_ids": [],
+              "parent_record_ids": [],
+              "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "typed": {
+                "identity": {
+                  "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                  "native_id_type": "string",
+                  "native_id": "01"
+                },
+                "ordinal": 20,
+                "classifier_refs": [
+                  {
+                    "namespace": "MAXVAR",
+                    "native_id_type": "integer",
+                    "native_id": 31
+                  },
+                  {
+                    "namespace": "BL",
+                    "native_id_type": "string",
+                    "native_id": "BL01.01"
+                  },
+                  {
+                    "namespace": "NESTMAX",
+                    "native_id_type": "string",
+                    "native_id": "A.01"
+                  },
+                  {
+                    "namespace": "MBSS",
+                    "native_id_type": "string",
+                    "native_id": "MBSS-B01-L01"
+                  },
+                  {
+                    "namespace": "EXT",
+                    "native_id_type": "string",
+                    "native_id": "EXT:MB49.01"
+                  }
+                ],
+                "method_refs": [
+                  {
+                    "namespace": "METHOD",
+                    "native_id_type": "string",
+                    "native_id": "conservation"
+                  }
+                ]
+              },
+              "record_fingerprint": "0b6af2a21a1b812ac6b4a4986b6b2b22f6516fdaae3c588f82b6c48df58b9894"
+            },
+            {
+              "id": "SYNTHETIC-NEW-RECORD",
+              "category": "EVIDENCE",
+              "title": "SYNTHETIC interface canary",
+              "source_ref": "https://example.invalid/mpc-interface-canary",
+              "source_version": "synthetic-fixture-v1",
+              "observed_at": "2026-10-09T03:20:00Z",
+              "state": "DECLARED",
+              "classifier_ids": [],
+              "method_ids": [],
+              "parent_record_ids": [],
+              "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "typed": {
+                "identity": {
+                  "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                  "native_id_type": "string",
+                  "native_id": "new-native-id"
+                },
+                "ordinal": 40,
+                "classifier_refs": [
+                  {
+                    "namespace": "MAXVAR",
+                    "native_id_type": "integer",
+                    "native_id": 31
+                  },
+                  {
+                    "namespace": "BL",
+                    "native_id_type": "string",
+                    "native_id": "BL01.01"
+                  },
+                  {
+                    "namespace": "NESTMAX",
+                    "native_id_type": "string",
+                    "native_id": "A.01"
+                  },
+                  {
+                    "namespace": "MBSS",
+                    "native_id_type": "string",
+                    "native_id": "MBSS-B01-L01"
+                  },
+                  {
+                    "namespace": "EXT",
+                    "native_id_type": "string",
+                    "native_id": "EXT:MB49.01"
+                  }
+                ],
+                "method_refs": [
+                  {
+                    "namespace": "METHOD",
+                    "native_id_type": "string",
+                    "native_id": "conservation"
+                  }
+                ]
+              },
+              "record_fingerprint": "bd444e6ffc280e5cfce486b4bf89b36eb14b0b54e5d3cd0a06a7c6c31606cfbd"
+            }
+          ],
+          "next_action": "Verify synthetic resolver continuity; do not advance a canonical program.",
+          "stop_condition": "Any schema rejection, dropped typed value, identity coercion or unexpected persistence.",
+          "reference_registry_binding": {
+            "canonical_maxvar_type": "integer",
+            "string_namespaces": [
+              "NESTMAX",
+              "BL",
+              "MBSS",
+              "EXT",
+              "METHOD"
+            ],
+            "registry_bundle_sha256": {
+              "maxvar256.json": "30b3937212d96f74b96812bcb17fdab30ea1124ddb0566be02f306146d7102db",
+              "canonical_sources.json": "4ddb5b75f3c6d90125581daddd3ebfaba63127914be9de8a511c1aab8b57c87d",
+              "storage_map.json": "288bc72a35523e463a05bb9e0e901520bdd5d44ef4a1224cdcf88c167825ffad",
+              "nestmax_program_iid_pack.json": "1436bb965b503339506057d47bde6bb03105c883f70c9b609e8280dd50c6a5e0"
+            },
+            "business_logic_pack_fingerprint": "7db8a73e32016a8d3df560f649125221615b42a669231ec066ce74fee9d8a58d",
+            "research_registry_fingerprint": "436fe6b88f5b9202e85e52b8d6320f2fec3df88a5baa40d0b1110c2d90abf7f2",
+            "method_catalog_version": "1.2.0"
+          }
+        },
+        "spreadsheet": {
+          "columns": [
+            "id",
+            "category",
+            "title",
+            "source_ref",
+            "source_version",
+            "observed_at",
+            "state",
+            "classifier_ids",
+            "method_ids",
+            "parent_record_ids",
+            "notes",
+            "record_fingerprint",
+            "native_namespace",
+            "native_id_type",
+            "native_id_json",
+            "ordinal",
+            "classifier_refs_json",
+            "method_refs_json"
+          ],
+          "rows": [
+            [
+              "SYNTHETIC-STRING-01",
+              "EVIDENCE",
+              "SYNTHETIC interface canary",
+              "https://example.invalid/mpc-interface-canary",
+              "synthetic-fixture-v2",
+              "2026-10-09T03:20:00Z",
+              "DECLARED",
+              [],
+              [],
+              [],
+              "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "0b6af2a21a1b812ac6b4a4986b6b2b22f6516fdaae3c588f82b6c48df58b9894",
+              "SYNTHETIC_NATIVE_ID_CANARY",
+              "string",
+              "\"01\"",
+              20,
+              "[{\"namespace\":\"MAXVAR\",\"native_id_type\":\"integer\",\"native_id\":31},{\"namespace\":\"BL\",\"native_id_type\":\"string\",\"native_id\":\"BL01.01\"},{\"namespace\":\"NESTMAX\",\"native_id_type\":\"string\",\"native_id\":\"A.01\"},{\"namespace\":\"MBSS\",\"native_id_type\":\"string\",\"native_id\":\"MBSS-B01-L01\"},{\"namespace\":\"EXT\",\"native_id_type\":\"string\",\"native_id\":\"EXT:MB49.01\"}]",
+              "[{\"namespace\":\"METHOD\",\"native_id_type\":\"string\",\"native_id\":\"conservation\"}]"
+            ],
+            [
+              "SYNTHETIC-NEW-RECORD",
+              "EVIDENCE",
+              "SYNTHETIC interface canary",
+              "https://example.invalid/mpc-interface-canary",
+              "synthetic-fixture-v1",
+              "2026-10-09T03:20:00Z",
+              "DECLARED",
+              [],
+              [],
+              [],
+              "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+              "bd444e6ffc280e5cfce486b4bf89b36eb14b0b54e5d3cd0a06a7c6c31606cfbd",
+              "SYNTHETIC_NATIVE_ID_CANARY",
+              "string",
+              "\"new-native-id\"",
+              40,
+              "[{\"namespace\":\"MAXVAR\",\"native_id_type\":\"integer\",\"native_id\":31},{\"namespace\":\"BL\",\"native_id_type\":\"string\",\"native_id\":\"BL01.01\"},{\"namespace\":\"NESTMAX\",\"native_id_type\":\"string\",\"native_id\":\"A.01\"},{\"namespace\":\"MBSS\",\"native_id_type\":\"string\",\"native_id\":\"MBSS-B01-L01\"},{\"namespace\":\"EXT\",\"native_id_type\":\"string\",\"native_id\":\"EXT:MB49.01\"}]",
+              "[{\"namespace\":\"METHOD\",\"native_id_type\":\"string\",\"native_id\":\"conservation\"}]"
+            ]
+          ],
+          "csv": "\"id\",\"category\",\"title\",\"source_ref\",\"source_version\",\"observed_at\",\"state\",\"classifier_ids\",\"method_ids\",\"parent_record_ids\",\"notes\",\"record_fingerprint\",\"native_namespace\",\"native_id_type\",\"native_id_json\",\"ordinal\",\"classifier_refs_json\",\"method_refs_json\"\r\n\"SYNTHETIC-STRING-01\",\"EVIDENCE\",\"SYNTHETIC interface canary\",\"https://example.invalid/mpc-interface-canary\",\"synthetic-fixture-v2\",\"2026-10-09T03:20:00Z\",\"DECLARED\",\"\",\"\",\"\",\"Synthetic registered-interface validation only; no target evidence or canonical research state.\",\"0b6af2a21a1b812ac6b4a4986b6b2b22f6516fdaae3c588f82b6c48df58b9894\",\"SYNTHETIC_NATIVE_ID_CANARY\",\"string\",\"\"\"01\"\"\",\"20\",\"[{\"\"namespace\"\":\"\"MAXVAR\"\",\"\"native_id_type\"\":\"\"integer\"\",\"\"native_id\"\":31},{\"\"namespace\"\":\"\"BL\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"BL01.01\"\"},{\"\"namespace\"\":\"\"NESTMAX\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"A.01\"\"},{\"\"namespace\"\":\"\"MBSS\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"MBSS-B01-L01\"\"},{\"\"namespace\"\":\"\"EXT\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"EXT:MB49.01\"\"}]\",\"[{\"\"namespace\"\":\"\"METHOD\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"conservation\"\"}]\"\r\n\"SYNTHETIC-NEW-RECORD\",\"EVIDENCE\",\"SYNTHETIC interface canary\",\"https://example.invalid/mpc-interface-canary\",\"synthetic-fixture-v1\",\"2026-10-09T03:20:00Z\",\"DECLARED\",\"\",\"\",\"\",\"Synthetic registered-interface validation only; no target evidence or canonical research state.\",\"bd444e6ffc280e5cfce486b4bf89b36eb14b0b54e5d3cd0a06a7c6c31606cfbd\",\"SYNTHETIC_NATIVE_ID_CANARY\",\"string\",\"\"\"new-native-id\"\"\",\"40\",\"[{\"\"namespace\"\":\"\"MAXVAR\"\",\"\"native_id_type\"\":\"\"integer\"\",\"\"native_id\"\":31},{\"\"namespace\"\":\"\"BL\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"BL01.01\"\"},{\"\"namespace\"\":\"\"NESTMAX\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"A.01\"\"},{\"\"namespace\"\":\"\"MBSS\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"MBSS-B01-L01\"\"},{\"\"namespace\"\":\"\"EXT\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"EXT:MB49.01\"\"}]\",\"[{\"\"namespace\"\":\"\"METHOD\"\",\"\"native_id_type\"\":\"\"string\"\",\"\"native_id\"\":\"\"conservation\"\"}]\"",
+          "formula_cells_escaped": true
+        },
+        "groups": {
+          "EVIDENCE": [
+            "SYNTHETIC-STRING-01",
+            "SYNTHETIC-NEW-RECORD"
+          ]
+        },
+        "private_resolver": {
+          "format_version": "DASH-PRIVATE-RESOLVER-1.0",
+          "record_contract": "TYPED_V2",
+          "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+          "project_handle": "e246a03c-a26b-46f4-a3b2-f7a2f772e171",
+          "checkpoints": [
+            {
+              "checkpoint_id": "SYNTHETIC-INTERFACE-ADVANCE-20261009",
+              "checkpoint_handle": "aa2df02a-b1c0-406a-b2b1-6f5b4541c001",
+              "record_ids": [
+                "SYNTHETIC-NEW-RECORD",
+                "SYNTHETIC-STRING-01"
+              ]
+            },
+            {
+              "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+              "checkpoint_handle": "b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4",
+              "record_ids": [
+                "SYNTHETIC-INTEGER-1",
+                "SYNTHETIC-STRING-01",
+                "SYNTHETIC-STRING-1"
+              ]
+            }
+          ],
+          "records": [
+            {
+              "record_id": "SYNTHETIC-INTEGER-1",
+              "record_handle": "bf95690a-07f3-4697-a3d5-9847c71b96a2",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "integer",
+                "native_id": 1
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-NEW-RECORD",
+              "record_handle": "94b2f3b1-51e4-40e9-8d65-447e19f19396",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "new-native-id"
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-01",
+              "record_handle": "6752dd9c-5579-4510-ad6d-c55182e40e87",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "01"
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-1",
+              "record_handle": "37c04bbf-5735-463d-a6d7-5cf1020296c1",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "1"
+              }
+            }
+          ]
+        },
+        "private_resolver_fingerprint": "f71b3ba6ca07222909b2ab324562c82fd1ec7b69074c3c5fcd3858102b78b77b",
+        "dash_projection": {
+          "format_version": "DASH-REFERENCE-1.0",
+          "project_handle": "e246a03c-a26b-46f4-a3b2-f7a2f772e171",
+          "checkpoint_handle": "aa2df02a-b1c0-406a-b2b1-6f5b4541c001",
+          "records": [
+            {
+              "record_handle": "6752dd9c-5579-4510-ad6d-c55182e40e87"
+            },
+            {
+              "record_handle": "94b2f3b1-51e4-40e9-8d65-447e19f19396"
+            }
+          ]
+        },
+        "dash_csv": "\"format_version\",\"project_handle\",\"checkpoint_handle\",\"record_handle\"\r\n\"DASH-REFERENCE-1.0\",\"e246a03c-a26b-46f4-a3b2-f7a2f772e171\",\"aa2df02a-b1c0-406a-b2b1-6f5b4541c001\",\"6752dd9c-5579-4510-ad6d-c55182e40e87\"\r\n\"DASH-REFERENCE-1.0\",\"e246a03c-a26b-46f4-a3b2-f7a2f772e171\",\"aa2df02a-b1c0-406a-b2b1-6f5b4541c001\",\"94b2f3b1-51e4-40e9-8d65-447e19f19396\"",
+        "disclosure": {
+          "export_profile": "PRIVATE_WITH_DASH_REFERENCES",
+          "entire_tool_result": "PRIVATE_NOT_DASH_EXPORTABLE",
+          "private_manifest_field": "manifest",
+          "private_artifacts": [
+            "manifest",
+            "spreadsheet",
+            "groups",
+            "private_resolver",
+            "private_resolver_fingerprint"
+          ],
+          "dash_artifacts": [
+            "dash_projection",
+            "dash_csv"
+          ],
+          "reference_validation": "REGISTERED_NAMESPACE_AND_NATIVE_TYPE_VERIFIED",
+          "identifier_coercion": false,
+          "alias_generation": "VALIDATED_RESOLVER_ADVANCED_NEW_HANDLES_ONLY",
+          "encryption": false,
+          "access_control_changed": false,
+          "existing_indexed_content_changed": false,
+          "confidentiality_guaranteed": false,
+          "visible_dash_metadata": "Opaque handle equality, record count and export structure remain visible.",
+          "resolver_trust": "Caller-supplied private crosswalk and expected checksum; structural validation does not authenticate its history. Save and reload the same resolver to preserve aliases.",
+          "timestamp_validation": "observed_at is retained verbatim; timestamp semantics are not validated."
+        },
+        "storage_handoff": {
+          "private_canonical": "Save manifest, private spreadsheet and private_resolver only in an owner-controlled location excluded from Dash indexing. Verify saved content and retain native file IDs privately.",
+          "google_drive": "A private Drive file may still be readable through the owner's Dash connector. Verify indexing exclusion before saving private method or source content there; file ACL alone is not an indexing exclusion.",
+          "dash": "Only dash_projection or dash_csv is the Dash artifact. Never upload the entire tool result, manifest, private_resolver, source content or private spreadsheet to Dash.",
+          "spreadsheets": "Private CSV is formula-escaped but may be auto-typed by spreadsheet software. Use literal RAW/text for native IDs and JSON columns; ordinal is a separate numeric field. JSON manifest is the lossless record.",
+          "docs_notebook": "Keep executable notebooks, models, methods and source bindings private and excluded from indexing; derive review tables from the same manifest.",
+          "github": "Keep private artifacts in the existing intended private repository only after removing credentials and unnecessary personal data; check connected indexing exposure.",
+          "resume": "Reload private manifest and verify backup fingerprint. REUSE the saved resolver/checksum for a checkpoint; ADVANCE it for the next checkpoint, preserving prior record handles and typed identities. CREATE is only the explicit initial setup."
+        },
+        "persisted": false,
+        "rule_currentness_verified": false,
+        "submission_ready": false,
+        "external_action_authorized": false,
+        "canonical_promotion": false
+      },
+      "isError": false,
+      "interpretation": "SUCCESSFUL_PROTECTED_REGISTERED_CALL"
+    },
+    {
+      "case": "wrong_fingerprint",
+      "input": {
+        "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+        "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+        "record_contract": "TYPED_V2",
+        "records": [
+          {
+            "id": "SYNTHETIC-INTEGER-1",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "integer",
+                "native_id": 1
+              },
+              "ordinal": 10,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          },
+          {
+            "id": "SYNTHETIC-STRING-1",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "1"
+              },
+              "ordinal": 30,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          },
+          {
+            "id": "SYNTHETIC-STRING-01",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "01"
+              },
+              "ordinal": 20,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          }
+        ],
+        "next_action": "Verify synthetic resolver continuity; do not advance a canonical program.",
+        "stop_condition": "Any schema rejection, dropped typed value, identity coercion or unexpected persistence.",
+        "export_profile": "PRIVATE_WITH_DASH_REFERENCES",
+        "resolver_action": "REUSE",
+        "dash_resolver": {
+          "format_version": "DASH-PRIVATE-RESOLVER-1.0",
+          "record_contract": "TYPED_V2",
+          "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+          "project_handle": "e246a03c-a26b-46f4-a3b2-f7a2f772e171",
+          "checkpoints": [
+            {
+              "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+              "checkpoint_handle": "b47fa8c7-b9e8-40e8-89f4-a43bf3626fa4",
+              "record_ids": [
+                "SYNTHETIC-INTEGER-1",
+                "SYNTHETIC-STRING-01",
+                "SYNTHETIC-STRING-1"
+              ]
+            }
+          ],
+          "records": [
+            {
+              "record_id": "SYNTHETIC-INTEGER-1",
+              "record_handle": "bf95690a-07f3-4697-a3d5-9847c71b96a2",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "integer",
+                "native_id": 1
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-01",
+              "record_handle": "6752dd9c-5579-4510-ad6d-c55182e40e87",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "01"
+              }
+            },
+            {
+              "record_id": "SYNTHETIC-STRING-1",
+              "record_handle": "37c04bbf-5735-463d-a6d7-5cf1020296c1",
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "1"
+              }
+            }
+          ]
+        },
+        "expected_resolver_fingerprint": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "tool_name": "mcp__codex_apps__mpc_machine_legal_bugtools_prepare_research_backup",
+      "observed_result": {
+        "error_code": "INVALID_ARGUMENT"
+      },
+      "isError": true,
+      "interpretation": "EXPECTED_SEMANTIC_GUARD_REJECTION"
+    },
+    {
+      "case": "wrong_classifier_type",
+      "input": {
+        "project_id": "ILB-SYNTHETIC-REGISTERED-INTERFACE",
+        "checkpoint_id": "SYNTHETIC-INTERFACE-BASE-20261009",
+        "record_contract": "TYPED_V2",
+        "records": [
+          {
+            "id": "SYNTHETIC-STRING-01",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "01"
+              },
+              "ordinal": 20,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "string",
+                  "native_id": "31"
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          },
+          {
+            "id": "SYNTHETIC-STRING-1",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "string",
+                "native_id": "1"
+              },
+              "ordinal": 30,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          },
+          {
+            "id": "SYNTHETIC-INTEGER-1",
+            "category": "EVIDENCE",
+            "title": "SYNTHETIC interface canary",
+            "source_ref": "https://example.invalid/mpc-interface-canary",
+            "source_version": "synthetic-fixture-v1",
+            "observed_at": "2026-10-09T03:20:00Z",
+            "state": "DECLARED",
+            "classifier_ids": [],
+            "method_ids": [],
+            "parent_record_ids": [],
+            "notes": "Synthetic registered-interface validation only; no target evidence or canonical research state.",
+            "typed": {
+              "identity": {
+                "namespace": "SYNTHETIC_NATIVE_ID_CANARY",
+                "native_id_type": "integer",
+                "native_id": 1
+              },
+              "ordinal": 10,
+              "classifier_refs": [
+                {
+                  "namespace": "MAXVAR",
+                  "native_id_type": "integer",
+                  "native_id": 31
+                },
+                {
+                  "namespace": "BL",
+                  "native_id_type": "string",
+                  "native_id": "BL01.01"
+                },
+                {
+                  "namespace": "NESTMAX",
+                  "native_id_type": "string",
+                  "native_id": "A.01"
+                },
+                {
+                  "namespace": "MBSS",
+                  "native_id_type": "string",
+                  "native_id": "MBSS-B01-L01"
+                },
+                {
+                  "namespace": "EXT",
+                  "native_id_type": "string",
+                  "native_id": "EXT:MB49.01"
+                }
+              ],
+              "method_refs": [
+                {
+                  "namespace": "METHOD",
+                  "native_id_type": "string",
+                  "native_id": "conservation"
+                }
+              ]
+            }
+          }
+        ],
+        "next_action": "Verify synthetic resolver continuity; do not advance a canonical program.",
+        "stop_condition": "Any schema rejection, dropped typed value, identity coercion or unexpected persistence.",
+        "export_profile": "PRIVATE"
+      },
+      "tool_name": "mcp__codex_apps__mpc_machine_legal_bugtools_prepare_research_backup",
+      "observed_result": {
+        "error_code": "INVALID_ARGUMENT"
+      },
+      "isError": true,
+      "interpretation": "EXPECTED_SEMANTIC_GUARD_REJECTION"
+    }
+  ],
+  "assertions": {
+    "typed_records_preserved": true,
+    "native_integer_string_and_leading_zero_distinct": true,
+    "ordinal_order": true,
+    "legacy_record_preserved": true,
+    "legacy_default_private": true,
+    "reuse_unchanged": true,
+    "advance_preserves_existing_handles": true,
+    "advance_preserves_project_and_previous_checkpoint": true,
+    "advance_adds_new_checkpoint_and_record": true,
+    "fingerprint_guard": true,
+    "registered_native_type_guard": true,
+    "no_persistence_or_submission": true
+  },
+  "audit_item_statuses": {
+    "AUD-R001": {
+      "historical_state": "OPEN_OBSERVED_MISMATCH",
+      "current_observation": "HISTORICAL_DECLARATION_GAP_NOT_REPRODUCED; REGISTERED_TYPED_AND_LEGACY_PATHS_VERIFIED_FOR_RETAINED_CASES",
+      "code_changed": false,
+      "historical_root_cause": "NOT_ESTABLISHED"
+    },
+    "AUD-R007": {
+      "historical_state": "OPEN_VERIFICATION_GAP",
+      "current_observation": "REGISTERED_SYNTHETIC_TYPE_ORDINAL_REFERENCE_AND_RESOLVER_CONTINUITY_CASES_PASSED",
+      "code_changed": false,
+      "limits": "Does not reconcile all 380 historical source/control records or their 35 qualified aliases. Resolver checksum validation is not provider concurrency control or authentication of resolver history."
+    }
+  },
+  "remaining_limits": [
+    "Destination Cloud session still did not expose MPC tools in the user-provided report.",
+    "No deployment commit is exposed by these calls.",
+    "Full provider concurrency and canonical state reconciliation remain Section C work.",
+    "No original audit rows or canonical repair statuses were rewritten."
+  ],
+  "mutations": {
+    "source_code": 0,
+    "canonical_records": 0,
+    "target_requests": 0,
+    "dash_writes": 0,
+    "site_deployments": 0
+  },
+  "external_action_authorized": false,
+  "canonical_promotion": false
+}

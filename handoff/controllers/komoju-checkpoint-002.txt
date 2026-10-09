@@ -1,0 +1,43 @@
+﻿KOMOJU | TARGET-002 | CHECKPOINT 002 | 2026-10-08
+Task: Continue original KOMOJU independent-bounty work, passive source-backed high-value hooks and shared-method preservation. No architecture rewrite or live target requests.
+
+
+CONTROLLING STATE
+Live Airtable base appdD5WC0CVuRirtP; target controller rech8Afm8n1P1qgMD. Previous controller KOMOJU-CKPT-001-20261008 (Google Doc 1nLyRGtDf7DWMS3QGB28AvD9AFuG6n9JyhJ1Dy5-2n3s). Prior historical KOMOJU PASS107/108/109 immutable and not mistaken for Social Deal PASS series. The global machine-state JSON 1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU is a stale typed projection, not the live frontier. Live data outranks memory/handoff.
+
+
+SHARED ARCHITECTURE AND ORGANIZATION
+Exact stored cross-project handoff I_LOVE_BUGS_PASS104_CROSS_PROJECT_HANDOFF.json read; shared BugLab Operating Plan 1-_wEHwZWGberA3273Z2ffYww1TCnHudPQXZ7aeyjoh0 read (LOCAL-FIRST, source hashes/versions, change detection, evidence-first). Their contents are preserved; this is not a replacement method.
+Drive workspace folder 1wxCmbQxnRdKyzonwELiJHz5ZFfRHBzpk moved from BugLab root to existing BugLab/Targets folder 1X2r_IkVrW-WD_DfCJp3TDmkjEESWlp_6, alongside unmodified Social Deal. The KOMOJU folder ID, nested rules/recon/evidence/reports/checkpoints folders, and all previous documents remain unchanged.
+Social Deal remains separate base appZPanYDOUZRinwr, separate live controller and its existing PASS snapshots. Social Deal not queried, edited, moved, or rewritten in this pass.
+
+
+NEW PUBLIC FIRST-PARTY SOURCES, WRITE/READBACK VERIFIED IN KOMOJU-ONLY SOURCE REGISTER
+K-SRC-039 (record recFxvNiazayqeSD1) — Stored Credential Compliance, documentation updated Mar 26, 2026. Four payment_details fields: initiator customer/merchant, intent one_time/card_on_file/subscription/installment, usage first/used, scheme_reference chain. Source: https://docs.komoju.com/en/docs/development/fraud-and-compliance/stored-credential-compliance. Supplements EXISTING K-A008/009/010. No consent/authorization flaw proven.
+K-SRC-040 (record recHCbXmygEPN6ZF1) — Sep 24, 2026 official API change: optional POST /subscriptions payment_cycle and proration_logic; none and future anchor => awaiting, zero immediate charge; prorata => prorated initial charge then scheduled full charge; anchor today/past => immediate full charge; effective timezone 09:00; response adds started_at/payment_cycle/proration_logic. Source: https://docs.komoju.com/en/changelog/subscriptions-fixed-billing-dates-and-proration. Direct Subscriptions API does NOT equal Payment Links subscription UI, which has different docs and gating.
+K-SRC-041 (record recBmTqZlhHK4agKf) — pinned first-party public generated Node SDK commit 45860d954b3d2e8e081c14b7b64ef81860bca5cd, CreateSubscriptionRequest blob ea1ebd38937afa14fd3f5d0582885aaeb6c50a41; Subscription response sibling blob a9f156c9137ce3e011f22dafa99add28f44cb19f. Older types omit newer request payment_cycle/proration_logic and response equivalents. Link: https://github.com/komoju/komoju-node-sdk/blob/45860d954b3d2e8e081c14b7b64ef81860bca5cd/models/create-subscription-request.ts. This is a version/representation gap, NOT proof the backend lacks a control or a reportable bug.
+
+
+ATOMIC PROGRESS
+K-A011 record recLQULovBQVKh2RR — Subscription awaiting / scheduled initial Payment finality, newly distinct stateful object. Status DOC-MODELED, no live evidence. Expected exact Merchant/Customer owner and consent binding, correct first charge NONE versus PRORATA, no duplicate/unauthorized Payment; status not equivalent to captured/settled Payment.
+K-V010 record recV9bBYqn1l9ASc9 — SWAP first-cycle proration_logic none vs prorata while keeping other legitimate merchant-owned inputs constant. BLOCKED/UNTESTED until permitted own in-scope Test Mode control available. No concurrent, automated, timed or high-volume test contemplated. If only a single Merchant account is available, K-A011 ordinary test-mode baseline may be feasible; cross-Merchant ownership variation K-V008 remains blocked without second authorized account.
+
+
+MPC / EXISTING ARCHITECTURE USED, NO NEW CLASSIFIER FAMILY
+UMTB-4 route input fingerprint 08ba0b9c8e577a5054d9ef8fbec7625ddc620c045e44f479c888e0507343ee5c. Existing BL-SOLID-STATE-384 pack fingerprint 7db8a73e32016a8d3df560f649125221615b42a669231ec066ce74fee9d8a58d; 32 branches/384 classifier definitions accounted, 5 WATCH (BL12.05, BL12.06, BL29.03, BL29.04, BL29.08); ZERO ACTIVE, zero methods executed, no canonical promotion or automated target authorization. Frozen MAXVAR registry IDs 1,4,31,32,63,95,98,169,170,179,180,184 read, unchanged.
+
+
+PROGRAM RULES / EVIDENCE
+Only explicit targets https://yeswehack.staging.komoju.com (critical asset, advertised critical severity reward up to $7,000) and https://doc.komoju.com/docs/fields-overview (high asset, max $1,500). Public first-party docs and GitHub are OSINT source references only, not permission for active target scanning. No service degradation, bulk automation, third-party data, copied server files, public disclosure, or unproven speculative YesWeHack report. Staging resets each Sunday; scheduled 09:00 billing may not be observable over reset horizon.
+YesWeHack researcher verified USER-REPORTED. Staging merchant Test Mode access has not been independently established from native record. No credentials, PII, HAR or confidential program evidence stored here. Native test baseline still 0. Candidate table still 0. No report or credits spent.
+
+
+READINESS PRIORITY
+1. K-A008 same-merchant customer source update and (only with two permitted researcher-controlled merchants) owner isolation: highest potential cross-tenant security value; no exploit implied.
+2. K-A011 documented scheduled billing + awaiting + proration authorization/first charge: likely practical own-Merchant manual baseline once feature enabled, no security finding established.
+3. K-A007 Platform/submerchant split/capture: high conditional financial value, BLOCKED without legitimate feature/role enablement.
+Do not confuse a mere SDK type mismatch, customer-initiated initiator field, timing delay, or UI-only difference with security impact.
+
+
+NEXT BOUNDED PASS
+Inspect Sep 14, 2026 first-party zero-amount Customer card verification (0 JPY; 9 JPY fallback immediately cancelled) against K-A009 issued/usable source, treating displayed/non-displayed verification and actual charged Payment as different native objects; source ingest only if genuinely new. Do not rerun old source inventory or generic recon. If own scoped staging Test Mode Merchant access becomes available, collect first ordinary Customer or Subscription baseline with no unauthorized traffic, then falsify one variable manually.

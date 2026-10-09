@@ -1,0 +1,106 @@
+﻿MACHINE LEGAL — GLOBAL CONTROLLER — ML-NVME V1
+Status: CANONICAL GLOBAL ROUTING / CONTROL OBJECT
+Created: 2026-09-26
+Scope: ALL MACHINE LEGAL PROJECTS
+
+
+IDENTITY LOCK
+“MACHINE LEGAL” has exactly one global meaning: the existing legal Research OS and its canonical corpus/control machinery.
+The phrase MACHINE LEGAL never creates a new project, framework, corpus, authority universe, or replacement master.
+Matter names such as MIC-26-60, Jackson v. Collins, VA/EED/TDIU, or later matters are PROJECT NAMESPACES beneath MACHINE LEGAL. A project-local “master,” “controller,” “boot,” or “recovery” object controls only that project/artifact lane and cannot redefine MACHINE LEGAL globally.
+
+
+CANONICAL POINTERS — PRESERVED, NOT MIGRATED
+Execution/work root: MACHINE LEGAL — Drive 1Q8v5mlJHtYzyXXwyVg1MeDJAAKk5duFy
+Static ground/boot/config: SOLID STATE LEGAL — Drive 1rrqIYoSY8hMlwpq2DtdvE-6vZma0xEQ0
+Canonical authority state: Drive 14ICogZSDZ9eglyrWsL26XXN3UHlcHRBuWQJ2aDkwzug
+Authority universe: MACHINE LEGAL — AUTHORITY UNIVERSE INGEST — Drive 1iN9LVeNaphU-G4l935kUEn7-i6NH9oKs
+Durable authority corpus: CORPUS — Drive 1vVFxaCyMiQLddcFUuAWHdQ8Q-CsLPt3e
+Canonical ledger/control plane: Airtable appbRA5x81AP5fiSJ
+MIC-26-60 live compute checkpoint: Drive 1lMOuyeZ3beWKCU5VZ4S6ezPmoZnPQBoi0EsoYQM7zok
+
+
+NON-MIGRATION LOCK
+No existing corpus record, authority ID, source object, Drive ID, hash, ingestion cursor, journal, work unit, evidence atom, hook, filing artifact, or verified version is renamed, moved, rewritten, re-ingested, or reclassified merely to adopt this controller.
+Existing ingestion workers continue from their own verified cursors.
+Reorganization/compaction is a later maintenance operation and may not be inferred from this controller.
+
+
+CONTROLLER SEMANTICS
+Workers own tagged work units; workers do not independently redefine canonical corpus state.
+Each work unit carries: PROJECT_NAMESPACE; WORK_UNIT_ID; SOURCE/OBJECT IDENTITY; BASE_GENERATION; DEPENDENCY FINGERPRINT where applicable; STATE; and CONTINUATION CURSOR.
+Allowed state vocabulary:
+CLEAN
+CLAIMED
+DIRTY
+COMMITTED
+VERIFIED
+CONFLICT
+ACQUISITION-BLOCKED
+
+
+COMMIT PATH
+DEDUPE → VERSION/IDENTITY CHECK → SOURCE FINGERPRINT → JOURNAL/WRITE INTENT → BOUNDED ATOMIC COMMIT → READBACK → VERIFY → COMPLETE TAG → ADVANCE CURSOR.
+No cursor advances before readback verification.
+A timeout or connector failure after a possible write is DIRTY/UNKNOWN until destination readback resolves it; never blind-retry a potentially committed write.
+
+
+COPY-ON-WRITE / VERIFIED-OBJECT LOCK
+A verified legal/source object is never silently overwritten.
+A materially changed text, source state, legal version, effective interval, classification, or lineage creates a new version/generation or explicit supersession edge; only after verification may the authoritative pointer advance.
+Historical/superseded material remains preserved.
+
+
+MULTI-WORKER COLLISION RULE
+Workers may research/compute in parallel against a stable BASE_GENERATION.
+Completion order need not equal start order.
+Before commit, compare the work unit’s dependencies against current generation.
+If no relied-upon dependency changed, the independent unit may commit.
+If a relied-upon object changed, mark CONFLICT and revalidate only the affected dependency/unit; do not reload or rebuild the whole corpus.
+One project cannot seize, rename, or overwrite another project’s namespace, cursor, work unit, or local master.
+
+
+DIRTY-SET RECOVERY
+Recovery starts from unresolved states, not a full rescan:
+DIRTY; COMMITTED-but-not-VERIFIED; CONFLICT; ACQUISITION-BLOCKED.
+CLEAN/VERIFIED unchanged objects are not recomputed or re-fetched absent a demonstrated verification/version/source gap.
+FAST CACHE FIRST; exact IDs first; dependency fingerprints before recomputation.
+
+
+DATA TEMPERATURE
+HOT = active project frontier, current dependencies, current hooks/cursors, FAST CACHE.
+WARM = verified indexed corpus addressable by stable identity.
+COLD = preserved historical/superseded/raw/acquisition material not required in ordinary boot.
+Temperature changes retrieval priority only; it never changes authority, verification, provenance, or preservation status and never deletes material.
+
+
+DEDUPLICATION IDENTITY
+Deduplicate before writing using the existing legal/version identity plus stable source/Drive ID/hash machinery.
+Same authority encountered by another chat/project is not a new authority.
+Do not collapse genuinely different effective versions, amendments, jurisdictions, source states, publication objects, record artifacts, or legally material native representations merely because their text resembles another object.
+
+
+FAILSAFE
+UNKNOWN is not NO.
+Proposed/unverified law is never current law.
+Guidance/manual/form is never promoted to controlling authority merely because relevant.
+A malformed/blocked unit is recorded with its acquisition target and skipped while independent units continue.
+Never guess missing text, date, status, lineage, source identity, or verification.
+Never silently replace a verified generation.
+
+
+BOOT / TOKEN RESOLUTION
+When a user says “Machine Legal,” “boot Machine Legal,” or otherwise invokes MACHINE LEGAL without creating a distinctly named new system, resolve first to THIS GLOBAL IDENTITY and the preserved canonical pointers above, then route to the active PROJECT_NAMESPACE and its latest verified cursor/checkpoint.
+Do not interpret “Machine Legal” as the title of the currently active project.
+Do not create MACHINE LEGAL 2, a child OS, replacement corpus, alternate authority universe, or project-specific global definition.
+
+
+CURRENT PROJECT ROUTE
+MIC-26-60 remains a project namespace under MACHINE LEGAL.
+Its existing ingestion workers and current DWI/habeas lanes continue unchanged from their verified cursors.
+This controller governs collision avoidance and recovery; it does not alter their substantive legal work.
+
+
+CONTROLLER CHANGE RULE
+This document is a canonical controller object, but changes to it are themselves versioned/copy-on-write operations.
+Do not silently rewrite controller semantics. Create a proposed successor generation, verify it, then promote the pointer explicitly.

@@ -1,0 +1,100 @@
+MPC / MACHINE BUG TOOL — READABLE REPAIR CONTINUATION
+Source retrieval cutpoint: 2026-10-09T03:32:12.129Z
+
+READ FIRST
+- CODEX-HANDOFF.txt: original package text, unchanged.
+- handoff/CURRENT-REPAIR-CHECKPOINT.json: source-repair frontier and limits.
+- handoff/REGISTERED-INTERFACE-VERIFICATION.json: current Section A evidence.
+- handoff/CONTROLLER-SNAPSHOTS.json and handoff/controllers/: native control
+  reads with exact source identities, field IDs, and representation limits.
+
+ORIGINAL COMPLETE PACKAGE
+handoff/original/MPC-Daybreak-Blue-Repair-Pack-2026-10-09.zip
+SHA-256: c92f3aebb5f064b20a1174c1e8b942630799804ebe7fda5efccb8728533e785a
+Bytes: 519104; files: 39.
+Extract it to a temporary directory. Read mpc_daybreak_pack/START-HERE.txt,
+data/audit_records.json, data/technical_snapshot.json, the original workbook,
+notebook, runner, and required data companions. SOURCE-MANIFEST.json preserves
+all original member hashes. Do not reconstruct the package from summaries.
+
+CURRENT REPOSITORY AND ENVIRONMENT
+The original handoff predates the authorized GitHub import and Cloud setup.
+The actual private repository now exists:
+https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool
+Its original 182 source blobs/modes came from native Sites commit
+765923c9839f32502e5c0f1f1b919b827596012e. The source-import commit is
+97704161bfc2c3f0af42ead986dbfb7b405c8c5c.
+
+The supplied fresh-task receipt verified that source checkout with Node
+24.19.0, pnpm 11.25.0, restored dependencies/build output, 166 passing tests,
+and a successful build. Preserve install_script, start_skill and the writable
+Wrangler override. Use the already-imported source. Native Sites Git login is
+not required merely to obtain this handoff or perform isolated source work.
+
+SECTION A — CURRENT ACCEPTANCE
+The original handoff puts AUD-R001 and AUD-R007 first. The registered tool
+now exposes all ten top-level fields and records[].typed. The source backup
+JSON Schema and deployed advertised contract match exactly.
+
+Six protected synthetic calls in the originating session verified default
+legacy behavior, typed CREATE, REUSE, ADVANCE, invalid-fingerprint rejection
+and wrong registered-ID-type rejection. Numeric 1, string "1" and string "01"
+remain distinct; ordinals control order; existing handles survive. Outputs
+remain BACKUP_PREPARED_NOT_SAVED, persisted=false, submission_ready=false.
+
+No source-code fix or historical root cause was established. Do not
+reimplement the existing fields/resolver operations based on the old audit.
+The exposed client declaration is not a complete JSON Schema keyword dump;
+unexposed client-side constraints were not independently compared. The
+synthetic checks do not reconcile 380 historical records/35 qualified aliases
+or prove provider concurrency. Keep those limits in the current checkpoint.
+
+NEXT BOUNDED SOURCE ITEM
+Continue original Section B / AUD-R002: complete native content retrieval.
+Inspect the existing integration before editing. Make one additive guard or
+adapter with meaningful regression tests for the documented 24000 + 1600 byte
+unterminated JSON pattern with has_more=false. Classify it PARTIAL_INDEX_EXTRACT
+and prevent operative hydration. Preserve provider/native object identity,
+representation, version, expected length/digest where supplied, schema,
+BOM/CRLF policy and Unicode offsets through supported native fallback.
+
+Use controlled fixtures where live provider access is unavailable. Record the
+remaining real-provider check; a fixture is not a live retrieval receipt.
+Preserve the current hosted persistence/connector-dispatch/promotion boundaries.
+For the actual source change, run the relevant regression test, full existing
+tests and build. Report exact files, established cause and remaining dependency.
+
+CONTROLLER SCOPE
+Global control supplies identity and commit discipline. Original handoff order
+supplies software-repair priority. Social Deal and KOMOJU controls govern
+their own program state; keep them separate.
+
+Current Social Deal Work Queue reads retain queued concurrency/resume-pointer
+work. Its highest navigation row is Pass 102; this is navigation, not a new
+target-evidence review. Current KOMOJU Target Control and its linked checkpoint
+remain Checkpoint 002: 41 sources, 11 atoms, 10 variations, zero candidates and
+zero native baselines. The shared machine JSON is a stale projection according
+to those native controls; its current raw bytes were not materialized here.
+
+These are read-only transport snapshots. Native objects remain canonical and
+unchanged. The snapshots provide context for this isolated source/fixture task.
+Fresh native reads and supported concurrency are required before any later
+authorized program write. Do not block this source task on credentials for
+unrelated canonical writes. No Site deployment, canonical research mutation,
+target traffic or report submission is authorized by this continuation.
+
+READ WITHOUT MERGING OR CHANGING TRACKED FILES
+From the existing repository:
+  git fetch --no-tags origin main
+  git show origin/main:CODEX-HANDOFF.txt
+  git show origin/main:handoff/CURRENT-REPAIR-CHECKPOINT.json
+  git show origin/main:handoff/CONTINUE-REPAIR.txt
+
+For local copies of every required original file:
+  bundle_dir="$(mktemp -d /tmp/mpc-repair-handoff.XXXXXX)"
+  git archive origin/main CODEX-HANDOFF.txt handoff | tar -x -C "$bundle_dir"
+  python3 -m zipfile -e "$bundle_dir/handoff/original/MPC-Daybreak-Blue-Repair-Pack-2026-10-09.zip" "$bundle_dir/original-package"
+  printf '%s\n' "$bundle_dir"
+
+The original files then appear under original-package/mpc_daybreak_pack/.
+Read before executing package scripts. Preserve any unrelated local work.

@@ -1,0 +1,240 @@
+{
+  "schema_version": "MPC_REPAIR_SOURCE_TRANSPORT_MANIFEST_1",
+  "assembled_at_utc": "2026-10-09T03:32:12.129Z",
+  "role": "SOURCE_IDENTITY_AND_READ_ONLY_COPY_MANIFEST",
+  "original_archive": {
+    "filename": "MPC-Daybreak-Blue-Repair-Pack-2026-10-09.zip",
+    "repository_path": "handoff/original/MPC-Daybreak-Blue-Repair-Pack-2026-10-09.zip",
+    "drive_file_id": "18zuAPESWQhjQ9Vf78aBbcPIqENFsZUvi",
+    "drive_url": "https://drive.google.com/file/d/18zuAPESWQhjQ9Vf78aBbcPIqENFsZUvi/view?usp=drivesdk",
+    "drive_modified_time": "2026-10-09T01:35:03.931Z",
+    "library_file_id": "libfile_d72b8d3a35808191b822c4c50f64dc81",
+    "library_version_file_id": "file_00000000d0dc82309d146f4424fc222b",
+    "bytes": 519104,
+    "sha256": "c92f3aebb5f064b20a1174c1e8b942630799804ebe7fda5efccb8728533e785a",
+    "git_blob_sha": "55b56c88802be58a7e8c7e7ffd9155d48dd674c2",
+    "original_delivery_identity_match": true,
+    "acquisition": "Original saved package copy materialized with its native metadata after Drive supplied a file reference whose direct download returned HTTP403.",
+    "complete_package": true,
+    "member_count": 39,
+    "members": [
+      {
+        "path": "mpc_daybreak_pack/CODEX-HANDOFF.txt",
+        "bytes": 24511,
+        "sha256": "0fa81dd08ded601769c4bb3a57f5f3faba1675ba378d67a4f9717d1f01cb258b"
+      },
+      {
+        "path": "mpc_daybreak_pack/MANIFEST.json",
+        "bytes": 8047,
+        "sha256": "ba0e87850178e89923e412d4fe8b115e6a43f32b77d833707b89182026399d36"
+      },
+      {
+        "path": "mpc_daybreak_pack/METHODS-AND-ATOMIC-EXECUTION.txt",
+        "bytes": 34984,
+        "sha256": "7d6c88f95794a1ad4a9e222ca8067f2067625414c8a2215fccc24c3e058680be"
+      },
+      {
+        "path": "mpc_daybreak_pack/MPC-ENVIRONMENT-SETUP.txt",
+        "bytes": 21863,
+        "sha256": "da198b48104225d67a762da452f7941e9a742a501d1ed62ac484bec5ea29ed30"
+      },
+      {
+        "path": "mpc_daybreak_pack/MPC-Offline-Review.ipynb",
+        "bytes": 80404,
+        "sha256": "71477a7995eded7ece206250562fb863f34113634e94e075e874f62b3add42b2"
+      },
+      {
+        "path": "mpc_daybreak_pack/MPC-Repair-and-Submission.xlsx",
+        "bytes": 68983,
+        "sha256": "984ea5e719f0b626f45501f33188773adb0865c7763e33dabd836f7a84bf5eb7"
+      },
+      {
+        "path": "mpc_daybreak_pack/OPERATING-FRAMEWORK.txt",
+        "bytes": 15594,
+        "sha256": "b61225cf0fa96927b63a5eacca12286b18e7f9e6e23a92da96cfdac23ca9b0d5"
+      },
+      {
+        "path": "mpc_daybreak_pack/Run-Offline-Review.py",
+        "bytes": 6400,
+        "sha256": "8867d2a5eb4a9ad2dd0d0737a195482829b930eac144ddc385e074453a7c3c4c"
+      },
+      {
+        "path": "mpc_daybreak_pack/START-HERE.txt",
+        "bytes": 8838,
+        "sha256": "0d8ff67866545455ae2a4d59753809258b4ab7d192808ce7cef77606819f0a71"
+      },
+      {
+        "path": "mpc_daybreak_pack/SUBMISSION-AND-TRIAGE.txt",
+        "bytes": 15106,
+        "sha256": "7d792fd2da58ae2f95600c173a3941bad4db598cdc6726ab52bd2b59f3ca3005"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/atomic-core-models-fixture.json",
+        "bytes": 7603,
+        "sha256": "e1e29e6aa34fd8b2f5d8dad18c5d4107713cbdaa396759912f3ee065c93091b7"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/atomic-owner-variation.json",
+        "bytes": 6610,
+        "sha256": "299284347a6d5db53dd98f3677b900895e289e4207c04f1cfead3dda7806dd44"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/atomic_core_live_receipt.json",
+        "bytes": 103440,
+        "sha256": "3d3efadbbc3b6c1555ed6249db13800521629966b7cdde63dfdd52bcdced16ef"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/atomic_deployment_receipt.json",
+        "bytes": 2495,
+        "sha256": "a0d3e30ed01290beb02ed0742ad199369847473cbc55cfc571bd23dfd0ed23ce"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/atomic_direct_client_receipt.json",
+        "bytes": 148152,
+        "sha256": "3ec48602768540344f4e120a2af30fb76cf0a07222ff46d86ec1e2012eddef3a"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/atomic_models_validation.json",
+        "bytes": 6297,
+        "sha256": "17d259d83b0d200aa7f9f50b5080c96612650160cf607264b4e3e5419a54b516"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/atomic_owner_live_receipt.json",
+        "bytes": 107994,
+        "sha256": "4160b206a5b81e5e8e25b8d34d4e0b98e48dafdac53bc4841fd1441337af9744"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/audit_records.json",
+        "bytes": 36564,
+        "sha256": "34d30a5bcbf6356f8c306b1275500b746ca4c207b838dfe2592dd5015d65b286"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/current_method_catalog.json",
+        "bytes": 27334,
+        "sha256": "2d0e69d70273b95f35b360f637fcac326fc4d96258fac62184e8f8de65bcd859"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/current_runtime_receipt.json",
+        "bytes": 4460,
+        "sha256": "091017dd9c82f1c835015cc05ab55e6aa9b0190404cf16c04903da7543aba3a6"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/dash_audit_receipt.json",
+        "bytes": 14100,
+        "sha256": "54a2cdbe3d8c055ac20f381738a75c2cc23261cb692e297612e606b46e1dcffd"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/drive_audit_receipt.json",
+        "bytes": 21346,
+        "sha256": "2c8f212d84971f6be0ad24a243609fb048565c8fc1b810a7f04892265d20ea2f"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/environment_setup_receipt.json",
+        "bytes": 6255,
+        "sha256": "470f262baedda21b0d57b40965bb6f89c20be8dcb7e560fa408cc666196340ff"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/hook_search_candidates.json",
+        "bytes": 33736,
+        "sha256": "2acc946763d5d827a9df41640546856feac536557cd0d27206ecc8a18a000d7a"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/hook_search_notes.txt",
+        "bytes": 15505,
+        "sha256": "deb1c076ae7a19f248a393e007cdc012c91b1abcabe66436d022d2fee9992e30"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/hook_search_validation.json",
+        "bytes": 1153,
+        "sha256": "838a55c27509139d9f69c58f9144fca43914b7b96f2cadf1f974debac9ec0f75"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/method_ark_live_inventory.json",
+        "bytes": 1507224,
+        "sha256": "b65f1739176f8f985203f08240c8d72f218914191856ca01cce5751a688fb21c"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/method_evaluator_validation.json",
+        "bytes": 12322,
+        "sha256": "b5d9041b1145c5059ddb020ecfbe61259a97ca74cb52eadd0de5e66fa4010646"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/method_extension_receipt.json",
+        "bytes": 883,
+        "sha256": "0f4b6cd515cf28635abb26847cdad58bce34ae2d44ed6f70ea0380b4970fd676"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/method_inventory.json",
+        "bytes": 160415,
+        "sha256": "4fe23493b2185f5d0b6a83c483fad0ef9af2e113a3532516da9489d17c3714b6"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/notebook_method_validation.json",
+        "bytes": 2709,
+        "sha256": "a15fe4fd40c8f9464ad7e0feb09542ead29dfbcc8e187613bd2bc64b4f866965"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/notebook_validation.json",
+        "bytes": 10725,
+        "sha256": "80585c81c82960661804e414705c6e627b900c561d9d590b399a83b8ca5718dd"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/reasoning_operator_lineage.json",
+        "bytes": 12504,
+        "sha256": "574348f26a2b82729c792b89073a554bc9a1670df4d1b72fb6f60b98aa06c139"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/runner_method_validation.json",
+        "bytes": 631,
+        "sha256": "956761c20f8535c2a79497dd3e942ccd17c1ab5e07af6d67a21a0c04f70377a0"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/runner_validation.json",
+        "bytes": 5834,
+        "sha256": "57ffc8f87da837c52cb232f0db834b157142374fb7de5d68366350714b3d128a"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/technical_snapshot.json",
+        "bytes": 162778,
+        "sha256": "fbdbfadda59c346aa6bd65fbcd12d15ca71ef356dd3ac964afa485ec57672916"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/uncommon_hook_followups.json",
+        "bytes": 12873,
+        "sha256": "4d05c48b352e141321b6d2c680a96f9b261870cc49482dc020a4d8488a9b8811"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/workbook_method_validation.json",
+        "bytes": 8216,
+        "sha256": "824e7b1216430259a0108c9e4e3dc33a278db0bb6df44f1cf9574000942af6c0"
+      },
+      {
+        "path": "mpc_daybreak_pack/data/workbook_validation.json",
+        "bytes": 622,
+        "sha256": "7d1a5387175ca82e9a53b72955e1bf83b487e1a5e63ea0ddf7c735d2efc02cb2"
+      }
+    ]
+  },
+  "direct_handoff_copy": {
+    "path": "CODEX-HANDOFF.txt",
+    "original_member": "mpc_daybreak_pack/CODEX-HANDOFF.txt",
+    "bytes": 24511,
+    "sha256": "0fa81dd08ded601769c4bb3a57f5f3faba1675ba378d67a4f9717d1f01cb258b",
+    "transformation": "NONE"
+  },
+  "native_control_sources": "handoff/CONTROLLER-SNAPSHOTS.json",
+  "current_interface_evidence": "handoff/REGISTERED-INTERFACE-VERIFICATION.json",
+  "source_repair_frontier": "handoff/CURRENT-REPAIR-CHECKPOINT.json",
+  "identity_limits": [
+    "Archive/member hashes identify the exact preserved bytes.",
+    "Google Docs copies identify the UTF-8 readable representation, not a native Docs revision.",
+    "Airtable createdTime is not a row revision or last-modified token.",
+    "Private repository visibility was checked; connector indexing exclusion is not asserted."
+  ],
+  "secret_check": {
+    "scope": "Bounded recognizable credential and signed-download patterns across 38 text members and workbook XML/relationships",
+    "findings": 0,
+    "exhaustive_detection_guaranteed": false
+  },
+  "native_state_unchanged": true
+}
