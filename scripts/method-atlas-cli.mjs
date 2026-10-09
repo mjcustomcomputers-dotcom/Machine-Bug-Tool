@@ -8,6 +8,7 @@ import {routeMethodAtlas} from '../lib/method-atlas-router.mjs';
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const schema=readFileSync(resolve(ROOT,'method-atlas/schema.sql'),'utf8');
 const catalog=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/candidates.json'),'utf8'));
+const methodRelations=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/method-relations.json'),'utf8'));
 const DB_PATH=process.env.MPC_METHOD_ATLAS_DB??resolve(ROOT,'.sites-runtime/method-atlas.sqlite');
 const parentByDimension={
  MONEY:'BL29',STATE:'BL12',TIME:'BL03',REPLAY:'BL15',RNG:'BL23',FINALITY:'BL13',
@@ -43,6 +44,10 @@ export function loadMethodAtlas(db){
       [m.method_id,'BL',parent,'PROPOSED_STRUCTURAL_LINK','Candidate dimension '+dimension+'; no canonical adoption or semantic equivalence']);
    }
   }
+  for(const relation of methodRelations.relationships){
+    run(db,'INSERT OR IGNORE INTO atlas_method_relations (method_id,related_method_id,relation_type,rationale,evidence_independent,link_status) VALUES (?,?,?,?,?,?)',
+      [relation.method_id,relation.related_method_id,relation.relation_type,relation.rationale,0,relation.link_status]);
+  }
   db.exec('COMMIT');
  }catch(error){db.exec('ROLLBACK');throw error}
  return statusMethodAtlas(db);
@@ -50,8 +55,9 @@ export function loadMethodAtlas(db){
 export function statusMethodAtlas(db){
  const count=t=>db.prepare('SELECT COUNT(*) AS n FROM '+t).get().n;
  const methods=count('atlas_methods'),classifiers=count('atlas_classifiers'),sources=count('atlas_sources'),triggers=count('atlas_triggers'),crosswalk=count('atlas_crosswalk');
- const mismatch=methods!==catalog.methods.length||classifiers!==methods||sources!==catalog.sources.length;
- return {schema_version:catalog.atlas_version,methods,classifiers,sources,triggers,proposed_crosswalk:crosswalk,source_record_authoritative:false,method_execution_performed:false,canonical_registry_modified:false,validation:mismatch?'INVENTORY_MISMATCH':'STRUCTURAL_INVENTORY_PASS'};
+ const methodRelationsCount=count('atlas_method_relations');
+ const mismatch=methods!==catalog.methods.length||classifiers!==methods||sources!==catalog.sources.length||methodRelationsCount!==methodRelations.relationships.length;
+ return {schema_version:catalog.atlas_version,methods,classifiers,sources,triggers,proposed_crosswalk:crosswalk,method_relations:methodRelationsCount,source_record_authoritative:false,method_execution_performed:false,canonical_registry_modified:false,validation:mismatch?'INVENTORY_MISMATCH':'STRUCTURAL_INVENTORY_PASS'};
 }
 export function dbAdapter(db){
  return {prepare(sql){return {bind(...values){return {all(){return {results:db.prepare(sql).all(...values)}}}}}}};
