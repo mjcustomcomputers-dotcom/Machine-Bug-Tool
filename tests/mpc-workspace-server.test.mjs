@@ -81,6 +81,13 @@ test('real loopback service completes and restores the source-bound workspace jo
   assert.equal(home.headers['cache-control'],'no-store');
   assert.equal(home.headers['access-control-allow-origin'],undefined);
   assert.match(home.text,/MPC Workspace/u);
+  // The screen reader imports this helper in the actual rendered page: the
+  // loopback server must make that explicit module available to Chromium.
+  const sourceChoice=await callHttp(running,{path:'/screen-source-choice.js'});
+  assert.equal(sourceChoice.status,200);
+  assert.equal(sourceChoice.headers['content-type'],'text/javascript; charset=utf-8');
+  assert.equal(sourceChoice.headers['cache-control'],'no-store');
+  assert.match(sourceChoice.text,/export function screenSourceStartGate/u);
 
   const empty=await callHttp(running,{path:'/api/workspace/bootstrap'});
   assert.equal(empty.status,200,empty.text);

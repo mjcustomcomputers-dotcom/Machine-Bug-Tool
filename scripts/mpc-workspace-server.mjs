@@ -22,6 +22,7 @@ const STATIC_FILES = Object.freeze({
   '/app.js': Object.freeze({name: 'app.js', type: 'text/javascript; charset=utf-8', maxBytes: 4 * 1024 * 1024}),
   '/screen-policy.js': Object.freeze({name: 'screen-policy.js', type: 'text/javascript; charset=utf-8', maxBytes: 256 * 1024}),
   '/screen-reader.js': Object.freeze({name: 'screen-reader.js', type: 'text/javascript; charset=utf-8', maxBytes: 512 * 1024}),
+  '/screen-source-choice.js': Object.freeze({name: 'screen-source-choice.js', type: 'text/javascript; charset=utf-8', maxBytes: 64 * 1024}),
   '/capture.js': Object.freeze({name: 'capture.js', type: 'text/javascript; charset=utf-8', maxBytes: 256 * 1024}),
   '/capture.html': Object.freeze({name: 'capture.html', type: 'text/html; charset=utf-8', maxBytes: 64 * 1024})
 });
