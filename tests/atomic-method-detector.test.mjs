@@ -131,3 +131,25 @@ test('Canonical MPC process coordinate routes to process mining without prose sc
   assert.equal(r.method_route.no_method_executed,true);
  }finally{db.close()}
 });
+
+
+test('Explicit reverse-goal graph is a bounded supplied model and exact subject is enforced',async()=>{
+ const {db,adapter}=fresh();try{
+  const goal_graph={
+   subject_id:'fixture:transaction-001',
+   states:['START','AUTHORIZED','COMPLETE','BENIGN'],
+   start_state:'START',
+   transitions:[{id:'approval',from:'START',to:'AUTHORIZED',source_refs:['fixture:policy']},{id:'finalize',from:'AUTHORIZED',to:'COMPLETE',source_refs:['fixture:transaction']},{id:'routine',from:'START',to:'BENIGN',source_refs:['fixture:policy']}],
+   goals:[{id:'plus',target_state:'COMPLETE',sign:'INTENT_PLUS'},{id:'benign',target_state:'BENIGN',sign:'BENIGN_ALTERNATIVE'}],
+   remove_transition_id:'finalize'
+  };
+  const r=await detectMethodAtoms(adapter,{atoms:[atom('a','GOAL')],goal_graph});
+  assert.equal(r.explicit_supplied_goal_graph_computed,true);
+  assert.equal(r.goal_traversal.goal_review[0].baseline.reachability,'REACHABLE_IN_SUPPLIED_GRAPH');
+  assert.equal(r.goal_traversal.goal_review[0].deletion_counterfactual.reachability,'NO_DECLARED_PATH');
+  assert.equal(r.goal_traversal.goal_review[1].baseline.reachability,'REACHABLE_IN_SUPPLIED_GRAPH');
+  assert.equal(r.goal_traversal.no_intent_or_guilt_determination,true);
+  assert.equal(r.target_traffic,false);
+  await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','GOAL')],goal_graph:{...goal_graph,subject_id:'foreign'}}),/GOAL_GRAPH_SUBJECT_UNBOUND/);
+ }finally{db.close()}
+});
