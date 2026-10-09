@@ -116,3 +116,12 @@ and exact next action. Do not manufacture a pass number or completion score.
 When the user requests fast method detection, recovery of uncommon physics/quantum/casino/poker hooks, or cross-method checks, read `docs/method-atlas-detector.md` before work. The feature branch contains `method-atlas/schema.sql`, versioned source-linked MHA/MHC candidate catalogs, `lib/method-atlas-router.mjs`, `lib/atomic-method-detector.mjs`, and an offline SQLite CLI/benchmark. It is not the canonical MPC Method Ark or a deployed tool.
 
 Use exact typed MPC atom coordinates and source IDs; do not promote coordinate hints or proposed method cross-links into native classifier equivalence. Keep the original 24 evaluators, 10 hooks, 17 transforms, MAXVAR/NESTMAX/BL/MBSS/EXT registries and all original checkpoint formats unchanged. Run the feature branch's Node/SQLite tests, full suite, build and synthetic benchmark at the actual checked-out commit before claiming performance or release readiness. Do not confuse a queued model, method listing, or Kahn/DFS structural agreement with independent security evidence or authorized target validation.
+
+
+## Method Atlas V3/V4 stacked intelligence continuation
+
+For requests about lie/deception claims, cybercrime-pattern recognition, intent plus/minus, reverse-goal trajectories, MIT/Harvard/specialist computational methods, process mining or new method hooks: **read `docs/CODEX-METHOD-ATLAS-V4-HANDOFF.md` first**, then the versioned V3/V4 documents it points to. The stacked branch `feature/method-atlas-evidence-intent-reverse-v3` is based on the V1 Method Atlas PR #3. It is not merged or deployed automatically. This addition preserves, and never supersedes, existing canonical research/registry/version instructions.
+
+Evidence contradiction != deception; an observed technical pattern != a human crime; availability/capability != actual execution; a feasible synthetic reverse-goal path != intent or causation. Never infer guilt or dishonesty from demeanor, anxiety, speech or text style. Use typed source-owned records, competing benign explanations and explicit falsifiers. `goal_graph` is opt-in bounded local computation only; it must not silently become a target action.
+
+When validating source work in Codex Cloud, confirm current branch HEAD, native Node/SQLite tests, full tests, build and the synthetic benchmark. Keep the existing security-key login and Daybreak Blue model selection as user-controlled product operations; neither is a target-scope authorization or source authenticity stamp.
