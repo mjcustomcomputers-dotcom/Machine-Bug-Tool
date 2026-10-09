@@ -189,7 +189,8 @@ export function receiveController(options) {
   const receipt = {...source.observation, destination};
   let receiptPath, worktreeAttempted = false;
   try {
-    if (!isAbsolute(destination) || isPathWithin(source.repository, destination, {allowRoot: true})) fail('RECEIVER_DESTINATION_MUST_BE_OUTSIDE_SOURCE_CHECKOUT');
+    if (!isAbsolute(options.destination)) fail('RECEIVER_ABSOLUTE_DESTINATION_REQUIRED', options.destination);
+    if (isPathWithin(source.repository, destination, {allowRoot: true})) fail('RECEIVER_DESTINATION_MUST_BE_OUTSIDE_SOURCE_CHECKOUT', destination);
     noSymlinkAncestors(destination);
     try { lstatSync(destination); fail('RECEIVER_DESTINATION_ALREADY_EXISTS', destination); }
     catch (error) { if (error.code !== 'ENOENT') throw error; }

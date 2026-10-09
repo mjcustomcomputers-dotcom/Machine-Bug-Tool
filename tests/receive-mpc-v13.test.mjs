@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync, spawnSync} from 'node:child_process';
-import {createHash} from 'node:crypto';
+import {createHash, randomUUID} from 'node:crypto';
 import {existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join, resolve} from 'node:path';
@@ -99,6 +99,15 @@ test('occupied and source-contained destinations are rejected without changing t
   assert.equal(readFileSync(join(destination, 'keep'), 'utf8'), 'original');
   assert.throws(() => receiveController({repository, reportingCommit: commit, destination: join(repository, 'nested')}), /RECEIVER_DESTINATION_MUST_BE_OUTSIDE/);
   assert.equal(existsSync(join(repository, 'nested')), false);
+  assert.equal(g(repository, 'worktree', 'list', '--porcelain'), before);
+}));
+
+test('relative destination is rejected before worktree creation', () => fixture(({directory, repository, commit}) => {
+  const destination = join('missing-relative-parent-' + randomUUID(), 'received');
+  const before = g(repository, 'worktree', 'list', '--porcelain');
+  assert.throws(() => receiveController({repository, reportingCommit: commit, destination}),
+    /RECEIVER_ABSOLUTE_DESTINATION_REQUIRED/);
+  assert.equal(existsSync(resolve(destination)), false);
   assert.equal(g(repository, 'worktree', 'list', '--porcelain'), before);
 }));
 
