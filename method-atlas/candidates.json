@@ -1,0 +1,1859 @@
+{
+  "atlas_version": "METHOD-ATLAS-SQLITE-1.0",
+  "scope": "ADDITIVE_DISCOVERY_ONLY",
+  "canonical_registry_modified": false,
+  "existing_method_layers_preserved": true,
+  "source_authentication": false,
+  "model_execution": false,
+  "target_actions": false,
+  "sources": [
+    {
+      "source_id": "NASA_SE",
+      "title": "NASA Systems Engineering Handbook requirements verification matrix",
+      "native_url": "https://www.nasa.gov/reference/system-engineering-handbook-appendix/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "GLI_CATALOG",
+      "title": "Gaming Laboratories International official standards catalog",
+      "native_url": "https://gaminglabs.com/gli-standards/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "NIST_RNG",
+      "title": "NIST SP 800-22 Rev 1a statistical test suite",
+      "native_url": "https://csrc.nist.gov/pubs/sp/800/22/r1/upd1/final",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "NIST_ENTROPY",
+      "title": "NIST SP 800-90B entropy source guidance",
+      "native_url": "https://csrc.nist.gov/pubs/sp/800/90/b/final",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "POKER_CFR",
+      "title": "Regret Minimization in Games with Incomplete Information Zinkevich et al 2007",
+      "native_url": "https://papers.nips.cc/paper_files/paper/2007/hash/08d98638c6fcd194a4b1e6992063e944-Abstract.html",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "DEEPSTACK",
+      "title": "DeepStack expert-level AI no-limit poker 2017",
+      "native_url": "https://pubmed.ncbi.nlm.nih.gov/28254783/",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "IBM_QUANTUM",
+      "title": "IBM Quantum basics of quantum information",
+      "native_url": "https://learning.quantum.ibm.com/course/basics-of-quantum-information",
+      "source_class": "ACADEMIC_COURSE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "IBM_CHSH",
+      "title": "IBM CHSH inequality experiment and classical bounds",
+      "native_url": "https://quantum.cloud.ibm.com/docs/en/tutorials/chsh-inequality",
+      "source_class": "RESEARCH_REFERENCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "JAYNES",
+      "title": "Jaynes Information Theory and Statistical Mechanics",
+      "native_url": "https://doi.org/10.1103/PhysRev.106.620",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "LOCATOR_ONLY",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "SCHREIBER",
+      "title": "Schreiber measuring information transfer",
+      "native_url": "https://arxiv.org/abs/nlin/0001042",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "LOCATOR_ONLY",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "TDA",
+      "title": "Topological Data Analysis for Anomaly Detection",
+      "native_url": "https://arxiv.org/abs/2204.12919",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "LOCATOR_ONLY",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "QAOA",
+      "title": "A Quantum Approximate Optimization Algorithm",
+      "native_url": "https://arxiv.org/abs/1411.4028",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "LOCATOR_ONLY",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "RG",
+      "title": "Laplacian renormalization group for heterogeneous networks",
+      "native_url": "https://www.nature.com/articles/s41567-022-01866-8",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "LOCATOR_ONLY",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "CONFORMAL",
+      "title": "A Gentle Introduction to Conformal Prediction",
+      "native_url": "https://arxiv.org/abs/2107.07511",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "LOCATOR_ONLY",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "OPT_TRANSPORT",
+      "title": "Survey on Optimal Transport for Machine Learning",
+      "native_url": "https://arxiv.org/abs/2106.01963",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "LOCATOR_ONLY",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "HYPER",
+      "title": "Hyperproperties Clarkson Schneider",
+      "native_url": "https://doi.org/10.3233/JCS-2009-0393",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "NIST_PQC",
+      "title": "NIST post quantum cryptography overview",
+      "native_url": "https://www.nist.gov/cybersecurity-and-privacy/what-post-quantum-cryptography",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "LOCATOR_ONLY",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "MIT_INFER",
+      "title": "MIT Algorithms for Inference OCW",
+      "native_url": "https://ocw.mit.edu/courses/6-438-algorithms-for-inference-fall-2014/",
+      "source_class": "ACADEMIC_COURSE",
+      "review_state": "LOCATOR_ONLY",
+      "checked_on": "2026-10-08"
+    }
+  ],
+  "methods": [
+    {
+      "method_id": "MHA-0001",
+      "method_name": "Graph renormalization by scale",
+      "family": "PHYSICS_STATISTICS",
+      "mechanism": "Compare coarse grained and original dependencies at multiple scales",
+      "required_input": "Weighted source-bound graph and declared invariant",
+      "falsifier": "Coarse graph loses a material path or owner",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "RG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "REDUCTION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0001",
+        "question": "Can graph renormalization by scale identify a source-bound material difference for this object?",
+        "missing_evidence": "Weighted source-bound graph and declared invariant",
+        "falsifier": "Coarse graph loses a material path or owner",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0002",
+      "method_name": "Spectral diffusion-gap analysis",
+      "family": "PHYSICS_STATISTICS",
+      "mechanism": "Find slow versus fast process separation",
+      "required_input": "Graph Laplacian or transition matrix",
+      "falsifier": "Gap vanishes under source-correct edge weights",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "RG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0002",
+        "question": "Can spectral diffusion-gap analysis identify a source-bound material difference for this object?",
+        "missing_evidence": "Graph Laplacian or transition matrix",
+        "falsifier": "Gap vanishes under source-correct edge weights",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0003",
+      "method_name": "Heat-kernel anomaly profile",
+      "family": "PHYSICS_STATISTICS",
+      "mechanism": "Detect local diffusion patterns that change across snapshots",
+      "required_input": "Comparable graphs and time scales",
+      "falsifier": "Control graph shows identical signature",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "RG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "ANOMALY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0003",
+        "question": "Can heat-kernel anomaly profile identify a source-bound material difference for this object?",
+        "missing_evidence": "Comparable graphs and time scales",
+        "falsifier": "Control graph shows identical signature",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0004",
+      "method_name": "Critical-threshold finite-size scaling",
+      "family": "PHYSICS_STATISTICS",
+      "mechanism": "Check apparent threshold across bounded model sizes",
+      "required_input": "Comparable graphs at multiple sizes",
+      "falsifier": "Critical point moves arbitrarily under scaling",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "RG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "NETWORK",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0004",
+        "question": "Can critical-threshold finite-size scaling identify a source-bound material difference for this object?",
+        "missing_evidence": "Comparable graphs at multiple sizes",
+        "falsifier": "Critical point moves arbitrarily under scaling",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0005",
+      "method_name": "Maximum-entropy constrained inference",
+      "family": "PHYSICS_STATISTICS",
+      "mechanism": "Build least-committal probabilities under explicit constraints",
+      "required_input": "Finite outcomes and source-bound moment constraints",
+      "falsifier": "Plausible additional constraints reverse result",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "JAYNES",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INFORMATION",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0005",
+        "question": "Can maximum-entropy constrained inference identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite outcomes and source-bound moment constraints",
+        "falsifier": "Plausible additional constraints reverse result",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0006",
+      "method_name": "KL-divergence distribution shift",
+      "family": "PHYSICS_STATISTICS",
+      "mechanism": "Compare declared baseline and current distributions",
+      "required_input": "Common support with valid normalized probabilities",
+      "falsifier": "Shift is caused by binning or unsupported zero counts",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "JAYNES",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ANOMALY",
+        "INFORMATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0006",
+        "question": "Can kl-divergence distribution shift identify a source-bound material difference for this object?",
+        "missing_evidence": "Common support with valid normalized probabilities",
+        "falsifier": "Shift is caused by binning or unsupported zero counts",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0007",
+      "method_name": "Entropy-regularized state selection",
+      "family": "PHYSICS_STATISTICS",
+      "mechanism": "Compare stable candidate states under uncertainty penalty",
+      "required_input": "Finite states costs and declared entropy weight",
+      "falsifier": "Candidate ranking reverses under justified weight",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "JAYNES",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "STATE",
+        "OPTIMIZATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0007",
+        "question": "Can entropy-regularized state selection identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite states costs and declared entropy weight",
+        "falsifier": "Candidate ranking reverses under justified weight",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0008",
+      "method_name": "Maximum-caliber path weighting",
+      "family": "PHYSICS_STATISTICS",
+      "mechanism": "Check path distributions under transition constraints",
+      "required_input": "Finite paths and source-bound dynamical constraints",
+      "falsifier": "Observed path violates assumed constraints",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "JAYNES",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TIME",
+        "STATE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0008",
+        "question": "Can maximum-caliber path weighting identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite paths and source-bound dynamical constraints",
+        "falsifier": "Observed path violates assumed constraints",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0009",
+      "method_name": "Persistent homology anomaly screen",
+      "family": "TOPOLOGY",
+      "mechanism": "Check which loops and components persist across scale",
+      "required_input": "Metric-bearing observations and filtration thresholds",
+      "falsifier": "Feature disappears with corrected sampling density",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "TDA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TOPOLOGY",
+        "ANOMALY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0009",
+        "question": "Can persistent homology anomaly screen identify a source-bound material difference for this object?",
+        "missing_evidence": "Metric-bearing observations and filtration thresholds",
+        "falsifier": "Feature disappears with corrected sampling density",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0010",
+      "method_name": "Vietoris-Rips filtration",
+      "family": "TOPOLOGY",
+      "mechanism": "Build bounded topology from pairwise observations",
+      "required_input": "Finite metric and scale range",
+      "falsifier": "Metric invalid or feature only reflects padding",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "TDA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TOPOLOGY",
+        "GRAPH"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0010",
+        "question": "Can vietoris-rips filtration identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite metric and scale range",
+        "falsifier": "Metric invalid or feature only reflects padding",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0011",
+      "method_name": "Persistent Betti trajectory",
+      "family": "TOPOLOGY",
+      "mechanism": "Compare homological feature counts across time windows",
+      "required_input": "Comparable time-indexed filtrations",
+      "falsifier": "Reported difference vanishes under aligned windows",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "TDA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TOPOLOGY",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0011",
+        "question": "Can persistent betti trajectory identify a source-bound material difference for this object?",
+        "missing_evidence": "Comparable time-indexed filtrations",
+        "falsifier": "Reported difference vanishes under aligned windows",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0012",
+      "method_name": "Bottleneck barcode distance",
+      "family": "TOPOLOGY",
+      "mechanism": "Compare feature persistence under bounded perturbations",
+      "required_input": "Two persistence diagrams and matching metric",
+      "falsifier": "Change explained by different filtration method",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "TDA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TOPOLOGY",
+        "COMPARISON"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0012",
+        "question": "Can bottleneck barcode distance identify a source-bound material difference for this object?",
+        "missing_evidence": "Two persistence diagrams and matching metric",
+        "falsifier": "Change explained by different filtration method",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0013",
+      "method_name": "Euler filtration characteristic",
+      "family": "TOPOLOGY",
+      "mechanism": "Track alternating topology summary through thresholds",
+      "required_input": "Finite cell counts by dimension",
+      "falsifier": "Reported boundary loses material evidence provenance",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "TDA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TOPOLOGY",
+        "STATE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0013",
+        "question": "Can euler filtration characteristic identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite cell counts by dimension",
+        "falsifier": "Reported boundary loses material evidence provenance",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0014",
+      "method_name": "Graph Hodge cycle separation",
+      "family": "TOPOLOGY",
+      "mechanism": "Separate cyclic edge flow from gradients and divergence",
+      "required_input": "Oriented weighted graph edge signals",
+      "falsifier": "Supposed cycle reduces to normal boundary flow",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "TDA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "FLOW"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0014",
+        "question": "Can graph hodge cycle separation identify a source-bound material difference for this object?",
+        "missing_evidence": "Oriented weighted graph edge signals",
+        "falsifier": "Supposed cycle reduces to normal boundary flow",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0015",
+      "method_name": "Transfer entropy directionality",
+      "family": "INFORMATION_THEORY",
+      "mechanism": "Compare predictive direction between two event streams",
+      "required_input": "Aligned histories and conditioning context",
+      "falsifier": "Common-driver control eliminates direction",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "SCHREIBER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INFORMATION",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0015",
+        "question": "Can transfer entropy directionality identify a source-bound material difference for this object?",
+        "missing_evidence": "Aligned histories and conditioning context",
+        "falsifier": "Common-driver control eliminates direction",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0016",
+      "method_name": "Delayed mutual-information sweep",
+      "family": "INFORMATION_THEORY",
+      "mechanism": "Check dependency across lag windows",
+      "required_input": "Aligned stochastic event traces",
+      "falsifier": "Lag effect vanishes under valid alignment",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "SCHREIBER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INFORMATION",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0016",
+        "question": "Can delayed mutual-information sweep identify a source-bound material difference for this object?",
+        "missing_evidence": "Aligned stochastic event traces",
+        "falsifier": "Lag effect vanishes under valid alignment",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0017",
+      "method_name": "Conditional independence screening",
+      "family": "INFORMATION_THEORY",
+      "mechanism": "Check whether a purported dependency survives controls",
+      "required_input": "Joint data and explicit confounder set",
+      "falsifier": "Conditional effect indistinguishable from null",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "SCHREIBER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CAUSAL",
+        "INFORMATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0017",
+        "question": "Can conditional independence screening identify a source-bound material difference for this object?",
+        "missing_evidence": "Joint data and explicit confounder set",
+        "falsifier": "Conditional effect indistinguishable from null",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0018",
+      "method_name": "Min-entropy conservative bound",
+      "family": "INFORMATION_THEORY",
+      "mechanism": "Bound predictability in a supplied finite sample model",
+      "required_input": "Source distribution and entropy-source description",
+      "falsifier": "Alternative non-IID model lowers bound",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_ENTROPY",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "RNG",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0018",
+        "question": "Can min-entropy conservative bound identify a source-bound material difference for this object?",
+        "missing_evidence": "Source distribution and entropy-source description",
+        "falsifier": "Alternative non-IID model lowers bound",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0019",
+      "method_name": "Entropy health-test coverage",
+      "family": "INFORMATION_THEORY",
+      "mechanism": "Check which source-health tests and restart conditions are evidenced",
+      "required_input": "Entropy source spec controls and observation logs",
+      "falsifier": "Required health checks not evidenced",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_ENTROPY",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "RNG",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0019",
+        "question": "Can entropy health-test coverage identify a source-bound material difference for this object?",
+        "missing_evidence": "Entropy source spec controls and observation logs",
+        "falsifier": "Required health checks not evidenced",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0020",
+      "method_name": "Entropy source versus conditioning split",
+      "family": "INFORMATION_THEORY",
+      "mechanism": "Distinguish noise source claims from deterministic conditioning",
+      "required_input": "Algorithm architecture and ownership",
+      "falsifier": "Claim relies only on output test despite invalid entropy source",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_ENTROPY",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "RNG",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0020",
+        "question": "Can entropy source versus conditioning split identify a source-bound material difference for this object?",
+        "missing_evidence": "Algorithm architecture and ownership",
+        "falsifier": "Claim relies only on output test despite invalid entropy source",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0021",
+      "method_name": "Bayesian belief propagation",
+      "family": "CAUSAL_UNCERTAINTY",
+      "mechanism": "Update bounded causal or diagnostic beliefs using declared factors",
+      "required_input": "Factor graph priors and observations",
+      "falsifier": "Source-correct dependencies invalidate factorization",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_INFER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0021",
+        "question": "Can bayesian belief propagation identify a source-bound material difference for this object?",
+        "missing_evidence": "Factor graph priors and observations",
+        "falsifier": "Source-correct dependencies invalidate factorization",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0022",
+      "method_name": "Noisy-OR diagnostic model",
+      "family": "CAUSAL_UNCERTAINTY",
+      "mechanism": "Compare independent trigger contributions under a stated model",
+      "required_input": "Conditional failure model and observations",
+      "falsifier": "Shared cause breaks independence",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_INFER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FAULT",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0022",
+        "question": "Can noisy-or diagnostic model identify a source-bound material difference for this object?",
+        "missing_evidence": "Conditional failure model and observations",
+        "falsifier": "Shared cause breaks independence",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0023",
+      "method_name": "Hidden Markov state audit",
+      "family": "CAUSAL_UNCERTAINTY",
+      "mechanism": "Infer hidden transition candidates from observed emissions",
+      "required_input": "Finite hidden states transition and emission model",
+      "falsifier": "Alternative fitted state model explains trace equally",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_INFER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "STATE",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0023",
+        "question": "Can hidden markov state audit identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite hidden states transition and emission model",
+        "falsifier": "Alternative fitted state model explains trace equally",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0024",
+      "method_name": "Sequential change point detection",
+      "family": "CAUSAL_UNCERTAINTY",
+      "mechanism": "Identify possible abrupt change in state sequence",
+      "required_input": "Timestamped comparable observations and baseline",
+      "falsifier": "Proposed change disappears under normal seasonality",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_INFER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TIME",
+        "ANOMALY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0024",
+        "question": "Can sequential change point detection identify a source-bound material difference for this object?",
+        "missing_evidence": "Timestamped comparable observations and baseline",
+        "falsifier": "Proposed change disappears under normal seasonality",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0025",
+      "method_name": "Probabilistic program trace comparison",
+      "family": "CAUSAL_UNCERTAINTY",
+      "mechanism": "Check whether declared probabilistic rules fit observations",
+      "required_input": "Bounded program assumptions and observed traces",
+      "falsifier": "Model cannot reproduce permitted observations",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_INFER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "STATE",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0025",
+        "question": "Can probabilistic program trace comparison identify a source-bound material difference for this object?",
+        "missing_evidence": "Bounded program assumptions and observed traces",
+        "falsifier": "Model cannot reproduce permitted observations",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0026",
+      "method_name": "Split conformal anomaly score",
+      "family": "CAUSAL_UNCERTAINTY",
+      "mechanism": "Calibrate anomaly ranking with held-out exchangeable cases",
+      "required_input": "Calibration set anomaly score and test records",
+      "falsifier": "Exchangeability assumptions fail",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "CONFORMAL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ANOMALY",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0026",
+        "question": "Can split conformal anomaly score identify a source-bound material difference for this object?",
+        "missing_evidence": "Calibration set anomaly score and test records",
+        "falsifier": "Exchangeability assumptions fail",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0027",
+      "method_name": "Cross-condition conformal coverage",
+      "family": "CAUSAL_UNCERTAINTY",
+      "mechanism": "Compare uncertainty coverage across legitimate subpopulations",
+      "required_input": "Group labels and held-out calibration",
+      "falsifier": "Unequal sampling explains discrepancy",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "CONFORMAL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "COMPARISON",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0027",
+        "question": "Can cross-condition conformal coverage identify a source-bound material difference for this object?",
+        "missing_evidence": "Group labels and held-out calibration",
+        "falsifier": "Unequal sampling explains discrepancy",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0028",
+      "method_name": "Wasserstein drift comparison",
+      "family": "OPTIMIZATION_GEOMETRY",
+      "mechanism": "Measure distribution drift with an explicit ground metric",
+      "required_input": "Two distributions and meaningful cost metric",
+      "falsifier": "Result is driven by unsupported metric",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "OPT_TRANSPORT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ANOMALY",
+        "COMPARISON"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0028",
+        "question": "Can wasserstein drift comparison identify a source-bound material difference for this object?",
+        "missing_evidence": "Two distributions and meaningful cost metric",
+        "falsifier": "Result is driven by unsupported metric",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0029",
+      "method_name": "Transport coupling constraint test",
+      "family": "OPTIMIZATION_GEOMETRY",
+      "mechanism": "Check whether declared source-to-destination assignments conserve mass",
+      "required_input": "Source and target masses plus allowed edges",
+      "falsifier": "Residual mass proves assumed mapping incomplete",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "OPT_TRANSPORT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "FLOW"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0029",
+        "question": "Can transport coupling constraint test identify a source-bound material difference for this object?",
+        "missing_evidence": "Source and target masses plus allowed edges",
+        "falsifier": "Residual mass proves assumed mapping incomplete",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0030",
+      "method_name": "Entropic optimal transport approximation",
+      "family": "OPTIMIZATION_GEOMETRY",
+      "mechanism": "Compare assignments under regularized transportation cost",
+      "required_input": "Finite transport matrix and regularization",
+      "falsifier": "Material assignment flips under valid epsilon",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "OPT_TRANSPORT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "OPTIMIZATION",
+        "FLOW"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0030",
+        "question": "Can entropic optimal transport approximation identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite transport matrix and regularization",
+        "falsifier": "Material assignment flips under valid epsilon",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0031",
+      "method_name": "Interface-contract decomposition",
+      "family": "NETWORK_SYSTEMS",
+      "mechanism": "Split system contracts by owned boundaries and assumptions",
+      "required_input": "System requirements and interface specification",
+      "falsifier": "Hidden shared state invalidates clean split",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INTERFACE",
+        "REDUCTION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0031",
+        "question": "Can interface-contract decomposition identify a source-bound material difference for this object?",
+        "missing_evidence": "System requirements and interface specification",
+        "falsifier": "Hidden shared state invalidates clean split",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0032",
+      "method_name": "Requirements verification matrix closure",
+      "family": "NETWORK_SYSTEMS",
+      "mechanism": "Map each stated requirement to an actual verifying record",
+      "required_input": "Versioned requirement IDs methods and evidence",
+      "falsifier": "Requirement lacks executable or reviewable check",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "VERIFICATION",
+        "INVARIANT"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0032",
+        "question": "Can requirements verification matrix closure identify a source-bound material difference for this object?",
+        "missing_evidence": "Versioned requirement IDs methods and evidence",
+        "falsifier": "Requirement lacks executable or reviewable check",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0033",
+      "method_name": "Critical-path dependency traversal",
+      "family": "NETWORK_SYSTEMS",
+      "mechanism": "Find the minimum prerequisite chain to a terminal operation",
+      "required_input": "Directed acyclic dependency graph and timestamps",
+      "falsifier": "Recorded prerequisite missing or wrong owner",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0033",
+        "question": "Can critical-path dependency traversal identify a source-bound material difference for this object?",
+        "missing_evidence": "Directed acyclic dependency graph and timestamps",
+        "falsifier": "Recorded prerequisite missing or wrong owner",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0034",
+      "method_name": "Fault propagation common-cause guard",
+      "family": "NETWORK_SYSTEMS",
+      "mechanism": "Find common ancestors that invalidate independent-failure models",
+      "required_input": "Source-bound failure graph and shared dependencies",
+      "falsifier": "Propagation requires edge absent from native evidence",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FAULT",
+        "GRAPH"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0034",
+        "question": "Can fault propagation common-cause guard identify a source-bound material difference for this object?",
+        "missing_evidence": "Source-bound failure graph and shared dependencies",
+        "falsifier": "Propagation requires edge absent from native evidence",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0035",
+      "method_name": "Functional timing state cross-validation",
+      "family": "NETWORK_SYSTEMS",
+      "mechanism": "Compare functional requirements time windows and actual transitions",
+      "required_input": "Timed state records and source-backed transition rules",
+      "falsifier": "Timestamps are from incompatible clock domains",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TIME",
+        "STATE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0035",
+        "question": "Can functional timing state cross-validation identify a source-bound material difference for this object?",
+        "missing_evidence": "Timed state records and source-backed transition rules",
+        "falsifier": "Timestamps are from incompatible clock domains",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0036",
+      "method_name": "Resource conservation cut accounting",
+      "family": "NETWORK_SYSTEMS",
+      "mechanism": "Check net flow across system boundary",
+      "required_input": "Inflow outflow stock and declared unit",
+      "falsifier": "Residual attributable to omitted authorized source",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FLOW",
+        "RESOURCE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0036",
+        "question": "Can resource conservation cut accounting identify a source-bound material difference for this object?",
+        "missing_evidence": "Inflow outflow stock and declared unit",
+        "falsifier": "Residual attributable to omitted authorized source",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0037",
+      "method_name": "Barrier coverage versus hazard cut set",
+      "family": "NETWORK_SYSTEMS",
+      "mechanism": "Find whether controls block every supported causal pathway",
+      "required_input": "Finite fault paths and evidence for each barrier",
+      "falsifier": "Alternative path remains unguarded",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NASA_SE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FAULT",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0037",
+        "question": "Can barrier coverage versus hazard cut set identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite fault paths and evidence for each barrier",
+        "falsifier": "Alternative path remains unguarded",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0038",
+      "method_name": "Two-run noninterference comparison",
+      "family": "PRIVACY_SECURITY",
+      "mechanism": "Compare public observations under secret changes",
+      "required_input": "Paired traces with only high-input differences",
+      "falsifier": "Trace differences due to allowed declassification",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "HYPER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INFORMATION",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0038",
+        "question": "Can two-run noninterference comparison identify a source-bound material difference for this object?",
+        "missing_evidence": "Paired traces with only high-input differences",
+        "falsifier": "Trace differences due to allowed declassification",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0039",
+      "method_name": "Declassification-policy boundary",
+      "family": "PRIVACY_SECURITY",
+      "mechanism": "Check which information releases are explicitly permitted",
+      "required_input": "Owned policy and paired trace outputs",
+      "falsifier": "Apparent leak is authorized by specified policy",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "HYPER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INFORMATION",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0039",
+        "question": "Can declassification-policy boundary identify a source-bound material difference for this object?",
+        "missing_evidence": "Owned policy and paired trace outputs",
+        "falsifier": "Apparent leak is authorized by specified policy",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0040",
+      "method_name": "Hyperproperty paired-trace witness",
+      "family": "PRIVACY_SECURITY",
+      "mechanism": "Find relational violations invisible in a single run",
+      "required_input": "Comparable multi-run traces and declared relation",
+      "falsifier": "Counterexample relies on inconsistent configuration",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "HYPER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TIME",
+        "INFORMATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0040",
+        "question": "Can hyperproperty paired-trace witness identify a source-bound material difference for this object?",
+        "missing_evidence": "Comparable multi-run traces and declared relation",
+        "falsifier": "Counterexample relies on inconsistent configuration",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0041",
+      "method_name": "Post-quantum algorithm inventory",
+      "family": "PRIVACY_SECURITY",
+      "mechanism": "Identify declared cryptographic use and migration owner",
+      "required_input": "Algorithm and protocol inventory",
+      "falsifier": "Observed implementation not tied to claimed scheme",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_PQC",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CRYPTO",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0041",
+        "question": "Can post-quantum algorithm inventory identify a source-bound material difference for this object?",
+        "missing_evidence": "Algorithm and protocol inventory",
+        "falsifier": "Observed implementation not tied to claimed scheme",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0042",
+      "method_name": "Hybrid handshake downgrade boundary",
+      "family": "PRIVACY_SECURITY",
+      "mechanism": "Compare permitted protocol negotiation states in fixtures",
+      "required_input": "Owned handshake trace policy and versions",
+      "falsifier": "Downgrade is intended backward compatibility",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_PQC",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CRYPTO",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0042",
+        "question": "Can hybrid handshake downgrade boundary identify a source-bound material difference for this object?",
+        "missing_evidence": "Owned handshake trace policy and versions",
+        "falsifier": "Downgrade is intended backward compatibility",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0043",
+      "method_name": "Quantum circuit channel fidelity",
+      "family": "QUANTUM_REAL",
+      "mechanism": "Compare noisy channel model against ideal circuit behavior",
+      "required_input": "Circuit observables calibration and simulator or hardware",
+      "falsifier": "Measured noise exceeds stated model uncertainty",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "QUANTUM_HARDWARE_OR_SIMULATOR",
+      "primary_source_id": "IBM_QUANTUM",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "QUANTUM",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0043",
+        "question": "Can quantum circuit channel fidelity identify a source-bound material difference for this object?",
+        "missing_evidence": "Circuit observables calibration and simulator or hardware",
+        "falsifier": "Measured noise exceeds stated model uncertainty",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0044",
+      "method_name": "Quantum state tomography identifiability",
+      "family": "QUANTUM_REAL",
+      "mechanism": "Assess whether measurements distinguish candidate states",
+      "required_input": "State preparation and informationally complete measurements",
+      "falsifier": "Different candidate states fit observed measurements",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "QUANTUM_HARDWARE_OR_SIMULATOR",
+      "primary_source_id": "IBM_QUANTUM",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "QUANTUM",
+        "INFORMATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0044",
+        "question": "Can quantum state tomography identifiability identify a source-bound material difference for this object?",
+        "missing_evidence": "State preparation and informationally complete measurements",
+        "falsifier": "Different candidate states fit observed measurements",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0045",
+      "method_name": "Measurement basis completeness",
+      "family": "QUANTUM_REAL",
+      "mechanism": "Check whether measured observables suffice for the stated claim",
+      "required_input": "Observable set and prepared state assumptions",
+      "falsifier": "Missing incompatible measurement basis",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "QUANTUM_HARDWARE_OR_SIMULATOR",
+      "primary_source_id": "IBM_QUANTUM",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "QUANTUM",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0045",
+        "question": "Can measurement basis completeness identify a source-bound material difference for this object?",
+        "missing_evidence": "Observable set and prepared state assumptions",
+        "falsifier": "Missing incompatible measurement basis",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0046",
+      "method_name": "CHSH witness classical-bound comparison",
+      "family": "QUANTUM_REAL",
+      "mechanism": "Compare bounded witness estimates to specified classical inequality",
+      "required_input": "Four observables and repeated measurement outcomes",
+      "falsifier": "Confidence bound includes classical limit",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "QUANTUM_HARDWARE_OR_SIMULATOR",
+      "primary_source_id": "IBM_CHSH",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "QUANTUM",
+        "INFORMATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0046",
+        "question": "Can chsh witness classical-bound comparison identify a source-bound material difference for this object?",
+        "missing_evidence": "Four observables and repeated measurement outcomes",
+        "falsifier": "Confidence bound includes classical limit",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0047",
+      "method_name": "QUBO objective encoding crosscheck",
+      "family": "QUANTUM_INSPIRED_CLASSICAL",
+      "mechanism": "Verify that binary objective and penalties encode the source constraint",
+      "required_input": "Small finite binary problem and explicit penalty terms",
+      "falsifier": "Low cost solution violates original requirement",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "CLASSICAL_QUANTUM_INSPIRED",
+      "primary_source_id": "QAOA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "OPTIMIZATION",
+        "QUANTUM_INSPIRED"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0047",
+        "question": "Can qubo objective encoding crosscheck identify a source-bound material difference for this object?",
+        "missing_evidence": "Small finite binary problem and explicit penalty terms",
+        "falsifier": "Low cost solution violates original requirement",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0048",
+      "method_name": "Classical QAOA surrogate benchmark",
+      "family": "QUANTUM_INSPIRED_CLASSICAL",
+      "mechanism": "Compare classical proxy heuristics for bounded discrete problems",
+      "required_input": "Small test objective and baseline solver",
+      "falsifier": "Surrogate performs no better than simpler heuristic",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "CLASSICAL_QUANTUM_INSPIRED",
+      "primary_source_id": "QAOA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "OPTIMIZATION",
+        "QUANTUM_INSPIRED"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0048",
+        "question": "Can classical qaoa surrogate benchmark identify a source-bound material difference for this object?",
+        "missing_evidence": "Small test objective and baseline solver",
+        "falsifier": "Surrogate performs no better than simpler heuristic",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0049",
+      "method_name": "Partition-function sampling surrogate",
+      "family": "QUANTUM_INSPIRED_CLASSICAL",
+      "mechanism": "Compare energy-weighted classical state proposals",
+      "required_input": "Finite energy model and temperature parameter",
+      "falsifier": "Results collapse to uniform distribution under controls",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "CLASSICAL_QUANTUM_INSPIRED",
+      "primary_source_id": "QAOA",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "STATE",
+        "QUANTUM_INSPIRED"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0049",
+        "question": "Can partition-function sampling surrogate identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite energy model and temperature parameter",
+        "falsifier": "Results collapse to uniform distribution under controls",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0050",
+      "method_name": "Tensor network contraction analogy",
+      "family": "QUANTUM_INSPIRED_CLASSICAL",
+      "mechanism": "Factor repeated local dependencies to reduce intermediate state count",
+      "required_input": "Finite factor graph bond dimensions and exact comparison",
+      "falsifier": "Compression changes computed marginal beyond tolerance",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "CLASSICAL_QUANTUM_INSPIRED",
+      "primary_source_id": "IBM_QUANTUM",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "QUANTUM_INSPIRED"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0050",
+        "question": "Can tensor network contraction analogy identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite factor graph bond dimensions and exact comparison",
+        "falsifier": "Compression changes computed marginal beyond tolerance",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0051",
+      "method_name": "Amplitude-style probability accounting",
+      "family": "QUANTUM_INSPIRED_CLASSICAL",
+      "mechanism": "Distinguish signed amplitude analogy from valid probabilities",
+      "required_input": "Explicit real signed weights and normalization",
+      "falsifier": "Analogy produces negative unphysical probability",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "CLASSICAL_QUANTUM_INSPIRED",
+      "primary_source_id": "IBM_QUANTUM",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INFORMATION",
+        "QUANTUM_INSPIRED"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0051",
+        "question": "Can amplitude-style probability accounting identify a source-bound material difference for this object?",
+        "missing_evidence": "Explicit real signed weights and normalization",
+        "falsifier": "Analogy produces negative unphysical probability",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0052",
+      "method_name": "Credit-meter conservation across game lifecycle",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Reconcile credits before wagers outcomes and exits",
+      "required_input": "Owned session ledger wagers awards and final balance",
+      "falsifier": "Residual explained by authorized fee or conversion",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "STATE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0052",
+        "question": "Can credit-meter conservation across game lifecycle identify a source-bound material difference for this object?",
+        "missing_evidence": "Owned session ledger wagers awards and final balance",
+        "falsifier": "Residual explained by authorized fee or conversion",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0053",
+      "method_name": "Progressive jackpot contribution and reset",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Check contributor pool award terminality and restart accounting",
+      "required_input": "Program terms pool contribution and award logs",
+      "falsifier": "Progressive feature contract differs from assumption",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "FINALITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0053",
+        "question": "Can progressive jackpot contribution and reset identify a source-bound material difference for this object?",
+        "missing_evidence": "Program terms pool contribution and award logs",
+        "falsifier": "Progressive feature contract differs from assumption",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0054",
+      "method_name": "Bonus-round state carryover",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Compare base-game and bonus-game transitions",
+      "required_input": "Versioned game logic and owned test session trace",
+      "falsifier": "Expected carryover not guaranteed by game rules",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "STATE",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0054",
+        "question": "Can bonus-round state carryover identify a source-bound material difference for this object?",
+        "missing_evidence": "Versioned game logic and owned test session trace",
+        "falsifier": "Expected carryover not guaranteed by game rules",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0055",
+      "method_name": "Paytable configuration identity",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Match game outcome calculations to exact paytable version",
+      "required_input": "Paytable ID denom and configuration snapshot",
+      "falsifier": "Observed difference due to intended variant",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "IDENTITY",
+        "VERSION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0055",
+        "question": "Can paytable configuration identity identify a source-bound material difference for this object?",
+        "missing_evidence": "Paytable ID denom and configuration snapshot",
+        "falsifier": "Observed difference due to intended variant",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0056",
+      "method_name": "Multi-denomination unit conversion",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Check conservation through token credit and currency conversions",
+      "required_input": "Currency denomination conversion and meter references",
+      "falsifier": "Rounding policy fully explains residual",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "UNIT"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0056",
+        "question": "Can multi-denomination unit conversion identify a source-bound material difference for this object?",
+        "missing_evidence": "Currency denomination conversion and meter references",
+        "falsifier": "Rounding policy fully explains residual",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0057",
+      "method_name": "Electronic meter rollover boundary",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Check accounting representation across stated rollover",
+      "required_input": "Meter width rollover rule and authorized fixture",
+      "falsifier": "Roll-over behavior matches declared specification",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "STATE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0057",
+        "question": "Can electronic meter rollover boundary identify a source-bound material difference for this object?",
+        "missing_evidence": "Meter width rollover rule and authorized fixture",
+        "falsifier": "Roll-over behavior matches declared specification",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0058",
+      "method_name": "Interrupted wager recovery",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Distinguish pending finalized and recovered transactions",
+      "required_input": "Authorized sandbox trace and recovery rules",
+      "falsifier": "Compensating record reconciles pending value",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FINALITY",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0058",
+        "question": "Can interrupted wager recovery identify a source-bound material difference for this object?",
+        "missing_evidence": "Authorized sandbox trace and recovery rules",
+        "falsifier": "Compensating record reconciles pending value",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0059",
+      "method_name": "Cashless wallet to game-meter reconciliation",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Match wallet transfer with gameplay credit ledger",
+      "required_input": "Owned wallet transfer ID and game meter event",
+      "falsifier": "A late legitimate settlement event resolves apparent gap",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "INTERFACE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0059",
+        "question": "Can cashless wallet to game-meter reconciliation identify a source-bound material difference for this object?",
+        "missing_evidence": "Owned wallet transfer ID and game meter event",
+        "falsifier": "A late legitimate settlement event resolves apparent gap",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0060",
+      "method_name": "Dispenser voucher redemption once-only",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Check uniqueness of redemption record across state changes",
+      "required_input": "Owned voucher fixture and redemption logs",
+      "falsifier": "Duplicate displays refer to a single original event",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "REPLAY",
+        "MONEY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0060",
+        "question": "Can dispenser voucher redemption once-only identify a source-bound material difference for this object?",
+        "missing_evidence": "Owned voucher fixture and redemption logs",
+        "falsifier": "Duplicate displays refer to a single original event",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0061",
+      "method_name": "Coin-pusher deferred liability ledger",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Account for retained pending value and subsequent release",
+      "required_input": "Finite simulation inventory and release events",
+      "falsifier": "Pending inventory was never committed",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "QUEUE",
+        "MONEY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0061",
+        "question": "Can coin-pusher deferred liability ledger identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite simulation inventory and release events",
+        "falsifier": "Pending inventory was never committed",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0062",
+      "method_name": "Claw-machine retained-state threshold model",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Model threshold and reset conditions without assuming implementation",
+      "required_input": "Declared control state and synthetic transitions",
+      "falsifier": "Paytable or real implementation contradicts threshold",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "STATE",
+        "RESOURCE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0062",
+        "question": "Can claw-machine retained-state threshold model identify a source-bound material difference for this object?",
+        "missing_evidence": "Declared control state and synthetic transitions",
+        "falsifier": "Paytable or real implementation contradicts threshold",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0063",
+      "method_name": "Spin-result commitment timeline",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Separate selection timestamp from presentation and settlement",
+      "required_input": "Owned game-design trace and chosen RNG sequence",
+      "falsifier": "All timestamps describe same committed event",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "RNG",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0063",
+        "question": "Can spin-result commitment timeline identify a source-bound material difference for this object?",
+        "missing_evidence": "Owned game-design trace and chosen RNG sequence",
+        "falsifier": "All timestamps describe same committed event",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0064",
+      "method_name": "Casino aggregation common-cause control",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Account for shared system dependencies in apparently distinct meters",
+      "required_input": "Source-bound meter dependency graph",
+      "falsifier": "Apparent independent errors have a common reconciliation job",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "FAULT"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0064",
+        "question": "Can casino aggregation common-cause control identify a source-bound material difference for this object?",
+        "missing_evidence": "Source-bound meter dependency graph",
+        "falsifier": "Apparent independent errors have a common reconciliation job",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0065",
+      "method_name": "Prize inventory eligibility ledger",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Check available earned awarded and reserved prize inventory",
+      "required_input": "Owned inventory records and eligibility rules",
+      "falsifier": "A distinct reserved object explains apparent duplication",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ENTITLEMENT",
+        "MONEY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0065",
+        "question": "Can prize inventory eligibility ledger identify a source-bound material difference for this object?",
+        "missing_evidence": "Owned inventory records and eligibility rules",
+        "falsifier": "A distinct reserved object explains apparent duplication",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0066",
+      "method_name": "Tournament prize pool terminality",
+      "family": "GAMING_SLOT_METER",
+      "mechanism": "Reconcile pool allocation and irreversible payout transitions",
+      "required_input": "Prize allocation matrix and finalization timestamps",
+      "falsifier": "Pending payments were never final",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "FINALITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0066",
+        "question": "Can tournament prize pool terminality identify a source-bound material difference for this object?",
+        "missing_evidence": "Prize allocation matrix and finalization timestamps",
+        "falsifier": "Pending payments were never final",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0067",
+      "method_name": "Counterfactual regret minimization audit",
+      "family": "GAMING_POKER_STRATEGY",
+      "mechanism": "Compare alternative decisions at imperfect-information sets",
+      "required_input": "Finite extensive-form game and declared player payoffs",
+      "falsifier": "Regret improvement fails in valid alternative game",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "POKER_CFR",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GAME",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0067",
+        "question": "Can counterfactual regret minimization audit identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite extensive-form game and declared player payoffs",
+        "falsifier": "Regret improvement fails in valid alternative game",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0068",
+      "method_name": "Information-set indistinguishability",
+      "family": "GAMING_POKER_STRATEGY",
+      "mechanism": "Check that identical observations do not reveal hidden branch",
+      "required_input": "Information partitions and observation model",
+      "falsifier": "Distinction is disclosed as intended",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "POKER_CFR",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GAME",
+        "IDENTITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0068",
+        "question": "Can information-set indistinguishability identify a source-bound material difference for this object?",
+        "missing_evidence": "Information partitions and observation model",
+        "falsifier": "Distinction is disclosed as intended",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0069",
+      "method_name": "Abstraction-induced strategy distortion",
+      "family": "GAMING_POKER_STRATEGY",
+      "mechanism": "Compare reduced and unreduced game payoffs",
+      "required_input": "Finite game and abstraction mapping",
+      "falsifier": "Supposed exploitability vanishes on original game",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "POKER_CFR",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GAME",
+        "REDUCTION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0069",
+        "question": "Can abstraction-induced strategy distortion identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite game and abstraction mapping",
+        "falsifier": "Supposed exploitability vanishes on original game",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0070",
+      "method_name": "Counterfactual best-response bound",
+      "family": "GAMING_POKER_STRATEGY",
+      "mechanism": "Check incentive to deviate from declared policy",
+      "required_input": "Payoffs beliefs and bounded strategy space",
+      "falsifier": "Deviation gain negative under source-correct payoffs",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "POKER_CFR",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GAME",
+        "OPTIMIZATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0070",
+        "question": "Can counterfactual best-response bound identify a source-bound material difference for this object?",
+        "missing_evidence": "Payoffs beliefs and bounded strategy space",
+        "falsifier": "Deviation gain negative under source-correct payoffs",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0071",
+      "method_name": "Continual re-solving information boundary",
+      "family": "GAMING_POKER_STRATEGY",
+      "mechanism": "Re-evaluate candidate decisions after new public events",
+      "required_input": "Finite decision tree public states and observed updates",
+      "falsifier": "Updated observation does not change available information",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "DEEPSTACK",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GAME",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0071",
+        "question": "Can continual re-solving information boundary identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite decision tree public states and observed updates",
+        "falsifier": "Updated observation does not change available information",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0072",
+      "method_name": "Depth-limited value approximation guard",
+      "family": "GAMING_POKER_STRATEGY",
+      "mechanism": "Compare approximate tail valuation against exact small controls",
+      "required_input": "Finite game and evaluated boundary states",
+      "falsifier": "Large tail approximation error invalidates recommendation",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "DEEPSTACK",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GAME",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0072",
+        "question": "Can depth-limited value approximation guard identify a source-bound material difference for this object?",
+        "missing_evidence": "Finite game and evaluated boundary states",
+        "falsifier": "Large tail approximation error invalidates recommendation",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0073",
+      "method_name": "Outcome stream frequency and runs checks",
+      "family": "GAMING_RANDOMNESS",
+      "mechanism": "Flag finite sample irregularities without claiming RNG insecurity",
+      "required_input": "Authorized outcome sample and specified null distribution",
+      "falsifier": "Multiple-test correction makes result insignificant",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_RNG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "RNG",
+        "ANOMALY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0073",
+        "question": "Can outcome stream frequency and runs checks identify a source-bound material difference for this object?",
+        "missing_evidence": "Authorized outcome sample and specified null distribution",
+        "falsifier": "Multiple-test correction makes result insignificant",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0074",
+      "method_name": "Outcomes across independent sessions comparison",
+      "family": "GAMING_RANDOMNESS",
+      "mechanism": "Test whether sample sessions match declared independence conditions",
+      "required_input": "Opt-in synthetic sessions or authorized records",
+      "falsifier": "Sampling or hidden configuration explains dependence",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_RNG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "RNG",
+        "COMPARISON"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0074",
+        "question": "Can outcomes across independent sessions comparison identify a source-bound material difference for this object?",
+        "missing_evidence": "Opt-in synthetic sessions or authorized records",
+        "falsifier": "Sampling or hidden configuration explains dependence",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    }
+  ]
+}
