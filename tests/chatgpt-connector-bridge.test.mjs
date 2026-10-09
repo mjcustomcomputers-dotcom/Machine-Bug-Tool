@@ -26,7 +26,7 @@ test('Missing controlling native pointer stays blocked',()=>{
  assert.equal(r.status,'BLOCKED_POINTER_NOT_IN_SUPPLIED_RECORDS');
 });
 test('Connector transport IDs and typed native projection must remain distinct',()=>{
- const v={...dash,projection_of:{native_source:'GOOGLE_DRIVE',native_id:'not same'}};
+ const v={...dash,projection_of:{native_source:'GOOGLE_DRIVE',native_id:'another-native-drive-object'}};
  const r=reconcileConnectorRecords({objective:'Separate',records:[native,v],current_pointer:null});
  assert.equal(r.groups.length,2);
 });
@@ -40,4 +40,19 @@ test('Unavailable write or target test cannot be promoted into performed operati
  assert.equal(c.state,'UNAVAILABLE_IN_SESSION');
  assert.equal(a.write_performed,false);
  assert.equal(b.host_action_called,false);
+});
+
+test('Malformed projected native ID fails validation rather than merging source identities',()=>{
+ assert.throws(()=>reconcileConnectorRecords({objective:'Invalid',records:[native,{...dash,projection_of:{native_source:'GOOGLE_DRIVE',native_id:'not same'}}],current_pointer:null}),/INVALID_NATIVE_PROJECTION/);
+});
+test('Current Airtable controller and stale Dash projection remain one evidence source',()=>{
+ const id='appZPanYDOUZRinwr/tbluibwWV5Es4ySQT/rec2JHa11sXYW5knC';
+ const ctrl={...native,surface:'AIRTABLE',native_source:'AIRTABLE',native_id:id,version:'PASS102',source_owner:'Airtable',pointer:'airtable:'+id};
+ const projected={...dash,native_source:'AIRTABLE',projection_of:{native_source:'AIRTABLE',native_id:id},version:'PASS101'};
+ const r=reconcileConnectorRecords({objective:'Resume Social Deal',records:[ctrl,projected],current_pointer:'AIRTABLE:'+id});
+ assert.equal(r.groups.length,1);
+ assert.equal(r.evidence_source_count,1);
+ assert.equal(r.groups[0].status,'NATIVE_SOURCE_PRESENT');
+ assert.equal(r.groups[0].projection_version_mismatch_count,1);
+ assert.equal(r.canonical_promotion,false);
 });
