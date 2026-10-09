@@ -9,7 +9,27 @@ import {reasoningEngineIdentity,reasoningRuntimeFiles} from './run-reasoning-sel
 
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
-const extras=['docs/REASONING-INTELLIGENCE-V15.md','scripts/Run-Reasoning-Intelligence.ps1','scripts/run-reasoning-intelligence.cmd'];
+const extras=['docs/REASONING-INTELLIGENCE-V15.md','docs/LOCAL-LIVE-INTELLIGENCE-V16.md','scripts/Run-Reasoning-Intelligence.ps1','scripts/run-reasoning-intelligence.cmd',
+ 'data/local-live-native-cases.v1.json','data/evidence-workflow-example.json'];
+// The operational and comparison CLIs use the original router and its local
+// JSON registries. Copy their complete relative-import closure so the portable
+// product can execute the same source without an installed dependency tree.
+export function portableRuntimeFiles(){
+ const files=new Set(reasoningRuntimeFiles),pending=['scripts/run-evidence-workflow.mjs','scripts/run-local-live-intelligence.mjs'];
+ while(pending.length){
+  const path=pending.pop();if(files.has(path))continue;
+  const full=resolve(ROOT,path),stat=lstatSync(full);if(!stat.isFile()||stat.isSymbolicLink())throw Error('SOURCE_REGULAR_FILE_REQUIRED:'+path);
+  files.add(path);
+  if(!path.endsWith('.mjs'))continue;
+  const content=readFileSync(full,'utf8');
+  for(const match of content.matchAll(/(?:\bfrom\s*|\bimport\s*|\bimport\s*\(\s*)['"](\.[^'"]+)['"]/gu)){
+   const dependency=relative(ROOT,resolve(dirname(full),match[1])).split(sep).join('/');
+   if(dependency.startsWith('../')||dependency.startsWith('/'))throw Error('PORTABLE_DEPENDENCY_OUTSIDE_SOURCE');
+   pending.push(dependency);
+  }
+ }
+ return [...files].sort();
+}
 const write=(path,value)=>writeFileSync(path,typeof value==='string'?value:JSON.stringify(value,null,2)+'\n',{flag:'wx'});
 function filesUnder(root,current=root){
  return readdirSync(current).sort().flatMap(name=>{const path=resolve(current,name),stat=lstatSync(path);
@@ -25,11 +45,12 @@ export function exportReasoningIntelligence({output_directory,seed=20261009,roun
  const output=resolve(output_directory);
  if(existsSync(output))throw Error('BUNDLE_OUTPUT_ALREADY_EXISTS');
  const source=reasoningEngineIdentity();
- for(const path of [...reasoningRuntimeFiles,...extras]){
+ const runtime=portableRuntimeFiles();
+ for(const path of [...runtime,...extras]){
   const stat=lstatSync(resolve(ROOT,path));if(!stat.isFile()||stat.isSymbolicLink())throw Error('SOURCE_REGULAR_FILE_REQUIRED:'+path);
  }
  mkdirSync(output,{recursive:true});
- for(const path of [...reasoningRuntimeFiles,...extras]){
+ for(const path of [...runtime,...extras]){
   const target=resolve(output,path);mkdirSync(dirname(target),{recursive:true});copyFileSync(resolve(ROOT,path),target,constants.COPYFILE_EXCL);
  }
  const portable=reasoningEngineIdentity(output);
@@ -37,11 +58,11 @@ export function exportReasoningIntelligence({output_directory,seed=20261009,roun
  const run=JSON.parse(execFileSync(process.execPath,[resolve(output,'scripts/run-reasoning-selfplay.mjs'),'--output-root',resolve(output,'Runs'),'--seed',String(seed),'--rounds',String(rounds)],
   {cwd:output,encoding:'utf8',timeout:60000,maxBuffer:1024*1024}));
  if(run.engine_fingerprint!==portable.engine_fingerprint||run.summary.failed)throw Error('PORTABLE_RUN_DID_NOT_PASS');
- write(resolve(output,'SOURCE-PIN.json'),{kind:'MPC_REASONING_PORTABLE_SOURCE_V15',native_base_commit:'e3a8f15806388d9c0d3705970ec7fd18c44d3439',
-  source:portable,created_at_utc:new Date().toISOString(),source_authentication:false,hosted_deployment:false});
+ write(resolve(output,'SOURCE-PIN.json'),{kind:'MPC_REASONING_PORTABLE_SOURCE_V16',native_base_commit:'e3a8f15806388d9c0d3705970ec7fd18c44d3439',
+  native_development_base_commit:'cb15df82c76063262caae3ab6e3e557cd00cf4b7',native_published_source_commit:'765923c9839f32502e5c0f1f1b919b827596012e',runtime_files:runtime.map(path=>({path,sha256:sha(readFileSync(resolve(output,path)))})),source:portable,created_at_utc:new Date().toISOString(),source_authentication:false,hosted_deployment:false});
  const report=relative(output,resolve(run.output_directory,'REPORT.html')).split(sep).join('/');
  write(resolve(output,'OPEN-REPORT.html'),'<!doctype html><html lang="en"><meta charset="utf-8"><meta http-equiv="refresh" content="0;url='+report+'"><title>MPC Reasoning Intelligence</title><a href="'+report+'">Open the executed reasoning report</a></html>\n');
- write(resolve(output,'README.md'),'# MPC Reasoning Intelligence V15\n\nOpen `OPEN-REPORT.html` to read the included executed results. No runtime is needed to read the report.\n\nTo run the next bounded experiment pass with an installed Node.js >=22.13:\n\n```sh\nnode scripts/run-reasoning-selfplay.mjs --output-root Runs --rounds 24\n```\n\nOn Windows, `scripts/run-reasoning-intelligence.cmd` runs the PowerShell wrapper, verifies the manifest, and uses an already installed Node.js. It never installs software or changes execution policy. Native Windows execution is a separate receiver check.\n\nEach run creates a new directory in `Runs`; `Runs/latest.json` identifies the verified next seed. Earlier run directories are preserved. Do not delete a live writer lock or reuse a mismatched source cursor. The manifest records the distribution snapshot; later local `Runs/latest.json` updates are intentionally mutable.\n\nRead `docs/REASONING-INTELLIGENCE-V15.md` for model boundaries, methods, exact source identity and development workflow.\n');
+ write(resolve(output,'README.md'),'# MPC Reasoning Intelligence V16\n\nOpen `OPEN-REPORT.html` to read the included executed results. No runtime is needed to read the report.\n\nTo run the next bounded experiment pass with an installed Node.js >=22.13:\n\n```sh\nnode scripts/run-reasoning-selfplay.mjs --output-root Runs --rounds 24\n```\n\nOn Windows, `scripts/run-reasoning-intelligence.cmd` runs the PowerShell wrapper, verifies the manifest, and uses an already installed Node.js. It never installs software or changes execution policy. Native Windows execution is a separate receiver check.\n\nEach run creates a new directory in `Runs`; `Runs/latest.json` identifies the verified next seed. Earlier run directories are preserved. Do not delete a live writer lock or reuse a mismatched source cursor. The manifest records the distribution snapshot; later local `Runs/latest.json` updates are intentionally mutable.\n\nRun `node scripts/run-evidence-workflow.mjs --input data/evidence-workflow-example.json --output workflow-result.json` for phase selection and the next evidence action. Run `node scripts/run-local-live-intelligence.mjs --live-receipts Evidence/live-native-observations.json --output comparison-result.json` to compare the retained live observations with fresh local model execution.\n\nRead `docs/LOCAL-LIVE-INTELLIGENCE-V16.md` for evidence acquisition, the recorded local/live comparison, and the exact numerical review. `docs/REASONING-INTELLIGENCE-V15.md` describes the inherited reasoning curriculum.\n');
  // The cursor changes during later local runs, so only immutable distribution
  // files are listed. Its own signed digest and scan readback guard the cursor.
  const files=filesUnder(output).filter(row=>row.path!=='Runs/latest.json');

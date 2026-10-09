@@ -1,16 +1,17 @@
 {
-  "version": "0.4.7",
+  "version": "0.4.8",
   "algorithm": "SHA-256",
   "mode": "DELTA_WITH_PINNED_BASE",
-  "base_release_id": "pluginrel_6ac593772f24819185c6da4a326aeee5",
-  "base_version": "0.4.6",
+  "base_release_id": "pluginrel_6ac900d0cf4c8191b9fc07c83a65b594",
+  "base_version": "0.4.7",
   "files": {
     "skills/index/SKILL.md": "aacc8a87ca7f7a4b17fc2e0fecebb0be4d2fe5402f2fc8b4a040d5a26bbc04be",
     "skills/boot-research-os/SKILL.md": "da2eb0295b0b9a43e25c1a57e87fde6ce9262764e08a15a437f59316bf755a24",
     "skills/machine-legal-live-source-router/SKILL.md": "258bfbeed35e5dfab099b00aa7633709b1e4b5c697d5b773c88751256b1d34d9",
     "skills/machine-legal-pass-checkpoint/SKILL.md": "d0cc981fdf2f4ccc0b05b3fbcd4d80dd805b8ea3c208c5de136635cb5c113366",
-    "plugin.json": "ef41d2838b2a586aad4cfdabad6c17775a756f07b9c50d3229cbdbafc6f816a6",
-    ".codex-plugin/plugin.json": "b39e17d98efb215e9670f9052b3bdf5659933cd5febc504f5564ac77ad1d2cfc"
+    "plugin.json": "070a634f228d446fee55cc75eb09f2f914abba742146464073410fe2510ae95e",
+    ".codex-plugin/plugin.json": "8213a494a0d94365fe681466000089262f3575bb4f3429bd12e70ef3d811fa8b",
+    "scripts/validate_package.py": "ce8cf813ad1ae77725d78339b6546e77570e586f78ba3edd40180314a9e412cb"
   },
   "pinned_unchanged": {
     "skills/machine-legal-prototype/assets/registry/maxvar256.json": "30b3937212d96f74b96812bcb17fdab30ea1124ddb0566be02f306146d7102db",
@@ -19,6 +20,7 @@
   },
   "notes": [
     "Operational phase selection advances acquisition, fact extraction, analysis, and verification from actual source state.",
-    "The delta preserves the native classifier assets and all omitted source files from the pinned base release."
+    "The delta preserves the native classifier assets and all omitted source files from the pinned base release.",
+    "Compatibility skill-directory spelling follows the backend-normalized stored manifest."
   ]
 }

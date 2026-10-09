@@ -49,6 +49,11 @@ test('Finite curriculum executes actual method contracts and preserves independe
  assert.equal(real.observed.status,'REAL_MODEL_COUNTEREXAMPLE');
  assert.deepEqual(real.observed.counterexample.state_path,['S','A','F']);
  assert.ok(result.cases.every(c=>c.oracle));
+ const numerical=result.cases.find(c=>c.family==='native_numerical_independence'&&c.shape.scaleExponent===0&&c.shape.inflowExponent===-54&&c.shape.toleranceFactor===0);
+ assert.equal(numerical.observed.game.exact_result.strict_interior_mixed.column_probabilities[0].denominator,'3');
+ assert.equal(numerical.observed.balance.exact_result.within_supplied_tolerance,false);
+ assert.equal(numerical.observed.game.native_receipt.result.strict_interior_mixed.column_probabilities[0],0.4);
+ assert.ok(result.summary.known_native_numerical_disagreements>0);
 });
 
 test('Same seed is deterministic; replay deduplicates parameters only with source binding',async()=>{

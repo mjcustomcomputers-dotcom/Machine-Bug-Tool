@@ -1,5 +1,30 @@
 # MPC Machine Legal BugTools — Daybreak development
 
+## V16 operational intelligence — evidence, facts, acquisition, progress
+
+The user directed the product to recognize EVIDENCE_ACQUISITION and lead with
+what the evidence says and the action that advances the work. Read
+`docs/LOCAL-LIVE-INTELLIGENCE-V16.md`. Use the current working phase: acquire an
+identified missing record, analyze acquired content, and verify a specific
+claim when its material and criterion are ready. Keep architecture work tied
+to an explicit implementation request or the repair needed for the active job.
+
+`lib/evidence-workflow.mjs` supplies phase selection and concrete source-owner,
+locator, version, target-fact and completion fields through the existing router.
+The chat host performs actual connector reads and supplies their returned text.
+Acquisition and fact extraction are completed work with their own receipts.
+Lead visible results with `work_stage`, `fact_summary`, and `next_action`.
+
+The V16 native differential corpus exercises all 24 retained evaluator IDs with
+48 JSON inputs and independent expectations. Preserve shared counterexamples
+even when local and live outputs agree. The exact numerical review refines
+Nash/conservation decisions while retaining original native receipts. The
+curriculum retains these regressions and varies scale, inflow and tolerance.
+Continue from the latest saved source-bound lab cursor. The 0.4.8 private MPC
+operating-plugin update and the hosted server publication are separately
+versioned in the V16 evidence. Preserve all four preceding V15 automation
+families and their exact continuation archives.
+
 ## Current V15 scope — executed intelligence improvement
 
 On 2026-10-09 the user reopened intelligence and reasoning improvement for the

@@ -18,7 +18,7 @@
     ]
   },
   "name": "mpc-machine-legal",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "Operate the user's existing Machine Legal / Research OS with canonical-state recovery, delta-only execution, bounded pass/checkpoint continuation, source-state classification, full-text legal research, Jackson Story Through Law, schema-aware MCP routing, and a solid-state business-logic classifier lattice for authorized research.",
   "author": {
     "name": "MPC / Machine Legal"
@@ -42,5 +42,5 @@
     "classifiers"
   ],
   "license": "Proprietary",
-  "skills": "./skills/"
+  "skills": "./skills"
 }

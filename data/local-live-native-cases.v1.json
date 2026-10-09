@@ -1,0 +1,3302 @@
+{
+  "version": "MPC_NATIVE_LOCAL_LIVE_DIFFERENTIAL_V16_1",
+  "case_count": 48,
+  "source_identity": {
+    "repository_path": "Machine-Bug-Tool-Reasoning",
+    "local_git_head": "499d6d961dda26cca7aaad9f09358931c64d9a44",
+    "local_git_tree": "9622a1158505c75a5e59dd7480c6be1278a80784",
+    "working_tree_dirty": false,
+    "native_evaluator_files": [
+      {
+        "path": "lib/methods.mjs",
+        "bytes": 12687,
+        "sha256": "1236c83eebefd95ea8f7d70fc7ad944d3520a60b6febd5b5edb011c12c7a756e"
+      },
+      {
+        "path": "lib/atomic-models.mjs",
+        "bytes": 17563,
+        "sha256": "5f5e2ee7fce02d4c33831bbb2ddd701d534f5437e9c56a9ceada57224d1d9400"
+      },
+      {
+        "path": "lib/forensic-models.mjs",
+        "bytes": 10296,
+        "sha256": "321f91e54b43b461a4f4300d36f0cde89ee8902605aac47b4eb362eae1f14ba6"
+      },
+      {
+        "path": "lib/deferred-models.mjs",
+        "bytes": 3827,
+        "sha256": "c01d9de2131c7cd812f4455aee08be402693b5c4663ae4752624827bb2f90c9f"
+      },
+      {
+        "path": "lib/schema.mjs",
+        "bytes": 1389,
+        "sha256": "911de9caf890df62197a5a3d5f2e38b4e98b7ad242cd677e9efad50912f72afb"
+      },
+      {
+        "path": "lib/universal.mjs",
+        "bytes": 6312,
+        "sha256": "0b44e9b90ffcb2af6f51f3db250ee29c2b50e624ff20c568735e6a2de97fda3e"
+      },
+      {
+        "path": "lib/atomic-source-pointers.json",
+        "bytes": 3907,
+        "sha256": "271acd4262e9d970f787d0800f1e353a53d7dfb42c0d604913a3ce50e0ee2452"
+      },
+      {
+        "path": "lib/forensic-source-pointers.json",
+        "bytes": 2146,
+        "sha256": "17494ff0e93a7768edf100298477ea3b66809fed7904ca625ecd890ce45d412f"
+      },
+      {
+        "path": "lib/method-overlay.json",
+        "bytes": 11689,
+        "sha256": "952476051a85af31b77cb3a0ef6ee9887b0afb86e661484c24760993137a8f4c"
+      }
+    ],
+    "native_evaluator_files_fingerprint": "fcfbbd6deddacaf0e11fce5c46b7f2be105e40490cf3c866afbd84355b4f10ba",
+    "interpretation": "Exact local bytes. Does not identify current deployed source or authenticate supplied model facts."
+  },
+  "native_catalog_version": "1.2.0",
+  "input_schema_rule": "Read the selected current native catalog schema before calling evaluate_method. These hashes bind the inspected local schemas.",
+  "same_input_comparison": "Compare full structured results, model fingerprint and expected errors for identical JSON inputs. Semantic transformations have separately stated expected relations.",
+  "cases": [
+    {
+      "case_id": "claw_explicit_award_reset",
+      "method": "claw_accumulator",
+      "input": {
+        "unit": "SYNTHETIC_CREDITS",
+        "opening": 0,
+        "threshold": 3,
+        "events": [
+          {
+            "id": "accrue",
+            "kind": "ACCRUE",
+            "amount": 3,
+            "source_ref": "synthetic:event:accrue"
+          },
+          {
+            "id": "reset",
+            "kind": "RESET",
+            "amount": 3,
+            "source_ref": "synthetic:event:reset"
+          },
+          {
+            "id": "award",
+            "kind": "AWARD_RECORDED",
+            "amount": 7,
+            "source_ref": "synthetic:event:award"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/closing_accumulator",
+            "op": "EQUALS",
+            "value": 0
+          },
+          {
+            "path": "/result/threshold_reached",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/trace/0/threshold_reached",
+            "op": "EQUALS",
+            "value": true
+          },
+          {
+            "path": "/result/recorded_award_units",
+            "op": "EQUALS",
+            "value": 7
+          },
+          {
+            "path": "/result/award_entitlement_inferred",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/reset_policy",
+            "op": "EQUALS",
+            "value": "EXPLICIT_RESET_ONLY"
+          }
+        ],
+        "reasoning": "An award record is counted separately. Only the explicit reset reduces the accumulator; earlier threshold crossing does not imply entitlement."
+      },
+      "comparison": {
+        "pair_id": "claw_prefix",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "93fe8130c325f2fe65ff5c95aa87166090a985af13edc4e8628a4ee07a81a623",
+      "expected_model_fingerprint": "9d2d95ef6e42a2fc2756b1f87bae0ff1a4a5fea15aa08c39d7e0bd5c7a6ca9b1",
+      "input_sha256": "6c73530f361f34ccb4891b75ede5eef0131801fbf5fe541d0d2c04cfcf673e4d"
+    },
+    {
+      "case_id": "claw_reset_before_accrual",
+      "method": "claw_accumulator",
+      "input": {
+        "unit": "SYNTHETIC_CREDITS",
+        "opening": 0,
+        "threshold": 3,
+        "events": [
+          {
+            "id": "reset",
+            "kind": "RESET",
+            "amount": 3,
+            "source_ref": "synthetic:event:reset"
+          },
+          {
+            "id": "accrue",
+            "kind": "ACCRUE",
+            "amount": 3,
+            "source_ref": "synthetic:event:accrue"
+          },
+          {
+            "id": "award",
+            "kind": "AWARD_RECORDED",
+            "amount": 7,
+            "source_ref": "synthetic:event:award"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "ERROR",
+        "error_message": "RESET_EXCEEDS_ACCUMULATOR",
+        "reasoning": "Reordering identical amounts creates an invalid prefix even though their final arithmetic sum is unchanged."
+      },
+      "comparison": {
+        "pair_id": "claw_prefix",
+        "role": "NEGATIVE_CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "93fe8130c325f2fe65ff5c95aa87166090a985af13edc4e8628a4ee07a81a623",
+      "expected_model_fingerprint": "15acdc07cdc5b132b4f62f733be01d0f1caf56accbb4868b34145161b7991fb9",
+      "input_sha256": "d448ee0ee89a18ee65493d6bbbb575cbe17bfb66e70b2427ee14a926a33d5a15"
+    },
+    {
+      "case_id": "coin_deferred_balance",
+      "method": "coin_pusher_deferred",
+      "input": {
+        "unit": "SYNTHETIC_TOKENS",
+        "opening_pending": 2,
+        "events": [
+          {
+            "id": "deposit",
+            "kind": "DEPOSIT",
+            "amount": 3,
+            "source_ref": "synthetic:event:deposit"
+          },
+          {
+            "id": "release",
+            "kind": "RELEASE",
+            "amount": 4,
+            "source_ref": "synthetic:event:release"
+          },
+          {
+            "id": "remove",
+            "kind": "REMOVE",
+            "amount": 1,
+            "source_ref": "synthetic:event:remove"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/pending",
+            "op": "EQUALS",
+            "value": 0
+          },
+          {
+            "path": "/result/released",
+            "op": "EQUALS",
+            "value": 4
+          },
+          {
+            "path": "/result/removed",
+            "op": "EQUALS",
+            "value": 1
+          },
+          {
+            "path": "/result/released_is_paid",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/current_depositor_owns_release",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "The independent integer balance is 2 + 3 - 4 - 1 = 0, with release and removal kept separate."
+      },
+      "comparison": {
+        "pair_id": "coin_prefix",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "76b01e8970b784f113f2f0ccda9a9f2dc9622cec72923b397c07817c6de86ee5",
+      "expected_model_fingerprint": "3597094f26af22fbaa9535be0c5911ed59d8dcebec81c1ff3acd2dc51b53174f",
+      "input_sha256": "4ce7b562498bf661a0d99dfad27fe11fe72f0bd29d74a5eaa94170b4d690e23f"
+    },
+    {
+      "case_id": "coin_release_before_deposit",
+      "method": "coin_pusher_deferred",
+      "input": {
+        "unit": "SYNTHETIC_TOKENS",
+        "opening_pending": 2,
+        "events": [
+          {
+            "id": "release",
+            "kind": "RELEASE",
+            "amount": 4,
+            "source_ref": "synthetic:event:release"
+          },
+          {
+            "id": "deposit",
+            "kind": "DEPOSIT",
+            "amount": 3,
+            "source_ref": "synthetic:event:deposit"
+          },
+          {
+            "id": "remove",
+            "kind": "REMOVE",
+            "amount": 1,
+            "source_ref": "synthetic:event:remove"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "ERROR",
+        "error_message": "OUTFLOW_EXCEEDS_PENDING",
+        "reasoning": "A release of four cannot occur from a supplied opening of two before the deposit."
+      },
+      "comparison": {
+        "pair_id": "coin_prefix",
+        "role": "NEGATIVE_CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "76b01e8970b784f113f2f0ccda9a9f2dc9622cec72923b397c07817c6de86ee5",
+      "expected_model_fingerprint": "a7505c531bffe3d4edf0e48aee998a27154f55492d7460eb7f8c459c15f12fb3",
+      "input_sha256": "5d89498a86a8708fed7ad961055a11fede22165caaf35af538bb535ee4c03ac0"
+    },
+    {
+      "case_id": "casino_equal_amounts_separate_states",
+      "method": "casino_meter_finality",
+      "input": {
+        "unit": "SYNTHETIC_CENTS",
+        "records": [
+          {
+            "id": "meter",
+            "meter_amount": 10,
+            "finalized_amount": 10,
+            "paid_amount": 10,
+            "meter_ref": "synthetic:meter",
+            "finality_ref": "synthetic:finality",
+            "payment_ref": "synthetic:payment"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/records/0/meter_minus_finalized",
+            "op": "EQUALS",
+            "value": 0
+          },
+          {
+            "path": "/result/records/0/finalized_minus_paid",
+            "op": "EQUALS",
+            "value": 0
+          },
+          {
+            "path": "/result/meter_proves_finality",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/equal_amounts_prove_same_state",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Numerical equality does not collapse displayed, finalized and paid states or authenticate their references."
+      },
+      "comparison": {
+        "pair_id": "casino_payment_reference",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "3168c03be09d5c73053a8be594696eae90a0c21d5eaf489f03985b79dfd33999",
+      "expected_model_fingerprint": "5180899e1cdbf281a7b78afff0f6d9650056c119c1685f4d978c73cfada20e98",
+      "input_sha256": "4410f3bfa5d552680ba881d56e281757899f03864d79343f4e490b4537918295"
+    },
+    {
+      "case_id": "casino_positive_payment_missing_reference",
+      "method": "casino_meter_finality",
+      "input": {
+        "unit": "SYNTHETIC_CENTS",
+        "records": [
+          {
+            "id": "meter",
+            "meter_amount": 10,
+            "finalized_amount": 10,
+            "paid_amount": 10,
+            "meter_ref": "synthetic:meter",
+            "finality_ref": "synthetic:finality",
+            "payment_ref": ""
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "ERROR",
+        "error_message": "PAYMENT_REFERENCE_REQUIRED",
+        "reasoning": "A positive supplied payment needs its own nonblank reference field."
+      },
+      "comparison": {
+        "pair_id": "casino_payment_reference",
+        "role": "NEGATIVE_CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "3168c03be09d5c73053a8be594696eae90a0c21d5eaf489f03985b79dfd33999",
+      "expected_model_fingerprint": "0c07bb38be4709a13288dd7f47ca8d973e227c08701f02723c057682bf3ee752",
+      "input_sha256": "a17bb3bfc8de7912ea23e3ac6bd8151d4ee604bc95689b477717f933500ba572"
+    },
+    {
+      "case_id": "ledger_closed_integer_balance",
+      "method": "ledger",
+      "input": {
+        "accounts": [
+          {
+            "id": "a",
+            "unit": "SYNTHETIC_USD_CENT",
+            "opening": 8,
+            "observed_closing": 5,
+            "source_ref": "synthetic:a"
+          },
+          {
+            "id": "b",
+            "unit": "SYNTHETIC_USD_CENT",
+            "opening": 1,
+            "observed_closing": 4,
+            "source_ref": "synthetic:b"
+          }
+        ],
+        "transfers": [
+          {
+            "id": "t",
+            "from": "a",
+            "to": "b",
+            "amount": 3,
+            "source_ref": "synthetic:t"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/accounts/0/residual",
+            "op": "EQUALS",
+            "value": 0
+          },
+          {
+            "path": "/result/accounts/1/residual",
+            "op": "EQUALS",
+            "value": 0
+          },
+          {
+            "path": "/result/units/0/opening",
+            "op": "EQUALS",
+            "value": 9
+          },
+          {
+            "path": "/result/units/0/observed_closing",
+            "op": "EQUALS",
+            "value": 9
+          },
+          {
+            "path": "/result/mismatch_proves_loss",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Independent per-account arithmetic is 8 - 3 = 5 and 1 + 3 = 4; the closed total stays nine."
+      },
+      "comparison": {
+        "pair_id": "ledger_unit",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "334827dd23d8fe428fee397b9dfb27b3092b519efc7383c22a3fd339c14ecd06",
+      "expected_model_fingerprint": "54171c83141e907fc2fa84c1de0ef0b2e54e68e4ddf4e8735467cbcd75258fb4",
+      "input_sha256": "0769c5aa8fa18a1b352e0a2bed10e9592d2c5e962f4229f68467938e7c8ec8e6"
+    },
+    {
+      "case_id": "ledger_currency_change_requires_conversion",
+      "method": "ledger",
+      "input": {
+        "accounts": [
+          {
+            "id": "a",
+            "unit": "SYNTHETIC_USD_CENT",
+            "opening": 8,
+            "observed_closing": 5,
+            "source_ref": "synthetic:a"
+          },
+          {
+            "id": "b",
+            "unit": "SYNTHETIC_EUR_CENT",
+            "opening": 1,
+            "observed_closing": 4,
+            "source_ref": "synthetic:b"
+          }
+        ],
+        "transfers": [
+          {
+            "id": "t",
+            "from": "a",
+            "to": "b",
+            "amount": 3,
+            "source_ref": "synthetic:t"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "ERROR",
+        "error_message": "CROSS_UNIT_TRANSFER_REQUIRES_SEPARATE_CONVERSION_RECORDS",
+        "reasoning": "Changing only the destination unit invalidates the transfer without an explicit conversion model."
+      },
+      "comparison": {
+        "pair_id": "ledger_unit",
+        "role": "NEGATIVE_CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "334827dd23d8fe428fee397b9dfb27b3092b519efc7383c22a3fd339c14ecd06",
+      "expected_model_fingerprint": "529e160ed7ba6532e1a9d3080f3d9abad4677faba88308bbd6593f0253115e14",
+      "input_sha256": "36c49980f5c9e34e79b9c0f86f1708a74d07fb542a2d250f214fa3d84e395542"
+    },
+    {
+      "case_id": "relational_missing_target_unknown",
+      "method": "relational",
+      "input": {
+        "rows": [
+          {
+            "id": "r1",
+            "fields": [
+              {
+                "field": "parent",
+                "value": "x"
+              },
+              {
+                "field": "key",
+                "value": "a"
+              }
+            ],
+            "source_ref": "synthetic:row:r1"
+          },
+          {
+            "id": "r2",
+            "fields": [
+              {
+                "field": "parent",
+                "value": "y"
+              }
+            ],
+            "source_ref": "synthetic:row:r2"
+          }
+        ],
+        "rules": [
+          {
+            "id": "fk",
+            "kind": "FOREIGN_KEY",
+            "field": "parent",
+            "other_field": "key",
+            "source_ref": "synthetic:fk"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/rules/0/status",
+            "op": "EQUALS",
+            "value": "INCOMPLETE"
+          },
+          {
+            "path": "/result/rules/0/unknown_row_ids",
+            "op": "EQUALS",
+            "value": [
+              "r1",
+              "r2"
+            ]
+          },
+          {
+            "path": "/result/rules/0/violations",
+            "op": "EQUALS",
+            "value": []
+          },
+          {
+            "path": "/result/global_completeness_proven",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "A missing target field can still contain either sought value. Both unresolved references remain unknown within this supplied table."
+      },
+      "comparison": {
+        "pair_id": "relational_completion",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "90642c25aef2d1943e52121e2c39d893d4bfe2dfed2ef96a8afc0c84f2ad6f93",
+      "expected_model_fingerprint": "6b925ffcf3fcdc8f9e2f94f016ac541eb403f631c23bfc74947d50473458e398",
+      "input_sha256": "f87ed782e004818cecd46d58ec90ee998bacd3b776acc7406d540788605ef198"
+    },
+    {
+      "case_id": "relational_completed_nonmatch",
+      "method": "relational",
+      "input": {
+        "rows": [
+          {
+            "id": "r1",
+            "fields": [
+              {
+                "field": "parent",
+                "value": "x"
+              },
+              {
+                "field": "key",
+                "value": "a"
+              }
+            ],
+            "source_ref": "synthetic:row:r1"
+          },
+          {
+            "id": "r2",
+            "fields": [
+              {
+                "field": "parent",
+                "value": "y"
+              },
+              {
+                "field": "key",
+                "value": "b"
+              }
+            ],
+            "source_ref": "synthetic:row:r2"
+          }
+        ],
+        "rules": [
+          {
+            "id": "fk",
+            "kind": "FOREIGN_KEY",
+            "field": "parent",
+            "other_field": "key",
+            "source_ref": "synthetic:fk"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/rules/0/status",
+            "op": "EQUALS",
+            "value": "MISMATCH_IN_SUPPLIED_ROWS"
+          },
+          {
+            "path": "/result/rules/0/unknown_row_ids",
+            "op": "EQUALS",
+            "value": []
+          },
+          {
+            "path": "/result/rules/0/violations",
+            "op": "EQUALS",
+            "value": [
+              {
+                "row_ids": [
+                  "r1"
+                ]
+              },
+              {
+                "row_ids": [
+                  "r2"
+                ]
+              }
+            ]
+          }
+        ],
+        "reasoning": "After the final missing target becomes b, the complete supplied target set {a,b} contains neither x nor y."
+      },
+      "comparison": {
+        "pair_id": "relational_completion",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "90642c25aef2d1943e52121e2c39d893d4bfe2dfed2ef96a8afc0c84f2ad6f93",
+      "expected_model_fingerprint": "be9cf1f5f801ea56e5efa62373f2b56106abecadbd43c51aa4dd22ed56d07ef3",
+      "input_sha256": "b828ffda77c41f4eb9f21064be1c81a196ae85b24ff24b89477787e290e55135"
+    },
+    {
+      "case_id": "partial_order_unconstrained_middle",
+      "method": "partial_order",
+      "input": {
+        "events": [
+          {
+            "id": "a",
+            "source_ref": "synthetic:a"
+          },
+          {
+            "id": "b",
+            "source_ref": "synthetic:b"
+          },
+          {
+            "id": "c",
+            "source_ref": "synthetic:c"
+          }
+        ],
+        "precedes": [
+          {
+            "before": "a",
+            "after": "b",
+            "source_ref": "synthetic:a-before-b"
+          }
+        ],
+        "observed_order": [
+          "a",
+          "c",
+          "b"
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/violations",
+            "op": "EQUALS",
+            "value": []
+          },
+          {
+            "path": "/result/unconstrained_pairs_are_concurrent",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Only a before b is declared. The placement of c supplies no concurrency proof."
+      },
+      "comparison": {
+        "pair_id": "partial_unconstrained",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "bd17c78f0fdff1e7073da8945d4de435554875c86f069da53697fcd27e667c5c",
+      "expected_model_fingerprint": "0b9e21b0b0839782c1b9eb17b3eec115735536e560669f1f1dec93f46e81951a",
+      "input_sha256": "25b159e3a74c0d347ad3a6f0d582b057f8f193bb4db4e473d35aac7f967aef6c"
+    },
+    {
+      "case_id": "partial_order_unconstrained_first",
+      "method": "partial_order",
+      "input": {
+        "events": [
+          {
+            "id": "a",
+            "source_ref": "synthetic:a"
+          },
+          {
+            "id": "b",
+            "source_ref": "synthetic:b"
+          },
+          {
+            "id": "c",
+            "source_ref": "synthetic:c"
+          }
+        ],
+        "precedes": [
+          {
+            "before": "a",
+            "after": "b",
+            "source_ref": "synthetic:a-before-b"
+          }
+        ],
+        "observed_order": [
+          "c",
+          "a",
+          "b"
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/violations",
+            "op": "EQUALS",
+            "value": []
+          },
+          {
+            "path": "/result/unconstrained_pairs_are_concurrent",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Moving c preserves the only declared edge and should preserve conformance."
+      },
+      "comparison": {
+        "pair_id": "partial_unconstrained",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "bd17c78f0fdff1e7073da8945d4de435554875c86f069da53697fcd27e667c5c",
+      "expected_model_fingerprint": "723f32148f83b256b8527422b16532651ab808f37f00a36cb38036775365171a",
+      "input_sha256": "2c3be05dca947c14e1f6599cf0055010dd0d9d2cde033722ea18fe37376edcaf"
+    },
+    {
+      "case_id": "metamorphic_missing_versus_empty",
+      "method": "metamorphic",
+      "input": {
+        "left": {
+          "id": "left",
+          "controls": [
+            {
+              "field": "channel",
+              "value": "web"
+            },
+            {
+              "field": "subject",
+              "value": "same"
+            }
+          ],
+          "observations": [
+            {
+              "field": "receipt",
+              "value": ""
+            },
+            {
+              "field": "state",
+              "value": "pending"
+            }
+          ],
+          "source_ref": "synthetic:left"
+        },
+        "right": {
+          "id": "right",
+          "controls": [
+            {
+              "field": "channel",
+              "value": "api"
+            },
+            {
+              "field": "subject",
+              "value": "same"
+            }
+          ],
+          "observations": [
+            {
+              "field": "state",
+              "value": "pending"
+            }
+          ],
+          "source_ref": "synthetic:right"
+        },
+        "changed_control": "channel"
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/preserved_controls",
+            "op": "EQUALS",
+            "value": [
+              "subject"
+            ]
+          },
+          {
+            "path": "/result/observations/0/field",
+            "op": "EQUALS",
+            "value": "receipt"
+          },
+          {
+            "path": "/result/observations/0/left",
+            "op": "EQUALS",
+            "value": ""
+          },
+          {
+            "path": "/result/observations/0/right",
+            "op": "EQUALS",
+            "value": null
+          },
+          {
+            "path": "/result/observations/0/state",
+            "op": "EQUALS",
+            "value": "MISSING_SIDE"
+          },
+          {
+            "path": "/result/observations/1/state",
+            "op": "EQUALS",
+            "value": "EQUAL"
+          },
+          {
+            "path": "/result/causation_established",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Exactly one declared control changes. An explicit empty string remains distinct from an absent observation field."
+      },
+      "comparison": {
+        "pair_id": "metamorphic_control_count",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "6737a12556bf90242eb20da8b5ebeaceba17c2354c282b6ce0d6a94c9b706155",
+      "expected_model_fingerprint": "7f56f8344ad3ba9d22f35a6d2c44eee763b786fbc3afeaef4d5695cc02ace0b9",
+      "input_sha256": "ba632616372c25c7f53e4e19ab0c0e548abca5d5264ea33c5ca84cdb48bf3de5"
+    },
+    {
+      "case_id": "metamorphic_second_control_changed",
+      "method": "metamorphic",
+      "input": {
+        "left": {
+          "id": "left",
+          "controls": [
+            {
+              "field": "channel",
+              "value": "web"
+            },
+            {
+              "field": "subject",
+              "value": "same"
+            }
+          ],
+          "observations": [
+            {
+              "field": "receipt",
+              "value": ""
+            },
+            {
+              "field": "state",
+              "value": "pending"
+            }
+          ],
+          "source_ref": "synthetic:left"
+        },
+        "right": {
+          "id": "right",
+          "controls": [
+            {
+              "field": "channel",
+              "value": "api"
+            },
+            {
+              "field": "subject",
+              "value": "different"
+            }
+          ],
+          "observations": [
+            {
+              "field": "state",
+              "value": "pending"
+            }
+          ],
+          "source_ref": "synthetic:right"
+        },
+        "changed_control": "channel"
+      },
+      "expectation": {
+        "outcome": "ERROR",
+        "error_message": "EXACTLY_ONE_DECLARED_CONTROL_CHANGE_REQUIRED",
+        "reasoning": "A second changed control defeats this declared single-control comparison."
+      },
+      "comparison": {
+        "pair_id": "metamorphic_control_count",
+        "role": "NEGATIVE_CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "6737a12556bf90242eb20da8b5ebeaceba17c2354c282b6ce0d6a94c9b706155",
+      "expected_model_fingerprint": "d8d8c9b09c1d6497bc6d613ef0d1b615563eb5f4eaf6af77be0fe65643a46eaf",
+      "input_sha256": "46a2e41535c42e5708180c7bc035d2bc85baec824147355248c16f26ca326084"
+    },
+    {
+      "case_id": "temporal_exact_max_age_boundary",
+      "method": "temporal",
+      "input": {
+        "events": [
+          {
+            "id": "authorize",
+            "subject": "s",
+            "kind": "authorize",
+            "time": 10,
+            "source_ref": "synthetic:authorize"
+          },
+          {
+            "id": "capture",
+            "subject": "s",
+            "kind": "capture",
+            "time": 20,
+            "source_ref": "synthetic:capture"
+          }
+        ],
+        "rules": [
+          {
+            "id": "r",
+            "trigger": "capture",
+            "required_prior": "authorize",
+            "max_age_ms": 10,
+            "source_ref": "synthetic:r"
+          }
+        ],
+        "window_start": 0,
+        "window_end": 30
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/checks/0/status",
+            "op": "EQUALS",
+            "value": "PRIOR_EVENT_PRESENT"
+          },
+          {
+            "path": "/result/checks/0/prior_ids",
+            "op": "EQUALS",
+            "value": [
+              "authorize"
+            ]
+          },
+          {
+            "path": "/result/checks/0/left_censored",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/missing_means_violation",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Age ten is included by the supplied bound of ten, and the prior timestamp is strictly earlier."
+      },
+      "comparison": {
+        "pair_id": "temporal_strict_prior",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "3e524f0b14c26397bfc3e1a3cade5dfd7269b42219a2207d6784ae1847341c14",
+      "expected_model_fingerprint": "50e5660f31fc0e2a407dcd64f44541d08b5f8d9089cf77f79479eb6a6fd954f5",
+      "input_sha256": "066ac9f94a53eeadd6c587d34fa4352db81297c8e1920b90f15f3a356263552d"
+    },
+    {
+      "case_id": "temporal_equal_timestamp_not_prior",
+      "method": "temporal",
+      "input": {
+        "events": [
+          {
+            "id": "authorize",
+            "subject": "s",
+            "kind": "authorize",
+            "time": 20,
+            "source_ref": "synthetic:authorize"
+          },
+          {
+            "id": "capture",
+            "subject": "s",
+            "kind": "capture",
+            "time": 20,
+            "source_ref": "synthetic:capture"
+          }
+        ],
+        "rules": [
+          {
+            "id": "r",
+            "trigger": "capture",
+            "required_prior": "authorize",
+            "max_age_ms": 10,
+            "source_ref": "synthetic:r"
+          }
+        ],
+        "window_start": 0,
+        "window_end": 30
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/checks/0/status",
+            "op": "EQUALS",
+            "value": "PRIOR_NOT_OBSERVED"
+          },
+          {
+            "path": "/result/checks/0/prior_ids",
+            "op": "EQUALS",
+            "value": []
+          },
+          {
+            "path": "/result/missing_means_violation",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Equal timestamps do not satisfy the strictly-earlier predicate. Missing prior evidence remains an observation boundary."
+      },
+      "comparison": {
+        "pair_id": "temporal_strict_prior",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "3e524f0b14c26397bfc3e1a3cade5dfd7269b42219a2207d6784ae1847341c14",
+      "expected_model_fingerprint": "d73f41cb8ad59b614a6491e2ac1a77a4eac91e9fec9bb5a5664a64894a4cc27a",
+      "input_sha256": "6a957f0447426bd309ba95c7244c2f6b737da80703e3d7d8868d23ad26cabd8c"
+    },
+    {
+      "case_id": "identity_graph_version_and_label_separate",
+      "method": "identity_graph",
+      "input": {
+        "nodes": [
+          {
+            "id": "a",
+            "namespace": "synthetic",
+            "native_id": "object-1",
+            "version": "v1",
+            "owner": "owner-1",
+            "label": "old",
+            "source_ref": "synthetic:a"
+          },
+          {
+            "id": "b",
+            "namespace": "synthetic",
+            "native_id": "object-1",
+            "version": "v2",
+            "owner": "owner-1",
+            "label": "new",
+            "source_ref": "synthetic:b"
+          }
+        ],
+        "links": [
+          {
+            "from": "a",
+            "to": "b",
+            "kind": "SAME_IDENTITY",
+            "source_ref": "synthetic:link"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/links/0/status",
+            "op": "EQUALS",
+            "value": "DECLARED_NATIVE_KEY_MATCH"
+          },
+          {
+            "path": "/result/links/0/version_match",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/links/0/label_match",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/aliases_automatically_merged",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "The native tuple matches while presentation and revision do not. The declaration does not authenticate or merge records."
+      },
+      "comparison": {
+        "pair_id": "identity_graph_owner",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "e4d627a1954f692cb3cebf9cfbc755c2ed6144bf482b0f9ee1f3e6669ca4bf8e",
+      "expected_model_fingerprint": "4712f6067d89ff944d75faee30909fe6a90ed8e657f9e1a592fde4792d936676",
+      "input_sha256": "c04b60185c84789c92a999ac50ae4eef3ff61e256db717556c21818fc61f76d7"
+    },
+    {
+      "case_id": "identity_graph_owner_change",
+      "method": "identity_graph",
+      "input": {
+        "nodes": [
+          {
+            "id": "a",
+            "namespace": "synthetic",
+            "native_id": "object-1",
+            "version": "v1",
+            "owner": "owner-1",
+            "label": "old",
+            "source_ref": "synthetic:a"
+          },
+          {
+            "id": "b",
+            "namespace": "synthetic",
+            "native_id": "object-1",
+            "version": "v2",
+            "owner": "owner-2",
+            "label": "new",
+            "source_ref": "synthetic:b"
+          }
+        ],
+        "links": [
+          {
+            "from": "a",
+            "to": "b",
+            "kind": "SAME_IDENTITY",
+            "source_ref": "synthetic:link"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/links/0/status",
+            "op": "EQUALS",
+            "value": "DECLARED_NATIVE_KEY_DIFFERENCE"
+          },
+          {
+            "path": "/result/identity_authenticated",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Ownership is part of the native comparison tuple even when the locator remains equal."
+      },
+      "comparison": {
+        "pair_id": "identity_graph_owner",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "e4d627a1954f692cb3cebf9cfbc755c2ed6144bf482b0f9ee1f3e6669ca4bf8e",
+      "expected_model_fingerprint": "773be1918d63658a7f898e36e33f14ff48b1b89380cc33911e550f5c190c270e",
+      "input_sha256": "7e9b993fef8db263acfb621a6c1bfea8390185cd5eb8775be6858db22ac409cf"
+    },
+    {
+      "case_id": "authority_paid_state_does_not_fill_missing_rules",
+      "method": "authority_graph",
+      "input": {
+        "rules": [],
+        "records": [
+          {
+            "id": "paid-display",
+            "actor": "ui",
+            "subject": "s",
+            "action": "capture",
+            "state": "PAID",
+            "source_ref": "synthetic:record"
+          }
+        ],
+        "rule_set_complete": false
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/records/0/authority_status",
+            "op": "EQUALS",
+            "value": "UNKNOWN"
+          },
+          {
+            "path": "/result/records/0/state",
+            "op": "EQUALS",
+            "value": "PAID"
+          },
+          {
+            "path": "/result/authority_authenticated",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/rule_match_proves_execution",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "The record state cannot supply a missing authority rule. An incomplete empty rule set stays unresolved."
+      },
+      "comparison": {
+        "pair_id": "authority_completeness",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "bcd10c516e8c18de2f8681cc3ace23c7171e107c4f350ec63bc039d198673f7a",
+      "expected_model_fingerprint": "9482826723e6388dec370473df0463afc5496683a85a25b0eaa9efcb9af46f57",
+      "input_sha256": "0e63dc1eeccc7234f6e3f84fc67585218e70a2617aeea2c5db7a49dd8fbaed20"
+    },
+    {
+      "case_id": "authority_declared_complete_absence",
+      "method": "authority_graph",
+      "input": {
+        "rules": [],
+        "records": [
+          {
+            "id": "paid-display",
+            "actor": "ui",
+            "subject": "s",
+            "action": "capture",
+            "state": "PAID",
+            "source_ref": "synthetic:record"
+          }
+        ],
+        "rule_set_complete": true
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/records/0/authority_status",
+            "op": "EQUALS",
+            "value": "NO_MATCH_IN_DECLARED_COMPLETE_RULE_SET"
+          },
+          {
+            "path": "/result/rule_set_complete_is_caller_assertion",
+            "op": "EQUALS",
+            "value": true
+          },
+          {
+            "path": "/result/authority_authenticated",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Only the caller completeness assertion changes; its effect is a scoped declared-rule absence, not authenticated lack of authority."
+      },
+      "comparison": {
+        "pair_id": "authority_completeness",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "bcd10c516e8c18de2f8681cc3ace23c7171e107c4f350ec63bc039d198673f7a",
+      "expected_model_fingerprint": "084fa352fcfc492f46dce86a8ead763f7ecdd70867d99fb71695872430a77735",
+      "input_sha256": "e06b486e581c054004d27285c1cbbab62de66810497244f602b868ee134f5958"
+    },
+    {
+      "case_id": "propositional_modus_tollens",
+      "method": "propositional_entailment",
+      "input": {
+        "variables": [
+          "P",
+          "Q"
+        ],
+        "nodes": [
+          {
+            "id": "P",
+            "op": "VAR",
+            "variable": "P"
+          },
+          {
+            "id": "Q",
+            "op": "VAR",
+            "variable": "Q"
+          },
+          {
+            "id": "rule",
+            "op": "IMPLIES",
+            "args": [
+              "P",
+              "Q"
+            ]
+          },
+          {
+            "id": "notQ",
+            "op": "NOT",
+            "args": [
+              "Q"
+            ]
+          },
+          {
+            "id": "notP",
+            "op": "NOT",
+            "args": [
+              "P"
+            ]
+          }
+        ],
+        "assumptions": [
+          "rule",
+          "notQ"
+        ],
+        "conclusion": "notP"
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/status",
+            "op": "EQUALS",
+            "value": "FINITE_ENTAILMENT"
+          },
+          {
+            "path": "/result/entails",
+            "op": "EQUALS",
+            "value": true
+          },
+          {
+            "path": "/result/assignments_examined",
+            "op": "EQUALS",
+            "value": 4
+          },
+          {
+            "path": "/result/satisfying_assumption_assignments_examined",
+            "op": "EQUALS",
+            "value": 1
+          },
+          {
+            "path": "/result/vacuous",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Of the four Boolean assignments, only P=false,Q=false satisfies both assumptions, and it satisfies not P."
+      },
+      "comparison": {
+        "pair_id": "propositional_budget",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "cfc0cab3282a0e9ab59c0a185b009847d79d330587bdb774a1afe25fd02209fd",
+      "expected_model_fingerprint": "145ed1e529bc170833b3b108ed85fcbcbe91ad773593d08483de9404294c3ef0",
+      "input_sha256": "cc76bdcf432ad7f4f33327367d941f82258185dbeaa79c66406203c69d304fc3"
+    },
+    {
+      "case_id": "propositional_partial_rows_do_not_prove",
+      "method": "propositional_entailment",
+      "input": {
+        "variables": [
+          "P",
+          "Q"
+        ],
+        "nodes": [
+          {
+            "id": "P",
+            "op": "VAR",
+            "variable": "P"
+          },
+          {
+            "id": "Q",
+            "op": "VAR",
+            "variable": "Q"
+          },
+          {
+            "id": "rule",
+            "op": "IMPLIES",
+            "args": [
+              "P",
+              "Q"
+            ]
+          },
+          {
+            "id": "notQ",
+            "op": "NOT",
+            "args": [
+              "Q"
+            ]
+          },
+          {
+            "id": "notP",
+            "op": "NOT",
+            "args": [
+              "P"
+            ]
+          }
+        ],
+        "assumptions": [
+          "rule",
+          "notQ"
+        ],
+        "conclusion": "notP",
+        "max_assignments": 2
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/status",
+            "op": "EQUALS",
+            "value": "UNKNOWN_RESOURCE_LIMIT"
+          },
+          {
+            "path": "/result/entails",
+            "op": "EQUALS",
+            "value": null
+          },
+          {
+            "path": "/result/enumeration_complete",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/assignments_examined",
+            "op": "EQUALS",
+            "value": 2
+          }
+        ],
+        "reasoning": "Successful examined rows cannot replace the two unexamined assignments required by this evaluator contract."
+      },
+      "comparison": {
+        "pair_id": "propositional_budget",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "cfc0cab3282a0e9ab59c0a185b009847d79d330587bdb774a1afe25fd02209fd",
+      "expected_model_fingerprint": "2bb6af73659cdc8e886049fb33fb5ac562b90289aa90b60da5b161006cd6c049",
+      "input_sha256": "799f33db6f1a47379d1abe86090f4f845c678accc5e0f72e3136d6fdb67286a3"
+    },
+    {
+      "case_id": "invariant_unreachable_step_failure",
+      "method": "finite_invariant",
+      "input": {
+        "invariant_label": "SYNTHETIC_SAFE",
+        "states": [
+          {
+            "id": "S",
+            "invariant_holds": true
+          },
+          {
+            "id": "U",
+            "invariant_holds": true
+          },
+          {
+            "id": "B",
+            "invariant_holds": false
+          }
+        ],
+        "initial_states": [
+          "S"
+        ],
+        "transitions": [
+          {
+            "id": "u-b",
+            "from": "U",
+            "to": "B"
+          }
+        ],
+        "forbidden_states": []
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/status",
+            "op": "EQUALS",
+            "value": "FINITE_GRAPH_VERIFIED"
+          },
+          {
+            "path": "/result/reachable_predicate_holds",
+            "op": "EQUALS",
+            "value": true
+          },
+          {
+            "path": "/result/counterexample",
+            "op": "EQUALS",
+            "value": null
+          },
+          {
+            "path": "/result/induction_obligations/step/status",
+            "op": "EQUALS",
+            "value": "FAIL"
+          }
+        ],
+        "reasoning": "Direct reachability contains only S; the separately checked supplied U-to-B induction step still fails."
+      },
+      "comparison": {
+        "pair_id": "invariant_connectivity",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "9d22945539a1a8c4d005753f156374a91c1ab7dfe347368eeabb6c3939bee390",
+      "expected_model_fingerprint": "6430150263d775756f9c1f8bd0d1ac54c44d2e8590c62a65c7b231e21dbe5331",
+      "input_sha256": "98a0fd204353ed0f99c85546259be7d027a9275cf409139f68dfb4d52b509372"
+    },
+    {
+      "case_id": "invariant_connects_bad_component",
+      "method": "finite_invariant",
+      "input": {
+        "invariant_label": "SYNTHETIC_SAFE",
+        "states": [
+          {
+            "id": "S",
+            "invariant_holds": true
+          },
+          {
+            "id": "U",
+            "invariant_holds": true
+          },
+          {
+            "id": "B",
+            "invariant_holds": false
+          }
+        ],
+        "initial_states": [
+          "S"
+        ],
+        "transitions": [
+          {
+            "id": "u-b",
+            "from": "U",
+            "to": "B"
+          },
+          {
+            "id": "s-u",
+            "from": "S",
+            "to": "U"
+          }
+        ],
+        "forbidden_states": []
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/status",
+            "op": "EQUALS",
+            "value": "COUNTEREXAMPLE_FOUND"
+          },
+          {
+            "path": "/result/reachable_predicate_holds",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/counterexample/state_path",
+            "op": "EQUALS",
+            "value": [
+              "S",
+              "U",
+              "B"
+            ]
+          },
+          {
+            "path": "/result/counterexample/transition_ids",
+            "op": "EQUALS",
+            "value": [
+              "s-u",
+              "u-b"
+            ]
+          }
+        ],
+        "reasoning": "One connecting edge makes B reachable through the exact two-edge concrete witness."
+      },
+      "comparison": {
+        "pair_id": "invariant_connectivity",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "9d22945539a1a8c4d005753f156374a91c1ab7dfe347368eeabb6c3939bee390",
+      "expected_model_fingerprint": "79159dbd10ef83b1b7ce68fc4c83cae02ef376840943efade39f972d647a7034",
+      "input_sha256": "ab74f5e6dfb10313813dace15f816a88b4d5a78e4ffedbc41a7745017f355f98"
+    },
+    {
+      "case_id": "abduction_inclusion_minimal_dual",
+      "method": "abductive_cover",
+      "input": {
+        "effects_semantics": "ALL_LISTED_EFFECTS_MANDATORY",
+        "hypotheses": [
+          {
+            "id": "Halpha",
+            "effects": [
+              "x",
+              "y"
+            ]
+          },
+          {
+            "id": "Hbeta",
+            "effects": [
+              "x"
+            ]
+          },
+          {
+            "id": "Hgamma",
+            "effects": [
+              "y"
+            ]
+          },
+          {
+            "id": "Hdelta",
+            "effects": [
+              "z"
+            ]
+          }
+        ],
+        "observed_effects": [
+          "x",
+          "y"
+        ],
+        "contradicted_effects": [
+          "z"
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/status",
+            "op": "EQUALS",
+            "value": "MINIMAL_EXPLANATIONS_FOUND"
+          },
+          {
+            "path": "/result/minimal_explanations",
+            "op": "EQUALS",
+            "value": [
+              [
+                "Halpha"
+              ],
+              [
+                "Hbeta",
+                "Hgamma"
+              ]
+            ]
+          },
+          {
+            "path": "/result/minimum_cardinality",
+            "op": "EQUALS",
+            "value": 1
+          },
+          {
+            "path": "/result/minimality",
+            "op": "EQUALS",
+            "value": "SET_INCLUSION"
+          },
+          {
+            "path": "/result/excluded_hypotheses",
+            "op": "EQUALS",
+            "value": [
+              {
+                "hypothesis_id": "Hdelta",
+                "contradicted_effects": [
+                  "z"
+                ]
+              }
+            ]
+          }
+        ],
+        "reasoning": "The singleton and two-element explanation are both inclusion-minimal. A separately implemented exhaustive subset oracle validates the duality with cuts."
+      },
+      "comparison": {
+        "pair_id": "abduction_conflict",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "c22628b8e20e918efe4a0a14527ddfa97a7c76c72d4fa6e81b7459bd1aefcfb1",
+      "expected_model_fingerprint": "65c862184c0e934988ca7fd96b3cf4301e3efaf2d6decaa320d1dd96804607db",
+      "input_sha256": "60dcfa1c972c1b0ed6d61af8f4bb697fb4505990dd35452b3ad45cc7db54dcb1"
+    },
+    {
+      "case_id": "abduction_mandatory_conflict_excludes_shortcut",
+      "method": "abductive_cover",
+      "input": {
+        "effects_semantics": "ALL_LISTED_EFFECTS_MANDATORY",
+        "hypotheses": [
+          {
+            "id": "Halpha",
+            "effects": [
+              "x",
+              "y",
+              "z"
+            ]
+          },
+          {
+            "id": "Hbeta",
+            "effects": [
+              "x"
+            ]
+          },
+          {
+            "id": "Hgamma",
+            "effects": [
+              "y"
+            ]
+          },
+          {
+            "id": "Hdelta",
+            "effects": [
+              "z"
+            ]
+          }
+        ],
+        "observed_effects": [
+          "x",
+          "y"
+        ],
+        "contradicted_effects": [
+          "z"
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/minimal_explanations",
+            "op": "EQUALS",
+            "value": [
+              [
+                "Hbeta",
+                "Hgamma"
+              ]
+            ]
+          },
+          {
+            "path": "/result/minimum_cardinality",
+            "op": "EQUALS",
+            "value": 2
+          },
+          {
+            "path": "/result/excluded_hypotheses",
+            "op": "EQUALS",
+            "value": [
+              {
+                "hypothesis_id": "Halpha",
+                "contradicted_effects": [
+                  "z"
+                ]
+              },
+              {
+                "hypothesis_id": "Hdelta",
+                "contradicted_effects": [
+                  "z"
+                ]
+              }
+            ]
+          }
+        ],
+        "reasoning": "The shortcut now necessarily produces a contradicted effect, so only the longer explanation remains eligible."
+      },
+      "comparison": {
+        "pair_id": "abduction_conflict",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "c22628b8e20e918efe4a0a14527ddfa97a7c76c72d4fa6e81b7459bd1aefcfb1",
+      "expected_model_fingerprint": "8506ab434625db80d93f26178d653b6111690079396d4046bc1b2eabcc2d0b57",
+      "input_sha256": "54acc35e5587d085ce95c87e44a9ee263e03dbaac6789589fedf16bfd89b8171"
+    },
+    {
+      "case_id": "cuts_shared_identity_abduction_dual",
+      "method": "minimal_cut_sets",
+      "input": {
+        "root": "TOP",
+        "nodes": [
+          {
+            "id": "TOP",
+            "kind": "AND",
+            "children": [
+              "X",
+              "Y"
+            ]
+          },
+          {
+            "id": "X",
+            "kind": "OR",
+            "children": [
+              "Halpha",
+              "Hbeta"
+            ]
+          },
+          {
+            "id": "Y",
+            "kind": "OR",
+            "children": [
+              "Halpha",
+              "Hgamma"
+            ]
+          },
+          {
+            "id": "Halpha",
+            "kind": "LEAF"
+          },
+          {
+            "id": "Hbeta",
+            "kind": "LEAF"
+          },
+          {
+            "id": "Hgamma",
+            "kind": "LEAF"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/status",
+            "op": "EQUALS",
+            "value": "MINIMAL_CUT_SETS_COMPLETE"
+          },
+          {
+            "path": "/result/minimal_cut_sets",
+            "op": "EQUALS",
+            "value": [
+              [
+                "Halpha"
+              ],
+              [
+                "Hbeta",
+                "Hgamma"
+              ]
+            ]
+          },
+          {
+            "path": "/result/assignments_examined",
+            "op": "EQUALS",
+            "value": 8
+          },
+          {
+            "path": "/result/independence_assumed",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "(Halpha OR Hbeta) AND (Halpha OR Hgamma) has exactly the abduction model minimal families, retaining one shared Halpha."
+      },
+      "comparison": {
+        "pair_id": "cuts_completeness",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "3a9b042d166b0c63b0ac19360007188d25abb58cc7c363f44f7362082757641e",
+      "expected_model_fingerprint": "9c8519808fcbcc058121f7e3e8332f81f80e9d05d6ba40af14ddde7fbe75f321",
+      "input_sha256": "dcaad0651096332d62bf491b99d9193712cdd06cfe13614a25ec217f390cf507"
+    },
+    {
+      "case_id": "cuts_candidates_found_but_budget_incomplete",
+      "method": "minimal_cut_sets",
+      "input": {
+        "root": "TOP",
+        "nodes": [
+          {
+            "id": "TOP",
+            "kind": "AND",
+            "children": [
+              "X",
+              "Y"
+            ]
+          },
+          {
+            "id": "X",
+            "kind": "OR",
+            "children": [
+              "Halpha",
+              "Hbeta"
+            ]
+          },
+          {
+            "id": "Y",
+            "kind": "OR",
+            "children": [
+              "Halpha",
+              "Hgamma"
+            ]
+          },
+          {
+            "id": "Halpha",
+            "kind": "LEAF"
+          },
+          {
+            "id": "Hbeta",
+            "kind": "LEAF"
+          },
+          {
+            "id": "Hgamma",
+            "kind": "LEAF"
+          }
+        ],
+        "max_assignments": 7
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/status",
+            "op": "EQUALS",
+            "value": "UNKNOWN_RESOURCE_LIMIT"
+          },
+          {
+            "path": "/result/enumeration_complete",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/minimal_cut_sets",
+            "op": "EQUALS",
+            "value": [
+              [
+                "Halpha"
+              ],
+              [
+                "Hbeta",
+                "Hgamma"
+              ]
+            ]
+          },
+          {
+            "path": "/result/assignments_examined",
+            "op": "EQUALS",
+            "value": 7
+          }
+        ],
+        "reasoning": "Both actual minimal families have appeared before the final assignment, but the receipt must still disclose incomplete enumeration."
+      },
+      "comparison": {
+        "pair_id": "cuts_completeness",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "3a9b042d166b0c63b0ac19360007188d25abb58cc7c363f44f7362082757641e",
+      "expected_model_fingerprint": "05bd54e8950925f0b7e8f82288ed5432e0ab30dda9a1f263a7105c99daceac51",
+      "input_sha256": "d96b6eab47b2d89ef3db221da7ebf0a41fc56928bd1274b1dba1e857df9417c7"
+    },
+    {
+      "case_id": "nash_three_by_three_scope_control",
+      "method": "nash",
+      "input": {
+        "row_payoffs": [
+          [
+            0,
+            -1,
+            1
+          ],
+          [
+            1,
+            0,
+            -1
+          ],
+          [
+            -1,
+            1,
+            0
+          ]
+        ],
+        "column_payoffs": [
+          [
+            0,
+            1,
+            -1
+          ],
+          [
+            -1,
+            0,
+            1
+          ],
+          [
+            1,
+            -1,
+            0
+          ]
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/pure_equilibria",
+            "op": "EQUALS",
+            "value": []
+          },
+          {
+            "path": "/result/strict_interior_mixed",
+            "op": "EQUALS",
+            "value": null
+          },
+          {
+            "path": "/result/mixed_status",
+            "op": "EQUALS",
+            "value": "NOT_COMPUTED_FOR_THIS_SIZE"
+          }
+        ],
+        "reasoning": "Every pure rock-paper-scissors profile admits a profitable unilateral deviation. General 3x3 mixed equilibria are outside this implementation."
+      },
+      "comparison": {
+        "pair_id": "nash_general_scope",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "465356ed9d6e4df6074ffaf0fb29a60222f21c18443a0ea0716c55737afd2d17",
+      "expected_model_fingerprint": "6838c34ba49391ff864ad10d8d0d66b6cfd2da14c2611e7a40d92e5d145233fa",
+      "input_sha256": "dd9a9c55a337fc959f035e0fe2b42f5d1b0784636596e75b83ebe79cc7cf7e23"
+    },
+    {
+      "case_id": "harsanyi_skew_and_zero_mass",
+      "method": "harsanyi",
+      "input": {
+        "states": [
+          {
+            "id": "s0",
+            "probability": 0.25
+          },
+          {
+            "id": "s1",
+            "probability": 0.75
+          },
+          {
+            "id": "zero",
+            "probability": 0
+          }
+        ],
+        "actions": [
+          {
+            "id": "a",
+            "payoffs": [
+              8,
+              0,
+              1000000000
+            ]
+          },
+          {
+            "id": "b",
+            "payoffs": [
+              0,
+              4,
+              -1000000000
+            ]
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/values",
+            "op": "EQUALS",
+            "value": [
+              {
+                "id": "a",
+                "expected_utility": 2
+              },
+              {
+                "id": "b",
+                "expected_utility": 3
+              }
+            ]
+          },
+          {
+            "path": "/result/maximizers",
+            "op": "EQUALS",
+            "value": [
+              "b"
+            ]
+          },
+          {
+            "path": "/result/beliefs_supplied",
+            "op": "EQUALS",
+            "value": true
+          },
+          {
+            "path": "/result/bayesian_equilibrium_computed",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Quarter and three-quarter probabilities are exactly representable. The explicit zero-mass state contributes nothing."
+      },
+      "comparison": {
+        "pair_id": "harsanyi_zero_mass",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "bde6bd4bc741104a394253b97612e4766600a42caa74fd595a22cad3c88e21c1",
+      "expected_model_fingerprint": "c92b1827a006815b5a4d75af95cbbafd92b0d33ba780998fde6d9115a34fdf0f",
+      "input_sha256": "a979a91dfdd14d17aed8d4b2e5c60017e1fbdf83e7298a0ac2bef767cfbfa035"
+    },
+    {
+      "case_id": "selten_declared_tie_order_first",
+      "method": "selten",
+      "input": {
+        "root": "ROOT",
+        "nodes": [
+          {
+            "id": "ROOT",
+            "player": 0,
+            "children": [
+              "SAFE",
+              "OPPONENT"
+            ]
+          },
+          {
+            "id": "SAFE",
+            "payoffs": [
+              4,
+              0
+            ]
+          },
+          {
+            "id": "OPPONENT",
+            "player": 1,
+            "children": [
+              "FIRST",
+              "SECOND"
+            ]
+          },
+          {
+            "id": "FIRST",
+            "payoffs": [
+              8,
+              5
+            ]
+          },
+          {
+            "id": "SECOND",
+            "payoffs": [
+              0,
+              5
+            ]
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/root_payoffs",
+            "op": "EQUALS",
+            "value": [
+              8,
+              5
+            ]
+          },
+          {
+            "path": "/result/choices/0/chosen",
+            "op": "EQUALS",
+            "value": "FIRST"
+          },
+          {
+            "path": "/result/choices/1/chosen",
+            "op": "EQUALS",
+            "value": "OPPONENT"
+          },
+          {
+            "path": "/result/tie_rule",
+            "op": "EQUALS",
+            "value": "FIRST_LISTED_CHILD"
+          }
+        ],
+        "reasoning": "Player one is indifferent at five and chooses the first child; player zero then prefers eight to the safe four."
+      },
+      "comparison": {
+        "pair_id": "selten_tie_order",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "6b6cf920da133bd4de2f039a15d45125d3cf3420642b78acc091689eaf43dd1b",
+      "expected_model_fingerprint": "659adfe553c72a01f9d80743275c738096ff1a1792aa53b37d060735db54fe0c",
+      "input_sha256": "e430835e8fcf61d452a1d1f21804d6131f76d1b8f6c9e4f5a9d975d26d7d8641"
+    },
+    {
+      "case_id": "selten_declared_tie_order_reversed",
+      "method": "selten",
+      "input": {
+        "root": "ROOT",
+        "nodes": [
+          {
+            "id": "ROOT",
+            "player": 0,
+            "children": [
+              "SAFE",
+              "OPPONENT"
+            ]
+          },
+          {
+            "id": "SAFE",
+            "payoffs": [
+              4,
+              0
+            ]
+          },
+          {
+            "id": "OPPONENT",
+            "player": 1,
+            "children": [
+              "SECOND",
+              "FIRST"
+            ]
+          },
+          {
+            "id": "FIRST",
+            "payoffs": [
+              8,
+              5
+            ]
+          },
+          {
+            "id": "SECOND",
+            "payoffs": [
+              0,
+              5
+            ]
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/root_payoffs",
+            "op": "EQUALS",
+            "value": [
+              4,
+              0
+            ]
+          },
+          {
+            "path": "/result/choices/0/chosen",
+            "op": "EQUALS",
+            "value": "SECOND"
+          },
+          {
+            "path": "/result/choices/1/chosen",
+            "op": "EQUALS",
+            "value": "SAFE"
+          },
+          {
+            "path": "/result/tie_rule",
+            "op": "EQUALS",
+            "value": "FIRST_LISTED_CHILD"
+          }
+        ],
+        "reasoning": "Reversing an exact tie is intentionally observable: the continuation now gives player zero zero, so safe four is chosen."
+      },
+      "comparison": {
+        "pair_id": "selten_tie_order",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "6b6cf920da133bd4de2f039a15d45125d3cf3420642b78acc091689eaf43dd1b",
+      "expected_model_fingerprint": "454e25e507269a6146f96674bd00da8397fb0f22ae965edacc8a4d0d50f51742",
+      "input_sha256": "00d9f6387fda744d28483f3b9d75a53c92d551580670ade008e688047389a6f2"
+    },
+    {
+      "case_id": "conservation_exact_tolerance_boundary",
+      "method": "conservation",
+      "input": {
+        "unit": "SYNTHETIC_UNITS",
+        "opening": 8,
+        "inflows": [
+          3
+        ],
+        "outflows": [
+          2
+        ],
+        "closing": 9.125,
+        "tolerance": 0.125
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/expected_closing",
+            "op": "EQUALS",
+            "value": 9
+          },
+          {
+            "path": "/result/residual",
+            "op": "EQUALS",
+            "value": 0.125
+          },
+          {
+            "path": "/result/within_supplied_tolerance",
+            "op": "EQUALS",
+            "value": true
+          },
+          {
+            "path": "/result/causation_established",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "The independent balance is nine. The exactly representable residual one-eighth is included by the exactly equal declared tolerance."
+      },
+      "comparison": {
+        "pair_id": "conservation_tolerance",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "25b054a98f9b30d61688c67c6f7b0ea6b25554860db9d47e4971abb63a88f846",
+      "expected_model_fingerprint": "a687cc4d9be1971d9f56084b9ef9d32cee16a2f05c92272ac02b836648ed21ec",
+      "input_sha256": "8dc6b8c8e871ec52a921060fbf077693942a3b2d5605fd5c3bb1c395d77e2773"
+    },
+    {
+      "case_id": "identity_native_key_vs_version",
+      "method": "identity",
+      "input": {
+        "left": {
+          "native_id": "object-1",
+          "version": "v1",
+          "owner": "owner",
+          "namespace": "synthetic",
+          "label": "old label",
+          "source_ref": "synthetic:left"
+        },
+        "right": {
+          "native_id": "object-1",
+          "version": "v2",
+          "owner": "owner",
+          "namespace": "synthetic",
+          "label": "new label",
+          "source_ref": "synthetic:right"
+        }
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/native_key_match",
+            "op": "EQUALS",
+            "value": true
+          },
+          {
+            "path": "/result/version_match",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/presentation_differs",
+            "op": "EQUALS",
+            "value": true
+          },
+          {
+            "path": "/result/identity_authenticated",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "The declared native tuple excludes version and label; their mismatches are explicitly separate results."
+      },
+      "comparison": {
+        "pair_id": "identity_native_id",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "79452b221b192e3572d8252b57bcb2d3dcb7b94fe72d46282212e8b58872ba2a",
+      "expected_model_fingerprint": "47c64d845e09fab3b447fcc27d5d1290bb868bd68bc151198bf7d3acc8c4aa89",
+      "input_sha256": "75c1cea612054b20824af9fa1de68f976524b54737b2b27cfb4d1c2e4f7629dc"
+    },
+    {
+      "case_id": "identity_different_native_id",
+      "method": "identity",
+      "input": {
+        "left": {
+          "native_id": "object-1",
+          "version": "v1",
+          "owner": "owner",
+          "namespace": "synthetic",
+          "label": "old label",
+          "source_ref": "synthetic:left"
+        },
+        "right": {
+          "native_id": "object-2",
+          "version": "v2",
+          "owner": "owner",
+          "namespace": "synthetic",
+          "label": "new label",
+          "source_ref": "synthetic:right"
+        }
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/native_key_match",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/classification",
+            "op": "EQUALS",
+            "value": "DECLARED_NATIVE_KEY_DIFFERENCE"
+          },
+          {
+            "path": "/result/identity_authenticated",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Changing native ID changes the declared tuple even if the other fields remain as before."
+      },
+      "comparison": {
+        "pair_id": "identity_native_id",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "79452b221b192e3572d8252b57bcb2d3dcb7b94fe72d46282212e8b58872ba2a",
+      "expected_model_fingerprint": "92b7ed7dddf8f08f65c10565711e3234f45b49940a31b187478fbf5a25d162d1",
+      "input_sha256": "f36cc50a186a469c53cb9cd970f717e53aa6ac8ecddb8d9edb6fba75b7725ddd"
+    },
+    {
+      "case_id": "trace_same_event_different_states",
+      "method": "state_trace",
+      "input": {
+        "initial": "A",
+        "transitions": [
+          {
+            "from": "A",
+            "event": "tick",
+            "to": "B"
+          },
+          {
+            "from": "B",
+            "event": "tick",
+            "to": "A"
+          }
+        ],
+        "events": [
+          {
+            "event": "tick",
+            "observed_state": "B",
+            "source_ref": "synthetic:tick:0"
+          },
+          {
+            "event": "tick",
+            "observed_state": "A",
+            "source_ref": "synthetic:tick:1"
+          },
+          {
+            "event": "tick",
+            "observed_state": "B",
+            "source_ref": "synthetic:tick:2"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/trace_matches",
+            "op": "EQUALS",
+            "value": true
+          },
+          {
+            "path": "/result/reviewed_events",
+            "op": "EQUALS",
+            "value": 3
+          },
+          {
+            "path": "/result/final_state",
+            "op": "EQUALS",
+            "value": "B"
+          },
+          {
+            "path": "/result/model_completeness_proven",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Determinism is keyed by state and event together. Reusing tick in A and B is valid."
+      },
+      "comparison": {
+        "pair_id": "trace_first_divergence",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "102cafa725331e1eb66ce78c69283c10ea67fc2b51780cbec6981b4533d74b70",
+      "expected_model_fingerprint": "64870c3c4dc12a05548294ab3b1d48ac7f01d77723343c1dbde56ddd0565dbdb",
+      "input_sha256": "6d77791d6d5c57243e61db4dcfc41dcf90dfd747fc36c91377868f1f4f73c348"
+    },
+    {
+      "case_id": "trace_first_divergence_preserves_remainder",
+      "method": "state_trace",
+      "input": {
+        "initial": "A",
+        "transitions": [
+          {
+            "from": "A",
+            "event": "tick",
+            "to": "B"
+          },
+          {
+            "from": "B",
+            "event": "tick",
+            "to": "A"
+          }
+        ],
+        "events": [
+          {
+            "event": "tick",
+            "observed_state": "B",
+            "source_ref": "synthetic:tick:0"
+          },
+          {
+            "event": "tick",
+            "observed_state": "B",
+            "source_ref": "synthetic:tick:1"
+          },
+          {
+            "event": "tick",
+            "observed_state": "B",
+            "source_ref": "synthetic:tick:2"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/trace_matches",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/first_divergence/index",
+            "op": "EQUALS",
+            "value": 1
+          },
+          {
+            "path": "/result/first_divergence/expected_state",
+            "op": "EQUALS",
+            "value": "A"
+          },
+          {
+            "path": "/result/reviewed_events",
+            "op": "EQUALS",
+            "value": 2
+          },
+          {
+            "path": "/result/remaining_events",
+            "op": "EQUALS",
+            "value": 1
+          }
+        ],
+        "reasoning": "The second event disagrees with B-to-A, so the third observation remains unevaluated."
+      },
+      "comparison": {
+        "pair_id": "trace_first_divergence",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "102cafa725331e1eb66ce78c69283c10ea67fc2b51780cbec6981b4533d74b70",
+      "expected_model_fingerprint": "02626246eaff9709daa7ecd9d7e2d6326d6af588453186afc773f6c5c59b59d5",
+      "input_sha256": "857a403893330b38ac7a587e458073c689ba5e59310076878790f4f39b3ed88d"
+    },
+    {
+      "case_id": "fault_false_dominates_unknown_and",
+      "method": "fault_tree",
+      "input": {
+        "root": "TOP",
+        "nodes": [
+          {
+            "id": "TOP",
+            "gate": "AND",
+            "children": [
+              "FALSE",
+              "UNKNOWN"
+            ]
+          },
+          {
+            "id": "FALSE",
+            "value": false
+          },
+          {
+            "id": "UNKNOWN",
+            "value": null
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/root_value",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/nodes_evaluated",
+            "op": "EQUALS",
+            "value": 3
+          },
+          {
+            "path": "/result/probability_computed",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "False AND an unknown value is false for both possible completions of that leaf."
+      },
+      "comparison": {
+        "pair_id": "fault_three_valued",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "7d9a94a129dd061a240ac7838a6639505af124c3baf7315e9eff9e4fe9478c8e",
+      "expected_model_fingerprint": "116d5d6cf562343daa38752e4be5a3b1ff4d40fb91c6cecfd7c513a127dbf3a6",
+      "input_sha256": "851bea548e1501bfd01ed7007c08772de22c75ca6383d81fbe67f313534501e4"
+    },
+    {
+      "case_id": "fault_unknown_survives_or_false",
+      "method": "fault_tree",
+      "input": {
+        "root": "TOP",
+        "nodes": [
+          {
+            "id": "TOP",
+            "gate": "OR",
+            "children": [
+              "FALSE",
+              "UNKNOWN"
+            ]
+          },
+          {
+            "id": "FALSE",
+            "value": false
+          },
+          {
+            "id": "UNKNOWN",
+            "value": null
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/root_value",
+            "op": "EQUALS",
+            "value": null
+          },
+          {
+            "path": "/result/probability_computed",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "False OR an unknown value depends on the unobserved leaf and must remain unknown."
+      },
+      "comparison": {
+        "pair_id": "fault_three_valued",
+        "role": "VARIANT"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "7d9a94a129dd061a240ac7838a6639505af124c3baf7315e9eff9e4fe9478c8e",
+      "expected_model_fingerprint": "9c3b5caf8f80e485fa2bb0b77705a795b7cf7a70b7b16ade2e933b394ea62d0f",
+      "input_sha256": "97b8de63e9f112e1c9f94ce7edab666ea13de3992be141e83661517257357825"
+    },
+    {
+      "case_id": "fmea_equal_rpn_distinct_factor_profiles",
+      "method": "fmea",
+      "input": {
+        "rows": [
+          {
+            "id": "high-severity",
+            "severity": 10,
+            "occurrence": 2,
+            "detection": 3,
+            "source_ref": "synthetic:high"
+          },
+          {
+            "id": "other-profile",
+            "severity": 3,
+            "occurrence": 4,
+            "detection": 5,
+            "source_ref": "synthetic:other"
+          },
+          {
+            "id": "minimum",
+            "severity": 1,
+            "occurrence": 1,
+            "detection": 1,
+            "source_ref": "synthetic:minimum"
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/rows/0/id",
+            "op": "EQUALS",
+            "value": "high-severity"
+          },
+          {
+            "path": "/result/rows/0/rpn",
+            "op": "EQUALS",
+            "value": 60
+          },
+          {
+            "path": "/result/rows/1/id",
+            "op": "EQUALS",
+            "value": "other-profile"
+          },
+          {
+            "path": "/result/rows/1/rpn",
+            "op": "EQUALS",
+            "value": 60
+          },
+          {
+            "path": "/result/rows/2/rpn",
+            "op": "EQUALS",
+            "value": 1
+          },
+          {
+            "path": "/result/rpn_is_probability",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "10*2*3 and 3*4*5 both equal sixty. The distinct factors and stable tie order remain visible."
+      },
+      "comparison": {
+        "pair_id": "fmea_tie",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "75f2e670d792f5a82cd56a0d0eae83a57725b2857cac6471d4883c1856a05f02",
+      "expected_model_fingerprint": "5eacf48bd82002cc69f32771471f14c9df0cef022025335b877d5b1885613028",
+      "input_sha256": "9a325097e0fc62fb0a7b67241f1366511816159d62f9f7bcba8d3531bf561953"
+    },
+    {
+      "case_id": "ach_shared_source_rows_not_independent_truth",
+      "method": "ach",
+      "input": {
+        "hypotheses": [
+          "H0",
+          "H1"
+        ],
+        "evidence": [
+          {
+            "id": "e1",
+            "source_ref": "synthetic:shared-source",
+            "assessments": [
+              "SUPPORTS",
+              "CONTRADICTS"
+            ]
+          },
+          {
+            "id": "e2",
+            "source_ref": "synthetic:shared-source",
+            "assessments": [
+              "SUPPORTS",
+              "UNKNOWN"
+            ]
+          },
+          {
+            "id": "e3",
+            "source_ref": "synthetic:other-source",
+            "assessments": [
+              "UNKNOWN",
+              "NEUTRAL"
+            ]
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/hypotheses/0/counts",
+            "op": "EQUALS",
+            "value": {
+              "SUPPORTS": 2,
+              "CONTRADICTS": 0,
+              "NEUTRAL": 0,
+              "UNKNOWN": 1
+            }
+          },
+          {
+            "path": "/result/hypotheses/1/counts",
+            "op": "EQUALS",
+            "value": {
+              "SUPPORTS": 0,
+              "CONTRADICTS": 1,
+              "NEUTRAL": 1,
+              "UNKNOWN": 1
+            }
+          },
+          {
+            "path": "/result/truth_or_probability_computed",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "reasoning": "Distinct supplied evidence IDs count as two judgments even when their source reference is shared. The method computes no independence, probability or truth score."
+      },
+      "comparison": {
+        "pair_id": "ach_row_identity",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "1e7ef3632704997d15870f2dd1b6ddc1c23e6786eb0ce3261f4ed6a95ef45e70",
+      "expected_model_fingerprint": "a4b2d92e8ffb7659d068659dad298c8f96f009080aa8c7127b875e2a1d522a5a",
+      "input_sha256": "80dcfe1718ef6430defa0b15af93dcba9778c1f9501d24d44c6b6db28132aa47"
+    },
+    {
+      "case_id": "ach_duplicate_evidence_id_rejected",
+      "method": "ach",
+      "input": {
+        "hypotheses": [
+          "H0",
+          "H1"
+        ],
+        "evidence": [
+          {
+            "id": "e1",
+            "source_ref": "synthetic:shared-source",
+            "assessments": [
+              "SUPPORTS",
+              "CONTRADICTS"
+            ]
+          },
+          {
+            "id": "e1",
+            "source_ref": "synthetic:shared-source",
+            "assessments": [
+              "SUPPORTS",
+              "UNKNOWN"
+            ]
+          },
+          {
+            "id": "e3",
+            "source_ref": "synthetic:other-source",
+            "assessments": [
+              "UNKNOWN",
+              "NEUTRAL"
+            ]
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "ERROR",
+        "error_message": "DUPLICATE_ID",
+        "reasoning": "Repeated source references are permitted, but repeated evidence IDs are not distinct records."
+      },
+      "comparison": {
+        "pair_id": "ach_row_identity",
+        "role": "NEGATIVE_CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "1e7ef3632704997d15870f2dd1b6ddc1c23e6786eb0ce3261f4ed6a95ef45e70",
+      "expected_model_fingerprint": "c4585396925ca5fde313d54fff206e00b7db732df270050ae6c036f62a5643ab",
+      "input_sha256": "cbdbddb07d2dcd2153b3f8a0998e0d92b065ebd53732fe5f922f762f44325abe"
+    },
+    {
+      "case_id": "coverage_supplied_subset_not_global_completion",
+      "method": "coverage",
+      "input": {
+        "input_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pack_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "checks": [
+          {
+            "id": "TEST_ONLY_A",
+            "state": "SUPPORTED",
+            "source_refs": [
+              "synthetic:a"
+            ]
+          },
+          {
+            "id": "TEST_ONLY_B",
+            "state": "SUPPORTED",
+            "source_refs": [
+              "synthetic:b"
+            ]
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/counts/SUPPORTED",
+            "op": "EQUALS",
+            "value": 2
+          },
+          {
+            "path": "/result/coverage_complete",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/persisted",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/source_references_resolved",
+            "op": "EQUALS",
+            "value": false
+          },
+          {
+            "path": "/result/receipt_scope",
+            "op": "EQUALS",
+            "value": "CALLER_REPORTED_SUBSET"
+          }
+        ],
+        "reasoning": "Every supplied row being supported does not prove full pack coverage, resolved references or storage."
+      },
+      "comparison": {
+        "pair_id": "coverage_reference",
+        "role": "CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "66b06f7c4fc02c110a25e61f986ebcc7a29bd93b4fba7f008dee02c3297ae862",
+      "expected_model_fingerprint": "c22441a039bb82c4a38c6deafdc036ff69266e530fa7e0cfeaab7a4547a05994",
+      "input_sha256": "f8ae3145444faa569bf1f23febe4d3e77583e0aede39c19f19ce8e047f08f43e"
+    },
+    {
+      "case_id": "coverage_supported_without_reference",
+      "method": "coverage",
+      "input": {
+        "input_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pack_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "checks": [
+          {
+            "id": "TEST_ONLY_A",
+            "state": "SUPPORTED",
+            "source_refs": [
+              "synthetic:a"
+            ]
+          },
+          {
+            "id": "TEST_ONLY_B",
+            "state": "SUPPORTED",
+            "source_refs": []
+          }
+        ]
+      },
+      "expectation": {
+        "outcome": "ERROR",
+        "error_message": "SOURCE_REFERENCE_REQUIRED",
+        "reasoning": "A supported caller record requires at least one declared source reference."
+      },
+      "comparison": {
+        "pair_id": "coverage_reference",
+        "role": "NEGATIVE_CONTROL"
+      },
+      "synthetic_inputs_only": true,
+      "input_schema_sha256": "66b06f7c4fc02c110a25e61f986ebcc7a29bd93b4fba7f008dee02c3297ae862",
+      "expected_model_fingerprint": "afc9a69d81ddb2f13ccb8ae93d524d8e0225cdf4767801962c8d813e4dcfc8e8",
+      "input_sha256": "5e3c1ef2f7871e91f5a75b52d94ac413e7744be36fa15a508f4865c955872df5"
+    },
+    {
+      "case_id": "numerical_nash_cancellation",
+      "method": "nash",
+      "input": {
+        "row_payoffs": [
+          [
+            0.9999999999999998,
+            5.551115123125783e-17
+          ],
+          [
+            1,
+            -5.551115123125783e-17
+          ]
+        ],
+        "column_payoffs": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "expectation": {
+        "oracle": "exact_binary64_rational_indifference",
+        "exact_row_probability": "1/2",
+        "exact_column_probability": "1/3",
+        "native_observed_row_probability": 0.5,
+        "native_observed_column_probability": 0.4,
+        "exposure": "conditioning_error_beyond_binary64_projection",
+        "source_authentication": false,
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/mixed_status",
+            "op": "EQUALS",
+            "value": "STRICT_INTERIOR_SOLUTION"
+          }
+        ],
+        "exact_oracle_assertions": [
+          {
+            "path": "/result/strict_interior_mixed/row_probabilities/0",
+            "op": "EQUALS",
+            "value": 0.5
+          },
+          {
+            "path": "/result/strict_interior_mixed/column_probabilities/0",
+            "op": "EQUALS",
+            "value": 0.3333333333333333
+          }
+        ],
+        "expected_exact_oracle_match": false,
+        "prior_observed_reference_assertions": [
+          {
+            "path": "/result/strict_interior_mixed/column_probabilities/0",
+            "op": "EQUALS",
+            "value": 0.4
+          }
+        ],
+        "comparison_rule": "Exact oracle disagreement is retained as a counterexample, not counted as semantic correctness."
+      },
+      "comparison": {
+        "pair_id": "numerical_nash_harsanyi",
+        "role": "NUMERICAL_PROBE"
+      },
+      "synthetic_inputs_only": true,
+      "owner_evidence": {
+        "path": "native-numerical-four-cases.json",
+        "sha256": "38e5c5a2ff13f371e4124e207aa177f935fc83101adf75ebe8dd23a721466998",
+        "oracle_path": "native-shared-numerical-exact-oracle.json",
+        "oracle_sha256": "f563e100a384ea3ebb00157202f88f33521b2f777d8fd979c9facb2d239f48d2"
+      },
+      "input_schema_sha256": "465356ed9d6e4df6074ffaf0fb29a60222f21c18443a0ea0716c55737afd2d17",
+      "expected_model_fingerprint": "820d12d09571a1c8d039f0071ab922472b6e2ec7bc35f332b0cb22dce5c76ae7",
+      "input_sha256": "131a5e9c309913f4c2b9704ee0389f954a625b8564c8017a9e04793254c53dc9"
+    },
+    {
+      "case_id": "numerical_nash_column_shift_control",
+      "method": "nash",
+      "input": {
+        "row_payoffs": [
+          [
+            -2.220446049250313e-16,
+            5.551115123125783e-17
+          ],
+          [
+            0,
+            -5.551115123125783e-17
+          ]
+        ],
+        "column_payoffs": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "expectation": {
+        "oracle": "strategically_irrelevant_column_constant_preserves_best_responses",
+        "exact_row_probability": "1/2",
+        "exact_column_probability": "1/3",
+        "native_observed_row_probability": 0.5,
+        "native_observed_column_probability": 0.3333333333333333,
+        "exposure": "ordinary_binary64_projection_of_exact_one_third",
+        "source_authentication": false,
+        "outcome": "RESULT",
+        "assertions": [
+          {
+            "path": "/result/mixed_status",
+            "op": "EQUALS",
+            "value": "STRICT_INTERIOR_SOLUTION"
+          }
+        ],
+        "exact_oracle_assertions": [
+          {
+            "path": "/result/strict_interior_mixed/row_probabilities/0",
+            "op": "EQUALS",
+            "value": 0.5
+          },
+          {
+            "path": "/result/strict_interior_mixed/column_probabilities/0",
+            "op": "EQUALS",
+            "value": 0.3333333333333333
+          }
+        ],
+        "expected_exact_oracle_match": true,
+        "prior_observed_reference_assertions": [
+          {
+            "path": "/result/strict_interior_mixed/column_probabilities/0",
+            "op": "EQUALS",
+            "value": 0.3333333333333333
+          }
+        ],
+        "comparison_rule": "Exact oracle disagreement is retained as a counterexample, not counted as semantic correctness."
+      },
+      "comparison": {
+        "pair_id": "numerical_nash_harsanyi",
+        "role": "NUMERICAL_PROBE"
+      },
+      "synthetic_inputs_only": true,
+      "owner_evidence": {
+        "path": "native-numerical-four-cases.json",
+        "sha256": "38e5c5a2ff13f371e4124e207aa177f935fc83101adf75ebe8dd23a721466998",
+        "oracle_path": "native-shared-numerical-exact-oracle.json",
+        "oracle_sha256": "f563e100a384ea3ebb00157202f88f33521b2f777d8fd979c9facb2d239f48d2"
+      },
+      "input_schema_sha256": "465356ed9d6e4df6074ffaf0fb29a60222f21c18443a0ea0716c55737afd2d17",
+      "expected_model_fingerprint": "6e284a7aad5e917ab896fb3769275a33bd06be14e425a449c6dbde2987d203ef",
+      "input_sha256": "7ef0516af9ab415f173b651abea437994dd03d03bb3ff858632477e059585597"
+    },
+    {
+      "case_id": "numerical_harsanyi_native_nash_cross_check",
+      "method": "harsanyi",
+      "input": {
+        "states": [
+          {
+            "id": "c0",
+            "probability": 0.4
+          },
+          {
+            "id": "c1",
+            "probability": 0.6
+          }
+        ],
+        "actions": [
+          {
+            "id": "r0",
+            "payoffs": [
+              0.9999999999999998,
+              5.551115123125783e-17
+            ]
+          },
+          {
+            "id": "r1",
+            "payoffs": [
+              1,
+              -5.551115123125783e-17
+            ]
+          }
+        ]
+      },
+      "expectation": {
+        "oracle": "exact_binary64_weighted_utilities",
+        "exact_maximizers": [
+          "r1"
+        ],
+        "exact_r1_minus_r0": {
+          "numerator": "1801439850948199",
+          "denominator": "81129638414606681695789005144064"
+        },
+        "native_observed_maximizers": [
+          "r0",
+          "r1"
+        ],
+        "native_observed_expected_utility": 0.39999999999999997,
+        "exposure": "strict_exact_preference_hidden_by_equal_binary64_projections",
+        "source_authentication": false,
+        "outcome": "RESULT",
+        "assertions": [],
+        "exact_oracle_assertions": [
+          {
+            "path": "/result/maximizers",
+            "op": "EQUALS",
+            "value": [
+              "r1"
+            ]
+          }
+        ],
+        "expected_exact_oracle_match": false,
+        "prior_observed_reference_assertions": [
+          {
+            "path": "/result/maximizers",
+            "op": "EQUALS",
+            "value": [
+              "r0",
+              "r1"
+            ]
+          }
+        ],
+        "comparison_rule": "Exact oracle disagreement is retained as a counterexample, not counted as semantic correctness."
+      },
+      "comparison": {
+        "pair_id": "numerical_nash_harsanyi",
+        "role": "NUMERICAL_PROBE"
+      },
+      "synthetic_inputs_only": true,
+      "owner_evidence": {
+        "path": "native-numerical-four-cases.json",
+        "sha256": "38e5c5a2ff13f371e4124e207aa177f935fc83101adf75ebe8dd23a721466998",
+        "oracle_path": "native-shared-numerical-exact-oracle.json",
+        "oracle_sha256": "f563e100a384ea3ebb00157202f88f33521b2f777d8fd979c9facb2d239f48d2"
+      },
+      "input_schema_sha256": "bde6bd4bc741104a394253b97612e4766600a42caa74fd595a22cad3c88e21c1",
+      "expected_model_fingerprint": "3275459c60fdd6d14ff88eaadd59e9a4e934b4bef520c5aa63c437e856a4b5d5",
+      "input_sha256": "51a5d69709578417adffb205d107ab9957130364457dd2576967046f1476b8f2"
+    },
+    {
+      "case_id": "numerical_conservation_zero_tolerance",
+      "method": "conservation",
+      "input": {
+        "unit": "SYNTHETIC_UTILITY",
+        "opening": 1,
+        "inflows": [
+          5.551115123125783e-17
+        ],
+        "outflows": [
+          1
+        ],
+        "closing": 0,
+        "tolerance": 0
+      },
+      "expectation": {
+        "oracle": "exact_binary64_conservation_expression",
+        "exact_expected_closing": {
+          "numerator": "1",
+          "denominator": "18014398509481984"
+        },
+        "exact_residual": {
+          "numerator": "-1",
+          "denominator": "18014398509481984"
+        },
+        "exact_within_supplied_tolerance": false,
+        "native_observed_expected_closing": 0,
+        "native_observed_residual": 0,
+        "native_observed_within_supplied_tolerance": true,
+        "exposure": "native_zero_tolerance_false_pass",
+        "source_authentication": false,
+        "outcome": "RESULT",
+        "assertions": [],
+        "exact_oracle_assertions": [
+          {
+            "path": "/result/expected_closing",
+            "op": "EQUALS",
+            "value": 5.551115123125783e-17
+          },
+          {
+            "path": "/result/residual",
+            "op": "EQUALS",
+            "value": -5.551115123125783e-17
+          },
+          {
+            "path": "/result/within_supplied_tolerance",
+            "op": "EQUALS",
+            "value": false
+          }
+        ],
+        "expected_exact_oracle_match": false,
+        "prior_observed_reference_assertions": [
+          {
+            "path": "/result/expected_closing",
+            "op": "EQUALS",
+            "value": 0
+          },
+          {
+            "path": "/result/residual",
+            "op": "EQUALS",
+            "value": 0
+          },
+          {
+            "path": "/result/within_supplied_tolerance",
+            "op": "EQUALS",
+            "value": true
+          }
+        ],
+        "comparison_rule": "Exact oracle disagreement is retained as a counterexample, not counted as semantic correctness."
+      },
+      "comparison": {
+        "pair_id": "numerical_conservation",
+        "role": "NUMERICAL_PROBE"
+      },
+      "synthetic_inputs_only": true,
+      "owner_evidence": {
+        "path": "native-numerical-four-cases.json",
+        "sha256": "38e5c5a2ff13f371e4124e207aa177f935fc83101adf75ebe8dd23a721466998",
+        "oracle_path": "native-shared-numerical-exact-oracle.json",
+        "oracle_sha256": "f563e100a384ea3ebb00157202f88f33521b2f777d8fd979c9facb2d239f48d2"
+      },
+      "input_schema_sha256": "25b054a98f9b30d61688c67c6f7b0ea6b25554860db9d47e4971abb63a88f846",
+      "expected_model_fingerprint": "79a861a01033250cd08ef64c61774d402f45fd82fbced7355b5b23a9fc3e7785",
+      "input_sha256": "eb26bdf50791f206d2246409d15dff8be867234a77a4ff439c427f23fe539525"
+    }
+  ],
+  "source_metadata_scope": "HISTORICAL_LOCAL_VALIDATION;CURRENT_EXECUTION_SOURCE_RECORDED_SEPARATELY"
+}
