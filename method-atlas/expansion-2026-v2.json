@@ -1,0 +1,301 @@
+{
+  "atlas_extension": "METHOD-ATLAS-EXT-2.0",
+  "evidence_basis": "OFFICIAL_GLI_AND_2026_TOPOLOGICAL_TUTORIAL",
+  "canonical_promotion": false,
+  "sources": [
+    {
+      "source_id": "TOP_SIGNAL_2026",
+      "title": "Topological Signal Processing: An Application-Oriented Tutorial (Petruso et al. 2026)",
+      "native_url": "https://arxiv.org/abs/2605.22853",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "GLI_GSF",
+      "title": "GLI Gaming Security Framework official catalog and modules",
+      "native_url": "https://gaminglabs.com/gaming-security-framework-gli-gsf/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    }
+  ],
+  "methods": [
+    {
+      "method_id": "MHA-0075",
+      "method_name": "Higher-order simplicial Laplacian residual",
+      "family": "TOPOLOGICAL_SIGNALS",
+      "mechanism": "Check edge/face signals against higher-order Laplacian constraints",
+      "required_input": "Oriented simplicial complex and source-bound edge/face signals",
+      "falsifier": "Reported residual disappears with correct orientation",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "TOP_SIGNAL_2026",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "TOPOLOGY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0075",
+        "question": "Can higher-order simplicial laplacian residual find a source-bound material difference for this object?",
+        "missing_evidence": "Oriented simplicial complex and source-bound edge/face signals",
+        "falsifier": "Reported residual disappears with correct orientation",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0076",
+      "method_name": "Hodge curl and divergence control",
+      "family": "TOPOLOGICAL_SIGNALS",
+      "mechanism": "Distinguish local gradient, curl and harmonic circulation components",
+      "required_input": "Weighted oriented incidence matrices and edge flows",
+      "falsifier": "Candidate cycle vanishes under correct boundary conditions",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "TOP_SIGNAL_2026",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "FLOW"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0076",
+        "question": "Can hodge curl and divergence control find a source-bound material difference for this object?",
+        "missing_evidence": "Weighted oriented incidence matrices and edge flows",
+        "falsifier": "Candidate cycle vanishes under correct boundary conditions",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0077",
+      "method_name": "Lagged topological edge-signal audit",
+      "family": "TOPOLOGICAL_SIGNALS",
+      "mechanism": "Compare time-shifted influence at edge rather than node level",
+      "required_input": "Comparable aligned time series and declared graph",
+      "falsifier": "Observed lag is a consequence of clock skew or confounding",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "TOP_SIGNAL_2026",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0077",
+        "question": "Can lagged topological edge-signal audit find a source-bound material difference for this object?",
+        "missing_evidence": "Comparable aligned time series and declared graph",
+        "falsifier": "Observed lag is a consequence of clock skew or confounding",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0078",
+      "method_name": "Higher-order interaction closure",
+      "family": "TOPOLOGICAL_SIGNALS",
+      "mechanism": "Check missing higher-order relations when pairwise graph appears consistent",
+      "required_input": "Explicit declared triangles/hyperedge observations",
+      "falsifier": "No higher-order fact is source supported",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "TOP_SIGNAL_2026",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TOPOLOGY",
+        "ANOMALY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0078",
+        "question": "Can higher-order interaction closure find a source-bound material difference for this object?",
+        "missing_evidence": "Explicit declared triangles/hyperedge observations",
+        "falsifier": "No higher-order fact is source supported",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0079",
+      "method_name": "Independent monitor versus device-meter reconciliation",
+      "family": "GAMING_CONTROL_SYSTEMS",
+      "mechanism": "Compare device outcome meter against separate monitoring/control accounting",
+      "required_input": "GLI context plus authorized dual-source meter traces",
+      "falsifier": "Difference is expected asynchronous reconciliation",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "INTERFACE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0079",
+        "question": "Can independent monitor versus device-meter reconciliation find a source-bound material difference for this object?",
+        "missing_evidence": "GLI context plus authorized dual-source meter traces",
+        "falsifier": "Difference is expected asynchronous reconciliation",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0080",
+      "method_name": "Progressive-controller settlement cut",
+      "family": "GAMING_CONTROL_SYSTEMS",
+      "mechanism": "Check jackpot-controller source of settlement versus device display",
+      "required_input": "Owned controller trace and progressive terms",
+      "falsifier": "Award remains pending in controller",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "FINALITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0080",
+        "question": "Can progressive-controller settlement cut find a source-bound material difference for this object?",
+        "missing_evidence": "Owned controller trace and progressive terms",
+        "falsifier": "Award remains pending in controller",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0081",
+      "method_name": "Cashless replay state audit",
+      "family": "GAMING_CONTROL_SYSTEMS",
+      "mechanism": "Check transferred value identity and replay guards across cashless endpoints",
+      "required_input": "Authorized test transfer records and idempotency contract",
+      "falsifier": "Same transaction is merely retried with no duplicate finality",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "REPLAY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0081",
+        "question": "Can cashless replay state audit find a source-bound material difference for this object?",
+        "missing_evidence": "Authorized test transfer records and idempotency contract",
+        "falsifier": "Same transaction is merely retried with no duplicate finality",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0082",
+      "method_name": "Kiosk payout transition invariant",
+      "family": "GAMING_CONTROL_SYSTEMS",
+      "mechanism": "Model controlled payout queue and terminal acknowledgement",
+      "required_input": "Owned kiosk transaction state and authorized fixture",
+      "falsifier": "Payout receipt indicates only authorization not fulfillment",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "STATE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0082",
+        "question": "Can kiosk payout transition invariant find a source-bound material difference for this object?",
+        "missing_evidence": "Owned kiosk transaction state and authorized fixture",
+        "falsifier": "Payout receipt indicates only authorization not fulfillment",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0083",
+      "method_name": "Casino bonus eligibility version gate",
+      "family": "GAMING_CONTROL_SYSTEMS",
+      "mechanism": "Compare bonus eligibility against source-owned program revision",
+      "required_input": "Promotional terms and account eligibility snapshot",
+      "falsifier": "Observed treatment follows separate eligible cohort",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ENTITLEMENT",
+        "VERSION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0083",
+        "question": "Can casino bonus eligibility version gate find a source-bound material difference for this object?",
+        "missing_evidence": "Promotional terms and account eligibility snapshot",
+        "falsifier": "Observed treatment follows separate eligible cohort",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0084",
+      "method_name": "Player display versus canonical game-state owner",
+      "family": "GAMING_CONTROL_SYSTEMS",
+      "mechanism": "Separate UI presentation from server-owned result finalization",
+      "required_input": "Versioned interface and server event trace",
+      "falsifier": "Client view is delayed but authoritative server reconciles",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "STATE",
+        "FINALITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0084",
+        "question": "Can player display versus canonical game-state owner find a source-bound material difference for this object?",
+        "missing_evidence": "Versioned interface and server event trace",
+        "falsifier": "Client view is delayed but authoritative server reconciles",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0085",
+      "method_name": "Event wager resolution state audit",
+      "family": "GAMING_CONTROL_SYSTEMS",
+      "mechanism": "Compare rule source to settled outcome without conflating odds and finality",
+      "required_input": "Authorized event contract and settlement records",
+      "falsifier": "Observed discrepancy is market-specific contract clause",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_CATALOG",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GAME",
+        "FINALITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0085",
+        "question": "Can event wager resolution state audit find a source-bound material difference for this object?",
+        "missing_evidence": "Authorized event contract and settlement records",
+        "falsifier": "Observed discrepancy is market-specific contract clause",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0086",
+      "method_name": "Online gaming security control owner mapping",
+      "family": "GAMING_CONTROL_SYSTEMS",
+      "mechanism": "Trace online control ownership and independent verification evidence",
+      "required_input": "Program scope and security-control assurance record",
+      "falsifier": "Purported control is owned and validated elsewhere",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "GLI_GSF",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "AUTHORITY",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0086",
+        "question": "Can online gaming security control owner mapping find a source-bound material difference for this object?",
+        "missing_evidence": "Program scope and security-control assurance record",
+        "falsifier": "Purported control is owned and validated elsewhere",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    }
+  ]
+}
