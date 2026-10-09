@@ -833,6 +833,806 @@
       "rationale": "D-separation compared with source-supported conditional independence",
       "link_status": "PROPOSED_METHOD_COMPARISON",
       "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0144",
+      "related_method_id": "MHA-0034",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed NASA_FAULT_MANAGEMENT Telemetry health-invariant sentinel cross-check of source-bound assumptions against method 34; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0145",
+      "related_method_id": "MHA-0035",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed NASA_FAULT_MANAGEMENT Fault detection isolation response sequence cross-check of source-bound assumptions against method 35; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0146",
+      "related_method_id": "MHA-0037",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed NASA_FAULT_MANAGEMENT Fault-containment boundary partition cross-check of source-bound assumptions against method 37; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0147",
+      "related_method_id": "MHA-0035",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed NASA_FAULT_MANAGEMENT Recovery safe-mode transition review cross-check of source-bound assumptions against method 35; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0148",
+      "related_method_id": "MHA-0022",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed NASA_FAULT_MANAGEMENT Redundant sensor agreement and common cause cross-check of source-bound assumptions against method 22; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0149",
+      "related_method_id": "MHA-0019",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed NASA_FAULT_MANAGEMENT Fault-management detection observability gap cross-check of source-bound assumptions against method 19; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0150",
+      "related_method_id": "MHA-0032",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed NASA_FAULT_MANAGEMENT Requirements-to-recovery trace closure cross-check of source-bound assumptions against method 32; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0151",
+      "related_method_id": "MHA-0037",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed NASA_FAULT_MANAGEMENT Mission state hazard cut-point challenge cross-check of source-bound assumptions against method 37; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0152",
+      "related_method_id": "MHA-0041",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed CHIP_HARDWARE_ASSURANCE Firmware protect detect recover separation cross-check of source-bound assumptions against method 41; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0153",
+      "related_method_id": "MHA-0032",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed CHIP_HARDWARE_ASSURANCE Measured boot chain coverage cross-check of source-bound assumptions against method 32; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0154",
+      "related_method_id": "MHA-0109",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed CHIP_HARDWARE_ASSURANCE Root of trust endorser-verifier separation cross-check of source-bound assumptions against method 109; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0155",
+      "related_method_id": "MHA-0019",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed CHIP_HARDWARE_ASSURANCE Attestation freshness and replay window cross-check of source-bound assumptions against method 19; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0156",
+      "related_method_id": "MHA-0042",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed CHIP_HARDWARE_ASSURANCE Secure update rollback policy guard cross-check of source-bound assumptions against method 42; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0157",
+      "related_method_id": "MHA-0116",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed CHIP_HARDWARE_ASSURANCE Security chip debug-lock state review cross-check of source-bound assumptions against method 116; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0158",
+      "related_method_id": "MHA-0027",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed CHIP_HARDWARE_ASSURANCE Side-channel measurement provenance check cross-check of source-bound assumptions against method 27; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0159",
+      "related_method_id": "MHA-0095",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed CHIP_HARDWARE_ASSURANCE Hardware key presence versus authorization owner cross-check of source-bound assumptions against method 95; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0160",
+      "related_method_id": "MHA-0095",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed ACCESS_LOCK_UNLOCK_STATE Default deny and forbid precedence cross-check of source-bound assumptions against method 95; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0161",
+      "related_method_id": "MHA-0142",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed ACCESS_LOCK_UNLOCK_STATE Lease expiration fencing-token guard cross-check of source-bound assumptions against method 142; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0162",
+      "related_method_id": "MHA-0132",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed ACCESS_LOCK_UNLOCK_STATE Lock acquire release atomicity cross-check of source-bound assumptions against method 132; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0163",
+      "related_method_id": "MHA-0102",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed ACCESS_LOCK_UNLOCK_STATE Revocation propagation and stale privilege cross-check of source-bound assumptions against method 102; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0164",
+      "related_method_id": "MHA-0035",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed ACCESS_LOCK_UNLOCK_STATE Session open close finalization race cross-check of source-bound assumptions against method 35; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0165",
+      "related_method_id": "MHA-0041",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed ACCESS_LOCK_UNLOCK_STATE Phishing-resistant authenticator binding cross-check of source-bound assumptions against method 41; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0166",
+      "related_method_id": "MHA-0105",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed ACCESS_LOCK_UNLOCK_STATE Unlock recovery and break-glass accountability cross-check of source-bound assumptions against method 105; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0167",
+      "related_method_id": "MHA-0120",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed ACCESS_LOCK_UNLOCK_STATE Optimistic lock version compare-and-swap cross-check of source-bound assumptions against method 120; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0168",
+      "related_method_id": "MHA-0098",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed CLOUD_PASSIVE_OVERWATCH Cloud audit coverage and trail scope cross-check of source-bound assumptions against method 98; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0169",
+      "related_method_id": "MHA-0088",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed CLOUD_PASSIVE_OVERWATCH Signed audit digest continuity check cross-check of source-bound assumptions against method 88; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0170",
+      "related_method_id": "MHA-0094",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed CLOUD_PASSIVE_OVERWATCH Cloud IAM external access delta cross-check of source-bound assumptions against method 94; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0171",
+      "related_method_id": "MHA-0125",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed CLOUD_PASSIVE_OVERWATCH Passive control-plane permission drift cross-check of source-bound assumptions against method 125; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0172",
+      "related_method_id": "MHA-0015",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed CLOUD_PASSIVE_OVERWATCH Cloud runtime signal triangulation cross-check of source-bound assumptions against method 15; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0173",
+      "related_method_id": "MHA-0024",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed CLOUD_PASSIVE_OVERWATCH Overwatch freshness window guard cross-check of source-bound assumptions against method 24; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0174",
+      "related_method_id": "MHA-0033",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed CLOUD_PASSIVE_OVERWATCH Cloud dependency blast-radius model cross-check of source-bound assumptions against method 33; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0175",
+      "related_method_id": "MHA-0093",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed CLOUD_PASSIVE_OVERWATCH Passive cloud source trust-level ledger cross-check of source-bound assumptions against method 93; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0176",
+      "related_method_id": "MHA-0137",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed ADMIN_CONTROL_PLANE Administrative function authorization contrast cross-check of source-bound assumptions against method 137; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0177",
+      "related_method_id": "MHA-0095",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed ADMIN_CONTROL_PLANE Policy decision versus enforcement split cross-check of source-bound assumptions against method 95; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0178",
+      "related_method_id": "MHA-0105",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed ADMIN_CONTROL_PLANE Break-glass grant expiration evidence cross-check of source-bound assumptions against method 105; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0179",
+      "related_method_id": "MHA-0032",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed ADMIN_CONTROL_PLANE Administrator action dual-control guard cross-check of source-bound assumptions against method 32; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0180",
+      "related_method_id": "MHA-0141",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed ADMIN_CONTROL_PLANE Configuration rollback provenance cross-check of source-bound assumptions against method 141; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0181",
+      "related_method_id": "MHA-0095",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed ADMIN_CONTROL_PLANE Admin API object- and function-scope split cross-check of source-bound assumptions against method 95; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0182",
+      "related_method_id": "MHA-0095",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed ADMIN_CONTROL_PLANE Policy grammar vs effective-permission differential cross-check of source-bound assumptions against method 95; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0183",
+      "related_method_id": "MHA-0100",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed ADMIN_CONTROL_PLANE Privileged connector consent lifecycle cross-check of source-bound assumptions against method 100; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0184",
+      "related_method_id": "MHA-0031",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed CONNECTOR_FEDERATION_METHODS Typed connector capability handshake cross-check of source-bound assumptions against method 31; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0185",
+      "related_method_id": "MHA-0134",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed CONNECTOR_FEDERATION_METHODS Source-owner ID namespace bridge cross-check of source-bound assumptions against method 134; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0186",
+      "related_method_id": "MHA-0040",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed CONNECTOR_FEDERATION_METHODS Trace-context join with trust boundary cross-check of source-bound assumptions against method 40; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0187",
+      "related_method_id": "MHA-0038",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed CONNECTOR_FEDERATION_METHODS OAuth audience sender-bound token review cross-check of source-bound assumptions against method 38; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0188",
+      "related_method_id": "MHA-0094",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed CONNECTOR_FEDERATION_METHODS SPIFFE workload federation authorization cross-check of source-bound assumptions against method 94; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0189",
+      "related_method_id": "MHA-0031",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed CONNECTOR_FEDERATION_METHODS Adapter input/output preservation proof obligation cross-check of source-bound assumptions against method 31; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0190",
+      "related_method_id": "MHA-0096",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed CONNECTOR_FEDERATION_METHODS Connector retry idempotency and checkpoint re-entry cross-check of source-bound assumptions against method 96; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0191",
+      "related_method_id": "MHA-0129",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed CONNECTOR_FEDERATION_METHODS Cross-app citation receipt reconciliation cross-check of source-bound assumptions against method 129; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0192",
+      "related_method_id": "MHA-0129",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed METHODS_ON_METHODS_DIAGNOSTIC Method input precondition gate cross-check of source-bound assumptions against method 129; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0193",
+      "related_method_id": "MHA-0090",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed METHODS_ON_METHODS_DIAGNOSTIC Method applicability false-positive control cross-check of source-bound assumptions against method 90; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0194",
+      "related_method_id": "MHA-0093",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed METHODS_ON_METHODS_DIAGNOSTIC Method result provenance-vs-truth partition cross-check of source-bound assumptions against method 93; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0195",
+      "related_method_id": "MHA-0034",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed METHODS_ON_METHODS_DIAGNOSTIC Cross-method dependency nonindependence audit cross-check of source-bound assumptions against method 34; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0196",
+      "related_method_id": "MHA-0113",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed METHODS_ON_METHODS_DIAGNOSTIC Method counterexample minimization diagnostic cross-check of source-bound assumptions against method 113; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0197",
+      "related_method_id": "MHA-0026",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed METHODS_ON_METHODS_DIAGNOSTIC Method sensitivity and alternate parameter scan cross-check of source-bound assumptions against method 26; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0198",
+      "related_method_id": "MHA-0027",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed METHODS_ON_METHODS_DIAGNOSTIC Method calibration against held-out fixtures cross-check of source-bound assumptions against method 27; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0199",
+      "related_method_id": "MHA-0139",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed METHODS_ON_METHODS_DIAGNOSTIC Method stop-rule information-gain guard cross-check of source-bound assumptions against method 139; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0200",
+      "related_method_id": "MHA-0095",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed BOUNTY_DEFENSIVE_RECON Authorization scope lock before probe cross-check of source-bound assumptions against method 95; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0201",
+      "related_method_id": "MHA-0093",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed BOUNTY_DEFENSIVE_RECON Passive public configuration exposure inventory cross-check of source-bound assumptions against method 93; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0202",
+      "related_method_id": "MHA-0095",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed BOUNTY_DEFENSIVE_RECON API object owner versus displayed ID check cross-check of source-bound assumptions against method 95; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0203",
+      "related_method_id": "MHA-0042",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed BOUNTY_DEFENSIVE_RECON Session downgrade and policy version guard cross-check of source-bound assumptions against method 42; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0204",
+      "related_method_id": "MHA-0036",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed BOUNTY_DEFENSIVE_RECON Rate-limit and resource protection design review cross-check of source-bound assumptions against method 36; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0205",
+      "related_method_id": "MHA-0032",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed BOUNTY_DEFENSIVE_RECON Bounty reporting evidence completeness gate cross-check of source-bound assumptions against method 32; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0206",
+      "related_method_id": "MHA-0134",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed BOUNTY_DEFENSIVE_RECON Recon false positive asset ownership gate cross-check of source-bound assumptions against method 134; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0207",
+      "related_method_id": "MHA-0090",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed BOUNTY_DEFENSIVE_RECON Safe passive cloud observation checkpoint cross-check of source-bound assumptions against method 90; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0208",
+      "related_method_id": "MHA-0024",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed ABNORMAL_SIGNAL_DIAGNOSTICS Change-point versus maintenance-window anomaly cross-check of source-bound assumptions against method 24; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0209",
+      "related_method_id": "MHA-0026",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed ABNORMAL_SIGNAL_DIAGNOSTICS Unknown-unknown residual budget review cross-check of source-bound assumptions against method 26; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0210",
+      "related_method_id": "MHA-0096",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed ABNORMAL_SIGNAL_DIAGNOSTICS Anomaly-on-anomaly recurrence signature cross-check of source-bound assumptions against method 96; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0211",
+      "related_method_id": "MHA-0034",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed ABNORMAL_SIGNAL_DIAGNOSTICS Cascading alarm common-cause grouping cross-check of source-bound assumptions against method 34; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0212",
+      "related_method_id": "MHA-0023",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed ABNORMAL_SIGNAL_DIAGNOSTICS Rare-transition novelty guard cross-check of source-bound assumptions against method 23; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0213",
+      "related_method_id": "MHA-0027",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed ABNORMAL_SIGNAL_DIAGNOSTICS Anomaly boundary sensitivity cross-check of source-bound assumptions against method 27; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0214",
+      "related_method_id": "MHA-0098",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed ABNORMAL_SIGNAL_DIAGNOSTICS Quiet-channel sensor blindness check cross-check of source-bound assumptions against method 98; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0215",
+      "related_method_id": "MHA-0142",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed ABNORMAL_SIGNAL_DIAGNOSTICS Incident versus resilience adaptation differential cross-check of source-bound assumptions against method 142; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0216",
+      "related_method_id": "MHA-0092",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed META_ORACLE_FALSIFICATION Oracle disagreement triage cross-check of source-bound assumptions against method 92; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0217",
+      "related_method_id": "MHA-0047",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed META_ORACLE_FALSIFICATION Metamorphic inverse relation guard cross-check of source-bound assumptions against method 47; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0218",
+      "related_method_id": "MHA-0090",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed META_ORACLE_FALSIFICATION False-positive metamorphic comparator cross-check of source-bound assumptions against method 90; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0219",
+      "related_method_id": "MHA-0115",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed META_ORACLE_FALSIFICATION Method-oracle circularity detector cross-check of source-bound assumptions against method 115; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0220",
+      "related_method_id": "MHA-0055",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed META_ORACLE_FALSIFICATION Cross-version oracle regression pivot cross-check of source-bound assumptions against method 55; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0221",
+      "related_method_id": "MHA-0026",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed META_ORACLE_FALSIFICATION Nondeterministic oracle repeatability cross-check of source-bound assumptions against method 26; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0222",
+      "related_method_id": "MHA-0113",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed META_ORACLE_FALSIFICATION Counterexample witness shrinking safety cross-check of source-bound assumptions against method 113; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0223",
+      "related_method_id": "MHA-0139",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed META_ORACLE_FALSIFICATION Method stop-on-no-information-gain cross-check of source-bound assumptions against method 139; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0224",
+      "related_method_id": "MHA-0033",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed RECURSIVE_METHOD_GRAPH Hook dependency closure with finite depth cross-check of source-bound assumptions against method 33; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0225",
+      "related_method_id": "MHA-0090",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed RECURSIVE_METHOD_GRAPH Challenge-before-corroborate ordering cross-check of source-bound assumptions against method 90; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0226",
+      "related_method_id": "MHA-0195",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed RECURSIVE_METHOD_GRAPH Method capability mismatch quarantine cross-check of source-bound assumptions against method 195; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0227",
+      "related_method_id": "MHA-0093",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed RECURSIVE_METHOD_GRAPH Method lineage contamination detection cross-check of source-bound assumptions against method 93; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0228",
+      "related_method_id": "MHA-0139",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed RECURSIVE_METHOD_GRAPH Method cost-of-proof prioritization cross-check of source-bound assumptions against method 139; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0229",
+      "related_method_id": "MHA-0090",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proposed RECURSIVE_METHOD_GRAPH Anti-recursion zero-delta breaker cross-check of source-bound assumptions against method 90; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0230",
+      "related_method_id": "MHA-0113",
+      "relation_type": "CHALLENGE",
+      "rationale": "Proposed RECURSIVE_METHOD_GRAPH Method cross-check disagreement isolator cross-check of source-bound assumptions against method 113; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0231",
+      "related_method_id": "MHA-0115",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Proposed RECURSIVE_METHOD_GRAPH Source-state cascade promotion lock cross-check of source-bound assumptions against method 115; requires own falsifier and independently sourced verification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0224",
+      "related_method_id": "MHA-0192",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Recursive method traversal should call first-stage method input gate",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0225",
+      "related_method_id": "MHA-0217",
+      "relation_type": "CHALLENGE",
+      "rationale": "Challenge-oriented routing must compare independent oracle contracts",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0226",
+      "related_method_id": "MHA-0192",
+      "relation_type": "CHALLENGE",
+      "rationale": "Method capabilities must be validated against the method schema",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0227",
+      "related_method_id": "MHA-0195",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Corroboration and graph lineage share common-source risk",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0228",
+      "related_method_id": "MHA-0199",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Proof-cost choice can use zero-material-delta stop rule",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0229",
+      "related_method_id": "MHA-0231",
+      "relation_type": "CHALLENGE",
+      "rationale": "Repeated method state must never promote finality",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0230",
+      "related_method_id": "MHA-0218",
+      "relation_type": "CHALLENGE",
+      "rationale": "Method disagreement requires negative-control test",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0231",
+      "related_method_id": "MHA-0193",
+      "relation_type": "CHALLENGE",
+      "rationale": "Method conclusion cannot replace false-positive control",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0208",
+      "related_method_id": "MHA-0216",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Anomalous transition and oracle disagreement must be kept separate",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0212",
+      "related_method_id": "MHA-0220",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Novel state transition should compare versions",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0217",
+      "related_method_id": "MHA-0224",
+      "relation_type": "CHALLENGE",
+      "rationale": "Oracle disagreement may recurse through method relations only within budgets",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0198",
+      "related_method_id": "MHA-0222",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Calibrating a method requires a separate oracle and held-out controls",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
     }
   ]
 }

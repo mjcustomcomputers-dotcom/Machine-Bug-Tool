@@ -125,3 +125,12 @@ For requests about lie/deception claims, cybercrime-pattern recognition, intent 
 Evidence contradiction != deception; an observed technical pattern != a human crime; availability/capability != actual execution; a feasible synthetic reverse-goal path != intent or causation. Never infer guilt or dishonesty from demeanor, anxiety, speech or text style. Use typed source-owned records, competing benign explanations and explicit falsifiers. `goal_graph` is opt-in bounded local computation only; it must not silently become a target action.
 
 When validating source work in Codex Cloud, confirm current branch HEAD, native Node/SQLite tests, full tests, build and the synthetic benchmark. Keep the existing security-key login and Daybreak Blue model selection as user-controlled product operations; neither is a target-scope authorization or source authenticity stamp.
+
+
+## V5–V7 Method Atlas classified continuation (stacked, development only)
+
+For requests to reclassify, detect, chain, or diagnose methods, first read `docs/CODEX-METHOD-ATLAS-V7-HANDOFF.md` and `docs/method-atlas-reclassification-v7.md`, then the inherited core Method Atlas instructions. This branch preserves the original MPC canonical MAXVAR/NESTMAX/BL/MBSS/EXT source and deployed Site. The 231 Method Atlas MHA research candidates are **not** 231 newly executable solvers. Typed classification has 9 axes and 2,511 PROPOSED rows in an additive SQLite table; neither tag agreement nor multiple methods authenticates target evidence.
+
+The local CLI now supports `classify`, `cascade`, and `diagnose` alongside existing `query` and `detect`. Purpose-aware routing only selects and classifies; any computation is separate and source bound. Cascade recursion, method diagnostic results, and source/timestamp discrepancy controls are not permission to interact with bounty targets. Use a newly named ignored SQLite cache after changing this atlas seed. Run dedicated Node/SQLite regression tests, full tests and build on this exact feature branch before merging or reporting performance.
+
+Do not overwrite native controller records or merge PR #3/#4/#5 branches automatically. Keep older handoffs as provenance; newer named V7 handoff controls this development branch only.
