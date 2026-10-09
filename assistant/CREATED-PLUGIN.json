@@ -1,0 +1,31 @@
+{
+  "status": "PRIVATE_ASSISTANT_PLUGIN_CREATED",
+  "created": {
+    "plugin_id": "plugins_6ac907ed936c8191a4afc928f1b19b09",
+    "name": "mpc-security-assistant",
+    "description": "Operate the existing MPC security platform through ACQUIRED, ANALYZED and DECIDED, with native source provenance, executed methods, remediation and retesting.",
+    "version": "1.0.0",
+    "current_release_id": "pluginrel_6ac907eef3b081919f5bcd1c001291bb",
+    "scope": "USER",
+    "discoverability": "PRIVATE",
+    "plugin_url": "https://chatgpt.com/plugins/plugins_6ac907ed936c8191a4afc928f1b19b09",
+    "release_id": "pluginrel_6ac907eef3b081919f5bcd1c001291bb",
+    "latest_release_id": "pluginrel_6ac907eef3b081919f5bcd1c001291bb",
+    "status": "created"
+  },
+  "source_directory": "assistant/mpc-security-assistant",
+  "backend_normalized_manifests_saved": true,
+  "authored_skill_and_reference_bytes_match_readback": true,
+  "source_file_count": 5,
+  "skill_forward_trial": {
+    "scenario_count": 3,
+    "passed": 3,
+    "execution_scope": "READ_ONLY_INSTRUCTION_TRIAL;NOT_LIVE_MODEL_OR_TOOL_ACCESS_PROOF"
+  },
+  "limitations": [
+    "Creation does not establish installation or invocation in a fresh user chat.",
+    "Skills-only assistant reuses existing connected MPC and source capabilities.",
+    "No account-side custom GPT was created.",
+    "No local Windows access or Daybreak entitlement was configured."
+  ]
+}
