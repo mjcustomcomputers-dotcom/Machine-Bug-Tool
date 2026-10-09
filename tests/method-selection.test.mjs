@@ -43,3 +43,13 @@ test('duplicate methods, unknown questions and invalid limits fail closed', () =
   assert.throws(()=>selectMethodFrontier([{method:'a',question_ids:['missing']}],[]),/UNKNOWN_QUESTION/);
   assert.throws(()=>selectMethodFrontier([],[],5),/LIMIT/);
 });
+
+
+test('covered methods are not selected redundantly and not-applicable questions are not unresolved', () => {
+  const methods=[{method:'b',question_ids:['q1'],input_readiness:'BLOCKED_MISSING_MODEL'},{method:'a',question_ids:['q1'],input_readiness:'BLOCKED_MISSING_MODEL'}];
+  const receipts=[{question_id:'q1',state:'REQUIRED'},{question_id:'q2',state:'NOT_APPLICABLE'}];
+  const r=selectMethodFrontier(methods,receipts);
+  assert.deepEqual(r.selected_methods.map(x=>x.method),['a']);
+  assert.equal(r.deferred_methods[0].reason,'COVERED_BY_SELECTED_METHOD');
+  assert.deepEqual(r.method_frontier.unresolved_question_ids,[]);
+});
