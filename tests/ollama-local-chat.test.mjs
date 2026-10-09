@@ -88,6 +88,20 @@ test('ordinary conversation accepts no project or evidence and preserves history
   assert.equal(calls.length, 2, 'One metadata lookup and one actual inference, without an inference preflight.');
 });
 
+test('host evidence generation controls remain bounded and cannot introduce tools or arbitrary provider options', async () => {
+  const {client,calls}=chatMock(()=>ndjson([delta('{"interpretation":"A bounded answer."}'),done()]));
+  await collect(client.streamChat({...question,format:'json',generation:{temperature:0,num_ctx:8192,num_predict:2048},rejectContextOverflow:true}));
+  const body=calls.at(-1).body;
+  assert.deepEqual(body.options,{temperature:0,num_ctx:8192,num_predict:2048});
+  assert.equal(body.format,'json');assert.equal(body.truncate,false);assert.equal(body.shift,false);assert.equal(body.tools,undefined);
+  const at=calls.length;
+  for(const generation of [{tools:[]},{num_ctx:0},{num_predict:-1},{temperature:NaN},{num_predict:1e9}]){
+    await assert.rejects(collect(client.streamChat({...question,generation})),code('INVALID_GENERATION_OPTIONS'));
+  }
+  await assert.rejects(collect(client.streamChat({...question,format:{type:'object'}})),code('INVALID_CHAT_FORMAT'));
+  assert.equal(calls.length,at,'Invalid host controls must fail before metadata or inference.');
+});
+
 test('follow-up chat reuses bounded metadata cache and explicit show refreshes it', async () => {
   const {client, calls} = chatMock(() => ndjson([delta('Hello.'), done()]));
   await collect(client.streamChat(question));

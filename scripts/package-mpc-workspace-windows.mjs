@@ -19,6 +19,7 @@ import {
 import {tmpdir} from 'node:os';
 import {basename,dirname,extname,isAbsolute,join,relative,resolve,sep} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
+import {prepareMpcOcrRuntime} from './prepare-mpc-ocr-runtime.mjs';
 
 export const ELECTRON_VERSION='44.5.1';
 export const ELECTRON_BUNDLED_NODE_VERSION='24.21.0';
@@ -318,6 +319,10 @@ export async function packageMpcWorkspaceWindows({sourceRoot=DEFAULT_SOURCE_ROOT
     if(!inside(buildRoot,portableRoot))fail('MPC_WORKSPACE_PACKAGE_OUTPUT_OUTSIDE_BUILD_ROOT');
     copyExternalRenderer(staged.stage,portableRoot);
     copyLaunchers(staged.stage,portableRoot);
+    if(!trackedSourceFiles(source).has('lib/mpc-screen-ocr-worker.cjs'))fail('MPC_WORKSPACE_OCR_WORKER_NOT_TRACKED');
+    const ocrAssets=prepareMpcOcrRuntime({sourceRoot:source,
+      outputDir:resolve(portableRoot,'resources','mpc-ocr'),
+      workerPath:safeSourcePath(source,'lib/mpc-screen-ocr-worker.cjs').absolute});
     const packagedIdentity=sourceIdentity(source);
     if(packagedIdentity.dirty||packagedIdentity.commit!==initialIdentity.commit){
       fail('MPC_WORKSPACE_PACKAGE_SOURCE_CHANGED_DURING_BUILD');
@@ -333,6 +338,7 @@ export async function packageMpcWorkspaceWindows({sourceRoot=DEFAULT_SOURCE_ROOT
       toolchain:{electron:ELECTRON_VERSION,electron_bundled_node:ELECTRON_BUNDLED_NODE_VERSION,electron_packager:PACKAGER_VERSION,builder_node:process.version,builder_platform:process.platform,builder_architecture:process.arch},
       source:staged.source,
       staged:{file_count:staged.staged_files.length,bytes:staged.selected_bytes,files:staged.staged_files},
+      ocr_assets:ocrAssets.manifest,
       portable_directory:basename(portableRoot),
       payload_inventory:{...payloadInventory,excludes:['build-receipt.json']},
       code_signed:false,

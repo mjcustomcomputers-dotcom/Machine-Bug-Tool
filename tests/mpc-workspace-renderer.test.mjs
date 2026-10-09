@@ -132,7 +132,7 @@ test('connection controls describe local enablement and refresh canonical state'
   assert.doesNotMatch(js, /'Connect'\)|'Disconnect'\)/u);
   assert.match(js, /Authentication remains unverified until a permitted operation returns a receipt/u);
   assert.match(html, /Enable or disable a local configuration here; neither action proves access\./u);
-  for (const functionName of ['configureConnection', 'setConnectionEnabled', 'testConnection']) {
+  for (const functionName of ['configureConnection', 'setConnectionEnabled', 'runConnectionRead']) {
     const start = js.indexOf(`async function ${functionName}`);
     const next = js.indexOf('\nasync function ', start + 1);
     const source = js.slice(start, next < 0 ? js.length : next);

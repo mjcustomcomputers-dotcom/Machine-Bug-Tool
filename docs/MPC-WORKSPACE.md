@@ -6,6 +6,25 @@ does not replace the Research Workbench, the MPC Security Assistant, the
 completed V13 controller, the Method Atlas registries, or the native Sites
 project.
 
+## Screen reading, local classifiers and provider reads — October 9, 2026
+
+The screen-reader update starts from the prior Windows/UI source commit
+`e98155caa15807f93efd66bc3340de5e20a96ce8`. It adds consented native capture,
+bundled offline English OCR, crop/privacy masks, change detection before PNG
+encoding, bounded in-memory queues and text cache, and the existing native
+BL32/384 classifier, `delta_plan`, and `fault_tree` behind an evidence-marked
+local report. The independent Stop indicator and the large copyable text view
+are part of this update. Detailed operation, retention and verification limits
+are in [MPC-SCREEN-READER.md](MPC-SCREEN-READER.md).
+
+GitHub, Drive, Dropbox and Gmail now have built-in read-only host adapters,
+with scoped tokens managed through session memory or available OS encryption.
+Local MPC calls the bundled engine in process. The exact transport/address
+table and supported resource IDs are in
+[MPC-CONNECTION-SETUP.md](MPC-CONNECTION-SETUP.md). Prior historical checkpoints
+below retain the capabilities and test results observed at their own commits.
+Use the new artifact's source commit and build receipt for this package.
+
 ## Display and local AI update — October 9, 2026
 
 This additive update starts from `16ee44a080c4979c14016901ed8783d2d2686504`
@@ -100,13 +119,14 @@ For local chat, use the dedicated **Local AI setup** action. The generic form
 only stores a connection configuration. Provider-specific defaults and help
 now explain the field meanings.
 
-The stock Windows app does not yet mount GitHub, Drive, Gmail, Dropbox, remote
-MCP or OpenAI API host connection adapters. Those require an installed adapter
-and its actual endpoint/command/locator. Entering a repository URL, inventing an
-`os-secret://` reference, or pasting an API token into the reference field does
-not create that integration. Existing ChatGPT connector sign-ins are separate
-from this desktop. Connection tests use a typed `READ_SELECTED_RESOURCE`
-operation, rather than incorrectly submitting the catalog's prose description.
+GitHub, Drive, Gmail and Dropbox use the fixed built-in REST HTTPS adapters;
+Local MPC uses the bundled in-process adapter. Remote MCP, Dropbox Dash and the
+OpenAI API connection form still require an installed host adapter and its real
+endpoint/command/locator. Enter a scoped token in **Access token**, or select an
+existing `os-secret://mpc/…` reference created by this desktop; the reference
+field is not a token field. Existing ChatGPT connector sign-ins remain separate
+from this desktop. **Read selected resource** submits the typed
+`READ_SELECTED_RESOURCE` operation and the selected native resource identity.
 
 ### Validation scope
 

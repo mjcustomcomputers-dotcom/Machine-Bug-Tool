@@ -19,7 +19,11 @@ const STATIC_FILES = Object.freeze({
   '/': Object.freeze({name: 'index.html', type: 'text/html; charset=utf-8', maxBytes: 2 * 1024 * 1024}),
   '/index.html': Object.freeze({name: 'index.html', type: 'text/html; charset=utf-8', maxBytes: 2 * 1024 * 1024}),
   '/styles.css': Object.freeze({name: 'styles.css', type: 'text/css; charset=utf-8', maxBytes: 2 * 1024 * 1024}),
-  '/app.js': Object.freeze({name: 'app.js', type: 'text/javascript; charset=utf-8', maxBytes: 4 * 1024 * 1024})
+  '/app.js': Object.freeze({name: 'app.js', type: 'text/javascript; charset=utf-8', maxBytes: 4 * 1024 * 1024}),
+  '/screen-policy.js': Object.freeze({name: 'screen-policy.js', type: 'text/javascript; charset=utf-8', maxBytes: 256 * 1024}),
+  '/screen-reader.js': Object.freeze({name: 'screen-reader.js', type: 'text/javascript; charset=utf-8', maxBytes: 512 * 1024}),
+  '/capture.js': Object.freeze({name: 'capture.js', type: 'text/javascript; charset=utf-8', maxBytes: 256 * 1024}),
+  '/capture.html': Object.freeze({name: 'capture.html', type: 'text/html; charset=utf-8', maxBytes: 64 * 1024})
 });
 const BASE_HEADERS = Object.freeze({
   'Cache-Control': 'no-store',
@@ -257,8 +261,13 @@ function validateRendererRoot(rendererRoot) {
 
 function serveStatic(response, method, descriptor, renderer) {
   const body = renderer.files.get(descriptor.name);
+  const captureHeaders=descriptor.name==='capture.html'?{
+    'Content-Security-Policy':"default-src 'none'; script-src 'self'; connect-src 'none'; img-src 'none'; media-src blob:; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+    'Permissions-Policy':'camera=(self), microphone=(), geolocation=(), usb=()'
+  }:{};
   response.writeHead(200, {
     ...BASE_HEADERS,
+    ...captureHeaders,
     'Content-Type': descriptor.type,
     'Content-Length': body.length
   });

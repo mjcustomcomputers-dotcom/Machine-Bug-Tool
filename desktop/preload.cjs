@@ -32,4 +32,17 @@ contextBridge.exposeInMainWorld('mpcWorkspace',Object.freeze({
     if(typeof value!=='number'||!Number.isFinite(value)||value<0.5||value>2)return Promise.reject(new TypeError('MPC_WORKSPACE_INTERFACE_ZOOM_INVALID'));
     return ipcRenderer.invoke(IPC.setInterfaceZoom,value);
   },
+  screenSources:()=>ipcRenderer.invoke('mpc-workspace:screen-sources'),
+  screenStart:input=>ipcRenderer.invoke('mpc-workspace:screen-start',input),
+  screenStop:()=>ipcRenderer.invoke('mpc-workspace:screen-stop'),
+  screenStatus:()=>ipcRenderer.invoke('mpc-workspace:screen-status'),
+  screenNow:()=>ipcRenderer.invoke('mpc-workspace:screen-now'),
+  onScreenEvent:callback=>{
+    if(typeof callback!=='function')throw new TypeError('SCREEN_CALLBACK_REQUIRED');
+    const listener=(_event,value)=>callback(value);ipcRenderer.on('mpc-workspace:screen-event',listener);
+    return ()=>ipcRenderer.removeListener('mpc-workspace:screen-event',listener);
+  },
+  credentialStatus:()=>ipcRenderer.invoke('mpc-workspace:credential-status'),
+  credentialSave:input=>ipcRenderer.invoke('mpc-workspace:credential-save',input),
+  credentialRemove:reference=>ipcRenderer.invoke('mpc-workspace:credential-remove',reference),
 }));
