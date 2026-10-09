@@ -1,0 +1,170 @@
+DAYBREAK — MACHINE BUG TOOL
+Prepared 2026-10-09 UTC for Melvin Jackson / mjcustomcomputers-dotcom.
+
+REPOSITORY
+https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool
+
+PURPOSE
+Use this private development copy of the existing MPC source with the user's
+approved Daybreak surface. The model/access program, source repository,
+prepared environment, and hosted MPC connection have separate setup receipts.
+
+1. CONTINUE THE EXISTING SYSTEM
+
+Existing MPC Site:
+https://mpc-machine-legal-tools.mjcustomcomputers.chatgpt.site
+MCP endpoint:
+https://mpc-machine-legal-tools.mjcustomcomputers.chatgpt.site/mcp
+Sites project: appgprj_6abf0bb684648191a38324d33d1aa8cc
+Existing plugin: plugin_asdk_app_sites_ec58381195008191a0b03b8066d2b5b6
+
+Native source repository:
+https://git.chatgpt-team.site/18c3c3d1-312d-4698-88c6-e7b4329658c0/appgprj_6abf0bb684648191a38324d33d1aa8cc.git
+Native branch: main
+Imported source commit: 765923c9839f32502e5c0f1f1b919b827596012e
+Imported source tree: 321a45127d35bd2062201394412101ddc51e044e
+
+The import preserves the 182 original tracked source files byte for byte,
+including their Git modes, and adds setup instructions and provenance.
+The GitHub commit ID is different from the native source commit because this
+is a snapshot import with setup files. The native repository retains prior
+history. There is no automatic bidirectional synchronization or deployment.
+Inspect docs/daybreak-source-import.json for exact source file identities.
+
+The hosted MPC returned runtime 0.10.0-http.1 and catalog 1.2.0 in this
+preparation session: 24 supplied-model evaluators and 17 atomic operators.
+Its 10 uncommon research hooks remain specifications unless their checker is
+implemented and tested. These inventories do not add up to executed methods.
+
+2. ORIGINAL REPAIR PACKAGE
+
+MPC-Daybreak-Blue-Repair-Pack-2026-10-09.zip
+Google Drive:
+https://drive.google.com/file/d/18zuAPESWQhjQ9Vf78aBbcPIqENFsZUvi/view
+Original delivery receipt's size: 519104 bytes
+Original delivery receipt's SHA-256:
+c92f3aebb5f064b20a1174c1e8b942630799804ebe7fda5efccb8728533e785a
+
+That size/hash is retained provenance from the original delivery receipt.
+Verify any newly downloaded package before using its files. Use the complete
+ZIP, including data/, with CODEX-HANDOFF.txt, MPC-ENVIRONMENT-SETUP.txt,
+METHODS-AND-ATOMIC-EXECUTION.txt, MPC-Repair-and-Submission.xlsx,
+MPC-Offline-Review.ipynb, and Run-Offline-Review.py. Do not reconstruct the
+workbook or notebook from the pasted summary. Keep newer native program
+controllers ahead of this historical package.
+
+3. DAYBREAK ACCESS CHECK
+
+Use the same approved identity/workspace and a product surface on which the
+approved Daybreak offering is available. Confirm the actual selection there.
+Neither this repository nor the setup prompt grants Daybreak entitlement.
+
+Official documentation distinguishes model availability between ChatGPT,
+Codex desktop/CLI, Codex Cloud, and the API. It also says Codex Cloud does not
+support changing its default model. Therefore, publishing this repository's
+Cloud environment does not by itself verify Daybreak operation in its tasks.
+
+No API adapter is required merely to use the existing hosted MPC. If a future
+API adapter is explicitly requested, consult the current Daybreak API guide
+for its separate model and access_programs.cyber settings. Do not use the
+deprecated gpt-daybreak-blue-latest or gpt-daybreak-red-latest API aliases.
+This preparation does not establish account entitlement or create an API key.
+
+4. SOURCE ENVIRONMENT
+
+Read package.json and the current README. Required Node.js: >=22.13.0.
+Required package manager: exactly pnpm 11.25.0. Keep pnpm-lock.yaml frozen.
+Keep pnpm-workspace.yaml, including strictDepBuilds, allowBuilds, and the
+minimum release-age policy. A clean checkout defaults to the portable
+execution profile; managed Sites checkouts use their supported profile helper.
+
+Version/profile checks from the repository root:
+
+  node --version
+  pnpm --version
+  node --input-type=module -e "import { readExecutionProfile } from './scripts/execution-profile.mjs'; console.log(readExecutionProfile());"
+
+For a separate portable checkout, after confirming the exact versions:
+
+  pnpm install --prod=false --ignore-scripts=false --frozen-lockfile --prefer-offline
+  node --test
+  npm run build
+
+The first command installs the existing locked dependencies and applies their
+checked-in build policy. It is not a permission or entitlement override.
+Provide the exact pnpm pin through the supported environment tooling when it
+is missing; do not change the repository's pin to suit a preinstalled version.
+
+In managed Sites Linux, use the existing Sites dependency workflow described
+in README.md. The repository's npm run install:ci wrapper uses Bash, flock,
+GNU timeout, and Linux-specific setup; it is not a PowerShell installer.
+No Node installation is required just to call the hosted plugin.
+
+Record which environment actually ran the tests/build. Successful checks in
+this preparation workspace do not prove a separate Cloud or Windows setup.
+
+5. REUSABLE CODEX CLOUD ENVIRONMENT
+
+Official flow: Work in > Cloud > Select environment > Create environment;
+select mjcustomcomputers-dotcom/Machine-Bug-Tool; choose Get started. Keep
+access private. Ask the setup task to follow AGENTS.md and the manifest pins,
+install dependencies, run node --test and npm run build, and show the results.
+Review the setup results, save, and Publish. Verify Environment published
+before describing the environment as ready for new tasks.
+
+Suggested environment-preparation prompt:
+
+  Prepare this existing MPC Machine Legal BugTools repository for my Daybreak
+  workflow. Read AGENTS.md, DAYBREAK-START.txt, package.json, pnpm-lock.yaml,
+  pnpm-workspace.yaml, and the execution-profile scripts. Use Node >=22.13.0
+  and exactly pnpm 11.25.0 through supported setup tooling. Preserve the
+  current source architecture, registries, method IDs, lockfile policy, and
+  Sites project binding. Install dependencies using the applicable documented
+  profile, then run node --test and npm run build. Record exact versions,
+  commit, commands, exit statuses, and failures. Prepare the reusable install
+  and task-start instructions and show the setup report for publication.
+  Verify actual Daybreak availability for this signed-in identity and product
+  surface separately. Inspect the installed MPC plugin and, where it is
+  available, verify a protected synthetic evaluator call through that
+  connection. Record unavailable capabilities without substituting a bare
+  MCP URL or invented authentication. Environment publication and production
+  MPC deployment are separate actions. Continue the original repair queue
+  only after reading the original CODEX-HANDOFF.txt and current native state.
+
+6. DESTINATION MPC VERIFICATION
+
+Use the current installed MPC plugin and read each actual registered schema.
+Call runtime_status({}), get_universal_contract({}), and get_method_catalog.
+For a small protected check, read get_method_catalog({"method":"nash"}) and
+evaluate the explicitly synthetic matching-pennies input:
+
+  {"method":"nash","input":{"row_payoffs":[[1,-1],[-1,1]],
+  "column_payoffs":[[-1,1],[1,-1]]}}
+
+Expected mathematical result: no pure equilibria and mixed strategies
+[0.5,0.5] for each player. Retain the actual tool result and model fingerprint.
+This checks a supplied-model calculation and protected dispatch, not a target
+vulnerability, native financial impact, or complete connector integration.
+
+The production server requires platform dispatch identity for protected tool
+calls. A bare URL, runtime_status, initialize, or tools/list is insufficient.
+Do not imitate production identity headers. The native Site exposes an MCP
+OAuth resource, but reading those settings is not proof of a completed login.
+Reuse the supported installed plugin connection and verify the actual call.
+
+7. EXACT CONTINUATION BOUNDARY
+
+Environment creation/publication, Daybreak account selection, local Windows
+tool checks, Drive/Dash repairs, and target proof must each retain their own
+status. Do not convert the source import or successful synthetic tests into
+completion of those other tasks. Preserve the existing PASS format and native
+project frontier. Apply applicable bounty rules to any later target work.
+
+OFFICIAL SOURCES CHECKED 2026-10-09 UTC
+https://learn.chatgpt.com/docs/cyber-safety
+https://learn.chatgpt.com/docs/enterprise/workspace-model-availability
+https://learn.chatgpt.com/docs/cloud
+https://learn.chatgpt.com/docs/environments/cloud-environments
+https://developers.openai.com/api/docs/guides/daybreak
+https://developers.openai.com/api/docs/models/gpt-daybreak-blue-latest
+https://developers.openai.com/api/docs/models/gpt-daybreak-red-latest
