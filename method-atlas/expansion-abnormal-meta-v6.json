@@ -1,0 +1,595 @@
+{
+  "atlas_extension": "METHOD-ATLAS-EXT-6.0",
+  "scope": "ANOMALY_METAMETHOD_TEST_ORACLE_RECURSIVE_METHOD_GRAPH",
+  "sources": [
+    {
+      "source_id": "V6_NIST_RESILIENCE",
+      "title": "NIST SP 800-160 Volume 2 Revision 1 Developing Cyber-Resilient Systems",
+      "native_url": "https://csrc.nist.gov/pubs/sp/800/160/v2/r1/final",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V6_TEST_ORACLE",
+      "title": "Barr et al. The Oracle Problem in Software Testing: A Survey",
+      "native_url": "https://discovery.ucl.ac.uk/id/eprint/1471263/",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V6_METAMORPHIC",
+      "title": "Segura et al. A Survey on Metamorphic Testing",
+      "native_url": "https://eprints.whiterose.ac.uk/id/eprint/110335/",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "V6_NIST_ENGINEERING",
+      "title": "NIST SP 800-160 Volume 1 Revision 1 Engineering Trustworthy Secure Systems",
+      "native_url": "https://csrc.nist.gov/pubs/sp/800/160/v1/r1/final",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    }
+  ],
+  "methods": [
+    {
+      "method_id": "MHA-0208",
+      "method_name": "Change-point versus maintenance-window anomaly",
+      "family": "ABNORMAL_SIGNAL_DIAGNOSTICS",
+      "mechanism": "Compare apparent abrupt state shift with documented planned maintenance",
+      "required_input": "Owned time series baseline and maintenance records",
+      "falsifier": "Change matches expected maintenance envelope",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_RESILIENCE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ANOMALY",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0208",
+        "question": "What native record, negative control and disconfirming evidence distinguish change-point versus maintenance-window anomaly?",
+        "missing_evidence": "Owned time series baseline and maintenance records",
+        "falsifier": "Change matches expected maintenance envelope",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0209",
+      "method_name": "Unknown-unknown residual budget review",
+      "family": "ABNORMAL_SIGNAL_DIAGNOSTICS",
+      "mechanism": "Track unexplained model residual without assigning cause prematurely",
+      "required_input": "Declared model observations and residual uncertainty budget",
+      "falsifier": "Residual within calibration and measurement tolerance",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_RESILIENCE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ANOMALY",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0209",
+        "question": "What native record, negative control and disconfirming evidence distinguish unknown-unknown residual budget review?",
+        "missing_evidence": "Declared model observations and residual uncertainty budget",
+        "falsifier": "Residual within calibration and measurement tolerance",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0210",
+      "method_name": "Anomaly-on-anomaly recurrence signature",
+      "family": "ABNORMAL_SIGNAL_DIAGNOSTICS",
+      "mechanism": "Compare repeated anomalous records across distinct time windows",
+      "required_input": "Source-bound event signatures and independent window IDs",
+      "falsifier": "Repeated events are duplicate ingestion of one event",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_RESILIENCE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ANOMALY",
+        "REPLAY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0210",
+        "question": "What native record, negative control and disconfirming evidence distinguish anomaly-on-anomaly recurrence signature?",
+        "missing_evidence": "Source-bound event signatures and independent window IDs",
+        "falsifier": "Repeated events are duplicate ingestion of one event",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0211",
+      "method_name": "Cascading alarm common-cause grouping",
+      "family": "ABNORMAL_SIGNAL_DIAGNOSTICS",
+      "mechanism": "Collapse correlated warnings to a candidate shared control source",
+      "required_input": "Alert provenance dependency graph and observation coverage",
+      "falsifier": "Independent faults contradict proposed common ancestor",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_RESILIENCE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ANOMALY",
+        "FAULT"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0211",
+        "question": "What native record, negative control and disconfirming evidence distinguish cascading alarm common-cause grouping?",
+        "missing_evidence": "Alert provenance dependency graph and observation coverage",
+        "falsifier": "Independent faults contradict proposed common ancestor",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0212",
+      "method_name": "Rare-transition novelty guard",
+      "family": "ABNORMAL_SIGNAL_DIAGNOSTICS",
+      "mechanism": "Flag previously unobserved transition without treating rare as malicious",
+      "required_input": "Versioned transition baseline and new source record",
+      "falsifier": "Transition valid in a newly approved configuration",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_RESILIENCE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ANOMALY",
+        "STATE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0212",
+        "question": "What native record, negative control and disconfirming evidence distinguish rare-transition novelty guard?",
+        "missing_evidence": "Versioned transition baseline and new source record",
+        "falsifier": "Transition valid in a newly approved configuration",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0213",
+      "method_name": "Anomaly boundary sensitivity",
+      "family": "ABNORMAL_SIGNAL_DIAGNOSTICS",
+      "mechanism": "Vary baseline windows and threshold to test stability of candidate anomaly",
+      "required_input": "Finite calibrated baseline samples and threshold family",
+      "falsifier": "Finding disappears under legitimate alternate baseline",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_RESILIENCE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ANOMALY",
+        "COMPARISON"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0213",
+        "question": "What native record, negative control and disconfirming evidence distinguish anomaly boundary sensitivity?",
+        "missing_evidence": "Finite calibrated baseline samples and threshold family",
+        "falsifier": "Finding disappears under legitimate alternate baseline",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0214",
+      "method_name": "Quiet-channel sensor blindness check",
+      "family": "ABNORMAL_SIGNAL_DIAGNOSTICS",
+      "mechanism": "Distinguish no event from failed collection and sampling loss",
+      "required_input": "Expected sensor heartbeat scope and sampling configuration",
+      "falsifier": "Quiet interval is verified normal operation",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_RESILIENCE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ANOMALY",
+        "OBSERVABILITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0214",
+        "question": "What native record, negative control and disconfirming evidence distinguish quiet-channel sensor blindness check?",
+        "missing_evidence": "Expected sensor heartbeat scope and sampling configuration",
+        "falsifier": "Quiet interval is verified normal operation",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0215",
+      "method_name": "Incident versus resilience adaptation differential",
+      "family": "ABNORMAL_SIGNAL_DIAGNOSTICS",
+      "mechanism": "Separate deliberate failover/degraded mode from control-plane malfunction",
+      "required_input": "Declared degraded-mode contract and state transition logs",
+      "falsifier": "Observed transition satisfies documented recovery rule",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_RESILIENCE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ANOMALY",
+        "CONTROL"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0215",
+        "question": "What native record, negative control and disconfirming evidence distinguish incident versus resilience adaptation differential?",
+        "missing_evidence": "Declared degraded-mode contract and state transition logs",
+        "falsifier": "Observed transition satisfies documented recovery rule",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0216",
+      "method_name": "Oracle disagreement triage",
+      "family": "META_ORACLE_FALSIFICATION",
+      "mechanism": "Preserve competing test-oracle results without majority voting",
+      "required_input": "Named oracles their provenance and same typed fixture",
+      "falsifier": "Oracles use incompatible specifications or inputs",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_TEST_ORACLE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "CONSISTENCY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0216",
+        "question": "What native record, negative control and disconfirming evidence distinguish oracle disagreement triage?",
+        "missing_evidence": "Named oracles their provenance and same typed fixture",
+        "falsifier": "Oracles use incompatible specifications or inputs",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0217",
+      "method_name": "Metamorphic inverse relation guard",
+      "family": "META_ORACLE_FALSIFICATION",
+      "mechanism": "Verify that forward and reverse transformation have declared invariant relation",
+      "required_input": "Source-bound reversible transform and bounded fixture",
+      "falsifier": "Transformation is lossy or inverse undefined",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_TEST_ORACLE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "COMPARISON"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0217",
+        "question": "What native record, negative control and disconfirming evidence distinguish metamorphic inverse relation guard?",
+        "missing_evidence": "Source-bound reversible transform and bounded fixture",
+        "falsifier": "Transformation is lossy or inverse undefined",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0218",
+      "method_name": "False-positive metamorphic comparator",
+      "family": "META_ORACLE_FALSIFICATION",
+      "mechanism": "Use benign one-variable comparison as a negative control",
+      "required_input": "Valid transform expected invariant and benign fixture",
+      "falsifier": "Benign input triggers same reported difference",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_TEST_ORACLE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "ANOMALY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0218",
+        "question": "What native record, negative control and disconfirming evidence distinguish false-positive metamorphic comparator?",
+        "missing_evidence": "Valid transform expected invariant and benign fixture",
+        "falsifier": "Benign input triggers same reported difference",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0219",
+      "method_name": "Method-oracle circularity detector",
+      "family": "META_ORACLE_FALSIFICATION",
+      "mechanism": "Detect when independent-looking methods share one generated reference answer",
+      "required_input": "Typed method/source dependency graph",
+      "falsifier": "Independent external oracle exists and breaks cycle",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_TEST_ORACLE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "GRAPH"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0219",
+        "question": "What native record, negative control and disconfirming evidence distinguish method-oracle circularity detector?",
+        "missing_evidence": "Typed method/source dependency graph",
+        "falsifier": "Independent external oracle exists and breaks cycle",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0220",
+      "method_name": "Cross-version oracle regression pivot",
+      "family": "META_ORACLE_FALSIFICATION",
+      "mechanism": "Compare candidate method across verified software versions and configurations",
+      "required_input": "Two versioned model implementations and same bounded input",
+      "falsifier": "Only one version's contract supports claimed invariant",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_TEST_ORACLE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "VERSION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0220",
+        "question": "What native record, negative control and disconfirming evidence distinguish cross-version oracle regression pivot?",
+        "missing_evidence": "Two versioned model implementations and same bounded input",
+        "falsifier": "Only one version's contract supports claimed invariant",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0221",
+      "method_name": "Nondeterministic oracle repeatability",
+      "family": "META_ORACLE_FALSIFICATION",
+      "mechanism": "Separate acceptable stochastic variation from systematic model failure",
+      "required_input": "Finite seeded fixtures valid random distribution and tolerance",
+      "falsifier": "Apparent failure within declared statistical bounds",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_TEST_ORACLE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0221",
+        "question": "What native record, negative control and disconfirming evidence distinguish nondeterministic oracle repeatability?",
+        "missing_evidence": "Finite seeded fixtures valid random distribution and tolerance",
+        "falsifier": "Apparent failure within declared statistical bounds",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0222",
+      "method_name": "Counterexample witness shrinking safety",
+      "family": "META_ORACLE_FALSIFICATION",
+      "mechanism": "Check minimized witness preserves required source ownership and violation",
+      "required_input": "Full and reduced witness with invariant and source ID mapping",
+      "falsifier": "Minimal example dropped cause-critical input",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_TEST_ORACLE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "REDUCTION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0222",
+        "question": "What native record, negative control and disconfirming evidence distinguish counterexample witness shrinking safety?",
+        "missing_evidence": "Full and reduced witness with invariant and source ID mapping",
+        "falsifier": "Minimal example dropped cause-critical input",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0223",
+      "method_name": "Method stop-on-no-information-gain",
+      "family": "META_ORACLE_FALSIFICATION",
+      "mechanism": "Stop escalating when outputs repeat without new evidence or changed hypothesis",
+      "required_input": "Prior and current typed frontier receipts",
+      "falsifier": "A new native source or falsifier materially changes frontier",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_TEST_ORACLE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "PROCESS"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0223",
+        "question": "What native record, negative control and disconfirming evidence distinguish method stop-on-no-information-gain?",
+        "missing_evidence": "Prior and current typed frontier receipts",
+        "falsifier": "A new native source or falsifier materially changes frontier",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0224",
+      "method_name": "Hook dependency closure with finite depth",
+      "family": "RECURSIVE_METHOD_GRAPH",
+      "mechanism": "Traverse declared method-to-method links with bounded hops and explicit visited set",
+      "required_input": "Versioned relation graph root method and budget",
+      "falsifier": "Loop repeats same method without new material evidence",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_ENGINEERING",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GRAPH",
+        "DIAGNOSTIC"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0224",
+        "question": "What native record, negative control and disconfirming evidence distinguish hook dependency closure with finite depth?",
+        "missing_evidence": "Versioned relation graph root method and budget",
+        "falsifier": "Loop repeats same method without new material evidence",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0225",
+      "method_name": "Challenge-before-corroborate ordering",
+      "family": "RECURSIVE_METHOD_GRAPH",
+      "mechanism": "Prefer adversarial falsifier before supportive method when support shares assumptions",
+      "required_input": "Relation type and dependency ownership for proposed checks",
+      "falsifier": "Falsifier lacks required input but a distinct complementary check is ready",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_ENGINEERING",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0225",
+        "question": "What native record, negative control and disconfirming evidence distinguish challenge-before-corroborate ordering?",
+        "missing_evidence": "Relation type and dependency ownership for proposed checks",
+        "falsifier": "Falsifier lacks required input but a distinct complementary check is ready",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0226",
+      "method_name": "Method capability mismatch quarantine",
+      "family": "RECURSIVE_METHOD_GRAPH",
+      "mechanism": "Reject method when claimed execution exceeds actual implementation and caller grant",
+      "required_input": "Declared capability implementation state and plugin schema",
+      "falsifier": "Actual tool registry supports the exact operation",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_ENGINEERING",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0226",
+        "question": "What native record, negative control and disconfirming evidence distinguish method capability mismatch quarantine?",
+        "missing_evidence": "Declared capability implementation state and plugin schema",
+        "falsifier": "Actual tool registry supports the exact operation",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0227",
+      "method_name": "Method lineage contamination detection",
+      "family": "RECURSIVE_METHOD_GRAPH",
+      "mechanism": "Check whether multiple method scores derive from one native evidence source",
+      "required_input": "Evidence provenance and method dependency graph",
+      "falsifier": "Independent source IDs prove genuinely separate observations",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_ENGINEERING",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "FORENSIC"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0227",
+        "question": "What native record, negative control and disconfirming evidence distinguish method lineage contamination detection?",
+        "missing_evidence": "Evidence provenance and method dependency graph",
+        "falsifier": "Independent source IDs prove genuinely separate observations",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0228",
+      "method_name": "Method cost-of-proof prioritization",
+      "family": "RECURSIVE_METHOD_GRAPH",
+      "mechanism": "Prefer next bounded verification with best declared information gain per cost",
+      "required_input": "Declared evaluation cost witness availability and stop rule",
+      "falsifier": "Cost assumptions inaccurate or no new information obtained",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_ENGINEERING",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "RESOURCE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0228",
+        "question": "What native record, negative control and disconfirming evidence distinguish method cost-of-proof prioritization?",
+        "missing_evidence": "Declared evaluation cost witness availability and stop rule",
+        "falsifier": "Cost assumptions inaccurate or no new information obtained",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0229",
+      "method_name": "Anti-recursion zero-delta breaker",
+      "family": "RECURSIVE_METHOD_GRAPH",
+      "mechanism": "Block revisiting same candidate and evidence fingerprint without state change",
+      "required_input": "Visited method/evidence pairs and fingerprint receipt",
+      "falsifier": "New input fingerprint proves material change",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_ENGINEERING",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "REPLAY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0229",
+        "question": "What native record, negative control and disconfirming evidence distinguish anti-recursion zero-delta breaker?",
+        "missing_evidence": "Visited method/evidence pairs and fingerprint receipt",
+        "falsifier": "New input fingerprint proves material change",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0230",
+      "method_name": "Method cross-check disagreement isolator",
+      "family": "RECURSIVE_METHOD_GRAPH",
+      "mechanism": "Find smallest different assumption causing two method conclusions to diverge",
+      "required_input": "Two finite model assumptions source map and paired output",
+      "falsifier": "Disagreement caused by different object identity",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_ENGINEERING",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "COMPARISON"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0230",
+        "question": "What native record, negative control and disconfirming evidence distinguish method cross-check disagreement isolator?",
+        "missing_evidence": "Two finite model assumptions source map and paired output",
+        "falsifier": "Disagreement caused by different object identity",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0231",
+      "method_name": "Source-state cascade promotion lock",
+      "family": "RECURSIVE_METHOD_GRAPH",
+      "mechanism": "Prevent source citations and methodological agreement from becoming evidence authentication",
+      "required_input": "Source provenance states claimed inference and finality owner",
+      "falsifier": "Native authenticated record independently establishes fact",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "V6_NIST_ENGINEERING",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DIAGNOSTIC",
+        "FINALITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0231",
+        "question": "What native record, negative control and disconfirming evidence distinguish source-state cascade promotion lock?",
+        "missing_evidence": "Source provenance states claimed inference and finality owner",
+        "falsifier": "Native authenticated record independently establishes fact",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    }
+  ],
+  "canonical_promotion": false,
+  "implementation_status": "SOURCE_LINKED_RESEARCH_CANDIDATES_ONLY",
+  "no_network_actions": true
+}
