@@ -1,0 +1,318 @@
+{
+  "version": "MPC_REASONING_INTELLIGENCE_V15_VALIDATION_1",
+  "status": "LOCAL_IMPLEMENTATION_AND_BUILD_VERIFIED",
+  "recorded_at_utc": "2026-10-09T09:42:38.700449+00:00",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "native_base_commit": "e3a8f15806388d9c0d3705970ec7fd18c44d3439",
+  "review_branch": "feature/mpc-reasoning-selfplay-v15",
+  "local_reconstructed_base_commit": "c5e170c8ec0cf236b82c9018563320acf8751058",
+  "base_reconstruction": {
+    "native_changed_blobs_verified": 34,
+    "mismatches": 0,
+    "meaning": "Local reconstructed snapshot is not the native commit object."
+  },
+  "engine_fingerprint": "c4cc73e9f5dd3339d7b5d2c09ce4c6c767029454c1963ac40f5f8f1e1cde5dae",
+  "source_files_before_validation_receipt": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 23242,
+      "sha256": "b78ebe7e8b16b66a44a68f969c9b9522dbf639557dfa42e34172bdabfa085427",
+      "git_blob_sha1": "6efd4804df29d4e4c58acf8985fa95bc94ce91ec"
+    },
+    {
+      "path": "docs/REASONING-INTELLIGENCE-V15.md",
+      "bytes": 12055,
+      "sha256": "6da6f8eb02f7cb4c4ddbbd32d3c96d87c44352c9fe4fd6affb318b473da39bbd",
+      "git_blob_sha1": "384c52529ef7be0441ada8970cfbba7c228f24dc"
+    },
+    {
+      "path": "docs/validation/MPC-REASONING-V15-RUNS.zip",
+      "bytes": 429448,
+      "sha256": "b9087581be55571c84099a62ad5da153aa6d242a1cea62db728945722a199380",
+      "git_blob_sha1": "a99c3c083f85426e590a49693dd7aa1ea4a80444"
+    },
+    {
+      "path": "lib/finite-abstraction-refinement.mjs",
+      "bytes": 16328,
+      "sha256": "05d21dc58c6ffc13d61cc9ffb2cd4584e721d383a55d58e4420e099e7b30af8d",
+      "git_blob_sha1": "8db841b981caa47e5fb989a4382d3b90bec34c21"
+    },
+    {
+      "path": "lib/finite-information-reasoning.mjs",
+      "bytes": 32664,
+      "sha256": "f0956277d7e6081b8ebdca1734df7c6b0fa23c9a1fff5202e0a3934198ac491f",
+      "git_blob_sha1": "de4dfabbbd8c16504c9a28cc731fd6c41a8fc219"
+    },
+    {
+      "path": "lib/noahs-ark-reasoning.mjs",
+      "bytes": 10572,
+      "sha256": "61676249c78894c48ba45133543a06632f85b9dc01ddf348043858ae01c37ef8",
+      "git_blob_sha1": "1d8841101c7e246834e898e6818dea25f82f4f18"
+    },
+    {
+      "path": "lib/reasoning-selfplay.mjs",
+      "bytes": 26089,
+      "sha256": "4048acb473568c30c1e58bdb01a307563ec4fa062af8440f9bf08b52fefdf796",
+      "git_blob_sha1": "fdf258c17ccc085ecb603c1cc3e110c996b061c6"
+    },
+    {
+      "path": "scripts/Run-Reasoning-Intelligence.ps1",
+      "bytes": 9250,
+      "sha256": "9b66881e21dbb07bd72089c3e90d7a5de183cbbf4bd226ff9c30423221c10263",
+      "git_blob_sha1": "bfabe23000b8fb9bc5e118d589871f679a891b3e"
+    },
+    {
+      "path": "scripts/export-reasoning-intelligence.mjs",
+      "bytes": 5883,
+      "sha256": "6030721d773d83b4d283cf62a08dd8d22e15733717e1df286e0dae0cfc7e4c4a",
+      "git_blob_sha1": "ccd7c99aac50e53659b662d3aeba6ddd822e0ebc"
+    },
+    {
+      "path": "scripts/run-reasoning-intelligence.cmd",
+      "bytes": 113,
+      "sha256": "1398c0e59dcc3277f55ad657c6b0efeb610bf72bd80f87cf037c14279cd866b2",
+      "git_blob_sha1": "fde94112cdfb92bdf083fbd23597401c0edc1827"
+    },
+    {
+      "path": "scripts/run-reasoning-selfplay.mjs",
+      "bytes": 16532,
+      "sha256": "0457726cbd66fca5425ad3273a52def71f62d61c01485612e16d540a58dfe99b",
+      "git_blob_sha1": "18f0df472280290aa0ade10a66c7495adcf74551"
+    },
+    {
+      "path": "tests/finite-abstraction-refinement.test.mjs",
+      "bytes": 13251,
+      "sha256": "4a6f48d9092791850489404288857403f82eb2a25b77556b3b95369bec733fae",
+      "git_blob_sha1": "b90b7973cf2cac28fbae1ce4853c47ae6a0d753c"
+    },
+    {
+      "path": "tests/finite-information-reasoning.test.mjs",
+      "bytes": 31106,
+      "sha256": "8febd85bc4bc4fd0de1e0ee6a82a8211d5493a9278334994ff5e48c8dca920b1",
+      "git_blob_sha1": "374af781e52d9ce59ff274553004d3cec5896e4a"
+    },
+    {
+      "path": "tests/noahs-ark-pairing-selftest.test.mjs",
+      "bytes": 12124,
+      "sha256": "9e877af958ede12b4819e1bc8d4b12132cf3442d0bace706cd738a8299154f62",
+      "git_blob_sha1": "be42a352443a6174cd805f30e1612ac158ef193f"
+    },
+    {
+      "path": "tests/reasoning-portable.test.mjs",
+      "bytes": 2089,
+      "sha256": "6131c3ce63768c931cf9f84769b850fb4f6a057049e70258aeca57c738d33b71",
+      "git_blob_sha1": "8fafe59a99d37ca5b15e6136e6effbbc5e82a973"
+    },
+    {
+      "path": "tests/reasoning-selfplay.test.mjs",
+      "bytes": 6734,
+      "sha256": "e187b30dc28e3d325dff1797472e2517a1092d46a7352b9f2f2782fb44dd1103",
+      "git_blob_sha1": "57c91dcb1a4431050971370d71401ba21cf90e2d"
+    }
+  ],
+  "planner": {
+    "baseline_git_blob": "324d5c3aa3a8cf668fd50ce2f733c94a5a6532bb",
+    "fixed_git_blob": "1d8841101c7e246834e898e6818dea25f82f4f18",
+    "base_configurations_per_phase": 3051,
+    "order_variants_per_configuration": 8,
+    "executions_per_phase": 24408,
+    "wrong_choices_before": 5424,
+    "wrong_choices_after": 0,
+    "focused_tests_before": {
+      "passed": 44,
+      "failed": 5,
+      "total": 49
+    },
+    "focused_tests_after": {
+      "passed": 49,
+      "failed": 0,
+      "total": 49
+    },
+    "interpretation": "One previously identified readiness/relationship-priority defect, reproduced and repaired; failures and reorder variants are not distinct defects."
+  },
+  "information_adapter": {
+    "source_conflicts_blocked": [
+      "version",
+      "owner",
+      "content_sha256"
+    ],
+    "independent_repro_checks": 131,
+    "independent_repro_failures": 0,
+    "projection_values_checked": 3215,
+    "projection_errors_checked": 2513,
+    "projection_mismatches": 0,
+    "arithmetic": "EXACT_RATIONAL_ON_SUPPLIED_BINARY64_INPUTS",
+    "pre_release_repairs": [
+      "source-alignment admission",
+      "cancellation and exact decision ordering",
+      "exact probability-tolerance admission"
+    ]
+  },
+  "abstraction_adapter": {
+    "exhaustive_models_checked": 2560,
+    "oracle": "Independent BFS on 512 three-state directed graphs times five partitions",
+    "focused_tests": 16
+  },
+  "curriculum_runs": [
+    {
+      "status": "BOUNDED_SELF_CHALLENGES_PASS",
+      "output_directory": "/workspace/scratch/479911d33054/MPC-Reasoning-Intelligence-V15/Runs/2026-10-09T09-38-32-974Z-20261009-ffb89140",
+      "summary": {
+        "cases_executed": 188,
+        "passed": 188,
+        "failed": 0,
+        "anchor_replays": 93,
+        "new_exploratory_cases": 95,
+        "new_coverage_cases": 188,
+        "duplicates_skipped": 1,
+        "distinct_native_evaluators": 11,
+        "native_evaluator_calls": 540,
+        "native_evaluator_call_counts": {
+          "conservation": 72,
+          "fault_tree": 64,
+          "harsanyi": 200,
+          "ledger": 72,
+          "minimal_cut_sets": 64,
+          "nash": 23,
+          "partial_order": 6,
+          "selten": 24,
+          "state_trace": 6,
+          "temporal": 6,
+          "finite_invariant": 3
+        },
+        "evaluate_method_entry_calls": 537,
+        "direct_finite_invariant_calls": 3,
+        "evaluator_count_complete": true,
+        "catalog_candidates": 239,
+        "catalog_relations": 212,
+        "catalog_methods_promoted": 0,
+        "local_adapter_cases": 43
+      },
+      "seed": 20261009,
+      "next_seed": 20261010,
+      "engine_fingerprint": "c4cc73e9f5dd3339d7b5d2c09ce4c6c767029454c1963ac40f5f8f1e1cde5dae",
+      "cursor_sha256": "030b1fc6a5d2e65018359e812af7430c9c378124a1efe0ebff85271d0000e46e"
+    },
+    {
+      "status": "BOUNDED_SELF_CHALLENGES_PASS",
+      "output_directory": "/workspace/scratch/479911d33054/MPC-Reasoning-Intelligence-V15/Runs/2026-10-09T09-39-18-095Z-20261010-c59cfd8b",
+      "summary": {
+        "cases_executed": 186,
+        "passed": 186,
+        "failed": 0,
+        "anchor_replays": 93,
+        "new_exploratory_cases": 93,
+        "new_coverage_cases": 93,
+        "duplicates_skipped": 3,
+        "distinct_native_evaluators": 11,
+        "native_evaluator_calls": 536,
+        "native_evaluator_call_counts": {
+          "conservation": 72,
+          "fault_tree": 64,
+          "harsanyi": 198,
+          "ledger": 72,
+          "minimal_cut_sets": 64,
+          "nash": 21,
+          "partial_order": 6,
+          "selten": 24,
+          "state_trace": 6,
+          "temporal": 6,
+          "finite_invariant": 3
+        },
+        "evaluate_method_entry_calls": 533,
+        "direct_finite_invariant_calls": 3,
+        "evaluator_count_complete": true,
+        "catalog_candidates": 239,
+        "catalog_relations": 212,
+        "catalog_methods_promoted": 0,
+        "local_adapter_cases": 43
+      },
+      "seed": 20261010,
+      "next_seed": 20261011,
+      "engine_fingerprint": "c4cc73e9f5dd3339d7b5d2c09ce4c6c767029454c1963ac40f5f8f1e1cde5dae",
+      "cursor_sha256": "4450916ed04d60602c97a3ff9a0053d68584fb63bd32f45aa5ffc37e90bc5aa5"
+    }
+  ],
+  "curriculum_total": {
+    "executed_cases": 374,
+    "native_evaluator_calls": 1076,
+    "new_exploratory_parameterizations": 188,
+    "anchor_replays": 186,
+    "distinct_case_fingerprints": 281,
+    "unexpected_failures": 0,
+    "native_evaluators_exercised": 11
+  },
+  "full_suite": {
+    "command": "node --test",
+    "tests": 489,
+    "passed": 489,
+    "failed": 0,
+    "skipped": 0,
+    "exit_status": 0,
+    "node": "v24.19.0",
+    "execution_host": "CHATGPT_LINUX",
+    "raw_log_sha256": "f234f438a3f619fe193e4120d45c0f05b27df8e5806290037ead53c3851521e9"
+  },
+  "build": {
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "exit_status": 0,
+    "timed_out": false,
+    "seconds": 25.85954738500004,
+    "stdout": "build.stdout.log",
+    "stderr": "build.stderr.log",
+    "environment_overrides": {
+      "CI": "true",
+      "XDG_CONFIG_HOME": "/workspace/scratch/479911d33054/Machine-Bug-Tool-Reasoning/.sites-runtime/config"
+    },
+    "node": "24.19.0",
+    "pnpm": "11.25.0",
+    "installed_versions": {
+      "vinext": "1.0.1",
+      "@vitejs/plugin-rsc": "0.5.34",
+      "eslint": "9.39.4",
+      "eslint-config-next": "16.3.4",
+      "vite": "8.0.13",
+      "wrangler": "4.92.0"
+    },
+    "manifest_hashes_unchanged": true,
+    "execution_host": "CHATGPT_LINUX",
+    "deployed": false
+  },
+  "protected": {
+    "native_evaluators": 24,
+    "atlas_candidates": 239,
+    "atlas_relations": 212,
+    "registry_mutation": false,
+    "hosted_deployment": false,
+    "merged": false,
+    "historical_controller_source": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "historical_completed_state_sha256": "d8ccd726902541cec0e468a0c3354781b7dadeecec1cc66754c20a13ba3d4508",
+    "historical_controller_rebound": false
+  },
+  "raw_archive": {
+    "path": "docs/validation/MPC-REASONING-V15-RUNS.zip",
+    "bytes": 429448,
+    "sha256": "b9087581be55571c84099a62ad5da153aa6d242a1cea62db728945722a199380",
+    "contains_exact_source_bound_resume": true
+  },
+  "next_local_seed": 20261011,
+  "next_work": [
+    "Restore and verify exact last scan/cursor with this engine, then run one bounded next-seed pass.",
+    "Add independently checked new experiment families when existing parameter coverage stops adding information; retain saved counterexamples.",
+    "Candidate frontier: stochastic observations, finite two-player imperfect-information regret, and budget-sensitive search. These are unimplemented proposals, not existing solvers."
+  ],
+  "limits": {
+    "general_intelligence_score": false,
+    "full_poker_cfr": false,
+    "automatic_method_invention": false,
+    "source_authentication": false,
+    "target_testing": false,
+    "windows_powershell_executed": false,
+    "hosted_new_adapters_executed": false,
+    "scheduled_future_run_already_observed": false
+  }
+}

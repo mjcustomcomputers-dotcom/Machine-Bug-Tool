@@ -1,5 +1,33 @@
 # MPC Machine Legal BugTools — Daybreak development
 
+## Current V15 scope — executed intelligence improvement
+
+On 2026-10-09 the user reopened intelligence and reasoning improvement for the
+product and local MPC: run its own methods against itself, vary information and
+move order as in poker, and keep trying useful new experiments. This section
+controls the new V15 development lab; the final V13 receiving phase below and
+its completed historical controller remain separate and preserved.
+
+Read `docs/REASONING-INTELLIGENCE-V15.md` and the V15 validation receipt at the
+verified current review-branch revision. Run
+`node scripts/run-reasoning-selfplay.mjs --rounds 24` for one bounded local
+pass. Its new `.sites-runtime/reasoning-intelligence` cursor binds exact runtime
+and catalog bytes, replays prior counterexamples or changed code, advances the
+seed after passing, and preserves earlier runs. Recover that source-bound
+cursor from a persisted receipt when continuing in another environment; a chat
+summary is only a pointer. Do not rerun completed V13 controller calculations.
+
+Prioritize concrete reasoning defects and new discriminating experiments over
+repeating unchanged static catalog scans. Retain regression anchors; vary
+actor-visible information, action costs, source alignment, move order,
+abstraction partitions and cross-method relations. Distinguish fresh parameter
+cases from new experiment families. New families require bounded inputs,
+independent expectations, negative controls, versioned source and executed
+verification. Preserve original evaluator/classifier IDs and method contracts.
+Continue safe additive work on a dedicated review branch without routine
+clarification. Merge, deployment, target actions and canonical controller
+changes retain their existing separate authorization requirements.
+
 ## Final engineering scope — local receiving and Codex acceptance
 
 The user has ended research for this phase. The current authorized action is one
