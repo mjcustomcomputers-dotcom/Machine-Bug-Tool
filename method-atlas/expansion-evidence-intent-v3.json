@@ -1,0 +1,829 @@
+{
+  "atlas_extension": "METHOD-ATLAS-EXT-3.0",
+  "scope": "EVIDENCE_DECEPTION_CYBER_PATTERNS_INTENT_NEUTRAL",
+  "verification_scope": "SOURCE_LOCATOR_CHECKED_NOT_METHOD_IMPLEMENTED",
+  "source_authentication": false,
+  "target_actions": false,
+  "intent_inference_validated": false,
+  "canonical_promotion": false,
+  "sources": [
+    {
+      "source_id": "NAS_LIE",
+      "title": "National Research Council The Polygraph and Lie Detection",
+      "native_url": "https://www.nationalacademies.org/publications/10420",
+      "source_class": "RESEARCH_REFERENCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "NIST_FORENSICS",
+      "title": "NIST SP 800-86 Integrating Forensic Techniques into Incident Response",
+      "native_url": "https://www.nist.gov/publications/guide-integrating-forensic-techniques-incident-response",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "NIST_IR3",
+      "title": "NIST SP 800-61 Revision 3 Incident Response",
+      "native_url": "https://csrc.nist.gov/news/2025/nist-revises-sp-800-61",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "MITRE_ATTACK19",
+      "title": "MITRE ATT&CK Detection Strategies and Techniques",
+      "native_url": "https://attack.mitre.org/detectionstrategies/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "MITRE_CAPEC",
+      "title": "MITRE CAPEC Attack Pattern Catalog",
+      "native_url": "https://capec.mitre.org/about/index.html",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "MITRE_D3FEND",
+      "title": "MITRE D3FEND Defensive Knowledge Graph",
+      "native_url": "https://d3fend.mitre.org/faq/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "SEP_PARACONSISTENT",
+      "title": "Stanford Encyclopedia of Philosophy Paraconsistent Logic",
+      "native_url": "https://plato.stanford.edu/entries/logic-paraconsistent/",
+      "source_class": "RESEARCH_REFERENCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "MIT_INVERSE",
+      "title": "Action Understanding as Inverse Planning Baker Saxe Tenenbaum",
+      "native_url": "https://saxelab.mit.edu/publications/",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "MDL_SURVEY",
+      "title": "Minimum Description Length Principle for Pattern Mining Survey",
+      "native_url": "https://link.springer.com/article/10.1007/s10618-022-00846-z",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "VLD_CRITIQUE",
+      "title": "Meta-Research Perspectives on Verbal Lie Detection",
+      "native_url": "https://www.mdpi.com/2076-3425/13/3/392",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    }
+  ],
+  "methods": [
+    {
+      "method_id": "MHA-0087",
+      "method_name": "Claim-to-record proposition consistency",
+      "family": "EVIDENCE_DECEPTION",
+      "mechanism": "Compare attributed exact claims to independently owned native records",
+      "required_input": "Exact statement, version, claimant capacity and authenticated comparison event",
+      "falsifier": "The claim and record concern different objects, times or meanings",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NAS_LIE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DECEPTION",
+        "FORENSIC"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0087",
+        "question": "What source-bound observation and counter-observation would distinguish claim-to-record proposition consistency?",
+        "missing_evidence": "Exact statement, version, claimant capacity and authenticated comparison event",
+        "falsifier": "The claim and record concern different objects, times or meanings",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0088",
+      "method_name": "Source chain-of-custody continuity audit",
+      "family": "EVIDENCE_DECEPTION",
+      "mechanism": "Check custody/handling transitions separately from semantic correctness",
+      "required_input": "Native acquisition provenance, custody receipts and digests",
+      "falsifier": "Missing or conflicting custody steps make integrity indeterminate",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_FORENSICS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FORENSIC",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0088",
+        "question": "What source-bound observation and counter-observation would distinguish source chain-of-custody continuity audit?",
+        "missing_evidence": "Native acquisition provenance, custody receipts and digests",
+        "falsifier": "Missing or conflicting custody steps make integrity indeterminate",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0089",
+      "method_name": "Record revision versus event-time split",
+      "family": "EVIDENCE_DECEPTION",
+      "mechanism": "Differentiate when an event happened from when a record was edited",
+      "required_input": "Native record event time, edit time, clock/source ownership",
+      "falsifier": "Timestamp fields encode different intended semantics",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_FORENSICS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FORENSIC",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0089",
+        "question": "What source-bound observation and counter-observation would distinguish record revision versus event-time split?",
+        "missing_evidence": "Native record event time, edit time, clock/source ownership",
+        "falsifier": "Timestamp fields encode different intended semantics",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0090",
+      "method_name": "Negative-control omission challenge",
+      "family": "EVIDENCE_DECEPTION",
+      "mechanism": "Treat expected-but-absent records as open questions with retention controls",
+      "required_input": "Expected record catalog, source coverage, retention limits",
+      "falsifier": "Record is outside coverage/retention scope",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_FORENSICS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DECEPTION",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0090",
+        "question": "What source-bound observation and counter-observation would distinguish negative-control omission challenge?",
+        "missing_evidence": "Expected record catalog, source coverage, retention limits",
+        "falsifier": "Record is outside coverage/retention scope",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0091",
+      "method_name": "Deception-cue invalidity guard",
+      "family": "EVIDENCE_DECEPTION",
+      "mechanism": "Prevent word choice, nervousness or latency being treated as verified dishonesty",
+      "required_input": "Validated domain study and sourced behavior samples",
+      "falsifier": "Behavioral cue is nonspecific or confounded",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "VLD_CRITIQUE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "DECEPTION",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0091",
+        "question": "What source-bound observation and counter-observation would distinguish deception-cue invalidity guard?",
+        "missing_evidence": "Validated domain study and sourced behavior samples",
+        "falsifier": "Behavioral cue is nonspecific or confounded",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0092",
+      "method_name": "Four-valued contradiction-preserving claim review",
+      "family": "EVIDENCE_DECEPTION",
+      "mechanism": "Keep support and contradiction simultaneously without exploding into a verdict",
+      "required_input": "Claim IDs, supporting and opposing independently attributed records",
+      "falsifier": "Contradiction disappears after source identity/version correction",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "SEP_PARACONSISTENT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONSISTENCY",
+        "DECEPTION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0092",
+        "question": "What source-bound observation and counter-observation would distinguish four-valued contradiction-preserving claim review?",
+        "missing_evidence": "Claim IDs, supporting and opposing independently attributed records",
+        "falsifier": "Contradiction disappears after source identity/version correction",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0093",
+      "method_name": "Authenticity versus consistency two-gate review",
+      "family": "EVIDENCE_DECEPTION",
+      "mechanism": "Require independent provenance gate before claim-comparison promotion",
+      "required_input": "Source hashes, native owners, comparison invariants",
+      "falsifier": "Consistent statements derive from one unreliable shared source",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MITRE_D3FEND",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FORENSIC",
+        "CONSISTENCY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0093",
+        "question": "What source-bound observation and counter-observation would distinguish authenticity versus consistency two-gate review?",
+        "missing_evidence": "Source hashes, native owners, comparison invariants",
+        "falsifier": "Consistent statements derive from one unreliable shared source",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0094",
+      "method_name": "Account takeover evidence chain review",
+      "family": "CYBER_DEFENSE_PATTERNS",
+      "mechanism": "Map authenticated activity against session and ownership records",
+      "required_input": "Authorized account logs and owner identity confirmations",
+      "falsifier": "Legitimate session delegation or administrative workflow explains activity",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MITRE_ATTACK19",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "IDENTITY",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0094",
+        "question": "What source-bound observation and counter-observation would distinguish account takeover evidence chain review?",
+        "missing_evidence": "Authorized account logs and owner identity confirmations",
+        "falsifier": "Legitimate session delegation or administrative workflow explains activity",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0095",
+      "method_name": "Cross-tenant authorization boundary check",
+      "family": "CYBER_DEFENSE_PATTERNS",
+      "mechanism": "Compare exact resource ownership with authorized subject capabilities",
+      "required_input": "Owned test accounts, role matrix and object ACLs",
+      "falsifier": "Resource is intentionally shared under a validated rule",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MITRE_CAPEC",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "AUTHORITY",
+        "IDENTITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0095",
+        "question": "What source-bound observation and counter-observation would distinguish cross-tenant authorization boundary check?",
+        "missing_evidence": "Owned test accounts, role matrix and object ACLs",
+        "falsifier": "Resource is intentionally shared under a validated rule",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0096",
+      "method_name": "Repeated transaction and replay evidence review",
+      "family": "CYBER_DEFENSE_PATTERNS",
+      "mechanism": "Check duplicate event IDs and at-most-once transition results",
+      "required_input": "Authorized fixture event identifiers and finalized ledger",
+      "falsifier": "Retry attempts reconcile to one terminal event",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MITRE_CAPEC",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "REPLAY",
+        "FORENSIC"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0096",
+        "question": "What source-bound observation and counter-observation would distinguish repeated transaction and replay evidence review?",
+        "missing_evidence": "Authorized fixture event identifiers and finalized ledger",
+        "falsifier": "Retry attempts reconcile to one terminal event",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0097",
+      "method_name": "Privilege escalation trace distinction",
+      "family": "CYBER_DEFENSE_PATTERNS",
+      "mechanism": "Compare actor privilege before and after owned session events",
+      "required_input": "Privilege ledger, control-plane events, authorization owner",
+      "falsifier": "Observed permission existed by legitimate prior grant",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MITRE_ATTACK19",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "AUTHORITY",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0097",
+        "question": "What source-bound observation and counter-observation would distinguish privilege escalation trace distinction?",
+        "missing_evidence": "Privilege ledger, control-plane events, authorization owner",
+        "falsifier": "Observed permission existed by legitimate prior grant",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0098",
+      "method_name": "Audit-log gap versus sensor-coverage falsifier",
+      "family": "CYBER_DEFENSE_PATTERNS",
+      "mechanism": "Differentiate missing activity from missing instrumentation",
+      "required_input": "Source inventory, sensor coverage, collection times",
+      "falsifier": "Sensor was never configured to capture relevant action",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MITRE_D3FEND",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FORENSIC",
+        "ANOMALY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0098",
+        "question": "What source-bound observation and counter-observation would distinguish audit-log gap versus sensor-coverage falsifier?",
+        "missing_evidence": "Source inventory, sensor coverage, collection times",
+        "falsifier": "Sensor was never configured to capture relevant action",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0099",
+      "method_name": "Tamper versus ordinary retention review",
+      "family": "CYBER_DEFENSE_PATTERNS",
+      "mechanism": "Compare deletion/rotation behavior with actual retention contracts",
+      "required_input": "Owned log policy and observed rotation events",
+      "falsifier": "Log lifecycle fully matches authorized retention",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_IR3",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FORENSIC",
+        "CONSISTENCY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0099",
+        "question": "What source-bound observation and counter-observation would distinguish tamper versus ordinary retention review?",
+        "missing_evidence": "Owned log policy and observed rotation events",
+        "falsifier": "Log lifecycle fully matches authorized retention",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0100",
+      "method_name": "Identity-binding and impersonation evidence review",
+      "family": "CYBER_DEFENSE_PATTERNS",
+      "mechanism": "Match claimed actor and authenticator binding without inferring criminal intent",
+      "required_input": "Authentication token subject, issuer, delegation and session owners",
+      "falsifier": "Authorized service account or delegation explains mismatch",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MITRE_CAPEC",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "IDENTITY",
+        "DECEPTION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0100",
+        "question": "What source-bound observation and counter-observation would distinguish identity-binding and impersonation evidence review?",
+        "missing_evidence": "Authentication token subject, issuer, delegation and session owners",
+        "falsifier": "Authorized service account or delegation explains mismatch",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0101",
+      "method_name": "Data movement authorization and owner review",
+      "family": "CYBER_DEFENSE_PATTERNS",
+      "mechanism": "Compare observed transfer destinations with explicit owner permissions",
+      "required_input": "Owned data-flow logs, policy, recipient identities",
+      "falsifier": "Backup or approved transfer is correctly authorized",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MITRE_ATTACK19",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "FLOW",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0101",
+        "question": "What source-bound observation and counter-observation would distinguish data movement authorization and owner review?",
+        "missing_evidence": "Owned data-flow logs, policy, recipient identities",
+        "falsifier": "Backup or approved transfer is correctly authorized",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0102",
+      "method_name": "Incident chain reconstruction with missing-node guards",
+      "family": "CYBER_DEFENSE_PATTERNS",
+      "mechanism": "Build a minimal ordered state trace while preserving unknown observations",
+      "required_input": "Timestamped authenticated events and clock corrections",
+      "falsifier": "Alternative partial order satisfies observed events",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_IR3",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "TIME",
+        "FORENSIC"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0102",
+        "question": "What source-bound observation and counter-observation would distinguish incident chain reconstruction with missing-node guards?",
+        "missing_evidence": "Timestamped authenticated events and clock corrections",
+        "falsifier": "Alternative partial order satisfies observed events",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0103",
+      "method_name": "Refund-to-settlement beneficiary divergence",
+      "family": "FINANCIAL_FRAUD_PATTERNS",
+      "mechanism": "Separate refund object, intended beneficiary and actual settled recipient",
+      "required_input": "Owned refund records, ledger units and payout owner",
+      "falsifier": "Third-party processor allocation is authorized",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_FORENSICS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "IDENTITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0103",
+        "question": "What source-bound observation and counter-observation would distinguish refund-to-settlement beneficiary divergence?",
+        "missing_evidence": "Owned refund records, ledger units and payout owner",
+        "falsifier": "Third-party processor allocation is authorized",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0104",
+      "method_name": "Multi-account benefit eligibility distinction",
+      "family": "FINANCIAL_FRAUD_PATTERNS",
+      "mechanism": "Look for correlated account benefits without assuming identity equivalence",
+      "required_input": "Eligibility terms, consented test accounts, native account keys",
+      "falsifier": "Distinct eligible people or known shared IP explain overlap",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MITRE_CAPEC",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ENTITLEMENT",
+        "IDENTITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0104",
+        "question": "What source-bound observation and counter-observation would distinguish multi-account benefit eligibility distinction?",
+        "missing_evidence": "Eligibility terms, consented test accounts, native account keys",
+        "falsifier": "Distinct eligible people or known shared IP explain overlap",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0105",
+      "method_name": "Approval chain bypass as missing-authority event",
+      "family": "FINANCIAL_FRAUD_PATTERNS",
+      "mechanism": "Compare approved changes to mandatory review or co-signature records",
+      "required_input": "Versioned approval policy, event chain, finalizer authority",
+      "falsifier": "Emergency authorization path is documented and valid",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_FORENSICS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "AUTHORITY",
+        "FINALITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0105",
+        "question": "What source-bound observation and counter-observation would distinguish approval chain bypass as missing-authority event?",
+        "missing_evidence": "Versioned approval policy, event chain, finalizer authority",
+        "falsifier": "Emergency authorization path is documented and valid",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0106",
+      "method_name": "Double-entry reversal and compensation review",
+      "family": "FINANCIAL_FRAUD_PATTERNS",
+      "mechanism": "Distinguish pending reversal, offset and irreversible payout",
+      "required_input": "Owned ledger entries, state versions, payment terms",
+      "falsifier": "Compensating event reconciles transient inconsistency",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_FORENSICS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "MONEY",
+        "FINALITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0106",
+        "question": "What source-bound observation and counter-observation would distinguish double-entry reversal and compensation review?",
+        "missing_evidence": "Owned ledger entries, state versions, payment terms",
+        "falsifier": "Compensating event reconciles transient inconsistency",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0107",
+      "method_name": "Goal-conditioned inverse planning hypotheses",
+      "family": "INTENT_NEUTRAL_INFERENCE",
+      "mechanism": "Compare alternative goals as explanatory models for observed actions",
+      "required_input": "Explicit alternative goals, permitted action choices, source-bound trace",
+      "falsifier": "Different legitimate goal explains identical actions",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_INVERSE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INTENT",
+        "GOAL"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0107",
+        "question": "What source-bound observation and counter-observation would distinguish goal-conditioned inverse planning hypotheses?",
+        "missing_evidence": "Explicit alternative goals, permitted action choices, source-bound trace",
+        "falsifier": "Different legitimate goal explains identical actions",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0108",
+      "method_name": "Plus/minus intent evidence quadrants",
+      "family": "INTENT_NEUTRAL_INFERENCE",
+      "mechanism": "Retain signals for and against each claimed goal independently",
+      "required_input": "Attributable signed evidence statements and falsifiers",
+      "falsifier": "Support and contradiction coexist or neither supported",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "SEP_PARACONSISTENT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INTENT",
+        "CONSISTENCY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0108",
+        "question": "What source-bound observation and counter-observation would distinguish plus/minus intent evidence quadrants?",
+        "missing_evidence": "Attributable signed evidence statements and falsifiers",
+        "falsifier": "Support and contradiction coexist or neither supported",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0109",
+      "method_name": "Authorized capability versus actual-use separation",
+      "family": "INTENT_NEUTRAL_INFERENCE",
+      "mechanism": "Check availability of capability independently of exercised action",
+      "required_input": "Role authorization plus event of actual execution",
+      "falsifier": "Capability was available but never invoked",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_INVERSE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "AUTHORITY",
+        "INTENT"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0109",
+        "question": "What source-bound observation and counter-observation would distinguish authorized capability versus actual-use separation?",
+        "missing_evidence": "Role authorization plus event of actual execution",
+        "falsifier": "Capability was available but never invoked",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0110",
+      "method_name": "Opportunity motive and outcome non-equivalence",
+      "family": "INTENT_NEUTRAL_INFERENCE",
+      "mechanism": "Challenge inference from benefit or opportunity to a particular actor intention",
+      "required_input": "Native opportunity record, competing explanations, outcome",
+      "falsifier": "Incentive and result occur under harmless alternative",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_INVERSE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INTENT",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0110",
+        "question": "What source-bound observation and counter-observation would distinguish opportunity motive and outcome non-equivalence?",
+        "missing_evidence": "Native opportunity record, competing explanations, outcome",
+        "falsifier": "Incentive and result occur under harmless alternative",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0111",
+      "method_name": "Operator attribution across shared credentials",
+      "family": "INTENT_NEUTRAL_INFERENCE",
+      "mechanism": "Treat observed principal, device, human operator and employer roles separately",
+      "required_input": "Signed identity chain and authenticated device session",
+      "falsifier": "Shared system credentials cannot identify the person",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_FORENSICS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "ATTRIBUTION",
+        "IDENTITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0111",
+        "question": "What source-bound observation and counter-observation would distinguish operator attribution across shared credentials?",
+        "missing_evidence": "Signed identity chain and authenticated device session",
+        "falsifier": "Shared system credentials cannot identify the person",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0112",
+      "method_name": "Reverse-goal path feasibility bound",
+      "family": "INTENT_NEUTRAL_INFERENCE",
+      "mechanism": "Traverse backward from a stated terminal state and test prerequisites",
+      "required_input": "Finite authorized transition graph, exact goal and barriers",
+      "falsifier": "Observed trace cannot reach goal or alternate goal also fits",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_INVERSE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GOAL",
+        "GRAPH"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0112",
+        "question": "What source-bound observation and counter-observation would distinguish reverse-goal path feasibility bound?",
+        "missing_evidence": "Finite authorized transition graph, exact goal and barriers",
+        "falsifier": "Observed trace cannot reach goal or alternate goal also fits",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0113",
+      "method_name": "Counterfactual act omission test",
+      "family": "INTENT_NEUTRAL_INFERENCE",
+      "mechanism": "Ask whether alleged goal required the observed action given alternatives",
+      "required_input": "Finite action choices and explicitly limited world model",
+      "falsifier": "Equally feasible safe action invalidates necessity",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_INVERSE",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "GOAL",
+        "COMPARISON"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0113",
+        "question": "What source-bound observation and counter-observation would distinguish counterfactual act omission test?",
+        "missing_evidence": "Finite action choices and explicitly limited world model",
+        "falsifier": "Equally feasible safe action invalidates necessity",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0114",
+      "method_name": "Minimum-description-length explanation competition",
+      "family": "UNCONVENTIONAL_RIGOR",
+      "mechanism": "Compare parsimonious competing explanations without declaring truth",
+      "required_input": "Finite encoded descriptions and explicit model coding choice",
+      "falsifier": "Result reverses under justified coding scheme",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MDL_SURVEY",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "UNCERTAINTY",
+        "REDUCTION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0114",
+        "question": "What source-bound observation and counter-observation would distinguish minimum-description-length explanation competition?",
+        "missing_evidence": "Finite encoded descriptions and explicit model coding choice",
+        "falsifier": "Result reverses under justified coding scheme",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0115",
+      "method_name": "Paraconsistent contradiction quarantine",
+      "family": "UNCONVENTIONAL_RIGOR",
+      "mechanism": "Keep mutually inconsistent records without forcing arbitrary downstream inferences",
+      "required_input": "Typed contradictory facts and source ownership",
+      "falsifier": "Reconciled temporal version resolves contradiction",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "SEP_PARACONSISTENT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONSISTENCY",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0115",
+        "question": "What source-bound observation and counter-observation would distinguish paraconsistent contradiction quarantine?",
+        "missing_evidence": "Typed contradictory facts and source ownership",
+        "falsifier": "Reconciled temporal version resolves contradiction",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0116",
+      "method_name": "Reverse-defense evidence gap mapping",
+      "family": "UNCONVENTIONAL_RIGOR",
+      "mechanism": "Walk backward from a purported failure to its expected preventive controls",
+      "required_input": "Defense control graph, declared failure, source evidence",
+      "falsifier": "An independent verified barrier makes the path infeasible",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MITRE_D3FEND",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "VERIFICATION",
+        "GRAPH"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0116",
+        "question": "What source-bound observation and counter-observation would distinguish reverse-defense evidence gap mapping?",
+        "missing_evidence": "Defense control graph, declared failure, source evidence",
+        "falsifier": "An independent verified barrier makes the path infeasible",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0117",
+      "method_name": "Explanatory compression sensitivity check",
+      "family": "UNCONVENTIONAL_RIGOR",
+      "mechanism": "Check whether adding observations truly improves candidate model compression",
+      "required_input": "Comparable event records and explicitly encoded model complexity",
+      "falsifier": "Compression improvement is due to encoding choices",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MDL_SURVEY",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "REDUCTION",
+        "ANOMALY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0117",
+        "question": "What source-bound observation and counter-observation would distinguish explanatory compression sensitivity check?",
+        "missing_evidence": "Comparable event records and explicitly encoded model complexity",
+        "falsifier": "Compression improvement is due to encoding choices",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0118",
+      "method_name": "Defensive countermeasure coverage witness",
+      "family": "UNCONVENTIONAL_RIGOR",
+      "mechanism": "Crosswalk observable attack behavior to deployed defensive control and missing evidence",
+      "required_input": "Detection strategy, security capability and owned deployment state",
+      "falsifier": "Published control exists but is absent on target configuration",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "NIST_IR3",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "VERIFICATION",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0118",
+        "question": "What source-bound observation and counter-observation would distinguish defensive countermeasure coverage witness?",
+        "missing_evidence": "Detection strategy, security capability and owned deployment state",
+        "falsifier": "Published control exists but is absent on target configuration",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    }
+  ]
+}
