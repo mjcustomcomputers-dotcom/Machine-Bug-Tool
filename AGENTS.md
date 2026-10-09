@@ -176,3 +176,36 @@ Read `docs/NOAHS-ARK-REASONING-OSI-V13.md` and `connector-bridge/reasoning-artif
 `lib/noahs-ark-reasoning.mjs` + local CLI `reason` consider all 239 source-linked MHA research candidates for one typed atom but select only a bounded, explicitly ready and falsifiable plan. Negative controls and comparator links are caller-supplied **unverified research inputs**; neither selection nor multiple agreeing methods authenticates a bounty finding. The new noncanonical Drive workbook and offline Jupyter notebook are development evidence/planning artifacts. They do not synchronize automatically with hosted Sites or change canonical Drive PASS control. The eight malformed optical cross-reference IDs have been repaired on this branch; the full 212-link ID validation is mandatory before merge.
 
 Run dedicated `tests/noahs-ark-reasoning.test.mjs` and `tests/method-relations-integrity.test.mjs`, full Node suite and build, and optionally the notebook in the prepared Codex Cloud environment. Preserve exact current Git HEAD, readback receipts, unresolved source and method inputs. No automatic target traffic, deployment, merged PR or production use.
+
+## V13 operative controllers in regular ChatGPT
+
+When the user asks for operative controllers, regular-chat execution, or the
+GitHub-to-MPC bridge, read `docs/CHATGPT-MPC-OPERATIVE-CONTROLLERS-V13.md` and
+`connector-bridge/operative-controllers-v13.json`. Use the existing supported
+GitHub, native source, and MPC plugins in the current chat. Preserve their
+current registered schemas and the user's original canonical controllers.
+
+`lib/noahs-ark-controller.mjs` and `scripts/noahs-ark-controller-cli.mjs` provide
+versioned operative state: typed source/readiness gates, explicit bounded
+adaptation to a native MPC evaluator, executable negative controls, challenger
+results, selective resume, and native checkpoint write/readback. The chat host
+performs the actual connector calls and supplies their exact receipts. The
+controller does not add network dispatch to the hosted Site. Receipt hashes
+prove content parity only; a complete development controller does not prove a
+security finding or replace the canonical Drive PASS controller.
+
+Resolve the current Git code revision and latest validation receipt before
+execution. Do not assume a chat has Node/source execution because a previous
+chat did. If source execution is unavailable, retain that boundary and continue
+only the supported native MPC operations. Never claim the V13 planner or
+controller ran solely from reading its instructions. New GitHub MHA definitions
+remain planning candidates until a supported native evaluator schema and exact
+source-bound model are supplied; preserve existing method IDs and prior work.
+
+The V13 validation restores the previously tested V8 repairs from
+`b5e6e6ae4100d73add56176645e9b58e4a4e7e49`, preserving V11 indexes and V12
+seven-table parity diagnostics. Normal cache admission fails closed on schema,
+seed or row drift; `audit-seed` remains read-only. Preserve old cache files.
+The notebook selects a source-derived cache path and records its actual host,
+code revision, worktree state and three executed synthetic scenarios separately
+from the workbook's four historical authored planning rows.

@@ -43,7 +43,8 @@ test('A proposed challenge remains a separate unexecuted and nonindependent meth
  assert.equal(x.independent_evidence_proven,false);
 });
 test('Input order and relation order do not change selected methods or pair relationships',()=>{
- const x=run(),y=run({methods:[...methods].reverse(),relations:[...links.relationships].reverse()});
+ const x=run(),y=run({methods:[...methods].reverse().map(m=>({...m,dimensions:[...m.dimensions].reverse()})),
+  relations:[...links.relationships].reverse(),method_receipts:[...receipts].reverse(),atom:{...atom,dimensions:[...atom.dimensions].reverse()}});
  assert.deepEqual(x.selected_methods.map(m=>m.method_id),y.selected_methods.map(m=>m.method_id));
  assert.deepEqual(x.proposed_pairs.map(m=>[m.primary_method_id,m.challenger_method_id]),y.proposed_pairs.map(m=>[m.primary_method_id,m.challenger_method_id]));
 });
@@ -66,4 +67,31 @@ test('Schema gate rejects forged method readiness, unknown methodology and budge
  assert.throws(()=>run({method_receipts:invalid}),/INVALID_METHOD_READINESS/);
  assert.throws(()=>run({max_selected:99}),/ARK_BUDGET_OR_METHODS/);
  assert.throws(()=>run({atom:{...atom,dimensions:['MONEY','MONEY']}}),/INVALID_DIMENSIONS/);
+});
+test('Atom and subject identities must be explicit strings, never coerced absent or scalar values',()=>{
+ for(const field of ['subject_id','atom_id'])for(const value of [undefined,null,42,true,['fixture:coerced'],{},'']){
+  assert.throws(()=>run({atom:{...atom,[field]:value}}),/INVALID_REASONING_ID/);
+ }
+});
+test('Missing and unknown per-method input block selection even when controls are declared ready',()=>{
+ for(const input_state of ['MISSING','UNKNOWN']){
+  const x=run({method_receipts:receipts.map(r=>({...r,input_state}))});
+  assert.equal(x.status,'BLOCKED_NO_READY_METHOD');
+  assert.equal(x.selected_methods.length,0);
+  assert.equal(x.method_consideration.length,239);
+  assert.equal(x.no_method_executed,true);
+ }
+});
+test('Unready controls reduce priority for equal dimension coverage without being counted ready',()=>{
+ for(const field of ['negative_control_state','falsifier_state'])for(const state of ['MISSING','UNKNOWN']){
+  const x=run({atom:{...atom,dimensions:['MONEY']},method_receipts:[
+   {...receipts[0],[field]:state,estimated_cost_units:1},
+   {...receipts[1],estimated_cost_units:100}
+  ]});
+  assert.deepEqual(x.selected_methods.map(m=>m.method_id),['MHA-0053']);
+  const unready=x.method_consideration.find(m=>m.method_id==='MHA-0052');
+  assert.equal(unready[field],state);
+  assert.equal(unready.execution_performed,false);
+  assert.equal(x.independent_evidence_proven,false);
+ }
 });
