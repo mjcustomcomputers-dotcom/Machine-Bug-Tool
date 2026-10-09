@@ -1,0 +1,57 @@
+{
+  "schema_version": "MPC_HOT_RESUME_POINTERS_V10",
+  "status": "STATIC_NATIVE_LOCATORS_NOT_LIVE_CONTROLLER_STATE",
+  "checked_on": "2026-10-09",
+  "repo": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "stack": {
+    "base_branch": "feature/chatgpt-connector-source-bridge-v9",
+    "base_commit": "a0dfda0c27edeb2d2b83472a26f7b39d5036a186",
+    "development_branch": "feature/chatgpt-hot-resume-v10",
+    "other_v10_branch": "feature/connector-native-authority-falsifier-v10",
+    "other_v10_branch_mutated": false
+  },
+  "projects": {
+    "KOMOJU": {
+      "controller": {
+        "project": "KOMOJU",
+        "role": "TARGET_CONTROL",
+        "provider": "AIRTABLE",
+        "base_id": "appdD5WC0CVuRirtP",
+        "table_id": "tblC9KnJuUvwxbikS",
+        "record_id": "rech8Afm8n1P1qgMD"
+      },
+      "latest_observed_checkpoint_hint": "KOMOJU-CKPT-002-DELTA-044-20261009",
+      "latest_observed_checkpoint_is_live_canonical": false,
+      "drive_checkpoint_002": "1NXzSd-0HuE9-HGdUPt2drMJbnixGQSB_D-HSj7cUBFs",
+      "drive_checkpoint_is_prior_durable_artifact": true,
+      "source_register_table": "tbl6SZRW01igTqY8W",
+      "next_pass": "READ_LIVE_AIRTABLE_CONTROLLER_FIRST"
+    },
+    "SOCIAL_DEAL": {
+      "controller": {
+        "project": "SOCIAL_DEAL",
+        "role": "CANDIDATE_BRANCH",
+        "provider": "AIRTABLE",
+        "base_id": "appZPanYDOUZRinwr",
+        "table_id": "tblKHFcWGkk4v4LxX",
+        "record_id": "reckbawZxBahBiddZ"
+      },
+      "controller_scope": "GC002_CANDIDATE_ONLY_NOT_GLOBAL_TARGET_CONTROLLER",
+      "identity_currentness": "MUST_REVERIFY_NATIVE",
+      "source_register_drive_id": "1-PkmF-4QLr5rZ4XTTxOjiBJlxZGkYFbvQypl69N6mhA",
+      "hook_log_drive_id": "1Yl3D6FdLkJvJpR_SD1a-lssSgYgPRFHE1N8Ra7eO5jk",
+      "last_durable_hook_pass_hint": "PASS102",
+      "next_pass": "READ_CURRENT_GC002_NATIVE_RECORD_AND_HOOK_FRONTIER_FIRST"
+    }
+  },
+  "constraints": [
+    "TEST read-only by default; never commit data based solely on test intent",
+    "RECON internal checkpoint proposals require explicit approval and native conditional version write support",
+    "COMMIT requires separately authorized host action, source-version precondition, readback",
+    "Airtable logical checkpoint ID is not an ETag or a distributed CAS lock",
+    "Drive source docs, Dash projections, native Dropbox and GitHub commits are distinct namespaces",
+    "No secrets or confidential bounty evidence in repository; source version metadata only",
+    "MPC hosted tools have no connector dispatcher or persistence; branch is not production deployment",
+    "MAXVAR NESTMAX BL MBSS EXT and Method Atlas remain untouched; no target traffic"
+  ]
+}
