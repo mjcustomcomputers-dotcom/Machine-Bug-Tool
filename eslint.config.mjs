@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vinext, Wrangler, and the managed setup scripts keep generated state in
+    // these checkout-local directories. They are never application source.
+    ".vinext/**",
+    "dist/**",
+    ".wrangler/**",
+    ".sites-runtime/**",
   ]),
   {
     files: ["components/ui/**/*.{ts,tsx}", "hooks/use-mobile.ts"],
