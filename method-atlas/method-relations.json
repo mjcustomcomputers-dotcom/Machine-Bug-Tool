@@ -633,6 +633,206 @@
       "rationale": "Observed replay is compatible with multiple goals, not proof of intent",
       "link_status": "PROPOSED_METHOD_COMPARISON",
       "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0119",
+      "related_method_id": "MHA-0138",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Sketch specification holes tested against syntax-guided invariant guard synthesis",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0120",
+      "related_method_id": "MHA-0095",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Relational counterexample against source-owned cross-tenant authority boundary",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0121",
+      "related_method_id": "MHA-0123",
+      "relation_type": "CHALLENGE",
+      "rationale": "Search grammar pruning must not discard distinct symmetry-breaking witness",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0122",
+      "related_method_id": "MHA-0129",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Synthesizer validation separated from actual deployed proof-artifact binding",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0123",
+      "related_method_id": "MHA-0120",
+      "relation_type": "CHALLENGE",
+      "rationale": "Symmetry breaking can obscure distinct relational violations",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0124",
+      "related_method_id": "MHA-0107",
+      "relation_type": "CHALLENGE",
+      "rationale": "Best-response incentives challenge single-goal inverse planning",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0125",
+      "related_method_id": "MHA-0089",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Strategic time reports versus native event-time and revision-time",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0126",
+      "related_method_id": "MHA-0036",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Allocation transfers reconciled against source-owned conservation",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0127",
+      "related_method_id": "MHA-0038",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Differential-privacy composition requirements versus two-run information-flow restrictions",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0128",
+      "related_method_id": "MHA-0127",
+      "relation_type": "CHALLENGE",
+      "rationale": "Privacy budget odometer does not enforce privacy budget filter",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0129",
+      "related_method_id": "MHA-0032",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Formal proof artifact tied to actual verification matrix and build",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0130",
+      "related_method_id": "MHA-0116",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Symbolic path constraints with reverse defensive barrier coverage",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0131",
+      "related_method_id": "MHA-0102",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Process event alignment contrasted with source-owned incident chronology",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0132",
+      "related_method_id": "MHA-0035",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Petri replay token conservation against stated state-transition specification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0133",
+      "related_method_id": "MHA-0131",
+      "relation_type": "CHALLENGE",
+      "rationale": "Alignment fitness may change under valid skip-move costs",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0134",
+      "related_method_id": "MHA-0055",
+      "relation_type": "CHALLENGE",
+      "rationale": "Case-correlated identity may differ across versions or paytables",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0135",
+      "related_method_id": "MHA-0118",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Threat modeling lens chosen by asset and control owner",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0136",
+      "related_method_id": "MHA-0032",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "PASTA stage outputs must map to verification requirements",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0137",
+      "related_method_id": "MHA-0095",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Actor-asset-action matrix against native cross-tenant permissions",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0138",
+      "related_method_id": "MHA-0119",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Synthesis-generated guard must satisfy original sketch constraints",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0139",
+      "related_method_id": "MHA-0090",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Counterexample selection compared with missing record coverage falsifier",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0140",
+      "related_method_id": "MHA-0112",
+      "relation_type": "CHALLENGE",
+      "rationale": "Short-horizon goals compared with backward goal feasibility",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0141",
+      "related_method_id": "MHA-0023",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Observer-state mismatch tested against hidden Markov state model",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0142",
+      "related_method_id": "MHA-0028",
+      "relation_type": "CHALLENGE",
+      "rationale": "Apparent nonconvergence versus delay and feedback amplification",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0143",
+      "related_method_id": "MHA-0017",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "D-separation compared with source-supported conditional independence",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
     }
   ]
 }
