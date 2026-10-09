@@ -1,0 +1,67 @@
+{
+  "schema": "DAYBREAK-NO-BROWSER-SETUP-1.0",
+  "verified_at_utc": "2026-10-09T02:34:39.250843+00:00",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "initial_verified_github_commit": "97704161bfc2c3f0af42ead986dbfb7b405c8c5c",
+  "upstream_source_commit": "765923c9839f32502e5c0f1f1b919b827596012e",
+  "upstream_source_tree": "321a45127d35bd2062201394412101ddc51e044e",
+  "initial_remote_source_verification": {
+    "original_files": 182,
+    "matched_blob_sha_mode_and_size": 182,
+    "mismatches": 0,
+    "truncated": false
+  },
+  "portable_source_setup": {
+    "status": "VERIFIED",
+    "command": [
+      "bash",
+      "scripts/setup-daybreak.sh"
+    ],
+    "verification_trace_command": [
+      "bash",
+      "-x",
+      "scripts/setup-daybreak.sh"
+    ],
+    "profile": "portable",
+    "platform": "linux-x64",
+    "node": "v24.19.0",
+    "pnpm": "11.25.0",
+    "exit_code": 0,
+    "test_counts": {
+      "tests": 166,
+      "suites": 0,
+      "pass": 166,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "build_complete_observed": true,
+    "final_success_marker_observed": true,
+    "lockfile_sha256": "095ba6f301ba3997da2c251dfc4b805c220624bdf0921d905eaceee0d1fb29c9",
+    "original_tracked_files_changed": [],
+    "script_sha256": "1316b537ac73ee2d0ebcc257dd1f3b4fb0fa00d1455d8a020dccceca3cce674d",
+    "receipt_note": "The first run returned exit 0 with incomplete captured phase evidence; the subsequent trace explicitly shows install, 166 passing tests, build completion and the final success marker. Only the complete trace supports this VERIFIED state."
+  },
+  "hosted_mpc": {
+    "runtime_version": "0.10.0-http.1",
+    "catalog_version": "1.2.0",
+    "protected_synthetic_nash_call": "SUCCEEDED_THROUGH_EXISTING_PLUGIN",
+    "model_fingerprint": "ccaeffad1174b17d243331dae954c6cb6fdd1b66a33f34dbf3e5e57eb65535c4",
+    "native_target_evidence_established": false
+  },
+  "remaining": {
+    "reusable_codex_cloud_environment": "AWAITING_USER_DESKTOP_SETUP; no creation or publication claimed",
+    "daybreak_account_entitlement": "NOT_VERIFIED",
+    "daybreak_selected_model_or_access_program": "NOT_VERIFIED",
+    "windows_or_macos_local_execution": "NOT_TESTED",
+    "drive_dash_repairs_and_bounty_evidence": "RETAINED_IN_ORIGINAL_REPAIR_QUEUE"
+  },
+  "browser_use_after_no_browser_instruction": false,
+  "next_action": "In the ChatGPT desktop app, create/select the private environment for Machine-Bug-Tool; ask the setup task to follow AGENTS.md and run bash scripts/setup-daybreak.sh after providing the pinned runtimes; review and publish. Continue ordinary source/MPC work through existing tools while that separate account-level step is pending.",
+  "official_sources": [
+    "https://learn.chatgpt.com/docs/environments/cloud-environments",
+    "https://learn.chatgpt.com/docs/cli/reference",
+    "https://learn.chatgpt.com/docs/enterprise/workspace-model-availability"
+  ]
+}

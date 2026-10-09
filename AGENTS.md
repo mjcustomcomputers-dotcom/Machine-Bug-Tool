@@ -20,11 +20,17 @@ Follow the supported Sites workflow for any separately authorized deployment.
 - Preserve `pnpm-lock.yaml` and the dependency policy in `pnpm-workspace.yaml`.
 - Do not introduce a second lockfile or run overlapping installers.
 - On managed Sites Linux, use the Sites dependency helper. On a separate
-  portable checkout, use the frozen pnpm command in `DAYBREAK-START.txt`.
+  portable Linux/macOS checkout, run `bash scripts/setup-daybreak.sh` after
+  supplying the manifest's Node and pnpm versions. The script preserves the
+  checked-in dependency policy and runs the existing tests and build.
 - Keep checkout-specific runtime state ignored and local to the checkout.
 - The existing validation commands are `node --test` and `npm run build`.
 - Source tests and local builds do not publish a Site or create a reusable
   Codex Cloud environment. Record the actual command, commit, and exit status.
+- The user's current setup instruction is to work without browser control.
+  Use the connected GitHub/MPC tools for supported work. A new reusable Cloud
+  environment remains a separate desktop-app step unless a documented,
+  authorized environment-creation tool becomes available.
 
 ## Daybreak and the hosted MPC connection
 

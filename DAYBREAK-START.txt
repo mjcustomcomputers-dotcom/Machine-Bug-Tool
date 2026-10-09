@@ -9,6 +9,18 @@ Use this private development copy of the existing MPC source with the user's
 approved Daybreak surface. The model/access program, source repository,
 prepared environment, and hosted MPC connection have separate setup receipts.
 
+CURRENT NO-BROWSER ENTRY POINT
+The private source import is complete. Continue through the installed MPC and
+connected GitHub tools. From a portable Linux/macOS checkout with Node and
+pnpm already meeting the manifest versions, run:
+
+  bash scripts/setup-daybreak.sh
+
+That command verifies versions/profile, installs the locked dependencies, runs
+the existing tests, and builds the source. It does not create an account,
+select a model, configure a production MCP login, or publish an environment.
+See docs/daybreak-no-browser-verification.json for this pass's actual checks.
+
 1. CONTINUE THE EXISTING SYSTEM
 
 Existing MPC Site:
@@ -24,8 +36,10 @@ Native branch: main
 Imported source commit: 765923c9839f32502e5c0f1f1b919b827596012e
 Imported source tree: 321a45127d35bd2062201394412101ddc51e044e
 
-The import preserves the 182 original tracked source files byte for byte,
-including their Git modes, and adds setup instructions and provenance.
+The initial import preserves the 182 original tracked source files byte for
+byte, including their Git modes, and adds setup instructions and provenance.
+The subsequent no-browser setup adds a portable preparation entry point and
+its verification receipt. The original source files remain unchanged.
 The GitHub commit ID is different from the native source commit because this
 is a snapshot import with setup files. The native repository retains prior
 history. There is no automatic bidirectional synchronization or deployment.
@@ -105,12 +119,19 @@ this preparation workspace do not prove a separate Cloud or Windows setup.
 
 5. REUSABLE CODEX CLOUD ENVIRONMENT
 
-Official flow: Work in > Cloud > Select environment > Create environment;
-select mjcustomcomputers-dotcom/Machine-Bug-Tool; choose Get started. Keep
+For the user's no-browser workflow, use the ChatGPT desktop app's environment
+interface. Official flow: Work in > Cloud > Select environment > Create
+environment; select mjcustomcomputers-dotcom/Machine-Bug-Tool; choose Get started. Keep
 access private. Ask the setup task to follow AGENTS.md and the manifest pins,
 install dependencies, run node --test and npm run build, and show the results.
 Review the setup results, save, and Publish. Verify Environment published
 before describing the environment as ready for new tasks.
+
+The official CLI reference documents codex cloud exec for starting a task in
+an existing required --env ENV_ID, and codex cloud list for listing chats.
+It does not document a reusable environment create/publish command. The
+current connected tools also expose no such action. Do not substitute an
+undocumented endpoint or treat source setup as environment publication.
 
 Suggested environment-preparation prompt:
 
@@ -165,6 +186,7 @@ https://learn.chatgpt.com/docs/cyber-safety
 https://learn.chatgpt.com/docs/enterprise/workspace-model-availability
 https://learn.chatgpt.com/docs/cloud
 https://learn.chatgpt.com/docs/environments/cloud-environments
+https://learn.chatgpt.com/docs/cli/reference
 https://developers.openai.com/api/docs/guides/daybreak
 https://developers.openai.com/api/docs/models/gpt-daybreak-blue-latest
 https://developers.openai.com/api/docs/models/gpt-daybreak-red-latest
