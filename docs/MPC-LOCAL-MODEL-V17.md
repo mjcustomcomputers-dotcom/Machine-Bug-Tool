@@ -15,7 +15,7 @@ ollama create mpc-daybreak-local -f .\models\MPC-Daybreak-Local.Modelfile
 ollama list
 ```
 
-The Qwen3 4B instruct weights are downloaded once; the `mpc-daybreak-local` name is a customized configuration of those weights, **not** trained MPC weights. Ollama can run this model on CPU, though performance depends on installed RAM/GPU. This adapter refuses the `:cloud` suffix and calls only `http://127.0.0.1:11434/api/chat`; do not expose an Ollama port on your LAN. No ChatGPT key or hosted MPC credentials are needed.
+The Qwen3 4B instruct weights are downloaded once; the `mpc-daybreak-local` name is a customized configuration of those weights, **not** trained MPC weights. Ollama can run this model on CPU, though performance depends on installed RAM/GPU. This adapter refuses `:cloud` and `-cloud` model suffixes and calls only `http://127.0.0.1:11434/api/chat`; do not expose an Ollama port on your LAN. No ChatGPT key or hosted MPC credentials are needed.
 
 ## First useful pass — acquire evidence, not another architecture scan
 
