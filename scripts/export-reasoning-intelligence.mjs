@@ -10,12 +10,13 @@ import {reasoningEngineIdentity,reasoningRuntimeFiles} from './run-reasoning-sel
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const extras=['docs/REASONING-INTELLIGENCE-V15.md','docs/LOCAL-LIVE-INTELLIGENCE-V16.md','scripts/Run-Reasoning-Intelligence.ps1','scripts/run-reasoning-intelligence.cmd',
- 'data/local-live-native-cases.v1.json','data/evidence-workflow-example.json'];
+ 'data/local-live-native-cases.v1.json','data/evidence-workflow-example.json',
+ 'MPC-Work.cmd','MPC-Work.ps1','docs/MPC-WORK-TRIAGE-V16.md'];
 // The operational and comparison CLIs use the original router and its local
 // JSON registries. Copy their complete relative-import closure so the portable
 // product can execute the same source without an installed dependency tree.
 export function portableRuntimeFiles(){
- const files=new Set(reasoningRuntimeFiles),pending=['scripts/run-evidence-workflow.mjs','scripts/run-local-live-intelligence.mjs'];
+ const files=new Set(reasoningRuntimeFiles),pending=['scripts/run-evidence-workflow.mjs','scripts/run-local-live-intelligence.mjs','scripts/run-mpc-work.mjs'];
  while(pending.length){
   const path=pending.pop();if(files.has(path))continue;
   const full=resolve(ROOT,path),stat=lstatSync(full);if(!stat.isFile()||stat.isSymbolicLink())throw Error('SOURCE_REGULAR_FILE_REQUIRED:'+path);

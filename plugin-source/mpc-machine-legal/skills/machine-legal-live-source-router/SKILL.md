@@ -76,5 +76,7 @@ Use one of:
 ## Acquisition completion and next phase
 An acquisition step completes when the requested record or source text has been read and its relevant facts extracted with a retrieval receipt. State the new fact and its source. Move into ANALYSIS when that material answers the current acquisition target; enter VERIFICATION when a defined claim and criterion are ready. Obtain a further record when a specific remaining question requires it. Perform adverse/currentness checks when they matter to the claim being evaluated.
 
+Use [machine-legal-work-triage](../machine-legal-work-triage/SKILL.md) to execute the selected read through the available native connector, extract the target fact, and dispatch the next ready action. Preserve returned content, exact source/version, and its citation; supply only fields accepted by the current router schema. Continue with those acquired records rather than repeating discovery.
+
 ## Free/low-cost discipline
 Prefer already-connected or no-cost public sources. Treat quota-limited services as gap-fillers. Do not consume a scarce external query when CourtListener, GovInfo, a native government API, or already-cached immutable full text resolves the same node.
