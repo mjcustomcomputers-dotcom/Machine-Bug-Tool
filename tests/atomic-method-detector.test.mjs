@@ -13,7 +13,7 @@ test('Method cross references are seeded with exact typed source-linked candidat
  try{
   const stat=statusMethodAtlas(db);
   assert.equal(stat.validation,'STRUCTURAL_INVENTORY_PASS');
-  assert.equal(stat.method_relations,79);
+  assert.equal(stat.method_relations,104);
   assert.equal(db.prepare("SELECT count(*) AS n FROM atlas_method_relations WHERE evidence_independent!=0").get().n,0);
   assert.equal(db.prepare("SELECT count(*) AS n FROM atlas_method_relations WHERE link_status!='PROPOSED_METHOD_COMPARISON'").get().n,0);
  }finally{db.close()}
@@ -79,7 +79,7 @@ test('Typed detector refuses extra fields, duplicate atoms, huge batches and wro
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[{...atom('a','STATE'),arbitrary:'injection'}]}),/UNKNOWN_ATOM_FIELD/);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE',[],{observed_at:'tomorrow',clock_domain:'utc'})]}),/INVALID_OBSERVED_TIMESTAMP/);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:Array.from({length:33},(_,i)=>atom('a'+i,'STATE'))}),/ATOM_BATCH_BOUNDS/);
-  assert.equal(statusMethodAtlas(db).methods,118);
+  assert.equal(statusMethodAtlas(db).methods,143);
  }finally{db.close()}
 });
 test('Detector emits seven distinct stage receipts without inventing model execution',async()=>{
@@ -118,5 +118,16 @@ test('Bounded evidence review is invoked only on supplied, matching subject',asy
   assert.equal(r.evidence_review.intention_inferred,false);
   assert.equal(r.evidence_review.external_action_authorized,false);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','INTENT')],evidence_review:{...evidence_review,subject_id:'other'}}),/INTENT_REVIEW_SUBJECT_UNBOUND/);
+ }finally{db.close()}
+});
+
+test('Canonical MPC process coordinate routes to process mining without prose scanning',async()=>{
+ const {db,adapter}=fresh();try{
+  const x=atom('process-a','STATE');delete x.dimension;x.coordinate='PROCESS';
+  const r=await detectMethodAtoms(adapter,{atoms:[x],max_candidates:12});
+  assert.equal(r.atom_signals[0].dimension,'PROCESS');
+  assert.equal(r.atom_signals[0].trigger_basis,'CANONICAL_COORDINATE_HINT_NOT_FACT');
+  assert.ok(r.method_route.selected_methods.some(x=>x.family==='PROCESS_MINING'));
+  assert.equal(r.method_route.no_method_executed,true);
  }finally{db.close()}
 });
