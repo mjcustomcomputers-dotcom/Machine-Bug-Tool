@@ -1,0 +1,156 @@
+{
+  "kind": "MPC_V13_LOCAL_INTEGRATION_EVIDENCE_INDEX",
+  "tested_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+  "archive": "docs/validation/MPC-V13-LOCAL-INTEGRATION-EVIDENCE.zip",
+  "archive_bytes": 205614,
+  "archive_sha256": "6f9bf28018dde123196447474260194044c467958eacf030757be4a6d11d157d",
+  "members": [
+    {
+      "path": "acceptance.json",
+      "bytes": 20762,
+      "sha256": "0f6358b00b77f19c7d14fe564650b2e407c930782b4b55e6973795785eca7db5"
+    },
+    {
+      "path": "run-acceptance.py",
+      "bytes": 3798,
+      "sha256": "dc557d9cb9c7954858f2cd8cff09d8265955cfe56d04babfe045406b15ada2df"
+    },
+    {
+      "path": "preservation.json",
+      "bytes": 47330,
+      "sha256": "edb7ffbcc34f05982282bb6c63a47014e83ab7ba851a240a94fcdc31e259314e"
+    },
+    {
+      "path": "evidence/atlas-audit-seed.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/atlas-audit-seed.stdout.log",
+      "bytes": 2609,
+      "sha256": "f3fbde66e450e5d9f43ed31e88b08e3c8e3db6ef36f1aa4c39e9ed39f8355a31"
+    },
+    {
+      "path": "evidence/atlas-init.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/atlas-init.stdout.log",
+      "bytes": 1189,
+      "sha256": "0284f6d50d35f5a9c973076058f0c8d926cc841650c654eb62f42abf6a299936"
+    },
+    {
+      "path": "evidence/atlas-status.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/atlas-status.stdout.log",
+      "bytes": 1189,
+      "sha256": "0284f6d50d35f5a9c973076058f0c8d926cc841650c654eb62f42abf6a299936"
+    },
+    {
+      "path": "evidence/build.stderr.log",
+      "bytes": 235,
+      "sha256": "96ef94364dfda0b14572cbd23bb0334357c7dd0cfdb364b5b3f111e975e18653"
+    },
+    {
+      "path": "evidence/build.stdout.log",
+      "bytes": 1157,
+      "sha256": "f8a825489ce45d2a45a57580e9a3a0e2f7f0a76c50299969122cb4a2dc8bdbb3"
+    },
+    {
+      "path": "evidence/detector-benchmark.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/detector-benchmark.stdout.log",
+      "bytes": 548,
+      "sha256": "3f52cc4ef3196eb555910c6e7a838d0ec783c9860096a4e88204292fd8f296db"
+    },
+    {
+      "path": "evidence/full-node-tests.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/full-node-tests.stdout.log",
+      "bytes": 34198,
+      "sha256": "50eaf3c29f586de69754091a5e88793793485f05764e58efdf99ef3008fd403e"
+    },
+    {
+      "path": "evidence/notebook/MPC-Noahs-Ark-Reasoning-V13.executed.ipynb",
+      "bytes": 18782,
+      "sha256": "c8335d89dc2a91d414ba6734ec29073dcc14854a07ca1f4a6f5f3ef8f6e5d888"
+    },
+    {
+      "path": "evidence/notebook/noahs-ark-v13-synthetic-outcomes.csv",
+      "bytes": 975,
+      "sha256": "10e70b3c88536e636928596e4e3425d2e322a37347042d549e69435ce6a32898"
+    },
+    {
+      "path": "evidence/notebook/notebook-native-execution-receipt.json",
+      "bytes": 857571,
+      "sha256": "f235eae3bb8ac492ef0aa2aba408f50b652bdd178722674d97ff8c489be42938"
+    },
+    {
+      "path": "evidence/notebook/notebook-run-context.json",
+      "bytes": 8472,
+      "sha256": "c7b82c331713e53ec06643e8a99e11823564a6239be21c57780c657e5cdd2f31"
+    },
+    {
+      "path": "evidence/notebook/v13-notebook-execution.json",
+      "bytes": 812341,
+      "sha256": "e26da14c2003470cb8fe60fbe8b4c5bd1266978bc41205259e1e54d4564c0afb"
+    },
+    {
+      "path": "evidence/notebook/v13-scenario-results.json",
+      "bytes": 802026,
+      "sha256": "71b473cd88aa0ac5b46c8028bf811ad53d6bb87388725d9a90cc55b85921b70b"
+    },
+    {
+      "path": "evidence/notebook.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/notebook.stdout.log",
+      "bytes": 357,
+      "sha256": "f599a113a435a5f9ace031be0decf91b2046822f057f6f7aee9bd0504899cc07"
+    },
+    {
+      "path": "evidence/receiver-acceptance.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/receiver-acceptance.stdout.log",
+      "bytes": 8006,
+      "sha256": "ceb93122c8fd8e7661436f313ed79429df784f7290eb1745b69aeb5a63388880"
+    },
+    {
+      "path": "evidence/receiver-inspect.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/receiver-inspect.stdout.log",
+      "bytes": 2514,
+      "sha256": "e6c1bfe497920ed003eb74bc459bf4c81dc59f75be74989f30c4f14b8c0bcd1c"
+    },
+    {
+      "path": "evidence/variation-benchmark.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/variation-benchmark.stdout.log",
+      "bytes": 1045,
+      "sha256": "dca7f2ee15a50c6f590ce8ac2f6d4beda479d09a20b1f5474d6e488e81333022"
+    }
+  ],
+  "raw_output_rule": "All stdout/stderr and notebook artifacts are unchanged preparing-host outputs. Absolute paths identify that host; they are not required destination paths.",
+  "execution_host": "CHATGPT_LINUX_EXECUTOR_NOT_CODEX_CLOUD_OR_WINDOWS"
+}

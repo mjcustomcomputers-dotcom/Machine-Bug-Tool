@@ -1,5 +1,23 @@
 # MPC Machine Legal BugTools — Daybreak development
 
+## Final engineering scope — local receiving and Codex acceptance
+
+The user has ended research for this phase. The current authorized action is one
+final integration acceptance, documented in
+`docs/CODEX-V13-FINAL-INTEGRATION-RUN.md`, followed by local receiving through
+`docs/LOCAL-POWERSHELL-V13.md`. Read
+`docs/validation/MPC-V13-LOCAL-INTEGRATION-VALIDATION.json` and the current resume
+manifest. The preparing host passed 405/405 tests and build at exact integration
+commit I; actual Cloud and native Windows runs retain separate gates.
+
+Keep reporting R, tested integration I and historical controller executable S
+separate. Execute new code/tests at I; only the receiver's isolated historical
+controller runs at S. Never rebind or initialize the completed state. Preserve
+all 182 original files and the prepared environment. No older research/setup
+section below authorizes reopening research, adding methods, repeating completed
+models, deploying, changing credentials or testing targets during this final
+pass. Stop after the destination acceptance and exact checkpoint.
+
 ## Current Codex resume entry point
 
 For the current V13 continuation, read `docs/CODEX-V13-CURRENT-RESUME.md` and

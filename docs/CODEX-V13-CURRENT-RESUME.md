@@ -11,6 +11,37 @@ at the actual latest development branch head. They supersede the old
 pending-validation directions for this continuation. Original handoffs and
 native PASS records retain their historical meaning.
 
+## Current final integration action — research stops here
+
+The current user instruction is one final engineering pass for local PowerShell
+receiving, then an exact Codex acceptance/checkpoint. Use
+[the final Codex run](CODEX-V13-FINAL-INTEGRATION-RUN.md) and
+[the local PowerShell guide](LOCAL-POWERSHELL-V13.md). The
+[new validation](validation/MPC-V13-LOCAL-INTEGRATION-VALIDATION.json) and
+[PASS](validation/MPC-V13-LOCAL-INTEGRATION-PASS.md) report **405/405 tests and a
+passing build** at integration **I =
+`a18a040f164e8ad4c47474f77bb10dc5289adac6`**, tree
+`14365cf138ecc5aed01197bebb8e67fb670b5c1c`, on the preparing ChatGPT Linux host.
+
+R is the containing current reporting head. I is the new receiver/test/notebook
+source. The saved controller's historical executable S remains
+`4ffde83e587db829b9cd2124c0a8587e868402d6`. Its state remains COMPLETE and is never
+rebound to I or R. The new receiver already restored its exact bytes and passed
+verify/status/next on the preparing host with zero new model calls or events.
+
+Run one destination acceptance of this new receiver, full tests/build, unchanged
+notebook and synthetic benchmarks in the existing Codex environment. Record
+actual Cloud and Windows execution separately. Native Windows has not run in
+the preparing host; PowerShell is unavailable there. No new hosted model call
+is needed just to check connectivity. Retain existing connection receipts and
+report actual destination tool exposure/model visibility without inferring it.
+
+The historical recovery and future-project sections below remain reference
+material. They do not override the current stop on research. Do not initialize
+or reconcile the completed controller, expand methods, reopen old source
+questions, change credentials, merge, deploy, contact targets or submit reports
+in this final pass. Stop after the destination receipt and checkpoint.
+
 ## Latest destination result and operating workflow
 
 The user supplied the Codex task's completed restore report for reporting HEAD
@@ -39,8 +70,9 @@ restore remains relevant only where recovery is actually needed, since the
 user-reported Cloud restore is already complete.
 
 The restore instructions below remain available for a genuine future recovery.
-Do not repeat them merely to consume this documentation update. For real
-project work, follow [the ChatGPT bounty workflow](CHATGPT-BOUNTY-WORKFLOW-V13.md)
+The current final pass uses the new receiver once for its destination acceptance,
+without repeating model obligations. Any later separately authorized real
+project work can follow [the ChatGPT bounty workflow](CHATGPT-BOUNTY-WORKFLOW-V13.md)
 and resolve the active native controller and current scope before choosing the
 next unresolved question. The completed synthetic V13 state has no pending
 hunting task of its own.
@@ -157,7 +189,7 @@ receipt.
 | GitHub | Read the exact branch, validation and saved state; record native versions | Preserve local work and name the source-access boundary |
 | Source execution | Actual Git HEAD, Node/pnpm and the read-only controller commands above | Record `CONTROLLER_EXECUTOR_UNAVAILABLE` |
 | Hosted MPC | `runtime_status`, protected `get_universal_contract`, and `get_method_catalog` for the selected native method | Record tool exposure separately from authentication; continue independent source work |
-| Protected evaluator | Retain an actual same-session bounded evaluator receipt; if none exists, read its current schema and perform one explicit synthetic connection check | Do not claim a model ran or copy another session's authentication |
+| Protected evaluator | For this final integration pass, preserve existing receipts and record whether a same-session protected receipt exists; no new calculation is needed solely for connectivity | Do not claim a model ran or copy another session's authentication |
 | Google Drive | Read the exact native object required for the next action; preserve native ID, owner, version and content | Retain the unresolved source gate; a Dash projection cannot replace this read |
 | Dash | Check available sources and use bounded discovery when needed | Keep discovery optional to source-only work |
 | Native Dropbox | Read a known native file ID when actually required | An empty search does not prove a backup exists |

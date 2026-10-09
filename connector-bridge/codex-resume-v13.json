@@ -1,15 +1,19 @@
 {
-  "version": "MPC_CODEX_CURRENT_RESUME_V13_2",
-  "status": "RESUME_COMPLETED_DEVELOPMENT_STATE",
+  "version": "MPC_CODEX_CURRENT_RESUME_V13_3",
+  "status": "FINAL_INTEGRATION_SOURCE_VALIDATED_DESTINATION_GATES_PENDING",
   "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
   "development_branch": "feature/noahs-ark-reasoning-osi-v13",
-  "review": {"pull_request": 11, "parent_pull_request": 10, "merge_authorized": false},
+  "review": {
+    "pull_request": 11,
+    "parent_pull_request": 10,
+    "merge_authorized": false
+  },
   "read_instructions_at": "ACTUAL_CURRENT_DEVELOPMENT_BRANCH_HEAD",
-  "reviewed_reporting_head_before_this_update": "33e8d99610d6ec6bb19c0e9a7624071b23217d40",
+  "reviewed_reporting_head_before_this_update": "96aff8d09257a73e36066a64a5c883d4c9f38db8",
   "tested_execution_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
   "tested_execution_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
   "checkpoint_readback_commit": "047b2adcd2172374d25878998eebb3b089b6488d",
-  "source_identity_rule": "Resolve current reporting head R; read latest guides and receipts at R. Require saved config.source_revision.commit to match validation.tested_commit S; execute the controller at exact S in a preserved or isolated checkout.",
+  "source_identity_rule": "Resolve current reporting head R and read current guides/receipts there. Derive new integration I from local_integration_validation.tested_commit/tree; execute the new receiver, tests, build and notebook at exact I. Preserve historical S from validation.tested_commit and saved config.source_revision.commit; only the restored historical controller executes at exact S. Never rebind completed state to I or R.",
   "paths": {
     "resume_guide": "docs/CODEX-V13-CURRENT-RESUME.md",
     "operative_guide": "docs/CHATGPT-MPC-OPERATIVE-CONTROLLERS-V13.md",
@@ -23,7 +27,12 @@
     "authorized_hunt_workflow": "docs/CHATGPT-BOUNTY-WORKFLOW-V13.md",
     "bound_operative_manifest": "connector-bridge/operative-controllers-v13.json",
     "native_source_locators": "connector-bridge/source-pointers.v9.json",
-    "workbook_pointer": "connector-bridge/reasoning-artifacts-v13.json"
+    "workbook_pointer": "connector-bridge/reasoning-artifacts-v13.json",
+    "local_integration_validation": "docs/validation/MPC-V13-LOCAL-INTEGRATION-VALIDATION.json",
+    "local_integration_pass": "docs/validation/MPC-V13-LOCAL-INTEGRATION-PASS.md",
+    "local_integration_evidence_index": "docs/validation/local-v13-evidence-index.json",
+    "local_powershell_guide": "docs/LOCAL-POWERSHELL-V13.md",
+    "final_codex_integration_run": "docs/CODEX-V13-FINAL-INTEGRATION-RUN.md"
   },
   "preserved_state": {
     "native_read_version": "54e8d055aa6d71e1c91f33a7af9f282333890358",
@@ -72,7 +81,19 @@
     "external_target_tests": false,
     "bounty_submission": false,
     "synthetic_security_findings": false,
-    "catalog_expansion": false
+    "catalog_expansion": false,
+    "research_resumption": false
   },
-  "next_action": "The user-reported Codex restoration is complete and the saved synthetic controller has no pending action. Preserve that state and the reported Daybreak selection. For an existing authorized bounty project, use current native connections in the ChatGPT host to resolve its actual controller and program scope, then reconcile only real changed dependencies. Continue independent source work in the existing Cloud environment; absent research tools remain a separate capability dependency."
+  "next_action": "Run docs/CODEX-V13-FINAL-INTEGRATION-RUN.md once in the existing prepared environment at exact tested integration I, retaining original controller execution at S. Save a separate destination receipt, including actual Cloud latency and any Windows gate left NOT_RUN. Use docs/LOCAL-POWERSHELL-V13.md for the actual Windows receiver. Stop after final integration checkpointing; do not resume research, expand the catalog or repeat completed models.",
+  "local_integration": {
+    "tested_commit": "a18a040f164e8ad4c47474f77bb10dc5289adac6",
+    "tested_tree": "14365cf138ecc5aed01197bebb8e67fb670b5c1c",
+    "status": "PREPARING_HOST_PASS_405_OF_405_BUILD_PASS",
+    "execution_host": "CHATGPT_LINUX_NOT_CODEX_CLOUD_OR_WINDOWS",
+    "historical_state_rule": "Keep tested_execution_commit and preserved_state unchanged. New receiver creates an unused isolated historical S worktree and runs only verify/status/next.",
+    "windows_native_run": "NOT_RUN",
+    "actual_codex_cloud_run": "NOT_RUN",
+    "research_state": "STOPPED_BY_USER_AFTER_FINAL_ENGINEERING_PASS",
+    "destination_acceptance_rule": "One real destination receive validates the new receiver; it is not a new model run, controller initialization or research continuation."
+  }
 }
