@@ -3,7 +3,7 @@
 // mode and creates a new result directory; it has no connector or network code.
 import {DatabaseSync} from 'node:sqlite';
 import {createHash} from 'node:crypto';
-import {mkdirSync,readFileSync,lstatSync} from 'node:fs';
+import {mkdirSync,readFileSync,lstatSync,writeFileSync} from 'node:fs';
 import {dirname,resolve,relative,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {scanMethodAtlas} from '../lib/method-self-scan.mjs';
@@ -44,7 +44,8 @@ function verifiedBundleFiles(manifestPath,databasePath,capsulesPath){
   if(bytes.length!==expected.bytes||sha256(bytes)!==expected.sha256)fail('BUNDLE_FILE_CHECKSUM_MISMATCH:'+rel);
   return {path:rel,bytes,sha256:expected.sha256};
  };
- return {manifest_sha256:sha256(raw),database:check(databasePath),capsules:check(capsulesPath)};
+ return {manifest_sha256:sha256(raw),database:check(databasePath),capsules:check(capsulesPath),
+  capabilities:check(resolve(root,'capabilities.json')),source_receipt:check(resolve(root,'receipt.json'))};
 }
 
 export async function runPortableMethodSelfScan({database,capsules,manifest,output,priorScan=null}){
@@ -52,6 +53,13 @@ export async function runPortableMethodSelfScan({database,capsules,manifest,outp
  const started=now(),verified=verifiedBundleFiles(manifestPath,databasePath,capsulesPath);
  const implemented=JSON.parse(verified.capsules.bytes.toString('utf8'));
  if(!Array.isArray(implemented))fail('IMPLEMENTED_CAPSULE_ARRAY_REQUIRED');
+ let capabilities;
+ try{capabilities=JSON.parse(verified.capabilities.bytes.toString('utf8'))}catch{fail('CAPABILITIES_INVALID_JSON')}
+ if(!capabilities||typeof capabilities!=='object'||Array.isArray(capabilities))fail('CAPABILITIES_OBJECT_REQUIRED');
+ let sourceReceipt;
+ try{sourceReceipt=JSON.parse(verified.source_receipt.bytes.toString('utf8'))}catch{fail('SOURCE_RECEIPT_INVALID_JSON')}
+ const sourceBuildCommit=sourceReceipt?.source_before?.commit;
+ if(typeof sourceBuildCommit!=='string'||!/^[a-f0-9]{40}$/u.test(sourceBuildCommit))fail('SOURCE_RECEIPT_COMMIT_REQUIRED');
  let priorFingerprint=null;
  if(priorScan){
   const prior=JSON.parse(regular(resolve(priorScan),'PRIOR_SCAN').toString('utf8'));
@@ -60,6 +68,7 @@ export async function runPortableMethodSelfScan({database,capsules,manifest,outp
  }
  mkdirSync(dirname(outputPath),{recursive:true});
  mkdirSync(outputPath,{recursive:false});
+ writeFileSync(resolve(outputPath,'capabilities.json'),verified.capabilities.bytes,{flag:'wx'});
  const before=sha256(regular(databasePath,'DATABASE'));
  const db=new DatabaseSync(databasePath,{readOnly:true});
  let scan;
@@ -75,11 +84,13 @@ export async function runPortableMethodSelfScan({database,capsules,manifest,outp
   execution_scope:'LOCAL_STATIC_METADATA_ONLY_NO_NETWORK_OR_CONNECTORS',node_version:process.version,platform:process.platform,architecture:process.arch,
   database:{path:verified.database.path,sha256_before:before,sha256_after:after,bytes_unchanged:true,opened_read_only:true},
   capsules:{path:verified.capsules.path,sha256:verified.capsules.sha256},source_manifest_sha256:verified.manifest_sha256,
+  source_build_commit:sourceBuildCommit,
   prior_scan_sha256:priorFingerprint,scan_sha256:scan.fingerprints.scan_sha256,pair_stream_sha256:scan.fingerprints.pair_stream_sha256,
   output_directory:outputPath,source_authentication:false,method_execution_performed:false,network_calls:0,connector_calls:0,
   target_actions:false,canonical_promotion:false
  };
- const resultManifest=writeMethodSelfScanArtifacts(outputPath,scan,receipt);
+ const resultManifest=writeMethodSelfScanArtifacts(outputPath,scan,receipt,{capabilities,includeHostLauncher:false,
+  build_commit:sourceBuildCommit,working_tree_dirty:Boolean(sourceReceipt?.source_before?.working_tree_dirty)});
  return {status:scan.status,output_directory:outputPath,scan_sha256:scan.fingerprints.scan_sha256,
   pair_stream_sha256:scan.fingerprints.pair_stream_sha256,artifact_count:resultManifest.artifact_count};
 }
