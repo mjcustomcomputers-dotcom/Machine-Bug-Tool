@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS atlas_variation_ledger (
  dimension_signature TEXT NOT NULL,
  decision TEXT NOT NULL CHECK(decision IN ('DIMENSION_NOT_MATCHED','DIRECTION_UNSUPPORTED','SOURCE_UNBOUND','EXTERNAL_SOURCE_UNBOUND','TRIGGERED_INPUT_REVIEW_REQUIRED','NO_MATERIAL_VARIATION')),
  recorded_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
- PRIMARY KEY(subject_id,atom_id,variant_id,method_id,direction,boundary)
+ PRIMARY KEY(subject_id,atom_id,variant_id,method_id,direction,boundary,evidence_digest,variant_digest,source_signature,dimension_signature)
 );
 CREATE INDEX IF NOT EXISTS atlas_variation_ledger_atom ON atlas_variation_ledger(subject_id,atom_id,variant_id);
 CREATE INDEX IF NOT EXISTS atlas_variation_ledger_method ON atlas_variation_ledger(method_id,direction,boundary);
