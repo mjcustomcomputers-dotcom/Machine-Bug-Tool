@@ -1,0 +1,102 @@
+{
+  "synthetic": true,
+  "targets_contacted": false,
+  "remote_tool_calls_performed": false,
+  "source_authentication": false,
+  "controller_source_sha256": "858dac2a9acad2799d312072c5439eb642a2a9e3ce1ed467a9db66e096a3904c",
+  "cli_source_sha256": "112b95e5eb5c1cee68fd099886e4de5e9119837996f044aaba922b06b2bb4d98",
+  "minimal_forged_task": {
+    "threw": true,
+    "error": "INVALID_CONTROLLER_STATE_SHAPE"
+  },
+  "valid_config_task_injection": {
+    "threw": true,
+    "error": "CONTROLLER_SEMANTIC_STATE_MISMATCH:tasks"
+  },
+  "forged_checkpoint_completion": {
+    "threw": true,
+    "error": "INVALID_STORED_ACTION_RECEIPT"
+  },
+  "old_source_session": {
+    "threw": false,
+    "blockers": [
+      "SOURCE_RECEIPT_SESSION_MISMATCH"
+    ],
+    "next": {
+      "status": "BLOCKED",
+      "blockers": [
+        "SOURCE_RECEIPT_SESSION_MISMATCH"
+      ],
+      "action": null
+    }
+  },
+  "cross_session_completed_reuse": {
+    "threw": false,
+    "old_receipt_session": "fixture:local-controller-tests",
+    "new_session": "fixture:new-session",
+    "old_completed_action_reused": true,
+    "next": {
+      "status": "AWAITING_HOST_EVALUATION",
+      "blockers": [],
+      "action": {
+        "kind": "MPC_EVALUATE",
+        "tool": "evaluate_method",
+        "role": "PRIMARY_MODEL"
+      }
+    }
+  },
+  "metadata_negative_predicate": {
+    "threw": false,
+    "blockers": [
+      "EXECUTABLE_NEGATIVE_CONTROL_REQUIRED"
+    ],
+    "next": {
+      "status": "BLOCKED",
+      "blockers": [
+        "EXECUTABLE_NEGATIVE_CONTROL_REQUIRED"
+      ],
+      "action": null
+    }
+  },
+  "empty_positive_result": {
+    "threw": true,
+    "error": "INVALID_NATIVE_RESULT_BODY"
+  },
+  "native_controller_replacement": {
+    "threw": false,
+    "blockers": [
+      "CHECKPOINT_CANNOT_OVERWRITE_NATIVE_CONTROLLER_OR_SOURCE"
+    ],
+    "next": {
+      "status": "BLOCKED",
+      "blockers": [
+        "CHECKPOINT_CANNOT_OVERWRITE_NATIVE_CONTROLLER_OR_SOURCE"
+      ],
+      "action": null
+    },
+    "native_controller_targeted": false
+  },
+  "conflicting_native_source_alias": {
+    "threw": false,
+    "same_native_identity_and_version": true,
+    "different_content_hashes": true,
+    "blockers": [
+      "CONFLICTING_NATIVE_SOURCE_VERSION"
+    ],
+    "next": {
+      "status": "BLOCKED",
+      "blockers": [
+        "CONFLICTING_NATIVE_SOURCE_VERSION"
+      ],
+      "action": null
+    }
+  },
+  "symlink_state_escape": {
+    "threw": false,
+    "exit": 1,
+    "reported": "{\"status\":\"CONTROLLER_ERROR\",\"error\":\"CONTROLLER_SYMLINK_PATH_REJECTED\"}\n",
+    "state_created_outside_declared_root": false,
+    "history_created_outside_declared_root": false,
+    "outside_directory": "/workspace/scratch/5676560dc515/validation/audit/controller-state-outside-vXmHcl"
+  }
+}

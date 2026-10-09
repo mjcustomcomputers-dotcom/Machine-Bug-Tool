@@ -1,0 +1,122 @@
+[
+  {
+    "path": "lib/atomic-method-detector.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "lib/atomic-variation-router.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "lib/evidence-intent-review.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "lib/method-diagnostic.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "lib/method-hook-cascade.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "lib/reverse-goal-traversal.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "method-atlas/method-relations.json",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": false
+  },
+  {
+    "path": "method-atlas/schema.sql",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "scripts/benchmark-atomic-method-detector.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "scripts/benchmark-atomic-variation-router.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "scripts/method-atlas-cli.mjs",
+    "merge_exit": 4,
+    "applied": false,
+    "changed": true
+  },
+  {
+    "path": "tests/atomic-method-detector.test.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "tests/atomic-variation-persistence.test.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "tests/atomic-variation-router.test.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "tests/evidence-intent-review.test.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "tests/method-atlas-benchmark.test.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "tests/method-atlas.test.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "tests/method-diagnostic.test.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "tests/method-hook-cascade.test.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  },
+  {
+    "path": "tests/reverse-goal-traversal.test.mjs",
+    "merge_exit": 0,
+    "applied": true,
+    "changed": true
+  }
+]

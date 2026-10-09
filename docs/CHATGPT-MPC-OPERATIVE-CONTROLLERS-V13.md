@@ -33,6 +33,15 @@ docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json when present. Resolve the
 exact tested code commit separately from later receipt-only commits.
 Read docs/CHATGPT-MPC-OPERATIVE-CONTROLLERS-V13.md at that tested source.
 
+If the manifest names latest_controller_state, fetch that exact saved state
+through GitHub and verify its native file/version and returned content.
+Use the state and validation receipt to resolve tested source commit S,
+check out that source safely, and restore the saved JSON unchanged under
+.sites-runtime/. Refresh the current session's actual native-source and
+MPC capability receipts in a config derived from the saved state, then run
+reconcile against that existing state. Preserve its completed-action
+history. Use init only when creating a new controller.
+
 Run that source's operative controller in this chat's available execution
 environment. Use real registered tool schemas and current-session native
 source receipts. Reuse the supported MPC connection; verify runtime_status,
@@ -117,11 +126,19 @@ receipt, then executes that exact checkout. For example, tested code commit
 at `D`, execute source `S`, and record checkpoint readback at its actual commit.
 Do not substitute the reporting branch head for the code commit that was tested.
 
-The following local sequence is executable in the checked-out source. The
-first command creates a new synthetic configuration with the **actual current
-Git HEAD**, so the fixture's historical `e9b0...` locator is never silently used
-as the current execution commit. Choose a fresh filename when one already
-exists; the command does not overwrite prior configuration.
+For an existing controller, first fetch the file named by the manifest's
+`latest_controller_state` through GitHub. Verify its exact native version and
+returned content, resolve source commit `S` from the saved config and validation
+receipt, and restore that JSON unchanged under `.sites-runtime/` in the `S`
+checkout. The refresh/reconcile sequence below preserves its completed-action
+history. Do not run `init` for a controller that already has saved state.
+
+For a **new controller or separate synthetic demonstration only**, the following
+local sequence is executable in the checked-out source. The first command
+creates a new synthetic configuration with the **actual current Git HEAD**,
+so the fixture's historical `e9b0...` locator is never silently used as the
+current execution commit. Choose a fresh filename when one already exists;
+the command does not overwrite prior configuration.
 
 ```sh
 node scripts/noahs-ark-controller-cli.mjs prepare-fixture .sites-runtime/controllers/v13-demo.config.json
@@ -134,7 +151,7 @@ receipts for offline tests. It proves no hosted connection. For a real hosted
 round trip, **ChatGPT obtains the current tool responses and native GitHub
 reads, then hydrates the configuration from those responses before `init`**.
 The user does not need to invent or type source versions, authentication fields
-or schemas. The canonical controller manifest supplies the intended source
+or schemas. The versioned development controller manifest supplies the intended source
 locators; the native connector response supplies their actual versions/content.
 
 The `next` result contains one request. For `MPC_EVALUATE`, the host calls the
@@ -152,13 +169,23 @@ GitHub create/update and fetch schemas, the specified development branch,
 current native file metadata, and the returned exact text. A checksum-only
 assertion cannot substitute for the native text readback.
 
-When source/method/model state changes, hydrate a new config from the actual
-new source receipts and reconcile instead of deleting the state:
+For a restored controller, verify the saved state in its tested source checkout.
+Then derive `v13-current.config.json` from that state using the current session's
+actual native-source and MPC capability receipts. Reconcile the existing state;
+its prior receipts remain historical evidence and unchanged native calculations
+remain reusable. The host performs the same refresh when source, method or model
+state changes. The filenames below assume the host restored the saved JSON to
+`v13-demo.state.json`; they do not direct creation of a new controller.
 
 ```sh
-node scripts/noahs-ark-controller-cli.mjs reconcile .sites-runtime/controllers/v13-current.config.json .sites-runtime/controllers/v13-demo.state.json
 node scripts/noahs-ark-controller-cli.mjs verify .sites-runtime/controllers/v13-demo.state.json
+node scripts/noahs-ark-controller-cli.mjs reconcile .sites-runtime/controllers/v13-current.config.json .sites-runtime/controllers/v13-demo.state.json
+node scripts/noahs-ark-controller-cli.mjs next .sites-runtime/controllers/v13-demo.state.json
 ```
+
+The local `verify` checks the saved state's parity and semantics. Refresh the
+current-session receipts before advancing it; restored historical capability
+receipts alone do not verify a new chat's live connection.
 
 The CLI checks the config's source commit against actual `git rev-parse HEAD`.
 It records dirty working-tree status and hashes the controller, planner,

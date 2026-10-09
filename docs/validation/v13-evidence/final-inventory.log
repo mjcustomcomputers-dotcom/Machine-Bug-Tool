@@ -1,0 +1,181 @@
+{
+  "head": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "source_unchanged_and_clean": true,
+  "native_preservation": {
+    "manifest": "docs/daybreak-source-import.json",
+    "native_source_commit": "765923c9839f32502e5c0f1f1b919b827596012e",
+    "native_source_tree": "321a45127d35bd2062201394412101ddc51e044e",
+    "expected_files": 182,
+    "checked_files": 182,
+    "unique_paths": 182,
+    "expected_bytes": 3412494,
+    "checked_bytes": 3412494,
+    "passed": 182,
+    "failed": [],
+    "all_blobs_modes_and_worktree_bytes_match": true,
+    "per_file_receipt": "validation/final-original-preservation.json"
+  },
+  "atlas_inventory": {
+    "methods": 239,
+    "unique_mha_ids": 239,
+    "paired_classifiers": 239,
+    "unique_mhc_ids": 239,
+    "source_records": 65,
+    "unique_source_ids": 65,
+    "referenced_primary_source_ids": 64,
+    "unreferenced_primary_source_ids": [
+      "V6_METAMORPHIC"
+    ],
+    "relations": 212,
+    "unique_relation_keys": 212,
+    "invalid_relations": [],
+    "taxonomy_rows": 2597,
+    "all_candidates_research_only": true,
+    "classifier_pairing_exact": true,
+    "source_references_resolve": true,
+    "exact_mha_sequence": true,
+    "canonical_adoption_or_execution_claim": false
+  },
+  "native_counts": {
+    "scope": "COUNTS_FROM_PRESERVED_BUNDLED_NATIVE_SOURCE_NOT_A_FRESH_DRIVE_OR_DEPLOYMENT_CLAIM",
+    "implemented_evaluators": 24,
+    "method_hooks": 10,
+    "framework_operators": 15,
+    "reductions": 12,
+    "transformations": 17,
+    "mirrors": 15,
+    "bl_branches": 32,
+    "bl_child_classifiers": 384,
+    "object_coordinates": 25,
+    "jacket_axes": 14,
+    "method_packet_fields": 11,
+    "maxvar_dimensions": 256,
+    "mbss_branches": 64,
+    "mbss_classifiers": 512,
+    "ext_definitions": 96,
+    "nestmax_program_iid_domain_pack": {
+      "branches": 8,
+      "enumerated_classifiers": 174,
+      "observed_count": 174,
+      "legacy_descriptor_count": 160,
+      "count_discrepancy": "174 enumerated IDs; 160 appears in navigation/earlier description. No deletion, renumbering, or automatic canonical correction.",
+      "canonical_correction_performed": false
+    },
+    "separate_inventories_must_not_be_summed_as_executed_methods": true
+  },
+  "cli_reason": {
+    "input": {
+      "atom": {
+        "subject_id": "fixture:transaction",
+        "atom_id": "fixture:ledger",
+        "dimensions": [
+          "MONEY",
+          "FINALITY"
+        ],
+        "source_refs": [
+          "fixture:owned-ledger"
+        ],
+        "external_source_refs": []
+      },
+      "method_receipts": [
+        {
+          "method_id": "MHA-0053",
+          "input_state": "AVAILABLE",
+          "negative_control_state": "AVAILABLE",
+          "falsifier_state": "AVAILABLE",
+          "estimated_cost_units": 2
+        }
+      ],
+      "max_selected": 4,
+      "max_pairs": 4
+    },
+    "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+    "reasoning_layer_count": 7,
+    "outcome_vector": {
+      "catalog_methods_considered": 239,
+      "structurally_triggered": 23,
+      "structurally_eligible": 1,
+      "blocked_or_unready": 22,
+      "selected_count": 1,
+      "paired_challengers": 1,
+      "covered_dimensions": [
+        "FINALITY",
+        "MONEY"
+      ],
+      "unresolved_dimensions": [],
+      "negative_controls_declared_ready": 1,
+      "falsifiers_declared_ready": 1,
+      "declared_total_cost_units": 2
+    },
+    "selected": [
+      "MHA-0053"
+    ],
+    "proposed_pairs": [
+      {
+        "primary_method_id": "MHA-0053",
+        "challenger_method_id": "MHA-0035",
+        "relation_type": "COMPLEMENT",
+        "challenger_readiness": "DORMANT_NO_TYPED_TRIGGER",
+        "native_evidence_independence": "NOT_ESTABLISHED",
+        "challenger_executed": false,
+        "reason": "DECLARED_METHOD_RELATION_REQUIRES_INDEPENDENT_SOURCE_AND_FALSIFIER_CHECK"
+      }
+    ],
+    "no_method_executed": true,
+    "no_source_authentication": true,
+    "target_actions_performed": false,
+    "canonical_promotion": false
+  },
+  "dimension_claim": {
+    "status": "REPORTED_DIMENSION_COUNT_UNRESOLVED",
+    "counts": {
+      "native_bl_branch_count": 32,
+      "native_bl_child_classifier_count": 384,
+      "native_object_coordinate_count": 25,
+      "native_jacket_axes_count": 14,
+      "native_mirror_count": 15
+    },
+    "claim": {
+      "reported_branch_count": 32,
+      "reported_dimension_count": 356,
+      "registry_owner": "UNSPECIFIED",
+      "accepted_as_canonical": false
+    },
+    "mismatch": {
+      "branch_matches_bl": true,
+      "reported_dimensions_equal_bl_children": false,
+      "reported_dimensions_equal_native_coordinates": false
+    },
+    "no_registry_mutation": true,
+    "source_authentication": false,
+    "canonical_promotion": false,
+    "next_action": "Recover the exact native owner and definition of the reported 356 dimensions before proposing any registry change."
+  },
+  "commands": [
+    {
+      "command": "init",
+      "exit": 0
+    },
+    {
+      "command": "reason",
+      "exit": 0
+    },
+    {
+      "command": "status",
+      "exit": 0
+    },
+    {
+      "command": "audit-seed",
+      "exit": 0
+    },
+    {
+      "command": "sql-audit",
+      "exit": 0
+    },
+    {
+      "command": "dimension-audit",
+      "exit": 0
+    }
+  ],
+  "pass": true
+}

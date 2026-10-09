@@ -1,0 +1,82 @@
+{
+  "action_id": "7a257881aa9c6da1133903837852b1ce5caa97585edac468629ef849db776671",
+  "kind": "MPC_EVALUATE",
+  "tool": "evaluate_method",
+  "call_ref": "host-journal:mpc-live:0",
+  "session_id": "chatgpt:mpc-v13:5676560dc515:2026-10-09",
+  "request_sha256": "dea8e931d97d370fb6aff52c97c45b45050397c56d77eea5147bba84edad3d80",
+  "response": {
+    "status": "BOUNDED_MODEL_RESULT",
+    "method": "finite_invariant",
+    "implementation_version": "1.2.0",
+    "model_fingerprint": "c9ddcc705062b58c3ba09471fb337e71afa933cab16a4d1d770cd7c73d29fd11",
+    "result": {
+      "status": "COUNTEREXAMPLE_FOUND",
+      "invariant_label": "SYNTHETIC ONLY — deliberately violating negative control",
+      "predicate_basis": "NOT_FORBIDDEN_AND_SUPPLIED_INVARIANT_HOLDS",
+      "reachable_predicate_holds": false,
+      "reachability_complete": false,
+      "state_ids_examined": [
+        "fixture:pending",
+        "fixture:final"
+      ],
+      "states_examined": 2,
+      "states_discovered": 2,
+      "supplied_state_count": 2,
+      "frontier_state_ids": [],
+      "unknown_reachable_state_ids": [],
+      "counterexample": {
+        "state_path": [
+          "fixture:pending",
+          "fixture:final"
+        ],
+        "transition_ids": [
+          "fixture:finalize"
+        ],
+        "violating_state": "fixture:final",
+        "violations": [
+          "FORBIDDEN_STATE",
+          "SUPPLIED_INVARIANT_FALSE"
+        ]
+      },
+      "induction_obligations": {
+        "scope": "ALL_SUPPLIED_INITIAL_STATES_AND_TRANSITIONS",
+        "base": {
+          "status": "PASS",
+          "checked_count": 1,
+          "violations": [],
+          "unknowns": []
+        },
+        "step": {
+          "status": "FAIL",
+          "checked_count": 1,
+          "violations": [
+            {
+              "transition_id": "fixture:finalize",
+              "from": "fixture:pending",
+              "to": "fixture:final",
+              "from_predicate_value": true,
+              "to_predicate_value": false
+            }
+          ],
+          "unknowns": []
+        },
+        "finite_induction_passed": false,
+        "checked_separately_from_bfs_budget": true
+      },
+      "model_scope": "SUPPLIED_FINITE_GRAPH_AND_CALLER_LABELS_ONLY",
+      "transition_relation_is_caller_supplied": true,
+      "model_completeness_proven": false,
+      "source_authentication": false,
+      "factual_truth_established": false,
+      "target_vulnerability_proven": false,
+      "unbounded_proof": false
+    },
+    "limitations": "BFS over at most 256 supplied states and 512 transitions, with forbidden states and caller-supplied true/false/unknown invariant labels. Checks base and step obligations separately. No unbounded induction, inferred state labels, or completeness beyond the supplied graph.",
+    "source_authentication": false,
+    "canonical_promotion": false,
+    "court_release_allowed": false,
+    "external_action_authorized": false
+  },
+  "response_sha256": "c2edf163c6e16975a473223fbf6a627babca118f61a421d9753c73a317be7b69"
+}

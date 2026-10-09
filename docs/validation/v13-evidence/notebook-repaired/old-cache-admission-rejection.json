@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node",
+    "scripts/method-atlas-cli.mjs",
+    "status"
+  ],
+  "cache_path": "/workspace/scratch/5676560dc515/Machine-Bug-Tool/.sites-runtime/noahs-ark-v13-notebook.sqlite",
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "file:///workspace/scratch/5676560dc515/Machine-Bug-Tool/scripts/method-atlas-cli.mjs:105\n if(digest(JSON.stringify(actualSchema))!==schemaFingerprint)throw Error('ATLAS_SCHEMA_DRIFT_EXPORT_HISTORY_AND_USE_NEW_PRIVATE_CACHE_REQUIRED');\n                                                                   ^\n\nError: ATLAS_SCHEMA_DRIFT_EXPORT_HISTORY_AND_USE_NEW_PRIVATE_CACHE_REQUIRED\n    at statusMethodAtlas (file:///workspace/scratch/5676560dc515/Machine-Bug-Tool/scripts/method-atlas-cli.mjs:105:68)\n    at loadMethodAtlas (file:///workspace/scratch/5676560dc515/Machine-Bug-Tool/scripts/method-atlas-cli.mjs:131:18)\n    at file:///workspace/scratch/5676560dc515/Machine-Bug-Tool/scripts/method-atlas-cli.mjs:211:15\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.19.0\n",
+  "sha256_before": "a6a8e728c0108414d8859f45435ef1fe0a7d9b91d2f6e3bc30764f2127e28c1c",
+  "sha256_after": "a6a8e728c0108414d8859f45435ef1fe0a7d9b91d2f6e3bc30764f2127e28c1c",
+  "bytes_unchanged": true
+}

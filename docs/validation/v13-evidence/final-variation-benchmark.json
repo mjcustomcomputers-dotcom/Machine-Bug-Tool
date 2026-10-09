@@ -1,0 +1,17 @@
+{
+  "label": "final-variation-benchmark",
+  "command": [
+    "node",
+    "scripts/benchmark-atomic-variation-router.mjs"
+  ],
+  "cwd": "/workspace/scratch/5676560dc515/Machine-Bug-Tool",
+  "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_before": "",
+  "start_utc": "2026-10-09T05:30:05.984318+00:00",
+  "exit_code": 0,
+  "duration_seconds": 7.944059,
+  "end_utc": "2026-10-09T05:30:13.928431+00:00",
+  "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_after": "",
+  "log_sha256": "d7c3d997b0014b5236254ca67ec9fcbfd83aaaf6c50d557204af79d7815ea097"
+}

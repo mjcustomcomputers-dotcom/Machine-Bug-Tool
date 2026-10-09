@@ -1,0 +1,21 @@
+{
+  "source_commit": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+  "source_tree": "b172584a3088dc8991bc5579e118ebcb5828d55b",
+  "spreadsheet_id": "1hsuWvDGTMJE7_UFJaqlw8hzofDRl-9h2ZtphMDFh9Bw",
+  "registry_range": "Ark Registry!A2:J240",
+  "expected_rows": 239,
+  "actual_rows": 239,
+  "compared_cells": 2390,
+  "source_records": 65,
+  "unique_source_records": 65,
+  "primary_sources_referenced": 64,
+  "unused_source_records": [
+    "V6_METAMORPHIC"
+  ],
+  "expected_sha256": "4a8e1085a030b461741c322d6586999e2f778639483f0595164ac931857bb26c",
+  "actual_sha256": "4a8e1085a030b461741c322d6586999e2f778639483f0595164ac931857bb26c",
+  "differences": [],
+  "status": "ALL_239_REGISTRY_ROWS_MATCH_EXACT_SOURCE",
+  "external_publication_authenticity_verified": false,
+  "notes": "Equality verifies bundled source metadata, not source publication authenticity or research validity. Workflow stage derives from exact V7 policy family value."
+}

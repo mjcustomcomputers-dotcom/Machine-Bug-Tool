@@ -1,0 +1,17 @@
+{
+  "label": "baseline-full",
+  "command": [
+    "node",
+    "--test"
+  ],
+  "cwd": "/workspace/scratch/5676560dc515/v13-baseline",
+  "head_before": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+  "status_before": "",
+  "start_utc": "2026-10-09T05:05:16.385329+00:00",
+  "exit_code": 1,
+  "duration_seconds": 7.423516,
+  "end_utc": "2026-10-09T05:05:23.808921+00:00",
+  "head_after": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+  "status_after": "",
+  "log_sha256": "d558e2e8135f7bbfcb280fda7e06be09936058326895be86e77b74fe3d586bcd"
+}

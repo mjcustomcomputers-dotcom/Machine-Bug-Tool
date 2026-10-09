@@ -1,0 +1,20 @@
+✔ Every one of 212 cross-method links resolves to the exact four-digit native MHA ID (3.101754ms)
+✔ Optical cross-reference ID namespaces were repaired without changing methods (0.847005ms)
+✔ Noah full-ark covers all 239 candidates without executing any (17.519404ms)
+✔ Falsifier and negative controls with source readiness outrank unready candidate (1.244861ms)
+✔ A proposed challenge remains a separate unexecuted and nonindependent method (0.978762ms)
+✔ Input order and relation order do not change selected methods or pair relationships (3.469011ms)
+✔ Missing native source or method inputs block selection but preserve full accounting (0.892903ms)
+✔ No false global success when trigger dimensions are not covered (0.551795ms)
+✔ Schema gate rejects forged method readiness, unknown methodology and budgets (0.779072ms)
+✔ Atom and subject identities must be explicit strings, never coerced absent or scalar values (0.78384ms)
+✔ Missing and unknown per-method input block selection even when controls are declared ready (1.152804ms)
+✔ Unready controls reduce priority for equal dimension coverage without being counted ready (3.49274ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 204.446005

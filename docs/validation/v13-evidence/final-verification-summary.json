@@ -1,0 +1,229 @@
+{
+  "status": "EXACT_CLEAN_CODE_VERIFICATION_PASS",
+  "tested_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "tested_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
+  "closing_checked_at": "2026-10-09T05:29:54.105474+00:00",
+  "head_unchanged": true,
+  "worktree_clean_before_each_and_after_all": true,
+  "runs": [
+    {
+      "label": "final-v13-dedicated",
+      "command": [
+        "node",
+        "--test",
+        "tests/noahs-ark-reasoning.test.mjs",
+        "tests/method-relations-integrity.test.mjs"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.36893,
+      "counts": {
+        "tests": 12,
+        "pass": 12,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:28:19.976963+00:00",
+      "end_utc": "2026-10-09T05:28:20.345955+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-v13-dedicated.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-v13-dedicated.log",
+      "log_sha256": "8f0d0be9674ac8c02a2150d0d4b72e5a0a9d7edd3b1022950486c5f25bd09d00"
+    },
+    {
+      "label": "final-controller",
+      "command": [
+        "node",
+        "--test",
+        "tests/noahs-ark-controller.test.mjs"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 12.035394,
+      "counts": {
+        "tests": 25,
+        "pass": 25,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:28:23.235903+00:00",
+      "end_utc": "2026-10-09T05:28:35.271351+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-controller.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-controller.log",
+      "log_sha256": "ea21d3fa5887427f8d8c153d9e895c17f4cb53acd5d604915c1722abfd0e675d"
+    },
+    {
+      "label": "final-v8-v12",
+      "command": [
+        "node",
+        "--test",
+        "tests/atomic-variation-router.test.mjs",
+        "tests/atomic-variation-persistence.test.mjs",
+        "tests/method-atlas.test.mjs",
+        "tests/atlas-seed-parity.test.mjs",
+        "tests/atlas-seed-parity-cli.test.mjs",
+        "tests/noahs-ark-reasoning.test.mjs",
+        "tests/noahs-ark-reasoning-cli.test.mjs",
+        "tests/method-relations-integrity.test.mjs"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 4.638493,
+      "counts": {
+        "tests": 62,
+        "pass": 62,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:28:40.341575+00:00",
+      "end_utc": "2026-10-09T05:28:44.980141+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-v8-v12.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-v8-v12.log",
+      "log_sha256": "fc11b8775815c229cf8c022ccd815d262a279a5d0849cd55cba15ef41f80762a"
+    },
+    {
+      "label": "final-full",
+      "command": [
+        "node",
+        "--test"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 12.103506,
+      "counts": {
+        "tests": 344,
+        "pass": 344,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:28:50.890805+00:00",
+      "end_utc": "2026-10-09T05:29:02.994366+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-full.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-full.log",
+      "log_sha256": "1b39a6628002c45c3d55aca311fbd98fd916130756a4eb867471fa3c3c22a163"
+    },
+    {
+      "label": "final-build",
+      "command": [
+        "env",
+        "XDG_CONFIG_HOME=/workspace/scratch/5676560dc515/Machine-Bug-Tool/.sites-runtime/config",
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 6.160975,
+      "counts": {},
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:29:06.056597+00:00",
+      "end_utc": "2026-10-09T05:29:12.217633+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-build.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-build.log",
+      "log_sha256": "305accc4ef6d70e75b6068fec753ec32f5dafd2a0bceebba2be45a531075a726"
+    },
+    {
+      "label": "final-notebook-json",
+      "command": [
+        "python3",
+        "-m",
+        "json.tool",
+        "notebooks/MPC-Noahs-Ark-Reasoning-V13.ipynb"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.064008,
+      "counts": {},
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:29:21.374861+00:00",
+      "end_utc": "2026-10-09T05:29:21.438912+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-notebook-json.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-notebook-json.log",
+      "log_sha256": "c74a950d945d8bb2746be3be9685f6463a2c6c9c52af9b5767a2779a8a1c5809"
+    },
+    {
+      "label": "final-notebook",
+      "command": [
+        "env",
+        "MPC_NOTEBOOK_VALIDATION_DIR=/workspace/scratch/5676560dc515/validation/notebook-final",
+        "python3",
+        "/workspace/scratch/5676560dc515/validation/drive/run_v13_notebook_repaired.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.92133,
+      "counts": {},
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:29:24.619521+00:00",
+      "end_utc": "2026-10-09T05:29:25.540971+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-notebook.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-notebook.log",
+      "log_sha256": "9e6de2b087131e17744730e92be46506b09925595cd79e54190f57f61cbbea21"
+    },
+    {
+      "label": "final-notebook-repeat",
+      "command": [
+        "env",
+        "MPC_NOTEBOOK_VALIDATION_DIR=/workspace/scratch/5676560dc515/validation/notebook-final-repeat",
+        "python3",
+        "/workspace/scratch/5676560dc515/validation/drive/run_v13_notebook_repaired.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.868356,
+      "counts": {},
+      "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "clean_before_after": true,
+      "start_utc": "2026-10-09T05:29:28.627103+00:00",
+      "end_utc": "2026-10-09T05:29:29.495545+00:00",
+      "receipt": "/workspace/scratch/5676560dc515/validation/final-notebook-repeat.json",
+      "log": "/workspace/scratch/5676560dc515/validation/final-notebook-repeat.log",
+      "log_sha256": "d4b31aa50fe0c9a38519cea7168f9098d1c9fbef132ee42a570356372cffeee3"
+    }
+  ],
+  "final_counts": {
+    "v13_dedicated_passed": 12,
+    "controller_passed": 25,
+    "v8_v12_dedicated_passed": 62,
+    "full_suite_passed": 344,
+    "full_suite_failed": 0,
+    "build_exit_code": 0,
+    "notebook_format_exit_code": 0,
+    "notebook_code_cells_passed": 5,
+    "repeat_notebook_code_cells_passed": 5
+  },
+  "notebook_cache": {
+    "fingerprint": "f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b",
+    "first_existed_at_start": false,
+    "repeat_existed_at_start": true,
+    "same_path_reused": true,
+    "inputs_stable_both_runs": true,
+    "node": "v24.19.0",
+    "python": "3.12.14",
+    "first_context_receipt": "/workspace/scratch/5676560dc515/validation/notebook-final/notebook-run-context.json",
+    "repeat_context_receipt": "/workspace/scratch/5676560dc515/validation/notebook-final-repeat/notebook-run-context.json"
+  },
+  "benchmarks_run_by_this_agent": false,
+  "tracked_repo_edits_by_this_verification": false,
+  "live_controller_external_receipt": "ROOT_INTEGRATION_PENDING",
+  "git_checkpoint_native_readback": "ROOT_INTEGRATION_PENDING",
+  "counting_note": "Dedicated suites overlap the full suite; do not sum counts as unique tests."
+}

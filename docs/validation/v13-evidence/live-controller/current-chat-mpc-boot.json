@@ -1,0 +1,4736 @@
+{
+  "schema_version": "MPC_CHAT_SESSION_VERIFICATION_1",
+  "recorded_at_utc": "2026-10-09T05:01:33Z",
+  "repository_context": {
+    "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+    "branch": "feature/noahs-ark-reasoning-osi-v13",
+    "user_pin": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+    "no_claim_of_v13_hosted_deployment": true
+  },
+  "calls": [
+    {
+      "tool": "runtime_status",
+      "arguments": {},
+      "result": {
+        "runtime_version": "0.10.0-http.1",
+        "research_storage_version": "RESEARCH-STORAGE-2.0",
+        "private_export_default": true,
+        "dash_reference_projection": true,
+        "registry_authenticated_identity_required": true,
+        "universal_router_version": "UMTB-4.0",
+        "semantic_branch_gate": true,
+        "semantic_gate_implementation": "DECLARED_TYPE_AND_QUESTION_RULES",
+        "child_classifier_gate": true,
+        "method_ark": "enabled",
+        "method_dna_lookup": "enabled",
+        "inversion_engine": "METADATA_AND_COMPLEMENT_ROUTING",
+        "dual_epistemic_finality": "enabled",
+        "cross_border_adapter": "TYPED_ENTITY_AND_CONTEXT_BINDING",
+        "audience_morphology": "EVIDENCE_PRESERVING_TEMPLATE_RENDERER",
+        "routing_basis": "CALLER_TYPED_STRUCTURES_NOT_AUTOMATIC_NATURAL_LANGUAGE_UNDERSTANDING",
+        "automatic_method_execution": false,
+        "boot_instruction": "Read get_universal_contract before analysis. Existing business_logic_sweep supports UMTB4 JSON in context, including method_lookup, presentation and explicit atomic_review, when client discovery has not yet exposed dedicated tools.",
+        "method_catalog_version": "1.2.0",
+        "research_registry": {
+          "mbss_branches": 64,
+          "mbss_classifiers": 512,
+          "separate_candidate_extension_templates": 96,
+          "jacket_axes": 14,
+          "output_contract": "RECON-OUTPUT-1.0"
+        },
+        "implemented_evaluators": 24,
+        "atomic_execution_version": "ATOMIC-EXECUTION-1.0",
+        "atomic_transform_operators": 17,
+        "atomic_review_available": true,
+        "method_inventory": {
+          "implemented_evaluators": 24,
+          "research_hooks": 10,
+          "framework_operators": 15,
+          "reduction_methods": 12,
+          "transformations": 17,
+          "mirrors": 15,
+          "object_coordinates": 25,
+          "jacket_axes": 14,
+          "layers": [
+            "IMPLEMENTED",
+            "METHOD_HOOKS",
+            "FRAMEWORK_OPERATORS",
+            "REDUCTION_METHODS",
+            "TRANSFORMATIONS",
+            "MIRRORS"
+          ],
+          "counting_rule": "Overlapping framework families, mirrors, transformations and executable evaluators are separate inventories. Do not sum them as executed methods.",
+          "rule": [
+            "METHODS ARE TRIGGERED BY DIMENSION.",
+            "Do not run every method blindly.",
+            "Run the methods capable of changing the active classifier state."
+          ]
+        },
+        "business_logic_registry": {
+          "status": "FROZEN_REGISTRY",
+          "pack_id": "BL-SOLID-STATE-384",
+          "version": "1.0.0",
+          "pack_fingerprint": "7db8a73e32016a8d3df560f649125221615b42a669231ec066ce74fee9d8a58d",
+          "branch_count": 32,
+          "classifier_count": 384,
+          "canonical_maxvar_range": [
+            1,
+            256
+          ]
+        },
+        "request_limits": {
+          "message_bytes": 2000000,
+          "response_bytes": 1000000,
+          "body_deadline_ms": 5000,
+          "inflight_per_isolate": 8,
+          "tool_calls_per_minute_per_user_per_isolate": 60,
+          "automatic_retries": 0
+        },
+        "transport": "streamable-http",
+        "available_tools": [
+          "runtime_status",
+          "review_atomic_variants",
+          "route_problem",
+          "get_method_ark",
+          "render_output",
+          "prepare_research_backup",
+          "get_research_registry",
+          "cross_reference_methods",
+          "compare_operative_states",
+          "get_method_catalog",
+          "evaluate_method",
+          "get_nestmax_registry",
+          "business_logic_sweep",
+          "analyze_business_logic",
+          "get_business_logic_registry",
+          "get_registry",
+          "delta_plan",
+          "refine_counterexample",
+          "validate_evidence_packet",
+          "get_universal_contract"
+        ],
+        "registry": {
+          "maxvar": 256,
+          "microclassifiers": 174,
+          "branch_counts": {
+            "A": 20,
+            "B": 28,
+            "C": 26,
+            "D": 20,
+            "E": 20,
+            "F": 20,
+            "G": 20,
+            "H": 20
+          },
+          "legacy_descriptor": 160,
+          "descriptor_matches_enumeration": false,
+          "status": "LOCAL_REGISTRY_STRUCTURE_PASS",
+          "canonical_promotion": false
+        },
+        "local_only_tools": [
+          "stage_source",
+          "inspect_atom",
+          "compare_meanings",
+          "test_variation",
+          "reconcile_methods",
+          "self_test"
+        ],
+        "proof_gate_hosted": false,
+        "persistence_hosted": false,
+        "connector_dispatch": false,
+        "status": "HOSTED_MCP_READY",
+        "prototype_version": "0.4.2",
+        "canonical_promotion": false,
+        "court_release_allowed": false
+      }
+    },
+    {
+      "tool": "get_universal_contract",
+      "arguments": {},
+      "result": {
+        "contract_version": "1.0.0",
+        "purpose": "Domain-neutral evidence-reference structural validation",
+        "packet_schema": {
+          "type": "object",
+          "properties": {
+            "contract_version": {
+              "type": "string",
+              "enum": [
+                "1.0.0"
+              ]
+            },
+            "namespace": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 10000
+            },
+            "domain_profile": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 10000
+            },
+            "packet_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 10000
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "namespace": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "version": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "owner": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "subject_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 10000
+                    },
+                    "minItems": 1,
+                    "maxItems": 64
+                  },
+                  "native_locator": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "representation": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200000
+                  },
+                  "text_sha256": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64
+                  }
+                },
+                "required": [
+                  "namespace",
+                  "source_id",
+                  "version",
+                  "owner",
+                  "subject_ids",
+                  "native_locator",
+                  "representation",
+                  "text",
+                  "text_sha256"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1,
+              "maxItems": 8
+            },
+            "spans": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "span_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "source_version": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "source_fingerprint": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64
+                  },
+                  "subject_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "start": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 200000
+                  },
+                  "end": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 200000
+                  },
+                  "exact_text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200000
+                  }
+                },
+                "required": [
+                  "span_id",
+                  "source_id",
+                  "source_version",
+                  "source_fingerprint",
+                  "subject_id",
+                  "start",
+                  "end",
+                  "exact_text"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1,
+              "maxItems": 64
+            },
+            "claims": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "claim_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "subject_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "actor": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "capacity": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "statement": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "state": {
+                    "type": "string",
+                    "enum": [
+                      "OBSERVED",
+                      "DERIVED",
+                      "INFERRED",
+                      "ADOPTED"
+                    ]
+                  },
+                  "span_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 10000
+                    },
+                    "minItems": 1,
+                    "maxItems": 64
+                  },
+                  "parent_claim_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 10000
+                    },
+                    "minItems": 0,
+                    "maxItems": 64
+                  },
+                  "method": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "limitations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 10000
+                    },
+                    "minItems": 1,
+                    "maxItems": 64
+                  }
+                },
+                "required": [
+                  "claim_id",
+                  "subject_id",
+                  "actor",
+                  "capacity",
+                  "statement",
+                  "state",
+                  "span_ids",
+                  "parent_claim_ids",
+                  "method",
+                  "limitations"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1,
+              "maxItems": 64
+            }
+          },
+          "required": [
+            "contract_version",
+            "namespace",
+            "domain_profile",
+            "packet_id",
+            "sources",
+            "spans",
+            "claims"
+          ],
+          "additionalProperties": false
+        },
+        "offset_unit": "UNICODE_CODE_POINT",
+        "hash_encoding": "SHA256_UTF8",
+        "serialization": "Sorted object keys using JavaScript UTF-16 order; JSON.stringify primitive encoding; array order preserved; schema admits only integer numbers. Versioned custom format, not a JCS conformance claim.",
+        "states": [
+          "OBSERVED",
+          "DERIVED",
+          "INFERRED",
+          "ADOPTED"
+        ],
+        "adoption": "Blocked: requires a separate trusted proof and approval gate.",
+        "adapters": "Adapters supply declared sources; this module does not retrieve or authenticate them.",
+        "compatibility": "Separate universal contract; does not replace the Python proof-gate packet or registry.",
+        "authorization": "Pure read-only function; no dispatch, persistence, external action, or automatic promotion.",
+        "universal_router": {
+          "universal_router_version": "UMTB-4.0",
+          "semantic_branch_gate": true,
+          "semantic_gate_implementation": "DECLARED_TYPE_AND_QUESTION_RULES",
+          "child_classifier_gate": true,
+          "method_ark": "enabled",
+          "method_dna_lookup": "enabled",
+          "inversion_engine": "METADATA_AND_COMPLEMENT_ROUTING",
+          "dual_epistemic_finality": "enabled",
+          "cross_border_adapter": "TYPED_ENTITY_AND_CONTEXT_BINDING",
+          "audience_morphology": "EVIDENCE_PRESERVING_TEMPLATE_RENDERER",
+          "routing_basis": "CALLER_TYPED_STRUCTURES_NOT_AUTOMATIC_NATURAL_LANGUAGE_UNDERSTANDING",
+          "automatic_method_execution": false,
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "atomic_review": {
+                "type": "object",
+                "properties": {
+                  "project_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "object_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "namespace": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "PLAN",
+                      "EXECUTE_SUPPLIED_MODELS"
+                    ]
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "project_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "EVIDENCE",
+                            "RULE",
+                            "METHOD",
+                            "SYNTHETIC_FIXTURE"
+                          ]
+                        },
+                        "owner": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "version": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "native_locator": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "project_id",
+                        "role",
+                        "owner",
+                        "version",
+                        "native_locator"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 0,
+                    "maxItems": 32
+                  },
+                  "boundary_parent_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "minItems": 0,
+                    "maxItems": 16
+                  },
+                  "atoms": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "parent_id": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "maxLength": 200
+                        },
+                        "depth": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "subject": {
+                          "type": "object",
+                          "properties": {
+                            "namespace": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "native_id_type": {
+                              "type": "string",
+                              "enum": [
+                                "string",
+                                "integer"
+                              ]
+                            },
+                            "native_id": {
+                              "type": [
+                                "string",
+                                "integer"
+                              ],
+                              "minLength": 1,
+                              "maxLength": 200,
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "namespace",
+                            "native_id_type",
+                            "native_id"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "coordinate": {
+                          "type": "string",
+                          "enum": [
+                            "OBJECT",
+                            "ACTOR",
+                            "CAPACITY",
+                            "AUTHORITY",
+                            "INPUT",
+                            "TRANSFORMATION",
+                            "OUTPUT",
+                            "RECIPIENT",
+                            "CHANNEL",
+                            "ACCESS/POWER",
+                            "DECISION STANDARD",
+                            "PROCESS",
+                            "TIME",
+                            "LOCATION/JURISDICTION",
+                            "DATA GOVERNANCE",
+                            "ASSENT/CONTRACT",
+                            "MONEY/INCENTIVE",
+                            "FINALITY/CAUSATION",
+                            "COMPARATOR",
+                            "ADVERSE/FALSIFIER",
+                            "RECORD/CUSTODIAN",
+                            "VERSION",
+                            "EVIDENTIARY WEIGHT",
+                            "REMEDY",
+                            "SEARCH/COMPLETION STATE."
+                          ]
+                        },
+                        "jacket_axis": {
+                          "type": "string",
+                          "enum": [
+                            "LITERAL",
+                            "OWNER_ATTRIBUTION",
+                            "AUTHENTICATION",
+                            "ACTOR_CAPACITY",
+                            "PROCEDURAL_FUNCTION",
+                            "AUTHORITY",
+                            "ELECTION_WAIVER",
+                            "CORROBORATION",
+                            "CONDITIONAL_OPERATION",
+                            "ADOPTION",
+                            "IMPLEMENTATION",
+                            "FINALITY",
+                            "TEMPORAL_VERSION",
+                            "ADVERSE_FALSIFIER"
+                          ]
+                        },
+                        "variable": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "value": {
+                          "type": [
+                            "string",
+                            "number",
+                            "boolean",
+                            "null"
+                          ],
+                          "maxLength": 4000,
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "source_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        },
+                        "epistemic_state": {
+                          "type": "string",
+                          "enum": [
+                            "OBSERVED",
+                            "DERIVED",
+                            "INFERRED",
+                            "UNKNOWN",
+                            "SYNTHETIC"
+                          ]
+                        },
+                        "classifier_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "namespace": {
+                                "type": "string",
+                                "enum": [
+                                  "MAXVAR",
+                                  "NESTMAX",
+                                  "BL",
+                                  "MBSS",
+                                  "EXT"
+                                ]
+                              },
+                              "native_id_type": {
+                                "type": "string",
+                                "enum": [
+                                  "string",
+                                  "integer"
+                                ]
+                              },
+                              "native_id": {
+                                "type": [
+                                  "string",
+                                  "integer"
+                                ],
+                                "minLength": 1,
+                                "maxLength": 200,
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              }
+                            },
+                            "required": [
+                              "namespace",
+                              "native_id_type",
+                              "native_id"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        },
+                        "depends_on": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        },
+                        "falsifier": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000
+                        },
+                        "expected_record": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000
+                        },
+                        "custodian": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "material_change_basis": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "parent_id",
+                        "depth",
+                        "subject",
+                        "coordinate",
+                        "jacket_axis",
+                        "variable",
+                        "value",
+                        "source_refs",
+                        "epistemic_state",
+                        "classifier_refs",
+                        "depends_on",
+                        "falsifier",
+                        "expected_record",
+                        "custodian",
+                        "material_change_basis"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1,
+                    "maxItems": 64
+                  },
+                  "transforms": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "operator": {
+                          "type": "string",
+                          "enum": [
+                            "REMOVE / ABLATE",
+                            "RESTORE",
+                            "SUBSTITUTE",
+                            "SWAP",
+                            "INVERT EDGE",
+                            "REORDER / PERMUTE",
+                            "PERTURB",
+                            "MASK / HIDE CHANNEL",
+                            "PROJECT / REDUCE",
+                            "EXPAND / RECURSE",
+                            "COMPOSE",
+                            "CROSS PRODUCT",
+                            "STATE DIFFERENCE",
+                            "INVARIANT TEST",
+                            "QUALITATIVE SENSITIVITY / LOAD-BEARING TEST",
+                            "NULL / NO-EDGE TEST",
+                            "ALTERNATIVE-MODEL SET"
+                          ]
+                        },
+                        "atom_ids": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        },
+                        "values": {
+                          "type": "array",
+                          "items": {
+                            "type": [
+                              "string",
+                              "number",
+                              "boolean",
+                              "null"
+                            ],
+                            "maxLength": 4000,
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        },
+                        "delta": {
+                          "type": "number",
+                          "minimum": -1000000000,
+                          "maximum": 1000000000
+                        },
+                        "permutation": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        },
+                        "children": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 200
+                              },
+                              "parent_id": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "maxLength": 200
+                              },
+                              "depth": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "subject": {
+                                "type": "object",
+                                "properties": {
+                                  "namespace": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 200
+                                  },
+                                  "native_id_type": {
+                                    "type": "string",
+                                    "enum": [
+                                      "string",
+                                      "integer"
+                                    ]
+                                  },
+                                  "native_id": {
+                                    "type": [
+                                      "string",
+                                      "integer"
+                                    ],
+                                    "minLength": 1,
+                                    "maxLength": 200,
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  }
+                                },
+                                "required": [
+                                  "namespace",
+                                  "native_id_type",
+                                  "native_id"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "coordinate": {
+                                "type": "string",
+                                "enum": [
+                                  "OBJECT",
+                                  "ACTOR",
+                                  "CAPACITY",
+                                  "AUTHORITY",
+                                  "INPUT",
+                                  "TRANSFORMATION",
+                                  "OUTPUT",
+                                  "RECIPIENT",
+                                  "CHANNEL",
+                                  "ACCESS/POWER",
+                                  "DECISION STANDARD",
+                                  "PROCESS",
+                                  "TIME",
+                                  "LOCATION/JURISDICTION",
+                                  "DATA GOVERNANCE",
+                                  "ASSENT/CONTRACT",
+                                  "MONEY/INCENTIVE",
+                                  "FINALITY/CAUSATION",
+                                  "COMPARATOR",
+                                  "ADVERSE/FALSIFIER",
+                                  "RECORD/CUSTODIAN",
+                                  "VERSION",
+                                  "EVIDENTIARY WEIGHT",
+                                  "REMEDY",
+                                  "SEARCH/COMPLETION STATE."
+                                ]
+                              },
+                              "jacket_axis": {
+                                "type": "string",
+                                "enum": [
+                                  "LITERAL",
+                                  "OWNER_ATTRIBUTION",
+                                  "AUTHENTICATION",
+                                  "ACTOR_CAPACITY",
+                                  "PROCEDURAL_FUNCTION",
+                                  "AUTHORITY",
+                                  "ELECTION_WAIVER",
+                                  "CORROBORATION",
+                                  "CONDITIONAL_OPERATION",
+                                  "ADOPTION",
+                                  "IMPLEMENTATION",
+                                  "FINALITY",
+                                  "TEMPORAL_VERSION",
+                                  "ADVERSE_FALSIFIER"
+                                ]
+                              },
+                              "variable": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 200
+                              },
+                              "value": {
+                                "type": [
+                                  "string",
+                                  "number",
+                                  "boolean",
+                                  "null"
+                                ],
+                                "maxLength": 4000,
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "source_refs": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 200
+                                },
+                                "minItems": 0,
+                                "maxItems": 16
+                              },
+                              "epistemic_state": {
+                                "type": "string",
+                                "enum": [
+                                  "OBSERVED",
+                                  "DERIVED",
+                                  "INFERRED",
+                                  "UNKNOWN",
+                                  "SYNTHETIC"
+                                ]
+                              },
+                              "classifier_refs": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "namespace": {
+                                      "type": "string",
+                                      "enum": [
+                                        "MAXVAR",
+                                        "NESTMAX",
+                                        "BL",
+                                        "MBSS",
+                                        "EXT"
+                                      ]
+                                    },
+                                    "native_id_type": {
+                                      "type": "string",
+                                      "enum": [
+                                        "string",
+                                        "integer"
+                                      ]
+                                    },
+                                    "native_id": {
+                                      "type": [
+                                        "string",
+                                        "integer"
+                                      ],
+                                      "minLength": 1,
+                                      "maxLength": 200,
+                                      "minimum": -9007199254740991,
+                                      "maximum": 9007199254740991
+                                    }
+                                  },
+                                  "required": [
+                                    "namespace",
+                                    "native_id_type",
+                                    "native_id"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "minItems": 0,
+                                "maxItems": 16
+                              },
+                              "depends_on": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 200
+                                },
+                                "minItems": 0,
+                                "maxItems": 16
+                              },
+                              "falsifier": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2000
+                              },
+                              "expected_record": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2000
+                              },
+                              "custodian": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 200
+                              },
+                              "material_change_basis": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2000
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "parent_id",
+                              "depth",
+                              "subject",
+                              "coordinate",
+                              "jacket_axis",
+                              "variable",
+                              "value",
+                              "source_refs",
+                              "epistemic_state",
+                              "classifier_refs",
+                              "depends_on",
+                              "falsifier",
+                              "expected_record",
+                              "custodian",
+                              "material_change_basis"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        },
+                        "components": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 8
+                        },
+                        "choices": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "atom_id": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 200
+                              },
+                              "values": {
+                                "type": "array",
+                                "items": {
+                                  "type": [
+                                    "string",
+                                    "number",
+                                    "boolean",
+                                    "null"
+                                  ],
+                                  "maxLength": 4000,
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                },
+                                "minItems": 1,
+                                "maxItems": 4
+                              }
+                            },
+                            "required": [
+                              "atom_id",
+                              "values"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "minItems": 1,
+                          "maxItems": 8
+                        },
+                        "rationale": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000
+                        },
+                        "material_change_basis": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000
+                        },
+                        "source_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "operator",
+                        "atom_ids",
+                        "rationale",
+                        "material_change_basis",
+                        "source_refs"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 0,
+                    "maxItems": 16
+                  },
+                  "models": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "method": {
+                          "type": "string",
+                          "enum": [
+                            "claw_accumulator",
+                            "coin_pusher_deferred",
+                            "casino_meter_finality",
+                            "ledger",
+                            "relational",
+                            "partial_order",
+                            "metamorphic",
+                            "temporal",
+                            "identity_graph",
+                            "authority_graph",
+                            "propositional_entailment",
+                            "finite_invariant",
+                            "abductive_cover",
+                            "minimal_cut_sets",
+                            "nash",
+                            "harsanyi",
+                            "selten",
+                            "conservation",
+                            "identity",
+                            "state_trace",
+                            "fault_tree",
+                            "fmea",
+                            "ach",
+                            "coverage"
+                          ]
+                        },
+                        "input": {
+                          "type": "object",
+                          "additionalProperties": true
+                        },
+                        "bindings": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "atom_id": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 200
+                              },
+                              "input_pointer": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2000
+                              },
+                              "facet": {
+                                "type": "string",
+                                "enum": [
+                                  "value",
+                                  "depends_on",
+                                  "present"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "atom_id",
+                              "input_pointer",
+                              "facet"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "minItems": 0,
+                          "maxItems": 64
+                        },
+                        "source_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "method",
+                        "input",
+                        "bindings",
+                        "source_refs"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 0,
+                    "maxItems": 4
+                  },
+                  "checks": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "target": {
+                          "type": "string",
+                          "enum": [
+                            "ATOM",
+                            "MODEL_OUTPUT"
+                          ]
+                        },
+                        "subject_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "pointer": {
+                          "type": "string",
+                          "maxLength": 500
+                        },
+                        "operator": {
+                          "type": "string",
+                          "enum": [
+                            "EQ",
+                            "NE",
+                            "LT",
+                            "LE",
+                            "GT",
+                            "GE",
+                            "PRESENT",
+                            "ABSENT"
+                          ]
+                        },
+                        "expected": {
+                          "type": [
+                            "string",
+                            "number",
+                            "boolean",
+                            "null"
+                          ],
+                          "maxLength": 4000,
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "source_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        },
+                        "falsifier": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000
+                        },
+                        "expected_record": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000
+                        },
+                        "custodian": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "target",
+                        "subject_id",
+                        "pointer",
+                        "operator",
+                        "expected",
+                        "source_refs",
+                        "falsifier",
+                        "expected_record",
+                        "custodian"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 0,
+                    "maxItems": 32
+                  },
+                  "method_applicability": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "method": {
+                          "type": "string",
+                          "enum": [
+                            "claw_accumulator",
+                            "coin_pusher_deferred",
+                            "casino_meter_finality",
+                            "ledger",
+                            "relational",
+                            "partial_order",
+                            "metamorphic",
+                            "temporal",
+                            "identity_graph",
+                            "authority_graph",
+                            "propositional_entailment",
+                            "finite_invariant",
+                            "abductive_cover",
+                            "minimal_cut_sets",
+                            "nash",
+                            "harsanyi",
+                            "selten",
+                            "conservation",
+                            "identity",
+                            "state_trace",
+                            "fault_tree",
+                            "fmea",
+                            "ach",
+                            "coverage"
+                          ]
+                        },
+                        "state": {
+                          "type": "string",
+                          "enum": [
+                            "APPLIES",
+                            "NOT_APPLICABLE",
+                            "UNKNOWN"
+                          ]
+                        },
+                        "atom_ids": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        },
+                        "reason": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000
+                        },
+                        "source_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        }
+                      },
+                      "required": [
+                        "method",
+                        "state",
+                        "atom_ids",
+                        "reason",
+                        "source_refs"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 0,
+                    "maxItems": 64
+                  },
+                  "hook_applicability": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "hook_id": {
+                          "type": "string",
+                          "enum": [
+                            "linearizability_history_check",
+                            "transaction_dependency_check",
+                            "counterexample_guided_abstraction_refinement",
+                            "oracle_delta_debugging",
+                            "assume_guarantee_composition",
+                            "information_flow_hyperproperty_check",
+                            "event_sequence_dependency_analysis",
+                            "finite_incentive_compatibility_check",
+                            "guarded_operation_commutativity",
+                            "finite_epistemic_indistinguishability"
+                          ]
+                        },
+                        "state": {
+                          "type": "string",
+                          "enum": [
+                            "APPLIES",
+                            "NOT_APPLICABLE",
+                            "UNKNOWN"
+                          ]
+                        },
+                        "atom_ids": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        },
+                        "reason": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000
+                        },
+                        "source_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        }
+                      },
+                      "required": [
+                        "hook_id",
+                        "state",
+                        "atom_ids",
+                        "reason",
+                        "source_refs"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 0,
+                    "maxItems": 32
+                  },
+                  "variant_offset": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1024
+                  },
+                  "max_variants": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 16
+                  },
+                  "expected_base_fingerprint": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64
+                  },
+                  "stop_condition": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  }
+                },
+                "required": [
+                  "project_id",
+                  "object_id",
+                  "namespace",
+                  "atoms",
+                  "sources",
+                  "stop_condition"
+                ],
+                "additionalProperties": false
+              },
+              "presentation": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "format",
+                  "audience",
+                  "claims",
+                  "headline_claim_id",
+                  "lead_claim_id"
+                ],
+                "properties": {
+                  "format": {
+                    "type": "string",
+                    "enum": [
+                      "STRAIGHT_NEWS",
+                      "FACT_CHECK",
+                      "EXPLAINER",
+                      "INVESTIGATIVE",
+                      "BUSINESS_ANALYSIS",
+                      "TECHNICAL",
+                      "SECURITY_WRITEUP",
+                      "LEGAL",
+                      "EXECUTIVE",
+                      "SCIENTIFIC",
+                      "MORPHOLOGY_MIRROR"
+                    ]
+                  },
+                  "audience": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "headline_claim_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "lead_claim_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "analysis_fingerprint": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64
+                  },
+                  "claims": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 24,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "id",
+                        "text",
+                        "role",
+                        "epistemic_state",
+                        "finality_state",
+                        "finality_owner",
+                        "source_refs"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "text": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "MAIN",
+                            "CONTEXT",
+                            "BODY",
+                            "CONTRARY",
+                            "LIMITATION"
+                          ]
+                        },
+                        "epistemic_state": {
+                          "type": "string",
+                          "enum": [
+                            "OBSERVED",
+                            "DERIVED",
+                            "INFERRED",
+                            "ADOPTED"
+                          ]
+                        },
+                        "finality_state": {
+                          "type": "string",
+                          "enum": [
+                            "NONE",
+                            "PROPOSED",
+                            "PENDING",
+                            "PROVISIONAL",
+                            "DECIDED",
+                            "FINALIZED",
+                            "SETTLED",
+                            "ENFORCED",
+                            "IRREVERSIBLE"
+                          ]
+                        },
+                        "finality_owner": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "maxLength": 200
+                        },
+                        "source_refs": {
+                          "type": "array",
+                          "maxItems": 8,
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "method_lookup": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "catalog_layer": {
+                    "type": "string",
+                    "enum": [
+                      "IMPLEMENTED",
+                      "METHOD_HOOKS",
+                      "FRAMEWORK_OPERATORS",
+                      "REDUCTION_METHODS",
+                      "TRANSFORMATIONS",
+                      "MIRRORS"
+                    ]
+                  },
+                  "method_id": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "function_query": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1000
+                  },
+                  "offset": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 24
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  }
+                }
+              },
+              "problem": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "object_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "unit_of_analysis": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "domain_profile": {
+                "type": "string",
+                "enum": [
+                  "BUSINESS",
+                  "LEGAL",
+                  "NEWS",
+                  "SCIENCE",
+                  "GENERAL"
+                ]
+              },
+              "domain_subprofile": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "owner": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "type": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "version": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "time": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "native_locator": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "owner",
+                    "type",
+                    "version",
+                    "time",
+                    "native_locator"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 32
+              },
+              "structures": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "REPRESENTATION",
+                        "ENTITY",
+                        "ACTOR",
+                        "AUTHORITY",
+                        "SOURCE_RECORD",
+                        "CONFIGURATION",
+                        "COMPARISON",
+                        "HYPOTHESES",
+                        "CONTROL_ACTION",
+                        "EVENT_TRACE",
+                        "FEEDBACK",
+                        "STATE_TRACE",
+                        "FINALITY_RECORD",
+                        "REPEATED_EVENT",
+                        "ASYNC_TRACE",
+                        "INTERFACE",
+                        "FIELD_RECORD",
+                        "VERSION_PAIR",
+                        "RELATION_TABLE",
+                        "REQUIREMENT",
+                        "OUTCOME",
+                        "FAULT_MODEL",
+                        "FAILURE_MODEL",
+                        "LEDGER",
+                        "QUEUE",
+                        "MONEY_RECORD",
+                        "REVERSAL_RECORD",
+                        "ENTITLEMENT_RECORD"
+                      ]
+                    },
+                    "subject_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 8
+                    },
+                    "source_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 8
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type",
+                    "subject_ids",
+                    "source_refs"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 64
+              },
+              "questions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "IDENTITY",
+                        "ACTOR_CAPACITY",
+                        "PERMISSION_OWNERSHIP",
+                        "SOURCE_AUTHORITY",
+                        "CONFIGURATION",
+                        "COMPARISON",
+                        "ALTERNATIVES",
+                        "CONTROL_PRESENCE",
+                        "CONTROL_PRECONDITION",
+                        "ORDER",
+                        "DURATION",
+                        "FRESHNESS",
+                        "FINALIZER_CONFLICT",
+                        "TRANSITION",
+                        "FINALITY",
+                        "IDEMPOTENCY",
+                        "REPLAY",
+                        "ASYNC",
+                        "INTERFACE",
+                        "FIELD_AUTHORITY",
+                        "LEGACY",
+                        "RELATION",
+                        "REQUIREMENT",
+                        "VALIDATION",
+                        "FAULT",
+                        "FAILURE_EFFECT",
+                        "CONSERVATION",
+                        "DELAY",
+                        "MONEY",
+                        "REVERSAL",
+                        "ENTITLEMENT"
+                      ]
+                    },
+                    "invariant": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "structure_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 8
+                    },
+                    "rule_source_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 8
+                    },
+                    "necessity": {
+                      "type": "string",
+                      "enum": [
+                        "REQUIRED",
+                        "OPTIONAL"
+                      ]
+                    },
+                    "applicability": {
+                      "type": "string",
+                      "enum": [
+                        "APPLIES",
+                        "UNKNOWN",
+                        "NOT_APPLICABLE"
+                      ]
+                    },
+                    "lenses": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "lens": {
+                            "type": "string",
+                            "enum": [
+                              "OMITTED",
+                              "UNEXPECTED",
+                              "WRONG_ACTOR",
+                              "WRONG_OBJECT",
+                              "WRONG_STATE",
+                              "WRONG_ORDER",
+                              "STALE_OR_DELAYED",
+                              "DUPLICATE_OR_REPLAY",
+                              "CROSS_CHANNEL",
+                              "CROSS_VERSION",
+                              "PARTIAL_FAILURE",
+                              "RECOVERY_OR_ROLLBACK"
+                            ]
+                          },
+                          "source_refs": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "minItems": 0,
+                            "maxItems": 8
+                          }
+                        },
+                        "required": [
+                          "lens",
+                          "source_refs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0,
+                      "maxItems": 12
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "kind",
+                    "invariant",
+                    "structure_ids",
+                    "rule_source_refs",
+                    "necessity",
+                    "applicability",
+                    "lenses"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 12
+              },
+              "models": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "method": {
+                      "type": "string",
+                      "enum": [
+                        "claw_accumulator",
+                        "coin_pusher_deferred",
+                        "casino_meter_finality",
+                        "ledger",
+                        "relational",
+                        "partial_order",
+                        "metamorphic",
+                        "temporal",
+                        "identity_graph",
+                        "authority_graph",
+                        "propositional_entailment",
+                        "finite_invariant",
+                        "abductive_cover",
+                        "minimal_cut_sets",
+                        "nash",
+                        "harsanyi",
+                        "selten",
+                        "conservation",
+                        "identity",
+                        "state_trace",
+                        "fault_tree",
+                        "fmea",
+                        "ach",
+                        "coverage"
+                      ]
+                    },
+                    "input": {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  },
+                  "required": [
+                    "method",
+                    "input"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 4
+              },
+              "epistemic_state": {
+                "type": "string",
+                "enum": [
+                  "OBSERVED",
+                  "DERIVED",
+                  "INFERRED",
+                  "ADOPTED"
+                ]
+              },
+              "finality_state": {
+                "type": "string",
+                "enum": [
+                  "NONE",
+                  "PROPOSED",
+                  "PENDING",
+                  "PROVISIONAL",
+                  "DECIDED",
+                  "FINALIZED",
+                  "SETTLED",
+                  "ENFORCED",
+                  "IRREVERSIBLE"
+                ]
+              },
+              "finality_owner": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 200
+              },
+              "cross_border": {
+                "type": "object",
+                "properties": {
+                  "entities": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "BRAND",
+                            "PARENT",
+                            "SUBSIDIARY",
+                            "ASSET_OWNER",
+                            "OPERATOR",
+                            "PROGRAM_OWNER",
+                            "PLATFORM",
+                            "PAYMENT_ENTITY"
+                          ]
+                        },
+                        "source_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 0,
+                          "maxItems": 8
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "role",
+                        "source_refs"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 0,
+                    "maxItems": 24
+                  },
+                  "countries": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "minItems": 0,
+                    "maxItems": 16
+                  },
+                  "terms_version": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "governing_law": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "controlling_language": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "configuration": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "authorization": {
+                    "type": "object",
+                    "properties": {
+                      "actor": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      },
+                      "asset": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      },
+                      "action": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      },
+                      "environment": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      },
+                      "time": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      },
+                      "account": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      },
+                      "data_class": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      },
+                      "impact_limit": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      },
+                      "source_refs": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "minItems": 0,
+                        "maxItems": 8
+                      }
+                    },
+                    "required": [
+                      "actor",
+                      "asset",
+                      "action",
+                      "environment",
+                      "time",
+                      "account",
+                      "data_class",
+                      "impact_limit",
+                      "source_refs"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "entities",
+                  "countries",
+                  "terms_version",
+                  "governing_law",
+                  "controlling_language",
+                  "configuration",
+                  "authorization"
+                ],
+                "additionalProperties": false
+              },
+              "strongest_benign_explanation": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "falsifier": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "unknowns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                },
+                "minItems": 0,
+                "maxItems": 16
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                },
+                "minItems": 0,
+                "maxItems": 16
+              },
+              "stop_condition": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "context": {
+                "type": "object",
+                "properties": {
+                  "actor": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "capacity": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "counterparty": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "authority_owner": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "representation": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "state_before": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "event_or_action": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "state_after": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "input": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "transformation": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "output": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "requirement_or_rule": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "permission": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "actual_use": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "channel": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "recipient": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "version": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "configuration": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "timing_context": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "event_order": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "observation_window": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "value_object": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "quantity": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "feedback": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "hidden_state": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "claim": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "contradictions": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "alternative_explanations": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "problem",
+              "object_id",
+              "unit_of_analysis",
+              "domain_profile"
+            ],
+            "additionalProperties": false
+          },
+          "boot_sequence": [
+            "Read runtime_status and this contract.",
+            "Normalize supplied records into declared typed structures and analytical questions. Never invent missing sources or method inputs.",
+            "Call route_problem; existing business_logic_sweep also accepts routing, or context set to UMTB4: followed by JSON of this input_schema.",
+            "Read get_method_ark or get_method_catalog for bounded model requirements. No evaluator runs automatically.",
+            "For controlled atomic variations call review_atomic_variants, or supply atomic_review in this input. PLAN is the default; EXECUTE_SUPPLIED_MODELS must be explicit. Read get_universal_contract.atomic_review first.",
+            "Use render_output after analysis, preserving every claim state. If unavailable, supply presentation in the routing input through existing sweep context. Use method_lookup for Method Ark discovery through the same path."
+          ],
+          "missing_evidence_policy": "No typed frame means BLOCKED and zero activations. Country comparisons do not by themselves activate money, replay or settlement.",
+          "initial_comparison_questions": [
+            "IDENTITY",
+            "ACTOR_CAPACITY",
+            "PERMISSION_OWNERSHIP",
+            "CONFIGURATION",
+            "COMPARISON",
+            "ALTERNATIVES",
+            "SOURCE_AUTHORITY"
+          ],
+          "evidence_boundary": "References are caller declarations, not source authentication or authorization. REQUIRED/ACTIVE means structurally selected, not a finding.",
+          "child_gate_boundary": "Only the question-specific default lenses activate; additional unsupported lenses remain BLOCKED. Registry coverage is not applicability."
+        },
+        "atomic_review": {
+          "version": "ATOMIC-EXECUTION-1.0",
+          "framework_source_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "project_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "object_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "namespace": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "PLAN",
+                  "EXECUTE_SUPPLIED_MODELS"
+                ]
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "project_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "role": {
+                      "type": "string",
+                      "enum": [
+                        "EVIDENCE",
+                        "RULE",
+                        "METHOD",
+                        "SYNTHETIC_FIXTURE"
+                      ]
+                    },
+                    "owner": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "version": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "native_locator": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "project_id",
+                    "role",
+                    "owner",
+                    "version",
+                    "native_locator"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 32
+              },
+              "boundary_parent_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "minItems": 0,
+                "maxItems": 16
+              },
+              "atoms": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "parent_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "maxLength": 200
+                    },
+                    "depth": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "subject": {
+                      "type": "object",
+                      "properties": {
+                        "namespace": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "native_id_type": {
+                          "type": "string",
+                          "enum": [
+                            "string",
+                            "integer"
+                          ]
+                        },
+                        "native_id": {
+                          "type": [
+                            "string",
+                            "integer"
+                          ],
+                          "minLength": 1,
+                          "maxLength": 200,
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "namespace",
+                        "native_id_type",
+                        "native_id"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "coordinate": {
+                      "type": "string",
+                      "enum": [
+                        "OBJECT",
+                        "ACTOR",
+                        "CAPACITY",
+                        "AUTHORITY",
+                        "INPUT",
+                        "TRANSFORMATION",
+                        "OUTPUT",
+                        "RECIPIENT",
+                        "CHANNEL",
+                        "ACCESS/POWER",
+                        "DECISION STANDARD",
+                        "PROCESS",
+                        "TIME",
+                        "LOCATION/JURISDICTION",
+                        "DATA GOVERNANCE",
+                        "ASSENT/CONTRACT",
+                        "MONEY/INCENTIVE",
+                        "FINALITY/CAUSATION",
+                        "COMPARATOR",
+                        "ADVERSE/FALSIFIER",
+                        "RECORD/CUSTODIAN",
+                        "VERSION",
+                        "EVIDENTIARY WEIGHT",
+                        "REMEDY",
+                        "SEARCH/COMPLETION STATE."
+                      ]
+                    },
+                    "jacket_axis": {
+                      "type": "string",
+                      "enum": [
+                        "LITERAL",
+                        "OWNER_ATTRIBUTION",
+                        "AUTHENTICATION",
+                        "ACTOR_CAPACITY",
+                        "PROCEDURAL_FUNCTION",
+                        "AUTHORITY",
+                        "ELECTION_WAIVER",
+                        "CORROBORATION",
+                        "CONDITIONAL_OPERATION",
+                        "ADOPTION",
+                        "IMPLEMENTATION",
+                        "FINALITY",
+                        "TEMPORAL_VERSION",
+                        "ADVERSE_FALSIFIER"
+                      ]
+                    },
+                    "variable": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "value": {
+                      "type": [
+                        "string",
+                        "number",
+                        "boolean",
+                        "null"
+                      ],
+                      "maxLength": 4000,
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "source_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "epistemic_state": {
+                      "type": "string",
+                      "enum": [
+                        "OBSERVED",
+                        "DERIVED",
+                        "INFERRED",
+                        "UNKNOWN",
+                        "SYNTHETIC"
+                      ]
+                    },
+                    "classifier_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "namespace": {
+                            "type": "string",
+                            "enum": [
+                              "MAXVAR",
+                              "NESTMAX",
+                              "BL",
+                              "MBSS",
+                              "EXT"
+                            ]
+                          },
+                          "native_id_type": {
+                            "type": "string",
+                            "enum": [
+                              "string",
+                              "integer"
+                            ]
+                          },
+                          "native_id": {
+                            "type": [
+                              "string",
+                              "integer"
+                            ],
+                            "minLength": 1,
+                            "maxLength": 200,
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "namespace",
+                          "native_id_type",
+                          "native_id"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "depends_on": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "falsifier": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "expected_record": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "custodian": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "material_change_basis": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "parent_id",
+                    "depth",
+                    "subject",
+                    "coordinate",
+                    "jacket_axis",
+                    "variable",
+                    "value",
+                    "source_refs",
+                    "epistemic_state",
+                    "classifier_refs",
+                    "depends_on",
+                    "falsifier",
+                    "expected_record",
+                    "custodian",
+                    "material_change_basis"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 64
+              },
+              "transforms": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "REMOVE / ABLATE",
+                        "RESTORE",
+                        "SUBSTITUTE",
+                        "SWAP",
+                        "INVERT EDGE",
+                        "REORDER / PERMUTE",
+                        "PERTURB",
+                        "MASK / HIDE CHANNEL",
+                        "PROJECT / REDUCE",
+                        "EXPAND / RECURSE",
+                        "COMPOSE",
+                        "CROSS PRODUCT",
+                        "STATE DIFFERENCE",
+                        "INVARIANT TEST",
+                        "QUALITATIVE SENSITIVITY / LOAD-BEARING TEST",
+                        "NULL / NO-EDGE TEST",
+                        "ALTERNATIVE-MODEL SET"
+                      ]
+                    },
+                    "atom_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": [
+                          "string",
+                          "number",
+                          "boolean",
+                          "null"
+                        ],
+                        "maxLength": 4000,
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "delta": {
+                      "type": "number",
+                      "minimum": -1000000000,
+                      "maximum": 1000000000
+                    },
+                    "permutation": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "children": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "parent_id": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "maxLength": 200
+                          },
+                          "depth": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "subject": {
+                            "type": "object",
+                            "properties": {
+                              "namespace": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 200
+                              },
+                              "native_id_type": {
+                                "type": "string",
+                                "enum": [
+                                  "string",
+                                  "integer"
+                                ]
+                              },
+                              "native_id": {
+                                "type": [
+                                  "string",
+                                  "integer"
+                                ],
+                                "minLength": 1,
+                                "maxLength": 200,
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              }
+                            },
+                            "required": [
+                              "namespace",
+                              "native_id_type",
+                              "native_id"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "coordinate": {
+                            "type": "string",
+                            "enum": [
+                              "OBJECT",
+                              "ACTOR",
+                              "CAPACITY",
+                              "AUTHORITY",
+                              "INPUT",
+                              "TRANSFORMATION",
+                              "OUTPUT",
+                              "RECIPIENT",
+                              "CHANNEL",
+                              "ACCESS/POWER",
+                              "DECISION STANDARD",
+                              "PROCESS",
+                              "TIME",
+                              "LOCATION/JURISDICTION",
+                              "DATA GOVERNANCE",
+                              "ASSENT/CONTRACT",
+                              "MONEY/INCENTIVE",
+                              "FINALITY/CAUSATION",
+                              "COMPARATOR",
+                              "ADVERSE/FALSIFIER",
+                              "RECORD/CUSTODIAN",
+                              "VERSION",
+                              "EVIDENTIARY WEIGHT",
+                              "REMEDY",
+                              "SEARCH/COMPLETION STATE."
+                            ]
+                          },
+                          "jacket_axis": {
+                            "type": "string",
+                            "enum": [
+                              "LITERAL",
+                              "OWNER_ATTRIBUTION",
+                              "AUTHENTICATION",
+                              "ACTOR_CAPACITY",
+                              "PROCEDURAL_FUNCTION",
+                              "AUTHORITY",
+                              "ELECTION_WAIVER",
+                              "CORROBORATION",
+                              "CONDITIONAL_OPERATION",
+                              "ADOPTION",
+                              "IMPLEMENTATION",
+                              "FINALITY",
+                              "TEMPORAL_VERSION",
+                              "ADVERSE_FALSIFIER"
+                            ]
+                          },
+                          "variable": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "value": {
+                            "type": [
+                              "string",
+                              "number",
+                              "boolean",
+                              "null"
+                            ],
+                            "maxLength": 4000,
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "source_refs": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "minItems": 0,
+                            "maxItems": 16
+                          },
+                          "epistemic_state": {
+                            "type": "string",
+                            "enum": [
+                              "OBSERVED",
+                              "DERIVED",
+                              "INFERRED",
+                              "UNKNOWN",
+                              "SYNTHETIC"
+                            ]
+                          },
+                          "classifier_refs": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "namespace": {
+                                  "type": "string",
+                                  "enum": [
+                                    "MAXVAR",
+                                    "NESTMAX",
+                                    "BL",
+                                    "MBSS",
+                                    "EXT"
+                                  ]
+                                },
+                                "native_id_type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "string",
+                                    "integer"
+                                  ]
+                                },
+                                "native_id": {
+                                  "type": [
+                                    "string",
+                                    "integer"
+                                  ],
+                                  "minLength": 1,
+                                  "maxLength": 200,
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                }
+                              },
+                              "required": [
+                                "namespace",
+                                "native_id_type",
+                                "native_id"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "minItems": 0,
+                            "maxItems": 16
+                          },
+                          "depends_on": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "minItems": 0,
+                            "maxItems": 16
+                          },
+                          "falsifier": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 2000
+                          },
+                          "expected_record": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 2000
+                          },
+                          "custodian": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "material_change_basis": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 2000
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "parent_id",
+                          "depth",
+                          "subject",
+                          "coordinate",
+                          "jacket_axis",
+                          "variable",
+                          "value",
+                          "source_refs",
+                          "epistemic_state",
+                          "classifier_refs",
+                          "depends_on",
+                          "falsifier",
+                          "expected_record",
+                          "custodian",
+                          "material_change_basis"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "components": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 8
+                    },
+                    "choices": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "atom_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "values": {
+                            "type": "array",
+                            "items": {
+                              "type": [
+                                "string",
+                                "number",
+                                "boolean",
+                                "null"
+                              ],
+                              "maxLength": 4000,
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            "minItems": 1,
+                            "maxItems": 4
+                          }
+                        },
+                        "required": [
+                          "atom_id",
+                          "values"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 1,
+                      "maxItems": 8
+                    },
+                    "rationale": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "material_change_basis": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "source_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "operator",
+                    "atom_ids",
+                    "rationale",
+                    "material_change_basis",
+                    "source_refs"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 16
+              },
+              "models": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "method": {
+                      "type": "string",
+                      "enum": [
+                        "claw_accumulator",
+                        "coin_pusher_deferred",
+                        "casino_meter_finality",
+                        "ledger",
+                        "relational",
+                        "partial_order",
+                        "metamorphic",
+                        "temporal",
+                        "identity_graph",
+                        "authority_graph",
+                        "propositional_entailment",
+                        "finite_invariant",
+                        "abductive_cover",
+                        "minimal_cut_sets",
+                        "nash",
+                        "harsanyi",
+                        "selten",
+                        "conservation",
+                        "identity",
+                        "state_trace",
+                        "fault_tree",
+                        "fmea",
+                        "ach",
+                        "coverage"
+                      ]
+                    },
+                    "input": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "bindings": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "atom_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "input_pointer": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 2000
+                          },
+                          "facet": {
+                            "type": "string",
+                            "enum": [
+                              "value",
+                              "depends_on",
+                              "present"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "atom_id",
+                          "input_pointer",
+                          "facet"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0,
+                      "maxItems": 64
+                    },
+                    "source_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "method",
+                    "input",
+                    "bindings",
+                    "source_refs"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 4
+              },
+              "checks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "target": {
+                      "type": "string",
+                      "enum": [
+                        "ATOM",
+                        "MODEL_OUTPUT"
+                      ]
+                    },
+                    "subject_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "pointer": {
+                      "type": "string",
+                      "maxLength": 500
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "EQ",
+                        "NE",
+                        "LT",
+                        "LE",
+                        "GT",
+                        "GE",
+                        "PRESENT",
+                        "ABSENT"
+                      ]
+                    },
+                    "expected": {
+                      "type": [
+                        "string",
+                        "number",
+                        "boolean",
+                        "null"
+                      ],
+                      "maxLength": 4000,
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "source_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "falsifier": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "expected_record": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "custodian": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "target",
+                    "subject_id",
+                    "pointer",
+                    "operator",
+                    "expected",
+                    "source_refs",
+                    "falsifier",
+                    "expected_record",
+                    "custodian"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 32
+              },
+              "method_applicability": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "method": {
+                      "type": "string",
+                      "enum": [
+                        "claw_accumulator",
+                        "coin_pusher_deferred",
+                        "casino_meter_finality",
+                        "ledger",
+                        "relational",
+                        "partial_order",
+                        "metamorphic",
+                        "temporal",
+                        "identity_graph",
+                        "authority_graph",
+                        "propositional_entailment",
+                        "finite_invariant",
+                        "abductive_cover",
+                        "minimal_cut_sets",
+                        "nash",
+                        "harsanyi",
+                        "selten",
+                        "conservation",
+                        "identity",
+                        "state_trace",
+                        "fault_tree",
+                        "fmea",
+                        "ach",
+                        "coverage"
+                      ]
+                    },
+                    "state": {
+                      "type": "string",
+                      "enum": [
+                        "APPLIES",
+                        "NOT_APPLICABLE",
+                        "UNKNOWN"
+                      ]
+                    },
+                    "atom_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "reason": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "source_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    }
+                  },
+                  "required": [
+                    "method",
+                    "state",
+                    "atom_ids",
+                    "reason",
+                    "source_refs"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 64
+              },
+              "hook_applicability": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "hook_id": {
+                      "type": "string",
+                      "enum": [
+                        "linearizability_history_check",
+                        "transaction_dependency_check",
+                        "counterexample_guided_abstraction_refinement",
+                        "oracle_delta_debugging",
+                        "assume_guarantee_composition",
+                        "information_flow_hyperproperty_check",
+                        "event_sequence_dependency_analysis",
+                        "finite_incentive_compatibility_check",
+                        "guarded_operation_commutativity",
+                        "finite_epistemic_indistinguishability"
+                      ]
+                    },
+                    "state": {
+                      "type": "string",
+                      "enum": [
+                        "APPLIES",
+                        "NOT_APPLICABLE",
+                        "UNKNOWN"
+                      ]
+                    },
+                    "atom_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "reason": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "source_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    }
+                  },
+                  "required": [
+                    "hook_id",
+                    "state",
+                    "atom_ids",
+                    "reason",
+                    "source_refs"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 32
+              },
+              "variant_offset": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1024
+              },
+              "max_variants": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 16
+              },
+              "expected_base_fingerprint": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64
+              },
+              "stop_condition": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "project_id",
+              "object_id",
+              "namespace",
+              "atoms",
+              "sources",
+              "stop_condition"
+            ],
+            "additionalProperties": false
+          },
+          "existing_packet_preserved": true,
+          "atom_unit": "One declared variable/value, with identity, source, classifiers, parent, dependencies, falsifier and expected record.",
+          "identity_policy": "Caller-supplied native atom IDs and typed subject identities are preserved. Test variants do not mint canonical classifiers.",
+          "object_coordinates": [
+            "OBJECT",
+            "ACTOR",
+            "CAPACITY",
+            "AUTHORITY",
+            "INPUT",
+            "TRANSFORMATION",
+            "OUTPUT",
+            "RECIPIENT",
+            "CHANNEL",
+            "ACCESS/POWER",
+            "DECISION STANDARD",
+            "PROCESS",
+            "TIME",
+            "LOCATION/JURISDICTION",
+            "DATA GOVERNANCE",
+            "ASSENT/CONTRACT",
+            "MONEY/INCENTIVE",
+            "FINALITY/CAUSATION",
+            "COMPARATOR",
+            "ADVERSE/FALSIFIER",
+            "RECORD/CUSTODIAN",
+            "VERSION",
+            "EVIDENTIARY WEIGHT",
+            "REMEDY",
+            "SEARCH/COMPLETION STATE."
+          ],
+          "jacket_axes": [
+            "LITERAL",
+            "OWNER_ATTRIBUTION",
+            "AUTHENTICATION",
+            "ACTOR_CAPACITY",
+            "PROCEDURAL_FUNCTION",
+            "AUTHORITY",
+            "ELECTION_WAIVER",
+            "CORROBORATION",
+            "CONDITIONAL_OPERATION",
+            "ADOPTION",
+            "IMPLEMENTATION",
+            "FINALITY",
+            "TEMPORAL_VERSION",
+            "ADVERSE_FALSIFIER"
+          ],
+          "transformation_algebra": [
+            "REMOVE / ABLATE: −x",
+            "RESTORE: +x",
+            "SUBSTITUTE: x→y",
+            "SWAP: x↔y",
+            "INVERT EDGE: A→B ⇄ B→A",
+            "REORDER / PERMUTE: π(sequence)",
+            "PERTURB: x±δ",
+            "MASK / HIDE CHANNEL: M(x)",
+            "PROJECT / REDUCE: P_S(x)",
+            "EXPAND / RECURSE: R(x)",
+            "COMPOSE: f∘g",
+            "CROSS PRODUCT: A×B",
+            "STATE DIFFERENCE: Δ(S1,S2)",
+            "INVARIANT TEST",
+            "QUALITATIVE SENSITIVITY / LOAD-BEARING TEST",
+            "NULL / NO-EDGE TEST",
+            "ALTERNATIVE-MODEL SET"
+          ],
+          "operator_execution_scope": "Finite supplied atom states; model projections are explicitly bound by JSON pointers. Transform labels do not imply formal solver completeness.",
+          "method_packet_fields": [
+            "METHOD ID",
+            "INPUT OBJECT ID",
+            "PARENT CLASSIFIERS",
+            "PROPOSED STATE",
+            "PROPOSED EDGE STATE",
+            "SUPPORTING SOURCE",
+            "COUNTEREXAMPLE / FALSIFIER",
+            "CONTRADICTION",
+            "TARGET",
+            "METHOD LIMITATION",
+            "LEGAL EFFECT CLAIMED?"
+          ],
+          "method_packet_key_value_normalization": "The original declaration LEGAL EFFECT CLAIMED? = NO is represented by key LEGAL EFFECT CLAIMED? with value NO.",
+          "canonical_packet_declarations": [
+            "METHOD ID",
+            "INPUT OBJECT ID",
+            "PARENT CLASSIFIERS",
+            "PROPOSED STATE",
+            "PROPOSED EDGE STATE",
+            "SUPPORTING SOURCE",
+            "COUNTEREXAMPLE / FALSIFIER",
+            "CONTRADICTION",
+            "TARGET",
+            "METHOD LIMITATION",
+            "LEGAL EFFECT CLAIMED? = NO"
+          ],
+          "reduction_identity": {
+            "id_pattern": "MMR-[PROJECT]-[OBJECT]-[VERSION]",
+            "fields_exact": [
+              "source hash;",
+              "MAXVAR parents;",
+              "NESTMAX children;",
+              "methods run;",
+              "method outputs;",
+              "contradictions;",
+              "active falsifiers;",
+              "promotion state;",
+              "next target;",
+              "stop condition."
+            ],
+            "identity_vs_sha256": "Native heading calls this a reduction hash, but the declared MMR string is an identity format; it is not a SHA256 digest algorithm.",
+            "recursive_child_id_pattern": "MLC-[PROJECT]-[OBJECT]-[BRANCH]-[DEPTH]-[SEQUENCE]",
+            "runtime_receipt_rule": "Original object/child/MMR identities and declared source-version namespaces remain distinct from computed source, base-state, model, run, or artifact SHA256 digests. A digest never establishes source authenticity or occurrence of an event."
+          },
+          "analytical_inventory": {
+            "framework_operators": 15,
+            "reduction_methods": 12,
+            "mirrors": 15,
+            "research_hooks": 10
+          },
+          "method_discovery": "get_method_ark catalog_layer selects IMPLEMENTED, METHOD_HOOKS, FRAMEWORK_OPERATORS, REDUCTION_METHODS, TRANSFORMATIONS or MIRRORS. Limit 1–5; follow next_offset.",
+          "no_material_gain_stop": "No fixed maximum depth; stop if the split cannot change any material coordinate, proof gap, or record-acquisition strategy.",
+          "max_atom_batch": 64,
+          "max_model_batch": 4,
+          "max_variants_per_page": 16,
+          "max_model_evaluations_per_call": 32,
+          "max_transform_steps": 512,
+          "max_atom_bytes": 100000,
+          "max_model_receipt_bytes": 150000,
+          "default_mode": "PLAN",
+          "explicit_execution_mode": "EXECUTE_SUPPLIED_MODELS",
+          "automatic_target_actions": false,
+          "invariants": "A newly violated supplied invariant creates a MODEL_COUNTEREXAMPLE_CANDIDATE; native proof and impact remain separate.",
+          "canonical_promotion": false,
+          "external_action_authorized": false
+        },
+        "method_inventory": {
+          "implemented_evaluators": 24,
+          "research_hooks": 10,
+          "framework_operators": 15,
+          "reduction_methods": 12,
+          "transformations": 17,
+          "mirrors": 15,
+          "object_coordinates": 25,
+          "jacket_axes": 14,
+          "layers": [
+            "IMPLEMENTED",
+            "METHOD_HOOKS",
+            "FRAMEWORK_OPERATORS",
+            "REDUCTION_METHODS",
+            "TRANSFORMATIONS",
+            "MIRRORS"
+          ],
+          "counting_rule": "Overlapping framework families, mirrors, transformations and executable evaluators are separate inventories. Do not sum them as executed methods.",
+          "rule": [
+            "METHODS ARE TRIGGERED BY DIMENSION.",
+            "Do not run every method blindly.",
+            "Run the methods capable of changing the active classifier state."
+          ]
+        },
+        "audience_output_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "format",
+            "audience",
+            "claims",
+            "headline_claim_id",
+            "lead_claim_id"
+          ],
+          "properties": {
+            "format": {
+              "type": "string",
+              "enum": [
+                "STRAIGHT_NEWS",
+                "FACT_CHECK",
+                "EXPLAINER",
+                "INVESTIGATIVE",
+                "BUSINESS_ANALYSIS",
+                "TECHNICAL",
+                "SECURITY_WRITEUP",
+                "LEGAL",
+                "EXECUTIVE",
+                "SCIENTIFIC",
+                "MORPHOLOGY_MIRROR"
+              ]
+            },
+            "audience": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "headline_claim_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "lead_claim_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "analysis_fingerprint": {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64
+            },
+            "claims": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 24,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "text",
+                  "role",
+                  "epistemic_state",
+                  "finality_state",
+                  "finality_owner",
+                  "source_refs"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "MAIN",
+                      "CONTEXT",
+                      "BODY",
+                      "CONTRARY",
+                      "LIMITATION"
+                    ]
+                  },
+                  "epistemic_state": {
+                    "type": "string",
+                    "enum": [
+                      "OBSERVED",
+                      "DERIVED",
+                      "INFERRED",
+                      "ADOPTED"
+                    ]
+                  },
+                  "finality_state": {
+                    "type": "string",
+                    "enum": [
+                      "NONE",
+                      "PROPOSED",
+                      "PENDING",
+                      "PROVISIONAL",
+                      "DECIDED",
+                      "FINALIZED",
+                      "SETTLED",
+                      "ENFORCED",
+                      "IRREVERSIBLE"
+                    ]
+                  },
+                  "finality_owner": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 200
+                  },
+                  "source_refs": {
+                    "type": "array",
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "review_bridge": {
+          "version": "UMTB-4.0",
+          "mode": "SUPPLIED_EVIDENCE_REVIEW_ONLY",
+          "correspondence": [
+            {
+              "workflow": "actor / authority_owner",
+              "legal": "actor / capacity / source owner",
+              "rule": "Do not substitute possession, permission, ownership, or capacity for one another."
+            },
+            {
+              "workflow": "object_id / state_before / state_after",
+              "legal": "exact subject / procedural state / native record",
+              "rule": "Bind each state claim to the same subject, source version and quoted span."
+            },
+            {
+              "workflow": "invariant / feedback",
+              "legal": "governing authority / evidence of application",
+              "rule": "Distinguish the stated rule from evidence that it was applied."
+            },
+            {
+              "workflow": "value_object / timing_context",
+              "legal": "quantity / causation / finality",
+              "rule": "Separate displayed amounts, pending events and final authoritative outcomes."
+            }
+          ],
+          "review_lenses": [
+            {
+              "id": "information",
+              "question": "What did each actor know at the recorded time, and which source establishes it?"
+            },
+            {
+              "id": "stages",
+              "question": "Which recorded stage makes the outcome final, and which later stages remain unresolved?"
+            },
+            {
+              "id": "conservation",
+              "question": "Do quantities reconcile using consistent units and the same object and time window?"
+            },
+            {
+              "id": "hidden_state",
+              "question": "Is controller or accumulator state evidenced, inferred, or unknown?"
+            },
+            {
+              "id": "deferred_causation",
+              "question": "Could an earlier queued event explain the observed result? Preserve competing explanations."
+            },
+            {
+              "id": "first_divergence",
+              "question": "Where do two supplied records first differ after identity and version are aligned?"
+            },
+            {
+              "id": "state_owner",
+              "question": "Which native authority owns the state being asserted?"
+            },
+            {
+              "id": "falsifier",
+              "question": "What supplied evidence would defeat the proposition?"
+            }
+          ],
+          "execution": "Review questions only; no game-theory solver, legal conclusion, exploit generation, or external testing.",
+          "continuation": {
+            "workflow_objects_per_call": 1,
+            "priority_checks_max": 48,
+            "classifier_ids_per_lookup": 24,
+            "maxvar_ids_per_lookup": 12,
+            "dependency_batch_max": 3,
+            "parallel_calls_recommended": 1,
+            "automatic_retries": 0
+          },
+          "evidence": "Use get_universal_contract, then validate_evidence_packet to check exact versions, subject references, spans and dependencies. Structural PASS does not establish truth or legal applicability.",
+          "canonical_promotion": false,
+          "court_release_allowed": false,
+          "external_action_authorized": false
+        },
+        "normal_answer_contract": {
+          "version": "RECON-OUTPUT-1.0",
+          "purpose": "Readable review of supplied evidence, backed by exact registry links",
+          "sections": [
+            "Observed record and exact source",
+            "Classifier and parent references",
+            "What the record supports",
+            "What remains inferred or unknown",
+            "Contrary explanation / falsifier",
+            "Missing evidence and stop condition"
+          ],
+          "rules": [
+            "Do not dump the registry into normal answers. Show only referenced IDs and material distinctions.",
+            "Preserve printed identity, operative function, actor/capacity, authority, time/version and finality separately.",
+            "A shared MAXVAR parent is a cross-reference, not equivalence or proof.",
+            "Method agreement is not independent corroboration.",
+            "Report the evidence state on each axis; a binary pass/fail is not a substitute.",
+            "No automated target actions or vulnerability reproduction are executed by these lookup tools."
+          ],
+          "default_call_budget": 3,
+          "preferred_parallel_calls": 1,
+          "model_output_guaranteed": false
+        },
+        "research_storage": {
+          "version": "RESEARCH-STORAGE-2.0",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "project_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "checkpoint_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "records": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "category": {
+                      "type": "string",
+                      "enum": [
+                        "EVIDENCE",
+                        "CLASSIFIER",
+                        "METHOD",
+                        "PROGRAM_RULE",
+                        "TERMS_OF_SERVICE",
+                        "REPORT_DRAFT",
+                        "CHECKPOINT"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "source_ref": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "source_version": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "observed_at": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "state": {
+                      "type": "string",
+                      "enum": [
+                        "DECLARED",
+                        "OBSERVED",
+                        "REVIEWED",
+                        "DISPUTED",
+                        "UNKNOWN",
+                        "SUPERSEDED"
+                      ]
+                    },
+                    "classifier_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "method_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "parent_record_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 16
+                    },
+                    "notes": {
+                      "type": "string",
+                      "maxLength": 4000
+                    },
+                    "typed": {
+                      "type": "object",
+                      "properties": {
+                        "identity": {
+                          "type": "object",
+                          "properties": {
+                            "namespace": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "native_id_type": {
+                              "type": "string",
+                              "enum": [
+                                "string",
+                                "integer"
+                              ]
+                            },
+                            "native_id": {
+                              "type": [
+                                "string",
+                                "integer"
+                              ],
+                              "minLength": 1,
+                              "maxLength": 200,
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "namespace",
+                            "native_id_type",
+                            "native_id"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "ordinal": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "classifier_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "namespace": {
+                                "type": "string",
+                                "enum": [
+                                  "MAXVAR",
+                                  "NESTMAX",
+                                  "BL",
+                                  "MBSS",
+                                  "EXT"
+                                ]
+                              },
+                              "native_id_type": {
+                                "type": "string",
+                                "enum": [
+                                  "string",
+                                  "integer"
+                                ]
+                              },
+                              "native_id": {
+                                "type": [
+                                  "string",
+                                  "integer"
+                                ],
+                                "minLength": 1,
+                                "maxLength": 200,
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              }
+                            },
+                            "required": [
+                              "namespace",
+                              "native_id_type",
+                              "native_id"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        },
+                        "method_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "namespace": {
+                                "type": "string",
+                                "enum": [
+                                  "METHOD"
+                                ]
+                              },
+                              "native_id_type": {
+                                "type": "string",
+                                "enum": [
+                                  "string"
+                                ]
+                              },
+                              "native_id": {
+                                "type": "string",
+                                "enum": [
+                                  "claw_accumulator",
+                                  "coin_pusher_deferred",
+                                  "casino_meter_finality",
+                                  "ledger",
+                                  "relational",
+                                  "partial_order",
+                                  "metamorphic",
+                                  "temporal",
+                                  "identity_graph",
+                                  "authority_graph",
+                                  "propositional_entailment",
+                                  "finite_invariant",
+                                  "abductive_cover",
+                                  "minimal_cut_sets",
+                                  "nash",
+                                  "harsanyi",
+                                  "selten",
+                                  "conservation",
+                                  "identity",
+                                  "state_trace",
+                                  "fault_tree",
+                                  "fmea",
+                                  "ach",
+                                  "coverage"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "namespace",
+                              "native_id_type",
+                              "native_id"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "minItems": 0,
+                          "maxItems": 16
+                        }
+                      },
+                      "required": [
+                        "identity",
+                        "ordinal",
+                        "classifier_refs",
+                        "method_refs"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "category",
+                    "title",
+                    "source_ref",
+                    "source_version",
+                    "observed_at",
+                    "state",
+                    "classifier_ids",
+                    "method_ids",
+                    "parent_record_ids",
+                    "notes"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 64
+              },
+              "next_action": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "stop_condition": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "record_contract": {
+                "type": "string",
+                "enum": [
+                  "LEGACY_V1",
+                  "TYPED_V2"
+                ]
+              },
+              "export_profile": {
+                "type": "string",
+                "enum": [
+                  "PRIVATE",
+                  "PRIVATE_WITH_DASH_REFERENCES"
+                ]
+              },
+              "resolver_action": {
+                "type": "string",
+                "enum": [
+                  "CREATE",
+                  "REUSE",
+                  "ADVANCE"
+                ]
+              },
+              "dash_resolver": {
+                "type": "object",
+                "properties": {
+                  "format_version": {
+                    "type": "string",
+                    "enum": [
+                      "DASH-PRIVATE-RESOLVER-1.0"
+                    ]
+                  },
+                  "record_contract": {
+                    "type": "string",
+                    "enum": [
+                      "LEGACY_V1",
+                      "TYPED_V2"
+                    ]
+                  },
+                  "project_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "project_handle": {
+                    "type": "string",
+                    "minLength": 36,
+                    "maxLength": 36
+                  },
+                  "checkpoints": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "checkpoint_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "checkpoint_handle": {
+                          "type": "string",
+                          "minLength": 36,
+                          "maxLength": 36
+                        },
+                        "record_ids": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "minItems": 1,
+                          "maxItems": 64
+                        }
+                      },
+                      "required": [
+                        "checkpoint_id",
+                        "checkpoint_handle",
+                        "record_ids"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1,
+                    "maxItems": 128
+                  },
+                  "records": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "record_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "record_handle": {
+                          "type": "string",
+                          "minLength": 36,
+                          "maxLength": 36
+                        },
+                        "identity": {
+                          "type": "object",
+                          "properties": {
+                            "namespace": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "native_id_type": {
+                              "type": "string",
+                              "enum": [
+                                "string",
+                                "integer"
+                              ]
+                            },
+                            "native_id": {
+                              "type": [
+                                "string",
+                                "integer"
+                              ],
+                              "minLength": 1,
+                              "maxLength": 200,
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "namespace",
+                            "native_id_type",
+                            "native_id"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "record_id",
+                        "record_handle",
+                        "identity"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1,
+                    "maxItems": 512
+                  }
+                },
+                "required": [
+                  "format_version",
+                  "record_contract",
+                  "project_id",
+                  "project_handle",
+                  "checkpoints",
+                  "records"
+                ],
+                "additionalProperties": false
+              },
+              "expected_resolver_fingerprint": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64
+              }
+            },
+            "required": [
+              "project_id",
+              "checkpoint_id",
+              "records",
+              "next_action",
+              "stop_condition"
+            ],
+            "additionalProperties": false
+          },
+          "default_profile": "PRIVATE",
+          "default_record_contract": "LEGACY_V1",
+          "new_work_record_contract": "TYPED_V2",
+          "dash_export_profile": "PRIVATE_WITH_DASH_REFERENCES",
+          "dash_artifact_fields": [
+            "dash_projection",
+            "dash_csv"
+          ],
+          "resolver_actions": {
+            "CREATE": "Explicit initial alias allocation; save private resolver and checksum.",
+            "REUSE": "Exact checkpoint membership with saved resolver and expected checksum.",
+            "ADVANCE": "New checkpoint; preserve existing project/record handles and typed identity, add only new handles."
+          },
+          "resolver_limits": {
+            "records": 512,
+            "checkpoints": 128,
+            "records_per_call": 64
+          },
+          "encryption": false,
+          "persistence_hosted": false,
+          "identity_rule": "Native namespace and ID type are exact; numeric MAXVAR is distinct from string registry IDs. Ordinal is separate. TYPED_V2 uses empty legacy classifier_ids/method_ids and registered typed references."
+        }
+      }
+    },
+    {
+      "tool": "get_method_catalog",
+      "arguments": {
+        "method": "finite_invariant"
+      },
+      "result": {
+        "status": "METHOD_IMPLEMENTATION_CATALOG",
+        "recovered_corpus_tool": "get_research_registry",
+        "cross_reference_tool": "cross_reference_methods",
+        "jacket_comparison_tool": "compare_operative_states",
+        "version": "1.2.0",
+        "forensic_source_pointers": {
+          "version": "FORENSIC-POINTERS-1.0",
+          "sources": [
+            {
+              "role": "notebookMap",
+              "document_id": "1I4Vk0aEhedinCx7vTh2WdCBYkNWebcsH2nS83Vu73Z8",
+              "title": "MACHINE LEGAL — NOTEBOOK SOURCE MAP — RECURSIVE CLASSIFIER COMPILER MAIN",
+              "revision_id": "ANLCKQkfDtYba1dCK1eO3My3Rvwsv5QSaZP_S26Cpdtya9piQ2wY4yrqE7V7T9V4_joqH9LcqXIvC6Bi0drEHTUzFnZwXgXVYDdaG8vOUfE",
+              "locator_kind": "GOOGLE_DOC_PARAGRAPH_INDEX",
+              "notebook_execution_performed": false
+            },
+            {
+              "role": "extension",
+              "document_id": "12fE21L5kIAI6W2nJwxrxw-74jrgbQor1MRRiyaSGjz0",
+              "title": "01 — MACHINE BUG (LEGAL) — ADDITIVE METHOD EXTENSION PACK V1 — CONCURRENCY / TEMPORAL / AUTHORITY",
+              "revision_id": "AHj4eMRDD1T6-iqh-FnacHjGcaSZGkSyLKdebBXcUl6tQ4_ZlI0jEr_iCWT3lwNffdir1P_F3c6ZtCWcXu4gYex8nfNUC8i_FE5ktsE_QDA",
+              "locator_kind": "GOOGLE_DOC_PARAGRAPH_INDEX",
+              "notebook_execution_performed": false
+            },
+            {
+              "role": "compiler",
+              "document_id": "1cgNpU0dpMR8O_3Pv9fUW7BMam4o5PApG_bGG6T1fm-8",
+              "title": "MACHINE LEGAL — RECURSIVE CLASSIFIER COMPILER — MAIN",
+              "revision_id": "AHj4eMRdsSIyHFpKSKmGpo8VSyuOka8WylIhsLV_COADIbEjyLTqaZWp6zsCuV0Cw-02v4iFvgnQuShRmnL_47nOq_JQtpFKQebioGI4QOw",
+              "locator_kind": "GOOGLE_DOC_PARAGRAPH_INDEX",
+              "notebook_execution_performed": false
+            },
+            {
+              "role": "jacket",
+              "document_id": "1Y9E9Ie7sjkDhSeUAgZcYVM7KtuP8R0wRIQnIY5Tj7B4",
+              "title": "MACHINE LEGAL — GEMINI WORKER INSTRUCTIONS V1 — CURRENT",
+              "revision_id": "ANLCKQm0-qmoMNPAmir31IL_WiDD4SdR5JoD4fwrXJRGp8nW3K47uMUjPeTeDKwS1XByEaeT9KuISO8igX8BVrDNTNuiR2xNzXh34D9EvZw",
+              "locator_kind": "GOOGLE_DOC_PARAGRAPH_INDEX",
+              "notebook_execution_performed": false
+            }
+          ],
+          "instructions": [
+            "Fetch current source revision before relying on deeper definitions.",
+            "Use exact classifier IDs with cross_reference_methods; shared parent is not equivalence.",
+            "Computations over supplied records do not authenticate sources or establish legal facts.",
+            "Preserve open atoms, missing edges, contradictions and stop conditions."
+          ]
+        },
+        "atomic_source_pointers": {
+          "role": "PRIMARY_LINEAGE_FOR_BOUNDED_ADAPTATIONS_NOT_IMPLEMENTATION_CERTIFICATION",
+          "methods": {
+            "propositional_entailment": [
+              {
+                "key": "aima_propositional_entailment",
+                "title": "Artificial Intelligence: A Modern Approach — Logical Agents",
+                "author_or_owner": "Stuart Russell and Peter Norvig; official book website",
+                "url": "https://aima.cs.berkeley.edu/newchap07.pdf",
+                "retrieval": "Author-provided chapter opened with parsed text.",
+                "locator": "Section 7.4; TT-ENTAILS?/TT-CHECK-ALL, Figure 7.10.",
+                "supports": "Finite truth-assignment enumeration checks whether every model satisfying a propositional knowledge base also satisfies a query."
+              }
+            ],
+            "finite_invariant": [
+              {
+                "key": "lamport_invariants_refinement",
+                "title": "Specifying Systems",
+                "author_or_owner": "Leslie Lamport; original author-provided book",
+                "url": "https://lamport.azurewebsites.net/tla/book-02-08-08.pdf",
+                "retrieval": "Author-provided PDF opened with parsed text.",
+                "locator": "Invariant/inductive invariant discussion and specification/refinement chapters; search for inductive invariant.",
+                "supports": "Initial-state and transition-preservation obligations justify invariance relative to a specification. A refinement relation needs explicit proof obligations, not similar labels or traces."
+              }
+            ],
+            "abductive_cover": [
+              {
+                "key": "reggia_nau_wang_set_cover",
+                "title": "Diagnostic Expert Systems Based on a Set Covering Model",
+                "author_or_owner": "James Reggia, Dana Nau and Pearl Wang; original author-hosted paper",
+                "url": "https://www.cs.umd.edu/~nau/papers/reggia1983diagnostic.pdf",
+                "retrieval": "Original PDF opened, but parsed text length was zero. Primary search excerpt verified a set-cover hypothesize-and-test mechanism. Tavily basic extraction failed. Fine-grained implementation equivalence was not verified.",
+                "locator": "Paper title/primary indexed abstract; detailed local set-cover semantics below are an explicit adaptation.",
+                "supports": "Diagnostic hypotheses can be organized through a set-cover model. This source does not certify the proposed bounded cover implementation."
+              },
+              {
+                "key": "kakas_kowalski_toni_abduction",
+                "title": "Abductive Logic Programming",
+                "author_or_owner": "Kakas, Kowalski and Toni; original authors, Imperial College archive",
+                "url": "https://www.doc.ic.ac.uk/~rak/papers/abdsurv.pdf",
+                "retrieval": "Original PDF opened; parsed text has substantial character-encoding artifacts. Broad framework confirmed by primary indexed description; no claim of reproducing its proof procedure.",
+                "locator": "Abduction, background theory, abducibles and integrity constraints.",
+                "supports": "Abduction forms constrained explanatory hypotheses. Covering a supplied observation set is a narrower operation than general abductive logic programming."
+              }
+            ],
+            "minimal_cut_sets": [
+              {
+                "key": "nasa_model_based_cut_sets",
+                "title": "Model-Based Safety Analysis",
+                "author_or_owner": "NASA Langley formal-methods technical publication",
+                "url": "https://shemesh.larc.nasa.gov/fm/Model-BasedSafetyAnalysis.pdf",
+                "retrieval": "Official NASA-hosted PDF opened with parsed text.",
+                "locator": "PDF page 45 discussion of extracting minimal sets of basic events producing a top-level event.",
+                "supports": "Minimal cut sets identify minimally sufficient basic-event combinations in a model. The proposed AND/OR evaluator is a finite qualitative subset, not the publication's complete analysis system."
+              }
+            ]
+          },
+          "local_implementation": "lib/atomic-models.mjs",
+          "verification": "tests/atomic-models.test.mjs",
+          "authority_transfer": false
+        },
+        "methods": [
+          {
+            "id": "finite_invariant",
+            "methods": "Finite reachability and induction obligations",
+            "level": "COMPUTATION",
+            "scope": "BFS over at most 256 supplied states and 512 transitions, with forbidden states and caller-supplied true/false/unknown invariant labels. Checks base and step obligations separately. No unbounded induction, inferred state labels, or completeness beyond the supplied graph."
+          }
+        ],
+        "input_schemas": {
+          "finite_invariant": {
+            "type": "object",
+            "properties": {
+              "invariant_label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "states": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "invariant_holds": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "invariant_holds"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 256
+              },
+              "initial_states": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "minItems": 1,
+                "maxItems": 256
+              },
+              "transitions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "from": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "to": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "from",
+                    "to"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 512
+              },
+              "forbidden_states": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "minItems": 0,
+                "maxItems": 256
+              },
+              "max_states_examined": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 256
+              }
+            },
+            "required": [
+              "invariant_label",
+              "states",
+              "initial_states",
+              "transitions",
+              "forbidden_states"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "model_scope": "Finite supplied models and records only; no target access, traffic generation, exploit planning, or source authentication.",
+        "canonical_promotion": false,
+        "external_action_authorized": false
+      }
+    },
+    {
+      "tool": "evaluate_method",
+      "arguments": {
+        "method": "finite_invariant",
+        "input": {
+          "invariant_label": "SYNTHETIC ONLY — preserve a true label across the supplied finite transition",
+          "states": [
+            {
+              "id": "synthetic:start",
+              "invariant_holds": true
+            },
+            {
+              "id": "synthetic:violation",
+              "invariant_holds": false
+            }
+          ],
+          "initial_states": [
+            "synthetic:start"
+          ],
+          "transitions": [
+            {
+              "id": "synthetic:step",
+              "from": "synthetic:start",
+              "to": "synthetic:violation"
+            }
+          ],
+          "forbidden_states": [
+            "synthetic:violation"
+          ],
+          "max_states_examined": 2
+        }
+      },
+      "result": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "finite_invariant",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "3c0433c6bceff56271d57d7c2249fdadc5b02075fe7ca227f8d5af667199ada3",
+        "result": {
+          "status": "COUNTEREXAMPLE_FOUND",
+          "invariant_label": "SYNTHETIC ONLY — preserve a true label across the supplied finite transition",
+          "predicate_basis": "NOT_FORBIDDEN_AND_SUPPLIED_INVARIANT_HOLDS",
+          "reachable_predicate_holds": false,
+          "reachability_complete": false,
+          "state_ids_examined": [
+            "synthetic:start",
+            "synthetic:violation"
+          ],
+          "states_examined": 2,
+          "states_discovered": 2,
+          "supplied_state_count": 2,
+          "frontier_state_ids": [],
+          "unknown_reachable_state_ids": [],
+          "counterexample": {
+            "state_path": [
+              "synthetic:start",
+              "synthetic:violation"
+            ],
+            "transition_ids": [
+              "synthetic:step"
+            ],
+            "violating_state": "synthetic:violation",
+            "violations": [
+              "FORBIDDEN_STATE",
+              "SUPPLIED_INVARIANT_FALSE"
+            ]
+          },
+          "induction_obligations": {
+            "scope": "ALL_SUPPLIED_INITIAL_STATES_AND_TRANSITIONS",
+            "base": {
+              "status": "PASS",
+              "checked_count": 1,
+              "violations": [],
+              "unknowns": []
+            },
+            "step": {
+              "status": "FAIL",
+              "checked_count": 1,
+              "violations": [
+                {
+                  "transition_id": "synthetic:step",
+                  "from": "synthetic:start",
+                  "to": "synthetic:violation",
+                  "from_predicate_value": true,
+                  "to_predicate_value": false
+                }
+              ],
+              "unknowns": []
+            },
+            "finite_induction_passed": false,
+            "checked_separately_from_bfs_budget": true
+          },
+          "model_scope": "SUPPLIED_FINITE_GRAPH_AND_CALLER_LABELS_ONLY",
+          "transition_relation_is_caller_supplied": true,
+          "model_completeness_proven": false,
+          "source_authentication": false,
+          "factual_truth_established": false,
+          "target_vulnerability_proven": false,
+          "unbounded_proof": false
+        },
+        "limitations": "BFS over at most 256 supplied states and 512 transitions, with forbidden states and caller-supplied true/false/unknown invariant labels. Checks base and step obligations separately. No unbounded induction, inferred state labels, or completeness beyond the supplied graph.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      }
+    }
+  ],
+  "interpretation": {
+    "protected_evaluator_succeeded_this_chat_session": true,
+    "result_expected": "COUNTEREXAMPLE_FOUND: synthetic:start -> synthetic:violation",
+    "induction_base": "PASS",
+    "induction_step": "FAIL_AS_EXPECTED_NEGATIVE_CONTROL",
+    "model_fingerprint": "3c0433c6bceff56271d57d7c2249fdadc5b02075fe7ca227f8d5af667199ada3",
+    "v13_atlas_hosted": false,
+    "connector_dispatch": false,
+    "persistence_hosted": false,
+    "target_traffic": false,
+    "source_authentication": false,
+    "security_finding": false,
+    "no_merge_or_deploy": true,
+    "cloud_tool_exposure_verified": false
+  }
+}

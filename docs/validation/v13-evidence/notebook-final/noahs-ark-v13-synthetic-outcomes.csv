@@ -1,0 +1,4 @@
+scenario,status,considered,triggered,eligible,selected,pairs,dimensions_covered,dimensions_unresolved,controls_ready,falsifiers_ready,declared_cost_units,source_authenticated,method_executed,security_impact_verified,git_commit,worktree_dirty,node_version,python_version,cache_fingerprint
+Synthetic ledger finality,EVIDENCE_REVIEW_PLAN_ONLY,239,23,2,1,1,2,0,1,1,2,False,False,False,4ffde83e587db829b9cd2124c0a8587e868402d6,False,v24.19.0,3.12.14,f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b
+Cloud configuration — unknown inputs,BLOCKED_NO_READY_METHOD,239,28,0,0,0,0,2,0,0,0,False,False,False,4ffde83e587db829b9cd2124c0a8587e868402d6,False,v24.19.0,3.12.14,f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b
+Casino meter — source unavailable,BLOCKED_NATIVE_SOURCE,239,31,0,0,0,0,2,0,0,0,False,False,False,4ffde83e587db829b9cd2124c0a8587e868402d6,False,v24.19.0,3.12.14,f49efad2ed7d9ce534b729bb4c6878fc48baf0201ed9907b331db3d2624f8d9b

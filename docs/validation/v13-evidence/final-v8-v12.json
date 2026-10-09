@@ -1,0 +1,25 @@
+{
+  "label": "final-v8-v12",
+  "command": [
+    "node",
+    "--test",
+    "tests/atomic-variation-router.test.mjs",
+    "tests/atomic-variation-persistence.test.mjs",
+    "tests/method-atlas.test.mjs",
+    "tests/atlas-seed-parity.test.mjs",
+    "tests/atlas-seed-parity-cli.test.mjs",
+    "tests/noahs-ark-reasoning.test.mjs",
+    "tests/noahs-ark-reasoning-cli.test.mjs",
+    "tests/method-relations-integrity.test.mjs"
+  ],
+  "cwd": "/workspace/scratch/5676560dc515/Machine-Bug-Tool",
+  "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_before": "",
+  "start_utc": "2026-10-09T05:28:40.341575+00:00",
+  "exit_code": 0,
+  "duration_seconds": 4.638493,
+  "end_utc": "2026-10-09T05:28:44.980141+00:00",
+  "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_after": "",
+  "log_sha256": "fc11b8775815c229cf8c022ccd815d262a279a5d0849cd55cba15ef41f80762a"
+}

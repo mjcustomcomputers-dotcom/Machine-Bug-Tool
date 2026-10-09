@@ -1,0 +1,14 @@
+{
+  "source_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "host_session_id": "chatgpt:mpc-v13:5676560dc515:2026-10-09",
+  "call_refs": "Host journal identifiers for actual tool observations; no provider authentication ID asserted.",
+  "boot_recorded_at_utc": "2026-10-09T05:01:33Z",
+  "source_read_blobs": [
+    "3d3221c7729dce6e6866de8624ba2ef17ed7ba51",
+    "d5d91f065993113ca03400b54696c01f7b690eb9"
+  ],
+  "configuration_sha256": "352af9135fcfa9eb3a94c9b8a07d5409664b1a2ad4ec3ac1101ff6bb1cbbde1a",
+  "synthetic_only": true,
+  "source_authentication": false,
+  "native_source_projection": "Whole parsed GitHub fixture JSON. Model leaves are bound by exact JSON pointers; manifest is exact UTF-8 text."
+}

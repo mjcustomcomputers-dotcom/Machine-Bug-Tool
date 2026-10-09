@@ -1,0 +1,20 @@
+{
+  "kind": "OFFLINE_SYNTHETIC_ATLAS_QUERY_BENCHMARK",
+  "node": "v24.19.0",
+  "methods": 239,
+  "classifiers": 239,
+  "linked_methods": 212,
+  "database": "NODE_SQLITE_IN_MEMORY",
+  "warmup_runs": 10,
+  "atoms_per_query": 3,
+  "runs": 200,
+  "ms": {
+    "p50": 0.9539,
+    "p95": 1.8082,
+    "max": 3.4004
+  },
+  "no_network_actions": true,
+  "no_method_execution": true,
+  "source_authentication": false,
+  "disclaimer": "Not an independently replicated throughput comparison, latency SLA, hardware speedup, or live-bounty performance claim."
+}

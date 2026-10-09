@@ -1,0 +1,340 @@
+{
+  "synthetic": true,
+  "targets_contacted": false,
+  "source_authentication": false,
+  "git_head": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+  "inventory": {
+    "methods": 239,
+    "classifiers": 239,
+    "sources": 65,
+    "distinct_primary_sources": 64,
+    "relations": 212,
+    "taxonomy_rows": 2597
+  },
+  "atom_id_coercion": [
+    {
+      "field": "subject_id",
+      "supplied": "OMITTED",
+      "threw": true,
+      "error": "INVALID_REASONING_ID"
+    },
+    {
+      "field": "subject_id",
+      "supplied": null,
+      "threw": true,
+      "error": "INVALID_REASONING_ID"
+    },
+    {
+      "field": "subject_id",
+      "supplied": 123,
+      "threw": true,
+      "error": "INVALID_REASONING_ID"
+    },
+    {
+      "field": "subject_id",
+      "supplied": true,
+      "threw": true,
+      "error": "INVALID_REASONING_ID"
+    },
+    {
+      "field": "subject_id",
+      "supplied": [
+        "fixture:array"
+      ],
+      "threw": true,
+      "error": "INVALID_REASONING_ID"
+    },
+    {
+      "field": "atom_id",
+      "supplied": "OMITTED",
+      "threw": true,
+      "error": "INVALID_REASONING_ID"
+    },
+    {
+      "field": "atom_id",
+      "supplied": null,
+      "threw": true,
+      "error": "INVALID_REASONING_ID"
+    },
+    {
+      "field": "atom_id",
+      "supplied": 123,
+      "threw": true,
+      "error": "INVALID_REASONING_ID"
+    },
+    {
+      "field": "atom_id",
+      "supplied": true,
+      "threw": true,
+      "error": "INVALID_REASONING_ID"
+    },
+    {
+      "field": "atom_id",
+      "supplied": [
+        "fixture:array"
+      ],
+      "threw": true,
+      "error": "INVALID_REASONING_ID"
+    }
+  ],
+  "readiness_matrix": [
+    {
+      "field": "input_state",
+      "state": "AVAILABLE",
+      "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+      "considered": 239,
+      "selected": [
+        "MHA-0053"
+      ],
+      "pairs": [
+        {
+          "primary_method_id": "MHA-0053",
+          "challenger_method_id": "MHA-0035",
+          "relation_type": "COMPLEMENT",
+          "challenger_readiness": "DORMANT_NO_TYPED_TRIGGER",
+          "native_evidence_independence": "NOT_ESTABLISHED",
+          "challenger_executed": false,
+          "reason": "DECLARED_METHOD_RELATION_REQUIRES_INDEPENDENT_SOURCE_AND_FALSIFIER_CHECK"
+        }
+      ],
+      "controls_ready": 1,
+      "falsifiers_ready": 1
+    },
+    {
+      "field": "input_state",
+      "state": "MISSING",
+      "status": "BLOCKED_NO_READY_METHOD",
+      "considered": 239,
+      "selected": [],
+      "pairs": [],
+      "controls_ready": 0,
+      "falsifiers_ready": 0
+    },
+    {
+      "field": "input_state",
+      "state": "UNKNOWN",
+      "status": "BLOCKED_NO_READY_METHOD",
+      "considered": 239,
+      "selected": [],
+      "pairs": [],
+      "controls_ready": 0,
+      "falsifiers_ready": 0
+    },
+    {
+      "field": "negative_control_state",
+      "state": "AVAILABLE",
+      "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+      "considered": 239,
+      "selected": [
+        "MHA-0053"
+      ],
+      "pairs": [
+        {
+          "primary_method_id": "MHA-0053",
+          "challenger_method_id": "MHA-0035",
+          "relation_type": "COMPLEMENT",
+          "challenger_readiness": "DORMANT_NO_TYPED_TRIGGER",
+          "native_evidence_independence": "NOT_ESTABLISHED",
+          "challenger_executed": false,
+          "reason": "DECLARED_METHOD_RELATION_REQUIRES_INDEPENDENT_SOURCE_AND_FALSIFIER_CHECK"
+        }
+      ],
+      "controls_ready": 1,
+      "falsifiers_ready": 1
+    },
+    {
+      "field": "negative_control_state",
+      "state": "MISSING",
+      "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+      "considered": 239,
+      "selected": [
+        "MHA-0053"
+      ],
+      "pairs": [
+        {
+          "primary_method_id": "MHA-0053",
+          "challenger_method_id": "MHA-0035",
+          "relation_type": "COMPLEMENT",
+          "challenger_readiness": "DORMANT_NO_TYPED_TRIGGER",
+          "native_evidence_independence": "NOT_ESTABLISHED",
+          "challenger_executed": false,
+          "reason": "DECLARED_METHOD_RELATION_REQUIRES_INDEPENDENT_SOURCE_AND_FALSIFIER_CHECK"
+        }
+      ],
+      "controls_ready": 0,
+      "falsifiers_ready": 1
+    },
+    {
+      "field": "negative_control_state",
+      "state": "UNKNOWN",
+      "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+      "considered": 239,
+      "selected": [
+        "MHA-0053"
+      ],
+      "pairs": [
+        {
+          "primary_method_id": "MHA-0053",
+          "challenger_method_id": "MHA-0035",
+          "relation_type": "COMPLEMENT",
+          "challenger_readiness": "DORMANT_NO_TYPED_TRIGGER",
+          "native_evidence_independence": "NOT_ESTABLISHED",
+          "challenger_executed": false,
+          "reason": "DECLARED_METHOD_RELATION_REQUIRES_INDEPENDENT_SOURCE_AND_FALSIFIER_CHECK"
+        }
+      ],
+      "controls_ready": 0,
+      "falsifiers_ready": 1
+    },
+    {
+      "field": "falsifier_state",
+      "state": "AVAILABLE",
+      "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+      "considered": 239,
+      "selected": [
+        "MHA-0053"
+      ],
+      "pairs": [
+        {
+          "primary_method_id": "MHA-0053",
+          "challenger_method_id": "MHA-0035",
+          "relation_type": "COMPLEMENT",
+          "challenger_readiness": "DORMANT_NO_TYPED_TRIGGER",
+          "native_evidence_independence": "NOT_ESTABLISHED",
+          "challenger_executed": false,
+          "reason": "DECLARED_METHOD_RELATION_REQUIRES_INDEPENDENT_SOURCE_AND_FALSIFIER_CHECK"
+        }
+      ],
+      "controls_ready": 1,
+      "falsifiers_ready": 1
+    },
+    {
+      "field": "falsifier_state",
+      "state": "MISSING",
+      "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+      "considered": 239,
+      "selected": [
+        "MHA-0053"
+      ],
+      "pairs": [
+        {
+          "primary_method_id": "MHA-0053",
+          "challenger_method_id": "MHA-0035",
+          "relation_type": "COMPLEMENT",
+          "challenger_readiness": "DORMANT_NO_TYPED_TRIGGER",
+          "native_evidence_independence": "NOT_ESTABLISHED",
+          "challenger_executed": false,
+          "reason": "DECLARED_METHOD_RELATION_REQUIRES_INDEPENDENT_SOURCE_AND_FALSIFIER_CHECK"
+        }
+      ],
+      "controls_ready": 1,
+      "falsifiers_ready": 0
+    },
+    {
+      "field": "falsifier_state",
+      "state": "UNKNOWN",
+      "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+      "considered": 239,
+      "selected": [
+        "MHA-0053"
+      ],
+      "pairs": [
+        {
+          "primary_method_id": "MHA-0053",
+          "challenger_method_id": "MHA-0035",
+          "relation_type": "COMPLEMENT",
+          "challenger_readiness": "DORMANT_NO_TYPED_TRIGGER",
+          "native_evidence_independence": "NOT_ESTABLISHED",
+          "challenger_executed": false,
+          "reason": "DECLARED_METHOD_RELATION_REQUIRES_INDEPENDENT_SOURCE_AND_FALSIFIER_CHECK"
+        }
+      ],
+      "controls_ready": 1,
+      "falsifiers_ready": 0
+    }
+  ],
+  "missing_source": {
+    "status": "BLOCKED_NATIVE_SOURCE",
+    "considered": 239,
+    "selected": [],
+    "pairs": [],
+    "controls_ready": 0,
+    "falsifiers_ready": 0
+  },
+  "external_only_source": {
+    "status": "BLOCKED_NATIVE_SOURCE",
+    "considered": 239,
+    "selected": [],
+    "pairs": [],
+    "controls_ready": 0,
+    "falsifiers_ready": 0
+  },
+  "order_permutations": {
+    "runs": 100,
+    "all_equal": true,
+    "baseline": {
+      "status": "EVIDENCE_REVIEW_PLAN_ONLY",
+      "considered": 239,
+      "selected": [
+        "MHA-0053"
+      ],
+      "pairs": [
+        {
+          "primary_method_id": "MHA-0053",
+          "challenger_method_id": "MHA-0035",
+          "relation_type": "COMPLEMENT",
+          "challenger_readiness": "DORMANT_NO_TYPED_TRIGGER",
+          "native_evidence_independence": "NOT_ESTABLISHED",
+          "challenger_executed": false,
+          "reason": "DECLARED_METHOD_RELATION_REQUIRES_INDEPENDENT_SOURCE_AND_FALSIFIER_CHECK"
+        }
+      ],
+      "controls_ready": 1,
+      "falsifiers_ready": 1
+    }
+  },
+  "cli_catalog_override": {
+    "exit": 1,
+    "stderr": "file:///workspace/scratch/5676560dc515/Machine-Bug-Tool/scripts/method-atlas-cli.mjs:198\n if(Object.keys(input).some(k=>!['atom','method_receipts','max_selected','max_pairs'].includes(k)))throw Error('UNKNOWN_REASONING_INPUT');\n                                                                                                         ^\n\nError: UNKNOWN_REASONING_INPUT\n    at runNoahsArkReasoning (file:///workspace/scratch/5676560dc515/Machine-Bug-Tool/scripts/method-atlas-cli.mjs:198:106)\n    at file:///workspace/scratch/5676560dc515/Machine-Bug-Tool/scripts/method-atlas-cli.mjs:222:25\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.19.0\n"
+  },
+  "v8_source_role_collision": {
+    "original_rows": 956,
+    "changed_rows": 956,
+    "cached_on_changed_source_roles": 0
+  },
+  "v8_variation_kind_collision": {
+    "original_rows": 1912,
+    "changed_rows": 956,
+    "cached_on_changed_operation": 956
+  },
+  "v8_method_state_collision": {
+    "changed_rows": 4,
+    "cached_on_changed_method_state": 952
+  },
+  "v8_reverse_lane": {
+    "method_id": "MHA-0112",
+    "declared_direction": "REVERSE",
+    "rows": [
+      {
+        "direction": "FORWARD",
+        "boundary": "INTERNAL_MODEL",
+        "decision": "DIRECTION_UNSUPPORTED"
+      },
+      {
+        "direction": "FORWARD",
+        "boundary": "EXTERNAL_SOURCE",
+        "decision": "DIRECTION_UNSUPPORTED"
+      },
+      {
+        "direction": "BACKWARD",
+        "boundary": "INTERNAL_MODEL",
+        "decision": "TRIGGERED_INPUT_REVIEW_REQUIRED"
+      },
+      {
+        "direction": "BACKWARD",
+        "boundary": "EXTERNAL_SOURCE",
+        "decision": "TRIGGERED_INPUT_REVIEW_REQUIRED"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "label": "final-v13-dedicated",
+  "command": [
+    "node",
+    "--test",
+    "tests/noahs-ark-reasoning.test.mjs",
+    "tests/method-relations-integrity.test.mjs"
+  ],
+  "cwd": "/workspace/scratch/5676560dc515/Machine-Bug-Tool",
+  "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_before": "",
+  "start_utc": "2026-10-09T05:28:19.976963+00:00",
+  "exit_code": 0,
+  "duration_seconds": 0.36893,
+  "end_utc": "2026-10-09T05:28:20.345955+00:00",
+  "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_after": "",
+  "log_sha256": "8f0d0be9674ac8c02a2150d0d4b72e5a0a9d7edd3b1022950486c5f25bd09d00"
+}

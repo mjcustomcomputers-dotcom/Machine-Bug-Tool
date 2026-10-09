@@ -1,0 +1,18 @@
+{
+  "label": "final-controller",
+  "command": [
+    "node",
+    "--test",
+    "tests/noahs-ark-controller.test.mjs"
+  ],
+  "cwd": "/workspace/scratch/5676560dc515/Machine-Bug-Tool",
+  "head_before": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_before": "",
+  "start_utc": "2026-10-09T05:28:23.235903+00:00",
+  "exit_code": 0,
+  "duration_seconds": 12.035394,
+  "end_utc": "2026-10-09T05:28:35.271351+00:00",
+  "head_after": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "status_after": "",
+  "log_sha256": "ea21d3fa5887427f8d8c153d9e895c17f4cb53acd5d604915c1722abfd0e675d"
+}
