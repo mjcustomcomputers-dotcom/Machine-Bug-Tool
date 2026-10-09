@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' blob:; font-src 'self'; object-src 'none'; media-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MPC Workspace</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#workspace-main">Skip to workspace</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" role="img">
+            <path d="M4 37 15 21l7 8L31 9l13 28H4Z"/>
+            <path d="M8 40h32M11 15c7-7 19-7 26 0"/>
+          </svg>
+        </div>
+        <div>
+          <div class="eyebrow">MPC / Research OS</div>
+          <div class="brand-name">MPC Workspace</div>
+          <div class="brand-line">Calm evidence. Precise action.</div>
+        </div>
+      </div>
+
+      <nav class="primary-nav" aria-label="Workspace areas">
+        <button class="nav-item active" type="button" data-view="work" aria-current="page" aria-controls="view-work"><span aria-hidden="true">✦</span>Work</button>
+        <button class="nav-item" type="button" data-view="search" aria-controls="view-search"><span aria-hidden="true">⌕</span>Search</button>
+        <button class="nav-item" type="button" data-view="evidence" aria-controls="view-evidence"><span aria-hidden="true">◫</span>Evidence</button>
+        <button class="nav-item" type="button" data-view="methods" aria-controls="view-methods"><span aria-hidden="true">⌘</span>Methods</button>
+        <button class="nav-item" type="button" data-view="tasks" aria-controls="view-tasks"><span aria-hidden="true">✓</span>Tasks</button>
+        <button class="nav-item" type="button" data-view="reports" aria-controls="view-reports"><span aria-hidden="true">▤</span>Reports</button>
+        <button class="nav-item" type="button" data-view="connections" aria-controls="view-connections"><span aria-hidden="true">⌁</span>Connections</button>
+        <button class="nav-item" type="button" data-view="assistant" aria-controls="view-assistant"><span aria-hidden="true">◇</span>Assistant</button>
+        <button class="nav-item" type="button" data-view="settings" aria-controls="view-settings"><span aria-hidden="true">⚙</span>Settings</button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="inventory-line"><span>Research candidates</span><strong id="inventory-research">—</strong></div>
+        <div class="inventory-line"><span>Executable evaluators</span><strong id="inventory-evaluators">—</strong></div>
+        <div class="boundary-note">Inventories stay separate. A match is not an executed method.</div>
+      </div>
+    </aside>
+
+    <div class="workspace-frame">
+      <header class="topbar">
+        <button class="icon-button sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Toggle navigation" aria-expanded="true">☰</button>
+        <label class="top-field project-field">
+          <span>Project</span>
+          <input id="project-picker" list="project-options" autocomplete="off" placeholder="Choose or search projects" aria-describedby="project-hint">
+          <datalist id="project-options"></datalist>
+          <small id="project-hint" class="sr-only">Type a project name, or choose one from the list.</small>
+        </label>
+        <button class="button compact" id="new-project" type="button">New project</button>
+        <label class="top-field model-field">
+          <span>Reasoning model</span>
+          <select id="model-picker" aria-describedby="model-observation">
+            <option value="">No model observed</option>
+          </select>
+          <small id="model-observation" class="sr-only">No language model selected.</small>
+        </label>
+        <div class="top-status">
+          <span class="status-pill neutral" id="service-status"><i></i>Service unknown</span>
+          <span class="status-pill neutral" id="network-status"><i></i>Offline state unknown</span>
+        </div>
+        <button class="icon-button" id="quiet-toggle" type="button" aria-pressed="false" title="Quiet mode">◐<span class="sr-only">Toggle quiet mode</span></button>
+      </header>
+
+      <main id="workspace-main" tabindex="-1">
+        <section class="view active" id="view-work" data-view-panel="work" aria-labelledby="work-title">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">Active project</div>
+              <h1 id="work-title">What would you like to work on?</h1>
+              <p id="project-objective">Choose or create a project. Your draft stays visible while you move through the workspace.</p>
+            </div>
+            <div class="heading-actions">
+              <button class="button" id="resume-work" type="button" disabled>Resume unfinished work</button>
+              <button class="button accent" id="save-report" type="button" disabled>Save report</button>
+            </div>
+          </div>
+
+          <div class="work-grid">
+            <section class="panel conversation-panel" aria-labelledby="conversation-title">
+              <div class="panel-head">
+                <div><h2 id="conversation-title">Conversation</h2><p>Answers come from the selected observed provider. Local routing and search remain available when inference is not.</p></div>
+                <div class="button-row"><button class="button compact" id="copy-answer" type="button" disabled>Copy answer</button><span class="micro-state" id="conversation-state">READY</span></div>
+              </div>
+              <div class="conversation" id="conversation" role="log" aria-live="polite" aria-relevant="additions">
+                <div class="empty-state">
+                  <div class="landscape-icon" aria-hidden="true">⌁</div>
+                  <h3>Ask, or bring the record into view</h3>
+                  <p>Ask an ordinary question with the selected local model, or paste material, attach files or add a folder for source-bound analysis. MPC Workspace keeps conversation, evidence and evaluator receipts distinct.</p>
+                </div>
+              </div>
+            </section>
+
+            <aside class="panel job-panel" aria-labelledby="job-title">
+              <div class="panel-head">
+                <div><h2 id="job-title">Project progress</h2><p id="job-action">No active job</p></div>
+                <span class="stage-chip" id="work-stage">IDLE</span>
+              </div>
+              <div class="progress-track" aria-label="Job progress"><span id="job-progress-bar" style="width:0%"></span></div>
+              <div class="count-grid" aria-label="Completed work counts">
+                <div><strong id="count-acquired">0</strong><span>Acquired</span></div>
+                <div><strong id="count-analyzed">0</strong><span>Analyzed</span></div>
+                <div><strong id="count-decided">0</strong><span>Decided</span></div>
+              </div>
+              <div class="next-action-card">
+                <span>One useful next action</span>
+                <strong id="next-action-title">Attach a record or paste text</strong>
+                <p id="next-action-detail">No external action has been performed.</p>
+              </div>
+              <div class="receipt-strip" id="job-receipt">No job receipt</div>
+            </aside>
+          </div>
+
+          <div class="result-grid">
+            <section class="panel result-panel" aria-labelledby="facts-title">
+              <div class="panel-head"><div><h2 id="facts-title">Acquired facts</h2><p>Source-supported statements only</p></div><span id="fact-count">0</span></div>
+              <div id="facts-list" class="stack-list"><div class="empty-row">No facts acquired yet.</div></div>
+            </section>
+            <section class="panel result-panel" aria-labelledby="methods-title-work">
+              <div class="panel-head"><div><h2 id="methods-title-work">Applicable methods</h2><p>Selection is separate from execution</p></div><span id="method-count">0</span></div>
+              <div id="work-methods-list" class="stack-list"><div class="empty-row">No method selected yet.</div></div>
+            </section>
+            <section class="panel result-panel" aria-labelledby="sources-title-work">
+              <div class="panel-head"><div><h2 id="sources-title-work">Sources used</h2><p>Exact identity and version</p></div><span id="source-count">0</span></div>
+              <div id="work-sources-list" class="stack-list"><div class="empty-row">No source has been used.</div></div>
+            </section>
+          </div>
+
+          <section class="panel script-workshop" aria-labelledby="script-title">
+            <div class="panel-head">
+              <div><h2 id="script-title">Script workshop</h2><p>Draft → manual run → returned-output ingestion. Drafting never claims execution.</p></div>
+              <span class="stage-chip" id="script-state">NO DRAFT</span>
+            </div>
+            <div class="script-grid">
+              <div class="script-request">
+                <label for="script-request">What should the script help you inspect?</label>
+                <textarea id="script-request" rows="3" placeholder="Example: Prepare a read-only PowerShell script that records service status and writes bounded JSON output."></textarea>
+                <label for="script-language">Language</label>
+                <select id="script-language"><option value="powershell">PowerShell</option><option value="python">Python</option><option value="shell">Shell</option></select>
+                <button class="button" id="draft-script" type="button">Draft explained script</button>
+                <div class="honesty-note">Credentials are never embedded. Review scope and effects before running anything manually.</div>
+              </div>
+              <div class="script-editor">
+                <label for="script-content">Script</label>
+                <textarea id="script-content" rows="10" spellcheck="false" placeholder="No script has been drafted."></textarea>
+                <div class="button-row">
+                  <button class="button compact" id="explain-script" type="button" disabled>Explain</button>
+                  <button class="button compact" id="copy-script" type="button" disabled>Copy</button>
+                  <button class="button compact" id="save-script" type="button" disabled>Save</button>
+                  <button class="button compact" id="mark-script-exported" type="button" disabled>Mark exported</button>
+                </div>
+              </div>
+              <div class="script-output">
+                <label for="script-output">Returned output</label>
+                <textarea id="script-output" rows="10" placeholder="Paste or attach the output after you run the script yourself."></textarea>
+                <label for="script-exit">Reported exit status <span>(optional)</span></label>
+                <input id="script-exit" inputmode="numeric" placeholder="Example: 0">
+                <button class="button" id="ingest-script-output" type="button" disabled>Ingest returned output</button>
+              </div>
+            </div>
+            <details class="explanation-box" id="script-explanation"><summary>Explanation, prerequisites and expected output</summary><div id="script-explanation-body">No explanation available.</div></details>
+          </section>
+        </section>
+
+        <section class="view" id="view-search" data-view-panel="search" aria-labelledby="search-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Project-qualified retrieval</div><h1 id="search-title">Search</h1><p>Search retained local material immediately, or select an observed connected source.</p></div></div>
+          <section class="panel search-panel">
+            <div class="search-row">
+              <label class="grow"><span class="sr-only">Search project evidence</span><input id="search-query" type="search" placeholder="Search retained project text"></label>
+              <button class="button accent" id="run-search" type="button">Search</button>
+            </div>
+            <fieldset class="scope-row"><legend>Scope</legend>
+              <label><input type="checkbox" name="search-scope" value="LOCAL" checked> Local project</label>
+              <label><input type="checkbox" name="search-scope" value="GITHUB"> GitHub</label>
+              <label><input type="checkbox" name="search-scope" value="GOOGLE_DRIVE"> Drive</label>
+              <label><input type="checkbox" name="search-scope" value="DROPBOX"> Dropbox</label>
+              <label><input type="checkbox" name="search-scope" value="DROPBOX_DASH"> Dash</label>
+            </fieldset>
+            <div class="filter-row">
+              <select id="search-kind" aria-label="Source kind"><option value="">All retained text</option><option>TEXT</option><option>FILE</option></select>
+              <select id="search-status" aria-label="Source status"><option value="">Any retained status</option><option>ACQUIRED</option></select>
+              <select id="search-time" aria-label="Time range"><option value="">Any time</option><option value="DAY">Past day</option><option value="WEEK">Past week</option><option value="MONTH">Past month</option></select>
+            </div>
+          </section>
+          <section class="panel"><div class="panel-head"><div><h2>Results</h2><p id="search-coverage">No search run</p></div><span id="search-result-count">0</span></div><div id="search-results" class="search-results"><div class="empty-row">Run a search to see exact source identities and coverage.</div></div></section>
+        </section>
+
+        <section class="view" id="view-evidence" data-view-panel="evidence" aria-labelledby="evidence-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Source state and comparison</div><h1 id="evidence-title">Evidence</h1><p>Original excerpts stay beside typed atoms, versions, dependencies and unresolved coverage.</p></div></div>
+          <div class="two-column">
+            <section class="panel"><div class="panel-head"><div><h2>Evidence ledger</h2><p>Editing a proposed atom creates a draft; it never rewrites the source.</p></div></div><div id="evidence-ledger" class="stack-list"><div class="empty-row">No project evidence acquired.</div></div></section>
+            <section class="panel snapshot-panel" aria-labelledby="snapshot-title">
+              <div class="panel-head"><div><h2 id="snapshot-title">Stored snapshot comparison</h2><p>Compare acquired manifests. A stored Drive-labeled snapshot is not a fresh Drive read.</p></div></div>
+              <label>Earlier snapshot<select id="snapshot-left"><option value="">Choose an acquired snapshot</option></select></label>
+              <label>Current snapshot<select id="snapshot-right"><option value="">Choose an acquired snapshot</option></select></label>
+              <button class="button" id="compare-snapshots" type="button">Compare exact manifests</button>
+              <div id="snapshot-status" class="honesty-note">No comparison run. Partial inventory cannot establish removal.</div>
+              <div class="snapshot-counts" id="snapshot-counts" hidden>
+                <div><strong data-snapshot-count="added">0</strong><span>Added</span></div><div><strong data-snapshot-count="removed">0</strong><span>Removed</span></div>
+                <div><strong data-snapshot-count="changed">0</strong><span>Changed</span></div><div><strong data-snapshot-count="unknown">0</strong><span>Unknown</span></div>
+              </div>
+              <div id="snapshot-results" class="stack-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-methods" data-view-panel="methods" aria-labelledby="methods-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Catalog + execution truth</div><h1 id="methods-title">Methods</h1><p>Candidate research methods and implemented evaluators remain distinct.</p></div></div>
+          <section class="panel form-panel" aria-labelledby="method-run-title">
+            <div class="wide"><h2 id="method-run-title">Run an implemented evaluator</h2><p>Supply explicit JSON. MPC Workspace acquires those exact bytes, validates the registered schema, executes one native evaluator call, and adds exact numerical review where supported.</p></div>
+            <label>Evaluator<select id="method-run-picker"><option value="">Choose an implemented evaluator</option></select></label>
+            <label class="wide">Evaluator input JSON<textarea id="method-run-input" rows="10" spellcheck="false" placeholder="Choose an evaluator, then enter its registered JSON input."></textarea></label>
+            <div class="wide button-row"><button class="button accent" id="run-method" type="button">Acquire and evaluate</button><span class="micro-state" id="method-run-status">NOT RUN</span></div>
+            <div class="wide honesty-note">JSON is treated as data. No script, connector, target or external action is invoked.</div>
+          </section>
+          <section class="panel"><div class="search-row"><input class="grow" id="method-search" type="search" placeholder="Search method ID, name, dimension or required input"><label class="toggle-label"><input id="method-implemented-only" type="checkbox"> Implemented only</label></div><div id="methods-list" class="method-list"><div class="empty-row">Method inventory is unavailable until the local service starts.</div></div></section>
+        </section>
+
+        <section class="view" id="view-tasks" data-view-panel="tasks" aria-labelledby="tasks-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Jobs and checkpoints</div><h1 id="tasks-title">Tasks</h1><p>Queued, running, completed, failed and cancelled work retains its exact checkpoint.</p></div></div>
+          <section class="panel"><div id="tasks-list" class="task-list"><div class="empty-row">No project tasks.</div></div></section>
+        </section>
+
+        <section class="view" id="view-reports" data-view-panel="reports" aria-labelledby="reports-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Saved analysis</div><h1 id="reports-title">Reports</h1><p>Local save, queued destination and provider-confirmed delivery are separate states.</p></div><button class="button accent" id="save-report-secondary" type="button" disabled>Save current report</button></div>
+          <div class="two-column report-layout"><section class="panel"><div class="panel-head"><div><h2>Project reports</h2><p>Select one to reopen its source-bound result.</p></div></div><div id="reports-list" class="stack-list"><div class="empty-row">No saved reports.</div></div></section><section class="panel report-preview"><div class="panel-head"><div><h2 id="report-preview-title">Preview</h2><p id="report-preview-state">Nothing selected</p></div></div><pre id="report-preview">Choose a saved report.</pre><div class="button-row"><button class="button compact" id="copy-report" type="button" disabled>Copy</button><button class="button compact" id="export-report" type="button" disabled>Export</button></div></section></div>
+        </section>
+
+        <section class="view" id="view-connections" data-view-panel="connections" aria-labelledby="connections-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Observed capability</div><h1 id="connections-title">Connections</h1><p>Configured, authenticated, last successful and currently failed are different facts. Enable or disable a local configuration here; neither action proves access.</p></div><button class="button accent" id="add-connection" type="button">Add connection</button></div>
+          <div id="connections-grid" class="connection-grid"><div class="panel empty-row">No connection observations loaded.</div></div>
+        </section>
+
+        <section class="view" id="view-assistant" data-view-panel="assistant" aria-labelledby="assistant-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Versioned behavior</div><h1 id="assistant-title">Assistant</h1><p>These settings configure the workspace; they do not train model weights or grant an entitlement.</p></div></div>
+          <section class="panel form-panel">
+            <label>Assistant name<input id="assistant-name" value="MPC Workspace Assistant"></label>
+            <label>Tone<select id="assistant-tone"><option>Clear and evidence-first</option><option>Concise</option><option>Technical</option></select></label>
+            <label>Domain profile<select id="assistant-domain"><option>GENERAL</option><option>BUSINESS</option><option>LEGAL</option><option>SCIENCE</option><option>NEWS</option></select></label>
+            <label class="wide">Instructions<textarea id="assistant-instructions" rows="8" placeholder="Project-specific, versioned instructions"></textarea></label>
+            <label>Reasoning effort<select id="assistant-effort"><option value="provider-default">Provider default</option><option>low</option><option>medium</option><option>high</option></select></label>
+            <label>Budget<input id="assistant-budget" inputmode="numeric" placeholder="Optional operation budget"></label>
+            <div class="wide button-row"><button class="button accent" id="save-assistant" type="button">Save new revision</button><button class="button" id="export-task" type="button">Export portable task</button><button class="button" id="import-task" type="button">Import portable task</button><input id="portable-task-input" type="file" accept="application/json,.json" hidden></div>
+          </section>
+        </section>
+
+        <section class="view" id="view-settings" data-view-panel="settings" aria-labelledby="settings-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Local workspace controls</div><h1 id="settings-title">Settings</h1><p>Raw retention, service health and diagnostics remain visible and reversible.</p></div></div>
+          <div class="settings-grid">
+            <section class="panel settings-card"><h2>Project retention</h2><label><input type="radio" name="retention" value="RETAIN_TEXT"> Retain selected text locally for replay and search</label><label><input type="radio" name="retention" value="METADATA_ONLY" checked> Store metadata and digests only</label><p class="honesty-note">Metadata-only projects need original content again for replay.</p></section>
+            <section class="panel settings-card"><h2>Accessibility</h2><label><input id="reduced-motion" type="checkbox"> Reduce motion</label><label><input id="high-contrast" type="checkbox"> High contrast</label><label><input id="quiet-mode-setting" type="checkbox"> Quiet mode</label><label>Interface zoom<select id="zoom-level"><option value="1">100%</option><option value="1.25">125%</option><option value="1.5">150%</option><option value="2">200%</option></select></label></section>
+            <section class="panel settings-card"><h2>Local service</h2><dl><div><dt>Status</dt><dd id="settings-service-state">Unknown</dd></div><div><dt>Database</dt><dd id="settings-database">Not reported</dd></div><div><dt>App build</dt><dd id="settings-build">Not reported</dd></div><div><dt>GUI source</dt><dd id="settings-source-commit">Not reported</dd></div></dl><div class="button-row"><button class="button" id="open-logs" type="button">Open logs</button><button class="button" id="restart-service" type="button">Restart service</button><button class="button" id="copy-error" type="button" disabled>Copy latest error</button></div></section>
+          </div>
+        </section>
+      </main>
+
+      <section class="composer" id="composer" aria-labelledby="composer-title">
+        <div class="composer-head">
+          <div><span class="eyebrow">Ask MPC Workspace</span><strong id="composer-title">Chat directly, or add evidence for source-bound analysis</strong></div>
+          <span id="draft-state" class="micro-state">DRAFT NOT SAVED</span>
+        </div>
+        <div class="composer-input-grid">
+          <label><span>Evidence material (optional)</span><textarea id="material-input" rows="2" aria-describedby="material-boundary" placeholder="Paste logs, records, JSON, notes or other source material…"></textarea><small id="material-boundary" class="input-boundary-note">This material is acquired as evidence for the run.</small></label>
+          <label><span>Question or objective</span><textarea id="composer-input" rows="2" aria-describedby="question-boundary" placeholder="What should MPC Workspace determine from the selected material?"></textarea><small id="question-boundary" class="input-boundary-note">This instruction is sent to the job; it is never acquired as evidence.</small></label>
+        </div>
+        <div id="attachment-tray" class="attachment-tray" aria-live="polite"><span class="tray-placeholder">Drop text or files here, or use an attachment control.</span></div>
+        <div class="composer-controls">
+          <div class="button-row">
+            <button class="button compact" id="paste-input" type="button">Paste</button>
+            <button class="button compact" id="attach-files" type="button">Attach files</button>
+            <button class="button compact" id="add-folder" type="button">Add folder</button>
+            <input id="browser-file-input" type="file" multiple hidden>
+          </div>
+          <div class="composer-context"><span id="composer-project">No project</span><span>•</span><span id="composer-model">No model</span><span>•</span><label>Mode <select id="work-mode"><option value="AUTO">Auto</option><option value="CHAT">Chat</option><option value="EVIDENCE_ANALYSIS">Evidence analysis</option></select></label></div>
+          <div class="button-row">
+            <button class="button danger" id="stop-work" type="button" disabled>Stop</button>
+            <button class="button run" id="run-work" type="button">Run</button>
+          </div>
+        </div>
+        <div class="drop-overlay" id="drop-overlay" aria-hidden="true">Drop files into this project</div>
+      </section>
+    </div>
+  </div>
+
+  <dialog id="project-dialog" aria-labelledby="project-dialog-title">
+    <form method="dialog" class="dialog-card" id="project-form">
+      <div class="dialog-head"><div><div class="eyebrow">New local workspace</div><h2 id="project-dialog-title">Create project</h2></div><button class="icon-button" id="close-project-dialog" type="button" aria-label="Close">×</button></div>
+      <label>Project name<input id="project-name" required maxlength="120" autocomplete="off"></label>
+      <label>Objective<textarea id="project-new-objective" rows="4" maxlength="4000"></textarea></label>
+      <fieldset><legend>Raw material retention</legend><label><input type="radio" name="new-retention" value="METADATA_ONLY" checked> Metadata and digests only</label><label><input type="radio" name="new-retention" value="RETAIN_TEXT"> Retain selected text locally</label></fieldset>
+      <div class="dialog-actions"><button class="button" id="cancel-project" type="button">Cancel</button><button class="button accent" id="create-project" type="submit">Create project</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="connection-dialog" aria-labelledby="connection-dialog-title">
+    <form method="dialog" class="dialog-card" id="connection-form">
+      <div class="dialog-head"><div><div class="eyebrow">Host-owned credentials</div><h2 id="connection-dialog-title">Add connection</h2></div><button class="icon-button" id="close-connection-dialog" type="button" aria-label="Close">×</button></div>
+      <label>Display name<input id="connection-name" required maxlength="120"></label>
+      <label>Provider<select id="connection-provider"><option>GITHUB</option><option>GOOGLE_DRIVE</option><option>GMAIL</option><option>DROPBOX</option><option>DROPBOX_DASH</option><option>HOSTED_MPC</option><option>LOCAL_MPC</option><option>OLLAMA</option><option>OPENAI_API</option><option>CUSTOM_MCP</option></select></label>
+      <label>Transport<select id="connection-transport"><option value="loopback_http">Local loopback HTTP</option><option value="stdio">Local stdio</option><option value="streamable_http">Remote streaming HTTP</option><option value="secure_mcp_tunnel">Secure MCP tunnel</option></select></label>
+      <label>Endpoint or command<input id="connection-endpoint" required maxlength="2000" autocomplete="off"></label>
+      <label>Credential-store reference<input id="connection-credential" maxlength="500" placeholder="os-secret://… (never the secret value)"></label>
+      <p class="honesty-note">Account identity, discovered scopes and tools come from the host adapter’s actual observation; they are not self-asserted here. Saving a URL means configured, not connected.</p>
+      <div class="dialog-actions"><button class="button" id="cancel-connection" type="button">Cancel</button><button class="button accent" id="configure-connection" type="submit">Save configuration</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast-region" id="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="sr-only" id="assertive-status" role="alert" aria-live="assertive"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

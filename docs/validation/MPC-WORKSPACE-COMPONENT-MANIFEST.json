@@ -1,0 +1,225 @@
+{
+  "kind": "MPC_WORKSPACE_COMPONENT_RECONCILIATION",
+  "schema_version": 1,
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "branch": "feature/mpc-workspace-build-20261009",
+  "draft_pr": 18,
+  "observed_at_utc": "2026-10-09T16:48:00Z",
+  "observation": {
+    "reporting_head_before_workspace_implementation": "695c7de478566d251aabfd2e8aa9e470309c1f4f",
+    "remote_pr_head_before_workspace_implementation": "e89a059761ae6cea8e08e61a1cfb0bc30b093a86",
+    "final_source_commit": null,
+    "final_source_commit_status": "PENDING_FINAL_INTEGRATION_COMMIT",
+    "final_tests_build_and_package_receipt": null,
+    "final_tests_build_and_package_status": "PENDING_FINAL_ACCEPTANCE"
+  },
+  "contract": {
+    "commit": "e89a059761ae6cea8e08e61a1cfb0bc30b093a86",
+    "path": "command-center-build/CODEX-BUILD.txt",
+    "parent": "0f8bc5eec399f729d03e262ee9a90b18c1a825f4",
+    "disposition": "INHERITED_ANCESTOR"
+  },
+  "ancestry": {
+    "shared_v16_commit": "e6f5ed4269743b423e64b06a7ccb9ad7a3f62dfa",
+    "shared_v16_is_ancestor": true,
+    "work_triage_commit": "0f8bc5eec399f729d03e262ee9a90b18c1a825f4",
+    "work_triage_is_ancestor": true,
+    "contract_commit_is_ancestor": true,
+    "source_component_heads_transplanted_as_ancestors": false,
+    "note": "PR16, PR11 and PR15 source heads are not ancestors of the integration branch. Their changes were transplanted as the integration commits recorded below; ancestry and content equivalence are intentionally reported separately."
+  },
+  "components": [
+    {
+      "id": "v16-work-triage",
+      "source_pr": 17,
+      "source_branch": "feature/mpc-work-triage-v16",
+      "source_commit": "0f8bc5eec399f729d03e262ee9a90b18c1a825f4",
+      "source_base": "e6f5ed4269743b423e64b06a7ccb9ad7a3f62dfa",
+      "source_is_ancestor": true,
+      "disposition": "INHERITED_ANCESTOR",
+      "integration_commits": [
+        "0f8bc5eec399f729d03e262ee9a90b18c1a825f4"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "v17-local-reasoner",
+      "source_pr": 16,
+      "source_branch": "feature/mpc-local-ollama-reasoner-v17",
+      "source_commit": "4ca57ff6c589176576270db5f2d2aa8259bdbda6",
+      "source_base": "e6f5ed4269743b423e64b06a7ccb9ad7a3f62dfa",
+      "source_is_ancestor": false,
+      "disposition": "TRANSPLANTED_PATCH_EQUIVALENT_SERIES",
+      "integration_tip": "3d2830e719a3166d85bfef0752635d95a11d5223",
+      "verification": "git patch-id --stable matched for all 12 source/integration pairs",
+      "commit_map": [
+        {
+          "source": "582edfedcc60ded7be16aa0ed33c42db3f84dc3b",
+          "integration": "0f6d0059157126b72aedb0a326e81a073c2e9e59",
+          "patch_id": "59fccd91c1b88c5cb4f91a89f4c1ad673c632ac9"
+        },
+        {
+          "source": "522a1b6d0a4ab2dc247e591cb7812082252381bf",
+          "integration": "5b55094ce263ca3f35ebc371fffcd0f83bb3e4f2",
+          "patch_id": "5d419869e1033b0354b0fbed985ccd97894fd315"
+        },
+        {
+          "source": "8a2ebb2b4bbcdee3cc25275a4e9e393b16819a7a",
+          "integration": "5fd0922b8e508a268f7fcdaadb0abcca30334cb0",
+          "patch_id": "d0869a6850ebc9c37f6178f56bf1b0687e4230b2"
+        },
+        {
+          "source": "4bebe972842986bec20f1a97385c109659664acf",
+          "integration": "3e6fdb18d0ed105479669349928dde8cd83739d0",
+          "patch_id": "c8c834cbc343c9c8b747aa5f1acf0d0bd0915e8f"
+        },
+        {
+          "source": "4c2935d2156767293734a82d5a6d362a956d7f05",
+          "integration": "1c2bccc4504fab9389b94b684f92ec9d5be1e885",
+          "patch_id": "cb8ea4ab0f4164b31b6e907ad6a4f0a12a622d69"
+        },
+        {
+          "source": "4ea5c373a1b62eb4319c69fa2c5190ee664f791d",
+          "integration": "cbbc01bf5ac25e2f657f76e53aa3d6bc472ad320",
+          "patch_id": "e0edea3b57412110028424672689c36b2efb6758"
+        },
+        {
+          "source": "6acba3d710a35385d63a035434ce592eefd833fc",
+          "integration": "6138a09d6aa0980a7660502a2ad782b24cd9ca7e",
+          "patch_id": "9d3b26203dcd1326f7de9180343bb81e04caccb2"
+        },
+        {
+          "source": "15158f489e5287c2ad294c9429d0b5c137155105",
+          "integration": "816dab1fbe1492ac9a4938da976a2142722d4319",
+          "patch_id": "8bac4535ef2c1a2cf7b7412ed77516b73fca4c98"
+        },
+        {
+          "source": "307e4c58f307f985c8567254e4be91a4486a568d",
+          "integration": "10242e0da061e497e9a5ca6492a64d0efc34e0af",
+          "patch_id": "14738576578d673f8c8755091a6c14b5e41af3bd"
+        },
+        {
+          "source": "0b30dcff6ce4208a4d06c451dfd06365211487d0",
+          "integration": "155505c379c0c751248129644f0577cddd2e8c26",
+          "patch_id": "e71737bf5371230c31771f11668a96cf497d7dcd"
+        },
+        {
+          "source": "53bac672034942436ac854cfc441b74d7da45b97",
+          "integration": "82ac0d2551b6daa2306d3fdc0d43d17300e3f745",
+          "patch_id": "86e3cae7cce28fd4be5b25e17315edb61cead039"
+        },
+        {
+          "source": "4ca57ff6c589176576270db5f2d2aa8259bdbda6",
+          "integration": "3d2830e719a3166d85bfef0752635d95a11d5223",
+          "patch_id": "f229958e796aafd16b563d2733e038a43217862c"
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "workbench-v2",
+      "source_pr": 11,
+      "source_branch": "feature/noahs-ark-reasoning-osi-v13",
+      "source_commit": "ad364e6ba531382343b8edeb22e3843eaa7d70a9",
+      "source_base": "e3a8f15806388d9c0d3705970ec7fd18c44d3439",
+      "source_is_ancestor": false,
+      "disposition": "TRANSPLANTED_PATCH_EQUIVALENT_SERIES",
+      "integration_tip": "bdac472965cd3b877f4127040bae2df2dc456eea",
+      "verification": "git patch-id --stable matched for all three source/integration pairs",
+      "commit_map": [
+        {
+          "source": "2963649a1f3424761a47baa0f06c230890e82d7a",
+          "integration": "64475c81cd005cdbbdd2ccbb3a8b7a22596e3856",
+          "patch_id": "5322bfba9a85b7b49a8451349a5568aef6005bed"
+        },
+        {
+          "source": "8a4f79dc71d0268b07652faca2cc89dfe3401248",
+          "integration": "2c8fd72dca165d1a384795636fa05eb8f66ad4d1",
+          "patch_id": "2a9a3bbae3bb08c545e4c606bd992ac539fcdafe"
+        },
+        {
+          "source": "ad364e6ba531382343b8edeb22e3843eaa7d70a9",
+          "integration": "bdac472965cd3b877f4127040bae2df2dc456eea",
+          "patch_id": "aa2e983433f918f989fc7cdf22924649a0d0fcd5"
+        }
+      ],
+      "conflicts": [],
+      "preserved_identity": {
+        "legacy_database_schema": "WORKBENCH_USER_VERSION_1_AND_BUNDLE_BOUND_IDENTITY",
+        "legacy_database_modified_for_command_center": false,
+        "source_artifact_commit": "ef4c53a8af4569faddb8b6a470ef3f08e258a050",
+        "source_artifact_zip": "MPC-Research-Workbench-v2-ad364e6.zip",
+        "source_artifact_zip_sha256": "7851a5e4d5fd0f9e1ba6f80a7e691fdf97dddcc3d5a070278545efef23909342"
+      }
+    },
+    {
+      "id": "v17-security-assistant",
+      "source_pr": 15,
+      "source_branch": "feature/mpc-security-assistant-aad-v17",
+      "source_commit": "297f586a3828c6d50b783fe1fdce766bce5344cd",
+      "source_base": "e6f5ed4269743b423e64b06a7ccb9ad7a3f62dfa",
+      "source_is_ancestor": false,
+      "disposition": "TRANSPLANTED_WITH_ONE_SEMANTIC_CONFLICT_RESOLUTION",
+      "integration_tip": "695c7de478566d251aabfd2e8aa9e470309c1f4f",
+      "integration_commits": [
+        "695c7de478566d251aabfd2e8aa9e470309c1f4f"
+      ],
+      "verification": {
+        "source_changed_path_count": 29,
+        "byte_identical_result_blobs": 28,
+        "semantically_resolved_paths": 1,
+        "source_patch_id": "da76eb5d61336c585eb4295e3e08a181ec244c14",
+        "integration_patch_id": "70a2185ad86b4e3cbdda4eda051c11adfc31f74f"
+      },
+      "conflicts": [
+        {
+          "path": "AGENTS.md",
+          "kind": "SEMANTIC_SECTION_ORDER",
+          "source_blob": "0d79668c500ab5d4ae00968fecc6f8a372963913",
+          "integration_blob": "1b7f295d7bc4c24e58e7a22dc608d77900f59210",
+          "resolution": "Retained the newer PR17 Operative work entry at the top of the integrated instructions, inserted the complete V17 Security Assistant section immediately after that entry and before the V16/V15 sections, and retained the remainder of the branch instructions. No V17 safety or validation language was dropped."
+        }
+      ]
+    }
+  ],
+  "preserved_distinct_identities": {
+    "workspace_application": {
+      "name": "MPC Workspace",
+      "database": "mpc-command-center.sqlite",
+      "windows_database_path": "%APPDATA%\\MPC Workspace\\workspace-data\\mpc-command-center.sqlite",
+      "database_schema": "MPC_WORKSPACE_SCHEMA_VERSION_2_WITH_001_COMMAND_CENTER_AND_002_WORKSPACE_JOURNEY",
+      "database_identity_status": "SEPARATE_ADDITIVE_STORE"
+    },
+    "legacy_workbench": {
+      "name": "MPC Research Workbench",
+      "source_checkpoint": "ad364e6ba531382343b8edeb22e3843eaa7d70a9",
+      "integrated_transplant_tip": "bdac472965cd3b877f4127040bae2df2dc456eea",
+      "database_name": "research-workbench.sqlite",
+      "database_schema": "LEGACY_WORKBENCH_USER_VERSION_1",
+      "modified_by_workspace_migration": false
+    },
+    "completed_v13_controller": {
+      "executable_source_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+      "status": "COMPLETE",
+      "next_action": null,
+      "reinitialized_or_replayed": false
+    },
+    "native_sites_project": {
+      "project_id": "appgprj_6abf0bb684648191a38324d33d1aa8cc",
+      "binding_path": ".openai/hosting.json",
+      "capabilities": [
+        "mcp"
+      ],
+      "modified": false,
+      "deployed_by_this_integration": false
+    }
+  },
+  "claims_not_made": [
+    "The source component heads are ancestors when they are only patch-equivalent transplants.",
+    "A final integration commit exists before it is recorded above.",
+    "Final repository tests, build, Windows package or Windows-native acceptance have passed.",
+    "A configured provider is authenticated or supports an operation without an actual protected-operation receipt.",
+    "The MPC Workspace database replaces or migrates the legacy Workbench database or completed controller.",
+    "This source integration deployed or changed the native Sites project."
+  ]
+}
