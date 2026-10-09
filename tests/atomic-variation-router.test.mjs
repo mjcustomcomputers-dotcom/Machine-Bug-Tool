@@ -67,3 +67,16 @@ test('Invalid evidence, missing method taxonomy and extra atoms reject',()=>{
  assert.throws(()=>run({atoms:[atom(),atom()]}),/DUPLICATE_ATOM_ID/);
  assert.throws(()=>run({atoms:[atom({dimensions:[]})]}),/EMPTY_ATOM_DIMENSIONS/);
 });
+
+
+test('Historical evidence and cross-reference contexts remain independently cacheable on reverse traversal',()=>{
+ const first=run();
+ const shifted=run({prior:first.ledger_rows,atoms:[atom({evidence_digest:'b'.repeat(64)})]});
+ const returned=run({prior:[...first.ledger_rows,...shifted.ledger_rows]});
+ assert.equal(returned.ledger_rows.length,0);
+ const crossRef={method_ids:['MHA-0232'],source_refs:['fixture:extra'],reason:'New corroborating source'};
+ const different=run({prior:[...first.ledger_rows,...shifted.ledger_rows],cross_reference:crossRef});
+ const again=run({prior:[...first.ledger_rows,...shifted.ledger_rows,...different.ledger_rows]});
+ assert.equal(different.ledger_rows.length,4);
+ assert.equal(again.ledger_rows.length,0);
+});
