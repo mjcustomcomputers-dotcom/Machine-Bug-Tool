@@ -61,6 +61,7 @@ jobs:
         working-directory: ${{ runner.temp }}/mpc-workspace-windows
 
       - name: Upload receivable portable build
+        id: portable_artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: MPC-Workspace-0.1.0-windows-x64-${{ github.sha }}
@@ -71,3 +72,17 @@ jobs:
           if-no-files-found: error
           compression-level: 0
           retention-days: 30
+
+      - name: Publish download details
+        shell: bash
+        run: |
+          {
+            echo "## MPC Workspace Windows portable"
+            echo
+            echo "[Download the Windows artifact](${{ steps.portable_artifact.outputs.artifact-url }})"
+            echo
+            echo "- Source: \`${{ github.sha }}\`"
+            echo "- Artifact ID: \`${{ steps.portable_artifact.outputs.artifact-id }}\`"
+            echo "- Artifact digest: \`${{ steps.portable_artifact.outputs.artifact-digest }}\`"
+            echo "- Retention: 30 days"
+          } >> "$GITHUB_STEP_SUMMARY"
