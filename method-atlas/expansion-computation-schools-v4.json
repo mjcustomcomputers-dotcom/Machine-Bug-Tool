@@ -1,0 +1,700 @@
+{
+  "atlas_extension": "METHOD-ATLAS-EXT-4.0",
+  "scope": "MIT_HARVARD_SPECIALIST_COMPUTATIONAL_AND_PROCESS_METHODS",
+  "provenance": "RESEARCH_SOURCE_LOCATORS_ONLY_NOT_SCHOOL_ENDORSEMENT",
+  "source_authentication": false,
+  "model_execution": false,
+  "canonical_promotion": false,
+  "target_actions": false,
+  "sources": [
+    {
+      "source_id": "MIT_SKETCH",
+      "title": "MIT Program Sketching / CEGIS research record",
+      "native_url": "https://dspace.mit.edu/entities/publication/ba8c3c2f-ab29-4334-bcb1-abcb8da0f6a9",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "MIT_ALLOY",
+      "title": "MIT CSAIL Alloy research and constraints",
+      "native_url": "https://www.csail.mit.edu/research/alloy",
+      "source_class": "RESEARCH_REFERENCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "MIT_SYNTH",
+      "title": "MIT CSAIL Computer-Aided Programming program synthesis",
+      "native_url": "https://www.csail.mit.edu/research/computer-aided-programming",
+      "source_class": "RESEARCH_REFERENCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "HARVARD_MD",
+      "title": "Harvard Parkes Computational Mechanism Design",
+      "native_url": "https://parkes.seas.harvard.edu/publications/computational-mechanism-design",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "HARVARD_DP",
+      "title": "Harvard Differential Privacy Programming Frameworks",
+      "native_url": "https://privacytools.seas.harvard.edu/sites/g/files/omnuum6656/files/2403.11088v1.pdf",
+      "source_class": "RESEARCH_REFERENCE",
+      "review_state": "LOCATOR_ONLY",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "HARVARD_VER",
+      "title": "Harvard CS 2610 Testing and verification systems methods",
+      "native_url": "https://read.seas.harvard.edu/cs2610/2025/n24-verification/",
+      "source_class": "ACADEMIC_COURSE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "RWTH_PROCESS",
+      "title": "RWTH Aachen Process and Data Science research area",
+      "native_url": "https://www.pads.rwth-aachen.de/cms/pads/der-lehrstuhl/~prng/willkommen/?lidx=1",
+      "source_class": "ACADEMIC_COURSE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "RWTH_CONFORM",
+      "title": "RWTH Aachen process mining conformance lecture",
+      "native_url": "https://www.vdaalst.rwth-aachen.de/courses/courses.html",
+      "source_class": "ACADEMIC_COURSE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "CMU_THREAT",
+      "title": "CMU SEI Threat Modeling 12 Methods",
+      "native_url": "https://www.sei.cmu.edu/blog/threat-modeling-12-available-methods/",
+      "source_class": "OFFICIAL_GUIDANCE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "BERKELEY_SYGUS",
+      "title": "Berkeley EECS Syntax-Guided Program Synthesis",
+      "native_url": "https://eecs.berkeley.edu/research/colloquium/180425-2/",
+      "source_class": "ACADEMIC_COURSE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "CALTECH_CTRL",
+      "title": "Caltech Optimization-Based Control course",
+      "native_url": "https://murray.cds.caltech.edu/EECI09%3A_Optimization-based_control",
+      "source_class": "ACADEMIC_COURSE",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "CALTECH_ASYNC",
+      "title": "Caltech asynchronous optimization flow control",
+      "native_url": "https://authors.library.caltech.edu/records/wm1h1-1nq41",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "STANFORD_CAUSAL",
+      "title": "Stanford STATS 361 causal inference lecture notes",
+      "native_url": "https://web.stanford.edu/~swager/stats361.pdf",
+      "source_class": "ACADEMIC_COURSE",
+      "review_state": "LOCATOR_ONLY",
+      "checked_on": "2026-10-08"
+    },
+    {
+      "source_id": "HARVARD_MARKET",
+      "title": "Harvard Online MDP-based Mechanism Design",
+      "native_url": "https://dash.harvard.edu/entities/publication/73120378-881b-6bd4-e053-0100007fdf3b",
+      "source_class": "PRIMARY_PUBLICATION",
+      "review_state": "DIRECTLY_RETRIEVED",
+      "checked_on": "2026-10-08"
+    }
+  ],
+  "methods": [
+    {
+      "method_id": "MHA-0119",
+      "method_name": "Sketch hole constraint coverage",
+      "family": "MIT_FORMAL_COMPUTATION",
+      "mechanism": "Map partial program holes to explicit constraints and missing test obligations",
+      "required_input": "Bounded grammar candidate template and source-owned specification",
+      "falsifier": "Counterexample defeats the candidate program",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_SKETCH",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "SYNTHESIS",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0119",
+        "question": "What source-bound check and negative-control falsifier distinguish sketch hole constraint coverage?",
+        "missing_evidence": "Bounded grammar candidate template and source-owned specification",
+        "falsifier": "Counterexample defeats the candidate program",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0120",
+      "method_name": "Small-scope relational countermodel transfer",
+      "family": "MIT_FORMAL_COMPUTATION",
+      "mechanism": "Use finite relation model to find smallest witness violating owned constraint",
+      "required_input": "Typed entity sets relations and invariant",
+      "falsifier": "Countermodel relies on wrong ownership or false cardinality assumption",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_ALLOY",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "RELATION",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0120",
+        "question": "What source-bound check and negative-control falsifier distinguish small-scope relational countermodel transfer?",
+        "missing_evidence": "Typed entity sets relations and invariant",
+        "falsifier": "Countermodel relies on wrong ownership or false cardinality assumption",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0121",
+      "method_name": "Program-synthesis search grammar pruning",
+      "family": "MIT_FORMAL_COMPUTATION",
+      "mechanism": "Eliminate incompatible candidate expressions before costly evaluation",
+      "required_input": "Bounded grammar examples and legal transformations",
+      "falsifier": "Pruned expression is required to satisfy known fixture",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_SYNTH",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "SYNTHESIS",
+        "REDUCTION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0121",
+        "question": "What source-bound check and negative-control falsifier distinguish program-synthesis search grammar pruning?",
+        "missing_evidence": "Bounded grammar examples and legal transformations",
+        "falsifier": "Pruned expression is required to satisfy known fixture",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0122",
+      "method_name": "Synthesis candidate versus independent validator split",
+      "family": "MIT_FORMAL_COMPUTATION",
+      "mechanism": "Keep generating candidate procedure separate from validation oracle",
+      "required_input": "Finite candidate set and independent verification obligations",
+      "falsifier": "Validator and generator share same false assumption",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_SKETCH",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "SYNTHESIS",
+        "CONSISTENCY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0122",
+        "question": "What source-bound check and negative-control falsifier distinguish synthesis candidate versus independent validator split?",
+        "missing_evidence": "Finite candidate set and independent verification obligations",
+        "falsifier": "Validator and generator share same false assumption",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0123",
+      "method_name": "Relational symmetry breaking witness check",
+      "family": "MIT_FORMAL_COMPUTATION",
+      "mechanism": "Collapse proven-equivalent object permutations without losing distinct cases",
+      "required_input": "Finite symmetry relation and explicit identity scope",
+      "falsifier": "A pruned permutation produces a distinct invariant violation",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "MIT_ALLOY",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "RELATION",
+        "REDUCTION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0123",
+        "question": "What source-bound check and negative-control falsifier distinguish relational symmetry breaking witness check?",
+        "missing_evidence": "Finite symmetry relation and explicit identity scope",
+        "falsifier": "A pruned permutation produces a distinct invariant violation",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0124",
+      "method_name": "Dynamic mechanism incentive alignment",
+      "family": "HARVARD_MARKET_COMPUTATION",
+      "mechanism": "Compare participant best responses under explicitly varied allocation rules",
+      "required_input": "Finite payoff rules participants and source-owned terms",
+      "falsifier": "Policy preference changes under legitimate alternate bids",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "HARVARD_MD",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INCENTIVE",
+        "GOAL"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0124",
+        "question": "What source-bound check and negative-control falsifier distinguish dynamic mechanism incentive alignment?",
+        "missing_evidence": "Finite payoff rules participants and source-owned terms",
+        "falsifier": "Policy preference changes under legitimate alternate bids",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0125",
+      "method_name": "Time-report strategic misreport check",
+      "family": "HARVARD_MARKET_COMPUTATION",
+      "mechanism": "Compare outcome sensitivity to claimed arrival/departure information",
+      "required_input": "Finite arrival windows policy and utility model",
+      "falsifier": "Clock discrepancy does not alter allocation",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "HARVARD_MARKET",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INCENTIVE",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0125",
+        "question": "What source-bound check and negative-control falsifier distinguish time-report strategic misreport check?",
+        "missing_evidence": "Finite arrival windows policy and utility model",
+        "falsifier": "Clock discrepancy does not alter allocation",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0126",
+      "method_name": "Budget-balanced allocation and incentive guard",
+      "family": "HARVARD_MARKET_COMPUTATION",
+      "mechanism": "Check total transfers and incentive assumptions separately",
+      "required_input": "Finite transfers declared utilities and authorized mechanism",
+      "falsifier": "Payment conservation passes but misreport incentives remain",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "HARVARD_MD",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "INCENTIVE",
+        "MONEY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0126",
+        "question": "What source-bound check and negative-control falsifier distinguish budget-balanced allocation and incentive guard?",
+        "missing_evidence": "Finite transfers declared utilities and authorized mechanism",
+        "falsifier": "Payment conservation passes but misreport incentives remain",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0127",
+      "method_name": "Adaptive privacy budget composition ledger",
+      "family": "HARVARD_PRIVACY_COMPUTATION",
+      "mechanism": "Track declared privacy-loss budget over sequential queries",
+      "required_input": "Explicit privacy parameters neighboring dataset definition and composition rule",
+      "falsifier": "Application releases are not actually under the claimed mechanism",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "HARVARD_DP",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "PRIVACY",
+        "RESOURCE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0127",
+        "question": "What source-bound check and negative-control falsifier distinguish adaptive privacy budget composition ledger?",
+        "missing_evidence": "Explicit privacy parameters neighboring dataset definition and composition rule",
+        "falsifier": "Application releases are not actually under the claimed mechanism",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0128",
+      "method_name": "Privacy odometer versus filter control",
+      "family": "HARVARD_PRIVACY_COMPUTATION",
+      "mechanism": "Separate monitoring cumulative privacy cost from preventing overruns",
+      "required_input": "Specified privacy accounting protocol and release log",
+      "falsifier": "Budget remaining display is not enforced authorization",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "HARVARD_DP",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "PRIVACY",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0128",
+        "question": "What source-bound check and negative-control falsifier distinguish privacy odometer versus filter control?",
+        "missing_evidence": "Specified privacy accounting protocol and release log",
+        "falsifier": "Budget remaining display is not enforced authorization",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0129",
+      "method_name": "Proof-artifact versus implementation binding",
+      "family": "HARVARD_VERIFIED_SYSTEMS",
+      "mechanism": "Link versioned proof obligation to deployed binary/configuration",
+      "required_input": "Proof artifact hash implementation build and mapped requirement",
+      "falsifier": "Proof applies to a different build or abstraction",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "HARVARD_VER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "VERIFICATION",
+        "CONSISTENCY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0129",
+        "question": "What source-bound check and negative-control falsifier distinguish proof-artifact versus implementation binding?",
+        "missing_evidence": "Proof artifact hash implementation build and mapped requirement",
+        "falsifier": "Proof applies to a different build or abstraction",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0130",
+      "method_name": "Symbolic execution path coverage gap",
+      "family": "HARVARD_VERIFIED_SYSTEMS",
+      "mechanism": "Separate covered feasible paths from unbounded or solver-blocked paths",
+      "required_input": "Owned source or bytecode constraints and coverage receipts",
+      "falsifier": "Path classified infeasible without sufficient solver model",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "HARVARD_VER",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "VERIFICATION",
+        "GRAPH"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0130",
+        "question": "What source-bound check and negative-control falsifier distinguish symbolic execution path coverage gap?",
+        "missing_evidence": "Owned source or bytecode constraints and coverage receipts",
+        "falsifier": "Path classified infeasible without sufficient solver model",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0131",
+      "method_name": "Event-to-process alignment residual",
+      "family": "PROCESS_MINING",
+      "mechanism": "Compare observed event sequences with modeled lifecycle while retaining missing events",
+      "required_input": "Case-keyed source event log and permitted process model",
+      "falsifier": "Activity labels map to a different process version",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "RWTH_PROCESS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "PROCESS",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0131",
+        "question": "What source-bound check and negative-control falsifier distinguish event-to-process alignment residual?",
+        "missing_evidence": "Case-keyed source event log and permitted process model",
+        "falsifier": "Activity labels map to a different process version",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0132",
+      "method_name": "Token replay missing-token audit",
+      "family": "PROCESS_MINING",
+      "mechanism": "Identify unconsumed or missing tokens under a Petri-net model",
+      "required_input": "Finite marked net and case-indexed event trace",
+      "falsifier": "Observed token mismatch disappears under correct lifecycle mapping",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "RWTH_CONFORM",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "PROCESS",
+        "STATE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0132",
+        "question": "What source-bound check and negative-control falsifier distinguish token replay missing-token audit?",
+        "missing_evidence": "Finite marked net and case-indexed event trace",
+        "falsifier": "Observed token mismatch disappears under correct lifecycle mapping",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0133",
+      "method_name": "Alignment cost sensitivity to unseen events",
+      "family": "PROCESS_MINING",
+      "mechanism": "Vary penalty for skipped model/log moves to detect brittle conformance verdicts",
+      "required_input": "Finite alignment model legal deviations and cost function",
+      "falsifier": "Deviation rank changes with justified penalty weights",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "RWTH_CONFORM",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "PROCESS",
+        "COMPARISON"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0133",
+        "question": "What source-bound check and negative-control falsifier distinguish alignment cost sensitivity to unseen events?",
+        "missing_evidence": "Finite alignment model legal deviations and cost function",
+        "falsifier": "Deviation rank changes with justified penalty weights",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0134",
+      "method_name": "Case notion drift and convergence check",
+      "family": "PROCESS_MINING",
+      "mechanism": "Determine if one business object maps to multiple correlation case IDs",
+      "required_input": "Native object event IDs and merge/split ownership",
+      "falsifier": "Different case IDs are intended independent entities",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "RWTH_PROCESS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "PROCESS",
+        "IDENTITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0134",
+        "question": "What source-bound check and negative-control falsifier distinguish case notion drift and convergence check?",
+        "missing_evidence": "Native object event IDs and merge/split ownership",
+        "falsifier": "Different case IDs are intended independent entities",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0135",
+      "method_name": "Threat-model selection by asset boundary",
+      "family": "CMU_THREAT_PROCESS",
+      "mechanism": "Choose STRIDE-style detail lens or organizational OCTAVE-style process by declared target boundary",
+      "required_input": "Owned asset diagram design phase and risk objective",
+      "falsifier": "Selected modeling abstraction omits a critical boundary",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "CMU_THREAT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "PROCESS",
+        "AUTHORITY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0135",
+        "question": "What source-bound check and negative-control falsifier distinguish threat-model selection by asset boundary?",
+        "missing_evidence": "Owned asset diagram design phase and risk objective",
+        "falsifier": "Selected modeling abstraction omits a critical boundary",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0136",
+      "method_name": "PASTA stage-to-evidence requirement map",
+      "family": "CMU_THREAT_PROCESS",
+      "mechanism": "Check which risk-centric stage has native evidence versus proposal",
+      "required_input": "Current system requirements threat model and findings",
+      "falsifier": "Threat label is not linked to an observable test",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "CMU_THREAT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "PROCESS",
+        "VERIFICATION"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0136",
+        "question": "What source-bound check and negative-control falsifier distinguish pasta stage-to-evidence requirement map?",
+        "missing_evidence": "Current system requirements threat model and findings",
+        "falsifier": "Threat label is not linked to an observable test",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0137",
+      "method_name": "Trike actor asset action rule matrix",
+      "family": "CMU_THREAT_PROCESS",
+      "mechanism": "Construct finite actor-asset CRUD permission constraints",
+      "required_input": "Role map asset owner allowed operation matrix",
+      "falsifier": "Rule exception grants operation legitimately",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "CMU_THREAT",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "AUTHORITY",
+        "PROCESS"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0137",
+        "question": "What source-bound check and negative-control falsifier distinguish trike actor asset action rule matrix?",
+        "missing_evidence": "Role map asset owner allowed operation matrix",
+        "falsifier": "Rule exception grants operation legitimately",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0138",
+      "method_name": "Syntax-guided invariant guard synthesis",
+      "family": "BERKELEY_SYNTHESIS",
+      "mechanism": "Generate minimal candidate guards from source-defined grammar and counterexamples",
+      "required_input": "Finite grammar invariant and supplied positive/negative fixtures",
+      "falsifier": "Guard excludes legitimate known workflow",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "BERKELEY_SYGUS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "SYNTHESIS",
+        "INVARIANT"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0138",
+        "question": "What source-bound check and negative-control falsifier distinguish syntax-guided invariant guard synthesis?",
+        "missing_evidence": "Finite grammar invariant and supplied positive/negative fixtures",
+        "falsifier": "Guard excludes legitimate known workflow",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0139",
+      "method_name": "Counterexample selection information gain",
+      "family": "BERKELEY_SYNTHESIS",
+      "mechanism": "Choose the witness that eliminates most compatible model hypotheses",
+      "required_input": "Finite candidate version space and controlled oracle outputs",
+      "falsifier": "Winner relies on non-independent or misleading oracle",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "BERKELEY_SYGUS",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "SYNTHESIS",
+        "UNCERTAINTY"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0139",
+        "question": "What source-bound check and negative-control falsifier distinguish counterexample selection information gain?",
+        "missing_evidence": "Finite candidate version space and controlled oracle outputs",
+        "falsifier": "Winner relies on non-independent or misleading oracle",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0140",
+      "method_name": "Receding-horizon policy reversal",
+      "family": "CALTECH_CONTROL",
+      "mechanism": "Check whether local optimization causes unacceptable later transition",
+      "required_input": "Finite dynamics constraints horizon and cost function",
+      "falsifier": "Longer horizon or corrected constraints changes result",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "CALTECH_CTRL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONTROL",
+        "GOAL"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0140",
+        "question": "What source-bound check and negative-control falsifier distinguish receding-horizon policy reversal?",
+        "missing_evidence": "Finite dynamics constraints horizon and cost function",
+        "falsifier": "Longer horizon or corrected constraints changes result",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0141",
+      "method_name": "Observer versus plant state mismatch",
+      "family": "CALTECH_CONTROL",
+      "mechanism": "Compare inferred state with available source-backed control feedback",
+      "required_input": "Observed telemetry and declared state estimator model",
+      "falsifier": "Sensor latency or noise fully explains residual",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "CALTECH_CTRL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONTROL",
+        "STATE"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0141",
+        "question": "What source-bound check and negative-control falsifier distinguish observer versus plant state mismatch?",
+        "missing_evidence": "Observed telemetry and declared state estimator model",
+        "falsifier": "Sensor latency or noise fully explains residual",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0142",
+      "method_name": "Asynchronous convergence lag tolerance",
+      "family": "CALTECH_CONTROL",
+      "mechanism": "Separate delayed convergence from permanent state-invariant violation",
+      "required_input": "Time-indexed controller events update rates and stability assumptions",
+      "falsifier": "Mismatch resolves under documented bounded propagation delay",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "CALTECH_ASYNC",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CONTROL",
+        "TIME"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0142",
+        "question": "What source-bound check and negative-control falsifier distinguish asynchronous convergence lag tolerance?",
+        "missing_evidence": "Time-indexed controller events update rates and stability assumptions",
+        "falsifier": "Mismatch resolves under documented bounded propagation delay",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    },
+    {
+      "method_id": "MHA-0143",
+      "method_name": "D-separation confounder falsification",
+      "family": "STANFORD_CAUSAL",
+      "mechanism": "Test whether alleged dependency persists after known confounding paths are blocked",
+      "required_input": "Declared directed acyclic graph and observed conditioning variables",
+      "falsifier": "Collider bias or missing confounder invalidates inferred effect",
+      "implementation_state": "RESEARCH_HOOK",
+      "quantum_requirement": "NONE",
+      "primary_source_id": "STANFORD_CAUSAL",
+      "provenance_state": "SOURCE_LINKED_CANDIDATE",
+      "dimensions": [
+        "CAUSAL",
+        "GRAPH"
+      ],
+      "classifier": {
+        "classifier_id": "MHC-0143",
+        "question": "What source-bound check and negative-control falsifier distinguish d-separation confounder falsification?",
+        "missing_evidence": "Declared directed acyclic graph and observed conditioning variables",
+        "falsifier": "Collider bias or missing confounder invalidates inferred effect",
+        "classifier_state": "DISCOVERY_CANDIDATE"
+      }
+    }
+  ]
+}
