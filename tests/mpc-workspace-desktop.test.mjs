@@ -146,7 +146,7 @@ test('desktop main and sandboxed preload expose only the narrow native bridge',(
   const exposed=preload.slice(preload.indexOf("contextBridge.exposeInMainWorld('mpcWorkspace'"));
   const methods=[...exposed.matchAll(/^\s{2}([A-Za-z][A-Za-z]+):/gmu)].map(match=>match[1]);
   assert.deepEqual(methods,[
-    'getRuntimeStatus','chooseFiles','chooseFolder','readClipboardText','copyText','openLogs','restartService','setInterfaceZoom',
+    'getRuntimeStatus','chooseFiles','chooseFolder','readClipboardText','networkSnapshot','networkClear','networkStatus','copyText','openLogs','restartService','setInterfaceZoom',
     'screenSources','screenStart','screenStop','screenStatus','screenNow','onScreenEvent',
     'credentialStatus','credentialSave','credentialRemove'
   ]);

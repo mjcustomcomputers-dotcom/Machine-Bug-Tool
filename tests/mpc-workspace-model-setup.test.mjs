@@ -57,7 +57,7 @@ async function setupHost(t, manager) {
   writeFileSync(join(rendererRoot, 'index.html'), `<meta http-equiv="Content-Security-Policy" content="${MPC_WORKSPACE_CSP}"><main>Fixture</main>`);
   writeFileSync(join(rendererRoot, 'styles.css'), '');
   writeFileSync(join(rendererRoot, 'app.js'), '');
-  for(const file of ['screen-policy.js','screen-reader.js','screen-source-choice.js','capture.js','capture.html'])writeFileSync(join(rendererRoot,file),'');
+  for(const file of ['screen-policy.js','screen-reader.js','screen-source-choice.js','network-reader.js','capture.js','capture.html'])writeFileSync(join(rendererRoot,file),'');
   const running = await startMpcWorkspaceServer({rendererRoot, service: {
     bootstrap: async () => ({service: {status: 'READY_LOCAL'}}),
     localModelStatus: () => manager.status(),

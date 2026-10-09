@@ -18,6 +18,7 @@ import {
   globalShortcut,
 } from 'electron';
 import {createScreenCaptureHost} from './screen-host.mjs';
+import {createWindowsNetworkObserver} from './network-host.mjs';
 import {initialWorkspaceWindowBounds} from './window-geometry.mjs';
 import {workspaceContextMenuSpec} from './text-context-menu.mjs';
 import {createWorkspaceSecretStore} from '../lib/mpc-workspace-secrets.mjs';
@@ -52,6 +53,7 @@ let errorDocumentUrl=null;
 let serviceState={status:'STARTING',last_error_code:null};
 let restartPromise=null;
 let screenHost=null;
+let networkObserver=null;
 let secretStore=null;
 let secretStoreError=null;
 
@@ -141,12 +143,13 @@ function runtimeStatus(){
     zoom_factor:mainWindow&&!mainWindow.isDestroyed()?mainWindow.webContents.getZoomFactor():1,
     runtime:Object.freeze({electron:process.versions.electron,node:process.versions.node,chrome:process.versions.chrome}),
     service:Object.freeze({status:serviceState.status,url:workspaceService?.url??null,last_error_code:serviceState.last_error_code}),
-    capabilities:Object.freeze({clipboard:true,mouse_context_menu:true,files:true,folders:true,logs:true,restart:true,interface_zoom:true}),
+    capabilities:Object.freeze({clipboard:true,mouse_context_menu:true,files:true,folders:true,logs:true,restart:true,interface_zoom:true,local_network_snapshot:process.platform==='win32'}),
   });
 }
 
 async function closeWorkspaceService(){
   screenHost?.stop('SERVICE_CLOSED');
+  networkObserver?.stop();
   const current=workspaceService;
   workspaceService=null;
   workspaceOrigin=null;
@@ -234,7 +237,7 @@ async function restartWorkspace(){
 function installIpcHandlers(){
   ipcMain.handle('mpc-workspace:credential-status',event=>{assertTrustedSender(event);return secretStore?.status()??{encrypted_storage_available:false,entries:[],error:secretStoreError}});
   ipcMain.handle('mpc-workspace:credential-save',(event,input)=>{
-    assertTrustedSender(event);screenHost?.stop('CREDENTIAL_ENTRY');
+    assertTrustedSender(event);screenHost?.stop('CREDENTIAL_ENTRY');networkObserver?.stop();
     if(!secretStore)throw Object.assign(Error(secretStoreError??'MPC_SECRET_STORE_UNAVAILABLE'),{code:secretStoreError??'MPC_SECRET_STORE_UNAVAILABLE'});
     return secretStore.save(input);
   });
@@ -271,6 +274,22 @@ function installIpcHandlers(){
     return error?{status:'ERROR',error:cleanText(error,400)}:{status:'OPENED'};
   });
   ipcMain.handle(IPC.restartService,async event=>{assertTrustedSender(event);return restartWorkspace()});
+  ipcMain.handle('mpc-workspace:network-snapshot',async(event,input)=>{
+    assertTrustedSender(event);
+    if(!input||input.consent!==true)throw Object.assign(Error('NETWORK_EXPLICIT_CONSENT_REQUIRED'),{code:'NETWORK_EXPLICIT_CONSENT_REQUIRED'});
+    if(!workspaceService||input.projectId!==workspaceService.activeProjectId||!input.projectId)
+      throw Object.assign(Error('NETWORK_SELECT_ACTIVE_PROJECT'),{code:'NETWORK_SELECT_ACTIVE_PROJECT'});
+    const result=await networkObserver.snapshot(input);
+    if(input.projectId!==workspaceService?.activeProjectId)
+      throw Object.assign(Error('NETWORK_PROJECT_CHANGED'),{code:'NETWORK_PROJECT_CHANGED'});
+    return result;
+  });
+  ipcMain.handle('mpc-workspace:network-clear',event=>{
+    assertTrustedSender(event);return networkObserver?.stop()??{state:'CLEARED'};
+  });
+  ipcMain.handle('mpc-workspace:network-status',event=>{
+    assertTrustedSender(event);return networkObserver?.status()??{state:'UNAVAILABLE'};
+  });
   ipcMain.handle(IPC.setInterfaceZoom,(event,value)=>{
     assertTrustedSender(event);
     if(typeof value!=='number'||!Number.isFinite(value)||value<0.5||value>2){
@@ -326,9 +345,9 @@ function createMainWindow(){
   });
   installNativeContextMenu(window);
   window.once('ready-to-show',()=>window.show());
-  window.on('closed',()=>{screenHost?.stop('WORKSPACE_CLOSED');if(mainWindow===window)mainWindow=null});
-  window.webContents.on('did-start-navigation',(_event,_url,_inPlace,isMainFrame)=>{if(isMainFrame)screenHost?.stop('WORKSPACE_NAVIGATION')});
-  window.on('unresponsive',()=>screenHost?.stop('WORKSPACE_UNRESPONSIVE'));
+  window.on('closed',()=>{networkObserver?.stop();screenHost?.stop('WORKSPACE_CLOSED');if(mainWindow===window)mainWindow=null});
+  window.webContents.on('did-start-navigation',(_event,_url,_inPlace,isMainFrame)=>{if(isMainFrame){screenHost?.stop('WORKSPACE_NAVIGATION');networkObserver?.stop()}});
+  window.on('unresponsive',()=>{screenHost?.stop('WORKSPACE_UNRESPONSIVE');networkObserver?.stop()});
   window.webContents.on('will-attach-webview',event=>event.preventDefault());
   window.webContents.on('will-navigate',details=>{
     if(!details.isMainFrame||!isTrustedRendererUrl(details.url))details.preventDefault();
@@ -358,6 +377,7 @@ if(!hasSingleInstanceLock){
     mkdirSync(logDirectory,{recursive:true,mode:0o700});
     logFile=join(logDirectory,'mpc-workspace.log');
     try{writeFileSync(logFile,'',{encoding:'utf8',flag:'a',mode:0o600})}catch{}
+    networkObserver=createWindowsNetworkObserver();
     installApplicationMenu();
     installIpcHandlers();
     session.defaultSession.setPermissionCheckHandler(()=>false);
@@ -379,7 +399,7 @@ if(!hasSingleInstanceLock){
   });
   app.on('window-all-closed',()=>{if(process.platform!=='darwin')app.quit()});
   app.on('before-quit',event=>{
-    screenHost?.stop('APPLICATION_CLOSED');secretStore?.close();
+    screenHost?.stop('APPLICATION_CLOSED');networkObserver?.stop();secretStore?.close();
     if(!workspaceService)return;
     event.preventDefault();
     let exitCode=0;
