@@ -1,7 +1,7 @@
 {
   "version": "MPC_V13_VALIDATION_AND_OPERATIVE_PASS_1",
-  "status": "SOURCE_VALIDATION_PASS_NATIVE_CHECKPOINT_PENDING",
-  "recorded_at_utc": "2026-10-09T05:35:20.057482+00:00",
+  "status": "VALIDATED_AND_CHECKPOINTED_DEVELOPMENT_PASS",
+  "recorded_at_utc": "2026-10-09T05:38:15.936425+00:00",
   "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
   "branch": "feature/noahs-ark-reasoning-osi-v13",
   "original_handoff_commit": "e9b0f55962a6c07acee4882812bb9dba291539ae",
@@ -660,7 +660,7 @@
     "executed_artifact": "docs/validation/v13-evidence/notebook-final/MPC-Noahs-Ark-Reasoning-V13.executed.ipynb"
   },
   "live_controller": {
-    "status": "AWAITING_NATIVE_CHECKPOINT_WRITE",
+    "status": "COMPLETE",
     "controller_id": "MPC_NOAHS_ARK_V13_OPERATIVE_DEVELOPMENT",
     "controller_revision": 1,
     "source_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
@@ -719,11 +719,46 @@
     "source_authentication": false,
     "independent_corroboration": false,
     "target_finding": false,
-    "receipt_trust": "HOST_SUPPLIED_CONTENT_PARITY_ONLY"
+    "receipt_trust": "HOST_SUPPLIED_CONTENT_PARITY_ONLY",
+    "native_checkpoint": {
+      "namespace": "GITHUB",
+      "native_id_type": "string",
+      "native_id": "mjcustomcomputers-dotcom/Machine-Bug-Tool:docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+      "version": "047b2adcd2172374d25878998eebb3b089b6488d"
+    },
+    "integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+    "repeat": {
+      "status": "UNCHANGED_COMPLETED_CONTROLLER_REUSED",
+      "repeated_receipt_status": "COMPLETE",
+      "next_status": "COMPLETE",
+      "local_verify": {
+        "status": "LOCAL_CONTROLLER_PARITY_PASS",
+        "integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+        "source_authentication": false
+      },
+      "state_bytes_unchanged": true,
+      "history_snapshot_count": 7,
+      "history_unchanged": true,
+      "new_native_model_calls": 0,
+      "new_checkpoint_writes": 0,
+      "completed_current_tasks": 4,
+      "retained_receipts": 6,
+      "source_authentication": false
+    }
   },
   "git_checkpoint": {
-    "status": "WRITE_AND_READBACK_PENDING",
-    "expected_previous_branch_head": "e9b0f55962a6c07acee4882812bb9dba291539ae"
+    "status": "NATIVE_WRITE_AND_EXACT_READBACK_PASS",
+    "checkpoint_commit": "047b2adcd2172374d25878998eebb3b089b6488d",
+    "native_checkpoint": {
+      "namespace": "GITHUB",
+      "native_id_type": "string",
+      "native_id": "mjcustomcomputers-dotcom/Machine-Bug-Tool:docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+      "version": "047b2adcd2172374d25878998eebb3b089b6488d"
+    },
+    "content_sha256": "48cba3de818aedbcc8d606676f653c13867fad58469e9163de5550034b35c984",
+    "code_commit_tested": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+    "reporting_commit": "Resolve from this file native Git version; later reporting commits do not change the tested code identity.",
+    "readback_receipt": "docs/validation/v13-evidence/live-controller/github-checkpoint-readback.json"
   },
   "open_items": [
     {

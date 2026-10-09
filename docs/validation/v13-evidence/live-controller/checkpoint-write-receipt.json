@@ -1,0 +1,29 @@
+{
+  "action_id": "c06a4288fffcde30335e74d0ec1d35eb87343cc98efb7c9e7816f099dbb63128",
+  "kind": "NATIVE_CHECKPOINT_WRITE",
+  "tool": "github_update_ref",
+  "call_ref": "host-journal:github-checkpoint-update-ref:047b2adcd2172374d25878998eebb3b089b6488d",
+  "session_id": "chatgpt:mpc-v13:5676560dc515:2026-10-09",
+  "status": "NATIVE_WRITE_SUPPLIED",
+  "native": {
+    "namespace": "GITHUB",
+    "native_id_type": "string",
+    "native_id": "mjcustomcomputers-dotcom/Machine-Bug-Tool:docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+    "version": "047b2adcd2172374d25878998eebb3b089b6488d"
+  },
+  "expected_previous_version": "e9b0f55962a6c07acee4882812bb9dba291539ae",
+  "content_sha256": "48cba3de818aedbcc8d606676f653c13867fad58469e9163de5550034b35c984",
+  "response": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "success": true
+    },
+    "isError": false
+  },
+  "response_sha256": "41af918e8b3d047c97c23615709a8e398f14b941d47d78341e18afb5e19fe8d0"
+}

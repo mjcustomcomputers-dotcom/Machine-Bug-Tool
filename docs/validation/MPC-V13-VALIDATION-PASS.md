@@ -1,6 +1,6 @@
 # MPC Noah's Ark V13 — validated source and operative controllers
 
-Source validation is complete. Native checkpoint write/readback is pending in this historical preparation commit.
+The source validation and operative controller run are complete. The native checkpoint was written and its exact content read back at `047b2adcd2172374d25878998eebb3b089b6488d`.
 
 **Tested code commit:** `4ffde83e587db829b9cd2124c0a8587e868402d6`  
 **Tested tree:** `70df12ffe9b45a697e3d7b441fb2120b53d5812c`  

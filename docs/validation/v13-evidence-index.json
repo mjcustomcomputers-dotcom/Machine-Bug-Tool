@@ -1,7 +1,7 @@
 {
   "version": "MPC_V13_EVIDENCE_INDEX_1",
   "tested_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
-  "phase": "before-readback",
+  "phase": "complete",
   "hash_scope": "Exact saved file bytes; parity only. This index does not include its own hash.",
   "files": [
     {
@@ -215,9 +215,39 @@
       "sha256": "f3dc6ff8ef7107131317ee5b5fcb32ec20d2af29e3863baa3973409d6a735fa1"
     },
     {
+      "path": "docs/validation/v13-evidence/live-controller/checkpoint-read-receipt.json",
+      "bytes": 11813,
+      "sha256": "59e17c92a1873519bc115b1abaaf771205a375e3aa922bc4dab1c694b788f984"
+    },
+    {
+      "path": "docs/validation/v13-evidence/live-controller/checkpoint-write-receipt.json",
+      "bytes": 1048,
+      "sha256": "c40661e153ab7a26a1dc98c6716a324ec2c369ebafb4ed35fbcf4ffed3484ded"
+    },
+    {
+      "path": "docs/validation/v13-evidence/live-controller/complete-status.json",
+      "bytes": 1276,
+      "sha256": "4d07dba0956ab9ebc53cd7fc96c142a3a9aeca3411bffa21f44d2692808e6158"
+    },
+    {
       "path": "docs/validation/v13-evidence/live-controller/current-chat-mpc-boot.json",
       "bytes": 179424,
       "sha256": "16fdcd4e48e656586e87eb275cf9c7f86f650b167537ade3bc0970bd27a080c9"
+    },
+    {
+      "path": "docs/validation/v13-evidence/live-controller/github-checkpoint-commit.json",
+      "bytes": 144,
+      "sha256": "c86808920c18e1b4990b2e1ec256e18fb8f43976970e1cb9ae9024763657b06f"
+    },
+    {
+      "path": "docs/validation/v13-evidence/live-controller/github-checkpoint-readback.json",
+      "bytes": 5693,
+      "sha256": "61d5de356e82055e1fe377cc81bb3f419ebdb81bac9b52850b22ef7d4d8eb311"
+    },
+    {
+      "path": "docs/validation/v13-evidence/live-controller/github-checkpoint-update-ref.json",
+      "bytes": 110,
+      "sha256": "fe595be2d859e116dc20651ad91efc5a7883b35031cd903d0c57fe4ac88803bf"
     },
     {
       "path": "docs/validation/v13-evidence/live-controller/github-fixture-read.json",
@@ -268,6 +298,11 @@
       "path": "docs/validation/v13-evidence/live-controller/native-call-2.json",
       "bytes": 5681,
       "sha256": "36eb3926644549f7c929c4a6c08b4e9ebbf8d9cd73f6409400e9130b9a182902"
+    },
+    {
+      "path": "docs/validation/v13-evidence/live-controller/repeat-verification.json",
+      "bytes": 570,
+      "sha256": "79153130cc0e65c415e60216c426291d43429b9cb485213bac668f1a1e5377f3"
     },
     {
       "path": "docs/validation/v13-evidence/notebook/v13-notebook-execution.json",
@@ -331,18 +366,23 @@
     },
     {
       "path": "docs/validation/MPC-V13-VALIDATION.json",
-      "bytes": 30977,
-      "sha256": "7462a584e137fb89ad2d609c34f7cc08248aa524fd688e02daabd6ab39acedb2"
+      "bytes": 32631,
+      "sha256": "6d57753fe7eb9329e8aebf6327cdc0dd06f9fa30409786a286f88881027edc00"
     },
     {
       "path": "docs/validation/MPC-V13-VALIDATION-PASS.md",
-      "bytes": 10089,
-      "sha256": "fb908e2cd514e9c35277e5f358c49ef0e8bcf5d5ebee4b7ba59fff5ea6e64a18"
+      "bytes": 10153,
+      "sha256": "261c1259f1b4eadfd4d4a024bfe51ee8f6384a3dae1157e748065523f1fff6c3"
     },
     {
       "path": "docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
       "bytes": 4889,
       "sha256": "48cba3de818aedbcc8d606676f653c13867fad58469e9163de5550034b35c984"
+    },
+    {
+      "path": "docs/validation/MPC-V13-OPERATIVE-STATE.json",
+      "bytes": 591514,
+      "sha256": "d8ccd726902541cec0e468a0c3354781b7dadeecec1cc66754c20a13ba3d4508"
     }
   ]
 }

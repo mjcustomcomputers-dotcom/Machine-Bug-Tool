@@ -1,0 +1,18 @@
+{
+  "status": "UNCHANGED_COMPLETED_CONTROLLER_REUSED",
+  "repeated_receipt_status": "COMPLETE",
+  "next_status": "COMPLETE",
+  "local_verify": {
+    "status": "LOCAL_CONTROLLER_PARITY_PASS",
+    "integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+    "source_authentication": false
+  },
+  "state_bytes_unchanged": true,
+  "history_snapshot_count": 7,
+  "history_unchanged": true,
+  "new_native_model_calls": 0,
+  "new_checkpoint_writes": 0,
+  "completed_current_tasks": 4,
+  "retained_receipts": 6,
+  "source_authentication": false
+}
