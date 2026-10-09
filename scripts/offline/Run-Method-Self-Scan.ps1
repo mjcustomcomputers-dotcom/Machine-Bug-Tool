@@ -3,6 +3,7 @@ param(
     [switch]$Refresh,
     [switch]$VerifyOnly,
     [switch]$OpenReport,
+    [switch]$OpenGui,
     [ValidatePattern('^MHA-[0-9]{4}$')][string]$MethodId,
     [ValidatePattern('^MHA-[0-9]{4}$')][string]$RelatedMethodId,
     [string]$OutputDirectory,
@@ -12,7 +13,7 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $BundleRoot = $PSScriptRoot
-if ($VerifyOnly -and ($Refresh -or $OpenReport -or $MethodId -or $RelatedMethodId -or $OutputDirectory -or $SysinternalsRoot)) { throw '-VerifyOnly cannot be combined with execution or query parameters.' }
+if ($VerifyOnly -and ($Refresh -or $OpenReport -or $OpenGui -or $MethodId -or $RelatedMethodId -or $OutputDirectory -or $SysinternalsRoot)) { throw '-VerifyOnly cannot be combined with execution or query parameters.' }
 if ($RelatedMethodId -and -not $MethodId) { throw '-RelatedMethodId requires -MethodId.' }
 if ($OutputDirectory -and -not $Refresh) { throw '-OutputDirectory requires -Refresh.' }
 
@@ -62,7 +63,7 @@ function Test-OfflineBundle {
         }
     }
     if ($RequireBaseProduct) {
-        foreach ($required in @('scan.json','summary.json','REPORT.md','method-atlas.sqlite','implemented-capsules.json','Run-Method-Self-Scan.ps1','Install-Method-Self-Scan.ps1','scripts/portable-method-self-scan.mjs','lib/method-self-scan.mjs','lib/method-self-scan-offline.mjs')) {
+        foreach ($required in @('scan.json','summary.json','REPORT.md','MPC-Method-Lab.html','MPC-Method-Self-Scan.cmd','method-atlas.sqlite','implemented-capsules.json','Run-Method-Self-Scan.ps1','Install-Method-Self-Scan.ps1','scripts/portable-method-self-scan.mjs','lib/method-self-scan.mjs','lib/method-self-scan-offline.mjs','lib/method-self-scan-ui.mjs')) {
             if (-not $seen.Contains($required)) { throw "Required bundle artifact is absent from manifest: $required" }
         }
     }
@@ -200,3 +201,4 @@ if ($MethodId) {
 }
 
 if ($OpenReport) { Start-Process -FilePath (Join-Path $ActiveRoot 'REPORT.md') }
+if ($OpenGui) { Start-Process -FilePath (Join-Path $ActiveRoot 'MPC-Method-Lab.html') }

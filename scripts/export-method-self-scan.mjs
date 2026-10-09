@@ -124,6 +124,7 @@ export async function exportMethodSelfScan({output,priorScan=null,capabilitiesFi
  const assets=[
   ['lib/method-self-scan.mjs','lib/method-self-scan.mjs'],
   ['lib/method-self-scan-offline.mjs','lib/method-self-scan-offline.mjs'],
+  ['lib/method-self-scan-ui.mjs','lib/method-self-scan-ui.mjs'],
   ['scripts/portable-method-self-scan.mjs','scripts/portable-method-self-scan.mjs'],
   ['scripts/offline/Run-Method-Self-Scan.ps1','Run-Method-Self-Scan.ps1'],
   ['scripts/offline/Install-Method-Self-Scan.ps1','Install-Method-Self-Scan.ps1'],
