@@ -14,11 +14,13 @@ import {fileURLToPath} from 'node:url';
 import {routeMethodAtlas} from '../lib/method-atlas-router.mjs';
 import {detectMethodAtoms} from '../lib/atomic-method-detector.mjs';
 import {traceMethodHooks} from '../lib/method-hook-cascade.mjs';
-import {diagnoseMethod} from '../lib/method-diagnostic.mjs';
+import {diagnoseRegisteredMethod} from '../lib/method-diagnostic.mjs';
 import {compileAtlasTaxonomy,queryMethodTaxonomy} from '../lib/method-reclassification.mjs';
 import {planAtomicVariations,atomicVariationIdentityFields} from '../lib/atomic-variation-router.mjs';
 import {inspectAtlasSQLite,traceInverseMethodEdges} from '../lib/sqlite-method-strategy.mjs';
 import {reviewNativeMirrors,auditNativeDimensionClaims} from '../lib/native-mirror-dimension-audit.mjs';
+import {methodCapsules} from '../lib/method-ark.mjs';
+import {scanMethodAtlas} from '../lib/method-self-scan.mjs';
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const schema=readFileSync(resolve(ROOT,'method-atlas/schema.sql'),'utf8');
 const baseCatalog=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/candidates.json'),'utf8'));
@@ -202,8 +204,13 @@ export function runNoahsArkReasoning(input){
  if(Object.keys(input).some(k=>!['atom','method_receipts','max_selected','max_pairs'].includes(k)))throw Error('UNKNOWN_REASONING_INPUT');
  return planNoahsArkReasoning({...input,methods:catalog.methods,relations:methodRelations.relationships});
 }
+export async function runMethodSelfScan(db,input={}){
+ if(!input||typeof input!=='object'||Array.isArray(input))throw Error('SELF_SCAN_INPUT_REQUIRED');
+ if(Object.keys(input).some(key=>key!=='prior_fingerprint'))throw Error('UNKNOWN_SELF_SCAN_INPUT');
+ return scanMethodAtlas(dbAdapter(db),{implemented_capsules:methodCapsules(),prior_fingerprint:input.prior_fingerprint??null});
+}
 const INPUT_FILE_MAX_BYTES=4*1024*1024;
-const JSON_COMMANDS=new Set(['query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit','reason']);
+const JSON_COMMANDS=new Set(['query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit','reason','self-scan']);
 function readInputFile(path){
  const listed=lstatSync(path);
  if(!listed.isFile())throw Error('INPUT_FILE_REGULAR_FILE_REQUIRED');
@@ -276,7 +283,8 @@ if(calledAsMain){
      command==='mirrors'?reviewNativeMirrors(query):
      command==='dimension-audit'?auditNativeDimensionClaims(query):
      command==='reason'?runNoahsArkReasoning(query):
-     command==='detect'?await detectMethodAtoms(dbAdapter(db),query):command==='cascade'?await traceMethodHooks(dbAdapter(db),query):command==='diagnose'?diagnoseMethod(query):command==='classify'?await queryMethodTaxonomy(dbAdapter(db),query):await routeMethodAtlas(dbAdapter(db),query);
+     command==='self-scan'?await runMethodSelfScan(db,query):
+     command==='detect'?await detectMethodAtoms(dbAdapter(db),query):command==='cascade'?await traceMethodHooks(dbAdapter(db),query):command==='diagnose'?await diagnoseRegisteredMethod(dbAdapter(db),query):command==='classify'?await queryMethodTaxonomy(dbAdapter(db),query):await routeMethodAtlas(dbAdapter(db),query);
    process.stdout.write(JSON.stringify(result,null,2)+'\n');
   }else process.stdout.write(JSON.stringify({...stats,sqlite_path:DB_PATH},null,2)+'\n');
   }

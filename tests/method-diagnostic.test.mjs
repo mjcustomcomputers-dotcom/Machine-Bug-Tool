@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {diagnoseMethod} from '../lib/method-diagnostic.mjs';
+import {DatabaseSync} from 'node:sqlite';
+import {loadMethodAtlas,dbAdapter} from '../scripts/method-atlas-cli.mjs';
+import {diagnoseMethod,diagnoseRegisteredMethod} from '../lib/method-diagnostic.mjs';
 const fp=(digit)=>digit.repeat(64);
 const fixture=()=>({
  method_id:'MHA-0224',implementation_state:'RESEARCH_HOOK',
@@ -76,4 +78,15 @@ test('dense empty and reordered lists retain declared input and source semantics
  assert.deepEqual(noSource.flags,['SOURCE_REFERENCE_MISSING']);
  assert.equal(noSource.claims_authenticated,false);
  assert.equal(noSource.method_execution_performed,false);
+});
+
+test('catalog-bound diagnostic rejects unknown IDs and forged implementation levels',async()=>{
+ const db=new DatabaseSync(':memory:');loadMethodAtlas(db);const adapter=dbAdapter(db);
+ try{
+  await assert.rejects(()=>diagnoseRegisteredMethod(adapter,{...fixture(),method_id:'MHA-9999',implementation_state:'VALIDATED_IMPLEMENTATION'}),/UNKNOWN_REGISTERED_METHOD/);
+  await assert.rejects(()=>diagnoseRegisteredMethod(adapter,{...fixture(),implementation_state:'VALIDATED_IMPLEMENTATION'}),/METHOD_IMPLEMENTATION_STATE_MISMATCH/);
+  const result=await diagnoseRegisteredMethod(adapter,fixture());
+  assert.equal(result.catalog_binding,'REGISTERED_METHOD_AND_IMPLEMENTATION_STATE_MATCH');
+  assert.equal(result.decision,'CANDIDATE_ONLY_RESEARCH_HOOK');
+ }finally{db.close()}
 });

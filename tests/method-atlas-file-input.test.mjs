@@ -65,7 +65,9 @@ const cases={
  'dimension-audit':{},
  reason:{atom:{subject_id:'fixture:subject',atom_id:'fixture:atom',dimensions:['MONEY','FINALITY'],source_refs:['fixture:native'],external_source_refs:[]},method_receipts:[{method_id:'MHA-0053',input_state:'AVAILABLE',negative_control_state:'AVAILABLE',falsifier_state:'AVAILABLE',estimated_cost_units:2}]}
 };
-test('every existing JSON command accepts UTF-8 BOM file input with the same result as inline JSON',async t=>{
+// The full self-scan has a dedicated export/manifest test because its complete
+// matrix is intentionally tens of MiB rather than a compact CLI response.
+test('every compact JSON command accepts UTF-8 BOM file input with the same result as inline JSON',async t=>{
  const dir=workspace(t);
  for(const [command,payload] of Object.entries(cases))await t.test(command,()=>{
   const path=join(dir,command+' request 漢字.json');
