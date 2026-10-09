@@ -277,10 +277,10 @@ function installIpcHandlers(){
   ipcMain.handle('mpc-workspace:network-snapshot',async(event,input)=>{
     assertTrustedSender(event);
     if(!input||input.consent!==true)throw Object.assign(Error('NETWORK_EXPLICIT_CONSENT_REQUIRED'),{code:'NETWORK_EXPLICIT_CONSENT_REQUIRED'});
-    if(!workspaceService||input.projectId!==workspaceService.activeProjectId||!input.projectId)
+    if(!workspaceService||input.projectId!==workspaceService.service?.activeProjectId||!input.projectId)
       throw Object.assign(Error('NETWORK_SELECT_ACTIVE_PROJECT'),{code:'NETWORK_SELECT_ACTIVE_PROJECT'});
     const result=await networkObserver.snapshot(input);
-    if(input.projectId!==workspaceService?.activeProjectId)
+    if(input.projectId!==workspaceService?.service?.activeProjectId)
       throw Object.assign(Error('NETWORK_PROJECT_CHANGED'),{code:'NETWORK_PROJECT_CHANGED'});
     return result;
   });

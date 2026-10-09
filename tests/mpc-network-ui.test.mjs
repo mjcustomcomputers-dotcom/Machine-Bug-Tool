@@ -16,7 +16,7 @@ test('network UI requests native data only when consented and avoids hidden tran
 test('native bridge accepts no arbitrary scripts, targets, or false consent',()=>{
   const p=read('desktop/preload.cjs'),m=read('desktop/main.mjs');
   assert.match(p,/Object\.keys\(input\)\.some\(key=>!\['consent','projectId'\]\.includes\(key\)\)/u);
-  assert.match(m,/input\.projectId!==workspaceService\.activeProjectId/u);
+  assert.match(m,/input\.projectId!==workspaceService\.service\?\.activeProjectId/u);
   assert.match(m,/assertTrustedSender\(event\)/u);
   assert.match(m,/networkObserver\?\.stop\(\)/u);
   assert.match(m,/networkObserver=createWindowsNetworkObserver\(\)/u);
