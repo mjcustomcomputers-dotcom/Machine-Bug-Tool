@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "MPC_SECURITY_ASSISTANT_PROFILE",
+  "id": "mpc-security-assistant",
+  "name": "MPC Security Assistant",
+  "description": "Operate the existing Machine-Bug-Tool through acquired evidence, executed analysis, and explicit review decisions for security consulting and authorized research.",
+  "configuration_status": "REPOSITORY_PROFILE_NOT_ACCOUNT_CONFIGURATION",
+  "instructions_file": "assistant/GPT-INSTRUCTIONS.txt",
+  "operator_guide": "docs/MPC-SECURITY-ASSISTANT-GUIDE.md",
+  "workflow": ["ACQUIRED", "ANALYZED", "DECIDED"],
+  "repository": {
+    "owner": "mjcustomcomputers-dotcom",
+    "name": "Machine-Bug-Tool",
+    "initially_acquired_commit": "77561659fad5f68858b3c2da142301c50b9f3646",
+    "development_base_commit": "e6f5ed4269743b423e64b06a7ccb9ad7a3f62dfa",
+    "development_branch": "feature/mpc-security-assistant-aad-v17",
+    "base_commit_is_not_assistant_build_commit": true
+  },
+  "local_entrypoint": {
+    "command": "node",
+    "script": "scripts/start-mpc-security-assistant.mjs",
+    "workspace_argument": "--workspace",
+    "transport": "stdio",
+    "connector_script": "scripts/Connect-MpcSecurityAssistant.ps1",
+    "connector_parameters": ["-Workspace", "-ServerName"],
+    "default_server_name": "mpc-security-assistant",
+    "default_connector_workspace": "REPOSITORY_ROOT",
+    "requires_existing_codex_sign_in": true,
+    "adds_api_inference": false,
+    "session_storage": "IN_MEMORY_REPLAY_FROM_SOURCE_FILES_AFTER_RESTART"
+  },
+  "intended_clients": [
+    "LOCAL_CODEX_MCP_CLIENT",
+    "EXISTING_CHATGPT_MPC_PLUGIN",
+    "OPTIONAL_CUSTOM_GPT_WHERE_ACCOUNT_SUPPORTS_IT"
+  ],
+  "model_preference": {
+    "user_requested_label": "Daybreak Blue",
+    "actual_model": null,
+    "actual_access_program": null,
+    "availability": "NOT_ESTABLISHED_BY_THIS_PROFILE",
+    "selection_behavior": "PRESERVE_USER_PREFERENCE_AND_REPORT_ACTUAL_SURFACE_AVAILABILITY",
+    "silent_substitution": false
+  },
+  "preserved_inventory": {
+    "native_evaluators": 24,
+    "method_atlas_candidates": 239,
+    "native_tool_entries": 20,
+    "assistant_tool_entries": 7,
+    "total_local_tool_entries": 27,
+    "inventory_counts_are_not_execution_counts": true,
+    "completed_v13_controller": "PRESERVED_SEPARATE"
+  },
+  "assistant_tools": [
+    "assistant_status",
+    "assistant_acquire",
+    "assistant_analyze",
+    "assistant_decide",
+    "assistant_invalidate",
+    "assistant_self_test",
+    "assistant_read_receipt"
+  ],
+  "analysis_contract": {
+    "required_fields": ["acquisition_id", "tool_name"],
+    "optional_fields": ["arguments_pointer"],
+    "default_arguments_pointer": "",
+    "direct_native_calls": "UNTRACKED_NATIVE_RESULT"
+  },
+  "self_test_result": "DIAGNOSTIC_NOT_A_STORED_ANALYSIS_ID",
+  "earlier_published_executable_identity": "UNRESOLVED_IN_THIS_PASS",
+  "decision_contract": {
+    "required_fields": ["analysis_id", "disposition", "rationale", "falsifier", "limitations", "next_action"],
+    "dispositions": ["READY_FOR_REVIEW", "NEEDS_EVIDENCE", "REJECTED"],
+    "revision_field": "supersedes_decision_id",
+    "history_retained": true
+  },
+  "capability_boundaries": {
+    "source_hash_is_source_authentication": false,
+    "analysis_decision_is_external_execution_authorization": false,
+    "automatic_target_traffic": false,
+    "automatic_connector_dispatch": false,
+    "automatic_cloud_local_synchronization": false,
+    "account_gpt_creation_performed": false,
+    "native_windows_execution_performed": false
+  },
+  "conversation_starters": [
+    "Acquire the current evidence file, analyze it with the applicable MPC method, and decide the next useful step.",
+    "Run the bounded assistant self-test and explain any actual failures using ACQUIRED → ANALYZED → DECIDED.",
+    "Review this authorized workflow for ownership, ordering, replay, and value-conservation failures.",
+    "Prepare a source-backed consulting finding with the strongest benign explanation, a falsifier, and a retest plan."
+  ],
+  "optional_custom_gpt": {
+    "instructions_file": "assistant/GPT-INSTRUCTIONS.txt",
+    "knowledge_files": ["docs/MPC-SECURITY-ASSISTANT-GUIDE.md"],
+    "initial_audience": "PRIVATE_OPERATOR_REVIEW",
+    "apps_and_custom_actions_combination": "DO_NOT_ASSUME_SUPPORTED",
+    "local_mcp_access": "REQUIRES_SEPARATELY_SUPPORTED_CONNECTION",
+    "account_creation_status": "NOT_PERFORMED"
+  },
+  "documentation_checked_utc_date": "2026-10-09"
+}
