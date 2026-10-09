@@ -13,7 +13,7 @@ test('Method cross references are seeded with exact typed source-linked candidat
  try{
   const stat=statusMethodAtlas(db);
   assert.equal(stat.validation,'STRUCTURAL_INVENTORY_PASS');
-  assert.equal(stat.method_relations,48);
+  assert.equal(stat.method_relations,79);
   assert.equal(db.prepare("SELECT count(*) AS n FROM atlas_method_relations WHERE evidence_independent!=0").get().n,0);
   assert.equal(db.prepare("SELECT count(*) AS n FROM atlas_method_relations WHERE link_status!='PROPOSED_METHOD_COMPARISON'").get().n,0);
  }finally{db.close()}
@@ -79,7 +79,7 @@ test('Typed detector refuses extra fields, duplicate atoms, huge batches and wro
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[{...atom('a','STATE'),arbitrary:'injection'}]}),/UNKNOWN_ATOM_FIELD/);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','STATE',[],{observed_at:'tomorrow',clock_domain:'utc'})]}),/INVALID_OBSERVED_TIMESTAMP/);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:Array.from({length:33},(_,i)=>atom('a'+i,'STATE'))}),/ATOM_BATCH_BOUNDS/);
-  assert.equal(statusMethodAtlas(db).methods,86);
+  assert.equal(statusMethodAtlas(db).methods,118);
  }finally{db.close()}
 });
 test('Detector emits seven distinct stage receipts without inventing model execution',async()=>{
@@ -107,5 +107,16 @@ test('Canonical MPC atomic coordinate selects typed dimension with explicit non-
   assert.equal(r.atom_signals[0].jacket_axis,'FINALITY');
   assert.ok(r.method_route.selected_count>0);
   await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[{...a,coordinate:'IMAGINARY'}]}),/UNKNOWN_MPC_COORDINATE/);
+ }finally{db.close()}
+});
+
+test('Bounded evidence review is invoked only on supplied, matching subject',async()=>{
+ const {db,adapter}=fresh();try{
+  const evidence_review={subject_id:'fixture:transaction-001',claims:[{id:'claim',kind:'INTENT',statement:'Hypothesis only',source_refs:['source:claim']}],observations:[],goals:[{id:'hyp',sign:'INTENT_PLUS',description:'Possible goal',claim_ids:['claim'],required_observation_ids:[]}],variations:[]};
+  const r=await detectMethodAtoms(adapter,{atoms:[atom('a','INTENT')],evidence_review});
+  assert.equal(r.evidence_review.claim_review[0].status,'UNRESOLVED');
+  assert.equal(r.evidence_review.intention_inferred,false);
+  assert.equal(r.evidence_review.external_action_authorized,false);
+  await assert.rejects(()=>detectMethodAtoms(adapter,{atoms:[atom('a','INTENT')],evidence_review:{...evidence_review,subject_id:'other'}}),/INTENT_REVIEW_SUBJECT_UNBOUND/);
  }finally{db.close()}
 });
