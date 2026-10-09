@@ -23,6 +23,7 @@ const htmlEscape=value=>String(value).replaceAll('&','&amp;').replaceAll('<','&l
 
 export const reasoningRuntimeFiles=Object.freeze([
  'scripts/run-reasoning-selfplay.mjs','lib/reasoning-selfplay.mjs','lib/finite-information-reasoning.mjs',
+ 'lib/finite-stochastic-observation.mjs',
  'lib/finite-abstraction-refinement.mjs','lib/noahs-ark-reasoning.mjs','lib/methods.mjs','lib/schema.mjs','lib/universal.mjs',
  'lib/atomic-models.mjs','lib/atomic-source-pointers.json','lib/forensic-models.mjs','lib/forensic-source-pointers.json',
  'lib/deferred-models.mjs','lib/method-overlay.json',

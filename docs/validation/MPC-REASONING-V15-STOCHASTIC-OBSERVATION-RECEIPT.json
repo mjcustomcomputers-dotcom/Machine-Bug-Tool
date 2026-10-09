@@ -1,0 +1,164 @@
+{
+  "kind": "MPC_REASONING_V15_STOCHASTIC_OBSERVATION_DEVELOPMENT_RECEIPT",
+  "version": 1,
+  "status": "VERIFIED_ADDITIVE_REASONING_FAMILY",
+  "recorded_at_utc": "2026-10-09T11:22:49Z",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "development_branch": "automation/mpc-reasoning-stochastic-observation-v15",
+  "source": {
+    "pr": 14,
+    "native_parent_branch": "feature/mpc-reasoning-selfplay-v15",
+    "native_parent_commit": "23d2a69f3b67ef298a3b6c7dab7b2d16fe96a4c0",
+    "native_parent_tree": "9622a1158505c75a5e59dd7480c6be1278a80784",
+    "prior_engine_fingerprint": "c4cc73e9f5dd3339d7b5d2c09ce4c6c767029454c1963ac40f5f8f1e1cde5dae",
+    "engine_fingerprint": "ffe102809b4becdcf1429987f7f0657a6decfd2cd2474361bbe18ca7792afeb6",
+    "source_changed_since_prior": true
+  },
+  "no_redo": {
+    "action_fingerprint": "4fea97b0e3148744f3701a9d806c9a36830b016fa132b841dc757b214c07aa4f",
+    "inputs": {
+      "base_commit": "23d2a69f3b67ef298a3b6c7dab7b2d16fe96a4c0",
+      "prior_cursor_sha256": "687a8d9b95f893a3ea6e9bf5580bdb0d58400af9505d8337a385cc711e0334ea",
+      "engine_fingerprint": "ffe102809b4becdcf1429987f7f0657a6decfd2cd2474361bbe18ca7792afeb6",
+      "method": "BOUNDED_STOCHASTIC_OBSERVATION_VALUE",
+      "rounds": 24,
+      "seed": 20261011
+    },
+    "prior_action_fingerprint": "6e4fb4b5835fbd8ba4b59cea15623fe2e105d2ca1f864a4ec7a86e9beda5178a",
+    "prior_continuation_commit": "a2b2b97479faecab7fa44557a9550fee025e8c73"
+  },
+  "question": {
+    "family": "BOUNDED_STOCHASTIC_OBSERVATION_VALUE",
+    "question": "Can the existing finite information reasoner value a caller-supplied noisy pre-action signal, reject observation cost above a supplied budget, and agree with an independent exact finite oracle without adding a native evaluator or Atlas ID?",
+    "independent_oracle": "For a fair hidden bit, reward r and binary symmetric signal accuracy q in [0.5,1]: prior=r/2; posterior=r*q; gross_EVSI=r*(q-0.5); net_EVSI=gross_EVSI-cost.",
+    "negative_control": "A signal with q=0.5 must have gross and net decision value zero when cost is zero.",
+    "bounds": {
+      "observations": 8,
+      "outcomes_per_observation": 8,
+      "expanded_joint_states": 16,
+      "likelihood_probability": "[0,1]",
+      "likelihood_sum_tolerance": 1e-12,
+      "cost_and_budget": "[0,1000000] supplied utility units"
+    }
+  },
+  "implementation": {
+    "changed_files": [
+      "AGENTS.md",
+      "docs/REASONING-INTELLIGENCE-V15.md",
+      "lib/finite-information-reasoning.mjs",
+      "lib/finite-stochastic-observation.mjs",
+      "lib/reasoning-selfplay.mjs",
+      "scripts/run-reasoning-selfplay.mjs",
+      "tests/finite-stochastic-observation.test.mjs",
+      "tests/reasoning-selfplay.test.mjs"
+    ],
+    "behavior": [
+      "Validate and canonicalize the supplied finite model without a native evaluator call.",
+      "Fail closed on incomplete, out-of-range or non-normalized likelihood rows and hostile JSON shapes.",
+      "Block observation cost above the supplied budget before evaluator calls for that observation.",
+      "Expand affordable noisy signals into a bounded joint hidden-state/signal model.",
+      "Delegate posterior choices to the existing deterministic information adapter and retained Harsanyi evaluator.",
+      "Execute a no-information control and independent binary-channel oracle in the selfplay curriculum."
+    ],
+    "file_sha256": {
+      "AGENTS.md": "82f80d041c78b813a5c0b5246e523d83e2fb1e8a655cd08e10842ff11fade4df",
+      "docs/REASONING-INTELLIGENCE-V15.md": "92471862cb549b30d47247ddb137c719539d4bff6d5cb1c4993c10ae0550763a",
+      "lib/finite-information-reasoning.mjs": "615f7da9a3c3a3adc468f8140dd06d7738fbecfbba6fc3717d31b5f355a16ef1",
+      "lib/finite-stochastic-observation.mjs": "dca197d9392eb9e5c403d7a925c935945f43e273441343e13e1e6d240b22dce5",
+      "lib/reasoning-selfplay.mjs": "bca00d76889c7d1714ff40cdd01500c708f028f5bc95518e2ec00e848e81f6f6",
+      "scripts/run-reasoning-selfplay.mjs": "7b9b7fece84233402dacf839e9715b6dfc0ae5cafb927bd55090b31fe4405645",
+      "tests/finite-stochastic-observation.test.mjs": "e8788806416f3745a0e4801a61505e0f5ccdcda05e16d9ac8b225827d99e7a7d",
+      "tests/reasoning-selfplay.test.mjs": "588e6c62dc5d8ccf1b2bde330dab65a55aabdcde4b36b2a1ea6b97f40c27b18e"
+    }
+  },
+  "test_first": {
+    "initial_failing_test": "node --test tests/finite-stochastic-observation.test.mjs",
+    "initial_failure": "ERR_MODULE_NOT_FOUND for lib/finite-stochastic-observation.mjs",
+    "focused_final": {
+      "command": "node --test tests/finite-stochastic-observation.test.mjs tests/finite-information-reasoning.test.mjs tests/reasoning-selfplay.test.mjs",
+      "passed": 53,
+      "failed": 0
+    },
+    "full_node_final": {
+      "command": "node --test",
+      "passed": 496,
+      "failed": 0,
+      "note": "The isolated worktree reused the already installed exact dependency tree; no installer ran."
+    },
+    "build": {
+      "command": "npm run build",
+      "exit_code": 0,
+      "result": "Build complete"
+    }
+  },
+  "restored_input": {
+    "archive_path": "docs/validation/MPC-REASONING-V15-SEED-20261011-RUNS.zip",
+    "archive_sha256": "2d7730970b37e6f9a2df73cce34a22d05366ca931bb79a3cfb1c3795a7777cda",
+    "prior_cursor_sha256": "687a8d9b95f893a3ea6e9bf5580bdb0d58400af9505d8337a385cc711e0334ea",
+    "restore_rule_obeyed": "Extracted into a fresh output history; no existing history was replaced or merged."
+  },
+  "execution": {
+    "command": "node scripts/run-reasoning-selfplay.mjs --rounds 24 --output-root <fresh-restored-history>/Runs",
+    "node": "v24.19.0",
+    "host": "CHATGPT_LINUX_PORTABLE_RUNTIME",
+    "seed": 20261011,
+    "next_seed": 20261012,
+    "source_change_replay": true,
+    "cases_executed": 210,
+    "passed": 210,
+    "failed": 0,
+    "anchor_replays": 95,
+    "native_evaluator_calls": 715,
+    "distinct_native_evaluators": 11,
+    "counterexamples": 0,
+    "new_family": {
+      "cases": 26,
+      "anchors": 2,
+      "generated_parameter_cases": 24,
+      "passed": 26,
+      "native_evaluator_calls": 185,
+      "signal_selected": 11,
+      "no_observation_selected": 15,
+      "budget_blocked_signal_cases": 15,
+      "no_information_control_zero_cases": 26
+    }
+  },
+  "result_hashes": {
+    "scan_sha256": "1f47153b5cdeb8de64bcc7beb229d9b96e8bb22713219f488ed30a37929ac0ab",
+    "cursor_file_sha256": "45d3de61b53cedbce8781e679ebae283e716b373b0a1eac1cb4281f5d2581da5",
+    "cursor_sha256": "3c8b34c3766f9d20c02c77bf93b3ddb0a00dccd9ed5a25f426a66d89310ffa07",
+    "summary_sha256": "077aec96b051661a61a60ddeb069375770fdd1bdf994c4569956fa073e905992",
+    "runtime_receipt_sha256": "76b9489c755674eaf409c337305aea39d4f910861226d657daa40b46e326e739",
+    "manifest_sha256": "e2da4597e9c066e09231d918ef34873da4bf89b538e4a94f0986e2e9ffba98e1",
+    "report_sha256": "900589084ca2f435585cde02fe24f4aa85c0a9f939c5236b67929f5d94b3e140"
+  },
+  "continuation_archive": {
+    "path": "docs/validation/MPC-REASONING-V15-STOCHASTIC-OBSERVATION-RUNS.zip",
+    "bytes": 342613,
+    "sha256": "f5c34d0faca6c306dc6881b68b187bd81bc67537765b656ebf84273d270b3d23",
+    "contains": [
+      "Runs/latest.json",
+      "Runs/2026-10-09T11-22-12-533Z-20261011-2f74b949/"
+    ],
+    "restore_rule": "Extract into a fresh directory and pass its Runs directory as --output-root; never merge with another history."
+  },
+  "preserved": {
+    "native_evaluator_ids": 24,
+    "atlas_candidates": 239,
+    "atlas_relations": 212,
+    "catalog_methods_promoted": 0,
+    "maxvar_256_untouched": true,
+    "original_v13_controller_untouched": true,
+    "target_actions": false,
+    "external_network_calls_by_runner": false,
+    "connector_dispatch": false,
+    "merged": false,
+    "deployed": false,
+    "windows_execution_claimed": false
+  },
+  "next_unresolved_experiment": {
+    "family": "BOUNDED_IMPERFECT_INFORMATION_REGRET",
+    "requirement": "Use a finite independently enumerated best-response oracle, an equilibrium-consistent negative control, explicit strategy and state bounds, and no claim of general poker/CFR solving.",
+    "state": "UNIMPLEMENTED_PROPOSAL"
+  }
+}

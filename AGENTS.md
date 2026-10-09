@@ -28,6 +28,13 @@ Continue safe additive work on a dedicated review branch without routine
 clarification. Merge, deployment, target actions and canonical controller
 changes retain their existing separate authorization requirements.
 
+The additive stochastic-observation family uses finite caller-supplied signal
+likelihoods, a no-information control, an explicit utility-unit cost budget,
+joint-state expansion, and the existing Harsanyi evaluator. It adds no native
+evaluator or Atlas ID. Keep its expansion at 16 states or fewer; do not infer
+likelihoods, learn a policy, claim calibration, perform sequential search/CFR,
+or treat a synthetic result as target evidence.
+
 ## Final engineering scope — local receiving and Codex acceptance
 
 The user has ended research for this phase. The current authorized action is one
