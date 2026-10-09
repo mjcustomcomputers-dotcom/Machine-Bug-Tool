@@ -1,5 +1,7 @@
 Continue the existing Machine-Bug-Tool build in your active working checkout.
 
+UPDATED ENTRY POINT: Read and execute command-center-build/FINAL-CODEX-PROMPT.txt. PR #18 now includes runnable multi-turn Ollama chat, its GUI, SQLite storage and Windows launcher at repository root, plus docs/HOST-CONNECTOR-INTEGRATION.md and the capability audit. Integrate those modules directly and complete the real host calls, folder/transfer flow, exact numerical review and packaged product acceptance.
+
 Read command-center-build/CODEX-BUILD.txt and every file it marks required from the review branch feature/mpc-workspace-build-20261009 in mjcustomcomputers-dotcom/Machine-Bug-Tool. Treat the pack as the updated implementation contract. Preserve in-flight work and reconcile the exact component manifest before bringing changes across.
 
 Build MPC Workspace as a Windows GUI with the existing cross-platform MPC/Node core. Deliver the complete first journey: open a project, attach a whole folder or paste/drop text/files, choose an available actual reasoner, ask a question, acquire and compare evidence, save a report, close, reopen and resume. Include local SQL/search, standard clipboard behavior, project progress, exact Drive/local snapshot comparison, a usable connection wizard and explained scripts for manual execution with returned-output ingestion.

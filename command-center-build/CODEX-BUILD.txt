@@ -5,6 +5,11 @@ Repository: mjcustomcomputers-dotcom/Machine-Bug-Tool.
 MISSION
 Continue the existing MPC software and build its usable Windows command center. Nate wants to open a real window, type a question or paste data, select a project and model, search evidence and methods, run the applicable analysis, see progress, create reports, and manage connected apps and local/remote MCP services. Deliver working features through the existing architecture and an installable Windows build. Keep the core cross-platform.
 
+UPDATED IMPLEMENTATION — 2026-10-09
+Read FINAL-CODEX-PROMPT.txt and docs/CAPABILITY-REVIEW.md with this full contract. PR #18 now adds actual local conversational code at repository root: lib/ollama-local-chat.mjs, lib/local-chat-server.mjs, lib/local-chat-store.mjs, desktop/local-chat/, scripts/start-mpc-local-chat.mjs and OPEN-MPC-LOCAL-CHAT.cmd. LOCAL-CHAT-README.md explains how to run it. These modules implement multi-turn streamed Ollama chat, model setup, project history, clipboard/text files and exports. Integrate that existing code into the unified shell. Do not replace it with another setup plan or confuse it with the older evidence-only adapter.
+
+Read repository-root docs/HOST-CONNECTOR-INTEGRATION.md in full. The real hosted binding already exists in connector-contract.mts and Sites request context. The pure connector bridge is a planner; Windows still needs its actual provider/MCP calls. The final integration must preserve host/account/source-type identity, full router records, and live-handle versus historical-receipt state. The numerical audit also requires applicable Nash/conservation results to surface their exact comparison; retained regression tests include known wrong original binary64 outputs.
+
 This handoff is for the existing active Codex development task. Preserve its uncommitted work. Do not reset the checkout, replay a completed controller, overwrite an installed executable, or start a competing product. Read this pack, current AGENTS.md, DAYBREAK-START.txt, docs/environment-setup.txt, docs/atomic-execution.md, and the exact native source manifest. Current user authorization reopens this implementation and research task; historical instructions closing V13 do not prohibit the newly requested work. The completed V13 record itself remains historical and unchanged.
 
 1. RESOLVE THE SOURCE ONCE, THEN IMPLEMENT
