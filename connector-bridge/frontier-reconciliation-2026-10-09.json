@@ -1,0 +1,65 @@
+{
+  "schema_version": "MPC_V9_FRONTIER_RECONCILIATION_1",
+  "status": "DEVELOPMENT_RECEIPT_ONLY_NOT_DYNAMIC_CANONICAL_CONTROLLER",
+  "observed_date": "2026-10-09",
+  "scope": "Native source pointer precedence; no alteration of actual research controller, target traffic, deployment or classifier registry",
+  "stale_snapshot": {
+    "source": "GOOGLE_DRIVE",
+    "file_id": "1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU",
+    "title": "I_LOVE_BUGS_Machine_State_2026-10-08.json",
+    "modified_at_utc": "2026-10-08T22:04:15.587Z",
+    "social_deal_cursor": "PASS101",
+    "komoju_cursor": "PASS-002",
+    "role": "ARCHIVE_ONLY_NON_OPERATIVE_FOR_CURRENT_FRONTIER"
+  },
+  "projects": [
+    {
+      "project": "SOCIAL_DEAL",
+      "observed_frontier": "PASS102",
+      "current_navigation_source": {
+        "provider": "AIRTABLE",
+        "base_id": "appZPanYDOUZRinwr",
+        "table_id": "tbluibwWV5Es4ySQT",
+        "record_id": "rec2JHa11sXYW5knC",
+        "pass_number": 102
+      },
+      "original_log_drive_id": "1Yl3D6FdLkJvJpR_SD1a-lssSgYgPRFHE1N8Ra7eO5jk",
+      "source_register_drive_id": "1-PkmF-4QLr5rZ4XTTxOjiBJlxZGkYFbvQypl69N6mhA",
+      "reconciliation": "Native log plus recent program-specific Airtable pass index outrank older global snapshot PASS101; index is navigational, not evidence of a target vulnerability",
+      "live_native_record_modified": false,
+      "read_at_use": "Re-read latest native pass/frontier and source owner before append; enforce single-writer and duplicate checks"
+    },
+    {
+      "project": "KOMOJU",
+      "observed_frontier": "DELTA-044",
+      "current_control_source": {
+        "provider": "AIRTABLE",
+        "base_id": "appdD5WC0CVuRirtP",
+        "table_id": "tblC9KnJuUvwxbikS",
+        "record_id": "rech8Afm8n1P1qgMD",
+        "checkpoint_id": "KOMOJU-CKPT-002-DELTA-044-20261009"
+      },
+      "historical_drive_checkpoint_id": "1nLyRGtDf7DWMS3QGB28AvD9AFuG6n9JyhJ1Dy5-2n3s",
+      "reconciliation": "Current structured controller DELTA-044 outranks machine snapshot PASS-002 and historical Drive checkpoint 002; K-A009 remains DOC-MODELED/hold",
+      "live_native_record_modified": false,
+      "read_at_use": "Re-read the current structured controller before a new bounded research pass"
+    }
+  ],
+  "methodology": {
+    "dash_projection_as_independent_evidence": false,
+    "development_file_as_current_canonical_pointer": false,
+    "backend_finding_promotion": false,
+    "hosted_mpc_connector_dispatch": false,
+    "hosted_mpc_persistence": false
+  },
+  "validation": {
+    "isolated_bridge_tests": "8/8 pass locally",
+    "local_node": "v22.16.0",
+    "full_repository_suite": "NOT_RUN",
+    "full_repository_build": "NOT_RUN",
+    "github_pr": "7",
+    "pr_mode": "DRAFT_UNMERGED",
+    "codex_environment": "SEPARATE_SOURCE_CHECKOUT_NOT_EXECUTED"
+  },
+  "next_action": "Run full node --test and npm run build on exact V9 GitHub commit in prepared Node 24.19.0 / pnpm 11.25.0 Codex checkout; verify via CI or native checkout receipt and do not merge or deploy"
+}

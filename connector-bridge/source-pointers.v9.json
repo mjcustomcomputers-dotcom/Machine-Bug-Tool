@@ -1,0 +1,140 @@
+{
+  "schema_version": "MPC_CONNECTOR_POINTERS_V9",
+  "status": "SOURCE_LOCATOR_RECEIPT_NOT_DYNAMIC_CANONICAL_POINTER",
+  "checked_on": "2026-10-08",
+  "repo": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "compatibility": {
+    "hosted_mpc_version": "0.10.0-http.1",
+    "hosted_mpc_persistence": false,
+    "hosted_mpc_connector_dispatch": false,
+    "cloud_commit": "47b251c4aede803f8de4e3a7185ee63f2969d9fd",
+    "project_canonicity": "RESOLVE_CURRENT_NATIVE_CONTROLLER_AT_USE_TIME"
+  },
+  "connectors": [
+    {
+      "id": "github",
+      "surface": "GITHUB",
+      "mode": "SOURCE_CODE_VERSION_HISTORY",
+      "verified": "READ",
+      "source_owner": "GitHub",
+      "root": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+      "pointer_type": "branch_and_sha",
+      "pointer": "feature/atomic-dual-variation-v8",
+      "role": "code_development_only",
+      "writes": "EXPLICIT_REVIEWED_BRANCH_ONLY"
+    },
+    {
+      "id": "mpc-bugtools",
+      "surface": "MPC_BUGTOOLS",
+      "mode": "BOUNDED_MODEL_AND_REGISTRY",
+      "verified": "HOSTED_MCP_READY",
+      "source_owner": "private MPC Site",
+      "root": "https://mpc-machine-legal-tools.mjcustomcomputers.chatgpt.site/mcp",
+      "pointer_type": "endpoint",
+      "pointer": "0.10.0-http.1",
+      "role": "typed classification calculation",
+      "writes": "NO_HOSTED_PERSISTENCE_OR_CONNECTOR_DISPATCH"
+    },
+    {
+      "id": "mpc-machine-legal",
+      "surface": "MPC_LEGAL",
+      "mode": "CANONICAL_RESEARCH_CONSTITUTION",
+      "verified": "SKILL_AVAILABLE",
+      "source_owner": "existing Research OS",
+      "root": "skills://plugins/mpc-machine-legal/index/skill.md",
+      "pointer_type": "skill_uri",
+      "pointer": "skills://plugins/mpc-machine-legal/machine-legal-pass-checkpoint/skill.md",
+      "role": "source and legal state",
+      "writes": "EXPLICIT_CHECKPOINT_ONLY"
+    },
+    {
+      "id": "google-drive",
+      "surface": "GOOGLE_DRIVE",
+      "mode": "NATIVE_DOCUMENT_SOURCE",
+      "verified": "READ",
+      "source_owner": "Google Drive",
+      "root": "1jdk4SspRWpCcIszslg0-9Y6STzrF_7veJ-LAh8igKTg",
+      "pointer_type": "drive_file_id",
+      "pointer": "1xKXfOGpWCpoL7AVc7ueYH-FIktGp8VZfn-l6rqrXNqU",
+      "role": "native compiler and MBSS registry",
+      "writes": "EXPLICIT_PRIVATE_CHECKPOINT_ONLY"
+    },
+    {
+      "id": "airtable",
+      "surface": "AIRTABLE",
+      "mode": "STRUCTURED_NATIVE_CONTROLLER_AND_NAVIGATION",
+      "verified": "READ",
+      "source_owner": "Airtable",
+      "root": "appdD5WC0CVuRirtP",
+      "pointer_type": "base_table_record",
+      "pointer": "appdD5WC0CVuRirtP/tblC9KnJuUvwxbikS/rech8Afm8n1P1qgMD",
+      "role": "current KOMOJU controller; separate Social Deal navigation base appZPanYDOUZRinwr",
+      "writes": "NO_NATIVE_CURSOR_MUTATION_BY_POINTER_RECEIPT"
+    },
+    {
+      "id": "dropbox-dash",
+      "surface": "DROPBOX_DASH",
+      "mode": "FEDERATED_SEARCH_ONLY",
+      "verified": "READ_SEARCH",
+      "source_owner": "indexed provider",
+      "root": "googledrive",
+      "pointer_type": "indexed_native_url",
+      "pointer": "https://drive.google.com/file/d/1wIXKLW9cfSb6i2SH_wcBgaEpfkRbbENQ",
+      "role": "discovery projections; use native object to confirm",
+      "writes": "READ_ONLY"
+    },
+    {
+      "id": "dropbox",
+      "surface": "DROPBOX",
+      "mode": "NATIVE_FILE_SOURCE",
+      "verified": "SEARCH_RETURNED_NO_MPC_MATCH",
+      "source_owner": "Dropbox",
+      "root": null,
+      "pointer_type": "UNRESOLVED",
+      "pointer": null,
+      "role": "potential private backup native files",
+      "writes": "NO_MUTATION_UNTIL_SOURCE_RESOLVED"
+    }
+  ],
+  "projects": [
+    {
+      "project": "SOCIAL_DEAL",
+      "native_source": "GOOGLE_DRIVE",
+      "controller_candidate": "1-PkmF-4QLr5rZ4XTTxOjiBJlxZGkYFbvQypl69N6mhA",
+      "hook_log": "1Yl3D6FdLkJvJpR_SD1a-lssSgYgPRFHE1N8Ra7eO5jk",
+      "cache_candidate": "1__-0ZARv-R4FNs5n2pjOhprMrbNuDjX5Bd9UZzI_plY",
+      "canonical_state": "NOT_ADJUDICATED_BY_THIS_POINTER_FILE"
+    },
+    {
+      "project": "KOMOJU",
+      "native_source": "GOOGLE_DRIVE",
+      "controller_candidate": "1nLyRGtDf7DWMS3QGB28AvD9AFuG6n9JyhJ1Dy5-2n3s",
+      "canonical_state": "NOT_ADJUDICATED_BY_THIS_POINTER_FILE"
+    }
+  ],
+  "invariants": [
+    "native Drive document ID is not Dash UUID or Dropbox file ID",
+    "Dash indexed copy of a Drive object is not independent evidence",
+    "source locator and version do not prove canonical currency",
+    "native code commit does not establish Sites deployment",
+    "live MPC protected tool access in ChatGPT does not transfer into Codex Cloud",
+    "external connector calls require tool exposure and caller permission per session",
+    "never include credentials, tokens, raw sensitive bounty evidence or payout data in GitHub",
+    "all requested testing governed by current exact bounty program rule card"
+  ],
+  "reconciled_on": "2026-10-09",
+  "reconciliation_receipt": {
+    "path": "connector-bridge/frontier-reconciliation-2026-10-09.json",
+    "status": "DURABLE_DEV_ONLY_RECONCILIATION_NOT_LIVE_CONTROLLER_MUTATION",
+    "observed_frontiers": {
+      "SOCIAL_DEAL": "PASS102",
+      "KOMOJU": "DELTA-044"
+    },
+    "older_machine_snapshot_drive_id": "1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU",
+    "older_snapshot_frontiers": {
+      "SOCIAL_DEAL": "PASS101",
+      "KOMOJU": "PASS-002"
+    },
+    "current_state_must_be_retrieved_at_each_use": true
+  }
+}

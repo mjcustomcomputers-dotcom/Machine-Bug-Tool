@@ -11,6 +11,7 @@ import {traceMethodHooks} from '../lib/method-hook-cascade.mjs';
 import {diagnoseMethod} from '../lib/method-diagnostic.mjs';
 import {compileAtlasTaxonomy,queryMethodTaxonomy} from '../lib/method-reclassification.mjs';
 import {planAtomicVariations} from '../lib/atomic-variation-router.mjs';
+import {selectMaterialDeltas} from '../lib/source-bound-fast-pass.mjs';
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const schema=readFileSync(resolve(ROOT,'method-atlas/schema.sql'),'utf8');
 const baseCatalog=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/candidates.json'),'utf8'));
@@ -92,16 +93,21 @@ export function dbAdapter(db){
 const calledAsMain=process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url);
 if(calledAsMain){
  const command=process.argv[2]??'status';
- if(!['init','status','query','detect','cascade','diagnose','classify','variation'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE_CLASSIFY_VARIATION');
+ if(!['init','status','query','detect','cascade','diagnose','classify','variation','fast-pass'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE_CLASSIFY_VARIATION_FAST_PASS');
  mkdirSync(dirname(DB_PATH),{recursive:true});
  const db=new DatabaseSync(DB_PATH);
  try{
   const stats=loadMethodAtlas(db);
-  if(['query','detect','cascade','diagnose','classify','variation'].includes(command)){
+  if(['query','detect','cascade','diagnose','classify','variation','fast-pass'].includes(command)){
    if(!process.argv[3])throw Error('QUERY_JSON_REQUIRED');
    const query=JSON.parse(process.argv[3]);
    let result;
-   if(command==='variation'){
+   if(command==='fast-pass'){
+     // Explicit preflight command: caller may avoid invoking the expensive variation planner
+     // when changed is empty. Never treat a preflight decision as method coverage/proof.
+     result=selectMaterialDeltas({incoming:query.incoming,cache:query.cache,maxItems:query.maxItems??128});
+     result={...result,next_action:result.changed.length?'Submit only validated changed atoms to variation':'No changed source digests; retain prior native checkpoint and previous variation receipts'};
+   }else if(command==='variation'){
      const prior=[];
      // Only bounded exact subject/atom records; no broad external source discovery.
      for(const atom of query.atoms??[]){
