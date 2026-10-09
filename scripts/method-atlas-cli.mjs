@@ -2,6 +2,7 @@
 // node scripts/method-atlas-cli.mjs init|status|query '{"dimensions":["MONEY"],...}'
 import {DatabaseSync} from 'node:sqlite';
 import {createHash} from 'node:crypto';
+import {buildExpectedAtlasRows,verifyAtlasSeedParity} from '../lib/atlas-seed-parity.mjs';
 import {readFileSync,mkdirSync} from 'node:fs';
 import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -39,12 +40,18 @@ const parentByDimension={
  QUANTUM:'BL24',QUANTUM_INSPIRED:'BL22'
 };
 const run=(db,sql,values)=>db.prepare(sql).run(...values);
+const expectedAtlasRows=buildExpectedAtlasRows({catalog,methodRelations,compiledTaxonomy,parentByDimension});
+export const verifyCurrentAtlas=db=>verifyAtlasSeedParity(db,expectedAtlasRows,{seedFingerprint});
 export function loadMethodAtlas(db){
  db.exec(schema);
  const stored=db.prepare("SELECT value FROM atlas_metadata WHERE key='seed_fingerprint'").get();
  if(stored && stored.value!==seedFingerprint)throw Error('ATLAS_SEED_DRIFT_REBUILD_PRIVATE_CACHE_REQUIRED');
  if(!stored && db.prepare('SELECT COUNT(*) AS n FROM atlas_methods').get().n!==0)
   throw Error('UNPINNED_LEGACY_ATLAS_REBUILD_PRIVATE_CACHE_REQUIRED');
+ // Check populated derived caches BEFORE any attempted INSERT OR IGNORE.
+ // A matching stored digest is merely metadata; it does not prove rows match.
+ if(stored && verifyCurrentAtlas(db).status!=='ATLAS_CONTENT_PARITY_PASS')
+  throw Error('ATLAS_SEMANTIC_DRIFT_REBUILD_PRIVATE_CACHE_REQUIRED');
  // Canonical MPC tables are never opened or altered. All writes are atlas_-prefixed.
  db.exec('BEGIN TRANSACTION');
  try{
@@ -78,15 +85,18 @@ export function loadMethodAtlas(db){
   run(db,"INSERT OR IGNORE INTO atlas_metadata (key,value) VALUES ('seed_fingerprint',?)",[seedFingerprint]);
   db.exec('COMMIT');
  }catch(error){db.exec('ROLLBACK');throw error}
- return statusMethodAtlas(db);
+ const status=statusMethodAtlas(db);
+ if(status.validation!=='STRUCTURAL_INVENTORY_PASS')throw Error('ATLAS_SEED_PARITY_FAILED_AFTER_IMPORT');
+ return status;
 }
 export function statusMethodAtlas(db){
  const count=t=>db.prepare('SELECT COUNT(*) AS n FROM '+t).get().n;
  const methods=count('atlas_methods'),classifiers=count('atlas_classifiers'),sources=count('atlas_sources'),triggers=count('atlas_triggers'),crosswalk=count('atlas_crosswalk');
  const methodRelationsCount=count('atlas_method_relations');
  const taxonomyCount=count('atlas_method_taxonomy');
- const mismatch=methods!==catalog.methods.length||classifiers!==methods||sources!==catalog.sources.length||methodRelationsCount!==methodRelations.relationships.length||taxonomyCount!==compiledTaxonomy.tag_count;
- return {schema_version:catalog.atlas_version,seed_fingerprint:seedFingerprint,methods,classifiers,sources,triggers,proposed_crosswalk:crosswalk,method_relations:methodRelationsCount,taxonomy_tags:taxonomyCount,taxonomy_version:compiledTaxonomy.taxonomy_version,source_record_authoritative:false,method_execution_performed:false,canonical_registry_modified:false,validation:mismatch?'INVENTORY_MISMATCH':'STRUCTURAL_INVENTORY_PASS'};
+ const parity=verifyCurrentAtlas(db);
+ const mismatch=methods!==catalog.methods.length||classifiers!==methods||sources!==catalog.sources.length||methodRelationsCount!==methodRelations.relationships.length||taxonomyCount!==compiledTaxonomy.tag_count||parity.status!=='ATLAS_CONTENT_PARITY_PASS';
+ return {schema_version:catalog.atlas_version,seed_fingerprint:seedFingerprint,methods,classifiers,sources,triggers,proposed_crosswalk:crosswalk,method_relations:methodRelationsCount,taxonomy_tags:taxonomyCount,taxonomy_version:compiledTaxonomy.taxonomy_version,semantic_parity:{status:parity.status,mismatched_tables:parity.mismatched_tables,rows_checked:parity.rows_checked,tables_checked:parity.tables_checked},source_record_authoritative:false,method_execution_performed:false,canonical_registry_modified:false,validation:mismatch?'INVENTORY_MISMATCH':'STRUCTURAL_INVENTORY_PASS'};
 }
 export function dbAdapter(db){
  return {prepare(sql){return {bind(...values){return {all(){return {results:db.prepare(sql).all(...values)}}}}}}};
@@ -94,10 +104,13 @@ export function dbAdapter(db){
 const calledAsMain=process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url);
 if(calledAsMain){
  const command=process.argv[2]??'status';
- if(!['init','status','query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE_CLASSIFY_VARIATION');
+ if(!['init','status','query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit','audit-seed'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE_CLASSIFY_VARIATION');
  mkdirSync(dirname(DB_PATH),{recursive:true});
- const db=new DatabaseSync(DB_PATH);
+ const db=command==='audit-seed'?new DatabaseSync(DB_PATH,{readOnly:true}):new DatabaseSync(DB_PATH);
  try{
+  if(command==='audit-seed'){
+   process.stdout.write(JSON.stringify(verifyCurrentAtlas(db),null,2)+'\n');
+  }else{
   const stats=loadMethodAtlas(db);
   if(['query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit'].includes(command)){
    if(!process.argv[3])throw Error('QUERY_JSON_REQUIRED');
@@ -129,5 +142,6 @@ if(calledAsMain){
      command==='detect'?await detectMethodAtoms(dbAdapter(db),query):command==='cascade'?await traceMethodHooks(dbAdapter(db),query):command==='diagnose'?diagnoseMethod(query):command==='classify'?await queryMethodTaxonomy(dbAdapter(db),query):await routeMethodAtlas(dbAdapter(db),query);
    process.stdout.write(JSON.stringify(result,null,2)+'\n');
   }else process.stdout.write(JSON.stringify({...stats,sqlite_path:DB_PATH},null,2)+'\n');
+  }
  }finally{db.close()}
 }
