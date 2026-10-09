@@ -18,6 +18,7 @@ import {
   globalShortcut,
 } from 'electron';
 import {createScreenCaptureHost} from './screen-host.mjs';
+import {initialWorkspaceWindowBounds} from './window-geometry.mjs';
 import {createWorkspaceSecretStore} from '../lib/mpc-workspace-secrets.mjs';
 import {createWorkspaceHostAdapters} from '../lib/mpc-workspace-host-adapters.mjs';
 
@@ -290,10 +291,8 @@ function installApplicationMenu(){
 function createMainWindow(){
   const window=new BrowserWindow({
     title:APP_NAME,
-    width:1440,
-    height:940,
-    minWidth:980,
-    minHeight:680,
+    ...initialWorkspaceWindowBounds(screen.getPrimaryDisplay().workArea),
+    useContentSize:false,
     show:false,
     autoHideMenuBar:false,
     backgroundColor:'#071615',

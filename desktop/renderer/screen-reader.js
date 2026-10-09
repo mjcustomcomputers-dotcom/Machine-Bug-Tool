@@ -95,7 +95,7 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
       screenSettings({consent:true,mode:'single',fps:1,durationMinutes:5,crop:{x:0,y:0,width:1,height:1},masks:[mask]});
       void stop('Mask added. Start a new session when ready.');masks.push(mask);renderMasks();}catch(error){message(safeCode(error))}
   });
-  for(const input of document.querySelectorAll('#screen-capture-settings input,#screen-capture-settings select'))input.addEventListener('change',()=>{if(active||starting)void stop('Settings changed. Start again to apply them.')});
+  for(const input of document.querySelectorAll('#screen-capture-settings input,#screen-capture-settings select,#screen-consent'))input.addEventListener('change',()=>{if(active||starting)void stop('Settings changed. Start again to apply them.')});
   $('screen-source').addEventListener('change',()=>{if(active||starting)void stop('Source changed. Start again when ready.')});
   $('screen-select').addEventListener('click',()=>{$('screen-text').focus();$('screen-text').select()});
   $('screen-copy').addEventListener('click',()=>bridge.copyText($('screen-text').value).then(()=>announce('Recognized text copied.')));

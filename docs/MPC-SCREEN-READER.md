@@ -2,6 +2,8 @@
 
 The Windows desktop now has **Screen reader** in the navigation. It samples a selected window or monitor, crops and masks the image before encoding, reads English text locally, and runs the existing MPC classifier and dependency methods on the observation. A large text area supports selection, copying, `.txt` export, and an explicit handoff to chat.
 
+The application starts centered within the monitor's usable work area, including its native window frame. It uses Windows' device-independent work-area coordinates so a smaller or DPI-scaled desktop caps both the starting size and minimum size. The permission checkbox sits beside the capture controls, copy/export controls sit above the large output, and the performance panel is optional. Unchecking active session permission stops capture. The existing interface zoom and movable assistant remain available.
+
 ## Start a useful first session
 
 1. Extract the new portable build into a new folder, close the old app, and open `MPC-Workspace.exe`. Confirm the commit under **Settings → Local service → GUI source** against the build receipt.

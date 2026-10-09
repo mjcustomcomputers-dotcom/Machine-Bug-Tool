@@ -54,7 +54,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y xvfb xauth libgbm1 libgtk-3-0t64 libnss3 libasound2t64
+          sudo apt-get install --no-install-recommends -y xvfb xauth openbox x11-utils dbus-daemon libgbm1 libgtk-3-0t64 libnss3 libasound2t64
           node node_modules/electron/install.js
 
       - name: Run repository tests
@@ -77,8 +77,8 @@ jobs:
         shell: bash
         timeout-minutes: 3
         run: |
-          xvfb-run -a -s '-screen 0 1920x1080x24' pnpm exec electron --no-sandbox --disable-gpu \
-            scripts/smoke-mpc-workspace-electron.mjs --output .sites-runtime/electron-smoke
+          xvfb-run -a -s '-screen 0 2048x1280x24' dbus-run-session -- \
+            bash scripts/run-mpc-native-smoke-x11.sh .sites-runtime/electron-smoke
 
       - name: Upload native Electron smoke receipts
         if: always()

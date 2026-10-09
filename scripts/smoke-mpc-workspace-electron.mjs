@@ -7,7 +7,7 @@ import {appendFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileS
 import {tmpdir} from 'node:os';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {app, BrowserWindow, nativeImage} from 'electron';
+import {app, BrowserWindow, nativeImage, screen as nativeScreen} from 'electron';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outputFlag = process.argv.indexOf('--output');
@@ -78,7 +78,13 @@ function runtimeEvent(event, details = {}) {
 }
 async function diagnosticScreenshot(name) {
   if (main && !main.isDestroyed()) {
-    try { writeFileSync(join(OUTPUT, name), (await main.webContents.capturePage()).toPNG()); } catch {}
+    try {
+      // Wait for the changed view/dialog to reach the compositor. DOM bounds
+      // can be current while capturePage still holds the preceding frame.
+      await js('await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));');
+      await pause(50);
+      writeFileSync(join(OUTPUT, name), (await main.webContents.capturePage()).toPNG());
+    } catch {}
   }
 }
 async function finish(status, error) {
@@ -165,6 +171,7 @@ async function captureRun(input, name) {
 }
 async function layout(width, height) {
   phase(`LAYOUT: ${width}x${height} resize`);
+  main.setPosition(0, 0);
   main.setContentSize(width, height);
   main.show(); main.focus();
   await pause(200);
@@ -175,7 +182,8 @@ async function layout(width, height) {
     const view=document.querySelector('#workspace-main');
     return {width:innerWidth,height:innerHeight,document_width:document.documentElement.scrollWidth,
       content_client_width:view.clientWidth,content_scroll_width:view.scrollWidth,
-      output:bounds('.screen-output'),options:bounds('.screen-options'),start:bounds('#screen-start')};
+      output:bounds('.screen-output'),options:bounds('.screen-options'),start:bounds('#screen-start'),
+      consent:bounds('.screen-consent'),copy:bounds('#screen-copy'),hold:bounds('#screen-hold-text')};
   `);
   assert.equal(screen.width, width); assert.equal(screen.height, height);
   assert.ok(screen.document_width <= width + 1, 'Document horizontal overflow');
@@ -184,6 +192,9 @@ async function layout(width, height) {
     'Screen output overlaps its settings');
   assert.ok(screen.start.x >= 0 && screen.start.right <= width && screen.start.y >= 0 && screen.start.bottom <= height,
     'Start control must be visible without horizontal scrolling');
+  for (const control of ['consent','copy']) assert.ok(screen[control].x >= 0 && screen[control].right <= width &&
+    screen[control].y >= 0 && screen[control].bottom <= height, `${control} control must be visible in the initial screen view`);
+  assert.ok(screen.hold.width <= 24 && screen.hold.height <= 24, 'Hold-text checkbox must keep its intended compact size');
   await diagnosticScreenshot(`screen-${width}x${height}.png`);
   await js("document.querySelector('[data-view=connections]').click(); document.querySelector('[data-provider=GITHUB] button').click();");
   await waitFor('connection dialog', () => js("return document.querySelector('#connection-dialog').open;"));
@@ -267,6 +278,10 @@ try {
   await pause(300);
   phase('ENUMERATE_NATIVE_SOURCES');
   const sourceList = await js('return window.mpcWorkspace.screenSources();');
+  receipt.enumerated_sources = sourceList;
+  receipt.native_displays = nativeScreen.getAllDisplays().map(display => ({id:display.id,bounds:display.bounds,
+    workArea:display.workArea,scaleFactor:display.scaleFactor}));
+  breadcrumb('NATIVE_SOURCES_ENUMERATED', {source_count:sourceList.sources.length});
   const selectedWindow = sourceList.sources.find(source => source.kind === 'window' && source.name === 'MPC Synthetic Screen Fixture');
   const selected = selectedWindow ?? sourceList.sources.find(source => source.kind === 'screen');
   assert.ok(selected, 'No native fixture window or screen source was enumerated');
@@ -284,6 +299,7 @@ try {
   }
   assert.equal(unmasked.result.ocr.network, 'DISABLED');
   assert.equal(unmasked.result.context.projectId, 'NATIVE-SMOKE');
+  assert.equal(unmasked.result.classification?.status, 'CLASSIFIED', 'Native OCR did not reach the original MPC classifier');
   checks.push({check: 'NATIVE_PIXELS_REAL_LOCAL_OCR', width: unmasked.result.frame.width,
     height: unmasked.result.frame.height, word_count: unmasked.result.ocr.words.length, status: 'PASS'});
   breadcrumb('CHECK_PASSED', {check: 'NATIVE_PIXELS_REAL_LOCAL_OCR'});
@@ -333,6 +349,14 @@ try {
   assert.equal(remaining.length, 0, 'Capture or indicator window survived Stop');
   checks.push({check: 'UI_START_STOP_REVOKES_MEDIA_AND_NO_LATE_RESULT', status: 'PASS'});
   breadcrumb('CHECK_PASSED', {check: 'UI_START_STOP_REVOKES_MEDIA_AND_NO_LATE_RESULT'});
+  phase('LIVE_UI_CONSENT_REVOCATION');
+  await js("window.__mpcNativeSmoke.events=[];document.querySelector('#screen-consent').checked=true;document.querySelector('#screen-start').click();");
+  await waitFor('live pixels before consent revocation', () => js("return window.__mpcNativeSmoke.events.some(event=>event.type==='PREVIEW');"), 15_000);
+  await js("const consent=document.querySelector('#screen-consent');consent.checked=false;consent.dispatchEvent(new Event('change',{bubbles:true}));");
+  await waitFor('consent checkbox revokes actual capture', async () => (await js('return window.mpcWorkspace.screenStatus();')).state === 'STOPPED');
+  assert.equal(BrowserWindow.getAllWindows().filter(window => window !== main && window !== fixture && !window.isDestroyed()).length, 0);
+  checks.push({check: 'VISIBLE_CONSENT_CONTROL_REVOKES_MEDIA', status: 'PASS'});
+  breadcrumb('CHECK_PASSED', {check: 'VISIBLE_CONSENT_CONTROL_REVOKES_MEDIA'});
   fixture.hide();
   receipt.ui_console_errors = uiErrors;
   await finish('PASS');
