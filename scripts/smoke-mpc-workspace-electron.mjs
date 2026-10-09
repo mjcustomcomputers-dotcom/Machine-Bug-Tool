@@ -219,10 +219,17 @@ try {
   });
   phase('CREATE_ISOLATED_PROJECT');
   await js(`
-    const boot=await fetch('/api/workspace/bootstrap').then(response=>response.json());
-    const response=await fetch('/api/workspace/projects',{method:'POST',headers:{'Content-Type':'application/json','X-MPC-CSRF':boot.csrf_token},
+    const bootstrap=await fetch('/api/workspace/bootstrap',{credentials:'same-origin',redirect:'error'});
+    if(!bootstrap.ok)throw Error('SMOKE_PROJECT_BOOTSTRAP:'+bootstrap.status);
+    const boot=await bootstrap.json();
+    if(typeof boot.csrf_token!=='string'||!boot.csrf_token)throw Error('SMOKE_PROJECT_CSRF_MISSING');
+    const response=await fetch('/api/workspace/projects',{method:'POST',credentials:'same-origin',redirect:'error',
+      headers:{'Content-Type':'application/json; charset=utf-8',Accept:'application/json','X-MPC-CSRF':boot.csrf_token},
       body:JSON.stringify({operation:'CREATE',project_id:'NATIVE-SMOKE',display_name:'Synthetic native smoke',retention_policy:'METADATA_ONLY'})});
     if(!response.ok)throw Error('SMOKE_PROJECT_CREATE:'+response.status+':'+await response.text());
+    const created=await response.json();
+    if(response.status!==201||created.project?.project_id!=='NATIVE-SMOKE'||created.project?.retention_policy!=='METADATA_ONLY')
+      throw Error('SMOKE_PROJECT_CREATE_RESPONSE_INVALID');
   `);
   // Wait for a completed navigation before querying readiness so the old
   // document cannot satisfy the condition and discard the observer on reload.
@@ -236,7 +243,7 @@ try {
     main.webContents.once('did-finish-load', loaded);
     main.webContents.reload();
   });
-  await waitFor('reloaded project state', () => js("return typeof window.mpcWorkspace?.screenStart==='function' && !!document.querySelector('[data-provider=GITHUB]');"));
+  await waitFor('reloaded project state', () => js("return typeof window.mpcWorkspace?.screenStart==='function' && !!document.querySelector('[data-provider=GITHUB]') && document.querySelector('#project-picker')?.value==='Synthetic native smoke';"));
   // Install the test observation listener after reload; all operations still use
   // the unchanged native preload and trusted renderer authentication.
   await js(`window.__mpcNativeSmoke={events:[]};window.mpcWorkspace.onScreenEvent(event=>{
