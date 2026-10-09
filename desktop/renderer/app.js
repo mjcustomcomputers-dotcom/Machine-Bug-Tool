@@ -640,6 +640,7 @@ async function createProject(event) {
     const response = await request(API_PATHS.projects, {method: 'POST', body: {
       operation: 'CREATE', project_id: makeId('project'), display_name: displayName, objective, retention_policy: retention
     }});
+    await networkUi?.clear('Project changed. Network snapshots cleared.');
     state.project = response.project ?? response;
     state.projects = array(response.projects).length ? response.projects : [...state.projects, state.project];
     state.currentJob = null;
@@ -668,6 +669,7 @@ async function openProjectByPicker() {
   if (!project || project.project_id === currentProjectId()) return;
   try {
     const response = await request(entityApiPath('projects', project.project_id, 'open'), {method: 'POST', body: {project_id: project.project_id}});
+    await networkUi?.clear('Project changed. Network snapshots cleared.');
     state.project = response.project ?? project;
     state.currentJob = state.project?.resume_state?.job ?? response.resume_state?.job ?? response.current_job ?? null;
     state.reports = array(state.project?.reports ?? response.reports);
@@ -1598,6 +1600,7 @@ async function setConnectionEnabled(enabled, connection) {
 }
 
 let screenUi=null;
+let networkUi=null;
 let readConnection=null;
 let readResult=null;
 function useSelectedEvidence(text,projectId=currentProjectId()){
@@ -1924,6 +1927,7 @@ async function desktopAction(name) {
 
 async function initialize() {
   screenUi=initializeScreenReader({bridge:bridge(),getProjectId:currentProjectId,onUseEvidence:useSelectedEvidence,announce});
+  networkUi=initializeNetworkPanel({bridge:bridge(),getProjectId:currentProjectId,onUseEvidence:useSelectedEvidence,announce});
   $('connection-read-run').addEventListener('click',runConnectionRead);
   $('connection-read-close').addEventListener('click',()=>$('connection-read-dialog').close());
   $('connection-dialog').addEventListener('close',()=>{$('connection-token').value='';});
@@ -2061,3 +2065,4 @@ async function initialize() {
 
 if (hasDom) initialize().catch(recordError);
 import {initializeScreenReader} from './screen-reader.js';
+import {initializeNetworkPanel} from './network-reader.js';

@@ -622,3 +622,15 @@ body[data-chat-dock="floating"] .composer {
 .connection-read-card { width:min(900px,90vw); }
 @media (max-width:1050px) { .screen-layout { grid-template-columns:minmax(0,1fr); } .screen-options { grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); } }
 @media (max-width:600px) { .screen-toolbar .button-row { flex-wrap:wrap; } .screen-options { grid-template-columns:minmax(0,1fr); } }
+
+/* Native network table scrolls independently rather than enlarging the workspace. */
+.network-observation{min-width:0;max-width:100%;display:grid;gap:10px}
+.network-observation[hidden]{display:none}
+.network-observation .button-row{align-items:center;flex-wrap:wrap}
+.network-observation #network-summary,.network-observation #network-diff{overflow-wrap:anywhere}
+.network-observation #network-text{min-height:240px;max-height:480px;resize:vertical;font:0.78rem/1.35 Consolas,"Cascadia Code",monospace;white-space:pre}
+.network-table-scroll{overflow:auto;max-height:55vh;max-width:100%;border:1px solid var(--line);border-radius:8px}
+.network-table{border-collapse:collapse;min-width:740px;width:100%;font-size:0.78rem}
+.network-table th,.network-table td{padding:7px 9px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+.network-table th{position:sticky;top:0;background:var(--panel);z-index:1}
+.network-table tr:focus-within{outline:2px solid var(--focus);outline-offset:-2px}

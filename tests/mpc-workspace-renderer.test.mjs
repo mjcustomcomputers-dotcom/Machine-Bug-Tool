@@ -74,7 +74,7 @@ test('dynamic job routes reject traversal, URLs and unregistered actions', () =>
 });
 
 test('complete first-journey controls and all nine product areas remain visible', () => {
-  for (const label of ['Work', 'Search', 'Evidence', 'Methods', 'Tasks', 'Reports', 'Connections', 'Assistant', 'Settings']) {
+  for (const label of ['Work', 'Search', 'Evidence', 'Network', 'Methods', 'Tasks', 'Reports', 'Connections', 'Assistant', 'Settings']) {
     assert.match(html, new RegExp(`data-view="${label.toLowerCase()}"[^>]*>[\\s\\S]{0,80}${label}`, 'u'));
   }
   for (const id of [
@@ -82,7 +82,8 @@ test('complete first-journey controls and all nine product areas remain visible'
     'run-work', 'stop-work', 'resume-work', 'save-report', 'copy-answer', 'search-query', 'compare-snapshots', 'add-connection',
     'method-run-picker', 'method-run-input', 'run-method', 'method-run-status',
     'draft-script', 'script-content', 'script-output', 'ingest-script-output', 'export-task', 'import-task',
-    'portable-task-input', 'open-logs', 'restart-service', 'copy-error'
+    'portable-task-input', 'open-logs', 'restart-service', 'copy-error',
+    'network-refresh', 'network-clear', 'network-consent', 'network-rows', 'network-text', 'network-copy', 'network-save', 'network-use'
   ]) assert.match(html, new RegExp(`id="${id}"`, 'u'), id);
   assert.match(html, /Drop files into this project/u);
   assert.match(html, /Stored snapshot comparison/u);

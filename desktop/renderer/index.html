@@ -31,6 +31,7 @@
         <button class="nav-item" type="button" data-view="search" aria-controls="view-search"><span aria-hidden="true">⌕</span>Search</button>
         <button class="nav-item" type="button" data-view="evidence" aria-controls="view-evidence"><span aria-hidden="true">◫</span>Evidence</button>
         <button class="nav-item" type="button" data-view="screen" aria-controls="view-screen"><span aria-hidden="true">▣</span>Screen reader</button>
+        <button class="nav-item" type="button" data-view="network" aria-controls="view-network"><span aria-hidden="true">⌁</span>Network</button>
         <button class="nav-item" type="button" data-view="methods" aria-controls="view-methods"><span aria-hidden="true">⌘</span>Methods</button>
         <button class="nav-item" type="button" data-view="tasks" aria-controls="view-tasks"><span aria-hidden="true">✓</span>Tasks</button>
         <button class="nav-item" type="button" data-view="reports" aria-controls="view-reports"><span aria-hidden="true">▤</span>Reports</button>
@@ -272,6 +273,39 @@
               </section>
               <details class="panel settings-card"><summary>Performance</summary><dl id="screen-metrics" class="screen-metrics"></dl><button class="button compact" id="screen-save-metrics" type="button">Save timing / memory report</button><p>Process Explorer shows process CPU, memory and threads; OCR runs in the main MPC process. Capture and model processes have separate measurements. Process Monitor shows file activity. RAMMap helps explain system memory pressure.</p></details>
             </aside>
+          </div>
+        </section>
+
+        <section class="view" id="view-network" data-view-panel="network" aria-labelledby="network-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Native OS metadata · no packet capture</div><h1 id="network-title">Network observation</h1>
+            <p>Inspect this computer's reported processes, TCP connections and UDP ports. No targets are contacted; port metadata is separate from screen OCR.</p></div></div>
+          <div class="panel network-observation">
+            <div class="button-row">
+              <button class="button accent" id="network-refresh" type="button" disabled>Take snapshot</button>
+              <button class="button danger" id="network-clear" type="button">Stop &amp; clear</button>
+              <label class="toggle-label"><input type="checkbox" id="network-consent"> I allow MPC to inspect local network endpoint metadata for each snapshot.</label>
+            </div>
+            <p id="network-status" role="status" aria-live="polite">Network reading is off.</p>
+            <p id="network-summary">No native network snapshot collected.</p>
+            <p id="network-diff">No prior observation to compare.</p>
+            <div class="button-row">
+              <label>View<select id="network-kind"><option value="ALL">All TCP / UDP</option><option value="TCP">TCP</option><option value="UDP">UDP</option><option value="LISTEN">Listening TCP</option><option value="ESTABLISHED">Established TCP</option></select></label>
+              <label>Filter process / PID / port<input id="network-filter" type="search" autocomplete="off" placeholder="Process, address or port"></label>
+            </div>
+            <p id="network-visible">No endpoint rows.</p>
+            <div class="network-table-scroll" tabindex="0" aria-label="Scrollable local network connection list">
+              <table class="network-table"><thead><tr><th scope="col">Process</th><th scope="col">PID</th><th scope="col">Protocol</th><th scope="col">Local address</th><th scope="col">Remote address</th><th scope="col">State</th></tr></thead>
+                <tbody id="network-rows"></tbody></table>
+            </div>
+            <details><summary>Copyable JSON and source details</summary>
+              <div class="button-row"><button class="button" id="network-select" type="button" disabled>Select all</button>
+                <button class="button" id="network-copy" type="button" disabled>Copy JSON</button>
+                <button class="button" id="network-save" type="button" disabled>Save .json</button>
+                <button class="button accent" id="network-use" type="button" disabled>Use in chat</button></div>
+              <label class="sr-only" for="network-text">Native network snapshot JSON</label>
+              <textarea id="network-text" readonly spellcheck="false" placeholder="Take one permitted snapshot to view TCP/UDP metadata."></textarea>
+            </details>
+            <p class="honesty-note">Snapshots are manually requested, bounded, non-atomic and volatile until Copy, Save or Use in chat. Process names are best-effort PID associations. No target probing, DNS lookup, packet inspection, connection termination or firewall changes. Missing/truncated tables limit comparisons.</p>
           </div>
         </section>
 
