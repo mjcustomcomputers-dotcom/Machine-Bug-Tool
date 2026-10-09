@@ -365,11 +365,14 @@ try {
     window.__mpcNativeSmoke.events=[];
     document.querySelector('#screen-source').value=${JSON.stringify(selected.id)};
     document.querySelector('#screen-mode').value='live';document.querySelector('#screen-fps').value='1';
-    document.querySelector('#screen-duration').value='5';document.querySelector('#screen-consent').checked=true;
+    document.querySelector('#screen-duration').value='5';
+    const consent=document.querySelector('#screen-consent');consent.checked=true;
+    consent.dispatchEvent(new Event('change',{bubbles:true}));
     document.querySelector('#screen-preview-enabled').checked=true;
     document.querySelector('#screen-exclude-mpc').checked=true;
     const crop=${JSON.stringify(crop)};
     for(const [field,key] of [['x','x'],['y','y'],['w','width'],['h','height']]) document.querySelector('#screen-crop-'+field).value=String(crop[key]*100);
+    if(document.querySelector('#screen-start').disabled)throw Error('NATIVE_SMOKE_VALID_SOURCE_START_DISABLED');
     document.querySelector('#screen-start').click();
   `);
   await waitFor('live pixels before Stop', () => js("return window.__mpcNativeSmoke.events.some(event=>event.type==='PREVIEW');"), 15_000);
@@ -386,7 +389,7 @@ try {
   checks.push({check: 'UI_START_STOP_REVOKES_MEDIA_AND_NO_LATE_RESULT', status: 'PASS'});
   breadcrumb('CHECK_PASSED', {check: 'UI_START_STOP_REVOKES_MEDIA_AND_NO_LATE_RESULT'});
   phase('LIVE_UI_CONSENT_REVOCATION');
-  await js("window.__mpcNativeSmoke.events=[];document.querySelector('#screen-consent').checked=true;document.querySelector('#screen-start').click();");
+  await js("window.__mpcNativeSmoke.events=[];const consent=document.querySelector('#screen-consent');consent.checked=true;consent.dispatchEvent(new Event('change',{bubbles:true}));if(document.querySelector('#screen-start').disabled)throw Error('NATIVE_SMOKE_RESTART_DISABLED');document.querySelector('#screen-start').click();");
   await waitFor('live pixels before consent revocation', () => js("return window.__mpcNativeSmoke.events.some(event=>event.type==='PREVIEW');"), 15_000);
   await js("const consent=document.querySelector('#screen-consent');consent.checked=false;consent.dispatchEvent(new Event('change',{bubbles:true}));");
   await waitFor('consent checkbox revokes actual capture', async () => (await js('return window.mpcWorkspace.screenStatus();')).state === 'STOPPED');
