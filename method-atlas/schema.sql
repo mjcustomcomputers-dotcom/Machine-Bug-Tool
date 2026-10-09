@@ -109,3 +109,19 @@ CREATE TABLE IF NOT EXISTS atlas_variation_ledger (
 );
 CREATE INDEX IF NOT EXISTS atlas_variation_ledger_atom ON atlas_variation_ledger(subject_id,atom_id,variant_id);
 CREATE INDEX IF NOT EXISTS atlas_variation_ledger_method ON atlas_variation_ledger(method_id,direction,boundary);
+
+
+-- Optional V11 performance probes; never imply faster results without a benchmark.
+-- Reverse-link traversal uses related_method_id, so index its inverse direction.
+CREATE INDEX IF NOT EXISTS atlas_method_relation_reverse
+ON atlas_method_relations(related_method_id,relation_type,method_id);
+
+-- Only actionable consideration decisions; this partial index is NOT a proof gate.
+CREATE INDEX IF NOT EXISTS atlas_variation_actionable
+ON atlas_variation_ledger(method_id,subject_id,atom_id,recorded_at)
+WHERE decision='TRIGGERED_INPUT_REVIEW_REQUIRED';
+
+-- Cover dimension, scored trigger and method ID for source-only candidate discovery.
+-- SQLite may still choose a different plan; check EXPLAIN QUERY PLAN.
+CREATE INDEX IF NOT EXISTS atlas_trigger_strength_lookup
+ON atlas_triggers(dimension,trigger_strength,method_id);
