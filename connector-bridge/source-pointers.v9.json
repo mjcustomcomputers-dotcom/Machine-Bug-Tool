@@ -60,6 +60,18 @@
       "writes": "EXPLICIT_PRIVATE_CHECKPOINT_ONLY"
     },
     {
+      "id": "airtable",
+      "surface": "AIRTABLE",
+      "mode": "STRUCTURED_NATIVE_CONTROLLER_AND_NAVIGATION",
+      "verified": "READ",
+      "source_owner": "Airtable",
+      "root": "appdD5WC0CVuRirtP",
+      "pointer_type": "base_table_record",
+      "pointer": "appdD5WC0CVuRirtP/tblC9KnJuUvwxbikS/rech8Afm8n1P1qgMD",
+      "role": "current KOMOJU controller; separate Social Deal navigation base appZPanYDOUZRinwr",
+      "writes": "NO_NATIVE_CURSOR_MUTATION_BY_POINTER_RECEIPT"
+    },
+    {
       "id": "dropbox-dash",
       "surface": "DROPBOX_DASH",
       "mode": "FEDERATED_SEARCH_ONLY",
@@ -109,5 +121,20 @@
     "external connector calls require tool exposure and caller permission per session",
     "never include credentials, tokens, raw sensitive bounty evidence or payout data in GitHub",
     "all requested testing governed by current exact bounty program rule card"
-  ]
+  ],
+  "reconciled_on": "2026-10-09",
+  "reconciliation_receipt": {
+    "path": "connector-bridge/frontier-reconciliation-2026-10-09.json",
+    "status": "DURABLE_DEV_ONLY_RECONCILIATION_NOT_LIVE_CONTROLLER_MUTATION",
+    "observed_frontiers": {
+      "SOCIAL_DEAL": "PASS102",
+      "KOMOJU": "DELTA-044"
+    },
+    "older_machine_snapshot_drive_id": "1clWKJlSNj8bRQ2aoEu91iKXBTcpQkMJU",
+    "older_snapshot_frontiers": {
+      "SOCIAL_DEAL": "PASS101",
+      "KOMOJU": "PASS-002"
+    },
+    "current_state_must_be_retrieved_at_each_use": true
+  }
 }
