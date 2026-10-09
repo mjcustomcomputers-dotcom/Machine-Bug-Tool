@@ -13,16 +13,19 @@ project.
 | Review branch | `feature/mpc-workspace-build-20261009` |
 | Draft pull request | `#18` |
 | Reconciled component checkpoint | `695c7de478566d251aabfd2e8aa9e470309c1f4f` |
+| Saved PR update reconciled | `771c4db9b306a6f536d5c72d3a4eeaf80074655f` |
+| Reconciliation merge | `77e95fa411194ec3d624c1cb58163a470941b73e` |
 | Component lineage | `docs/validation/MPC-WORKSPACE-COMPONENT-MANIFEST.json` |
-| Final source commit | **Pending final integration commit** |
-| Final test/build receipt | **Pending final acceptance** |
-| Windows portable archive and checksum | Packaging contract names `MPC-Workspace-0.1.0-windows-x64-portable.zip` for Windows 10 x64 or later; actual produced artifact/checksum **pending final packaging receipt** |
+| Executable/package source commit | `1cb5aa5b2247856ee243ea3ac0e9dbae403676b2` (tree `00f9d0646e5b20206050bb802f6a243f0914d7b4`) |
+| Final test/build receipt | `docs/validation/MPC-WORKSPACE-FINAL-ACCEPTANCE.json`; complete external receipt SHA-256 `9bdd7c7e5588bd0f225ce47fc0507d9b280da420a6e62d48c5a3345f94cb2d71` |
+| Windows portable archive and checksum | `MPC-Workspace-0.1.0-windows-x64-portable.zip`, 157,787,480 bytes, SHA-256 `271cc97640f25a03f9c5fda83b902ec2d901c2a929c469a6e1d60bd5da810b4d`, Windows 10 x64 or later |
 | Windows launcher contract | `MPC-Workspace.exe` is primary; `MPC-Workspace.cmd` starts it, retains a nonzero exit, prints `%APPDATA%\MPC Workspace\logs`, and pauses on failure |
 | Native Windows execution | **Pending on a Windows host** |
 
-The pending rows are deliberate. A Linux build, source test, generated archive
-or configured provider name is not a Windows execution or protected-service
-receipt.
+The pending native-host row is deliberate. The Linux build, source tests and
+generated archive establish source and package identity, not Windows execution
+or protected-service access. Likewise, a configured provider name is not a
+protected-operation receipt.
 
 ## The first complete journey
 
@@ -198,10 +201,10 @@ renderer-to-shell bridge.
 
 ## Receive and launch the Windows portable build
 
-The final release receipt must provide the archive name, SHA-256, source commit
-and minimum supported Windows version. Until those exact values
-replace the pending fields in this document, the package is not a receivable
-release.
+The release receipt above provides the archive name, SHA-256, source commit and
+minimum supported Windows version. This makes the archive receivable and
+verifiable. It remains an unsigned portable build whose native Windows journey
+must be observed on the receiving Windows host.
 
 On the Windows computer, receiving is intentionally manual and does not require
 a PowerShell policy change:
@@ -249,13 +252,13 @@ pending.
 
 | Level | Required evidence | Checkpoint status |
 | --- | --- | --- |
-| 0 — source lineage | Exact component source commits, integration commits, patch equivalence/conflict resolution, preserved controller/registry/Sites identities | **Recorded** in the component manifest at pre-implementation head `695c7de...`; final source commit pending |
-| 1 — deterministic contracts | Focused control/comparison/SQL/ingest/store/orchestration tests with exact commands and counts | **Pending final acceptance receipt** |
-| 2 — cross-platform vertical slice | Actual create/open project, retained input, local routing/finite analysis, search, report save/reopen and checkpoint resume against the new database | **Pending final acceptance receipt** |
-| 3 — repository gates | Full `node --test` and `npm run build` at the same final source commit | **Pending final acceptance receipt** |
-| 4 — packaged artifact | Reproducible Windows installer or portable archive, checksum, packaged runtime, retained diagnostic launcher and rollback/data-preservation behavior | **Pending final packaging receipt** |
+| 0 — source lineage | Exact component source commits, integration commits, patch equivalence/conflict resolution, preserved controller/registry/Sites identities | **Recorded** through executable source `1cb5aa5...`; component, controller, registry and Sites identities preserved |
+| 1 — deterministic contracts | Focused control/comparison/SQL/ingest/store/orchestration tests with exact commands and counts | **Passed**: final focused integrity suite 45/45; full receipt records the larger gate |
+| 2 — cross-platform vertical slice | Actual create/open project, retained input, local routing/finite analysis, search, report save/reopen and checkpoint resume against the new database | **Passed for the local source/MPC/report/restart path**; actual Ollama answer pending local provider setup |
+| 3 — repository gates | Full `node --test` and `npm run build` at the same final source commit | **Passed** at `1cb5aa5...`: 893/893 tests; production build passed; lint 0 errors with 15 pre-existing warnings |
+| 4 — packaged artifact | Reproducible Windows installer or portable archive, checksum, packaged runtime, retained diagnostic launcher and rollback/data-preservation behavior | **Passed for archive structure and identity**: portable ZIP produced, checksummed and `unzip -t` verified; native launch remains Level 5 |
 | 5 — native Windows journey | A retained real window plus clipboard, folder, keyboard/zoom/reduced-motion, cancellation/restart, local model and install/update checks on Windows | **Pending Windows execution** |
-| 6 — protected destinations | Actual GitHub read, local MPC computation and only the configured cloud/model/OAuth/read/write operations, each with native protected-operation receipts | **Pending per destination; absence is reported separately** |
+| 6 — protected destinations | Actual GitHub read, local MPC computation and only the configured cloud/model/OAuth/read/write operations, each with native protected-operation receipts | **Local MPC calculation passed**; GitHub, Drive, Daybreak/API and task-runtime MPC connector receipts remain unavailable/pending and are reported separately |
 
 Synthetic data can pass Levels 1–3 without establishing Levels 5–6. A generated
 ZIP can satisfy part of Level 4 but does not establish that it launched on

@@ -1,20 +1,24 @@
 {
   "kind": "MPC_WORKSPACE_COMPONENT_RECONCILIATION",
-  "schema_version": 1,
+  "schema_version": 2,
   "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
   "branch": "feature/mpc-workspace-build-20261009",
   "draft_pr": 18,
   "observed_at_utc": "2026-10-09T16:48:00Z",
   "observation": {
     "reporting_head_before_workspace_implementation": "695c7de478566d251aabfd2e8aa9e470309c1f4f",
-    "remote_pr_head_before_workspace_implementation": "e89a059761ae6cea8e08e61a1cfb0bc30b093a86",
-    "final_source_commit": null,
-    "final_source_commit_status": "PENDING_FINAL_INTEGRATION_COMMIT",
-    "final_tests_build_and_package_receipt": null,
-    "final_tests_build_and_package_status": "PENDING_FINAL_ACCEPTANCE"
+    "saved_remote_update": "771c4db9b306a6f536d5c72d3a4eeaf80074655f",
+    "reconciliation_merge": "77e95fa411194ec3d624c1cb58163a470941b73e",
+    "final_source_commit": "1cb5aa5b2247856ee243ea3ac0e9dbae403676b2",
+    "final_source_tree": "00f9d0646e5b20206050bb802f6a243f0914d7b4",
+    "final_source_commit_status": "COMPLETE_CLEAN_EXECUTABLE_SOURCE",
+    "final_tests_build_and_package_receipt": "docs/validation/MPC-WORKSPACE-FINAL-ACCEPTANCE.json",
+    "complete_external_receipt_sha256": "9bdd7c7e5588bd0f225ce47fc0507d9b280da420a6e62d48c5a3345f94cb2d71",
+    "final_tests_build_and_package_status": "SOURCE_GATES_AND_PORTABLE_ARCHIVE_PASS_NATIVE_WINDOWS_PENDING"
   },
   "contract": {
     "commit": "e89a059761ae6cea8e08e61a1cfb0bc30b093a86",
+    "updated_contract_commit": "771c4db9b306a6f536d5c72d3a4eeaf80074655f",
     "path": "command-center-build/CODEX-BUILD.txt",
     "parent": "0f8bc5eec399f729d03e262ee9a90b18c1a825f4",
     "disposition": "INHERITED_ANCESTOR"
@@ -216,8 +220,9 @@
   },
   "claims_not_made": [
     "The source component heads are ancestors when they are only patch-equivalent transplants.",
-    "A final integration commit exists before it is recorded above.",
-    "Final repository tests, build, Windows package or Windows-native acceptance have passed.",
+    "The Linux-built portable archive has completed native Windows acceptance or code signing.",
+    "The unavailable local Ollama provider returned an answer.",
+    "GitHub, Drive, Daybreak Blue or task-runtime MPC connector access succeeded without a native protected-operation receipt.",
     "A configured provider is authenticated or supports an operation without an actual protected-operation receipt.",
     "The MPC Workspace database replaces or migrates the legacy Workbench database or completed controller.",
     "This source integration deployed or changed the native Sites project."
