@@ -1,5 +1,11 @@
 # MPC V13 — operative controllers in regular chat
 
+For Codex continuation, start with [the current resume guide](CODEX-V13-CURRENT-RESUME.md)
+and [resume manifest](../connector-bridge/codex-resume-v13.json). Read this guide
+and the latest receipts at the current reporting branch head; execute the saved
+controller code at its recorded tested source commit. The two revisions have
+different roles and must be recorded separately.
+
 The existing MPC connection can be used from an ordinary ChatGPT conversation.
 This addition makes the V13 workflow **advance through explicit actions and
 receipts**: native source checks, method selection, a supported native model,
@@ -31,7 +37,8 @@ Read AGENTS.md and connector-bridge/operative-controllers-v13.json at the
 current branch head. Read docs/validation/MPC-V13-VALIDATION.json and
 docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json when present. Resolve the
 exact tested code commit separately from later receipt-only commits.
-Read docs/CHATGPT-MPC-OPERATIVE-CONTROLLERS-V13.md at that tested source.
+Read docs/CHATGPT-MPC-OPERATIVE-CONTROLLERS-V13.md at the current reporting
+branch head. Execute the controller code at the recorded tested source.
 
 If the manifest names latest_controller_state, fetch that exact saved state
 through GitHub and verify its native file/version and returned content.

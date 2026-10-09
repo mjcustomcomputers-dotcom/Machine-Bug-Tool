@@ -1,5 +1,13 @@
 # MPC V13 — Noah's Ark Seven-Layer Reasoning and Workbook/Notebook Handoff
 
+> **Current continuation:** V13 validation and the operative development
+> checkpoint are complete. Read [the current Codex resume guide](CODEX-V13-CURRENT-RESUME.md),
+> [resume manifest](../connector-bridge/codex-resume-v13.json), and
+> [completed validation](validation/MPC-V13-VALIDATION.json) at the current
+> development branch head. The pending-test statements, fixed-cache example,
+> and initial PASS below describe the original handoff. Preserve them as
+> history; use the current guide to resume the saved state without a new `init`.
+
 **Scope:** Add a bounded reasoning layer to the existing MPC Method Atlas, with one separate Drive workbook and one offline GitHub notebook. Preserve existing Machine Legal / BugTools architecture, user-owned native controller, MAXVAR/NESTMAX/BL/MBSS/EXT names and IDs, exactly separate 24 implemented MPC evaluators, 10 original method hooks, 239 additive MHA/MHC candidate entries, and all existing source/checkpoint rules. **Do not automatically deploy, merge, or test bounty targets.**
 
 ## 1. Grounded delta and discovered source defect

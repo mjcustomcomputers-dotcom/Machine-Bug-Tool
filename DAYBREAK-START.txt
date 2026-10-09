@@ -1,6 +1,16 @@
 DAYBREAK — MACHINE BUG TOOL
 Prepared 2026-10-09 UTC for Melvin Jackson / mjcustomcomputers-dotcom.
 
+CURRENT V13 CONTINUATION
+Read docs/CODEX-V13-CURRENT-RESUME.md and
+connector-bridge/codex-resume-v13.json from the latest
+feature/noahs-ark-reasoning-osi-v13 branch before the historical setup below.
+V13 tests, build, notebook execution and the operative development checkpoint
+are complete. Preserve the prepared install_script, start_skill and writable
+Wrangler override. Follow the current resume guide for exact source selection
+and destination connection checks; do not restart the original repair package
+or repeat installation to update the source instructions.
+
 REPOSITORY
 https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool
 

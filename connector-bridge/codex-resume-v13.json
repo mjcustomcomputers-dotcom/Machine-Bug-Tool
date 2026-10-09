@@ -1,0 +1,63 @@
+{
+  "version": "MPC_CODEX_CURRENT_RESUME_V13_1",
+  "status": "RESUME_COMPLETED_DEVELOPMENT_STATE",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "development_branch": "feature/noahs-ark-reasoning-osi-v13",
+  "review": {"pull_request": 11, "parent_pull_request": 10, "merge_authorized": false},
+  "read_instructions_at": "ACTUAL_CURRENT_DEVELOPMENT_BRANCH_HEAD",
+  "reviewed_reporting_head_before_this_update": "54e8d055aa6d71e1c91f33a7af9f282333890358",
+  "tested_execution_commit": "4ffde83e587db829b9cd2124c0a8587e868402d6",
+  "tested_execution_tree": "70df12ffe9b45a697e3d7b441fb2120b53d5812c",
+  "checkpoint_readback_commit": "047b2adcd2172374d25878998eebb3b089b6488d",
+  "source_identity_rule": "Resolve current reporting head R; read latest guides and receipts at R. Require saved config.source_revision.commit to match validation.tested_commit S; execute the controller at exact S in a preserved or isolated checkout.",
+  "paths": {
+    "resume_guide": "docs/CODEX-V13-CURRENT-RESUME.md",
+    "operative_guide": "docs/CHATGPT-MPC-OPERATIVE-CONTROLLERS-V13.md",
+    "validation": "docs/validation/MPC-V13-VALIDATION.json",
+    "completed_state": "docs/validation/MPC-V13-OPERATIVE-STATE.json",
+    "checkpoint": "docs/validation/MPC-V13-OPERATIVE-CHECKPOINT.json",
+    "evidence_index": "docs/validation/v13-evidence-index.json",
+    "connection_observation": "docs/validation/MPC-V13-CODEX-CONNECTION-STATUS.json",
+    "bound_operative_manifest": "connector-bridge/operative-controllers-v13.json",
+    "native_source_locators": "connector-bridge/source-pointers.v9.json",
+    "workbook_pointer": "connector-bridge/reasoning-artifacts-v13.json"
+  },
+  "preserved_state": {
+    "native_read_version": "54e8d055aa6d71e1c91f33a7af9f282333890358",
+    "git_blob": "fa80abb6b7336457cdf28e31890280a14e6c5deb",
+    "exact_file_sha256": "d8ccd726902541cec0e468a0c3354781b7dadeecec1cc66754c20a13ba3d4508",
+    "controller_integrity_sha256": "a00a3e031ba1156471b33f00a5cb95e499a596caf1eee780c9c10f447f2362ae",
+    "status": "COMPLETE",
+    "revision": 1,
+    "event_sequence": 6,
+    "completed_model_obligations": 4,
+    "distinct_native_evaluation_calls": 3,
+    "explicit_reused_control_receipts": 1,
+    "retained_action_receipts": 6,
+    "restore_rule": "Copy exact retrieved state bytes to an unused ignored checkout-local path; do not init, prepare-fixture, overwrite an occupied path or hand-edit the saved source revision."
+  },
+  "environment": {
+    "node": "24.19.0",
+    "pnpm": "11.25.0",
+    "install_script": "PRESERVE_EXISTING",
+    "start_skill": "PRESERVE_EXISTING",
+    "recorded_cloud_wrangler_override": "XDG_CONFIG_HOME=/workspace/Machine-Bug-Tool/.sites-runtime/config",
+    "other_checkout_runtime_rule": "Use that checkout's own .sites-runtime/config and preserve old caches/history.",
+    "reinstall_for_handoff_update": false,
+    "republish_performed": false
+  },
+  "destination_status_rule": "Observe GitHub, source execution, hosted MPC tool exposure, protected authentication, native Drive, Dash, Dropbox and Daybreak independently in the destination. A ChatGPT receipt is not a Codex task capability receipt.",
+  "unchanged_state_rule": "Read-only verify/status/next may inspect historical COMPLETE state. A connection-only observation does not reopen completed model work. Deliberate continuation uses actual refreshed receipts and reconcile, preserving explicit prior-result reuse.",
+  "native_binding_rule": "This file is navigation, not the canonical native controller or a replacement for the exact source/version bound in saved state.",
+  "boundaries": {
+    "browser_control": false,
+    "credential_changes": false,
+    "hosted_site_deployment": false,
+    "canonical_drive_overwrite": false,
+    "external_target_tests": false,
+    "bounty_submission": false,
+    "synthetic_security_findings": false,
+    "catalog_expansion": false
+  },
+  "next_action": "Have the existing Codex task read this manifest and latest guide, restore the exact completed state at tested S, verify its actual destination capabilities, and report the new observation without repeating the completed V13 validation or models."
+}

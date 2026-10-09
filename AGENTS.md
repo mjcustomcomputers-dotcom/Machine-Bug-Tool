@@ -1,5 +1,17 @@
 # MPC Machine Legal BugTools — Daybreak development
 
+## Current Codex resume entry point
+
+For the current V13 continuation, read `docs/CODEX-V13-CURRENT-RESUME.md` and
+`connector-bridge/codex-resume-v13.json` at the latest development branch head
+before following an older setup or validation handoff. The V13 validation and
+operative development controller are complete. Read current instructions and
+receipts at the reporting head, but execute the saved controller at the exact
+tested source commit recorded in its state. Preserve completed calculations,
+the existing prepared environment and all native controllers. Check each
+destination's actual connector capabilities separately; historical connection
+receipts do not establish a new task's access.
+
 Read `DAYBREAK-START.txt`, `docs/environment-setup.txt`, and
 `docs/atomic-execution.md` before substantive changes. This repository contains
 the existing MPC source. Preserve its architecture, project identity,
