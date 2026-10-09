@@ -11,6 +11,8 @@ import {traceMethodHooks} from '../lib/method-hook-cascade.mjs';
 import {diagnoseMethod} from '../lib/method-diagnostic.mjs';
 import {compileAtlasTaxonomy,queryMethodTaxonomy} from '../lib/method-reclassification.mjs';
 import {planAtomicVariations} from '../lib/atomic-variation-router.mjs';
+import {inspectAtlasSQLite,traceInverseMethodEdges} from '../lib/sqlite-method-strategy.mjs';
+import {reviewNativeMirrors,auditNativeDimensionClaims} from '../lib/native-mirror-dimension-audit.mjs';
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const schema=readFileSync(resolve(ROOT,'method-atlas/schema.sql'),'utf8');
 const baseCatalog=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/candidates.json'),'utf8'));
@@ -92,12 +94,12 @@ export function dbAdapter(db){
 const calledAsMain=process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url);
 if(calledAsMain){
  const command=process.argv[2]??'status';
- if(!['init','status','query','detect','cascade','diagnose','classify','variation'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE_CLASSIFY_VARIATION');
+ if(!['init','status','query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT_CASCADE_DIAGNOSE_CLASSIFY_VARIATION');
  mkdirSync(dirname(DB_PATH),{recursive:true});
  const db=new DatabaseSync(DB_PATH);
  try{
   const stats=loadMethodAtlas(db);
-  if(['query','detect','cascade','diagnose','classify','variation'].includes(command)){
+  if(['query','detect','cascade','diagnose','classify','variation','sql-audit','reverse-links','mirrors','dimension-audit'].includes(command)){
    if(!process.argv[3])throw Error('QUERY_JSON_REQUIRED');
    const query=JSON.parse(process.argv[3]);
    let result;
@@ -120,7 +122,11 @@ if(calledAsMain){
        }catch(error){db.exec('ROLLBACK');throw error}
      }
      result={...result,ledger_rows:undefined,ledger_saved_to_derived_local_cache:true,stored_record_count:db.prepare('SELECT COUNT(*) AS n FROM atlas_variation_ledger').get().n};
-   }else result=command==='detect'?await detectMethodAtoms(dbAdapter(db),query):command==='cascade'?await traceMethodHooks(dbAdapter(db),query):command==='diagnose'?diagnoseMethod(query):command==='classify'?await queryMethodTaxonomy(dbAdapter(db),query):await routeMethodAtlas(dbAdapter(db),query);
+   }else result=command==='sql-audit'?inspectAtlasSQLite(db,query):
+     command==='reverse-links'?traceInverseMethodEdges(db,query):
+     command==='mirrors'?reviewNativeMirrors(query):
+     command==='dimension-audit'?auditNativeDimensionClaims(query):
+     command==='detect'?await detectMethodAtoms(dbAdapter(db),query):command==='cascade'?await traceMethodHooks(dbAdapter(db),query):command==='diagnose'?diagnoseMethod(query):command==='classify'?await queryMethodTaxonomy(dbAdapter(db),query):await routeMethodAtlas(dbAdapter(db),query);
    process.stdout.write(JSON.stringify(result,null,2)+'\n');
   }else process.stdout.write(JSON.stringify({...stats,sqlite_path:DB_PATH},null,2)+'\n');
  }finally{db.close()}
