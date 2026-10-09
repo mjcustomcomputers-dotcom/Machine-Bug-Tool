@@ -2,19 +2,34 @@
 
 The bundle is a static, local Method Atlas product. It includes the complete
 pair scan, formula-safe CSV projections, a queryable derived SQLite database,
-source capsules, checksums, and a PowerShell interface. The built-in scan and
+source capsules, checksums, a self-contained browser GUI, and a PowerShell interface. The built-in scan and
 refresh paths contain no network or connector calls. The export capability
 schema has no credential or raw-response fields; supplied values must still be
 sanitized before export. Optional external
 Sysinternals diagnostics retain their own separate receipt and network boundary.
 
-From PowerShell, verify and inspect the extracted bundle:
+For the targeted-query screen, double-click either file; neither route invokes
+PowerShell, needs Node.js, starts a server, or makes a network request:
+
+```text
+MPC-Method-Self-Scan.cmd
+MPC-Method-Lab.html
+```
+
+The GUI searches method IDs, names, mechanisms, required evidence, source
+metadata and taxonomy; filters by family and dimension; and performs exact
+two-method comparisons across every one of the 28,680 registered matrix rows.
+It can copy or export a selected method/pair as JSON. Static overlap remains a
+review signal—not proof of independence, equivalence or corroboration.
+
+From PowerShell, verify and inspect the extracted bundle or open the GUI:
 
 ```powershell
 .\Run-Method-Self-Scan.ps1 -VerifyOnly
 .\Run-Method-Self-Scan.ps1
 .\Run-Method-Self-Scan.ps1 -MethodId MHA-0195
 .\Run-Method-Self-Scan.ps1 -MethodId MHA-0119 -RelatedMethodId MHA-0138
+.\Run-Method-Self-Scan.ps1 -OpenGui
 ```
 
 To install a copy under the current user's Desktop and create a Desktop
@@ -24,9 +39,11 @@ launcher, run:
 powershell.exe -NoProfile -File .\Install-Method-Self-Scan.ps1
 ```
 
-The installer refuses to overwrite an existing directory or launcher.
-It creates both a PowerShell launcher and a double-clickable `.cmd` wrapper on
-the Desktop, while copying only manifest-listed bundle files.
+The installer refuses to overwrite an existing directory or launcher. It
+creates both an optional PowerShell command-line launcher and a double-clickable
+`.cmd` GUI launcher on the Desktop, while copying only manifest-listed bundle
+files. The `.cmd` opens the HTML app in the default browser and therefore is not
+subject to PowerShell execution policy.
 
 The prebuilt JSON, CSV, Markdown, and SQLite files need no runtime. Refreshing
 the static scan requires a Node release with flag-free `node:sqlite` (22.13+,

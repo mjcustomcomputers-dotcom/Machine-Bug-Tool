@@ -47,7 +47,9 @@ Copy-Item -LiteralPath $manifestPath -Destination (Join-Path $Destination 'manif
 if (-not $NoDesktopLauncher) {
     $target = (Join-Path $Destination 'Run-Method-Self-Scan.ps1').Replace("'", "''")
     Set-Content -LiteralPath $psLauncher -Value "& '$target' @args`r`n" -Encoding UTF8 -NoNewline
-    Set-Content -LiteralPath $cmdLauncher -Value "@echo off`r`npowershell.exe -NoProfile -File `"%~dp0MPC-Method-Self-Scan.ps1`" %*`r`n" -Encoding ASCII -NoNewline
+    $guiTarget = (Join-Path $Destination 'MPC-Method-Lab.html').Replace('%', '%%')
+    $cmdText = "@echo off`r`nsetlocal EnableExtensions DisableDelayedExpansion`r`nset `"MPC_APP=$guiTarget`"`r`nif not exist `"%MPC_APP%`" (`r`n echo ERROR: MPC-Method-Lab.html is missing.`r`n echo Press any key to close this window . . .`r`n pause ^>nul`r`n exit /b 1`r`n)`r`nstart `"`" `"%MPC_APP%`"`r`nif errorlevel 1 (`r`n echo ERROR: The default browser could not open MPC Method Lab.`r`n echo Press any key to close this window . . .`r`n pause ^>nul`r`n exit /b 1`r`n)`r`nendlocal`r`n"
+    Set-Content -LiteralPath $cmdLauncher -Value $cmdText -Encoding ASCII -NoNewline
 }
 
 & (Join-Path $Destination 'Run-Method-Self-Scan.ps1') -VerifyOnly
