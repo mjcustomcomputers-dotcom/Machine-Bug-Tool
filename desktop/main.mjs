@@ -30,6 +30,7 @@ const IPC=Object.freeze({
   copyText:'mpc-workspace:copy-text',
   openLogs:'mpc-workspace:open-logs',
   restartService:'mpc-workspace:restart-service',
+  setInterfaceZoom:'mpc-workspace:set-interface-zoom',
 });
 
 let mainWindow=null;
@@ -124,9 +125,10 @@ function runtimeStatus(){
     source_commit:build.source_commit,
     source_dirty:build.source_dirty,
     packaged_target:build.target,
+    zoom_factor:mainWindow&&!mainWindow.isDestroyed()?mainWindow.webContents.getZoomFactor():1,
     runtime:Object.freeze({electron:process.versions.electron,node:process.versions.node,chrome:process.versions.chrome}),
     service:Object.freeze({status:serviceState.status,url:workspaceService?.url??null,last_error_code:serviceState.last_error_code}),
-    capabilities:Object.freeze({clipboard:true,files:true,folders:true,logs:true,restart:true}),
+    capabilities:Object.freeze({clipboard:true,files:true,folders:true,logs:true,restart:true,interface_zoom:true}),
   });
 }
 
@@ -247,6 +249,14 @@ function installIpcHandlers(){
     return error?{status:'ERROR',error:cleanText(error,400)}:{status:'OPENED'};
   });
   ipcMain.handle(IPC.restartService,async event=>{assertTrustedSender(event);return restartWorkspace()});
+  ipcMain.handle(IPC.setInterfaceZoom,(event,value)=>{
+    assertTrustedSender(event);
+    if(typeof value!=='number'||!Number.isFinite(value)||value<0.5||value>2){
+      throw Object.assign(new TypeError('MPC_WORKSPACE_INTERFACE_ZOOM_INVALID'),{code:'MPC_WORKSPACE_INTERFACE_ZOOM_INVALID'});
+    }
+    mainWindow.webContents.setZoomFactor(value);
+    return {status:'APPLIED',zoom_factor:mainWindow.webContents.getZoomFactor()};
+  });
 }
 
 function installApplicationMenu(){

@@ -12,6 +12,7 @@ const IPC=Object.freeze({
   copyText:'mpc-workspace:copy-text',
   openLogs:'mpc-workspace:open-logs',
   restartService:'mpc-workspace:restart-service',
+  setInterfaceZoom:'mpc-workspace:set-interface-zoom',
 });
 
 const MAX_COPY_CHARACTERS=4*1024*1024;
@@ -27,4 +28,8 @@ contextBridge.exposeInMainWorld('mpcWorkspace',Object.freeze({
   },
   openLogs:()=>ipcRenderer.invoke(IPC.openLogs),
   restartService:()=>ipcRenderer.invoke(IPC.restartService),
+  setInterfaceZoom:value=>{
+    if(typeof value!=='number'||!Number.isFinite(value)||value<0.5||value>2)return Promise.reject(new TypeError('MPC_WORKSPACE_INTERFACE_ZOOM_INVALID'));
+    return ipcRenderer.invoke(IPC.setInterfaceZoom,value);
+  },
 }));

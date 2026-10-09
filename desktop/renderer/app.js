@@ -24,7 +24,7 @@
  *
  * The optional `window.mpcWorkspace` bridge is deliberately narrow:
  * getRuntimeStatus, chooseFiles, chooseFolder, readClipboardText, copyText,
- * openLogs, and restartService. It exposes no generic invoke, filesystem,
+ * openLogs, restartService, and bounded setInterfaceZoom. It exposes no generic invoke, filesystem,
  * command, shell, URL-fetch, credential, or provider proxy operation.
  * Imported and model-produced material is always rendered with textContent.
  */
@@ -41,7 +41,12 @@ export const API_PATHS = Object.freeze({
   connectionTest: '/api/workspace/connections/test',
   scripts: '/api/workspace/scripts',
   transferExport: '/api/workspace/transfers/export',
-  transferImport: '/api/workspace/transfers/import'
+  transferImport: '/api/workspace/transfers/import',
+  localModelStatus: '/api/workspace/local-model/status',
+  localModelStart: '/api/workspace/local-model/start',
+  localModelPull: '/api/workspace/local-model/pull',
+  localModelCreate: '/api/workspace/local-model/create',
+  localModelCancel: '/api/workspace/local-model/cancel'
 });
 
 export const RENDERER_CONTRACT_VERSION = 'MPC_WORKSPACE_RENDERER_1';
@@ -97,6 +102,52 @@ export function providerAvailabilityLabel(profile) {
   if (['UNAVAILABLE', 'NOT_CONFIGURED', 'ERROR', 'PROVIDER_UNAVAILABLE'].includes(status)) return 'unavailable';
   if (status === 'CONFIGURED_ONLY') return 'configured, unobserved';
   return 'not yet observed';
+}
+
+export const INTERFACE_ZOOMS = Object.freeze([0.5, 0.6, 0.75, 0.85, 0.9, 1, 1.1, 1.25, 1.5, 2]);
+
+export function nextInterfaceZoom(current, direction) {
+  const value = Number(current);
+  const safe = Number.isFinite(value) ? value : 1;
+  if (direction > 0) return INTERFACE_ZOOMS.find(step => step > safe + 0.001) ?? 2;
+  if (direction < 0) return [...INTERFACE_ZOOMS].reverse().find(step => step < safe - 0.001) ?? 0.5;
+  return Math.min(2, Math.max(0.5, safe));
+}
+
+/** Visibility changes retain the same input and attachment nodes. */
+export function renderComposerVisibility({composer, toggle, view = 'work', collapsed = false, dock = 'bottom'}) {
+  const visible = !collapsed && (view === 'work' || ['right', 'floating'].includes(dock));
+  composer.hidden = !visible;
+  toggle.textContent = visible ? 'Hide chat' : 'Show chat';
+  toggle.setAttribute('aria-expanded', String(visible));
+  return visible;
+}
+
+export function connectionInputGuidance(provider) {
+  if (provider === 'OLLAMA') return {
+    name: 'Local Ollama', transport: 'loopback_http', endpoint: 'http://127.0.0.1:11434',
+    credential: false, localSetup: true,
+    help: 'Use Local AI setup to start Ollama, download a model, and select it for chat. This configuration form only saves connection details.',
+    endpointHelp: 'Ollama on this computer uses http://127.0.0.1:11434. Leave the credential reference blank.'
+  };
+  const name = CONNECTION_SERVICES.find(([id]) => id === provider)?.[1] ?? 'Custom connection';
+  return {
+    name, transport: provider === 'OPENAI_API' ? 'OPENAI_API' : provider === 'LOCAL_MPC' ? 'stdio'
+      : ['HOSTED_MPC', 'CUSTOM_MCP'].includes(provider) ? 'streamable_http' : 'PLUGIN',
+    endpoint: '', credential: true, localSetup: false,
+    help: `${name} requires a host adapter. The stock Windows app does not include this connection adapter yet. Saving these fields does not sign in or enable remote access.`,
+    endpointHelp: 'Enter only the endpoint, command, or locator supplied by your installed host adapter. A repository URL or account page is not an adapter.'
+  };
+}
+
+/** Plain text preserves code, line breaks and Unicode for copy/export. */
+export function formatChatTranscript(messages = []) {
+  if (!Array.isArray(messages)) throw new TypeError('CHAT_MESSAGES_ARRAY_REQUIRED');
+  return messages.map(message => {
+    const heading = String(message.label ?? (message.role === 'user' ? 'You' : 'MPC Assistant'));
+    const detail = message.detail ? ` · ${String(message.detail)}` : '';
+    return `${heading}${detail}\n${String(message.text ?? '')}`;
+  }).join('\n\n');
 }
 
 export function runtimeIdentityLabel(value = {}) {
@@ -179,11 +230,18 @@ const state = {
   selectedReport: null,
   script: null,
   lastAnswer: null,
+  visibleMessages: [],
   lastError: null,
   dragDepth: 0,
   pollTimer: null,
   draftTimer: null,
-  requestController: null
+  requestController: null,
+  activeView: 'work',
+  composerCollapsed: true,
+  composerDock: 'right',
+  localModelStatus: null,
+  setupOperation: null,
+  setupController: null
 };
 
 const hasDom = typeof document !== 'undefined';
@@ -342,12 +400,149 @@ function profileOption(profile) {
 function renderProfiles() {
   const placeholder = node('option', '', 'No language model selected — local finite analysis only');
   placeholder.value = '';
-  const options = [placeholder, ...state.providerProfiles.map(profileOption)];
+  const local = node('optgroup'); local.label = 'Local · on this computer';
+  const cloud = node('optgroup'); cloud.label = 'Cloud · configured API access required';
+  for (const profile of state.providerProfiles) (profile.provider === 'OLLAMA' ? local : cloud).append(profileOption(profile));
+  const options = [placeholder, local, cloud];
   replace($('model-picker'), options);
   $('model-picker').value = state.selectedProfileId ?? '';
   const profile = selectedProfile();
   setText('composer-model', profile ? `${profile.label ?? profile.model} (${providerAvailabilityLabel(profile)})` : 'Finite local analysis · no language model');
   setText('model-observation', profile ? `Requested ${profile.model ?? profile.id}; ${providerAvailabilityLabel(profile)}.` : 'No language model selected.');
+}
+
+async function refreshModelProfiles() {
+  const value = await request(API_PATHS.bootstrap);
+  state.csrf = typeof value.csrf_token === 'string' ? value.csrf_token : state.csrf;
+  state.providerProfiles = array(value.provider_profiles?.profiles ?? value.provider_profiles);
+  // Refresh availability without replacing project, conversation, draft or attachments.
+  renderProfiles();
+}
+
+function renderLocalModelStatus(value = state.localModelStatus) {
+  if (!value) return;
+  const ready = value.ollama?.state === 'READY';
+  const operation = state.setupOperation ?? value.active_operation;
+  const busy = Boolean(operation);
+  setText('local-model-status', ready ? `Ollama is running${value.ollama.version ? ` · ${value.ollama.version}` : ''}.`
+    : 'Ollama is not reachable. Install it if needed, then choose Start Ollama.');
+  const label = model => `${model?.observed_model ?? model?.model ?? 'Unknown'} · ${model?.installed ? 'installed' : 'not installed'}`;
+  setText('local-starter-status', label(value.starter));
+  setText('local-mpc-status', label(value.mpc));
+  $('local-model-start').disabled = busy || ready;
+  $('local-model-pull').disabled = busy || !ready || value.starter?.installed === true;
+  $('local-model-create').disabled = busy || !ready || !value.starter?.installed || value.mpc?.installed === true;
+  $('local-model-use').disabled = busy || !ready || (!value.mpc?.installed && !value.starter?.installed);
+  $('local-model-stop').disabled = !operation?.cancellable;
+  $('local-model-refresh').disabled = busy;
+}
+
+async function refreshLocalModels() {
+  const value = await request(API_PATHS.localModelStatus);
+  state.localModelStatus = value;
+  renderLocalModelStatus(value);
+  await refreshModelProfiles();
+  return value;
+}
+
+async function openLocalModelSetup() {
+  if (!$('local-model-dialog').open) $('local-model-dialog').showModal();
+  try { await refreshLocalModels(); }
+  catch (error) { setText('local-model-status', error.message ?? 'Local model status is unavailable.'); recordError(error); }
+}
+
+/** Read bounded same-origin NDJSON; a truncated stream cannot report completion. */
+export async function readSetupEvents(response, onEvent) {
+  if (!response.ok || !response.body) throw new WorkspaceRequestError('MODEL_SETUP_HTTP_ERROR', `Local setup returned HTTP ${response.status}.`);
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder('utf-8', {fatal: true});
+  let pending = '', total = 0, terminal = false;
+  const parse = line => {
+    if (!line.trim()) return;
+    if (line.length > 262_144) throw new Error('MODEL_SETUP_FRAME_TOO_LARGE');
+    const event = JSON.parse(line);
+    if (!event || !['start', 'progress', 'done', 'error'].includes(event.type)) throw new Error('MODEL_SETUP_EVENT_INVALID');
+    if (terminal) throw new Error('MODEL_SETUP_EVENT_AFTER_COMPLETION');
+    terminal = ['done', 'error'].includes(event.type);
+    onEvent(event);
+  };
+  try {
+    while (true) {
+      const {value, done} = await reader.read();
+      if (done) break;
+      total += value.byteLength;
+      if (total > 32_000_000) throw new Error('MODEL_SETUP_RESPONSE_TOO_LARGE');
+      pending += decoder.decode(value, {stream: true});
+      let newline;
+      while ((newline = pending.indexOf('\n')) >= 0) { parse(pending.slice(0, newline)); pending = pending.slice(newline + 1); }
+      if (pending.length > 262_144) throw new Error('MODEL_SETUP_FRAME_TOO_LARGE');
+    }
+    pending += decoder.decode();
+    if (pending.trim()) parse(pending);
+    if (!terminal) throw new Error('MODEL_SETUP_STREAM_INCOMPLETE');
+  } finally { await reader.cancel().catch(() => {}); reader.releaseLock(); }
+}
+
+async function runLocalModelSetup(operation) {
+  if (state.setupOperation || !['start', 'pull', 'create'].includes(operation)) return;
+  const requestId = makeId('setup');
+  const controller = new AbortController();
+  state.setupOperation = {request_id: requestId, operation, cancellable: operation !== 'start'};
+  state.setupController = controller;
+  renderLocalModelStatus();
+  const progress = $('local-model-progress'); progress.hidden = false; progress.removeAttribute('value');
+  setText('local-model-progress-text', operation === 'start' ? 'Starting installed Ollama…' : 'Preparing local model…');
+  try {
+    if (operation === 'start') {
+      await request(API_PATHS.localModelStart, {method: 'POST', body: {}, signal: controller.signal});
+      setText('local-model-progress-text', 'Start request completed. Checking service status…');
+    } else {
+      const path = operation === 'pull' ? API_PATHS.localModelPull : API_PATHS.localModelCreate;
+      const response = await fetch(sameOriginPath(path), {method: 'POST', credentials: 'same-origin', redirect: 'error',
+        headers: {'Content-Type': 'application/json; charset=utf-8', Accept: 'application/x-ndjson', 'X-MPC-CSRF': state.csrf},
+        body: JSON.stringify({request_id: requestId}), signal: controller.signal});
+      await readSetupEvents(response, event => {
+        if (event.request_id !== requestId) throw new Error('MODEL_SETUP_REQUEST_MISMATCH');
+        if (event.type === 'error') throw new WorkspaceRequestError(event.code ?? event.error?.code ?? 'MODEL_SETUP_FAILED', event.error?.message ?? event.message ?? 'Local model setup failed.');
+        const update = event.progress ?? event;
+        const detail = update.status ?? update.message ?? (event.type === 'done' ? 'Local model setup completed.' : 'Working…');
+        setText('local-model-progress-text', String(detail));
+        if (Number.isFinite(update.total) && update.total > 0 && Number.isFinite(update.completed)) {
+          progress.value = Math.max(0, Math.min(100, 100 * update.completed / update.total));
+        } else if (event.type === 'done') progress.value = 100;
+        else progress.removeAttribute('value');
+      });
+    }
+  } catch (error) {
+    setText('local-model-progress-text', error.name === 'AbortError' ? 'Setup stopped. Downloaded layers can be reused when you retry.' : error.message ?? 'Local model setup failed.');
+    if (error.name !== 'AbortError' && error.code !== 'MPC_WORKSPACE_MODEL_SETUP_CANCELLED') recordError(error);
+  } finally {
+    state.setupOperation = null; state.setupController = null; progress.hidden = true;
+    try { await refreshLocalModels(); } catch (error) { renderLocalModelStatus(); recordError(error); }
+  }
+}
+
+async function stopLocalModelSetup() {
+  const operation = state.setupOperation ?? state.localModelStatus?.active_operation;
+  if (!operation?.cancellable) return;
+  try {
+    await request(API_PATHS.localModelCancel, {method: 'POST', body: {request_id: operation.request_id}});
+    state.setupController?.abort();
+    setText('local-model-progress-text', 'Stop requested. Downloaded layers remain available for retry.');
+    if (!state.setupOperation) await refreshLocalModels();
+  } catch (error) { recordError(error); }
+}
+
+async function useLocalModel() {
+  try {
+    await refreshLocalModels();
+    const profile = state.providerProfiles.find(row => row.id === 'ollama-mpc-local' && providerAvailabilityLabel(row) === 'available')
+      ?? state.providerProfiles.find(row => row.id === 'ollama-qwen3-4b-instruct' && providerAvailabilityLabel(row) === 'available');
+    if (!profile) throw new Error('No installed local profile is available. Refresh status after setup.');
+    state.selectedProfileId = profile.id; renderProfiles();
+    $('local-model-dialog').close(); state.composerCollapsed = false; updateComposerLayout(); $('composer-input').focus();
+    announce(`${profile.label} selected. Enter a question to check local inference.`);
+  } catch (error) { recordError(error); }
 }
 
 function updateServiceStatus(service = {}) {
@@ -601,7 +796,7 @@ function insertAtSelection(input, value) {
   input.focus();
 }
 
-async function pasteInput() {
+async function pasteTextInto(target) {
   let text;
   try {
     const read = bridge()?.readClipboardText;
@@ -611,12 +806,15 @@ async function pasteInput() {
     } else if (navigator.clipboard?.readText) text = await navigator.clipboard.readText();
     else throw new Error('CLIPBOARD_API_UNAVAILABLE');
     if (typeof text !== 'string') throw new Error('CLIPBOARD_TEXT_UNAVAILABLE');
-    insertAtSelection($('material-input'), text);
+    if (target === 'material-input') { $('advanced-chat').open = true; $('evidence-input-details').open = true; }
+    insertAtSelection($(target), text);
     announce(`Pasted ${formatBytes(new TextEncoder().encode(text).byteLength)} of text after your explicit action.`);
   } catch (error) {
     recordError(new WorkspaceRequestError('CLIPBOARD_READ_UNAVAILABLE', 'Use Ctrl+V in the composer, or allow clipboard access for this explicit Paste action.', {cause: String(error?.message ?? error)}));
   }
 }
+
+async function pasteInput() { return pasteTextInto('material-input'); }
 
 async function fileAsBase64(file) {
   if (file.size > MAX_BROWSER_FILE_BYTES) throw new WorkspaceRequestError('BROWSER_FILE_TOO_LARGE', `${file.name} exceeds the ${formatBytes(MAX_BROWSER_FILE_BYTES)} browser-import limit. Use the desktop Attach files action for bounded host streaming.`);
@@ -658,6 +856,7 @@ function appendMessage(role, text, metadata = {}) {
     node('span', '', metadata.detail ?? new Date().toLocaleTimeString()));
   message.append(meta, node('div', '', text));
   log.append(message);
+  state.visibleMessages.push({role, text: String(text), label: metadata.label ?? (role === 'user' ? 'You' : role === 'error' ? 'Error' : 'MPC Workspace'), detail: metadata.detail ?? ''});
   log.scrollTop = log.scrollHeight;
 }
 
@@ -665,6 +864,7 @@ function renderConversation(conversation) {
   const messages = array(conversation?.messages);
   const log = $('conversation');
   state.lastAnswer = null;
+  state.visibleMessages = [];
   $('copy-answer').disabled = true;
   if (!messages.length) {
     const empty = node('div', 'empty-state');
@@ -687,9 +887,21 @@ function renderConversation(conversation) {
   $('copy-answer').disabled = !state.lastAnswer;
 }
 
+function refreshOutput() {
+  const value = $('output-mode').value === 'transcript' ? formatChatTranscript(state.visibleMessages) : state.lastAnswer ?? '';
+  $('output-text').value = value;
+  setText('output-size', `${formatBytes(new TextEncoder().encode(value).byteLength)} · plain text`);
+  for (const id of ['copy-output', 'save-output', 'select-output']) $(id).disabled = !value;
+}
+
+function openOutput() {
+  refreshOutput(); $('output-dialog').showModal();
+}
+
 function setRunning(running) {
   $('run-work').disabled = running;
   $('stop-work').disabled = !running;
+  $('stop-work').hidden = !running;
   $('conversation-state').textContent = running ? 'RUNNING' : 'READY';
   statusTone($('work-stage'), running ? 'busy' : 'neutral');
 }
@@ -1251,7 +1463,9 @@ function renderConnections() {
     for (const [term, value] of details) { const row = node('div'); row.append(node('dt', '', term), node('dd', '', value)); list.append(row); }
     card.append(list);
     const actions = node('div', 'button-row');
-    if (!connection) {
+    if (provider === 'OLLAMA') {
+      const setup = node('button', 'button compact', 'Local AI setup'); setup.type = 'button'; setup.addEventListener('click', openLocalModelSetup); actions.append(setup);
+    } else if (!connection) {
       const add = node('button', 'button compact', 'Add'); add.type = 'button'; add.addEventListener('click', () => openConnectionDialog(provider)); actions.append(add);
     } else {
       const toggle = node('button', 'button compact', enabled ? 'Disable locally' : 'Enable locally');
@@ -1270,8 +1484,22 @@ function renderConnections() {
   replace($('connections-grid'), cards);
 }
 
-function openConnectionDialog(provider = '') {
-  if (provider) $('connection-provider').value = provider;
+function applyConnectionGuidance() {
+  const guide = connectionInputGuidance($('connection-provider').value);
+  $('connection-name').value = guide.name;
+  $('connection-transport').value = guide.transport;
+  $('connection-endpoint').value = guide.endpoint;
+  $('connection-endpoint').placeholder = guide.endpoint || 'Supplied by your installed host adapter';
+  $('connection-credential').value = '';
+  $('connection-credential').disabled = !guide.credential;
+  $('connection-local-setup').hidden = !guide.localSetup;
+  setText('connection-help', guide.help);
+  setText('connection-endpoint-help', guide.endpointHelp);
+}
+
+function openConnectionDialog(provider = 'OLLAMA') {
+  $('connection-provider').value = provider;
+  applyConnectionGuidance();
   $('connection-dialog').showModal();
 }
 
@@ -1304,7 +1532,7 @@ async function setConnectionEnabled(enabled, connection) {
 
 async function testConnection(connection) {
   try {
-    const response = await request(API_PATHS.connectionTest, {method: 'POST', body: {project_id: currentProjectId(), connection_id: connection.connection_id, operation: connection.first_operation ?? 'READ_SELECTED_RESOURCE'}});
+    const response = await request(API_PATHS.connectionTest, {method: 'POST', body: {project_id: currentProjectId(), connection_id: connection.connection_id, operation: 'READ_SELECTED_RESOURCE'}});
     const observation = response.observation ?? response;
     announce(observation.last_operation_verified ? 'Protected operation receipt recorded.' : `Connection result: ${observation.status ?? 'unavailable'}`, {tone: observation.last_operation_verified ? '' : 'warn'});
     await refreshBootstrap();
@@ -1401,14 +1629,126 @@ async function importPortableTask(event) {
 }
 
 function navigate(view, {focus = true} = {}) {
+  state.activeView = view;
   for (const button of document.querySelectorAll('.nav-item')) {
     const active = button.dataset.view === view;
     button.classList.toggle('active', active);
     if (active) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current');
   }
   for (const panel of document.querySelectorAll('[data-view-panel]')) panel.hidden = panel.dataset.viewPanel !== view;
+  updateComposerLayout();
   if (focus) $('workspace-main').focus({preventScroll: true});
   if (globalThis.matchMedia('(max-width: 900px)').matches) document.body.classList.remove('sidebar-open');
+}
+
+function updateComposerLayout() {
+  const visible = renderComposerVisibility({composer: $('composer'), toggle: $('toggle-composer'), view: state.activeView, collapsed: state.composerCollapsed, dock: state.composerDock});
+  // Side docking is available only while the main area can retain useful width.
+  const side = state.composerDock === 'right' && globalThis.innerWidth >= 1100 && globalThis.innerHeight >= 550;
+  const floating = state.composerDock === 'floating' || (state.composerDock === 'right' && !side);
+  document.body.dataset.chatDock = side ? 'right' : floating ? 'floating' : 'bottom';
+  document.body.dataset.chatVisible = String(visible);
+  $('dock-composer').value = state.composerDock;
+  $('dock-composer').title = !side && state.composerDock === 'right' ? 'Uses a floating box in this narrow window; returns to the side when widened.' : 'Choose assistant placement';
+  $('move-composer').hidden = !floating;
+  const handle = $('composer-resizer');
+  const bounds = composerResizeBounds(side);
+  handle.setAttribute('aria-orientation', side ? 'vertical' : 'horizontal');
+  handle.setAttribute('aria-valuemin', String(bounds.min));
+  handle.setAttribute('aria-valuemax', String(bounds.max));
+  const measured = side ? $('composer').getBoundingClientRect().width : $('composer').getBoundingClientRect().height;
+  handle.setAttribute('aria-valuenow', String(Math.round(Math.max(bounds.min, Math.min(bounds.max, measured)))));
+  if (floating && visible) {
+    const rect = $('composer').getBoundingClientRect();
+    if (rect.left < 8 || rect.top < 8 || rect.right > globalThis.innerWidth - 8 || rect.bottom > globalThis.innerHeight - 8) moveFloatingComposer(rect.left, rect.top);
+  }
+}
+
+function hideComposer() {
+  state.composerCollapsed = true; updateComposerLayout(); $('toggle-composer').focus();
+}
+
+function toggleComposer() {
+  if ($('composer').hidden) {
+    state.composerCollapsed = false;
+    if (state.composerDock === 'bottom' && state.activeView !== 'work') state.composerDock = 'right';
+    updateComposerLayout(); $('composer-input').focus();
+  } else hideComposer();
+}
+
+function composerResizeBounds(side) {
+  if (document.body.dataset.chatDock === 'floating') {
+    const max = Math.max(120, globalThis.innerHeight - 32);
+    return {min: Math.min(260, max), max};
+  }
+  return side ? {min: 280, max: Math.max(280, Math.min(560, globalThis.innerWidth * 0.42))}
+    : {min: Math.min(170, globalThis.innerHeight * 0.32), max: Math.max(170, Math.min(480, globalThis.innerHeight * 0.48))};
+}
+
+function resizeComposer(value) {
+  const side = document.body.dataset.chatDock === 'right';
+  const {min, max} = composerResizeBounds(side);
+  const pixels = Math.round(Math.max(min, Math.min(max, value)));
+  $('composer').style.removeProperty(side ? 'width' : 'height');
+  document.documentElement.style.setProperty(side ? '--composer-width' : '--composer-height', `${pixels}px`);
+  $('composer-resizer').setAttribute('aria-valuenow', String(pixels));
+}
+
+function bindComposerResize() {
+  const handle = $('composer-resizer');
+  let drag = null;
+  handle.addEventListener('pointerdown', event => {
+    if (event.button !== 0) return;
+    const side = document.body.dataset.chatDock === 'right';
+    const rect = $('composer').getBoundingClientRect();
+    drag = {pointer: event.pointerId, side, start: side ? event.clientX : event.clientY, size: side ? rect.width : rect.height};
+    handle.setPointerCapture(event.pointerId); event.preventDefault(); handle.focus();
+  });
+  handle.addEventListener('pointermove', event => {
+    if (!drag || drag.pointer !== event.pointerId) return;
+    resizeComposer(drag.size + drag.start - (drag.side ? event.clientX : event.clientY));
+  });
+  const end = () => { drag = null; };
+  handle.addEventListener('pointerup', end); handle.addEventListener('pointercancel', end); handle.addEventListener('lostpointercapture', end);
+  handle.addEventListener('keydown', event => {
+    const side = document.body.dataset.chatDock === 'right';
+    const allowed = side ? ['ArrowLeft', 'ArrowRight', 'Home', 'End'] : ['ArrowUp', 'ArrowDown', 'Home', 'End'];
+    if (!allowed.includes(event.key)) return;
+    event.preventDefault();
+    const rect = $('composer').getBoundingClientRect(), bounds = composerResizeBounds(side);
+    const current = side ? rect.width : rect.height;
+    const increment = event.shiftKey ? 40 : 16;
+    resizeComposer(event.key === 'Home' ? bounds.min : event.key === 'End' ? bounds.max
+      : current + (['ArrowUp', 'ArrowLeft'].includes(event.key) ? increment : -increment));
+  });
+}
+
+function moveFloatingComposer(left, top) {
+  const composer = $('composer'), rect = composer.getBoundingClientRect();
+  const x = Math.max(8, Math.min(globalThis.innerWidth - rect.width - 8, left));
+  const y = Math.max(8, Math.min(globalThis.innerHeight - rect.height - 8, top));
+  document.documentElement.style.setProperty('--assistant-left', `${Math.round(x)}px`);
+  document.documentElement.style.setProperty('--assistant-top', `${Math.round(y)}px`);
+}
+
+function bindFloatingComposerMove() {
+  const handle = $('move-composer'); let drag = null;
+  handle.addEventListener('pointerdown', event => {
+    if (event.button !== 0) return;
+    const rect = $('composer').getBoundingClientRect();
+    drag = {pointer: event.pointerId, x: event.clientX, y: event.clientY, left: rect.left, top: rect.top};
+    handle.setPointerCapture(event.pointerId); handle.focus(); event.preventDefault();
+  });
+  handle.addEventListener('pointermove', event => {
+    if (drag?.pointer === event.pointerId) moveFloatingComposer(drag.left + event.clientX - drag.x, drag.top + event.clientY - drag.y);
+  });
+  for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) handle.addEventListener(event, () => { drag = null; });
+  handle.addEventListener('keydown', event => {
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+    event.preventDefault(); const rect = $('composer').getBoundingClientRect(), step = event.shiftKey ? 40 : 16;
+    moveFloatingComposer(rect.left + (event.key === 'ArrowRight' ? step : event.key === 'ArrowLeft' ? -step : 0),
+      rect.top + (event.key === 'ArrowDown' ? step : event.key === 'ArrowUp' ? -step : 0));
+  });
 }
 
 function bindNavigation() {
@@ -1437,7 +1777,7 @@ function bindDrop() {
     if (files?.length) addFileObjects(files);
     else {
       const text = event.dataTransfer?.getData('text/plain');
-      if (text) insertAtSelection($('material-input'), text);
+      if (text) { $('advanced-chat').open = true; $('evidence-input-details').open = true; insertAtSelection($('material-input'), text); }
     }
   });
 }
@@ -1446,10 +1786,25 @@ function applyAccessibilitySettings() {
   const reduced = $('reduced-motion').checked;
   document.documentElement.dataset.reducedMotion = String(reduced);
   document.documentElement.dataset.contrast = $('high-contrast').checked ? 'high' : 'normal';
-  document.documentElement.style.setProperty('--zoom', $('zoom-level').value);
+  const nativeZoom = bridge()?.setInterfaceZoom;
+  if (typeof nativeZoom === 'function') {
+    document.documentElement.style.setProperty('--zoom', '1');
+    nativeZoom(Number($('zoom-level').value)).catch(error => recordError(error));
+  } else document.documentElement.style.setProperty('--zoom', $('zoom-level').value);
+  document.documentElement.dataset.density = $('density-level').value;
+  const zoom = Number($('zoom-level').value);
+  setText('zoom-reset', `${Math.round(zoom * 100)}%`);
+  $('zoom-out').disabled = zoom <= 0.5;
+  $('zoom-in').disabled = zoom >= 2;
   const quiet = $('quiet-mode-setting').checked;
   document.body.classList.toggle('quiet', quiet);
   $('quiet-toggle').setAttribute('aria-pressed', String(quiet));
+  updateComposerLayout();
+}
+
+function changeInterfaceZoom(direction) {
+  $('zoom-level').value = String(nextInterfaceZoom($('zoom-level').value, direction));
+  applyAccessibilitySettings();
 }
 
 async function desktopAction(name) {
@@ -1466,9 +1821,53 @@ async function desktopAction(name) {
 async function initialize() {
   bindNavigation();
   bindDrop();
+  bindComposerResize();
+  bindFloatingComposerMove();
   updateNetworkStatus();
   globalThis.addEventListener('online', updateNetworkStatus);
   globalThis.addEventListener('offline', updateNetworkStatus);
+  globalThis.addEventListener('resize', updateComposerLayout);
+  let lastWheelZoom = 0;
+  document.addEventListener('wheel', event => {
+    if (!$('wheel-zoom').checked || !event.shiftKey || event.ctrlKey || event.metaKey || event.altKey || !event.deltaY) return;
+    const direction = event.deltaY < 0 ? 1 : -1;
+    if (nextInterfaceZoom($('zoom-level').value, direction) === Number($('zoom-level').value)) return;
+    event.preventDefault();
+    const time = performance.now();
+    if (time - lastWheelZoom < 140) return;
+    lastWheelZoom = time; changeInterfaceZoom(direction);
+  }, {passive: false});
+
+  $('toggle-composer').addEventListener('click', toggleComposer);
+  $('hide-composer').addEventListener('click', hideComposer);
+  $('dock-composer').addEventListener('change', () => {
+    state.composerDock = $('dock-composer').value;
+    $('composer').style.removeProperty('width'); $('composer').style.removeProperty('height'); updateComposerLayout();
+  });
+  $('reset-composer-size').addEventListener('click', () => {
+    for (const property of ['--composer-height', '--composer-width', '--assistant-left', '--assistant-top']) document.documentElement.style.removeProperty(property);
+    $('composer').style.removeProperty('width'); $('composer').style.removeProperty('height'); updateComposerLayout();
+  });
+  $('zoom-out').addEventListener('click', () => changeInterfaceZoom(-1));
+  $('zoom-in').addEventListener('click', () => changeInterfaceZoom(1));
+  $('zoom-reset').addEventListener('click', () => { $('zoom-level').value = '1'; applyAccessibilitySettings(); });
+  $('local-model-setup').addEventListener('click', openLocalModelSetup);
+  $('refresh-models').addEventListener('click', async () => { try { await refreshModelProfiles(); announce('Model availability refreshed.'); } catch (error) { recordError(error); } });
+  $('close-local-model-dialog').addEventListener('click', () => $('local-model-dialog').close());
+  $('local-model-refresh').addEventListener('click', openLocalModelSetup);
+  $('copy-ollama-link').addEventListener('click', () => copyText('https://ollama.com/download/windows', 'Ollama installer link'));
+  $('local-model-start').addEventListener('click', () => runLocalModelSetup('start'));
+  $('local-model-pull').addEventListener('click', () => runLocalModelSetup('pull'));
+  $('local-model-create').addEventListener('click', () => runLocalModelSetup('create'));
+  $('local-model-stop').addEventListener('click', stopLocalModelSetup);
+  $('local-model-use').addEventListener('click', useLocalModel);
+  $('open-output').addEventListener('click', openOutput);
+  $('close-output-dialog').addEventListener('click', () => $('output-dialog').close());
+  $('output-mode').addEventListener('change', refreshOutput);
+  $('refresh-output').addEventListener('click', refreshOutput);
+  $('select-output').addEventListener('click', () => { $('output-text').focus(); $('output-text').select(); });
+  $('copy-output').addEventListener('click', () => copyText($('output-text').value, 'Output'));
+  $('save-output').addEventListener('click', () => downloadText(`MPC-Chat-${new Date().toISOString().replace(/[:.]/gu, '-')}.txt`, $('output-text').value, 'text/plain;charset=utf-8'));
 
   $('sidebar-toggle').addEventListener('click', () => {
     if (globalThis.matchMedia('(max-width: 900px)').matches) document.body.classList.toggle('sidebar-open');
@@ -1488,12 +1887,15 @@ async function initialize() {
       : 'Evidence analysis binds only the material selected for this run.'));
   $('composer-input').addEventListener('input', queueDraftSave);
   $('composer-input').addEventListener('keydown', event => {
-    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey) {
+    if (event.key === 'Enter' && !event.shiftKey && !event.altKey && !event.isComposing && event.keyCode !== 229) {
       event.preventDefault();
       if (!$('run-work').disabled) runWork();
     }
   });
   $('paste-input').addEventListener('click', pasteInput);
+  $('attachment-options').addEventListener('click', event => { if (event.target.closest('button')) $('attachment-options').open = false; });
+  $('paste-question').addEventListener('click', () => pasteTextInto('composer-input'));
+  $('material-input').addEventListener('input', () => setText('evidence-input-summary', $('material-input').value ? `Evidence text · ${formatBytes(new TextEncoder().encode($('material-input').value).byteLength)}` : 'Evidence text (optional)'));
   $('attach-files').addEventListener('click', attachFiles);
   $('add-folder').addEventListener('click', addFolder);
   $('browser-file-input').addEventListener('change', event => { addFileObjects(event.target.files); event.target.value = ''; });
@@ -1516,6 +1918,8 @@ async function initialize() {
   $('close-connection-dialog').addEventListener('click', () => $('connection-dialog').close());
   $('cancel-connection').addEventListener('click', () => $('connection-dialog').close());
   $('connection-form').addEventListener('submit', configureConnection);
+  $('connection-provider').addEventListener('change', applyConnectionGuidance);
+  $('connection-local-setup').addEventListener('click', () => { $('connection-dialog').close(); openLocalModelSetup(); });
   $('draft-script').addEventListener('click', draftScript);
   $('explain-script').addEventListener('click', () => { $('script-explanation').open = true; $('script-explanation').scrollIntoView({block: 'nearest'}); });
   $('copy-script').addEventListener('click', () => copyText($('script-content').value, 'Script'));
@@ -1527,7 +1931,7 @@ async function initialize() {
   $('restart-service').addEventListener('click', () => desktopAction('restartService'));
   $('copy-error').addEventListener('click', () => state.lastError && copyText(JSON.stringify(state.lastError, null, 2), 'Error details'));
   $('quiet-toggle').addEventListener('click', () => { $('quiet-mode-setting').checked = !$('quiet-mode-setting').checked; applyAccessibilitySettings(); });
-  for (const id of ['reduced-motion', 'high-contrast', 'quiet-mode-setting', 'zoom-level']) $(id).addEventListener('change', applyAccessibilitySettings);
+  for (const id of ['reduced-motion', 'high-contrast', 'quiet-mode-setting', 'zoom-level', 'density-level']) $(id).addEventListener('change', applyAccessibilitySettings);
   $('save-assistant').addEventListener('click', () => announce('Assistant revision controls require the local host adapter.', {tone: 'warn'}));
   $('export-task').addEventListener('click', exportPortableTask);
   $('import-task').addEventListener('click', () => $('portable-task-input').click());

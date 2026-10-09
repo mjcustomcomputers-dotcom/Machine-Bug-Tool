@@ -39,7 +39,12 @@ test('renderer declares one bounded same-origin JSON API surface', () => {
     connectionTest: '/api/workspace/connections/test',
     scripts: '/api/workspace/scripts',
     transferExport: '/api/workspace/transfers/export',
-    transferImport: '/api/workspace/transfers/import'
+    transferImport: '/api/workspace/transfers/import',
+    localModelStatus: '/api/workspace/local-model/status',
+    localModelStart: '/api/workspace/local-model/start',
+    localModelPull: '/api/workspace/local-model/pull',
+    localModelCreate: '/api/workspace/local-model/create',
+    localModelCancel: '/api/workspace/local-model/cancel'
   });
   for (const path of Object.values(API_PATHS)) {
     assert.match(path, /^\/api\/workspace\/[a-z/-]+$/u);
@@ -164,7 +169,7 @@ test('renderer preserves honest provider, evidence, script and delivery states',
 });
 
 test('clipboard, imports and native bridge remain explicit and narrow', () => {
-  for (const operation of ['getRuntimeStatus', 'chooseFiles', 'chooseFolder', 'readClipboardText', 'copyText', 'openLogs', 'restartService']) {
+  for (const operation of ['getRuntimeStatus', 'chooseFiles', 'chooseFolder', 'readClipboardText', 'copyText', 'openLogs', 'restartService', 'setInterfaceZoom']) {
     assert.match(js, new RegExp(`\\b${operation}\\b`, 'u'));
   }
   assert.match(js, /addEventListener\('click', pasteInput\)/u);
@@ -199,7 +204,8 @@ test('keyboard, focus, reduced motion, contrast and 200 percent zoom are explici
   assert.match(css, /data-reduced-motion="true"/u);
   assert.match(css, /data-contrast="high"/u);
   assert.match(js, /\['ArrowDown', 'ArrowUp', 'Home', 'End'\]/u);
-  assert.match(js, /event\.key === 'Enter' && \(event\.ctrlKey \|\| event\.metaKey\)/u);
+  assert.match(js, /event\.key === 'Enter' && !event\.shiftKey && !event\.altKey && !event\.isComposing/u);
+  assert.match(html, /Enter to send · Shift \+ Enter for a new line/u);
 });
 
 test('every literal renderer ID lookup resolves to an HTML control', () => {

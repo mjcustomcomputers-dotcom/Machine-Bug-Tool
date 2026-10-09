@@ -66,6 +66,45 @@ function sendJson(response, status, value, extraHeaders = {}) {
   response.end(body);
 }
 
+async function writeModelSetupEvent(response, event) {
+  if (response.destroyed || response.writableEnded) throw workspaceError('MPC_WORKSPACE_MODEL_SETUP_DISCONNECTED', 499);
+  const line = `${JSON.stringify(event)}\n`;
+  if (Buffer.byteLength(line) > 65_536) throw workspaceError('MPC_WORKSPACE_MODEL_SETUP_EVENT_TOO_LARGE', 502);
+  if (response.write(line)) return;
+  await new Promise((resolveDrain, reject) => {
+    const cleanup = () => { response.off('drain', drain); response.off('close', closed); response.off('error', failed); };
+    const drain = () => {cleanup(); resolveDrain();};
+    const closed = () => {cleanup(); reject(workspaceError('MPC_WORKSPACE_MODEL_SETUP_DISCONNECTED', 499));};
+    const failed = error => {cleanup(); reject(error);};
+    response.once('drain', drain); response.once('close', closed); response.once('error', failed);
+  });
+}
+
+async function streamModelSetup(request, response, service, operation, body, controllers) {
+  const controller = new AbortController();
+  const disconnected = () => {if (!response.writableEnded) controller.abort('CLIENT_DISCONNECTED');};
+  controllers.add(controller);
+  response.on('close', disconnected);
+  let iterator;
+  try {
+    const stream = await callService(service, ['streamLocalModelSetup'], operation, body, {signal: controller.signal});
+    if (!stream || typeof stream[Symbol.asyncIterator] !== 'function') throw workspaceError('MPC_WORKSPACE_MODEL_SETUP_STREAM_UNAVAILABLE', 501);
+    iterator = stream[Symbol.asyncIterator]();
+    let item = await iterator.next();
+    response.writeHead(200, {...BASE_HEADERS, 'Content-Type': 'application/x-ndjson; charset=utf-8', 'X-Accel-Buffering': 'no'});
+    while (!item.done) {
+      await writeModelSetupEvent(response, item.value);
+      item = await iterator.next();
+    }
+    response.end();
+  } finally {
+    controller.abort('MODEL_SETUP_REQUEST_ENDED');
+    response.off('close', disconnected);
+    controllers.delete(controller);
+    await iterator?.return?.();
+  }
+}
+
 function safeError(error) {
   const supplied = String(error?.code ?? '');
   const workspaceCode = /^(?:MPC_WORKSPACE|CC)_[A-Z0-9_]+$/u.test(supplied);
@@ -362,6 +401,7 @@ export async function startMpcWorkspaceServer({
   if (workspaceService === null || typeof workspaceService !== 'object') throw workspaceError('MPC_WORKSPACE_SERVICE_INVALID');
 
   let actualPort;
+  const modelSetupControllers = new Set();
   const server = createServer(async (request, response) => {
     try {
       assertLoopbackRequest(request, actualPort);
@@ -409,6 +449,26 @@ export async function startMpcWorkspaceServer({
 
       let body;
       const postBody = async () => body ??= await readJsonBody(request);
+      if (url.pathname === '/api/workspace/local-model/status') {
+        if (method !== 'GET') {sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'GET'}); return;}
+        sendJson(response, 200, await callService(workspaceService, ['localModelStatus']));
+        return;
+      }
+      if (url.pathname === '/api/workspace/local-model/start') {
+        if (method !== 'POST') {sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'POST'}); return;}
+        sendJson(response, 200, await callService(workspaceService, ['startLocalModel'], await postBody()));
+        return;
+      }
+      if (url.pathname === '/api/workspace/local-model/cancel') {
+        if (method !== 'POST') {sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'POST'}); return;}
+        sendJson(response, 200, await callService(workspaceService, ['cancelLocalModelSetup'], await postBody()));
+        return;
+      }
+      if (url.pathname === '/api/workspace/local-model/pull' || url.pathname === '/api/workspace/local-model/create') {
+        if (method !== 'POST') {sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'POST'}); return;}
+        await streamModelSetup(request, response, workspaceService, url.pathname.endsWith('/pull') ? 'pull' : 'create', await postBody(), modelSetupControllers);
+        return;
+      }
       if (url.pathname === '/api/workspace/projects') {
         if (method === 'GET') {
           const projects = await callService(workspaceService, ['listProjects']);
@@ -673,6 +733,7 @@ export async function startMpcWorkspaceServer({
     async close() {
       if (closed) return;
       closed = true;
+      for (const controller of modelSetupControllers) controller.abort('SERVICE_CLOSED');
       await closeServer(server);
       await workspaceService.close?.();
     }
@@ -743,3 +804,4 @@ if (invoked === fileURLToPath(import.meta.url)) {
     process.exitCode = 1;
   });
 }
+

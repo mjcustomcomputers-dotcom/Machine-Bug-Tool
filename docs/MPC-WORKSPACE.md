@@ -6,6 +6,119 @@ does not replace the Research Workbench, the MPC Security Assistant, the
 completed V13 controller, the Method Atlas registries, or the native Sites
 project.
 
+## Display and local AI update — October 9, 2026
+
+This additive update starts from `16ee44a080c4979c14016901ed8783d2d2686504`
+on PR #18. The older package hashes in the historical checkpoint below identify
+that earlier build. The GitHub Actions artifact for the new commit carries its
+own source commit, checksum, full test result and build receipt.
+
+### A workspace that fits the window
+
+The workspace opens at 100% with compact spacing and the assistant closed.
+**Show chat** opens one assistant containing both the conversation and the
+question/evidence inputs. **Hide chat** gives the workspace its full area back;
+it keeps the same conversation, draft, selection and attachment nodes.
+
+Choose **Side panel**, **Floating box**, or **Bottom panel** in the assistant.
+The side panel uses a separate grid column when the window is at least 1100
+CSS pixels wide and 550 high. A narrower window uses a floating box. Bottom
+placement is specific to Work and hides when navigating elsewhere; an explicitly
+opened side/floating assistant remains available alongside the other pages.
+The assistant is part of the same app window, not another operating-system
+window or a second conversation session.
+
+Drag the panel divider to resize it, or focus the divider and use the arrow
+keys. In floating mode, drag **Move**, or focus it and use the arrow keys; the
+bottom-right corner resizes the box. **Fit** restores its initial size and
+position. The layout bounds the assistant to the visible window.
+
+The top bar has **− / percentage / +** controls. **Settings → Display and
+accessibility** offers compact/comfortable spacing and 50%, 60%, 75%, 85%, 90%,
+100%, 110%, 125%, 150% and 200% zoom. The Windows build applies zoom through
+Electron to the whole interface. The optional **Shift + mouse wheel** setting
+changes zoom; when it is off, normal wheel behavior is preserved. The native
+**View → Zoom Out / Zoom In / Reset Zoom** menu remains available. Ordinary
+use is designed around automatic reflow at 100%; manual zoom is optional.
+
+Normal chat shows one message box, **Send**, and **+ Add**. Enter sends;
+Shift + Enter adds a line. **Stop** appears during a run. **Advanced** holds
+the optional evidence-text field and explicit mode selection; **Auto** remains
+the default. Reasoning stays enabled in ordinary chat.
+
+The **+ Add** menu offers files, whole folders, **Paste message**, and **Paste
+evidence**. Pasted evidence opens Advanced and its separate evidence field. Attaching files or a whole folder does not make hiding or moving the
+assistant discard them. Closing the application still follows the existing
+project retention rules; this change does not promise to retain unacquired
+attachments across restarts.
+
+### Copy and save large outputs
+
+**Output** in the top bar opens a large plain-text view without expanding the
+assistant or changing the current project. Choose **Latest answer** or **Full
+visible chat log**, then **Select all**, **Copy text**, or **Save .txt**. Code,
+line breaks and Unicode remain plain text. Refresh is explicit so an arriving
+answer does not overwrite a selection while you copy. The log represents the
+conversation currently available in the window; missing metadata-only history
+is not reconstructed.
+
+### Set up local Ollama from this desktop
+
+1. Select **Local AI setup** beside the model picker. If needed, copy the
+   official Windows installer link, open it in your browser, and install Ollama:
+   `https://ollama.com/download/windows`.
+2. Select **Start Ollama**. The status now distinguishes the Workspace service
+   from the Ollama service at `http://127.0.0.1:11434`.
+3. Select **Download model** for `qwen3:4b-instruct`. This explicit action
+   downloads the model weights; progress and **Stop setup** are available.
+4. Select **Create MPC model** to apply the existing bundled instructions as
+   `mpc-daybreak-local`. This configures the model; it does not train new weights.
+5. Select **Use local model**, then ask a question. Installed-model metadata is
+   separate from a successfully completed inference response.
+
+The local group appears before cloud profiles in the picker. Refreshing model
+availability preserves the selected project, conversation and draft. The
+default `:latest` suffix is recognized without merging different explicit tags.
+Requested identity, observed model name and digest remain distinct.
+
+Setup only uses the fixed local Ollama endpoint and the existing starter/MPC
+model names. The same-origin API keeps Host, Origin and CSRF validation. Download
+and creation can be cancelled by exact request ID or stream disconnection.
+Starting an already installed daemon does not install software automatically.
+
+### What to enter in Add connection
+
+| Field | Local Ollama value |
+| --- | --- |
+| Display name | `Local Ollama` |
+| Provider | `OLLAMA` |
+| Transport | `Local loopback HTTP` |
+| Endpoint or command | `http://127.0.0.1:11434` |
+| Credential-store reference | Leave blank |
+
+For local chat, use the dedicated **Local AI setup** action. The generic form
+only stores a connection configuration. Provider-specific defaults and help
+now explain the field meanings.
+
+The stock Windows app does not yet mount GitHub, Drive, Gmail, Dropbox, remote
+MCP or OpenAI API host connection adapters. Those require an installed adapter
+and its actual endpoint/command/locator. Entering a repository URL, inventing an
+`os-secret://` reference, or pasting an API token into the reference field does
+not create that integration. Existing ChatGPT connector sign-ins are separate
+from this desktop. Connection tests use a typed `READ_SELECTED_RESOURCE`
+operation, rather than incorrectly submitting the catalog's prose description.
+
+### Validation scope
+
+Focused automated checks cover retained UI state, responsive-mode decisions,
+50–200% zoom bounds, the guarded native zoom bridge, provider guidance, typed
+connection-test requests, split/truncated setup streams, loopback route guards,
+model-tag matching, cancellation and the shared daemon-start adapter. Full
+source tests/build and Windows packaging run on the exact new commit in GitHub
+Actions. Visual geometry, native display scaling, and real local model inference
+still require the updated application to run on the receiving Windows computer;
+controlled loopback tests do not establish those observations.
+
 ## Build checkpoint
 
 | Item | Exact state at this documentation checkpoint |
@@ -33,13 +146,13 @@ protected-operation receipt.
    visible; it must not close the window.
 2. Choose an existing project or create one. The project owns its objective,
    selected task, draft, attachments, jobs, evidence, reports and next action.
-3. Paste text, drop or choose files, or use **Add folder** to index a whole
+3. Select **Show chat**. Paste text, drop or choose files, or use **Add folder** to index a whole
    folder in place. Review the detected representation, retention choice and
    errors before running work.
 4. Choose a provider/model that the current host actually observed as
    available. Local routing, finite evaluators and retained local search remain
    usable when no reasoning model or cloud account is available.
-5. Ask one focused question and select **Run**. The host retains the complete
+5. Ask one focused question and select **Send**. The host retains the complete
    `routeProblem(input)` result, not only the compact console summary. It
    acquires a missing selected record through its owner, runs applicable
    implemented methods, and passes the complete source-bound receipt to the

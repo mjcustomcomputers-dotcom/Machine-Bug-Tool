@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="night">
+<html lang="en" data-theme="night" data-density="compact">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' blob:; font-src 'self'; object-src 'none'; media-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
@@ -62,6 +62,17 @@
           </select>
           <small id="model-observation" class="sr-only">No language model selected.</small>
         </label>
+        <div class="model-actions">
+          <button class="button compact" id="local-model-setup" type="button">Local AI setup</button>
+          <button class="icon-button" id="refresh-models" type="button" aria-label="Refresh model availability" title="Refresh models">↻</button>
+        </div>
+        <button class="button compact chat-toggle" id="toggle-composer" type="button" aria-controls="composer" aria-expanded="false">Show chat</button>
+        <button class="button compact" id="open-output" type="button">Output</button>
+        <div class="zoom-controls" role="group" aria-label="Interface size">
+          <button class="icon-button" id="zoom-out" type="button" aria-label="Smaller interface" title="Smaller interface">−</button>
+          <button class="button compact" id="zoom-reset" type="button" aria-label="Reset interface size to 100%" title="Reset interface size">100%</button>
+          <button class="icon-button" id="zoom-in" type="button" aria-label="Larger interface" title="Larger interface">+</button>
+        </div>
         <div class="top-status">
           <span class="status-pill neutral" id="service-status"><i></i>Service unknown</span>
           <span class="status-pill neutral" id="network-status"><i></i>Offline state unknown</span>
@@ -75,7 +86,7 @@
             <div>
               <div class="eyebrow">Active project</div>
               <h1 id="work-title">What would you like to work on?</h1>
-              <p id="project-objective">Choose or create a project. Your draft stays visible while you move through the workspace.</p>
+              <p id="project-objective">Choose or create a project. Your draft is kept while you move through the workspace.</p>
             </div>
             <div class="heading-actions">
               <button class="button" id="resume-work" type="button" disabled>Resume unfinished work</button>
@@ -84,20 +95,6 @@
           </div>
 
           <div class="work-grid">
-            <section class="panel conversation-panel" aria-labelledby="conversation-title">
-              <div class="panel-head">
-                <div><h2 id="conversation-title">Conversation</h2><p>Answers come from the selected observed provider. Local routing and search remain available when inference is not.</p></div>
-                <div class="button-row"><button class="button compact" id="copy-answer" type="button" disabled>Copy answer</button><span class="micro-state" id="conversation-state">READY</span></div>
-              </div>
-              <div class="conversation" id="conversation" role="log" aria-live="polite" aria-relevant="additions">
-                <div class="empty-state">
-                  <div class="landscape-icon" aria-hidden="true">⌁</div>
-                  <h3>Ask, or bring the record into view</h3>
-                  <p>Ask an ordinary question with the selected local model, or paste material, attach files or add a folder for source-bound analysis. MPC Workspace keeps conversation, evidence and evaluator receipts distinct.</p>
-                </div>
-              </div>
-            </section>
-
             <aside class="panel job-panel" aria-labelledby="job-title">
               <div class="panel-head">
                 <div><h2 id="job-title">Project progress</h2><p id="job-action">No active job</p></div>
@@ -255,33 +252,61 @@
           <div class="page-heading"><div><div class="eyebrow">Local workspace controls</div><h1 id="settings-title">Settings</h1><p>Raw retention, service health and diagnostics remain visible and reversible.</p></div></div>
           <div class="settings-grid">
             <section class="panel settings-card"><h2>Project retention</h2><label><input type="radio" name="retention" value="RETAIN_TEXT"> Retain selected text locally for replay and search</label><label><input type="radio" name="retention" value="METADATA_ONLY" checked> Store metadata and digests only</label><p class="honesty-note">Metadata-only projects need original content again for replay.</p></section>
-            <section class="panel settings-card"><h2>Accessibility</h2><label><input id="reduced-motion" type="checkbox"> Reduce motion</label><label><input id="high-contrast" type="checkbox"> High contrast</label><label><input id="quiet-mode-setting" type="checkbox"> Quiet mode</label><label>Interface zoom<select id="zoom-level"><option value="1">100%</option><option value="1.25">125%</option><option value="1.5">150%</option><option value="2">200%</option></select></label></section>
+            <section class="panel settings-card"><h2>Display and accessibility</h2><label>Spacing<select id="density-level"><option value="compact">Compact</option><option value="comfortable">Comfortable</option></select></label><label>Interface zoom<select id="zoom-level"><option value="0.5">50%</option><option value="0.6">60%</option><option value="0.75">75%</option><option value="0.85">85%</option><option value="0.9">90%</option><option value="1" selected>100%</option><option value="1.1">110%</option><option value="1.25">125%</option><option value="1.5">150%</option><option value="2">200%</option></select></label><p>Use the − / + controls above, or View → Zoom Out (Ctrl + −) for the entire desktop window.</p><label><input id="wheel-zoom" type="checkbox"> Shift + mouse wheel changes interface zoom</label><p class="input-boundary-note">When enabled, Shift + wheel is reserved for zoom. Turn it off for normal horizontal scrolling. Drag the chat edge, or focus its divider and use the arrow keys, to resize it.</p><label><input id="reduced-motion" type="checkbox"> Reduce motion</label><label><input id="high-contrast" type="checkbox"> High contrast</label><label><input id="quiet-mode-setting" type="checkbox"> Quiet mode</label></section>
             <section class="panel settings-card"><h2>Local service</h2><dl><div><dt>Status</dt><dd id="settings-service-state">Unknown</dd></div><div><dt>Database</dt><dd id="settings-database">Not reported</dd></div><div><dt>App build</dt><dd id="settings-build">Not reported</dd></div><div><dt>GUI source</dt><dd id="settings-source-commit">Not reported</dd></div></dl><div class="button-row"><button class="button" id="open-logs" type="button">Open logs</button><button class="button" id="restart-service" type="button">Restart service</button><button class="button" id="copy-error" type="button" disabled>Copy latest error</button></div></section>
           </div>
         </section>
       </main>
 
-      <section class="composer" id="composer" aria-labelledby="composer-title">
+      <section class="composer" id="composer" aria-labelledby="composer-title" hidden>
+        <div class="composer-resizer" id="composer-resizer" role="separator" tabindex="0" aria-label="Resize chat; use arrow keys or drag" aria-orientation="horizontal" aria-valuemin="170" aria-valuemax="430" aria-valuenow="200"></div>
         <div class="composer-head">
-          <div><span class="eyebrow">Ask MPC Workspace</span><strong id="composer-title">Chat directly, or add evidence for source-bound analysis</strong></div>
-          <span id="draft-state" class="micro-state">DRAFT NOT SAVED</span>
+          <strong id="composer-title">MPC Assistant</strong>
+          <div class="button-row"><span id="draft-state" class="micro-state">DRAFT NOT SAVED</span><label class="sr-only" for="dock-composer">Assistant placement</label><select id="dock-composer" class="dock-picker"><option value="right" selected>Side panel</option><option value="floating">Floating box</option><option value="bottom">Bottom panel</option></select><button class="button compact" id="move-composer" type="button" aria-label="Move floating assistant; drag or use arrow keys" hidden>Move</button><button class="button compact" id="reset-composer-size" type="button" title="Fit chat to its content">Fit</button><button class="button compact" id="hide-composer" type="button" aria-controls="composer">Hide chat</button></div>
         </div>
-        <div class="composer-input-grid">
-          <label><span>Evidence material (optional)</span><textarea id="material-input" rows="2" aria-describedby="material-boundary" placeholder="Paste logs, records, JSON, notes or other source material…"></textarea><small id="material-boundary" class="input-boundary-note">This material is acquired as evidence for the run.</small></label>
-          <label><span>Question or objective</span><textarea id="composer-input" rows="2" aria-describedby="question-boundary" placeholder="What should MPC Workspace determine from the selected material?"></textarea><small id="question-boundary" class="input-boundary-note">This instruction is sent to the job; it is never acquired as evidence.</small></label>
+        <div class="composer-body"><div class="assistant-conversation-host" id="assistant-conversation-host">
+            <section class="panel conversation-panel" aria-labelledby="conversation-title">
+              <div class="panel-head">
+                <div><h2 id="conversation-title">Conversation</h2><p>Answers come from the selected observed provider. Local routing and search remain available when inference is not.</p></div>
+                <div class="button-row"><button class="button compact" id="copy-answer" type="button" disabled>Copy answer</button><span class="micro-state" id="conversation-state">READY</span></div>
+              </div>
+              <div class="conversation" id="conversation" role="log" aria-live="polite" aria-relevant="additions">
+                <div class="empty-state">
+                  <div class="landscape-icon" aria-hidden="true">⌁</div>
+                  <h3>Ask, or bring the record into view</h3>
+                  <p>Ask an ordinary question with the selected local model, or paste material, attach files or add a folder for source-bound analysis. MPC Workspace keeps conversation, evidence and evaluator receipts distinct.</p>
+                </div>
+              </div>
+            </section>
+
+
+</div>
+          <div class="composer-input-grid">
+            <label class="question-field"><span class="sr-only">Question or objective</span><textarea id="composer-input" rows="2" aria-describedby="question-boundary" placeholder="Message MPC Assistant…"></textarea><small id="question-boundary" class="input-boundary-note sr-only">This instruction is sent to the job; it is never acquired as evidence.</small></label>
+
+          </div>
+<details class="advanced-chat" id="advanced-chat"><summary>Advanced</summary>
+            <details class="evidence-input" id="evidence-input-details">
+              <summary id="evidence-input-summary">Evidence text (optional)</summary>
+              <label><span class="sr-only">Evidence material (optional)</span><textarea id="material-input" rows="2" aria-describedby="material-boundary" placeholder="Paste logs, records, JSON, notes or other source material…"></textarea><small id="material-boundary" class="input-boundary-note">This material is acquired as evidence for the run.</small></label>
+            </details>
+          <div class="composer-context"><span id="composer-project">No project</span><span>•</span><span id="composer-model">No model</span><span>•</span><label>Mode <select id="work-mode"><option value="AUTO">Auto</option><option value="CHAT">Chat</option><option value="EVIDENCE_ANALYSIS">Evidence analysis</option></select></label></div>
+<p class="input-boundary-note">Auto reasons over your message and uses selected attachments when present. Choose a specific mode only when needed.</p></details>
+          <div id="attachment-tray" class="attachment-tray" aria-live="polite"><span class="tray-placeholder">Drop text or files here, or use an attachment control.</span></div>
         </div>
-        <div id="attachment-tray" class="attachment-tray" aria-live="polite"><span class="tray-placeholder">Drop text or files here, or use an attachment control.</span></div>
         <div class="composer-controls">
-          <div class="button-row">
-            <button class="button compact" id="paste-input" type="button">Paste</button>
+          <details class="attachment-options" id="attachment-options"><summary class="button compact">+ Add</summary><div class="attachment-options-list" role="group" aria-label="Add material">
             <button class="button compact" id="attach-files" type="button">Attach files</button>
             <button class="button compact" id="add-folder" type="button">Add folder</button>
+            <button class="button compact" id="paste-question" type="button">Paste message</button>
+            <button class="button compact" id="paste-input" type="button">Paste evidence</button>
             <input id="browser-file-input" type="file" multiple hidden>
-          </div>
-          <div class="composer-context"><span id="composer-project">No project</span><span>•</span><span id="composer-model">No model</span><span>•</span><label>Mode <select id="work-mode"><option value="AUTO">Auto</option><option value="CHAT">Chat</option><option value="EVIDENCE_ANALYSIS">Evidence analysis</option></select></label></div>
+          </div></details>
+          <span class="send-hint">Enter to send · Shift + Enter for a new line</span>
+
           <div class="button-row">
-            <button class="button danger" id="stop-work" type="button" disabled>Stop</button>
-            <button class="button run" id="run-work" type="button">Run</button>
+            <button class="button danger" id="stop-work" type="button" disabled hidden>Stop</button>
+            <button class="button run" id="run-work" type="button">Send</button>
           </div>
         </div>
         <div class="drop-overlay" id="drop-overlay" aria-hidden="true">Drop files into this project</div>
@@ -299,17 +324,48 @@
     </form>
   </dialog>
 
+  <dialog id="output-dialog" class="output-dialog" aria-labelledby="output-title">
+    <section class="dialog-card output-card">
+      <div class="dialog-head"><div><div class="eyebrow">Copy or save the results</div><h2 id="output-title">Chat output</h2></div><button class="icon-button" id="close-output-dialog" type="button" aria-label="Close output">×</button></div>
+      <div class="output-toolbar"><label>Show<select id="output-mode"><option value="answer">Latest answer</option><option value="transcript">Full visible chat log</option></select></label><button class="button compact" id="refresh-output" type="button">Refresh</button><span id="output-size" class="input-boundary-note"></span></div>
+      <label class="sr-only" for="output-text">Plain-text chat results</label><textarea id="output-text" readonly spellcheck="false" placeholder="No answer yet. Send a message in the assistant."></textarea>
+      <div class="dialog-actions"><button class="button" id="select-output" type="button">Select all</button><button class="button" id="save-output" type="button">Save .txt</button><button class="button accent" id="copy-output" type="button">Copy text</button></div>
+    </section>
+  </dialog>
+
   <dialog id="connection-dialog" aria-labelledby="connection-dialog-title">
     <form method="dialog" class="dialog-card" id="connection-form">
       <div class="dialog-head"><div><div class="eyebrow">Host-owned credentials</div><h2 id="connection-dialog-title">Add connection</h2></div><button class="icon-button" id="close-connection-dialog" type="button" aria-label="Close">×</button></div>
       <label>Display name<input id="connection-name" required maxlength="120"></label>
-      <label>Provider<select id="connection-provider"><option>GITHUB</option><option>GOOGLE_DRIVE</option><option>GMAIL</option><option>DROPBOX</option><option>DROPBOX_DASH</option><option>HOSTED_MPC</option><option>LOCAL_MPC</option><option>OLLAMA</option><option>OPENAI_API</option><option>CUSTOM_MCP</option></select></label>
-      <label>Transport<select id="connection-transport"><option value="loopback_http">Local loopback HTTP</option><option value="stdio">Local stdio</option><option value="streamable_http">Remote streaming HTTP</option><option value="secure_mcp_tunnel">Secure MCP tunnel</option></select></label>
-      <label>Endpoint or command<input id="connection-endpoint" required maxlength="2000" autocomplete="off"></label>
-      <label>Credential-store reference<input id="connection-credential" maxlength="500" placeholder="os-secret://… (never the secret value)"></label>
+      <label>Provider<select id="connection-provider"><option>OLLAMA</option><option>GITHUB</option><option>GOOGLE_DRIVE</option><option>GMAIL</option><option>DROPBOX</option><option>DROPBOX_DASH</option><option>HOSTED_MPC</option><option>LOCAL_MPC</option><option>OPENAI_API</option><option>CUSTOM_MCP</option></select></label>
+      <div class="connection-help" id="connection-help" role="status"></div>
+      <button class="button accent" id="connection-local-setup" type="button">Open Local AI setup</button>
+      <label>Transport<select id="connection-transport"><option value="PLUGIN">Host plugin adapter</option><option value="OPENAI_API">OpenAI API adapter</option><option value="loopback_http">Local loopback HTTP</option><option value="stdio">Local stdio</option><option value="streamable_http">Remote streaming HTTP</option><option value="secure_mcp_tunnel">Secure MCP tunnel</option></select></label>
+      <label>Endpoint or command<input id="connection-endpoint" required maxlength="2000" autocomplete="off" aria-describedby="connection-endpoint-help"></label>
+      <small id="connection-endpoint-help" class="input-boundary-note"></small>
+      <label>Credential-store reference<input id="connection-credential" maxlength="500" placeholder="Leave blank unless your host adapter supplied a reference" aria-describedby="connection-credential-help"></label>
+      <small id="connection-credential-help" class="input-boundary-note">This field accepts an existing credential reference, not a password or API token. Saving it does not create a credential store.</small>
       <p class="honesty-note">Account identity, discovered scopes and tools come from the host adapter’s actual observation; they are not self-asserted here. Saving a URL means configured, not connected.</p>
       <div class="dialog-actions"><button class="button" id="cancel-connection" type="button">Cancel</button><button class="button accent" id="configure-connection" type="submit">Save configuration</button></div>
     </form>
+  </dialog>
+
+  <dialog id="local-model-dialog" aria-labelledby="local-model-title">
+    <section class="dialog-card local-model-card">
+      <div class="dialog-head"><div><div class="eyebrow">On this computer</div><h2 id="local-model-title">Local AI setup</h2></div><button class="icon-button" id="close-local-model-dialog" type="button" aria-label="Close Local AI setup">×</button></div>
+      <p id="local-model-status" role="status">Checking Ollama…</p>
+      <dl class="local-model-details"><div><dt>Ollama address</dt><dd><code>http://127.0.0.1:11434</code></dd></div><div><dt>Starter model</dt><dd id="local-starter-status">Not checked</dd></div><div><dt>Your MPC model</dt><dd id="local-mpc-status">Not checked</dd></div></dl>
+      <p class="setup-intro">If Ollama is not installed, download its Windows installer from <code>https://ollama.com/download/windows</code>, install it, then return here.</p>
+      <div class="button-row"><button class="button compact" id="copy-ollama-link" type="button">Copy installer link</button><button class="button compact" id="local-model-refresh" type="button">Refresh status</button></div>
+      <div class="setup-steps">
+        <div><div><strong>1. Start Ollama</strong><p>Uses your installed Ollama service.</p></div><button class="button" id="local-model-start" type="button">Start Ollama</button></div>
+        <div><div><strong>2. Download the starter</strong><p>Qwen3 4B Instruct · several GB; progress appears below.</p></div><button class="button" id="local-model-pull" type="button">Download model</button></div>
+        <div><div><strong>3. Create your MPC model</strong><p>Applies the bundled MPC instructions to the starter model.</p></div><button class="button" id="local-model-create" type="button">Create MPC model</button></div>
+      </div>
+      <div class="setup-progress" aria-live="polite"><progress id="local-model-progress" max="100" hidden></progress><p id="local-model-progress-text">No setup operation running.</p></div>
+      <p class="input-boundary-note">Model detection confirms installation. Your first completed answer confirms local inference. Setup actions do not run a project or upload its evidence.</p>
+      <div class="dialog-actions"><button class="button danger" id="local-model-stop" type="button" disabled>Stop setup</button><button class="button accent" id="local-model-use" type="button" disabled>Use local model</button></div>
+    </section>
   </dialog>
 
   <div class="toast-region" id="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>

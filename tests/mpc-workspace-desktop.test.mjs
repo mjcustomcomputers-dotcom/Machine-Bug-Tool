@@ -4,6 +4,7 @@ import {existsSync,mkdirSync,mkdtempSync,readFileSync,rmSync,symlinkSync,writeFi
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 import test from 'node:test';
+import {runInNewContext} from 'node:vm';
 
 import {
   ELECTRON_BUNDLED_NODE_VERSION,
@@ -36,10 +37,53 @@ test('desktop main and sandboxed preload expose only the narrow native bridge',(
   const exposed=preload.slice(preload.indexOf("contextBridge.exposeInMainWorld('mpcWorkspace'"));
   const methods=[...exposed.matchAll(/^\s{2}([A-Za-z][A-Za-z]+):/gmu)].map(match=>match[1]);
   assert.deepEqual(methods,[
-    'getRuntimeStatus','chooseFiles','chooseFolder','readClipboardText','copyText','openLogs','restartService'
+    'getRuntimeStatus','chooseFiles','chooseFolder','readClipboardText','copyText','openLogs','restartService','setInterfaceZoom'
   ]);
   assert.doesNotMatch(preload,/exposeInMainWorld\(['"]ipcRenderer['"]/u);
   assert.doesNotMatch(preload,/\.send\(/u);
+});
+
+test('preload accepts only finite 50–200 percent display zoom and invokes its single fixed channel',async()=>{
+  const calls=[];
+  let exposed;
+  runInNewContext(read('desktop/preload.cjs'),{require:name=>{
+    assert.equal(name,'electron');
+    return {contextBridge:{exposeInMainWorld:(name,value)=>{assert.equal(name,'mpcWorkspace');exposed=value;}},
+      ipcRenderer:{invoke:async(...args)=>{calls.push(args);return {status:'APPLIED',zoom_factor:args[1]};}}};
+  }});
+  for(const value of [0.5,0.6,0.75,1,1.25,2]){
+    assert.equal((await exposed.setInterfaceZoom(value)).zoom_factor,value);
+  }
+  assert.deepEqual(calls.map(([channel])=>channel),Array(6).fill('mpc-workspace:set-interface-zoom'));
+  for(const value of [null,undefined,'0.6',{},[],NaN,Infinity,-Infinity,0.49,2.01]){
+    await assert.rejects(exposed.setInterfaceZoom(value),/MPC_WORKSPACE_INTERFACE_ZOOM_INVALID/u);
+  }
+  assert.equal(calls.length,6);
+});
+
+test('native zoom handler authenticates the sender, validates bounds, and returns the observed factor',()=>{
+  const main=read('desktop/main.mjs');
+  const body=/ipcMain\.handle\(IPC\.setInterfaceZoom,\s*(\(event,value\)=>\{[^]*?\n  \})\);/u.exec(main)?.[1];
+  assert.ok(body,'fixed native zoom handler is present');
+  const trusted={id:'trusted'};
+  const changes=[];
+  let observed=1;
+  const handler=runInNewContext(`(${body})`,{
+    assertTrustedSender:event=>{if(event!==trusted)throw new Error('UNTRUSTED');},
+    mainWindow:{webContents:{setZoomFactor:value=>{changes.push(value);observed=value;},getZoomFactor:()=>observed}}
+  });
+  assert.throws(()=>handler({},0.6),/UNTRUSTED/u);
+  for(const value of ['0.6',NaN,Infinity,0.49,2.01]){
+    assert.throws(()=>handler(trusted,value),/MPC_WORKSPACE_INTERFACE_ZOOM_INVALID/u);
+  }
+  assert.equal(changes.length,0);
+  for(const value of [0.5,0.6,1,2]){
+    const result=handler(trusted,value);
+    assert.equal(result.status,'APPLIED');
+    assert.equal(result.zoom_factor,value);
+  }
+  assert.deepEqual(changes,[0.5,0.6,1,2]);
+  assert.match(main,/zoom_factor:mainWindow[^\n]+getZoomFactor\(\)/u);
 });
 test('desktop sources parse without resolving or downloading Electron',()=>{
   execFileSync(process.execPath,['--check',resolve(ROOT,'desktop/main.mjs')],{stdio:'pipe'});
