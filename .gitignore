@@ -44,3 +44,6 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+
+# Private local MPC reasoner run receipts; never commit case data.
+/Runs/
