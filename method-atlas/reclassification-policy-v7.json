@@ -277,6 +277,13 @@
       "model_kind": "METHOD_GRAPH",
       "reasoning_direction": "BIDIRECTIONAL",
       "workflow_stage": "METHOD_ROUTING"
+    },
+    "OPTICAL_COMMUNICATIONS": {
+      "discipline": "OPTICAL_LINK_ENGINEERING",
+      "primary_purpose": "VERIFY",
+      "model_kind": "OPTICAL_LINK_TRACE",
+      "reasoning_direction": "COMPARATIVE",
+      "workflow_stage": "VERIFICATION_PLANNING"
     }
   },
   "dimension_purposes": {
