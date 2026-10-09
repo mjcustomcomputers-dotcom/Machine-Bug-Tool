@@ -19,6 +19,7 @@ import {
 } from 'electron';
 import {createScreenCaptureHost} from './screen-host.mjs';
 import {initialWorkspaceWindowBounds} from './window-geometry.mjs';
+import {workspaceContextMenuSpec} from './text-context-menu.mjs';
 import {createWorkspaceSecretStore} from '../lib/mpc-workspace-secrets.mjs';
 import {createWorkspaceHostAdapters} from '../lib/mpc-workspace-host-adapters.mjs';
 
@@ -140,7 +141,7 @@ function runtimeStatus(){
     zoom_factor:mainWindow&&!mainWindow.isDestroyed()?mainWindow.webContents.getZoomFactor():1,
     runtime:Object.freeze({electron:process.versions.electron,node:process.versions.node,chrome:process.versions.chrome}),
     service:Object.freeze({status:serviceState.status,url:workspaceService?.url??null,last_error_code:serviceState.last_error_code}),
-    capabilities:Object.freeze({clipboard:true,files:true,folders:true,logs:true,restart:true,interface_zoom:true}),
+    capabilities:Object.freeze({clipboard:true,mouse_context_menu:true,files:true,folders:true,logs:true,restart:true,interface_zoom:true}),
   });
 }
 
@@ -288,6 +289,21 @@ function installApplicationMenu(){
   ]));
 }
 
+/** Native Windows-style mouse menu. Roles operate in the current focused
+ * renderer field; no selected text is sent over IPC or written to logs.
+ * Keep link/navigation/devtools actions completely out of this menu. */
+function installNativeContextMenu(window){
+  window.webContents.on('context-menu',(_event,params)=>{
+    if(window.isDestroyed()||!isTrustedRendererUrl(window.webContents.getURL()))return;
+    const spec=workspaceContextMenuSpec(params,{trustedOrigin:workspaceOrigin});
+    if(!spec.length)return;
+    const template=spec.map(item=>item.command==='COPY_PREVIEW_IMAGE'
+      ? {label:item.label,enabled:true,click:()=>window.webContents.copyImageAt(params.x,params.y)}
+      : item);
+    Menu.buildFromTemplate(template).popup({window,x:params.x,y:params.y});
+  });
+}
+
 function createMainWindow(){
   const window=new BrowserWindow({
     title:APP_NAME,
@@ -308,6 +324,7 @@ function createMainWindow(){
       devTools:!app.isPackaged,
     },
   });
+  installNativeContextMenu(window);
   window.once('ready-to-show',()=>window.show());
   window.on('closed',()=>{screenHost?.stop('WORKSPACE_CLOSED');if(mainWindow===window)mainWindow=null});
   window.webContents.on('did-start-navigation',(_event,_url,_inPlace,isMainFrame)=>{if(isMainFrame)screenHost?.stop('WORKSPACE_NAVIGATION')});

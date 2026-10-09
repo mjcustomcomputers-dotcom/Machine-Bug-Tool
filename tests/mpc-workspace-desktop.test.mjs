@@ -67,6 +67,7 @@ test('native window constructor uses the primary work area as DIP outer-window b
   const create=runInNewContext(`(function(){${body}})`,{
     APP_NAME:'MPC Workspace',PRELOAD_PATH:'/synthetic/preload.cjs',app:{isPackaged:true},
     screen:{getPrimaryDisplay:()=>({workArea,scaleFactor:2})},initialWorkspaceWindowBounds,
+    installNativeContextMenu:()=>{},
     BrowserWindow:class{
       constructor(value){options=value;this.webContents={on(){},setWindowOpenHandler(){}};}
       once(){}
@@ -94,6 +95,10 @@ test('desktop main and sandboxed preload expose only the narrow native bridge',(
   assert.match(main,/process\.resourcesPath,'mpc-workspace-renderer'/u);
   assert.match(main,/source_commit:build\.source_commit/u);
   assert.doesNotMatch(main,/shell\.openExternal/u);
+  assert.match(main,/installNativeContextMenu\(window\)/u);
+  assert.match(main,/webContents\.on\('context-menu'/u);
+  assert.match(main,/Menu\.buildFromTemplate\(template\)\.popup/u);
+  assert.doesNotMatch(main,/\.popup\(\{[^}]*devTools/iu);
 
   assert.match(preload,/exposeInMainWorld\('mpcWorkspace'/u);
   const exposed=preload.slice(preload.indexOf("contextBridge.exposeInMainWorld('mpcWorkspace'"));
