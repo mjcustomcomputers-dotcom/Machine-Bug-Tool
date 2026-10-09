@@ -5,6 +5,7 @@ import {readFileSync,mkdirSync} from 'node:fs';
 import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {routeMethodAtlas} from '../lib/method-atlas-router.mjs';
+import {detectMethodAtoms} from '../lib/atomic-method-detector.mjs';
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const schema=readFileSync(resolve(ROOT,'method-atlas/schema.sql'),'utf8');
 const catalog=JSON.parse(readFileSync(resolve(ROOT,'method-atlas/candidates.json'),'utf8'));
@@ -65,15 +66,15 @@ export function dbAdapter(db){
 const calledAsMain=process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url);
 if(calledAsMain){
  const command=process.argv[2]??'status';
- if(!['init','status','query'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY');
+ if(!['init','status','query','detect'].includes(command))throw Error('USAGE_INIT_STATUS_QUERY_DETECT');
  mkdirSync(dirname(DB_PATH),{recursive:true});
  const db=new DatabaseSync(DB_PATH);
  try{
   const stats=loadMethodAtlas(db);
-  if(command==='query'){
+  if(command==='query'||command==='detect'){
    if(!process.argv[3])throw Error('QUERY_JSON_REQUIRED');
    const query=JSON.parse(process.argv[3]);
-   const result=await routeMethodAtlas(dbAdapter(db),query);
+   const result=command==='detect'?await detectMethodAtoms(dbAdapter(db),query):await routeMethodAtlas(dbAdapter(db),query);
    process.stdout.write(JSON.stringify(result,null,2)+'\n');
   }else process.stdout.write(JSON.stringify({...stats,sqlite_path:DB_PATH},null,2)+'\n');
  }finally{db.close()}
