@@ -20,6 +20,11 @@ That command verifies versions/profile, installs the locked dependencies, runs
 the existing tests, and builds the source. It does not create an account,
 select a model, configure a production MCP login, or publish an environment.
 See docs/daybreak-no-browser-verification.json for this pass's actual checks.
+The originating session's successful hosted MPC calls are preserved in
+docs/mpc-parent-session-verification.json. The user's separate successful
+Cloud setup report and already-started publication are recorded in
+docs/daybreak-cloud-environment-status.json. Missing MPC tools in that setup
+session do not block source preparation or otherwise-ready publication.
 
 1. CONTINUE THE EXISTING SYSTEM
 
@@ -133,7 +138,24 @@ It does not document a reusable environment create/publish command. The
 current connected tools also expose no such action. Do not substitute an
 undocumented endpoint or treat source setup as environment publication.
 
-Suggested environment-preparation prompt:
+CURRENT USER-REPORTED PROGRESS
+
+The user supplied a completed setup report at source-import commit
+97704161bfc2c3f0af42ead986dbfb7b405c8c5c: Node 24.19.0, pnpm 11.25.0,
+frozen install, 166 passing tests, successful build, expected development and
+built Worker homepages, and unchanged repository files. The setup saved
+install_script and start_skill, including a writable Wrangler configuration
+override. The exact saved instructions have not been retrieved in this
+originating session; preserve them without guessing their implementation.
+
+The user has already started publishing. Allow that operation to complete.
+Publication completion and restoration in a fresh task are still unverified.
+Do not restart setup merely because the setup session lacked MPC tools.
+A later handoff/receipt commit does not replace the reported tested commit or
+silently update an already-running checkout. In the next task, read the
+current origin/main instructions safely while preserving local changes.
+
+Suggested prompt for a future environment-preparation task:
 
   Prepare this existing MPC Machine Legal BugTools repository for my Daybreak
   workflow. Read AGENTS.md, DAYBREAK-START.txt, package.json, pnpm-lock.yaml,
@@ -144,18 +166,41 @@ Suggested environment-preparation prompt:
   profile, then run node --test and npm run build. Record exact versions,
   commit, commands, exit statuses, and failures. Prepare the reusable install
   and task-start instructions and show the setup report for publication.
-  Verify actual Daybreak availability for this signed-in identity and product
-  surface separately. Inspect the installed MPC plugin and, where it is
-  available, verify a protected synthetic evaluator call through that
-  connection. Record unavailable capabilities without substituting a bare
-  MCP URL or invented authentication. Environment publication and production
-  MPC deployment are separate actions. Continue the original repair queue
-  only after reading the original CODEX-HANDOFF.txt and current native state.
+  Read docs/mpc-parent-session-verification.json and retain the successful
+  originating-session MPC receipt with its stated scope. If this destination
+  exposes the supported MPC plugin, verify a protected synthetic call there.
+  If it does not, record MPC tools as unavailable in this session and continue
+  source preparation and otherwise-ready environment publication. Verify
+  actual Daybreak availability separately. Preserve existing saved
+  install_script/start_skill instructions and their actual Wrangler override.
+  Record unavailable capabilities without substituting a bare MCP URL or
+  invented authentication. Environment publication and production MPC
+  deployment are separate actions. Continue the original repair queue only
+  after reading the original CODEX-HANDOFF.txt and current native state.
 
-6. DESTINATION MPC VERIFICATION
+6. MPC RECEIPT AND DESTINATION CAPABILITY
 
-Use the current installed MPC plugin and read each actual registered schema.
-Call runtime_status({}), get_universal_contract({}), and get_method_catalog.
+docs/mpc-parent-session-verification.json retains the originating session's
+actual runtime_status result, successful protected contract/catalog calls,
+and complete protected Nash input/output. Its result was BOUNDED_MODEL_RESULT
+with model fingerprint:
+ccaeffad1174b17d243331dae954c6cb6fdd1b66a33f34dbf3e5e57eb65535c4
+
+That is prior evidence that the existing hosted service and plugin connection
+worked in the originating session. It does not transfer authenticated identity
+or prove that tools are exposed in another session. The evaluator's
+source_authentication=false flag refers to supplied evidence/target facts,
+not a failure of the protected caller-authenticated dispatch.
+
+When a destination has no MPC namespace, record that capability as unavailable
+there. Continue installation, tests, build, and otherwise-ready publication.
+Do not infer an authentication failure, recreate the hosted system, or repeat
+already successful parent-session checks solely because that destination
+cannot expose them.
+
+When destination work actually requires hosted MPC and the supported plugin
+is available, read each actual registered schema. Verify runtime_status({}),
+get_universal_contract({}), and get_method_catalog through that connection.
 For a small protected check, read get_method_catalog({"method":"nash"}) and
 evaluate the explicitly synthetic matching-pennies input:
 

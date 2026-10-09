@@ -1,0 +1,315 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_kind": "MPC_PARENT_SESSION_VERIFICATION",
+  "receipt_saved_at_utc": "2026-10-09 02:42:24 UTC",
+  "tool_call_timestamp_utc": null,
+  "timing_note": "These successful calls were observed earlier in this same originating conversation. The exact call timestamps were not retained; receipt_saved_at_utc is the time this record was assembled, not the call time.",
+  "evidence_origin": "FIRSTHAND_INSTALLED_PLUGIN_TOOL_RESULTS_IN_ORIGINATING_CHATGPT_SESSION",
+  "verification_scope": "Existing hosted MPC service accessed through the installed plugin in the originating session. This record does not assert tool exposure or authentication in a separate Cloud setup session or future task.",
+  "identity": {
+    "site_url": "https://mpc-machine-legal-tools.mjcustomcomputers.chatgpt.site",
+    "mcp_url": "https://mpc-machine-legal-tools.mjcustomcomputers.chatgpt.site/mcp",
+    "sites_project_id": "appgprj_6abf0bb684648191a38324d33d1aa8cc",
+    "plugin_id": "plugin_asdk_app_sites_ec58381195008191a0b03b8066d2b5b6",
+    "development_repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+    "repository_head_before_receipt": "1752158a0ed624bee27b0574a1f33b27db7b328c"
+  },
+  "parent_session_status": "HOSTED_MPC_PROTECTED_TOOL_CALL_SUCCEEDED",
+  "calls": [
+    {
+      "tool": "mcp__codex_apps__mpc_machine_legal_bugtools_runtime_status",
+      "input": {},
+      "result_retention": "COMPLETE_STRUCTURED_CONTENT",
+      "result": {
+        "runtime_version": "0.10.0-http.1",
+        "research_storage_version": "RESEARCH-STORAGE-2.0",
+        "private_export_default": true,
+        "dash_reference_projection": true,
+        "registry_authenticated_identity_required": true,
+        "universal_router_version": "UMTB-4.0",
+        "semantic_branch_gate": true,
+        "semantic_gate_implementation": "DECLARED_TYPE_AND_QUESTION_RULES",
+        "child_classifier_gate": true,
+        "method_ark": "enabled",
+        "method_dna_lookup": "enabled",
+        "inversion_engine": "METADATA_AND_COMPLEMENT_ROUTING",
+        "dual_epistemic_finality": "enabled",
+        "cross_border_adapter": "TYPED_ENTITY_AND_CONTEXT_BINDING",
+        "audience_morphology": "EVIDENCE_PRESERVING_TEMPLATE_RENDERER",
+        "routing_basis": "CALLER_TYPED_STRUCTURES_NOT_AUTOMATIC_NATURAL_LANGUAGE_UNDERSTANDING",
+        "automatic_method_execution": false,
+        "boot_instruction": "Read get_universal_contract before analysis. Existing business_logic_sweep supports UMTB4 JSON in context, including method_lookup, presentation and explicit atomic_review, when client discovery has not yet exposed dedicated tools.",
+        "method_catalog_version": "1.2.0",
+        "research_registry": {
+          "mbss_branches": 64,
+          "mbss_classifiers": 512,
+          "separate_candidate_extension_templates": 96,
+          "jacket_axes": 14,
+          "output_contract": "RECON-OUTPUT-1.0"
+        },
+        "implemented_evaluators": 24,
+        "atomic_execution_version": "ATOMIC-EXECUTION-1.0",
+        "atomic_transform_operators": 17,
+        "atomic_review_available": true,
+        "method_inventory": {
+          "implemented_evaluators": 24,
+          "research_hooks": 10,
+          "framework_operators": 15,
+          "reduction_methods": 12,
+          "transformations": 17,
+          "mirrors": 15,
+          "object_coordinates": 25,
+          "jacket_axes": 14,
+          "layers": [
+            "IMPLEMENTED",
+            "METHOD_HOOKS",
+            "FRAMEWORK_OPERATORS",
+            "REDUCTION_METHODS",
+            "TRANSFORMATIONS",
+            "MIRRORS"
+          ],
+          "counting_rule": "Overlapping framework families, mirrors, transformations and executable evaluators are separate inventories. Do not sum them as executed methods.",
+          "rule": [
+            "METHODS ARE TRIGGERED BY DIMENSION.",
+            "Do not run every method blindly.",
+            "Run the methods capable of changing the active classifier state."
+          ]
+        },
+        "business_logic_registry": {
+          "status": "FROZEN_REGISTRY",
+          "pack_id": "BL-SOLID-STATE-384",
+          "version": "1.0.0",
+          "pack_fingerprint": "7db8a73e32016a8d3df560f649125221615b42a669231ec066ce74fee9d8a58d",
+          "branch_count": 32,
+          "classifier_count": 384,
+          "canonical_maxvar_range": [
+            1,
+            256
+          ]
+        },
+        "request_limits": {
+          "message_bytes": 2000000,
+          "response_bytes": 1000000,
+          "body_deadline_ms": 5000,
+          "inflight_per_isolate": 8,
+          "tool_calls_per_minute_per_user_per_isolate": 60,
+          "automatic_retries": 0
+        },
+        "transport": "streamable-http",
+        "available_tools": [
+          "runtime_status",
+          "review_atomic_variants",
+          "route_problem",
+          "get_method_ark",
+          "render_output",
+          "prepare_research_backup",
+          "get_research_registry",
+          "cross_reference_methods",
+          "compare_operative_states",
+          "get_method_catalog",
+          "evaluate_method",
+          "get_nestmax_registry",
+          "business_logic_sweep",
+          "analyze_business_logic",
+          "get_business_logic_registry",
+          "get_registry",
+          "delta_plan",
+          "refine_counterexample",
+          "validate_evidence_packet",
+          "get_universal_contract"
+        ],
+        "registry": {
+          "maxvar": 256,
+          "microclassifiers": 174,
+          "branch_counts": {
+            "A": 20,
+            "B": 28,
+            "C": 26,
+            "D": 20,
+            "E": 20,
+            "F": 20,
+            "G": 20,
+            "H": 20
+          },
+          "legacy_descriptor": 160,
+          "descriptor_matches_enumeration": false,
+          "status": "LOCAL_REGISTRY_STRUCTURE_PASS",
+          "canonical_promotion": false
+        },
+        "local_only_tools": [
+          "stage_source",
+          "inspect_atom",
+          "compare_meanings",
+          "test_variation",
+          "reconcile_methods",
+          "self_test"
+        ],
+        "proof_gate_hosted": false,
+        "persistence_hosted": false,
+        "connector_dispatch": false,
+        "status": "HOSTED_MCP_READY",
+        "prototype_version": "0.4.2",
+        "canonical_promotion": false,
+        "court_release_allowed": false
+      }
+    },
+    {
+      "tool": "mcp__codex_apps__mpc_machine_legal_bugtools_get_universal_contract",
+      "input": {},
+      "call_status": "SUCCESS",
+      "result_retention": "SELECTED_FIELD_FROM_SUCCESSFUL_STRUCTURED_CONTENT",
+      "result": {
+        "contract_version": "1.0.0"
+      }
+    },
+    {
+      "tool": "mcp__codex_apps__mpc_machine_legal_bugtools_get_method_catalog",
+      "input": {
+        "method": "nash"
+      },
+      "call_status": "SUCCESS",
+      "result_retention": "SELECTED_FIELDS_FROM_SUCCESSFUL_STRUCTURED_CONTENT",
+      "result": {
+        "status": "METHOD_IMPLEMENTATION_CATALOG",
+        "version": "1.2.0",
+        "methods": [
+          {
+            "id": "nash",
+            "methods": "Nash",
+            "level": "COMPUTATION",
+            "scope": "Pure equilibria for supplied two-player matrices up to 8×8; one strictly interior mixed equilibrium for nondegenerate 2×2 matrices. No general mixed-equilibrium enumeration."
+          }
+        ],
+        "input_schemas": {
+          "nash": {
+            "type": "object",
+            "properties": {
+              "row_payoffs": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "minimum": -1000000000,
+                    "maximum": 1000000000
+                  },
+                  "minItems": 1,
+                  "maxItems": 8
+                },
+                "minItems": 1,
+                "maxItems": 8
+              },
+              "column_payoffs": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "minimum": -1000000000,
+                    "maximum": 1000000000
+                  },
+                  "minItems": 1,
+                  "maxItems": 8
+                },
+                "minItems": 1,
+                "maxItems": 8
+              }
+            },
+            "required": [
+              "row_payoffs",
+              "column_payoffs"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "model_scope": "Finite supplied models and records only; no target access, traffic generation, exploit planning, or source authentication.",
+        "canonical_promotion": false,
+        "external_action_authorized": false
+      }
+    },
+    {
+      "tool": "mcp__codex_apps__mpc_machine_legal_bugtools_evaluate_method",
+      "input": {
+        "method": "nash",
+        "input": {
+          "row_payoffs": [
+            [
+              1,
+              -1
+            ],
+            [
+              -1,
+              1
+            ]
+          ],
+          "column_payoffs": [
+            [
+              -1,
+              1
+            ],
+            [
+              1,
+              -1
+            ]
+          ]
+        }
+      },
+      "call_status": "SUCCESS",
+      "result_retention": "COMPLETE_STRUCTURED_CONTENT",
+      "result": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "nash",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "ccaeffad1174b17d243331dae954c6cb6fdd1b66a33f34dbf3e5e57eb65535c4",
+        "result": {
+          "pure_equilibria": [],
+          "strict_interior_mixed": {
+            "row_probabilities": [
+              0.5,
+              0.5
+            ],
+            "column_probabilities": [
+              0.5,
+              0.5
+            ]
+          },
+          "mixed_status": "STRICT_INTERIOR_SOLUTION",
+          "index_base": 0,
+          "numeric_model": "IEEE754 supplied payoffs; pure comparisons exact, mixed probabilities approximate"
+        },
+        "limitations": "Pure equilibria for supplied two-player matrices up to 8×8; one strictly interior mixed equilibrium for nondegenerate 2×2 matrices. No general mixed-equilibrium enumeration.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      }
+    }
+  ],
+  "interpretation": {
+    "authenticated_dispatch": "The protected evaluator succeeded through the existing installed-plugin connection in this originating session. The conclusion does not rely on the unprotected runtime_status call alone.",
+    "supplied_model": "The explicitly synthetic matching-pennies model returned no pure equilibria and [0.5, 0.5] mixed strategies for both players.",
+    "source_authentication_flag": "The evaluator's source_authentication=false means it does not authenticate supplied evidence or target facts. It does not mean this protected caller-authenticated dispatch failed.",
+    "inventory_counts": "Runtime inventories describe distinct, overlapping families. They must not be summed as methods executed by this check."
+  },
+  "destination_session": {
+    "evidence_origin": "USER_SUPPLIED_SETUP_REPORT",
+    "tool_exposure_status": "MPC_TOOLS_UNAVAILABLE_IN_SETUP_SESSION_PER_REPORT",
+    "protected_call_status": "NOT_VERIFIED_IN_DESTINATION_SESSION",
+    "daybreak_access_status": "NOT_VERIFIED_IN_DESTINATION_SESSION",
+    "detailed_report": "docs/daybreak-cloud-environment-status.json"
+  },
+  "continuation": {
+    "source_preparation_gate": "Missing MPC tools in a destination session do not block dependency installation, local tests, local build, or otherwise-ready Cloud environment publication.",
+    "reuse": "Retain this receipt as the prior hosted-service verification; do not repeat those parent-session checks solely because another session lacks the tool namespace.",
+    "destination_connection_gate": "Before work that actually requires hosted MPC calls in a destination session, inspect the available supported connection and verify a protected call there. An absent tool is an unavailable capability, not evidence that the hosted service is broken.",
+    "existing_system": "Keep the existing plugin, endpoint, project identity, source architecture, and native state. Do not recreate the system to resolve missing tool exposure or imitate identity headers.",
+    "credentials": "This receipt contains no credentials and grants no new account, target, or external-action authorization."
+  },
+  "unverified_or_out_of_scope": [
+    "Actual Cloud environment publication and restoration in a fresh task.",
+    "Daybreak account entitlement or model selection in any separate product surface.",
+    "Protected hosted MPC access from the destination setup session.",
+    "Hosted persistence, connector dispatch, proof gate, canonical promotion, or court release.",
+    "Target evidence authenticity, a target vulnerability, or verified financial impact."
+  ]
+}

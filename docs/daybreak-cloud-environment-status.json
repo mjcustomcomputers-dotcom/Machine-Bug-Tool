@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_kind": "USER_REPORTED_CLOUD_ENVIRONMENT_SETUP_STATUS",
+  "receipt_saved_at_utc": "2026-10-09 02:42:24 UTC",
+  "evidence_origin": "SETUP_REPORT_PASTED_BY_USER_IN_ORIGINATING_CONVERSATION",
+  "directly_observed_by_originating_assistant": false,
+  "displayed_setup_message_time": "9:35 PM",
+  "reported_local_date": "2026-10-08",
+  "user_timezone": "America/Chicago",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "reported_setup_commit": "97704161bfc2c3f0af42ead986dbfb7b405c8c5c",
+  "source_preparation": {
+    "status": "PASSED_PER_USER_SUPPLIED_SETUP_REPORT",
+    "node_version": "24.19.0",
+    "pnpm_version": "11.25.0",
+    "frozen_dependency_installation": "SUCCEEDED_PER_REPORT",
+    "tests_passed": 166,
+    "tests_total": 166,
+    "build": "PASSED_PER_REPORT",
+    "development_server_homepage": "EXPECTED_HOMEPAGE_PER_REPORT",
+    "built_worker_homepage": "EXPECTED_HOMEPAGE_PER_REPORT",
+    "repository_files_unchanged": true,
+    "raw_command_logs_available_to_originating_assistant": false
+  },
+  "reusable_configuration": {
+    "install_script": "SAVED_PER_SETUP_REPORT",
+    "start_skill": "SAVED_PER_SETUP_REPORT",
+    "writable_wrangler_configuration_override": "INCLUDED_PER_SETUP_REPORT",
+    "exact_instruction_contents": "NOT_RETRIEVED_IN_ORIGINATING_SESSION"
+  },
+  "publication": {
+    "status": "STARTED_PER_USER_REPORT",
+    "user_statement": "i already started publishing it",
+    "completion": "NOT_YET_VERIFIED",
+    "instruction": "Allow the already-started publication to complete; do not restart setup solely because the setup session lacked MPC tools."
+  },
+  "fresh_task_restoration": "NOT_YET_VERIFIED",
+  "destination_mpc_tool_exposure": "UNAVAILABLE_PER_SETUP_REPORT",
+  "destination_mpc_authentication": "UNVERIFIED_IN_DESTINATION",
+  "daybreak_access": "UNVERIFIED_IN_DESTINATION",
+  "parent_session_mpc_verification": "docs/mpc-parent-session-verification.json",
+  "needs_attention_badge": {
+    "count_reported": 1,
+    "item_details": "NOT_PROVIDED",
+    "interpretation": "An aggregate badge alone does not identify an install, publication, MPC, or Daybreak error."
+  },
+  "source_continuity": {
+    "source_snapshot": "765923c9839f32502e5c0f1f1b919b827596012e",
+    "later_preparation_commit": "1752158a0ed624bee27b0574a1f33b27db7b328c",
+    "original_source_files": 182,
+    "original_source_at_later_preparation_commit": "ALL_ORIGINAL_GIT_BLOBS_AND_MODES_VERIFIED_UNCHANGED",
+    "handoff_note": "A running checkout at the reported setup commit may not contain later instructions and receipts. Read current origin/main safely in the next task, preserving any local changes."
+  },
+  "next_action": "After the app reports publication complete, start a fresh task using that environment and verify restoration of the saved setup, dependencies, and task-start instructions. Record the actual checkout commit and keep destination MPC availability separate."
+}

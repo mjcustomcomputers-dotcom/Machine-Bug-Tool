@@ -39,11 +39,45 @@ and protected MCP authentication are separate observations. Report only what
 the current session can verify. A prompt or repository name cannot enable an
 access program. Preserve the user's selected offering and supported surface.
 
-Reuse the existing installed MPC plugin. Read the current tool schema before
-calling it. Verify `runtime_status`, `get_universal_contract`, and a protected
-synthetic evaluator call. A bare URL, initialize response, or tool list does
-not establish authentication. Never imitate production identity headers or
+Read `docs/mpc-parent-session-verification.json` for the actual successful
+hosted MPC calls from the originating session, including a protected synthetic
+Nash evaluation. Retain that receipt as prior verification of that connection.
+It does not verify tool exposure or caller authentication in another session.
+
+If the destination does not expose the MPC tools, record the capability as
+unavailable there and continue source installation, tests, build, and otherwise
+ready Cloud environment publication. Tool absence alone does not identify an
+authentication failure or a broken hosted service. Keep destination MPC access
+and Daybreak availability as separate pending observations; neither is a gate
+for preparing this source environment.
+
+Before work that requires hosted MPC calls in a destination session, reuse the
+existing supported plugin connection, read its actual registered schemas, and
+verify `runtime_status`, `get_universal_contract`, and a protected synthetic
+evaluator call there. A bare URL, initialize response, or tool list does not
+establish authentication. Do not recreate the existing plugin or server to
+resolve absent tool exposure. Never imitate production identity headers or
 copy credentials into this repository.
+
+## Cloud setup progress
+
+`docs/daybreak-cloud-environment-status.json` preserves the user's setup
+report at commit `97704161bfc2c3f0af42ead986dbfb7b405c8c5c`: frozen install,
+166 passing tests, successful build, and saved `install_script`/`start_skill`.
+Those destination observations are user-reported; parent-workspace test
+receipts remain separate. The user has already started publication.
+
+Allow that publication to finish. Do not restart preparation solely because
+MPC tools were absent. Preserve the prepared environment instructions and the
+actual writable Wrangler configuration override described in that session;
+its exact contents have not been retrieved here, so do not invent a setting
+or replace it with the generic portable setup script.
+
+Once publication is confirmed by the app, check restoration in a fresh task.
+Read the current `origin/main` handoff safely, preserving any local changes.
+Record the actual checkout commit and whether the saved setup, dependencies,
+and task-start instructions restore. Later receipt/documentation commits do
+not retroactively change which source commit the earlier setup validated.
 
 ## Continuing the research and repair queue
 
