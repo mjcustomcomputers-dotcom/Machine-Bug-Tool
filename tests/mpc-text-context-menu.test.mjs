@@ -33,6 +33,9 @@ test('clipboard operations honor Chromium edit permissions; password and blank v
   assert.equal(item(restricted,'copy').enabled,false);
   assert.equal(item(restricted,'cut').enabled,false);
   assert.equal(item(restricted,'paste').enabled,true);
+  const typedPassword=menu({isEditable:true,formControlType:'input-password',selectionText:'password',editFlags:{canCopy:true,canCut:true,canPaste:true}});
+  assert.equal(item(typedPassword,'copy').enabled,false);
+  assert.equal(item(typedPassword,'cut').enabled,false);
   assert.equal(item(menu({isEditable:true,editFlags:{canPaste:false,canCopy:false}}),'paste').enabled,false);
   assert.deepEqual(menu({isEditable:false,editFlags:{canSelectAll:false}}),[]);
   assert.deepEqual(menu(null),[]);

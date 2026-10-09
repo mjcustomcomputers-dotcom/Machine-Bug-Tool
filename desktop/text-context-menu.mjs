@@ -2,7 +2,7 @@
 export const MPC_CONTEXT_MENU_VERSION='MPC_TEXT_CONTEXT_MENU_1';
 const permittedFlags=flags=>flags&&typeof flags==='object'&&!Array.isArray(flags)?flags:{};
 const hasSelection=value=>typeof value==='string'&&value.length>0;
-const passwordField=value=>typeof value==='string'&&value.toLowerCase()==='password';
+const passwordField=value=>typeof value==='string'&&/(?:^|-)password$/iu.test(value);
 
 /** Chromium supplies the capabilities for the actual context-clicked field.
  * Never make read-only output editable or offer copy/cut on password inputs.
@@ -10,7 +10,7 @@ const passwordField=value=>typeof value==='string'&&value.toLowerCase()==='passw
 export function workspaceContextMenuSpec(params,{trustedOrigin=null}={}){
   if(!params||typeof params!=='object'||Array.isArray(params))return [];
   const flags=permittedFlags(params.editFlags),editable=params.isEditable===true,
-    password=passwordField(params.inputFieldType),selection=hasSelection(params.selectionText);
+    password=passwordField(params.inputFieldType)||passwordField(params.formControlType),selection=hasSelection(params.selectionText);
   const preview=typeof trustedOrigin==='string'&&/^http:\/\/127\.0\.0\.1:\d+$/u.test(trustedOrigin)&&
     params.mediaType==='image'&&typeof params.srcURL==='string'&&
     params.srcURL.startsWith(`blob:${trustedOrigin}/`);

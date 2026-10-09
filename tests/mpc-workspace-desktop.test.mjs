@@ -6,6 +6,7 @@ import {join,resolve} from 'node:path';
 import test from 'node:test';
 import {runInNewContext} from 'node:vm';
 import {initialWorkspaceWindowBounds} from '../desktop/window-geometry.mjs';
+import {workspaceContextMenuSpec} from '../desktop/text-context-menu.mjs';
 
 import {
   ELECTRON_BUNDLED_NODE_VERSION,
@@ -79,6 +80,47 @@ test('native window constructor uses the primary work area as DIP outer-window b
     {x:-944,y:56,width:928,height:468,minWidth:928,minHeight:468});
   assert.equal(options.useContentSize,false,'Native window frame must fit within the chosen outer size');
   assert.equal(options.webPreferences.sandbox,true);
+});
+
+test('trusted native right-click popup uses only Electron editor actions and allowed masked preview copy',()=>{
+  const code=read('desktop/main.mjs');
+  const body=/function installNativeContextMenu\(window\)\{([^]*?)\n\}/u.exec(code)?.[1];
+  assert.ok(body,'native context-menu handler must exist');
+  const origin='http://127.0.0.1:5555',shown=[], copiedImages=[],listeners={};
+  let currentUrl=`${origin}/`;
+  const window={isDestroyed:()=>false,webContents:{
+    getURL:()=>currentUrl,
+    on:(name,callback)=>{listeners[name]=callback;},
+    copyImageAt:(x,y)=>copiedImages.push([x,y])
+  }};
+  const mockMenu={buildFromTemplate:items=>({popup:location=>shown.push({items,location})})};
+  const install=runInNewContext(`(function(window){${body}})`,{
+    workspaceOrigin:origin,
+    workspaceContextMenuSpec,
+    isTrustedRendererUrl:href=>href===`${origin}/`,
+    Menu:mockMenu
+  });
+  install(window);
+  assert.equal(typeof listeners['context-menu'],'function');
+  listeners['context-menu'](null,{isEditable:true,inputFieldType:'text',selectionText:'selected',
+    x:27,y:33,editFlags:{canCopy:true,canPaste:true,canCut:true,canSelectAll:true}});
+  assert.equal(shown.length,1);
+  assert.equal(shown[0].location.window,window);
+  assert.equal(shown[0].location.x,27);assert.equal(shown[0].location.y,33);
+  assert.deepEqual(shown[0].items.filter(row=>row.role).map(row=>row.role),
+    ['undo','redo','cut','copy','paste','selectAll']);
+  listeners['context-menu'](null,{isEditable:false,mediaType:'image',
+    srcURL:`blob:${origin}/frame-1`,x:12,y:14,editFlags:{}});
+  assert.equal(shown.length,2);
+  assert.equal(shown[1].items[0].label,'Copy preview image');
+  shown[1].items[0].click();
+  assert.deepEqual(copiedImages,[[12,14]]);
+  listeners['context-menu'](null,{isEditable:false,mediaType:'image',
+    srcURL:'blob:https://other.example/secret',x:12,y:14,editFlags:{}});
+  assert.equal(shown.length,2,'remote image cannot be copied by workspace preview command');
+  currentUrl='https://other.example/';
+  listeners['context-menu'](null,{isEditable:true,x:0,y:0,editFlags:{canCopy:true}});
+  assert.equal(shown.length,2,'untrusted navigation must not get native edit menu');
 });
 
 test('desktop main and sandboxed preload expose only the narrow native bridge',()=>{
