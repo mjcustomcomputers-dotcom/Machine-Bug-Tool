@@ -28,3 +28,38 @@ test('RECON denies code changes but permits a guarded checkpoint proposal',()=>{
 test('COMMIT requires declared authorization, actual connector capability and conditional version',()=>{const a=planModeDispatch({mode:'COMMIT',capabilities:caps,operation:'CODE_UPDATE',surface:'GITHUB',object_id:'repo'});const b=planModeDispatch({mode:'COMMIT',capabilities:caps,operation:'CODE_UPDATE',surface:'GITHUB',object_id:'repo',user_approved:true});const c=planModeDispatch({mode:'COMMIT',capabilities:caps,operation:'CODE_UPDATE',surface:'GITHUB',object_id:'repo',user_approved:true,native_precondition:{kind:'NATIVE_CONDITIONAL_VERSION',supported_by_host:true,expected_version:'blob-sha'}});assert.equal(a.state,'NEEDS_EXPLICIT_USER_APPROVAL');assert.equal(b.state,'NEEDS_NATIVE_CONDITIONAL_WRITE_GUARD');assert.equal(c.state,'READY_FOR_SEPARATE_HOST_CALL_AND_READBACK');assert.equal(c.write_performed,false);});
 test('no invented connector dispatch or permission from mode selection',()=>{const r=planModeDispatch({mode:'COMMIT',capabilities:caps,operation:'WRITE_CHECKPOINT',surface:'DROPBOX_DASH',object_id:'doc',user_approved:true});assert.equal(r.state,'UNAVAILABLE_IN_SESSION');assert.equal(r.authorization_conferred,false);});
 test('target-test mode requires actual scope and program approval separate from intent',()=>{const caps2=[{surface:'MPC_BUGTOOLS',available:true,operations:['TARGET_TEST']}];const r=planModeDispatch({mode:'COMMIT',capabilities:caps2,operation:'TARGET_TEST',surface:'MPC_BUGTOOLS',object_id:'target',user_approved:true});assert.equal(r.state,'NEEDS_PROGRAM_SCOPE_AUTHORIZATION');});
+
+// Discovery-facing routing is additive: base states, evidence, and scope gates remain intact.
+test('missing source becomes a positive next-evidence pathway without erasing the gate',async()=>{
+ const {classifyDiscoveryPath}=await import('../lib/chatgpt-hot-resume-v10.mjs');
+ const r=classifyDiscoveryPath('SOURCE_UNBOUND');
+ assert.equal(r.pathway_class,'ACQUIRE_PRIMARY_SOURCE');
+ assert.equal(r.raw_state,'SOURCE_UNBOUND');
+ assert.equal(r.source_gate_preserved,true);
+});
+test('unmatched method dimension routes to alternate method, never false impossibility',async()=>{
+ const {classifyDiscoveryPath}=await import('../lib/chatgpt-hot-resume-v10.mjs');
+ assert.equal(classifyDiscoveryPath('DIMENSION_NOT_MATCHED').pathway_class,'ALTERNATE_METHOD');
+ assert.equal(classifyDiscoveryPath('DIRECTION_UNSUPPORTED').pathway_class,'INVERT_OR_TRANSFER');
+});
+test('cached variation routes forward without repeating a concluded classification',async()=>{
+ const {classifyDiscoveryPath}=await import('../lib/chatgpt-hot-resume-v10.mjs');
+ assert.equal(classifyDiscoveryPath('CACHED_NO_MATERIAL_DELTA').pathway_class,'REUSE_CACHE_ADVANCE');
+});
+test('raw native conflict remains blocked while offering source reconciliation',()=>{
+ const r=boot({source_records:[native,{...native,version:'rev-45',pointer:'drive:rev45'}]});
+ assert.equal(r.state,'BLOCKED_SOURCE_CONFLICT');
+ assert.equal(r.discovery_path.pathway_class,'RECONCILE_NATIVE_CONFLICT');
+ assert.equal(r.source_cache.steps[0].discovery_path.source_gate_preserved,true);
+});
+test('test-mode consequential action remains blocked while suggesting read-only research',()=>{
+ const r=planModeDispatch({mode:'TEST',capabilities:caps,operation:'CODE_UPDATE',surface:'GITHUB',object_id:'repo',user_approved:true});
+ assert.equal(r.state,'BLOCKED_TEST_READ_ONLY');
+ assert.equal(r.discovery_path.pathway_class,'EXPLORE_READ_ONLY');
+ assert.equal(r.host_action_called,false);
+});
+test('unmapped state stays review-required, never silently invented as success',async()=>{
+ const {classifyDiscoveryPath}=await import('../lib/chatgpt-hot-resume-v10.mjs');
+ assert.equal(classifyDiscoveryPath('SOME_FUTURE_STATE').pathway_class,'REVIEW_UNMAPPED_STATE');
+ assert.throws(()=>classifyDiscoveryPath(''),/DISCOVERY_PATH_STATE_REQUIRED/);
+});
