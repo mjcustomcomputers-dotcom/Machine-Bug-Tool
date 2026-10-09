@@ -289,6 +289,102 @@
       "rationale": "Physical quantum measurement validation not a substitute for cryptographic RNG source checks",
       "link_status": "PROPOSED_METHOD_COMPARISON",
       "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0075",
+      "related_method_id": "MHA-0014",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Higher-order Laplacian residual compared against simple graph Hodge cycles",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0076",
+      "related_method_id": "MHA-0029",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Curl-divergence split contrasted with transport mass accounting",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0077",
+      "related_method_id": "MHA-0015",
+      "relation_type": "CHALLENGE",
+      "rationale": "Lagged edge signal may reflect information transfer confounders",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0078",
+      "related_method_id": "MHA-0009",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Missing higher-order closure compared with persistence anomalies",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0079",
+      "related_method_id": "MHA-0059",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Independent monitor-versus-device meter and cashless wallet settlement",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0080",
+      "related_method_id": "MHA-0053",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Progressive jackpot terminal controller versus prize contribution ledger",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0081",
+      "related_method_id": "MHA-0060",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Cashless replay guards versus voucher once-only state",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0082",
+      "related_method_id": "MHA-0058",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Kiosk payout finality with interrupted wager state recovery",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0083",
+      "related_method_id": "MHA-0065",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Bonus eligibility version versus prize inventory eligibility ledger",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0084",
+      "related_method_id": "MHA-0035",
+      "relation_type": "CHALLENGE",
+      "rationale": "UI state and canonical finality versus timestamp source ownership",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0085",
+      "related_method_id": "MHA-0066",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Event wager resolution against tournament payout terminality",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0086",
+      "related_method_id": "MHA-0032",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Control responsibility mapping paired with requirement verification matrix",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
     }
   ]
 }
