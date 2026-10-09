@@ -1,6 +1,6 @@
 # V15 — Local Reasoning Intelligence Lab
 
-The local lab executes finite models through MPC's existing methods, checks their answers against explicit mathematical relationships, and keeps a reproducible cursor for the next bounded pass. It adds information reasoning, bounded stochastic observation value, bounded imperfect-information regret, concrete counterexample refinement, and seeded scenario variation to the existing product.
+The local lab executes finite models through MPC's existing methods, checks their answers against explicit mathematical relationships, and keeps a reproducible cursor for the next bounded pass. It adds information reasoning, bounded stochastic observation value, bounded imperfect-information regret, bounded budget-sensitive search, concrete counterexample refinement, and seeded scenario variation to the existing product.
 
 **Baseline source:** `e3a8f15806388d9c0d3705970ec7fd18c44d3439`. The V15 additions extend that baseline. The baseline commit does not identify the new files: each execution receipt records the exact runtime and catalog file hashes, available Git identity, and working-tree state.
 
@@ -48,6 +48,7 @@ Run the same command again for continuation. The launcher starts one bounded pas
 | Actor information and decision value | Identical visible histories require the same legal actions and policy. Compare admissible expected utility with an omniscient upper bound, then price supplied observation partitions. |
 | Stochastic observation value | Expand supplied finite signal likelihoods into joint hidden-state/signal states, execute posterior choices through the retained Harsanyi evaluator, compare against a closed-form fair-bit oracle, and reject costs above a supplied utility-unit budget. |
 | Imperfect-information regret | Enumerate every pure unilateral response to a supplied finite simultaneous-move strategy profile with exact integer arithmetic, cross-check with retained Nash/Harsanyi evaluators, and require uniform matching pennies to return exact zero regret. |
+| Budget-sensitive search | Maximize supplied gross utility minus cumulative expansion cost within an explicit budget, cross-check finite dynamic programming with retained Selten backward induction, and require a dominated-search control to stop immediately. |
 | Abstraction refinement | Build an over-approximation, replay its failure path in the concrete graph, and split a group responsible for an unrealizable path or label. |
 | Fault structure | Compare direct Boolean evaluation, the native fault tree, and native minimal cut sets while preserving shared leaf identity. |
 | Accounting | Reconcile each account with conservation, split and reorder equivalent transfers, and check that a changed amount with stale balances produces residuals. |
@@ -96,6 +97,29 @@ sets, infer beliefs, model an opponent, run CFR, or solve arbitrary poker.
 Exact zero unilateral regret means only that the supplied strategy profile is
 equilibrium-consistent in the supplied finite game; it does not authenticate
 the game, establish uniqueness, or describe real-world play.
+
+## Bounded budget-sensitive search
+
+`lib/finite-budget-sensitive-search.mjs` evaluates one caller-supplied rooted
+tree with at most 15 nodes, branching of at most three, and depth of at most
+eight. Every search node supplies a stop utility and one or more expansion
+edges. Each edge has an integer computation cost that both consumes the
+explicit budget and is subtracted from the terminal or later stop utility.
+The adapter uses finite dynamic programming and cross-checks its selected path
+against the retained `selten` evaluator without adding an evaluator or Atlas
+ID.
+
+The curriculum implements a separate exhaustive oracle over every affordable
+stop and terminal path. It maximizes `gross utility - cumulative computation
+cost`, with STOP first and then supplied expansion order for exact ties. The
+mandatory negative control gives every positive-cost expansion a net value no
+better than stopping; any expansion in that fixture is a failure.
+
+This family does not search a graph or external system, infer missing rewards,
+learn a heuristic, update probabilistic beliefs, run CFR, enumerate a bounty
+target, or establish general planning ability. Its result is optimal only for
+the complete finite tree, integer utilities, costs, and budget supplied by the
+caller.
 
 ## Counterexamples and finite evidence boundaries
 

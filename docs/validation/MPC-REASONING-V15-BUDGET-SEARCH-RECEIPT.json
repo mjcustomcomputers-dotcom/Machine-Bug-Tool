@@ -1,0 +1,162 @@
+{
+  "kind": "MPC_REASONING_V15_BUDGET_SENSITIVE_SEARCH_DEVELOPMENT_RECEIPT",
+  "version": 1,
+  "status": "VERIFIED_ADDITIVE_REASONING_FAMILY",
+  "recorded_at_utc": "2026-10-09T13:21:02Z",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "development_branch": "automation/mpc-reasoning-budget-search-v15",
+  "source": {
+    "pr": 14,
+    "native_parent_branch": "automation/mpc-reasoning-imperfect-regret-v15",
+    "native_parent_commit": "82687fab57460737cef1f36dff748e4ecd32c46d",
+    "native_parent_tree": "610f47d213250bf6c499021bdbbe1e7ea17a2be7",
+    "local_parent_reconstruction_commit": "7e6c7bebd6df152900bde2205d50362d093374bc",
+    "local_parent_tree": "610f47d213250bf6c499021bdbbe1e7ea17a2be7",
+    "prior_engine_fingerprint": "bc2f104a8b082f02b492a09be4a3394ae7581ae3ea5a59ac4c59339a7f2b6afe",
+    "engine_fingerprint": "b43d21b17b732aaec6555415800a3474a4671971f4ffb8e32e85e76a9d0d5b9a",
+    "source_changed_since_prior": true
+  },
+  "no_redo": {
+    "action_fingerprint": "5832f30133e465c078e6da5f4b02f39dda0b6153b408ae3a34d5c5c695cf4f11",
+    "inputs": {
+      "base_commit": "82687fab57460737cef1f36dff748e4ecd32c46d",
+      "prior_cursor_sha256": "8a96da51979c5abd1ed056c842500338aae523b4a2897283fe7d1ed21a4be8a1",
+      "engine_fingerprint": "b43d21b17b732aaec6555415800a3474a4671971f4ffb8e32e85e76a9d0d5b9a",
+      "method": "BOUNDED_BUDGET_SENSITIVE_SEARCH",
+      "rounds": 24,
+      "seed": 20261011
+    },
+    "prior_action_fingerprint": "7f6c5c12105b7bd8187f19f6734255dab03ece20012be00852c26d8e478a7cb1",
+    "prior_continuation_commit": "82687fab57460737cef1f36dff748e4ecd32c46d"
+  },
+  "question": {
+    "family": "BOUNDED_BUDGET_SENSITIVE_SEARCH",
+    "question": "Can the local reasoning lab choose when to stop or expand a supplied finite search tree when each expansion both consumes a fixed budget and reduces utility, while agreeing with retained Selten backward induction and rejecting dominated search?",
+    "independent_oracle": "Separate exhaustive enumeration of every affordable STOP and terminal path in the curriculum, maximizing gross utility minus cumulative expansion cost.",
+    "negative_control": "Every positive-cost expansion has net utility no better than the root stop utility and therefore must not be selected.",
+    "bounds": {
+      "nodes": "2 through 15",
+      "branching": "1 through 3 expansions per search node",
+      "depth": "at most 8",
+      "budget": "integer in [0,1000000]",
+      "utilities": "integers in [-1000000,1000000]",
+      "expansion_costs": "integers in [1,1000000]",
+      "native_cross_checks_per_case": 1
+    }
+  },
+  "implementation": {
+    "changed_files": [
+      "AGENTS.md",
+      "docs/REASONING-INTELLIGENCE-V15.md",
+      "lib/finite-budget-sensitive-search.mjs",
+      "lib/reasoning-selfplay.mjs",
+      "scripts/run-reasoning-selfplay.mjs",
+      "tests/finite-budget-sensitive-search.test.mjs",
+      "tests/reasoning-selfplay.test.mjs"
+    ],
+    "behavior": [
+      "Validate one bounded rooted tree with strict node, edge, utility, cost, depth and ownership constraints.",
+      "Use finite dynamic programming to maximize supplied gross utility minus cumulative computation cost within the supplied budget.",
+      "Cross-check the selected stop/expand path with the retained Selten evaluator using an unfolded feasible tree.",
+      "Enumerate every affordable stop and terminal path independently in the curriculum.",
+      "Prefer STOP and then supplied expansion order for exact ties so a cost-only search cannot manufacture value."
+    ],
+    "file_sha256": {
+      "AGENTS.md": "c5f5b37bfb812642f76e3c26caf2d43aeca96114828d8f14b8c5644b272634fb",
+      "docs/REASONING-INTELLIGENCE-V15.md": "0e07a1292bf50ff1bb0a1f3b9d37176902ddb7f593640c779fc8191225ce1e4f",
+      "lib/finite-budget-sensitive-search.mjs": "6e2280cd4593b4c6b9223981898b481f67ced5f78d8a415baabc4689efcfd445",
+      "lib/reasoning-selfplay.mjs": "b8fbd9e67b36877909c2f48cd827eac0a490175bb587bf72f157ba161d5cefc0",
+      "scripts/run-reasoning-selfplay.mjs": "d329f1dc0cd71c6b41acaf9c1f3f9e5363353cfb5d238cd15934cca48d2301e2",
+      "tests/finite-budget-sensitive-search.test.mjs": "f534fd1b8cab9aac6de5fdf8241e16867cf27f57b239b99b29a94b0e6aba6d9e",
+      "tests/reasoning-selfplay.test.mjs": "3e78ef9ce04fed4b04217511f2ddcbfff1495700cf431ff363dceb77d50f10cc"
+    }
+  },
+  "test_first": {
+    "initial_failing_test": "node --test tests/finite-budget-sensitive-search.test.mjs",
+    "initial_failure": "ERR_MODULE_NOT_FOUND for lib/finite-budget-sensitive-search.mjs",
+    "intermediate_failure": "The first implementation run exposed an undefined expansion_ids identifier in candidate serialization; the focused test caught it before integration and it was repaired.",
+    "focused_final": {
+      "command": "node --test tests/finite-budget-sensitive-search.test.mjs tests/finite-imperfect-information-regret.test.mjs tests/finite-stochastic-observation.test.mjs tests/finite-information-reasoning.test.mjs tests/reasoning-selfplay.test.mjs",
+      "passed": 61,
+      "failed": 0
+    },
+    "full_node_final": {
+      "command": "node --test",
+      "passed": 504,
+      "failed": 0
+    },
+    "build": {
+      "command": "npm run build",
+      "exit_code": 0,
+      "result": "Build complete"
+    }
+  },
+  "restored_input": {
+    "archive_path": "docs/validation/MPC-REASONING-V15-IMPERFECT-REGRET-RUNS.zip",
+    "archive_sha256": "f4cf0adc26a11ea7275f7d8d6a479be91ccce3684461e3a416062afcbbfd7411",
+    "prior_cursor_sha256": "8a96da51979c5abd1ed056c842500338aae523b4a2897283fe7d1ed21a4be8a1",
+    "restore_rule_obeyed": "Extracted into a fresh output history; no existing history was replaced or merged."
+  },
+  "execution": {
+    "command": "node scripts/run-reasoning-selfplay.mjs --rounds 24 --output-root <fresh-restored-history>/Runs",
+    "node": "v24.19.0",
+    "host": "CHATGPT_LINUX_PORTABLE_RUNTIME",
+    "seed": 20261011,
+    "next_seed": 20261012,
+    "source_change_replay": true,
+    "cases_executed": 266,
+    "passed": 266,
+    "failed": 0,
+    "anchor_replays": 99,
+    "native_evaluator_calls": 827,
+    "distinct_native_evaluators": 11,
+    "counterexamples": 0,
+    "new_family": {
+      "cases": 26,
+      "anchors": 2,
+      "generated_parameter_cases": 24,
+      "passed": 26,
+      "native_evaluator_calls": 26,
+      "dominated_or_nonimproving_cases": 12,
+      "maximum_selected_net_utility": 18
+    }
+  },
+  "result_hashes": {
+    "scan_sha256": "e9a571b8275408ac58a60180d564edfb1825b8653e431d2f25bbb7118a436644",
+    "cursor_file_sha256": "7317f20b547b01de844c7852db5a9eccaede11e0046e494f2f7aa221786edeea",
+    "cursor_sha256": "e6eafd073db0bff5cd80c0b40e0c748cbfbd96347cf758130c076c6c541abe4c",
+    "summary_sha256": "b666f5cf358340e7274a60876e395498e254b7e2108bc4d1a56dc5603a791204",
+    "runtime_receipt_sha256": "b9e88cf74cf0cdefd8c115c6bf9a6d965ab0e4878a6c8679114dbbfcd3c9f542",
+    "manifest_sha256": "5a90f3a04f845c9d3bc65793b956efc95a5d4df2fd1ea0d6c6fdae4798331a12",
+    "report_sha256": "e5e418f029a2d1c21bd580a33c5c1a082aa1cf67a91d2aa6917d5d80aa3937d9"
+  },
+  "continuation_archive": {
+    "path": "docs/validation/MPC-REASONING-V15-BUDGET-SEARCH-RUNS.zip",
+    "bytes": 372345,
+    "sha256": "6030640c7657826ee6d6866cdcbe3b79f7d1f567ba9da1976fa98fa86c0a0c74",
+    "contains": [
+      "Runs/latest.json",
+      "Runs/2026-10-09T13-21-01-744Z-20261011-60561996/"
+    ],
+    "restore_rule": "Extract into a fresh directory and pass its Runs directory as --output-root; never merge with another history."
+  },
+  "preserved": {
+    "native_evaluator_ids": 24,
+    "atlas_candidates": 239,
+    "atlas_relations": 212,
+    "catalog_methods_promoted": 0,
+    "maxvar_256_untouched": true,
+    "original_v13_controller_untouched": true,
+    "target_actions": false,
+    "external_network_calls_by_runner": false,
+    "connector_dispatch": false,
+    "merged": false,
+    "deployed": false,
+    "windows_execution_claimed": false
+  },
+  "next_unresolved_experiment": {
+    "family": "BOUNDED_ADAPTIVE_TWO_STAGE_COMPUTATION_CHOICE",
+    "requirement": "Use a finite tree in which the second computation choice depends on the first observed result, with an independent exhaustive contingent-policy oracle and a nonadaptive-control equivalence case.",
+    "state": "UNIMPLEMENTED_PROPOSAL"
+  }
+}

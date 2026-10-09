@@ -32,6 +32,11 @@ test('Finite curriculum executes actual method contracts and preserves independe
  assert.equal(regret.observed.equilibrium_consistent,true);
  assert.equal(regret.observed.max_unilateral_regret,0);
  assert.equal(regret.observed.boundaries.cfr_performed,false);
+ const dominated=result.cases.find(c=>c.family==='budget_sensitive_search'&&c.shape.stop===5&&c.shape.cheapGross===5&&c.shape.expensiveGross===6);
+ assert.equal(dominated.observed.selected_plan.status,'STOP');
+ assert.equal(dominated.observed.search_improves_decision,false);
+ assert.equal(dominated.observed.native_receipt.method,'selten');
+ assert.ok(result.summary.local_adapter_cases>=result.cases.filter(c=>c.family==='budget_sensitive_search').length);
  const real=result.cases.find(c=>c.family==='abstraction_concretization'&&c.shape.real);
  assert.equal(real.observed.status,'REAL_MODEL_COUNTEREXAMPLE');
  assert.deepEqual(real.observed.counterexample.state_path,['S','A','F']);

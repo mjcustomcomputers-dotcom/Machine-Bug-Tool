@@ -43,6 +43,15 @@ evaluators. Uniform matching pennies is its equilibrium-consistent negative
 control. It adds no evaluator or Atlas ID and does not perform CFR, solve a
 game tree, infer beliefs, learn opponent play, or claim general poker solving.
 
+The additive budget-sensitive-search family accepts one caller-supplied rooted
+tree of at most 15 nodes. Each expansion has an integer computation cost that
+both consumes the explicit budget and reduces terminal utility. It compares a
+bounded dynamic program with the existing Selten evaluator; the curriculum
+separately enumerates every affordable stop/terminal path and includes a
+dominated-search negative control. It adds no evaluator or Atlas ID and does
+not perform graph search, target enumeration, heuristic learning, CFR, or
+general planning.
+
 ## Final engineering scope — local receiving and Codex acceptance
 
 The user has ended research for this phase. The current authorized action is one
