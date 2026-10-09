@@ -1,0 +1,294 @@
+{
+  "version": "METHOD-ATLAS-CROSSCHECK-1.0",
+  "purpose": "PROPOSED_ANALYTICAL_CORROBORATION_NOT_FACT_VERIFICATION",
+  "relationships": [
+    {
+      "method_id": "MHA-0052",
+      "related_method_id": "MHA-0036",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Compare gaming credit-meter accounting against independent boundary-flow conservation",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0053",
+      "related_method_id": "MHA-0035",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Progressive jackpot reset plus functional timing and state ownership",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0059",
+      "related_method_id": "MHA-0031",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Cashless wallet and meter settlement at the producer/consumer interface",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0060",
+      "related_method_id": "MHA-0032",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Voucher uniqueness mapped to an owned verification requirement",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0061",
+      "related_method_id": "MHA-0023",
+      "relation_type": "CHALLENGE",
+      "rationale": "Deferred liabilities versus hidden pending-state interpretation",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0062",
+      "related_method_id": "MHA-0035",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Threshold state with time-aligned state-transition validation",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0063",
+      "related_method_id": "MHA-0020",
+      "relation_type": "CHALLENGE",
+      "rationale": "Spin commitment chronology cannot establish entropy-source quality",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0064",
+      "related_method_id": "MHA-0034",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Aggregation anomaly versus shared common-cause failure",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0065",
+      "related_method_id": "MHA-0036",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Prize inventory stock flow versus conservation cuts",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0066",
+      "related_method_id": "MHA-0035",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Prize payout terminality and timing-dependent compensation",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0073",
+      "related_method_id": "MHA-0018",
+      "relation_type": "CHALLENGE",
+      "rationale": "Frequency anomaly alone does not establish conservative min-entropy",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0074",
+      "related_method_id": "MHA-0024",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Session comparison and legitimate time-dependent change points",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0073",
+      "related_method_id": "MHA-0019",
+      "relation_type": "CHALLENGE",
+      "rationale": "Statistical test suite does not replace source-health checks",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0067",
+      "related_method_id": "MHA-0070",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Counterfactual regret against best-response deviation bound",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0068",
+      "related_method_id": "MHA-0038",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Imperfect information partition alongside two-run visibility test",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0069",
+      "related_method_id": "MHA-0001",
+      "relation_type": "CHALLENGE",
+      "rationale": "Abstraction induced deviation checked against scale reduction",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0071",
+      "related_method_id": "MHA-0035",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Re-solving after public event mapped to temporal state",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0072",
+      "related_method_id": "MHA-0027",
+      "relation_type": "CHALLENGE",
+      "rationale": "Approximate value guard and conditional coverage calibration",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0015",
+      "related_method_id": "MHA-0017",
+      "relation_type": "CHALLENGE",
+      "rationale": "Transfer entropy directionality challenged by conditional independence",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0016",
+      "related_method_id": "MHA-0024",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Lag dependence checked against discrete change points",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0009",
+      "related_method_id": "MHA-0012",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Persistent anomaly compared by diagram distance",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0014",
+      "related_method_id": "MHA-0029",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Cycle flow compared with transport conservation",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0021",
+      "related_method_id": "MHA-0022",
+      "relation_type": "CHALLENGE",
+      "rationale": "Factor graph belief affected by Noisy-OR independent causes assumption",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0023",
+      "related_method_id": "MHA-0035",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Hidden state fit compared with owned functional state transitions",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0026",
+      "related_method_id": "MHA-0028",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Conformal anomaly calibration compared with distribution drift",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0033",
+      "related_method_id": "MHA-0035",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Graph critical path compared with state/time records",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0037",
+      "related_method_id": "MHA-0034",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Hazard cut set with shared common cause propagation",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0042",
+      "related_method_id": "MHA-0041",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Hybrid handshake review must reference crypto inventory",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0047",
+      "related_method_id": "MHA-0048",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "QUBO objective encoding before heuristic benchmarking",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0043",
+      "related_method_id": "MHA-0045",
+      "relation_type": "CHALLENGE",
+      "rationale": "Circuit fidelity inference needs complete measurement basis",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0044",
+      "related_method_id": "MHA-0045",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Tomographic identifiability depends on measurement completeness",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0050",
+      "related_method_id": "MHA-0021",
+      "relation_type": "CHALLENGE",
+      "rationale": "Tensor compression approximation versus full factor belief model",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0005",
+      "related_method_id": "MHA-0021",
+      "relation_type": "COMPLEMENT",
+      "rationale": "Maximum entropy priors as explicit optional belief input",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0006",
+      "related_method_id": "MHA-0028",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Distribution divergence with optimal transport drift metric",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0010",
+      "related_method_id": "MHA-0013",
+      "relation_type": "CROSS_CHECK",
+      "rationale": "Filtration components contrasted with Euler aggregate characteristic",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    },
+    {
+      "method_id": "MHA-0020",
+      "related_method_id": "MHA-0045",
+      "relation_type": "CHALLENGE",
+      "rationale": "Physical quantum measurement validation not a substitute for cryptographic RNG source checks",
+      "link_status": "PROPOSED_METHOD_COMPARISON",
+      "evidence_independent": false
+    }
+  ]
+}
