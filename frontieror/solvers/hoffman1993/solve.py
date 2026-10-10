@@ -280,6 +280,12 @@ def solve(instance, time_limit_s):
         option = cp_sat_side(p, min(until, time.monotonic() + 12.0), feasibility_only=True)
         if verify(p, option):
             backup = option
+    # Cost-optimization mirror with a verified shared incumbent; reserve MILP time.
+    if p[5] and backup is not None and time.monotonic() < until - 2.0:
+        option = cp_sat_side(p, min(until - 1.0, time.monotonic() + 4.0),
+                             incumbent=backup, feasibility_only=False)
+        if verify(p, option) and objective(p, option) < objective(p, backup) - 1e-8:
+            backup = option
     if time.monotonic() < until - 0.8:
         option = sparse_milp(p, until)
         if verify(p, option) and (backup is None or objective(p, option) < objective(p, backup) - 1e-8):
