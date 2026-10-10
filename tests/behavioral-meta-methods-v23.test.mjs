@@ -99,6 +99,10 @@ test('intervention designs fail closed on no permission and covert targeting',()
  let r=reviewBehavioralAtoms(x);
  assert.equal(r.safety_gate.state,'INTERVENTION_DESIGN_BLOCKED');
  assert.equal(r.recommendations[0].state,'ETHICS_GATE_BLOCKED');
+ const blockedChain=planBehavioralMethodInteractions(x);
+ assert.equal(blockedChain.safety_gate.state,'INTERVENTION_DESIGN_BLOCKED');
+ assert.ok(blockedChain.edges.every(e=>e.state==='ETHICS_GATE_BLOCKED'));
+ assert.equal(blockedChain.candidate_pairs,0);
  x.safeguards={...consent,covert_targeting:true};
  r=reviewBehavioralAtoms(x);
  assert.ok(r.safety_gate.reasons.includes('COVERT_TARGETING_NOT_EXCLUDED'));
