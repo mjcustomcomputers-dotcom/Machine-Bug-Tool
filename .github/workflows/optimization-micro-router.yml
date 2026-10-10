@@ -1,0 +1,34 @@
+name: MPC solid-state optimization micro-router verification
+on:
+  push:
+    branches:
+      - feature/solid-state-optimization-micro-router-20261010
+    paths:
+      - 'lib/optimization-micro-router.mjs'
+      - 'lib/tools.mjs'
+      - 'tests/optimization-micro-router.test.mjs'
+      - 'tests/mcp.test.mjs'
+      - 'docs/optimization-micro-router.md'
+      - '.github/workflows/optimization-micro-router.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Parse and validate the modified source
+        run: |
+          node --check lib/optimization-micro-router.mjs
+          node --check lib/tools.mjs
+      - name: Run focused micro-router and MCP interface tests
+        run: node --test tests/optimization-micro-router.test.mjs tests/mcp.test.mjs
+      - name: Run entire existing MPC test suite
+        run: node --test
