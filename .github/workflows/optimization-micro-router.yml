@@ -6,8 +6,7 @@ on:
     paths:
       - 'lib/optimization-micro-router.mjs'
       - 'lib/tools.mjs'
-      - 'tests/optimization-micro-router.test.mjs'
-      - 'tests/mcp.test.mjs'
+      - 'tests/**'
       - 'docs/optimization-micro-router.md'
       - '.github/workflows/optimization-micro-router.yml'
   workflow_dispatch:
