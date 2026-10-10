@@ -47,7 +47,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Focused V31 finite logic and V30 workspace regressions
         run: |
-          node --test tests/mpc-v31-bidirectional-intelligence.test.mjs tests/mpc-v30-engineering-lab.test.mjs tests/mpc-v30-engineering-server.test.mjs
+          node --test tests/mpc-v31-bidirectional-intelligence.test.mjs tests/mpc-v31-workspace-reasoner.test.mjs tests/mpc-v30-engineering-lab.test.mjs tests/mpc-v30-engineering-server.test.mjs
+          node research/run-mpc-v31-method-duel.mjs
       - name: Run complete MPC tests
         run: node --test
       - name: Build full MPC source
