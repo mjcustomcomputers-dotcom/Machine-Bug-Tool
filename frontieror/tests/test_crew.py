@@ -181,6 +181,31 @@ class CrewTests(unittest.TestCase):
         self.assertNotIn(4,chosen)
         self.assertEqual(crew.objective(p,chosen),9)
 
+    def test_forced_row_propagation_shrinks_model(self):
+        import time
+        data={"dimensions":{"num_rows":3,"num_cols":4},
+              "cost_vector":[2,3,4,20],
+              "constraint_matrix_A":{"columns":[[0],[1],[2],[1,2]]},
+              "has_base_constraints":True,
+              "base_constraints":{"D_matrix":{"rows":[[1.,2.,3.,5.]]},
+                                  "lower_bounds_d1":[6.],"upper_bounds_d2":[6.]}}
+        p=crew.parse(data)
+        forced,uncovered,active=crew.reduce_forced_rotations(p,set())
+        self.assertEqual(forced,[0])
+        self.assertEqual(uncovered,[1,2])
+        result=crew.sparse_milp(p,time.monotonic()+4)
+        self.assertTrue(crew.verify(p,result))
+        self.assertEqual(crew.objective(p,result),9.)
+
+    def test_forced_all_rows_exact_solution(self):
+        import time
+        data={"dimensions":{"num_rows":2,"num_cols":2},
+              "cost_vector":[2,3],
+              "constraint_matrix_A":{"columns":[[0],[1]]},
+              "has_base_constraints":False}
+        p=crew.parse(data)
+        self.assertEqual(crew.sparse_milp(p,time.monotonic()+3),[0,1])
+
     def test_literal_sparse_milp(self):
         data = example(True)
         p = crew.parse(data)
