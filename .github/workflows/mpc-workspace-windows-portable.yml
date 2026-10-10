@@ -6,6 +6,7 @@ on:
       - feature/mpc-workspace-build-20261009
       - feature/mpc-screen-ocr-20261009
       - feature/mpc-osi-methods-on-methods-20261009
+      - feature/mpc-inverse-ocr-roi-20261009
   workflow_dispatch:
 
 permissions:
@@ -74,6 +75,7 @@ jobs:
           node scripts/benchmark-atomic-method-detector.mjs > .sites-runtime/electron-smoke/method-detector-benchmark.json
           node scripts/benchmark-atomic-variation-router.mjs > .sites-runtime/electron-smoke/method-cache-benchmark.json
           node scripts/benchmark-mpc-osi.mjs > .sites-runtime/electron-smoke/virtual-osi-benchmark.json
+          node scripts/benchmark-mpc-inverse-roi.mjs > .sites-runtime/electron-smoke/inverse-roi-benchmark.json
 
       - name: Exercise native capture, privacy masks, OCR, and responsive UI
         shell: bash
