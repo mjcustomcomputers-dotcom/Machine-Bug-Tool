@@ -1,0 +1,619 @@
+{
+  "version": "MPC_NETWORK_METHOD_FRONTIER_V24",
+  "namespace": "RH-V24_NONCANONICAL",
+  "parent_git_sha": "cc6f19023fd852154f463421f6e50727419ac687",
+  "canonical_mha_unchanged": 239,
+  "canonical_evaluators_unchanged": 24,
+  "existing_v20_network_osi_untouched": true,
+  "existing_v23_behavioral_untouched": true,
+  "source_ownership": "CALLER_DECLARED_UNAUTHENTICATED",
+  "target_actions": false,
+  "registry_promotion": false,
+  "sources": {
+    "tcp": "https://www.rfc-editor.org/info/rfc9293",
+    "quic": "https://www.rfc-editor.org/info/rfc9000",
+    "h3": "https://www.rfc-editor.org/info/rfc9114",
+    "http": "https://www.rfc-editor.org/info/rfc9110",
+    "tls": "https://www.rfc-editor.org/info/rfc9846",
+    "zt": "https://csrc.nist.gov/pubs/sp/800/207/final",
+    "ztcloud": "https://csrc.nist.gov/pubs/sp/800/207/a/final",
+    "trace": "https://www.w3.org/TR/trace-context-2/",
+    "otel": "https://opentelemetry.io/docs/specs/semconv/",
+    "otelnet": "https://opentelemetry.io/docs/specs/semconv/registry/attributes/network/",
+    "nettcp": "https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection?view=windowsserver2025-ps",
+    "etw": "https://learn.microsoft.com/en-us/windows/win32/etw/tcpip",
+    "weak": "https://www.jstor.org/stable/2776392",
+    "broker": "https://doi.org/10.1086/421787",
+    "brokerLimit": "https://doi.org/10.5465/amj.2007.24162082",
+    "sales": "https://www.huthwaiteinternational.com/spin-methodology"
+  },
+  "methods": [
+    {
+      "id": "RH-V24-01",
+      "key": "ENDPOINT_SNAPSHOT_SCOPE",
+      "name": "ENDPOINT SNAPSHOT SCOPE",
+      "domain": "DIGITAL",
+      "requires": [
+        "ENDPOINT_SNAPSHOT",
+        "SNAPSHOT_SCOPE"
+      ],
+      "produces": [
+        "ENDPOINT_SCOPE_REVIEW"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0172",
+        "MHA-0168"
+      ],
+      "sources": [
+        "https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection?view=windowsserver2025-ps",
+        "https://opentelemetry.io/docs/specs/semconv/registry/attributes/network/"
+      ],
+      "falsifier": "A socket table is an instantaneous, bounded OS view and does not prove packets, application calls or ownership.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-02",
+      "key": "TCP_CONNECTION_STATE_GUARD",
+      "name": "TCP CONNECTION STATE GUARD",
+      "domain": "DIGITAL",
+      "requires": [
+        "ENDPOINT_SCOPE_REVIEW",
+        "TCP_STATE"
+      ],
+      "produces": [
+        "TCP_STATE_LIMITS"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0035",
+        "MHA-0193"
+      ],
+      "sources": [
+        "https://www.rfc-editor.org/info/rfc9293"
+      ],
+      "falsifier": "ESTABLISHED or LISTEN cannot prove bytes delivered, a TLS peer authenticated, or business finality.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-03",
+      "key": "UDP_QUIC_CLASSIFICATION_GUARD",
+      "name": "UDP QUIC CLASSIFICATION GUARD",
+      "domain": "DIGITAL",
+      "requires": [
+        "UDP_ENDPOINT",
+        "PROTOCOL_EVIDENCE"
+      ],
+      "produces": [
+        "QUIC_CLASSIFICATION_HYPOTHESIS"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0193",
+        "MHA-0035"
+      ],
+      "sources": [
+        "https://www.rfc-editor.org/info/rfc9000",
+        "https://www.rfc-editor.org/info/rfc9114"
+      ],
+      "falsifier": "UDP/443 by itself is insufficient to identify QUIC or HTTP/3; preserve UNKNOWN.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-04",
+      "key": "TLS_SPEC_VERSION_REVIEW",
+      "name": "TLS SPEC VERSION REVIEW",
+      "domain": "DIGITAL",
+      "requires": [
+        "TLS_EVIDENCE",
+        "SPECIFICATION_VERSION"
+      ],
+      "produces": [
+        "TLS_INTERPRETATION_LIMITS"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0187",
+        "MHA-0155"
+      ],
+      "sources": [
+        "https://www.rfc-editor.org/info/rfc9846"
+      ],
+      "falsifier": "Do not use superseded RFC 8446 as the current controlling TLS 1.3 specification; negotiated identity needs its own evidence.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-05",
+      "key": "HTTP_RESPONSE_VS_BUSINESS_FINALITY",
+      "name": "HTTP RESPONSE VS BUSINESS FINALITY",
+      "domain": "DIGITAL",
+      "requires": [
+        "HTTP_RESPONSE",
+        "BUSINESS_OWNER_RECORD"
+      ],
+      "produces": [
+        "HTTP_FINALITY_REVIEW"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0194",
+        "MHA-0196"
+      ],
+      "sources": [
+        "https://www.rfc-editor.org/info/rfc9110"
+      ],
+      "falsifier": "An HTTP success status does not prove the owning service committed or settled the business operation.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-06",
+      "key": "ZERO_TRUST_POLICY_OWNER",
+      "name": "ZERO TRUST POLICY OWNER",
+      "domain": "DIGITAL",
+      "requires": [
+        "IDENTITY_EVIDENCE",
+        "POLICY_DECISION",
+        "RESOURCE_OWNER"
+      ],
+      "produces": [
+        "ACCESS_BOUNDARY_HYPOTHESIS"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0177",
+        "MHA-0182"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/207/final",
+        "https://csrc.nist.gov/pubs/sp/800/207/a/final"
+      ],
+      "falsifier": "Same subnet, reachable IP, or successful connection does not prove user/device/service authorization.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-07",
+      "key": "TRACE_CONTEXT_NONINDEPENDENCE",
+      "name": "TRACE CONTEXT NONINDEPENDENCE",
+      "domain": "DIGITAL",
+      "requires": [
+        "TRACE_CONTEXT",
+        "TRACE_LINEAGE"
+      ],
+      "produces": [
+        "TRACE_CORRELATION_REVIEW"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0186",
+        "MHA-0195"
+      ],
+      "sources": [
+        "https://www.w3.org/TR/trace-context-2/"
+      ],
+      "falsifier": "A shared trace identifier is a correlation hint and can be propagated through the same originating observation.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-08",
+      "key": "OTEL_INSTRUMENTATION_COVERAGE",
+      "name": "OTEL INSTRUMENTATION COVERAGE",
+      "domain": "DIGITAL",
+      "requires": [
+        "TELEMETRY_ATTRIBUTES",
+        "INSTRUMENTATION_SCOPE"
+      ],
+      "produces": [
+        "TELEMETRY_COVERAGE_REVIEW"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0168",
+        "MHA-0172"
+      ],
+      "sources": [
+        "https://opentelemetry.io/docs/specs/semconv/",
+        "https://opentelemetry.io/docs/specs/semconv/registry/attributes/network/"
+      ],
+      "falsifier": "Missing span or attribute may reflect sampling, instrumentation or version changes rather than a missing network event.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-09",
+      "key": "WINDOWS_ETW_PROCESS_ATTRIBUTION",
+      "name": "WINDOWS ETW PROCESS ATTRIBUTION",
+      "domain": "DIGITAL",
+      "requires": [
+        "ETW_EVENT",
+        "PROCESS_IDENTITY"
+      ],
+      "produces": [
+        "PROCESS_ATTRIBUTION_LIMITS"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0158",
+        "MHA-0194"
+      ],
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/win32/etw/tcpip",
+        "https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection?view=windowsserver2025-ps"
+      ],
+      "falsifier": "A PID, socket or event-header ProcessId alone does not establish signed process or individual attribution.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-10",
+      "key": "TEMPORAL_CLOCK_ALIGNMENT",
+      "name": "TEMPORAL CLOCK ALIGNMENT",
+      "domain": "DIGITAL",
+      "requires": [
+        "OBSERVATION_TIMES",
+        "CLOCK_DOMAINS"
+      ],
+      "produces": [
+        "TEMPORAL_ALIGNMENT_HYPOTHESIS"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0035",
+        "MHA-0197"
+      ],
+      "sources": [
+        "https://opentelemetry.io/docs/specs/semconv/",
+        "https://www.w3.org/TR/trace-context-2/"
+      ],
+      "falsifier": "Differing clocks/snapshot cuts cannot establish a single common event chronology.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-11",
+      "key": "NETWORK_TRANSLATION_IDENTITY",
+      "name": "NETWORK TRANSLATION IDENTITY",
+      "domain": "DIGITAL",
+      "requires": [
+        "ENDPOINT_SNAPSHOT",
+        "ADDRESS_TRANSLATION_CONTEXT"
+      ],
+      "produces": [
+        "NAT_IDENTITY_LIMITS"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0100",
+        "MHA-0186"
+      ],
+      "sources": [
+        "https://www.rfc-editor.org/info/rfc9000",
+        "https://www.rfc-editor.org/info/rfc9293"
+      ],
+      "falsifier": "Same public endpoint or changed address need not identify a single device or process.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-12",
+      "key": "GRAPH_BRIDGE_FAILURE_MODE",
+      "name": "GRAPH BRIDGE FAILURE MODE",
+      "domain": "DIGITAL",
+      "requires": [
+        "NETWORK_TOPOLOGY",
+        "DEPENDENCY_EDGES"
+      ],
+      "produces": [
+        "TOPOLOGY_FAILURE_CANDIDATES"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0034",
+        "MHA-0174"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/207/a/final"
+      ],
+      "falsifier": "Graph cut points can be candidates only for the supplied graph; unknown alternate links defeat real blast-radius claims.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-13",
+      "key": "SERVICE_TRUST_BOUNDARY",
+      "name": "SERVICE TRUST BOUNDARY",
+      "domain": "DIGITAL",
+      "requires": [
+        "ACCESS_BOUNDARY_HYPOTHESIS",
+        "SERVICE_IDENTITY"
+      ],
+      "produces": [
+        "SERVICE_TRUST_REVIEW"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0188",
+        "MHA-0189"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/207/a/final"
+      ],
+      "falsifier": "A passing network policy does not establish authenticated application identity or data owner consent.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-14",
+      "key": "NETWORK_COVERAGE_FALSIFIER",
+      "name": "NETWORK COVERAGE FALSIFIER",
+      "domain": "DIGITAL",
+      "requires": [
+        "TELEMETRY_COVERAGE_REVIEW",
+        "ENDPOINT_SCOPE_REVIEW"
+      ],
+      "produces": [
+        "COVERAGE_GAP_HYPOTHESIS"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0098",
+        "MHA-0214"
+      ],
+      "sources": [
+        "https://opentelemetry.io/docs/specs/semconv/",
+        "https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection?view=windowsserver2025-ps"
+      ],
+      "falsifier": "Quiet logs cannot establish no traffic when capture windows/instrumentation do not cover the event.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-15",
+      "key": "WEAK_TIE_INFORMATION_BRIDGE",
+      "name": "WEAK TIE INFORMATION BRIDGE",
+      "domain": "PROFESSIONAL",
+      "requires": [
+        "CONSENTED_RELATIONSHIP_GRAPH",
+        "INFORMATION_CONTEXT"
+      ],
+      "produces": [
+        "WEAK_TIE_HYPOTHESIS"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0114",
+        "MHA-0193"
+      ],
+      "sources": [
+        "https://www.jstor.org/stable/2776392"
+      ],
+      "falsifier": "Network position does not prove influence, trust, referral willingness or a valid buying need.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-16",
+      "key": "STRUCTURAL_HOLE_BROKERAGE",
+      "name": "STRUCTURAL HOLE BROKERAGE",
+      "domain": "PROFESSIONAL",
+      "requires": [
+        "CONSENTED_RELATIONSHIP_GRAPH",
+        "GRAPH_EDGE_EVIDENCE"
+      ],
+      "produces": [
+        "BROKERAGE_CANDIDATE"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0192",
+        "MHA-0195"
+      ],
+      "sources": [
+        "https://doi.org/10.1086/421787",
+        "https://doi.org/10.5465/amj.2007.24162082"
+      ],
+      "falsifier": "A bridge in an incomplete consented graph is not proof of business power or a willing intermediary.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-17",
+      "key": "RECIPROCAL_RELATIONSHIP_EVIDENCE",
+      "name": "RECIPROCAL RELATIONSHIP EVIDENCE",
+      "domain": "PROFESSIONAL",
+      "requires": [
+        "RELATIONSHIP_ASSERTION",
+        "RECIPROCAL_CONFIRMATION"
+      ],
+      "produces": [
+        "RELATIONSHIP_STATUS_REVIEW"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0093",
+        "MHA-0194"
+      ],
+      "sources": [
+        "https://www.jstor.org/stable/2776392"
+      ],
+      "falsifier": "A one-sided mention, imported address book entry or social follow is not a mutual relationship.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-18",
+      "key": "CONSENTED_REFERRAL_PATH",
+      "name": "CONSENTED REFERRAL PATH",
+      "domain": "PROFESSIONAL",
+      "requires": [
+        "RELATIONSHIP_STATUS_REVIEW",
+        "PURPOSE_DISCLOSURE"
+      ],
+      "produces": [
+        "REFERRAL_PATH_REVIEW"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0193",
+        "MHA-0109"
+      ],
+      "sources": [
+        "https://doi.org/10.1086/421787",
+        "https://www.huthwaiteinternational.com/spin-methodology"
+      ],
+      "falsifier": "No inferred outreach permission, endorsement or sending authority from proximity in a graph.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-19",
+      "key": "RELATIONSHIP_TIME_AND_ROLE",
+      "name": "RELATIONSHIP TIME AND ROLE",
+      "domain": "PROFESSIONAL",
+      "requires": [
+        "RELATIONSHIP_STATUS_REVIEW",
+        "ROLE_VERSION"
+      ],
+      "produces": [
+        "RELATIONSHIP_FRESHNESS_REVIEW"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0185",
+        "MHA-0194"
+      ],
+      "sources": [
+        "https://www.jstor.org/stable/2776392"
+      ],
+      "falsifier": "An old title or past relationship cannot verify current role, consent or affiliation.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-20",
+      "key": "NETWORK_ANALOGY_DOMAIN_GUARD",
+      "name": "NETWORK ANALOGY DOMAIN GUARD",
+      "domain": "META",
+      "requires": [
+        "TECH_GRAPH",
+        "PROFESSIONAL_GRAPH"
+      ],
+      "produces": [
+        "DOMAIN_SEPARATION_AUDIT"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0193",
+        "MHA-0226"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/207/final",
+        "https://www.jstor.org/stable/2776392"
+      ],
+      "falsifier": "Do not map packet delivery/centrality to human persuasion, permission or moral responsibility.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-21",
+      "key": "NETWORK_METHOD_NONINDEPENDENCE",
+      "name": "NETWORK METHOD NONINDEPENDENCE",
+      "domain": "META",
+      "requires": [
+        "TRACE_CORRELATION_REVIEW",
+        "SOURCE_LINEAGE"
+      ],
+      "produces": [
+        "METHOD_LINEAGE_AUDIT"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0195",
+        "MHA-0219"
+      ],
+      "sources": [
+        "https://www.w3.org/TR/trace-context-2/",
+        "https://opentelemetry.io/docs/specs/semconv/"
+      ],
+      "falsifier": "Two methods using one trace/source are not two independent witnesses.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V24-22",
+      "key": "CROSS_LAYER_INTERACTION_TEST",
+      "name": "CROSS LAYER INTERACTION TEST",
+      "domain": "META",
+      "requires": [
+        "TOPOLOGY_FAILURE_CANDIDATES",
+        "COVERAGE_GAP_HYPOTHESIS"
+      ],
+      "produces": [
+        "INTERACTION_TEST_PLAN"
+      ],
+      "related_native_research_candidates": [
+        "MHA-0197",
+        "MHA-0228"
+      ],
+      "sources": [
+        "https://opentelemetry.io/docs/specs/semconv/",
+        "https://csrc.nist.gov/pubs/sp/800/207/final"
+      ],
+      "falsifier": "An enumerated test design is not executed service reachability, impact or outage proof.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "method_execution": false,
+      "source_authentication": false,
+      "consent_required": false,
+      "no_target_actions": true
+    }
+  ],
+  "description": "Finite scientific candidate contracts across digital network observation and professional relationship graphs. No claim of executable RFC protocol stacks, live packet capture, outreach or real network security assessment."
+}
