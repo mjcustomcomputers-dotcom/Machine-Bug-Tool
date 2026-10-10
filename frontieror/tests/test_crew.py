@@ -108,6 +108,24 @@ class CrewTests(unittest.TestCase):
         p=crew.parse(data)
         self.assertIsNone(crew.cp_sat_side(p,time.monotonic()+3,feasibility_only=True))
 
+    def test_objective_mirror_from_verified_incumbent(self):
+        import time
+        data=example(True)
+        p=crew.parse(data)
+        incumbent=[0,1,2,3]
+        self.assertTrue(crew.verify(p,incumbent))
+        result=crew.cp_sat_side(p,time.monotonic()+3,incumbent=incumbent,feasibility_only=False)
+        self.assertTrue(crew.verify(p,result))
+        self.assertLess(crew.objective(p,result),crew.objective(p,incumbent))
+
+    def test_objective_mirror_rejects_mixed_fractional_coefficients(self):
+        import time
+        data=example(True)
+        data["cost_vector"][0]=5.25
+        p=crew.parse(data)
+        self.assertIsNone(crew.cp_sat_side(p,time.monotonic()+2,
+                                           feasibility_only=False))
+
     def test_literal_sparse_milp(self):
         data = example(True)
         p = crew.parse(data)
