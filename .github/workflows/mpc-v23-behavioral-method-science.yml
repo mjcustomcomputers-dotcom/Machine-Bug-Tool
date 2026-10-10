@@ -1,0 +1,62 @@
+name: MPC V23 Behavioral Method Science Review
+
+on:
+  push:
+    branches:
+      - feature/mpc-behavioral-meta-methods-v23
+  pull_request:
+    branches:
+      - feature/mpc-transformative-method-synergy-v22
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-v23-method-science
+  cancel-in-progress: true
+
+jobs:
+  behavioral-method-science:
+    name: V23 source tests and complete existing build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out immutable pushed source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Log actual commit and baseline ancestor
+        shell: bash
+        run: |
+          git rev-parse HEAD
+          git merge-base --is-ancestor fa36798a6c61bd8953a0d77e2eea202b82f8ea77 HEAD
+          git status --short
+
+      - name: Install Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+
+      - name: Activate pinned pnpm
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm --version
+
+      - name: Install frozen dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run new behavioral and V22 regression suites
+        run: |
+          node --test tests/behavioral-meta-methods-v23.test.mjs tests/method-synergy-v22.test.mjs
+          node research/run-behavioral-meta-v23.mjs
+
+      - name: Run all repository tests
+        run: node --test
+
+      - name: Run full repository build
+        run: pnpm run build
