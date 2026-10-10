@@ -113,6 +113,18 @@ test('intervention designs fail closed on no permission and covert targeting',()
  r=reviewBehavioralAtoms(x);
  assert.equal(r.safety_gate.state,'DESIGN_RESEARCH_REVIEW_ONLY');
  assert.equal(r.method_executions,0);
+ x.choice=choice().choice;
+ x.choice.consent_default='PRESELECTED_ACCEPT';
+ x.choice.fee_disclosure='AFTER_COMMIT';
+ r=reviewBehavioralAtoms(x);
+ assert.equal(r.safety_gate.state,'INTERVENTION_DESIGN_BLOCKED');
+ assert.ok(r.safety_gate.reasons.includes('CHOICE_OBSERVATION_REQUIRES_ADVERSARIAL_REVIEW'));
+ assert.ok(r.safety_gate.choice_review_flags.includes('PRESELECTED_ACCEPTANCE'));
+ assert.ok(planBehavioralMethodInteractions(x).edges.every(e=>e.state==='ETHICS_GATE_BLOCKED'));
+ x.choice=choice().choice;
+ r=reviewBehavioralAtoms(x);
+ assert.equal(r.safety_gate.state,'DESIGN_RESEARCH_REVIEW_ONLY');
+ assert.deepEqual(r.safety_gate.choice_review_flags,[]);
 });
 test('methods-on-methods link needs to intervention function without promoting hypothesis to fact',()=>{
  const x=sample();
