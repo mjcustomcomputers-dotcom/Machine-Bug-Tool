@@ -634,3 +634,43 @@ body[data-chat-dock="floating"] .composer {
 .network-table th,.network-table td{padding:7px 9px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
 .network-table th{position:sticky;top:0;background:var(--panel);z-index:1}
 .network-table tr:focus-within{outline:2px solid var(--focus);outline-offset:-2px}
+
+/* V30: opt-in Engineering Lab lives inside the existing Methods workspace.
+   Collapsed by default; compact and high-contrast themes inherit tokens. */
+.engineering-lab { margin-block: 14px; min-width: 0; }
+.engineering-lab > summary {
+  cursor: pointer;
+  padding: 13px 16px;
+  font-weight: 750;
+  color: var(--text);
+}
+.engineering-lab > summary:focus-visible,
+.engineering-lab button:focus-visible,
+.engineering-lab select:focus-visible,
+.engineering-lab textarea:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.engineering-lab-body { padding: 0 16px 16px; display: grid; gap: 10px; min-width: 0; }
+.engineering-lab-body > p { margin: 0; color: var(--text-secondary); }
+.engineering-lab-controls { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; }
+.engineering-lab-controls label { min-width: min(340px, 100%); flex: 1; display: grid; gap: 5px; }
+.engineering-lab label { color: var(--text-secondary); font-weight: 700; font-size: .83rem; }
+.engineering-lab select, .engineering-lab textarea { width: 100%; min-width: 0; }
+.engineering-lab textarea { font: .84rem/1.48 "Cascadia Code", Consolas, monospace; }
+.engineering-lab textarea[readonly] { background: var(--bg-soft); }
+.engineering-lab-preview {
+  margin: 0; padding: 15px; min-height: 116px; max-height: 340px;
+  overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere;
+  color: var(--text); background: var(--bg-soft);
+  border: 1px solid var(--border-soft); border-radius: 8px;
+  font: .87rem/1.6 "Cascadia Code", Consolas, monospace;
+}
+.engineering-lab-details { min-width: 0; padding-block: 7px; }
+.engineering-lab-details > summary { cursor: pointer; color: var(--accent); padding: 7px; }
+.engineering-lab-details textarea { min-height: 240px; }
+@media (max-width: 660px) {
+  .engineering-lab-controls { flex-direction: column; align-items: stretch; }
+  .engineering-lab-body { padding: 0 11px 12px; }
+  .engineering-lab-preview { font-size: .8rem; }
+}
