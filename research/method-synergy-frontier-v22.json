@@ -1,0 +1,371 @@
+{
+  "version": "MPC_RESEARCH_METHOD_SYNERGY_V22",
+  "identity_class": "NONCANONICAL_RESEARCH_HOOKS",
+  "baseline_git_commit": "761c4445ec1b7c063dc70cb599e37b7eb5f7487e",
+  "original_mha_count_unchanged": 239,
+  "original_evaluators_unchanged": 24,
+  "original_method_hooks_unchanged": 10,
+  "source_authentication": false,
+  "method_execution": false,
+  "target_actions": false,
+  "canonical_promotion": false,
+  "hooks": [
+    {
+      "id": "RH-V22-01",
+      "name": "Database provenance semiring expressions",
+      "family": "PROVENANCE_ALGEBRA",
+      "requires": [
+        "SOURCE_GRAPH",
+        "DERIVATION_RULES"
+      ],
+      "produces": [
+        "PROVENANCE_EXPRESSION"
+      ],
+      "needs_order": false,
+      "existing_anchors": [
+        "MHA-0194",
+        "MHA-0195",
+        "MHA-0191"
+      ],
+      "transforms": [
+        "ANNOTATE_DERIVATION",
+        "COMPOSE_SUM_PRODUCT",
+        "TRACE_SHARED_INPUTS"
+      ],
+      "falsifier": "A duplicated source is counted as independent evidence, or the derivation lacks a source owner",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "sources": [
+        "https://web.cs.ucdavis.edu/~green/papers/pods07.pdf"
+      ]
+    },
+    {
+      "id": "RH-V22-02",
+      "name": "Method provenance collision analysis",
+      "family": "PROVENANCE_ALGEBRA",
+      "requires": [
+        "PROVENANCE_EXPRESSION",
+        "CLAIM_DEPENDENCIES"
+      ],
+      "produces": [
+        "DEPENDENCE_COLLISION_WARNINGS"
+      ],
+      "needs_order": false,
+      "existing_anchors": [
+        "MHA-0195",
+        "MHA-0227"
+      ],
+      "transforms": [
+        "FACTOR_COMMON_ANCESTOR",
+        "CHALLENGE_INDEPENDENCE"
+      ],
+      "falsifier": "Independent-looking witnesses share an original source",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "sources": [
+        "https://www.w3.org/TR/prov-o/",
+        "https://web.cs.ucdavis.edu/~green/papers/pods07.pdf"
+      ]
+    },
+    {
+      "id": "RH-V22-03",
+      "name": "Model-based minimal conflict extraction",
+      "family": "CONSISTENCY_DIAGNOSIS",
+      "requires": [
+        "COMPONENT_MODEL",
+        "OBSERVED_CONTRADICTION"
+      ],
+      "produces": [
+        "MINIMAL_CONFLICT_SETS"
+      ],
+      "needs_order": false,
+      "existing_anchors": [
+        "MHA-0092",
+        "MHA-0196"
+      ],
+      "transforms": [
+        "ISOLATE_CONFLICT",
+        "REDUCE_CONFLICT_SUBSETS"
+      ],
+      "falsifier": "Reported conflict is consistent with the declared model",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "sources": [
+        "https://doi.org/10.1016/0004-3702(87)90062-2"
+      ]
+    },
+    {
+      "id": "RH-V22-04",
+      "name": "Minimal hitting-set diagnosis from conflicts",
+      "family": "CONSISTENCY_DIAGNOSIS",
+      "requires": [
+        "MINIMAL_CONFLICT_SETS"
+      ],
+      "produces": [
+        "DIAGNOSIS_CANDIDATES"
+      ],
+      "needs_order": false,
+      "existing_anchors": [
+        "MHA-0116",
+        "MHA-0196"
+      ],
+      "transforms": [
+        "HIT_EACH_CONFLICT",
+        "MINIMIZE_DIAGNOSES"
+      ],
+      "falsifier": "Candidate does not hit all conflicts or contains removable elements",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "sources": [
+        "https://doi.org/10.1016/0004-3702(87)90062-2"
+      ]
+    },
+    {
+      "id": "RH-V22-05",
+      "name": "Finite pairwise covering-array-inspired test design",
+      "family": "METHOD_INTERACTION_TESTING",
+      "requires": [
+        "FACTOR_DOMAINS"
+      ],
+      "produces": [
+        "INTERACTION_TEST_DESIGN"
+      ],
+      "needs_order": false,
+      "existing_anchors": [
+        "MHA-0197",
+        "MHA-0198",
+        "MHA-0228"
+      ],
+      "transforms": [
+        "CARTESIAN_ENUMERATE",
+        "GREEDY_PAIR_COVER",
+        "STOP_AT_BUDGET"
+      ],
+      "falsifier": "Independent enumeration finds uncovered pairs despite completeness assertion",
+      "implementation_state": "LOCAL_BOUNDED_TEST_DESIGN_IMPLEMENTED_NOT_ATLAS_EVALUATOR",
+      "sources": [
+        "https://www.nist.gov/publications/combinatorial-coverage-measurement"
+      ]
+    },
+    {
+      "id": "RH-V22-06",
+      "name": "Independent coverage receipt replay against oracle plan",
+      "family": "METHOD_INTERACTION_TESTING",
+      "requires": [
+        "INTERACTION_TEST_DESIGN",
+        "ORACLE_RESULTS"
+      ],
+      "produces": [
+        "INTERACTION_COVERAGE_FALSIFIERS"
+      ],
+      "needs_order": false,
+      "existing_anchors": [
+        "MHA-0216",
+        "MHA-0218",
+        "MHA-0198"
+      ],
+      "transforms": [
+        "REPLAY_PAIRS",
+        "CHALLENGE_COMPLETENESS_CLAIM"
+      ],
+      "falsifier": "Uncovered pair, fabricated test outcome, source drift or incorrect count",
+      "implementation_state": "COVERAGE_DESIGN_REPLAY_ONLY_NOT_RESULT_ORACLE_IMPLEMENTED",
+      "sources": [
+        "https://www.nist.gov/publications/combinatorial-coverage-measurement"
+      ]
+    },
+    {
+      "id": "RH-V22-07",
+      "name": "Guarded equality saturation with e-graphs",
+      "family": "REWRITE_EQUIVALENCE",
+      "requires": [
+        "TYPED_EXPRESSION",
+        "PROVEN_EQUALITIES"
+      ],
+      "produces": [
+        "EQUIVALENT_EXPRESSION_CANDIDATES"
+      ],
+      "needs_order": false,
+      "existing_anchors": [
+        "MHA-0121",
+        "MHA-0122",
+        "MHA-0138"
+      ],
+      "transforms": [
+        "APPLY_SOUND_REWRITE",
+        "SATURATE_BOUNDED",
+        "EXTRACT_BY_COST"
+      ],
+      "falsifier": "A rewrite changes semantics under its declared preconditions",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "sources": [
+        "https://doi.org/10.1145/3434304"
+      ]
+    },
+    {
+      "id": "RH-V22-08",
+      "name": "Dynamic partial-order reduction over independent events",
+      "family": "CONCURRENT_TRACE_EXPLORATION",
+      "requires": [
+        "CONCURRENT_TRACE",
+        "INDEPENDENCE_ORACLE"
+      ],
+      "produces": [
+        "SCHEDULE_REDUCTIONS"
+      ],
+      "needs_order": true,
+      "existing_anchors": [
+        "MHA-0035",
+        "MHA-0164",
+        "MHA-0224"
+      ],
+      "transforms": [
+        "SWAP_INDEPENDENT_EVENTS",
+        "TRACK_BACKTRACK_POINTS",
+        "RETAIN_DEPENDENT_SCHEDULES"
+      ],
+      "falsifier": "Omitted schedule changes observable outcome or event independence fails",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "sources": [
+        "https://doi.org/10.1145/1040305.1040315"
+      ]
+    },
+    {
+      "id": "RH-V22-09",
+      "name": "Active automata learning with counterexample refinement",
+      "family": "ACTIVE_SYSTEM_IDENTIFICATION",
+      "requires": [
+        "FINITE_ALPHABET",
+        "CONSENTED_MEMBERSHIP_ORACLE",
+        "CONSENTED_EQUIVALENCE_ORACLE"
+      ],
+      "produces": [
+        "FINITE_AUTOMATON_HYPOTHESES"
+      ],
+      "needs_order": false,
+      "existing_anchors": [
+        "MHA-0131",
+        "MHA-0132",
+        "MHA-0139"
+      ],
+      "transforms": [
+        "QUERY_DECLARED_ORACLE",
+        "LEARN_MINIMAL_DFA",
+        "REFINE_COUNTEREXAMPLE"
+      ],
+      "falsifier": "Oracle lacks authorization or rejects proposed finite machine",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NO_TARGET_QUERIES",
+      "sources": [
+        "https://doi.org/10.1016/0890-5401(87)90052-6"
+      ]
+    },
+    {
+      "id": "RH-V22-10",
+      "name": "Causal transportability and intervention identifiability",
+      "family": "CAUSAL_ASSUMPTION_BOUNDARIES",
+      "requires": [
+        "CAUSAL_GRAPH",
+        "DOMAIN_DIFFERENCES",
+        "INTERVENTION_DATA"
+      ],
+      "produces": [
+        "TRANSPORTABILITY_OBLIGATIONS"
+      ],
+      "needs_order": false,
+      "existing_anchors": [
+        "MHA-0143",
+        "MHA-0113",
+        "MHA-0107"
+      ],
+      "transforms": [
+        "SPLIT_INTERVENTION_FROM_OBSERVATION",
+        "DECLARE_DOMAIN_SHIFT",
+        "CHALLENGE_IDENTIFICATION"
+      ],
+      "falsifier": "Causal effect asserted without sufficient assumptions or transport formula",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "sources": [
+        "https://ojs.aaai.org/index.php/AAAI/article/view/7861",
+        "https://proceedings.mlr.press/v6/pearl10a.html"
+      ]
+    },
+    {
+      "id": "RH-V22-11",
+      "name": "Formal concept analysis for candidate classifier taxonomy",
+      "family": "CLASSIFIER_ATTRIBUTE_LATTICE",
+      "requires": [
+        "METHOD_ATTRIBUTE_MATRIX"
+      ],
+      "produces": [
+        "FORMAL_CONCEPT_CANDIDATES"
+      ],
+      "needs_order": false,
+      "existing_anchors": [
+        "MHA-0192",
+        "MHA-0193",
+        "MHA-0226"
+      ],
+      "transforms": [
+        "GALOIS_CLOSURE",
+        "LATTICE_HIERARCHY",
+        "FALSIFY_CLASSIFIER_OVERLAP"
+      ],
+      "falsifier": "A derived concept fails extent-intent closure or collapses source owners",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "sources": [
+        "https://link.springer.com/book/10.1007/978-3-031-63422-2"
+      ]
+    },
+    {
+      "id": "RH-V22-12",
+      "name": "Modified condition decision coverage for classifier gates",
+      "family": "INDEPENDENT_CONDITION_COVERAGE",
+      "requires": [
+        "BOOLEAN_DECISION_FORMULA",
+        "EXECUTABLE_ORACLE"
+      ],
+      "produces": [
+        "CONDITION_INDEPENDENCE_WITNESSES"
+      ],
+      "needs_order": false,
+      "existing_anchors": [
+        "MHA-0193",
+        "MHA-0198",
+        "MHA-0219"
+      ],
+      "transforms": [
+        "TOGGLE_ONE_CONDITION",
+        "HOLD_OTHERS_FIXED",
+        "VERIFY_DECISION_CHANGE"
+      ],
+      "falsifier": "Other conditions change or decision remains unchanged",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "sources": [
+        "https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20010057789.pdf"
+      ]
+    },
+    {
+      "id": "RH-V22-13",
+      "name": "Trace-order reduction independent audit",
+      "family": "CONCURRENT_TRACE_EXPLORATION",
+      "requires": [
+        "SCHEDULE_REDUCTIONS",
+        "CONCURRENT_TRACE"
+      ],
+      "produces": [
+        "SCHEDULE_FALSIFIER_CANDIDATES"
+      ],
+      "needs_order": true,
+      "existing_anchors": [
+        "MHA-0035",
+        "MHA-0196",
+        "MHA-0222"
+      ],
+      "transforms": [
+        "REPLAY_DISTINGUISHING_CONTINUATION",
+        "CHALLENGE_INDEPENDENCE"
+      ],
+      "falsifier": "Reduction omits a visibly distinct ordering-dependent trace",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "sources": [
+        "https://doi.org/10.1145/1040305.1040315"
+      ]
+    }
+  ]
+}
