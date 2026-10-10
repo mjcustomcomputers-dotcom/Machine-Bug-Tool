@@ -3,8 +3,9 @@
 // renderer files, source identity, stage lineage and source-exact ZIP checksum.
 // No user files, providers, arbitrary execution, or external target access.
 import {createHash} from 'node:crypto';
-import {createReadStream,existsSync,lstatSync,readdirSync,readFileSync,realpathSync} from 'node:fs';
+import {createReadStream,existsSync,lstatSync,readdirSync,readFileSync,realpathSync,mkdtempSync,rmSync} from 'node:fs';
 import {createRequire} from 'node:module';
+import {tmpdir} from 'node:os';
 import {resolve,relative,join,sep,isAbsolute} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 
@@ -117,18 +118,27 @@ export async function verifyPortableBuildV32({portableRoot,receiptPath,expectedS
   staged.set(f.path,f);
  }
  const extract=asar??getPackagerAsarV32();
- if(typeof extract.extractFile!=='function')fail('V32_ASAR_EXTRACTOR_INVALID');
+ if(typeof extract.extractAll!=='function')fail('V32_ASAR_EXTRACTOR_INVALID');
  const appAsar=resolve(root,'resources','app.asar');
- let verifiedStagedFiles=0;
- for(const [name,f] of staged){
-  let bytes;
-  try{bytes=extract.extractFile(appAsar,name);}
-  catch{fail('V32_ASAR_REQUIRED_FILE_MISSING:'+name)}
-  if(!Buffer.isBuffer(bytes)||bytes.length!==f.bytes||sha(bytes)!==f.sha256)
-   fail('V32_ASAR_STAGED_SOURCE_HASH_MISMATCH:'+name);
-  verifiedStagedFiles++;
+ const temporary=mkdtempSync(join(tmpdir(),'mpc-v32-verified-asar-'));
+ let verifiedStagedFiles=0,embedded;
+ try{
+  // Extract once under the platform's native separator rules, then
+  // compare regular file bytes to the original staged source manifest.
+  extract.extractAll(appAsar,temporary);
+  for(const [name,f] of staged){
+   const location=resolve(temporary,...name.split('/'));
+   if(!inside(temporary,location)||!existsSync(location)||
+      !lstatSync(location).isFile())fail('V32_ASAR_REQUIRED_FILE_MISSING:'+name);
+   const bytes=readFileSync(location);
+   if(bytes.length!==f.bytes||sha(bytes)!==f.sha256)
+    fail('V32_ASAR_STAGED_SOURCE_HASH_MISMATCH:'+name);
+   verifiedStagedFiles++;
+  }
+  embedded=jsonFile(resolve(temporary,'package.json'));
+ }finally{
+  rmSync(temporary,{recursive:true,force:true,maxRetries:5,retryDelay:200});
  }
- const embedded=JSON.parse(extract.extractFile(appAsar,'package.json').toString('utf8'));
  if(embedded.mpcWorkspaceBuild?.source_commit!==expectedSourceCommit||
     embedded.mpcWorkspaceBuild?.source_dirty!==false||
     embedded.mpcWorkspaceBuild?.target!=='win32-x64')
