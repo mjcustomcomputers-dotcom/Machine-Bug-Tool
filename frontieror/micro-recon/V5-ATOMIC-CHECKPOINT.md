@@ -83,3 +83,22 @@ E. Release one six-folder ZIP only after passing gates and human review.
 
 State: \`ATOMIC_LOCAL_TESTS_PASS\`, \`OFFICIAL_V5_SCORE_PENDING\`.
 No official submission credit consumed; no final ZIP released.
+
+
+## Cross-problem crew feasibility regression (V4 retained)
+
+The independent set-partitioning verifier checked nine planted, conflict-heavy
+exact-cover instances with 300, 600, and 1000 rows; distractor counts were
+500, 900, and 1300, respectively, across seeds 11,29,43. Fast one-step
+greedy missed each feasible cover, while the bounded MRV exact-cover fallback
+found and verified all nine within 0.898s maximum for that fallback.
+
+Two separate base-bound constraint adversaries forced the planted pair cover:
+200 rows/400 distractors completed in 1.48s and 500 rows/600 distractors
+completed in 1.73s under an 18-second CLI budget. Both passed independent
+exact-cover and real-valued base-bound verification. The V4 crew source is
+retained pending organizer public-instance tests.
+
+These measurements improve local failure-mode coverage for the original
+private 60-second timeout. The unknown organizer large_instance_5 structure
+is a distinct remaining test target.
