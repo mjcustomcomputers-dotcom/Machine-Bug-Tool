@@ -149,19 +149,6 @@ jobs:
             --zip (Join-Path $delivery 'MPC-Workspace-0.1.0-windows-x64-portable.zip') `
             --source-commit "${{ needs.package.outputs.source_sha }}" `
             --output (Join-Path $env:RUNNER_TEMP 'v32-windows-byte-verification.json')
-      - name: Execute Windows portable Electron binary in native Node mode
-        shell: pwsh
-        run: |
-          $exe = Join-Path $env:RUNNER_TEMP 'v32-unpacked/MPC-Workspace-win32-x64/MPC-Workspace.exe'
-          $env:ELECTRON_RUN_AS_NODE = '1'
-          $value = & $exe --eval "process.stdout.write(JSON.stringify({platform:process.platform,electron:process.versions.electron}))"
-          if ($LASTEXITCODE -ne 0) { throw 'MPC_V32_ELECTRON_BINARY_NATIVE_EXECUTION_FAILED' }
-          $native = $value | ConvertFrom-Json
-          if ($native.platform -ne 'win32' -or [string]::IsNullOrWhiteSpace($native.electron)) {
-            throw 'MPC_V32_ELECTRON_NATIVE_RUNTIME_IDENTITY_FAILED'
-          }
-          $native | ConvertTo-Json | Set-Content -Path (Join-Path $env:RUNNER_TEMP 'v32-electron-node-receipt.json') -Encoding utf8
-          Remove-Item Env:ELECTRON_RUN_AS_NODE
       - name: Run verified packaged V31 reasoning through real Windows local Workspace service
         shell: pwsh
         run: |
@@ -169,6 +156,26 @@ jobs:
             --portable (Join-Path $env:RUNNER_TEMP 'v32-unpacked/MPC-Workspace-win32-x64') `
             --source-commit "${{ needs.package.outputs.source_sha }}" `
             --result (Join-Path $env:RUNNER_TEMP 'v32-native-receiver.json')
+      - name: Execute Windows portable Electron binary in native Node mode
+        shell: pwsh
+        run: |
+          $exe = Join-Path $env:RUNNER_TEMP 'v32-unpacked/MPC-Workspace-win32-x64/MPC-Workspace.exe'
+          $probe = Join-Path $env:RUNNER_TEMP 'v32-electron-node-receipt.json'
+          $env:ELECTRON_RUN_AS_NODE = '1'
+          $env:ELECTRON_NO_ATTACH_CONSOLE = 'true'
+          $env:MPC_V32_NATIVE_PROBE_OUT = $probe
+          $expression = "require('node:fs').writeFileSync(process.env.MPC_V32_NATIVE_PROBE_OUT,JSON.stringify({platform:process.platform,electron:process.versions.electron}))"
+          $nativeProcess = Start-Process -FilePath $exe -ArgumentList @('--eval', $expression) -PassThru -Wait
+          if ($nativeProcess.ExitCode -ne 0 -or !(Test-Path -LiteralPath $probe)) {
+            throw 'MPC_V32_ELECTRON_BINARY_NATIVE_EXECUTION_FAILED'
+          }
+          $native = Get-Content -LiteralPath $probe -Raw | ConvertFrom-Json
+          if ($native.platform -ne 'win32' -or [string]::IsNullOrWhiteSpace($native.electron)) {
+            throw 'MPC_V32_ELECTRON_NATIVE_RUNTIME_IDENTITY_FAILED'
+          }
+          Remove-Item Env:ELECTRON_RUN_AS_NODE
+          Remove-Item Env:ELECTRON_NO_ATTACH_CONSOLE
+          Remove-Item Env:MPC_V32_NATIVE_PROBE_OUT
       - name: Run focused V31/V30 models in Windows Node
         shell: pwsh
         run: |
