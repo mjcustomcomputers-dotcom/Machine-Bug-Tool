@@ -222,6 +222,30 @@ def cp_sat_side(p,deadline,incumbent=None,feasibility_only=True):
     return selected if verify(p,selected) else None
 
 
+
+def dominated_rotations(p):
+    """Exact cost dominance for duplicate nonempty coverage and base effects."""
+    m,n,costs,columns,incidence,d,lo,hi=p
+    cheapest={}
+    dominated=set()
+    for j,rows in enumerate(columns):
+        # Empty columns may both be desirable when cost is negative.
+        if not rows:
+            if costs[j]>=0:
+                dominated.add(j)
+            continue
+        key=(tuple(sorted(set(rows))),tuple(base[j] for base in d))
+        prev=cheapest.get(key)
+        if prev is None:
+            cheapest[key]=j
+        elif (costs[j],j)<(costs[prev],prev):
+            dominated.add(prev)
+            cheapest[key]=j
+        else:
+            dominated.add(j)
+    return dominated
+
+
 def sparse_milp(p, deadline):
     """SCIP/HiGHS-style sparse 0-1 exact cover with literal real base bounds."""
     if deadline - time.monotonic() < 0.5:
@@ -233,6 +257,7 @@ def sparse_milp(p, deadline):
     except ImportError:
         return None
     m, n, costs, columns, _, d, lo, hi = p
+    disabled=dominated_rotations(p)
     rr, cc = [], []
     for j, rows in enumerate(columns):
         for r in rows:
@@ -250,7 +275,7 @@ def sparse_milp(p, deadline):
         result = milp(
             c=np.asarray(costs),
             integrality=np.ones(n, dtype=np.int32),
-            bounds=Bounds(np.zeros(n), np.ones(n)),
+            bounds=Bounds(np.zeros(n), np.asarray([0.0 if j in disabled else 1.0 for j in range(n)])),
             constraints=LinearConstraint(A, np.asarray(lhs), np.asarray(rhs)),
             options={"time_limit": max(0.1, deadline - time.monotonic() - 0.15),
                      "mip_rel_gap": 0.005, "presolve": True}
