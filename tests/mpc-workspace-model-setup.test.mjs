@@ -57,6 +57,7 @@ async function setupHost(t, manager) {
   writeFileSync(join(rendererRoot, 'index.html'), `<meta http-equiv="Content-Security-Policy" content="${MPC_WORKSPACE_CSP}"><main>Fixture</main>`);
   writeFileSync(join(rendererRoot, 'styles.css'), '');
   writeFileSync(join(rendererRoot, 'app.js'), '');
+  for(const file of ['screen-policy.js','screen-reader.js','screen-source-choice.js','network-reader.js','roi-process.js','capture.js','capture.html'])writeFileSync(join(rendererRoot,file),'');
   const running = await startMpcWorkspaceServer({rendererRoot, service: {
     bootstrap: async () => ({service: {status: 'READY_LOCAL'}}),
     localModelStatus: () => manager.status(),
@@ -91,7 +92,9 @@ test('source-bound inference accepts latest alias while preserving the returned 
   const packet = {problem: 'What is recorded?', workflow: {records: [{source_ref: 'S1', version: 'V1', content: 'The fixture records alpha.'}]}};
   const routed = {work_stage: 'ANALYSIS', next_action: {kind: 'REVIEW'}, workflow: {source_records: [{source_ref: 'S1', version: 'V1', owner: 'fixture', state: 'CONTENT_AVAILABLE'}]}};
   const proposal = JSON.stringify({observations: [{source_ref: 'S1', quote: 'alpha', meaning: 'The fixture names alpha.'}], interpretation: 'The record names alpha.', next_question: 'Which version is next?', assessment: 'UNDETERMINED'});
-  const invoke = observed => runOllamaWorkspaceModel(packet, routed, {model: MPC_MODEL, fetchImpl: async () => new Response(`${JSON.stringify({model: observed, message: {content: proposal}, done: true})}\n`)});
+  const invoke = observed => runOllamaWorkspaceModel(packet, routed, {model: MPC_MODEL, fetchImpl: async url =>
+    url.endsWith('/api/show')?new Response(JSON.stringify({capabilities:['completion'],details:{format:'gguf'}})):
+      new Response(`${JSON.stringify({model: observed, message: {content: proposal}, done: true,done_reason:'stop'})}\n`)});
   const accepted = await invoke(`${MPC_MODEL}:latest`);
   assert.equal(accepted.status, 'MODEL_PROPOSAL_READY');
   assert.equal(accepted.requested_model, MPC_MODEL);

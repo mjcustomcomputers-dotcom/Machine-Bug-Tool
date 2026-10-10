@@ -6,6 +6,25 @@ does not replace the Research Workbench, the MPC Security Assistant, the
 completed V13 controller, the Method Atlas registries, or the native Sites
 project.
 
+## Screen reading, local classifiers and provider reads — October 9, 2026
+
+The screen-reader update starts from the prior Windows/UI source commit
+`e98155caa15807f93efd66bc3340de5e20a96ce8`. It adds consented native capture,
+bundled offline English OCR, crop/privacy masks, change detection before PNG
+encoding, bounded in-memory queues and text cache, and the existing native
+BL32/384 classifier, `delta_plan`, and `fault_tree` behind an evidence-marked
+local report. The independent Stop indicator and the large copyable text view
+are part of this update. Detailed operation, retention and verification limits
+are in [MPC-SCREEN-READER.md](MPC-SCREEN-READER.md).
+
+GitHub, Drive, Dropbox and Gmail now have built-in read-only host adapters,
+with scoped tokens managed through session memory or available OS encryption.
+Local MPC calls the bundled engine in process. The exact transport/address
+table and supported resource IDs are in
+[MPC-CONNECTION-SETUP.md](MPC-CONNECTION-SETUP.md). Prior historical checkpoints
+below retain the capabilities and test results observed at their own commits.
+Use the new artifact's source commit and build receipt for this package.
+
 ## Display and local AI update — October 9, 2026
 
 This additive update starts from `16ee44a080c4979c14016901ed8783d2d2686504`
@@ -100,13 +119,14 @@ For local chat, use the dedicated **Local AI setup** action. The generic form
 only stores a connection configuration. Provider-specific defaults and help
 now explain the field meanings.
 
-The stock Windows app does not yet mount GitHub, Drive, Gmail, Dropbox, remote
-MCP or OpenAI API host connection adapters. Those require an installed adapter
-and its actual endpoint/command/locator. Entering a repository URL, inventing an
-`os-secret://` reference, or pasting an API token into the reference field does
-not create that integration. Existing ChatGPT connector sign-ins are separate
-from this desktop. Connection tests use a typed `READ_SELECTED_RESOURCE`
-operation, rather than incorrectly submitting the catalog's prose description.
+GitHub, Drive, Gmail and Dropbox use the fixed built-in REST HTTPS adapters;
+Local MPC uses the bundled in-process adapter. Remote MCP, Dropbox Dash and the
+OpenAI API connection form still require an installed host adapter and its real
+endpoint/command/locator. Enter a scoped token in **Access token**, or select an
+existing `os-secret://mpc/…` reference created by this desktop; the reference
+field is not a token field. Existing ChatGPT connector sign-ins remain separate
+from this desktop. **Read selected resource** submits the typed
+`READ_SELECTED_RESOURCE` operation and the selected native resource identity.
 
 ### Validation scope
 
@@ -209,13 +229,14 @@ keeps identities and hashes, not either image. A retained source larger than 8
 MiB is reduced to digest-only identity while its bounded derivative can still
 follow the selected retention policy.
 
-Quick structured text must not wait for image work or a model. Within the image
-fallback, the intended latency order is **capture → bounded derivative → local
-OCR → short screen-reader text**. No OCR engine or vision adapter is installed
-in the current package: an image remains
-`DERIVED_REPRESENTATION_REQUIRED`, and its pixels are not sent to the selected
-text-only reasoner. Installing or selecting a text model does not change that
-boundary.
+Quick structured text must not wait for image work or a model. The one-shot
+clipboard fallback stops after **capture → bounded derivative** and records
+`DERIVED_REPRESENTATION_REQUIRED`; it does not silently start OCR or send pixels
+to the selected text-only reasoner. The separate **Screen reader** view provides
+the packaged, consented local English OCR path for a selected window or monitor,
+with explicit source selection, visible Stop, crop/privacy masks and bounded
+in-memory processing. Selecting a text model does not merge those two paths or
+authorize capture.
 
 Browser context may come only from an explicitly selected, already exported
 Firefox DevTools HAR file. Import first scrubs authorization/proxy-authorization
@@ -377,17 +398,20 @@ renderer-to-shell bridge.
 
 ## Receive and launch the Windows portable build
 
-The release receipt above provides the archive name, SHA-256, source commit and
-minimum supported Windows version. This makes the archive receivable and
-verifiable. It remains an unsigned portable build whose native Windows journey
-must be observed on the receiving Windows host.
+Use the build receipt included with the specific download for its archive name,
+SHA-256, source commit and minimum supported Windows version. The GitHub artifact
+ZIP contains the inner portable ZIP, its checksum file, the build receipt and
+the packaged OCR smoke receipt. It remains an unsigned portable build whose
+native Windows journey must be observed on the receiving Windows host.
 
 On the Windows computer, receiving is intentionally manual and does not require
 a PowerShell policy change:
 
-1. Download the final portable ZIP named in the receipt into **Downloads**.
-2. Compare its SHA-256 with the receipt (Windows file Properties or
-   `Get-FileHash -Algorithm SHA256` entered interactively).
+1. Download the GitHub artifact into **Downloads** and extract its outer ZIP to
+   reach the portable ZIP and receipts.
+2. Compare the inner portable ZIP's SHA-256 with its checksum file or build
+   receipt. In PowerShell opened in that folder, enter
+   `Get-FileHash -LiteralPath '.\MPC-Workspace-0.1.0-windows-x64-portable.zip' -Algorithm SHA256`.
 3. In File Explorer, choose **Extract All** into a new versioned folder such as
    `C:\Users\<Windows-user>\Desktop\MPC Workspace\<release-version>`. Keep the
    previous version as rollback; do not extract over it.

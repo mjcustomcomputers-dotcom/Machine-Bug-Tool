@@ -1,0 +1,675 @@
+{
+  "schema_version": "MPC_SCREEN_VALIDATION_1",
+  "observed_at_utc": "2026-10-09T20:22:29.293Z",
+  "source": "CONNECTED_MPC_MACHINE_LEGAL_EVALUATE_METHOD",
+  "scope": "SUPPLIED_FINITE_MODELS_AND_DELIBERATE_MUTANTS",
+  "source_authentication": false,
+  "model_completeness_proven": false,
+  "nasa_certification": false,
+  "operating_system_capture_test": false,
+  "cases": [
+    {
+      "id": "guarded_lifecycle",
+      "method": "finite_invariant",
+      "input": {
+        "invariant_label": "Only a current, consented source/project generation may deliver an OCR observation; stopped sessions cannot publish.",
+        "states": [
+          {
+            "id": "OFF",
+            "invariant_holds": true
+          },
+          {
+            "id": "ARMED",
+            "invariant_holds": true
+          },
+          {
+            "id": "READING",
+            "invariant_holds": true
+          },
+          {
+            "id": "WAITING",
+            "invariant_holds": true
+          },
+          {
+            "id": "REVOKED",
+            "invariant_holds": true
+          },
+          {
+            "id": "DISPOSED",
+            "invariant_holds": true
+          },
+          {
+            "id": "STALE_OUTPUT",
+            "invariant_holds": false
+          }
+        ],
+        "initial_states": [
+          "OFF"
+        ],
+        "transitions": [
+          {
+            "id": "consent",
+            "from": "OFF",
+            "to": "ARMED"
+          },
+          {
+            "id": "source_checked",
+            "from": "ARMED",
+            "to": "READING"
+          },
+          {
+            "id": "ocr_pending",
+            "from": "READING",
+            "to": "WAITING"
+          },
+          {
+            "id": "current_result_only",
+            "from": "WAITING",
+            "to": "READING"
+          },
+          {
+            "id": "stop_armed",
+            "from": "ARMED",
+            "to": "REVOKED"
+          },
+          {
+            "id": "stop_reading",
+            "from": "READING",
+            "to": "REVOKED"
+          },
+          {
+            "id": "stop_waiting",
+            "from": "WAITING",
+            "to": "REVOKED"
+          },
+          {
+            "id": "erase_terminate",
+            "from": "REVOKED",
+            "to": "DISPOSED"
+          },
+          {
+            "id": "cleanup_done",
+            "from": "DISPOSED",
+            "to": "OFF"
+          }
+        ],
+        "forbidden_states": [
+          "STALE_OUTPUT"
+        ],
+        "max_states_examined": 64
+      },
+      "observed": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "finite_invariant",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "beac6bd0d3afcc19770b6ba912542521d3ab57b69d44957568ddc025b9a79a27",
+        "result": {
+          "status": "FINITE_GRAPH_VERIFIED",
+          "invariant_label": "Only a current, consented source/project generation may deliver an OCR observation; stopped sessions cannot publish.",
+          "predicate_basis": "NOT_FORBIDDEN_AND_SUPPLIED_INVARIANT_HOLDS",
+          "reachable_predicate_holds": true,
+          "reachability_complete": true,
+          "state_ids_examined": [
+            "OFF",
+            "ARMED",
+            "READING",
+            "REVOKED",
+            "WAITING",
+            "DISPOSED"
+          ],
+          "states_examined": 6,
+          "states_discovered": 6,
+          "supplied_state_count": 7,
+          "frontier_state_ids": [],
+          "unknown_reachable_state_ids": [],
+          "counterexample": null,
+          "induction_obligations": {
+            "scope": "ALL_SUPPLIED_INITIAL_STATES_AND_TRANSITIONS",
+            "base": {
+              "status": "PASS",
+              "checked_count": 1,
+              "violations": [],
+              "unknowns": []
+            },
+            "step": {
+              "status": "PASS",
+              "checked_count": 9,
+              "violations": [],
+              "unknowns": []
+            },
+            "finite_induction_passed": true,
+            "checked_separately_from_bfs_budget": true
+          },
+          "model_scope": "SUPPLIED_FINITE_GRAPH_AND_CALLER_LABELS_ONLY",
+          "transition_relation_is_caller_supplied": true,
+          "model_completeness_proven": false,
+          "source_authentication": false,
+          "factual_truth_established": false,
+          "target_vulnerability_proven": false,
+          "unbounded_proof": false
+        },
+        "limitations": "BFS over at most 256 supplied states and 512 transitions, with forbidden states and caller-supplied true/false/unknown invariant labels. Checks base and step obligations separately. No unbounded induction, inferred state labels, or completeness beyond the supplied graph.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      }
+    },
+    {
+      "id": "late_result_mutant",
+      "method": "finite_invariant",
+      "input": {
+        "invariant_label": "Only a current, consented source/project generation may deliver an OCR observation; stopped sessions cannot publish.",
+        "states": [
+          {
+            "id": "OFF",
+            "invariant_holds": true
+          },
+          {
+            "id": "ARMED",
+            "invariant_holds": true
+          },
+          {
+            "id": "READING",
+            "invariant_holds": true
+          },
+          {
+            "id": "WAITING",
+            "invariant_holds": true
+          },
+          {
+            "id": "REVOKED",
+            "invariant_holds": true
+          },
+          {
+            "id": "DISPOSED",
+            "invariant_holds": true
+          },
+          {
+            "id": "STALE_OUTPUT",
+            "invariant_holds": false
+          }
+        ],
+        "initial_states": [
+          "OFF"
+        ],
+        "transitions": [
+          {
+            "id": "consent",
+            "from": "OFF",
+            "to": "ARMED"
+          },
+          {
+            "id": "source_checked",
+            "from": "ARMED",
+            "to": "READING"
+          },
+          {
+            "id": "ocr_pending",
+            "from": "READING",
+            "to": "WAITING"
+          },
+          {
+            "id": "current_result_only",
+            "from": "WAITING",
+            "to": "READING"
+          },
+          {
+            "id": "stop_armed",
+            "from": "ARMED",
+            "to": "REVOKED"
+          },
+          {
+            "id": "stop_reading",
+            "from": "READING",
+            "to": "REVOKED"
+          },
+          {
+            "id": "stop_waiting",
+            "from": "WAITING",
+            "to": "REVOKED"
+          },
+          {
+            "id": "erase_terminate",
+            "from": "REVOKED",
+            "to": "DISPOSED"
+          },
+          {
+            "id": "cleanup_done",
+            "from": "DISPOSED",
+            "to": "OFF"
+          },
+          {
+            "id": "unguarded_late_callback",
+            "from": "REVOKED",
+            "to": "STALE_OUTPUT"
+          }
+        ],
+        "forbidden_states": [
+          "STALE_OUTPUT"
+        ],
+        "max_states_examined": 64
+      },
+      "observed": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "finite_invariant",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "676a887f78ae4d437be61cc6b5401eeb13c2fd0d41d0a376c43fec8419b2be71",
+        "result": {
+          "status": "COUNTEREXAMPLE_FOUND",
+          "invariant_label": "Only a current, consented source/project generation may deliver an OCR observation; stopped sessions cannot publish.",
+          "predicate_basis": "NOT_FORBIDDEN_AND_SUPPLIED_INVARIANT_HOLDS",
+          "reachable_predicate_holds": false,
+          "reachability_complete": false,
+          "state_ids_examined": [
+            "OFF",
+            "ARMED",
+            "READING",
+            "REVOKED",
+            "WAITING",
+            "DISPOSED",
+            "STALE_OUTPUT"
+          ],
+          "states_examined": 7,
+          "states_discovered": 7,
+          "supplied_state_count": 7,
+          "frontier_state_ids": [],
+          "unknown_reachable_state_ids": [],
+          "counterexample": {
+            "state_path": [
+              "OFF",
+              "ARMED",
+              "REVOKED",
+              "STALE_OUTPUT"
+            ],
+            "transition_ids": [
+              "consent",
+              "stop_armed",
+              "unguarded_late_callback"
+            ],
+            "violating_state": "STALE_OUTPUT",
+            "violations": [
+              "FORBIDDEN_STATE",
+              "SUPPLIED_INVARIANT_FALSE"
+            ]
+          },
+          "induction_obligations": {
+            "scope": "ALL_SUPPLIED_INITIAL_STATES_AND_TRANSITIONS",
+            "base": {
+              "status": "PASS",
+              "checked_count": 1,
+              "violations": [],
+              "unknowns": []
+            },
+            "step": {
+              "status": "FAIL",
+              "checked_count": 10,
+              "violations": [
+                {
+                  "transition_id": "unguarded_late_callback",
+                  "from": "REVOKED",
+                  "to": "STALE_OUTPUT",
+                  "from_predicate_value": true,
+                  "to_predicate_value": false
+                }
+              ],
+              "unknowns": []
+            },
+            "finite_induction_passed": false,
+            "checked_separately_from_bfs_budget": true
+          },
+          "model_scope": "SUPPLIED_FINITE_GRAPH_AND_CALLER_LABELS_ONLY",
+          "transition_relation_is_caller_supplied": true,
+          "model_completeness_proven": false,
+          "source_authentication": false,
+          "factual_truth_established": false,
+          "target_vulnerability_proven": false,
+          "unbounded_proof": false
+        },
+        "limitations": "BFS over at most 256 supplied states and 512 transitions, with forbidden states and caller-supplied true/false/unknown invariant labels. Checks base and step obligations separately. No unbounded induction, inferred state labels, or completeness beyond the supplied graph.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      }
+    },
+    {
+      "id": "guarded_fault_tree",
+      "method": "fault_tree",
+      "input": {
+        "root": "UNAUTHORIZED_OBSERVATION",
+        "nodes": [
+          {
+            "id": "UNAUTHORIZED_OBSERVATION",
+            "gate": "OR",
+            "children": [
+              "CAPTURE_AFTER_REVOKE",
+              "LATE_RESULT",
+              "MASK_DISCLOSURE",
+              "WRONG_PROJECT"
+            ]
+          },
+          {
+            "id": "CAPTURE_AFTER_REVOKE",
+            "gate": "AND",
+            "children": [
+              "REVOKED",
+              "WORKER_NOT_DESTROYED"
+            ]
+          },
+          {
+            "id": "LATE_RESULT",
+            "gate": "AND",
+            "children": [
+              "STALE_GENERATION",
+              "GENERATION_GUARD_MISSING"
+            ]
+          },
+          {
+            "id": "MASK_DISCLOSURE",
+            "gate": "AND",
+            "children": [
+              "PRIVATE_AREA",
+              "MASK_BEFORE_ENCODING_MISSING"
+            ]
+          },
+          {
+            "id": "WRONG_PROJECT",
+            "gate": "AND",
+            "children": [
+              "PROJECT_CHANGED",
+              "PROJECT_GUARD_MISSING"
+            ]
+          },
+          {
+            "id": "REVOKED",
+            "value": true
+          },
+          {
+            "id": "STALE_GENERATION",
+            "value": true
+          },
+          {
+            "id": "PRIVATE_AREA",
+            "value": true
+          },
+          {
+            "id": "PROJECT_CHANGED",
+            "value": true
+          },
+          {
+            "id": "WORKER_NOT_DESTROYED",
+            "value": false
+          },
+          {
+            "id": "GENERATION_GUARD_MISSING",
+            "value": false
+          },
+          {
+            "id": "MASK_BEFORE_ENCODING_MISSING",
+            "value": false
+          },
+          {
+            "id": "PROJECT_GUARD_MISSING",
+            "value": false
+          }
+        ]
+      },
+      "observed": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "fault_tree",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "acd82535a2ecf55cbc5a11a6ea971fa92273f1a88a38ceedaf9b3ce96df1a5f6",
+        "result": {
+          "root_value": false,
+          "nodes_evaluated": 13,
+          "probability_computed": false
+        },
+        "limitations": "AND/OR evaluation of a supplied acyclic fault tree with unknown leaves; no probability or minimal-cut-set inference.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      }
+    },
+    {
+      "id": "missing_mask_mutant",
+      "method": "fault_tree",
+      "input": {
+        "root": "UNAUTHORIZED_OBSERVATION",
+        "nodes": [
+          {
+            "id": "UNAUTHORIZED_OBSERVATION",
+            "gate": "OR",
+            "children": [
+              "CAPTURE_AFTER_REVOKE",
+              "LATE_RESULT",
+              "MASK_DISCLOSURE",
+              "WRONG_PROJECT"
+            ]
+          },
+          {
+            "id": "CAPTURE_AFTER_REVOKE",
+            "gate": "AND",
+            "children": [
+              "REVOKED",
+              "WORKER_NOT_DESTROYED"
+            ]
+          },
+          {
+            "id": "LATE_RESULT",
+            "gate": "AND",
+            "children": [
+              "STALE_GENERATION",
+              "GENERATION_GUARD_MISSING"
+            ]
+          },
+          {
+            "id": "MASK_DISCLOSURE",
+            "gate": "AND",
+            "children": [
+              "PRIVATE_AREA",
+              "MASK_BEFORE_ENCODING_MISSING"
+            ]
+          },
+          {
+            "id": "WRONG_PROJECT",
+            "gate": "AND",
+            "children": [
+              "PROJECT_CHANGED",
+              "PROJECT_GUARD_MISSING"
+            ]
+          },
+          {
+            "id": "REVOKED",
+            "value": true
+          },
+          {
+            "id": "STALE_GENERATION",
+            "value": true
+          },
+          {
+            "id": "PRIVATE_AREA",
+            "value": true
+          },
+          {
+            "id": "PROJECT_CHANGED",
+            "value": true
+          },
+          {
+            "id": "WORKER_NOT_DESTROYED",
+            "value": false
+          },
+          {
+            "id": "GENERATION_GUARD_MISSING",
+            "value": false
+          },
+          {
+            "id": "MASK_BEFORE_ENCODING_MISSING",
+            "value": true
+          },
+          {
+            "id": "PROJECT_GUARD_MISSING",
+            "value": false
+          }
+        ]
+      },
+      "observed": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "fault_tree",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "7e7c3134560b84d9aff549de500acb90f8316c5a5e18b86bea8dab8051508d05",
+        "result": {
+          "root_value": true,
+          "nodes_evaluated": 13,
+          "probability_computed": false
+        },
+        "limitations": "AND/OR evaluation of a supplied acyclic fault tree with unknown leaves; no probability or minimal-cut-set inference.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      }
+    },
+    {
+      "id": "minimal_failure_combinations",
+      "method": "minimal_cut_sets",
+      "input": {
+        "root": "UNAUTHORIZED_OBSERVATION",
+        "nodes": [
+          {
+            "id": "UNAUTHORIZED_OBSERVATION",
+            "kind": "OR",
+            "children": [
+              "CAPTURE_AFTER_REVOKE",
+              "LATE_RESULT",
+              "MASK_DISCLOSURE",
+              "WRONG_PROJECT"
+            ]
+          },
+          {
+            "id": "CAPTURE_AFTER_REVOKE",
+            "kind": "AND",
+            "children": [
+              "REVOKED",
+              "WORKER_NOT_DESTROYED"
+            ]
+          },
+          {
+            "id": "LATE_RESULT",
+            "kind": "AND",
+            "children": [
+              "STALE_GENERATION",
+              "GENERATION_GUARD_MISSING"
+            ]
+          },
+          {
+            "id": "MASK_DISCLOSURE",
+            "kind": "AND",
+            "children": [
+              "PRIVATE_AREA",
+              "MASK_BEFORE_ENCODING_MISSING"
+            ]
+          },
+          {
+            "id": "WRONG_PROJECT",
+            "kind": "AND",
+            "children": [
+              "PROJECT_CHANGED",
+              "PROJECT_GUARD_MISSING"
+            ]
+          },
+          {
+            "id": "REVOKED",
+            "kind": "LEAF"
+          },
+          {
+            "id": "STALE_GENERATION",
+            "kind": "LEAF"
+          },
+          {
+            "id": "PRIVATE_AREA",
+            "kind": "LEAF"
+          },
+          {
+            "id": "PROJECT_CHANGED",
+            "kind": "LEAF"
+          },
+          {
+            "id": "WORKER_NOT_DESTROYED",
+            "kind": "LEAF"
+          },
+          {
+            "id": "GENERATION_GUARD_MISSING",
+            "kind": "LEAF"
+          },
+          {
+            "id": "MASK_BEFORE_ENCODING_MISSING",
+            "kind": "LEAF"
+          },
+          {
+            "id": "PROJECT_GUARD_MISSING",
+            "kind": "LEAF"
+          }
+        ],
+        "max_assignments": 4096
+      },
+      "observed": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "minimal_cut_sets",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "e211de1ef8aa16d3a205c7f306dd58c619f715e4da4d22e80d8a6ea261973995",
+        "result": {
+          "status": "MINIMAL_CUT_SETS_COMPLETE",
+          "root": "UNAUTHORIZED_OBSERVATION",
+          "leaf_ids": [
+            "REVOKED",
+            "STALE_GENERATION",
+            "PRIVATE_AREA",
+            "PROJECT_CHANGED",
+            "WORKER_NOT_DESTROYED",
+            "GENERATION_GUARD_MISSING",
+            "MASK_BEFORE_ENCODING_MISSING",
+            "PROJECT_GUARD_MISSING"
+          ],
+          "unique_leaf_count": 8,
+          "assignments_examined": 256,
+          "total_assignments": 256,
+          "enumeration_complete": true,
+          "minimal_cut_sets": [
+            [
+              "REVOKED",
+              "WORKER_NOT_DESTROYED"
+            ],
+            [
+              "STALE_GENERATION",
+              "GENERATION_GUARD_MISSING"
+            ],
+            [
+              "PRIVATE_AREA",
+              "MASK_BEFORE_ENCODING_MISSING"
+            ],
+            [
+              "PROJECT_CHANGED",
+              "PROJECT_GUARD_MISSING"
+            ]
+          ],
+          "minimality": "SET_INCLUSION",
+          "model_scope": "SUPPLIED_MONOTONE_AND_OR_FAULT_STRUCTURE_ONLY",
+          "probability_computed": false,
+          "independence_assumed": false,
+          "observed_failure_inferred": false,
+          "source_authentication": false,
+          "factual_truth_established": false,
+          "target_vulnerability_proven": false,
+          "unbounded_proof": false
+        },
+        "limitations": "Enumerate inclusion-minimal leaf sets for a supplied acyclic monotone AND/OR fault structure with at most 63 nodes and 12 unique leaves. Shared leaves retain one identity. No probabilities, independence assumption, observed-failure claim, or non-monotone gates.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      }
+    }
+  ]
+}

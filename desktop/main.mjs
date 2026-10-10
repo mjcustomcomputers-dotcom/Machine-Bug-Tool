@@ -12,7 +12,18 @@ import {
   Menu,
   session,
   shell,
+  safeStorage,
+  desktopCapturer,
+  screen,
+  powerMonitor,
+  globalShortcut,
 } from 'electron';
+import {createScreenCaptureHost} from './screen-host.mjs';
+import {createWindowsNetworkObserver} from './network-host.mjs';
+import {initialWorkspaceWindowBounds} from './window-geometry.mjs';
+import {workspaceContextMenuSpec} from './text-context-menu.mjs';
+import {createWorkspaceSecretStore} from '../lib/mpc-workspace-secrets.mjs';
+import {createWorkspaceHostAdapters} from '../lib/mpc-workspace-host-adapters.mjs';
 
 import {createScreenContextHost} from './screen-context-host.mjs';
 
@@ -44,6 +55,10 @@ let logFile=null;
 let errorDocumentUrl=null;
 let serviceState={status:'STARTING',last_error_code:null};
 let restartPromise=null;
+let screenHost=null;
+let networkObserver=null;
+let secretStore=null;
+let secretStoreError=null;
 
 function packagedBuildIdentity(){
   try{
@@ -131,12 +146,15 @@ function runtimeStatus(){
     zoom_factor:mainWindow&&!mainWindow.isDestroyed()?mainWindow.webContents.getZoomFactor():1,
     runtime:Object.freeze({electron:process.versions.electron,node:process.versions.node,chrome:process.versions.chrome}),
     service:Object.freeze({status:serviceState.status,url:workspaceService?.url??null,last_error_code:serviceState.last_error_code}),
-    capabilities:Object.freeze({clipboard:true,files:true,folders:true,logs:true,restart:true,interface_zoom:true,
-      screen_context:true,har_import:true,active_capture:false,ocr:false}),
+    capabilities:Object.freeze({clipboard:true,mouse_context_menu:true,files:true,folders:true,logs:true,restart:true,
+      interface_zoom:true,screen_context:true,har_import:true,active_capture:Boolean(screenHost),
+      ocr_adapter:Boolean(screenHost),local_network_snapshot:process.platform==='win32'}),
   });
 }
 
 async function closeWorkspaceService(){
+  screenHost?.stop('SERVICE_CLOSED');
+  networkObserver?.stop();
   const current=workspaceService;
   workspaceService=null;
   workspaceOrigin=null;
@@ -156,8 +174,9 @@ async function startWorkspaceService(){
   const noFollowFlag=process.platform==='win32'?0:constants.O_NOFOLLOW;
   const screenContext=createScreenContextHost({clipboard,dialog,
     openFile:path=>openFileHandle(path,constants.O_RDONLY|noFollowFlag),lstat:lstatSync,mainWindow});
+  const hostAdapters=createWorkspaceHostAdapters({resolveCredential:(reference,context)=>secretStore?.resolveCredential(reference,context)??null});
   const started=await serverModule.startMpcWorkspaceServer({host:LOOPBACK_HOST,port:0,dataRoot,rendererRoot,
-    adapters:{screenContext}});
+    adapters:{...hostAdapters,screenContext}});
   if(!started||typeof started.close!=='function'||!isLoopbackServiceUrl(started.url)){
     try{await started?.close?.()}catch{}
     throw Object.assign(new Error('MPC_WORKSPACE_SERVER_RESULT_INVALID'),{code:'MPC_WORKSPACE_SERVER_RESULT_INVALID'});
@@ -225,6 +244,13 @@ async function restartWorkspace(){
 }
 
 function installIpcHandlers(){
+  ipcMain.handle('mpc-workspace:credential-status',event=>{assertTrustedSender(event);return secretStore?.status()??{encrypted_storage_available:false,entries:[],error:secretStoreError}});
+  ipcMain.handle('mpc-workspace:credential-save',(event,input)=>{
+    assertTrustedSender(event);screenHost?.stop('CREDENTIAL_ENTRY');networkObserver?.stop();
+    if(!secretStore)throw Object.assign(Error(secretStoreError??'MPC_SECRET_STORE_UNAVAILABLE'),{code:secretStoreError??'MPC_SECRET_STORE_UNAVAILABLE'});
+    return secretStore.save(input);
+  });
+  ipcMain.handle('mpc-workspace:credential-remove',(event,reference)=>{assertTrustedSender(event);return secretStore?.remove(reference)??{status:'UNAVAILABLE'}});
   ipcMain.handle(IPC.runtimeStatus,event=>{assertTrustedSender(event);return runtimeStatus()});
   ipcMain.handle(IPC.chooseFiles,async event=>{
     assertTrustedSender(event);
@@ -257,6 +283,22 @@ function installIpcHandlers(){
     return error?{status:'ERROR',error:cleanText(error,400)}:{status:'OPENED'};
   });
   ipcMain.handle(IPC.restartService,async event=>{assertTrustedSender(event);return restartWorkspace()});
+  ipcMain.handle('mpc-workspace:network-snapshot',async(event,input)=>{
+    assertTrustedSender(event);
+    if(!input||input.consent!==true)throw Object.assign(Error('NETWORK_EXPLICIT_CONSENT_REQUIRED'),{code:'NETWORK_EXPLICIT_CONSENT_REQUIRED'});
+    if(!workspaceService||input.projectId!==workspaceService.service?.activeProjectId||!input.projectId)
+      throw Object.assign(Error('NETWORK_SELECT_ACTIVE_PROJECT'),{code:'NETWORK_SELECT_ACTIVE_PROJECT'});
+    const result=await networkObserver.snapshot(input);
+    if(input.projectId!==workspaceService?.service?.activeProjectId)
+      throw Object.assign(Error('NETWORK_PROJECT_CHANGED'),{code:'NETWORK_PROJECT_CHANGED'});
+    return result;
+  });
+  ipcMain.handle('mpc-workspace:network-clear',event=>{
+    assertTrustedSender(event);return networkObserver?.stop()??{state:'CLEARED'};
+  });
+  ipcMain.handle('mpc-workspace:network-status',event=>{
+    assertTrustedSender(event);return networkObserver?.status()??{state:'UNAVAILABLE'};
+  });
   ipcMain.handle(IPC.setInterfaceZoom,(event,value)=>{
     assertTrustedSender(event);
     if(typeof value!=='number'||!Number.isFinite(value)||value<0.5||value>2){
@@ -275,13 +317,26 @@ function installApplicationMenu(){
   ]));
 }
 
+/** Native Windows-style mouse menu. Roles operate in the current focused
+ * renderer field; no selected text is sent over IPC or written to logs.
+ * Keep link/navigation/devtools actions completely out of this menu. */
+function installNativeContextMenu(window){
+  window.webContents.on('context-menu',(_event,params)=>{
+    if(window.isDestroyed()||!isTrustedRendererUrl(window.webContents.getURL()))return;
+    const spec=workspaceContextMenuSpec(params,{trustedOrigin:workspaceOrigin});
+    if(!spec.length)return;
+    const template=spec.map(item=>item.command==='COPY_PREVIEW_IMAGE'
+      ? {label:item.label,enabled:true,click:()=>window.webContents.copyImageAt(params.x,params.y)}
+      : item);
+    Menu.buildFromTemplate(template).popup({window,x:params.x,y:params.y});
+  });
+}
+
 function createMainWindow(){
   const window=new BrowserWindow({
     title:APP_NAME,
-    width:1440,
-    height:940,
-    minWidth:980,
-    minHeight:680,
+    ...initialWorkspaceWindowBounds(screen.getPrimaryDisplay().workArea),
+    useContentSize:false,
     show:false,
     autoHideMenuBar:false,
     backgroundColor:'#071615',
@@ -297,8 +352,11 @@ function createMainWindow(){
       devTools:!app.isPackaged,
     },
   });
+  installNativeContextMenu(window);
   window.once('ready-to-show',()=>window.show());
-  window.on('closed',()=>{if(mainWindow===window)mainWindow=null});
+  window.on('closed',()=>{networkObserver?.stop();screenHost?.stop('WORKSPACE_CLOSED');if(mainWindow===window)mainWindow=null});
+  window.webContents.on('did-start-navigation',(_event,_url,_inPlace,isMainFrame)=>{if(isMainFrame){screenHost?.stop('WORKSPACE_NAVIGATION');networkObserver?.stop()}});
+  window.on('unresponsive',()=>{screenHost?.stop('WORKSPACE_UNRESPONSIVE');networkObserver?.stop()});
   window.webContents.on('will-attach-webview',event=>event.preventDefault());
   window.webContents.on('will-navigate',details=>{
     if(!details.isMainFrame||!isTrustedRendererUrl(details.url))details.preventDefault();
@@ -307,6 +365,7 @@ function createMainWindow(){
   // destinations later without granting arbitrary model or document links.
   window.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   window.webContents.on('render-process-gone',(_event,details)=>{
+    screenHost?.stop('WORKSPACE_PROCESS_EXITED');
     const error=Object.assign(new Error(`MPC_WORKSPACE_RENDERER_${cleanText(details.reason,80)}`),{code:'MPC_WORKSPACE_RENDERER_EXITED'});
     void showStartupError(error);
   });
@@ -327,11 +386,17 @@ if(!hasSingleInstanceLock){
     mkdirSync(logDirectory,{recursive:true,mode:0o700});
     logFile=join(logDirectory,'mpc-workspace.log');
     try{writeFileSync(logFile,'',{encoding:'utf8',flag:'a',mode:0o600})}catch{}
+    networkObserver=createWindowsNetworkObserver();
     installApplicationMenu();
     installIpcHandlers();
     session.defaultSession.setPermissionCheckHandler(()=>false);
     session.defaultSession.setPermissionRequestHandler((_webContents,_permission,callback)=>callback(false));
     mainWindow=createMainWindow();
+    try{secretStore=createWorkspaceSecretStore({filePath:join(app.getPath('userData'),'connector-credentials.enc.json'),safeStorage})}
+    catch(error){secretStoreError=errorCode(error);logEvent('error','credential_store_unavailable',{error:secretStoreError})}
+    screenHost=createScreenCaptureHost({electron:{BrowserWindow,desktopCapturer,screen,ipcMain,powerMonitor,globalShortcut,session},
+      getWindow:()=>mainWindow,getWorkspace:()=>workspaceService,getOrigin:()=>workspaceOrigin,assertTrustedSender,
+      assetRoot:app.isPackaged?join(process.resourcesPath,'mpc-ocr'):join(DESKTOP_ROOT,'..','.sites-runtime','mpc-ocr')});
     await loadWorkspace();
   }).catch(error=>{
     logEvent('error','application_start_failed',{error:errorSummary(error)});
@@ -343,6 +408,7 @@ if(!hasSingleInstanceLock){
   });
   app.on('window-all-closed',()=>{if(process.platform!=='darwin')app.quit()});
   app.on('before-quit',event=>{
+    screenHost?.stop('APPLICATION_CLOSED');networkObserver?.stop();secretStore?.close();
     if(!workspaceService)return;
     event.preventDefault();
     let exitCode=0;

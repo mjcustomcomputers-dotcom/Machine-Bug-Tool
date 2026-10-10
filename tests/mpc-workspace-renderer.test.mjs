@@ -82,7 +82,7 @@ test('dynamic job routes reject traversal, URLs and unregistered actions', () =>
 });
 
 test('complete first-journey controls and all nine product areas remain visible', () => {
-  for (const label of ['Work', 'Search', 'Evidence', 'Methods', 'Tasks', 'Reports', 'Connections', 'Assistant', 'Settings']) {
+  for (const label of ['Work', 'Search', 'Evidence', 'Network', 'Methods', 'Tasks', 'Reports', 'Connections', 'Assistant', 'Settings']) {
     assert.match(html, new RegExp(`data-view="${label.toLowerCase()}"[^>]*>[\\s\\S]{0,80}${label}`, 'u'));
   }
   for (const id of [
@@ -94,7 +94,9 @@ test('complete first-journey controls and all nine product areas remain visible'
     'run-work', 'stop-work', 'resume-work', 'save-report', 'copy-answer', 'search-query', 'compare-snapshots', 'add-connection',
     'method-run-picker', 'method-run-input', 'run-method', 'method-run-status',
     'draft-script', 'script-content', 'script-output', 'ingest-script-output', 'export-task', 'import-task',
-    'portable-task-input', 'open-logs', 'restart-service', 'copy-error'
+    'portable-task-input', 'open-logs', 'restart-service', 'copy-error',
+    'screen-roi-suggest','screen-roi-apply','screen-roi-copy','screen-roi-status',
+    'network-refresh', 'network-clear', 'network-consent', 'network-rows', 'network-text', 'network-copy', 'network-save', 'network-use'
   ]) assert.match(html, new RegExp(`id="${id}"`, 'u'), id);
   assert.match(html, /Drop files into this project/u);
   assert.match(html, /Stored snapshot comparison/u);
@@ -200,7 +202,7 @@ test('screen context is explicit, ordered, project-qualified and bound only to t
   assert.ok(paste >= 0 && paste < firefoxHar && firefoxHar < printScreen,
     'quick pasted text and Firefox HAR precede the clipboard-image fallback');
   for (const label of ['Paste visible text', 'Use clipboard image', 'Import Firefox HAR', 'Clear selected context',
-    'OCR / vision not installed', 'No live monitoring. No packet capture.']) assert.match(html, new RegExp(label.replace(/[/.]/gu, '\\$&'), 'u'));
+    'use Screen reader for local OCR', 'This quick path starts no live monitoring or packet capture.']) assert.match(html, new RegExp(label.replace(/[/.]/gu, '\\$&'), 'u'));
   assert.match(html, /id="screen-context-panel"[^>]*aria-busy="false"/u);
   assert.match(html, /id="screen-context-status"[^>]*role="status"[^>]*aria-live="polite"[^>]*aria-atomic="true"/u);
   assert.match(html, /Firefox context can explain requests, but it does not prove what a pixel says/u);
@@ -266,7 +268,7 @@ test('connection controls describe local enablement and refresh canonical state'
   assert.doesNotMatch(js, /'Connect'\)|'Disconnect'\)/u);
   assert.match(js, /Authentication remains unverified until a permitted operation returns a receipt/u);
   assert.match(html, /Adapter installed, signed in, capability discovered and protected read verified remain separate facts\./u);
-  for (const functionName of ['configureConnection', 'setConnectionEnabled', 'testConnection']) {
+  for (const functionName of ['configureConnection', 'setConnectionEnabled', 'runConnectionRead']) {
     const start = js.indexOf(`async function ${functionName}`);
     const next = js.indexOf('\nasync function ', start + 1);
     const source = js.slice(start, next < 0 ? js.length : next);

@@ -148,10 +148,16 @@ test('local model guidance supplies the loopback address and needs no credential
   assert.match(local.endpointHelp, /credential reference blank/u);
 });
 
-test('cloud and MCP form guidance does not invent an endpoint or a mounted adapter', () => {
+test('built-in REST adapters advertise exact addresses and remaining MCP forms retain their setup boundary', () => {
+  const endpoints={GITHUB:'https://api.github.com',GOOGLE_DRIVE:'https://www.googleapis.com/drive/v3',
+    GMAIL:'https://gmail.googleapis.com/gmail/v1',DROPBOX:'https://api.dropboxapi.com/2',LOCAL_MPC:'local-mpc://bundled'};
+  for(const [provider,endpoint] of Object.entries(endpoints)){
+    const guidance=connectionInputGuidance(provider);
+    assert.equal(guidance.endpoint,endpoint);assert.equal(guidance.builtin,true);assert.equal(guidance.transport,'PLUGIN');
+    assert.equal(guidance.credential,provider!=='LOCAL_MPC');
+  }
   const transports = {
-    GITHUB: 'PLUGIN', GOOGLE_DRIVE: 'PLUGIN', GMAIL: 'PLUGIN', DROPBOX: 'PLUGIN', DROPBOX_DASH: 'PLUGIN',
-    OPENAI_API: 'OPENAI_API', LOCAL_MPC: 'stdio', HOSTED_MPC: 'streamable_http', CUSTOM_MCP: 'streamable_http'
+    DROPBOX_DASH: 'PLUGIN',OPENAI_API: 'OPENAI_API', HOSTED_MPC: 'streamable_http', CUSTOM_MCP: 'streamable_http'
   };
   for (const [provider, transport] of Object.entries(transports)) {
     const guidance = connectionInputGuidance(provider);
@@ -168,13 +174,15 @@ test('cloud and MCP form guidance does not invent an endpoint or a mounted adapt
 
 test('the actual connection handler sends a typed read instead of catalog prose or an action-like label', async () => {
   const source = readFileSync(new URL('../desktop/renderer/app.js', import.meta.url), 'utf8');
-  const handler = source.match(/^async function testConnection\(connection\) \{[\s\S]*?^\}/mu)?.[0];
+  const handler = source.match(/^async function runConnectionRead\(\)\{[\s\S]*?^\}/mu)?.[0];
   assert.ok(handler, 'the production connection handler must be present');
   for (const firstOperation of ['Read the selected repository and exact commit', 'WRITE_SELECTED_RESOURCE', undefined]) {
     const calls = [], announcements = [], errors = [];
     let refreshes = 0;
-    await runInNewContext(`${handler}\ntestConnection(connection)`, {
-      connection: Object.freeze({connection_id: 'CONNECTION-selected', first_operation: firstOperation}),
+    const elements=Object.fromEntries(['connection-include-content','connection-repository','connection-ref','connection-file-path','connection-read-run','connection-read-output','connection-read-copy','connection-read-use'].map(id=>[id,{checked:true,value:id==='connection-repository'?'owner/repo':id==='connection-ref'?'main':'README.md'}]));
+    await runInNewContext(`${handler}\nrunConnectionRead()`, {
+      readConnection: Object.freeze({connection_id: 'CONNECTION-selected',provider_namespace:'GITHUB', first_operation: firstOperation}),
+      readResult:null,$:id=>elements[id],setText:()=>{},
       API_PATHS,
       currentProjectId: () => 'PROJECT-selected',
       request: async (path, options) => {
@@ -186,7 +194,8 @@ test('the actual connection handler sends a typed read instead of catalog prose 
       recordError: error => errors.push(error)
     });
     assert.deepEqual(calls, [{path: API_PATHS.connectionTest, method: 'POST', body: {
-      project_id: 'PROJECT-selected', connection_id: 'CONNECTION-selected', operation: 'READ_SELECTED_RESOURCE'
+      project_id: 'PROJECT-selected', connection_id: 'CONNECTION-selected', operation: 'READ_SELECTED_RESOURCE',
+      operation_input: {include_content:true,repository:'owner/repo',ref:'main',path:'README.md'}
     }}]);
     assert.equal(refreshes, 1);
     assert.equal(errors.length, 0);

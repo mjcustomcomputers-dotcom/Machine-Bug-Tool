@@ -5,6 +5,8 @@ import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 import test from 'node:test';
 import {runInNewContext} from 'node:vm';
+import {initialWorkspaceWindowBounds} from '../desktop/window-geometry.mjs';
+import {workspaceContextMenuSpec} from '../desktop/text-context-menu.mjs';
 
 import {
   ELECTRON_BUNDLED_NODE_VERSION,
@@ -17,6 +19,109 @@ import {
 
 const ROOT=resolve(import.meta.dirname,'..');
 const read=path=>readFileSync(resolve(ROOT,path),'utf8');
+
+test('initial native window keeps its preferred size when the usable display area fits it',()=>{
+  assert.deepEqual(initialWorkspaceWindowBounds({x:0,y:0,width:1920,height:1040}),
+    {x:240,y:50,width:1440,height:940,minWidth:980,minHeight:680});
+});
+
+test('initial native window fits laptop and DPI-reduced work areas with capped minimum sizes',()=>{
+  const examples=[
+    [{x:0,y:0,width:1366,height:728},{x:16,y:16,width:1334,height:696,minWidth:980,minHeight:680}],
+    [{x:0,y:0,width:1280,height:680},{x:16,y:16,width:1248,height:648,minWidth:980,minHeight:648}],
+    [{x:0,y:0,width:960,height:500},{x:16,y:16,width:928,height:468,minWidth:928,minHeight:468}],
+    [{x:0,y:0,width:640,height:440},{x:16,y:16,width:608,height:408,minWidth:608,minHeight:408}],
+  ];
+  for(const [workArea,expected] of examples)assert.deepEqual(initialWorkspaceWindowBounds(workArea),expected);
+});
+
+test('native window geometry preserves negative display origins, centering, and usable-area containment',()=>{
+  const workAreas=[
+    {x:-1920,y:40,width:1920,height:1040},
+    {x:-1366,y:-768,width:1366,height:728},
+    {x:48,y:24,width:1281,height:701},
+    {x:-32,y:12,width:31,height:27},
+    {x:0,y:0,width:1,height:1},
+  ];
+  for(const workArea of workAreas){
+    const original={...workArea},bounds=initialWorkspaceWindowBounds(workArea);
+    assert.deepEqual(workArea,original);
+    assert.ok(Object.values(bounds).every(Number.isSafeInteger));
+    assert.ok(bounds.width>0&&bounds.height>0);
+    assert.ok(bounds.x>=workArea.x&&bounds.y>=workArea.y);
+    assert.ok(bounds.x+bounds.width<=workArea.x+workArea.width);
+    assert.ok(bounds.y+bounds.height<=workArea.y+workArea.height);
+    assert.ok(bounds.minWidth>0&&bounds.minWidth<=bounds.width);
+    assert.ok(bounds.minHeight>0&&bounds.minHeight<=bounds.height);
+    assert.ok(Math.abs((bounds.x-workArea.x)-(workArea.x+workArea.width-bounds.x-bounds.width))<=1);
+    assert.ok(Math.abs((bounds.y-workArea.y)-(workArea.y+workArea.height-bounds.y-bounds.height))<=1);
+  }
+  assert.deepEqual(initialWorkspaceWindowBounds(workAreas[0]),
+    {x:-1680,y:90,width:1440,height:940,minWidth:980,minHeight:680});
+});
+
+test('native window constructor uses the primary work area as DIP outer-window bounds',()=>{
+  const body=/function createMainWindow\(\)\{([^]*?)\n\}/u.exec(read('desktop/main.mjs'))?.[1];
+  assert.ok(body);
+  let options;
+  const workArea={x:-960,y:40,width:960,height:500};
+  const create=runInNewContext(`(function(){${body}})`,{
+    APP_NAME:'MPC Workspace',PRELOAD_PATH:'/synthetic/preload.cjs',app:{isPackaged:true},
+    screen:{getPrimaryDisplay:()=>({workArea,scaleFactor:2})},initialWorkspaceWindowBounds,
+    installNativeContextMenu:()=>{},
+    BrowserWindow:class{
+      constructor(value){options=value;this.webContents={on(){},setWindowOpenHandler(){}};}
+      once(){}
+      on(){}
+    },
+  });
+  create();
+  assert.deepEqual(Object.fromEntries(['x','y','width','height','minWidth','minHeight'].map(key=>[key,options[key]])),
+    {x:-944,y:56,width:928,height:468,minWidth:928,minHeight:468});
+  assert.equal(options.useContentSize,false,'Native window frame must fit within the chosen outer size');
+  assert.equal(options.webPreferences.sandbox,true);
+});
+
+test('trusted native right-click popup uses only Electron editor actions and allowed masked preview copy',()=>{
+  const code=read('desktop/main.mjs');
+  const body=/function installNativeContextMenu\(window\)\{([^]*?)\n\}/u.exec(code)?.[1];
+  assert.ok(body,'native context-menu handler must exist');
+  const origin='http://127.0.0.1:5555',shown=[], copiedImages=[],listeners={};
+  let currentUrl=`${origin}/`;
+  const window={isDestroyed:()=>false,webContents:{
+    getURL:()=>currentUrl,
+    on:(name,callback)=>{listeners[name]=callback;},
+    copyImageAt:(x,y)=>copiedImages.push([x,y])
+  }};
+  const mockMenu={buildFromTemplate:items=>({popup:location=>shown.push({items,location})})};
+  const install=runInNewContext(`(function(window){${body}})`,{
+    workspaceOrigin:origin,
+    workspaceContextMenuSpec,
+    isTrustedRendererUrl:href=>href===`${origin}/`,
+    Menu:mockMenu
+  });
+  install(window);
+  assert.equal(typeof listeners['context-menu'],'function');
+  listeners['context-menu'](null,{isEditable:true,inputFieldType:'text',selectionText:'selected',
+    x:27,y:33,editFlags:{canCopy:true,canPaste:true,canCut:true,canSelectAll:true}});
+  assert.equal(shown.length,1);
+  assert.equal(shown[0].location.window,window);
+  assert.equal(shown[0].location.x,27);assert.equal(shown[0].location.y,33);
+  assert.deepEqual(shown[0].items.filter(row=>row.role).map(row=>row.role),
+    ['undo','redo','cut','copy','paste','selectAll']);
+  listeners['context-menu'](null,{isEditable:false,mediaType:'image',
+    srcURL:`blob:${origin}/frame-1`,x:12,y:14,editFlags:{}});
+  assert.equal(shown.length,2);
+  assert.equal(shown[1].items[0].label,'Copy preview image');
+  shown[1].items[0].click();
+  assert.deepEqual(copiedImages,[[12,14]]);
+  listeners['context-menu'](null,{isEditable:false,mediaType:'image',
+    srcURL:'blob:https://other.example/secret',x:12,y:14,editFlags:{}});
+  assert.equal(shown.length,2,'remote image cannot be copied by workspace preview command');
+  currentUrl='https://other.example/';
+  listeners['context-menu'](null,{isEditable:true,x:0,y:0,editFlags:{canCopy:true}});
+  assert.equal(shown.length,2,'untrusted navigation must not get native edit menu');
+});
 
 test('desktop main and sandboxed preload expose only the narrow native bridge',()=>{
   const main=read('desktop/main.mjs');
@@ -32,12 +137,18 @@ test('desktop main and sandboxed preload expose only the narrow native bridge',(
   assert.match(main,/process\.resourcesPath,'mpc-workspace-renderer'/u);
   assert.match(main,/source_commit:build\.source_commit/u);
   assert.doesNotMatch(main,/shell\.openExternal/u);
+  assert.match(main,/installNativeContextMenu\(window\)/u);
+  assert.match(main,/webContents\.on\('context-menu'/u);
+  assert.match(main,/Menu\.buildFromTemplate\(template\)\.popup/u);
+  assert.doesNotMatch(main,/\.popup\(\{[^}]*devTools/iu);
 
   assert.match(preload,/exposeInMainWorld\('mpcWorkspace'/u);
   const exposed=preload.slice(preload.indexOf("contextBridge.exposeInMainWorld('mpcWorkspace'"));
   const methods=[...exposed.matchAll(/^\s{2}([A-Za-z][A-Za-z]+):/gmu)].map(match=>match[1]);
   assert.deepEqual(methods,[
-    'getRuntimeStatus','chooseFiles','chooseFolder','readClipboardText','copyText','openLogs','restartService','setInterfaceZoom'
+    'getRuntimeStatus','chooseFiles','chooseFolder','readClipboardText','networkSnapshot','networkClear','networkStatus','copyText','openLogs','restartService','setInterfaceZoom',
+    'screenSources','screenStart','screenStop','screenStatus','screenNow','onScreenEvent',
+    'credentialStatus','credentialSave','credentialRemove'
   ]);
   assert.doesNotMatch(preload,/exposeInMainWorld\(['"]ipcRenderer['"]/u);
   assert.doesNotMatch(preload,/\.send\(/u);
@@ -211,7 +322,7 @@ test('the real portable stage closes its runtime graph without repository or cre
   try{
     const result=stageMpcWorkspaceApplication({sourceRoot:ROOT,stageRoot:resolve(temporary,'app')});
     for(const path of [
-      'desktop/main.mjs','desktop/preload.cjs','desktop/renderer/app.js','scripts/mpc-workspace-server.mjs',
+      'desktop/main.mjs','desktop/window-geometry.mjs','desktop/preload.cjs','desktop/renderer/app.js','scripts/mpc-workspace-server.mjs',
       'lib/mpc-workspace-service.mjs','lib/mpc-workspace-store.mjs','command-center-build/sql/002-workspace-journey.sql'
     ])assert.ok(result.selected_files.includes(path),path);
     assert.ok(result.selected_files.length>=40);

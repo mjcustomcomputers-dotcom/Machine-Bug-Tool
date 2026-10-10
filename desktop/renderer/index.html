@@ -30,6 +30,8 @@
         <button class="nav-item active" type="button" data-view="work" aria-current="page" aria-controls="view-work"><span aria-hidden="true">✦</span>Work</button>
         <button class="nav-item" type="button" data-view="search" aria-controls="view-search"><span aria-hidden="true">⌕</span>Search</button>
         <button class="nav-item" type="button" data-view="evidence" aria-controls="view-evidence"><span aria-hidden="true">◫</span>Evidence</button>
+        <button class="nav-item" type="button" data-view="screen" aria-controls="view-screen"><span aria-hidden="true">▣</span>Screen reader</button>
+        <button class="nav-item" type="button" data-view="network" aria-controls="view-network"><span aria-hidden="true">⌁</span>Network</button>
         <button class="nav-item" type="button" data-view="methods" aria-controls="view-methods"><span aria-hidden="true">⌘</span>Methods</button>
         <button class="nav-item" type="button" data-view="tasks" aria-controls="view-tasks"><span aria-hidden="true">✓</span>Tasks</button>
         <button class="nav-item" type="button" data-view="reports" aria-controls="view-reports"><span aria-hidden="true">▤</span>Reports</button>
@@ -135,14 +137,14 @@
               <li>
                 <h3>Capture only the remaining visual unknown</h3>
                 <p>Press Print Screen, then use this one-time fallback. Any current clipboard image is normalized and reduced; its Print Screen origin is not attested.</p>
-                <div class="screen-context-actions"><button class="button accent" id="screen-context-capture" type="button">Use clipboard image</button><span class="screen-context-capability" id="screen-context-vision-state">OCR / vision not installed</span></div>
+                <div class="screen-context-actions"><button class="button accent" id="screen-context-capture" type="button">Use clipboard image</button><span class="screen-context-capability" id="screen-context-vision-state">One-shot image only · use Screen reader for local OCR</span></div>
               </li>
             </ol>
             <div class="screen-context-footer">
               <div><strong>Selected for the next run</strong><p id="screen-context-status" role="status" aria-live="polite" aria-atomic="true">No screen context selected. Open a project, then choose one explicit source.</p><ul id="screen-context-selection-list" aria-label="Selected screen context"><li>No screen context selected.</li></ul></div>
               <button class="button compact" id="screen-context-clear" type="button" disabled>Clear selected context</button>
             </div>
-            <p class="screen-context-boundary" role="note"><strong>No live monitoring. No packet capture.</strong> MPC Workspace reads only the clipboard image or HAR file you explicitly choose. Firefox context can explain requests, but it does not prove what a pixel says.</p>
+            <p class="screen-context-boundary" role="note"><strong>This quick path starts no live monitoring or packet capture.</strong> It reads only the clipboard image or HAR file you explicitly choose. The separate Screen reader and Network views require their own consent. Firefox context can explain requests, but it does not prove what a pixel says.</p>
           </section>
 
           <div class="work-grid">
@@ -291,11 +293,12 @@
           <div class="page-heading"><div><div class="eyebrow">Setup + observed capability</div><h1 id="connections-title">Connections</h1><p>Use the large provider action first. Adapter installed, signed in, capability discovered and protected read verified remain separate facts.</p></div><button class="button" id="add-connection" type="button">Advanced manual setup</button></div>
           <div class="connection-boundary" role="note"><strong>Normal sign-in stays host-owned.</strong><span>A Sign in button appears only when the packaged host advertises a registered provider driver. Tokens never enter this page or the project database.</span></div>
           <div id="connections-grid" class="connection-grid"><div class="panel empty-row">No connection observations loaded.</div></div>
+          <details class="panel settings-card"><summary>Stored access tokens</summary><p id="connection-secret-status">Refresh to manage this desktop app’s stored token references.</p><label>Token reference<select id="connection-secret-list"><option value="">No references loaded</option></select></label><div class="button-row"><button class="button" id="connection-secret-refresh" type="button">Refresh tokens</button><button class="button danger" id="connection-secret-remove" type="button" disabled>Forget selected token</button></div><p>Forgetting removes the token from this app. Revoke it at the provider as well if you want to invalidate it everywhere.</p></details>
         </section>
 
         <section class="view" id="view-assistant" data-view-panel="assistant" aria-labelledby="assistant-title" hidden>
-          <div class="page-heading"><div><div class="eyebrow">Versioned behavior</div><h1 id="assistant-title">Assistant</h1><p>These settings configure the workspace; they do not train model weights or grant an entitlement.</p></div></div>
-          <section class="panel form-panel">
+          <div class="page-heading"><div><div class="eyebrow">Model behavior</div><h1 id="assistant-title">Assistant</h1><p>Chat uses the selected model’s default reasoning behavior. Add task instructions to your message. Saved assistant revisions and effort overrides require a host adapter and are unavailable in this build.</p></div></div>
+          <fieldset class="panel form-panel" disabled>
             <label>Assistant name<input id="assistant-name" value="MPC Workspace Assistant"></label>
             <label>Tone<select id="assistant-tone"><option>Clear and evidence-first</option><option>Concise</option><option>Technical</option></select></label>
             <label>Domain profile<select id="assistant-domain"><option>GENERAL</option><option>BUSINESS</option><option>LEGAL</option><option>SCIENCE</option><option>NEWS</option></select></label>
@@ -303,7 +306,65 @@
             <label>Reasoning effort<select id="assistant-effort"><option value="provider-default">Provider default</option><option>low</option><option>medium</option><option>high</option></select></label>
             <label>Budget<input id="assistant-budget" inputmode="numeric" placeholder="Optional operation budget"></label>
             <div class="wide button-row"><button class="button accent" id="save-assistant" type="button">Save new revision</button><button class="button" id="export-task" type="button">Export portable task</button><button class="button" id="import-task" type="button">Import portable task</button><input id="portable-task-input" type="file" accept="application/json,.json" hidden></div>
-          </section>
+          </fieldset>
+        </section>
+
+        <section class="view" id="view-screen" data-view-panel="screen" aria-labelledby="screen-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Local capture → OCR → your reasoning</div><h1 id="screen-title">Screen reader</h1><p>Read a selected window or monitor at its captured resolution. Pixels stay in memory; English OCR runs on this computer.</p></div><button class="button" id="screen-refresh" type="button">Choose / refresh sources</button></div>
+          <div class="screen-toolbar panel"><label class="screen-source-field">Window or screen<select id="screen-source"><option value="">Refresh sources to choose</option></select></label><div class="button-row"><button class="button run" id="screen-start" type="button">Start</button><button class="button" id="screen-now" type="button" disabled>Capture now</button><button class="button danger" id="screen-stop" type="button" disabled>Stop</button><button class="button" id="screen-clear" type="button">Stop &amp; clear</button></div><label class="screen-consent toggle-label"><input id="screen-consent" type="checkbox"> I allow MPC to read this selected source for this session.</label><p id="screen-status" role="status" aria-live="polite">Screen reading is off.</p></div>
+          <div class="screen-layout">
+            <section class="panel screen-output"><div class="panel-head"><div><h2>Recognized text</h2><p id="screen-result-meta">No screen has been captured.</p></div><label class="toggle-label"><input id="screen-hold-text" type="checkbox"> Hold text for reading</label></div>
+              <div class="button-row"><button class="button" id="screen-select" type="button" disabled>Select all</button><button class="button" id="screen-copy" type="button" disabled>Copy text</button><button class="button" id="screen-save" type="button" disabled>Save .txt</button><button class="button" id="screen-copy-packet" type="button" disabled>Copy for ChatGPT / Codex</button><button class="button accent" id="screen-use" type="button" disabled>Use in chat</button></div>
+              <label class="sr-only" for="screen-text">Copyable screen text</label><textarea id="screen-text" readonly spellcheck="false" placeholder="Start a permitted screen capture. Recognized text appears here; you can copy it without a model."></textarea>
+              <div class="button-row"><span id="screen-pending" role="status"></span><button class="button compact" id="screen-apply-result" type="button" disabled>Apply newer text</button></div>
+              <section class="screen-classifier" aria-labelledby="screen-classifier-title"><h3 id="screen-classifier-title">Observed atoms, process methods &amp; checks</h3><p id="screen-classifier-summary">MPC examines recognized text atoms, changes and method dependencies. Existing classifier identities remain available in the expanded receipts.</p><p id="screen-virtual-route">No virtual OCR routing metadata yet.</p><ul id="screen-classifier-cues"></ul><p id="screen-classifier-change"></p><details><summary>Evidence, hypotheses &amp; method receipts</summary><pre id="screen-classifier-detail">No classification yet.</pre></details></section>
+              <details class="screen-preview-wrap"><summary>Masked preview</summary><img id="screen-preview" alt="Cropped and masked screen area submitted to local OCR" hidden><p>Preview and OCR share the same crop and masks. Word coordinates refer to OCR-image pixels.</p></details>
+            </section>
+            <aside class="screen-options">
+              <section class="panel settings-card" id="screen-capture-settings"><h2>Capture &amp; privacy</h2><label>Mode<select id="screen-mode"><option value="single">One screen capture</option><option value="live">Repeated capture</option></select></label><label>Sampling rate<select id="screen-fps"><option value="0.5">Every 2 seconds</option><option value="1" selected>1 frame / second</option><option value="2">2 frames / second</option><option value="4">4 frames / second</option></select></label><p>Repeated capture keeps the newest waiting frame and skips unchanged images. OCR speed depends on the selected area and this computer.</p>
+                <label>Image treatment<select id="screen-image-mode"><option value="native">Original pixels</option><option value="contrast">Increase text contrast</option><option value="otsu">Black &amp; white text (Otsu)</option></select></label><p>Keep original pixels first. Contrast or black and white can help difficult text; they can also remove useful detail. The display itself stays steady.</p>
+                <label>Session limit<select id="screen-duration"><option value="5">5 minutes</option><option value="15" selected>15 minutes</option><option value="30">30 minutes</option></select></label>
+                <label><input id="screen-preview-enabled" type="checkbox" checked> Show the masked preview</label><label><input id="screen-exclude-mpc" type="checkbox" checked> Exclude MPC windows from capture</label><label><input id="screen-print-key" type="checkbox"> Use Print Screen for capture during this session</label>
+                <details><summary>Crop area (percent of source)</summary><div class="screen-region"><label>Left %<input id="screen-crop-x" type="number" min="0" max="99" value="0"></label><label>Top %<input id="screen-crop-y" type="number" min="0" max="99" value="0"></label><label>Width %<input id="screen-crop-w" type="number" min="1" max="100" value="100"></label><label>Height %<input id="screen-crop-h" type="number" min="1" max="100" value="100"></label></div><p>Smaller regions reduce work while preserving the text’s captured pixels.</p><div class="button-row"><button class="button compact" id="screen-roi-suggest" type="button" disabled>Suggest crop from OCR</button><button class="button accent compact" id="screen-roi-apply" type="button" disabled>Apply crop for next capture</button><button class="button compact" id="screen-roi-copy" type="button" disabled>Copy method receipt</button></div><p id="screen-roi-status" role="status" aria-live="polite">Capture a source first; MPC can invert recognized text geometry into an optional smaller region. No automatic recapture.</p></details>
+                <details><summary>Privacy masks</summary><p>Black out sensitive regions before OCR or preview. Percentages refer to the complete selected source.</p><div class="screen-region"><label>Left %<input id="screen-mask-x" type="number" min="0" max="99" value="0"></label><label>Top %<input id="screen-mask-y" type="number" min="0" max="99" value="0"></label><label>Width %<input id="screen-mask-w" type="number" min="1" max="100" value="20"></label><label>Height %<input id="screen-mask-h" type="number" min="1" max="100" value="10"></label></div><button class="button compact" id="screen-add-mask" type="button">Add mask</button><ol id="screen-mask-list"></ol></details>
+                <p>Capture stops on lock, sleep, source loss, project change or expiry. Ctrl + Shift + F8 and the floating Stop control stop it immediately. Use in chat and exports are separate actions.</p>
+              </section>
+              <details class="panel settings-card"><summary>Performance</summary><dl id="screen-metrics" class="screen-metrics"></dl><button class="button compact" id="screen-save-metrics" type="button">Save timing / memory report</button><p>Process Explorer shows process CPU, memory and threads; OCR runs in the main MPC process. Capture and model processes have separate measurements. Process Monitor shows file activity. RAMMap helps explain system memory pressure.</p></details>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="view-network" data-view-panel="network" aria-labelledby="network-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Native OS metadata · no packet capture</div><h1 id="network-title">Network observation</h1>
+            <p>Inspect this computer's reported processes, TCP connections and UDP ports. No targets are contacted; port metadata is separate from screen OCR.</p></div></div>
+          <div class="panel network-observation">
+            <div class="button-row">
+              <button class="button accent" id="network-refresh" type="button" disabled>Take snapshot</button>
+              <button class="button danger" id="network-clear" type="button">Stop &amp; clear</button>
+              <label class="toggle-label"><input type="checkbox" id="network-consent"> I allow MPC to inspect local network endpoint metadata for each snapshot.</label>
+            </div>
+            <p id="network-observation-status" role="status" aria-live="polite">Network reading is off.</p>
+            <p id="network-summary">No native network snapshot collected.</p>
+            <p id="network-diff">No prior observation to compare.</p><p id="network-meta-route">Virtual network classifier: no observation yet.</p>
+            <div class="button-row">
+              <label>View<select id="network-kind"><option value="ALL">All TCP / UDP</option><option value="TCP">TCP</option><option value="UDP">UDP</option><option value="LISTEN">Listening TCP</option><option value="ESTABLISHED">Established TCP</option></select></label>
+              <label>Filter process / PID / port<input id="network-filter" type="search" autocomplete="off" placeholder="Process, address or port"></label>
+            </div>
+            <p id="network-visible">No endpoint rows.</p>
+            <div class="network-table-scroll" tabindex="0" aria-label="Scrollable local network connection list">
+              <table class="network-table"><thead><tr><th scope="col">Process</th><th scope="col">PID</th><th scope="col">Protocol</th><th scope="col">Local address</th><th scope="col">Remote address</th><th scope="col">State</th></tr></thead>
+                <tbody id="network-rows"></tbody></table>
+            </div>
+            <details><summary>Copyable JSON and source details</summary>
+              <div class="button-row"><button class="button" id="network-select" type="button" disabled>Select all</button>
+                <button class="button" id="network-copy" type="button" disabled>Copy JSON</button>
+                <button class="button" id="network-save" type="button" disabled>Save .json</button>
+                <button class="button accent" id="network-use" type="button" disabled>Use in chat</button></div>
+              <label class="sr-only" for="network-text">Native network snapshot JSON</label>
+              <textarea id="network-text" readonly spellcheck="false" placeholder="Take one permitted snapshot to view TCP/UDP metadata."></textarea>
+            </details>
+            <p class="honesty-note">Snapshots are manually requested, bounded, non-atomic and volatile until Copy, Save or Use in chat. Process names are best-effort PID associations. No target probing, DNS lookup, packet inspection, connection termination or firewall changes. Missing/truncated tables limit comparisons.</p>
+          </div>
         </section>
 
         <section class="view" id="view-settings" data-view-panel="settings" aria-labelledby="settings-title" hidden>
@@ -414,11 +475,12 @@
       <label>Provider<select id="connection-provider"><option>OLLAMA</option><option>GITHUB</option><option>GOOGLE_DRIVE</option><option>GMAIL</option><option>DROPBOX</option><option>DROPBOX_DASH</option><option>HOSTED_MPC</option><option>LOCAL_MPC</option><option>OPENAI_API</option><option>CUSTOM_MCP</option></select></label>
       <div class="connection-help" id="connection-help" role="status"></div>
       <button class="button accent" id="connection-local-setup" type="button">Open Local AI setup</button>
-      <label>Transport<select id="connection-transport"><option value="PLUGIN">Host plugin adapter</option><option value="OPENAI_API">OpenAI API adapter</option><option value="loopback_http">Local loopback HTTP</option><option value="stdio">Local stdio</option><option value="streamable_http">Remote streaming HTTP</option><option value="secure_mcp_tunnel">Secure MCP tunnel</option></select></label>
+      <label>Transport<select id="connection-transport"><option value="PLUGIN">Built-in / host adapter</option><option value="OPENAI_API">OpenAI API adapter</option><option value="loopback_http">Local loopback HTTP</option><option value="stdio">Local stdio</option><option value="streamable_http">Remote streaming HTTP</option><option value="secure_mcp_tunnel">Secure MCP tunnel</option></select></label>
       <label>Endpoint or command<input id="connection-endpoint" required maxlength="2000" autocomplete="off" aria-describedby="connection-endpoint-help"></label>
       <small id="connection-endpoint-help" class="input-boundary-note"></small>
-      <label>Credential-store reference<input id="connection-credential" maxlength="500" placeholder="Leave blank unless your host adapter supplied a reference" aria-describedby="connection-credential-help"></label>
-      <small id="connection-credential-help" class="input-boundary-note">This field accepts an existing credential reference, not a password or API token. Saving it does not create a credential store.</small>
+      <label>Existing credential reference (optional)<input id="connection-credential" maxlength="500" placeholder="Created by this desktop app" aria-describedby="connection-credential-help"></label>
+      <small id="connection-credential-help" class="input-boundary-note">Use an existing reference, or enter your own scoped access token below. Tokens are sent only to their fixed provider API by the host.</small>
+      <div id="connection-token-fields"><label>Access token<input id="connection-token" type="password" maxlength="16000" autocomplete="off" spellcheck="false" placeholder="Read access to the selected provider"></label><label class="toggle-label"><input id="connection-remember" type="checkbox"> Remember encrypted on this computer</label><p>With Remember off, the token lasts only for this app session. Screen capture stops while you enter credentials. Provider expiry still applies.</p></div>
       <p class="honesty-note">Account identity, discovered scopes and tools come from the host adapter’s actual observation; they are not self-asserted here. Saving a URL means configured, not connected.</p>
       <div class="dialog-actions"><button class="button" id="cancel-connection" type="button">Cancel</button><button class="button accent" id="configure-connection" type="submit">Save configuration</button></div>
     </form>
@@ -442,6 +504,15 @@
     </section>
   </dialog>
 
+  <dialog id="connection-read-dialog" aria-labelledby="connection-read-title"><section class="dialog-card connection-read-card">
+    <div class="dialog-head"><h2 id="connection-read-title">Read a selected resource</h2><button class="icon-button" id="connection-read-close" type="button" aria-label="Close selected read">×</button></div>
+    <p id="connection-read-help"></p>
+    <div id="connection-github-fields"><label>Repository<input id="connection-repository" value="mjcustomcomputers-dotcom/Machine-Bug-Tool" maxlength="200"></label><label>Branch, tag or commit<input id="connection-ref" value="feature/mpc-screen-ocr-20261009" maxlength="200"></label><label>File path<input id="connection-file-path" value="docs/MPC-SCREEN-READER.md" maxlength="1500"></label></div>
+    <label id="connection-native-field">Native file / message ID or Dropbox path<input id="connection-native-id" maxlength="2000" autocomplete="off"></label>
+    <label class="toggle-label"><input id="connection-include-content" type="checkbox" checked> Read the selected text content</label>
+    <div class="button-row"><button class="button accent" id="connection-read-run" type="button">Read selected resource</button><button class="button" id="connection-read-use" type="button" disabled>Use in chat</button><button class="button" id="connection-read-copy" type="button" disabled>Copy receipt</button></div>
+    <p id="connection-read-status" role="status" aria-live="polite"></p><label class="sr-only" for="connection-read-output">Selected resource result</label><textarea id="connection-read-output" readonly spellcheck="false"></textarea>
+  </section></dialog>
   <div class="toast-region" id="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
   <div class="sr-only" id="assertive-status" role="alert" aria-live="assertive"></div>
   <script type="module" src="./app.js"></script>

@@ -391,11 +391,12 @@ test('streaming Ollama adapter retains requested/observed identity, digest, canc
   const rows = [
     {model: 'qwen3:4b-instruct', message: {content: proposal.slice(0, split)}, done: false},
     {model: 'qwen3:4b-instruct', message: {content: proposal.slice(split)}, done: false},
-    {model: 'qwen3:4b-instruct', message: {content: ''}, done: true, prompt_eval_count: 30, eval_count: 20, eval_duration: 500_000_000}
+    {model: 'qwen3:4b-instruct', message: {content: ''}, done: true, done_reason: 'stop', prompt_eval_count: 30, eval_count: 20, eval_duration: 500_000_000}
   ];
   const bytes = new TextEncoder().encode(rows.map(row => JSON.stringify(row)).join('\n') + '\n');
   let request;
   const fetchImpl = async (url, options) => {
+    if(url.endsWith('/api/show'))return new Response(JSON.stringify({capabilities:['completion'],details:{format:'gguf'},model_info:{'qwen3.context_length':8192}}));
     request = {url, options, body: JSON.parse(options.body)};
     return new Response(new ReadableStream({start(controller) { controller.enqueue(bytes); controller.close(); }}), {status: 200});
   };
