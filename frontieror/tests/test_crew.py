@@ -126,6 +126,32 @@ class CrewTests(unittest.TestCase):
         self.assertIsNone(crew.cp_sat_side(p,time.monotonic()+2,
                                            feasibility_only=False))
 
+    def test_dominated_duplicate_rotations_keep_exact_optimum(self):
+        import time
+        data=example(True)
+        # More expensive duplicate of the [0,1] column, with identical base effect.
+        data["constraint_matrix_A"]["columns"].append([0,1])
+        data["cost_vector"].append(19)
+        data["base_constraints"]["D_matrix"]["rows"][0].append(2.5)
+        data["dimensions"]["num_cols"]+=1
+        p=crew.parse(data)
+        self.assertIn(8,crew.dominated_rotations(p))
+        answer=crew.sparse_milp(p,time.monotonic()+4)
+        self.assertTrue(crew.verify(p,answer))
+        self.assertEqual(crew.objective(p,answer),14)
+        # Mirror: same covered rows with a different base contribution is not dominated.
+        data["base_constraints"]["D_matrix"]["rows"][0][8]=3.0
+        self.assertNotIn(8,crew.dominated_rotations(crew.parse(data)))
+
+    def test_empty_negative_columns_are_preserved(self):
+        data=example(False)
+        data["constraint_matrix_A"]["columns"].extend([[],[]])
+        data["cost_vector"].extend([-3,-4])
+        data["dimensions"]["num_cols"]+=2
+        p=crew.parse(data)
+        self.assertNotIn(8,crew.dominated_rotations(p))
+        self.assertNotIn(9,crew.dominated_rotations(p))
+
     def test_literal_sparse_milp(self):
         data = example(True)
         p = crew.parse(data)
