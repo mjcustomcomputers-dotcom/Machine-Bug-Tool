@@ -84,6 +84,26 @@ test('cartesian explosion and malicious factor names fail before enumeration',()
  assert.throws(()=>planMethodInteractionCoverage(y),/INVALID_FACTOR_NAME/);
 });
 
+test('method-on-method falsification: budget drift and duplicated cases cannot forge design completeness',()=>{
+ const input=coverage(), design=planMethodInteractionCoverage(input);
+ const shifted=coverage(); shifted.max_cases=2;
+ assert.throws(()=>auditMethodInteractionCoverage(shifted,design),/DESIGN_CASE_BUDGET/);
+ const shiftedEnough=coverage(); shiftedEnough.max_cases=23;
+ assert.throws(()=>auditMethodInteractionCoverage(shiftedEnough,design),/DESIGN_SOURCE_DRIFT/);
+ const duplicated=structuredClone(design);
+ duplicated.cases.push(structuredClone(duplicated.cases.at(-1)));
+ duplicated.cases.at(-1).case_id='PAIR-007';
+ assert.throws(()=>auditMethodInteractionCoverage(input,duplicated),/DUPLICATE_DESIGN_CASE/);
+ const tamperedVersion=structuredClone(design);tamperedVersion.version='UNVERIFIED';
+ assert.equal(auditMethodInteractionCoverage(input,tamperedVersion).state,'DESIGN_CLAIM_CONTRADICTED');
+ const fakeObjective=structuredClone(design);fakeObjective.objective='THREE_WAY_COVERAGE';
+ assert.equal(auditMethodInteractionCoverage(input,fakeObjective).state,'DESIGN_CLAIM_CONTRADICTED');
+ const fakeWorlds=structuredClone(design);fakeWorlds.exhaustive_worlds=3;
+ assert.equal(auditMethodInteractionCoverage(input,fakeWorlds).state,'DESIGN_CLAIM_CONTRADICTED');
+ const wrongIds=structuredClone(design);wrongIds.cases[0].case_id='PAIR-009';
+ assert.throws(()=>auditMethodInteractionCoverage(input,wrongIds),/INVALID_CASE_ID_ORDER/);
+});
+
 test('research hook overlay remains noncanonical and indexed, with declared primary sources',async()=>{
  const {default:registry}=await import('../research/method-synergy-frontier-v22.json',{with:{type:'json'}});
  assert.equal(registry.identity_class,'NONCANONICAL_RESEARCH_HOOKS');
