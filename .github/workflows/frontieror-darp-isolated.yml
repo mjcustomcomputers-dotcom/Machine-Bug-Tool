@@ -1,10 +1,12 @@
-name: FrontierOR DARP isolated solver check
+name: FrontierOR six-problem methods gate
 on:
   push:
     branches: [frontieror-darp-testing-20261010]
     paths:
-      - 'frontieror/solvers/cordeau2006/solve.py'
+      - 'frontieror/solvers/**'
       - 'frontieror/tests/**'
+      - 'frontieror/build_submission.py'
+      - 'frontieror/benchmark.py'
       - '.github/workflows/frontieror-darp-isolated.yml'
   workflow_dispatch:
 
@@ -12,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  test-darp:
+  validate-and-build:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
@@ -20,7 +22,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.14'
-      - name: Install exact optimization library
+      - name: Match published competition optimization libraries
         run: python -m pip install 'ortools==9.15.6755' 'scipy==1.18.1'
-      - name: Run solver and independent feasibility tests
+      - name: Verify all six solver contracts and independent invariants
         run: python -m unittest discover -s frontieror/tests -v
+      - name: Benchmark all six methods against synthetic comparators
+        run: python frontieror/benchmark.py
+      - name: Build exact submission archive and record source hashes
+        run: python frontieror/build_submission.py
+      - name: Save audited ZIP and benchmark reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: FrontierOR-Main-Six-Solvers
+          path: frontieror/artifacts/*
+          if-no-files-found: error
+          retention-days: 14
