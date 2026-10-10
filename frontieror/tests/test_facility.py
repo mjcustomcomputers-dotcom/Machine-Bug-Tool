@@ -87,6 +87,19 @@ class FacilityTests(unittest.TestCase):
                 result=solver.solve(raw,4)
                 independent(raw,result)
 
+    def test_exact_fixed_open_scenario_recourse(self):
+        raw=fixture(4,6,3,74)
+        p=solver.parse(raw)
+        selected=set(range(p[0]))
+        fast=solver.greedy_transport(p,selected)
+        self.assertIsNotNone(fast)
+        import time
+        exact=solver.lp_transport(p,selected,time.monotonic()+4)
+        self.assertIsNotNone(exact)
+        self.assertTrue(solver.check(p,selected,exact))
+        self.assertLessEqual(solver.objective(p,selected,exact),
+                             solver.objective(p,selected,fast)+1e-6)
+
     def test_direct_sparse_mip(self):
         raw=fixture(4,5,2,36)
         p=solver.parse(raw)
