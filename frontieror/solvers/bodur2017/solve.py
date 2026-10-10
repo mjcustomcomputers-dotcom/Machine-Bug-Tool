@@ -269,8 +269,10 @@ def solve(instance,time_limit_s):
         "objective_value":objective(p,best_opened,best_ship),
         "open_facilities":sorted(best_opened),
         "x":{str(i):int(i in best_opened) for i in range(f)},
-        "y":{str(k):{str(i):{str(j):best_ship[k][i][j] for j in range(c)}
-                       for i in range(f)} for k in range(s)}
+        "y":{str(k):{str(i):{str(j):best_ship[k][i][j] for j in range(c)
+                                      if best_ship[k][i][j] != 0.0}
+                       for i in range(f) if any(v != 0.0 for v in best_ship[k][i])}
+             for k in range(s)}
     }
 
 
