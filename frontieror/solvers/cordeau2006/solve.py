@@ -382,11 +382,28 @@ def _insertion(p: dict, deadline: float) -> tuple[list[list[int]], list[list[flo
         a, b = p["pickup"][user], p["dropoff"][user]
         interval = float(nodes[b]["latest_time"]) - float(nodes[a]["earliest_time"])
         scored.append((interval, float(nodes[a]["latest_time"]) - float(nodes[a]["earliest_time"]), user))
+    # Feasibility-first ordering rescues narrow-window cases where ranking
+    # only by interval width can trap the insertion heuristic prematurely.
+    earliest_pickup = sorted(users, key=lambda u: (
+        float(nodes[p["pickup"][u]]["earliest_time"]),
+        float(nodes[p["dropoff"][u]]["latest_time"]), u))
     orderings = [
+        earliest_pickup,
+        sorted(users, key=lambda u: (float(nodes[p["dropoff"][u]]["latest_time"]), u)),
         [u for _, _, u in sorted(scored)],
         [u for _, _, u in sorted(scored, key=lambda x: (x[1], x[0]))],
         [u for _, _, u in sorted(scored, key=lambda x: (-x[0], x[1]))],
     ]
+    if len(users) <= 40:
+        import random
+        seed = (20261010 + len(users) * 1009 + p["v"] * 103
+                + int(sum(abs(float(n["x"])) * 17 + abs(float(n["y"])) * 19
+                          for n in nodes.values())))
+        rng = random.Random(seed)
+        for _ in range(12 if len(users) <= 20 else 3):
+            perm = users[:]
+            rng.shuffle(perm)
+            orderings.append(perm)
     best = None
     best_cost = math.inf
     for order in orderings:
