@@ -82,6 +82,24 @@ class FacilityTests(unittest.TestCase):
         import json
         independent(raw,json.loads(json.dumps(result,separators=(",",":"))))
 
+    def test_exact_recourse_opening_search_reduces_true_objective(self):
+        import time
+        raw=fixture(3,2,2,7)
+        for i,row in enumerate(raw["facilities"]):
+            row["capacity"]=10.
+            row["opening_cost"]=[12.,65.,70.][i]
+        raw["transportation_costs"]=[[1.,1.],[2.,2.],[3.,3.]]
+        p=solver.parse(raw)
+        opened=set(range(3))
+        baseline=solver.greedy_transport(p,opened)
+        self.assertTrue(solver.check(p,opened,baseline))
+        before=solver.objective(p,opened,baseline)
+        new_open,ship=solver.improve_openings_lp(
+            p,opened,baseline,time.monotonic()+5.0)
+        self.assertTrue(solver.check(p,new_open,ship))
+        self.assertLess(solver.objective(p,new_open,ship),before)
+        self.assertEqual(new_open,{0})
+
     def test_greedy_fallback_always_feasible(self):
         raw=fixture()
         p=solver.parse(raw)
