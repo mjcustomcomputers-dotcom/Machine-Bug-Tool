@@ -4,11 +4,14 @@ import itertools
 import pathlib
 import random
 import time
+import sys
 import unittest
 
 PATH=pathlib.Path(__file__).resolve().parents[1]/'solvers'/'fischetti1998'/'solve.py'
 spec=importlib.util.spec_from_file_location('frontieror_op',PATH)
-op=importlib.util.module_from_spec(spec);spec.loader.exec_module(op)
+op=importlib.util.module_from_spec(spec)
+sys.modules[spec.name]=op
+spec.loader.exec_module(op)
 
 
 def fixture(n,seed):
