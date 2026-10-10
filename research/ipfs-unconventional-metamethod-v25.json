@@ -1,0 +1,641 @@
+{
+  "version": "MPC_IPFS_UNCONVENTIONAL_META_V25",
+  "namespace": "RH_V25_NONCANONICAL_RESEARCH_OVERLAY",
+  "parent_git_head": "902bedcfc296d3a5f53456f872b4aefcf153dc56",
+  "native_evaluators_unchanged": 24,
+  "original_atlas_candidates_unchanged": 239,
+  "original_method_hooks_unchanged": 10,
+  "original_v24_network_layer_unchanged": true,
+  "original_v23_behavioral_layer_unchanged": true,
+  "source_authentication": false,
+  "external_provider_dispatch": false,
+  "canonical_promotion": false,
+  "scope": "IPFS concepts are used for bounded local tests and transferable methodological analogies; no live IPFS gateway, DHT, peer routing or pinning action is implemented.",
+  "primary_sources": {
+    "cid": "https://specs.ipfs.tech/cid/",
+    "content": "https://docs.ipfs.tech/concepts/content-addressing/",
+    "ipld": "https://ipld.io/specs/selectors/",
+    "ipldWalk": "https://ipld.io/docs/data-model/traversal/",
+    "bitswap": "https://github.com/ipfs/specs/blob/main/src/bitswap-protocol.md",
+    "dht": "https://libp2p.io/docs/dht/",
+    "ipns": "https://specs.ipfs.tech/ipns/ipns-record/",
+    "ipnsDocs": "https://docs.ipfs.tech/concepts/ipns/",
+    "gateway": "https://specs.ipfs.tech/http-gateways/trustless-gateway/",
+    "pin": "https://docs.ipfs.tech/concepts/persistence/",
+    "lifecycle": "https://docs.ipfs.tech/concepts/lifecycle/",
+    "gossip": "https://github.com/libp2p/specs/blob/master/pubsub/gossipsub/gossipsub-v1.1.md",
+    "crdt": "https://arxiv.org/abs/1603.01529",
+    "iblt": "https://arxiv.org/abs/1101.2245",
+    "merkle": "https://www.rfc-editor.org/rfc/rfc9162.html",
+    "cdc": "https://docs.ipfs.tech/concepts/content-addressing/",
+    "retrieval": "https://docs.ipfs.tech/reference/http/gateway/",
+    "bct": "https://github.com/libp2p/specs/blob/master/kad-dht/README.md"
+  },
+  "hooks": [
+    {
+      "id": "RH-V25-01",
+      "name": "CIDV1_RAW_BLOCK_DIGEST",
+      "family": "IPFS_IDENTITY",
+      "requires": [
+        "BLOCK_BYTES",
+        "CID_TEXT"
+      ],
+      "produces": [
+        "BLOCK_INTEGRITY_RECEIPT"
+      ],
+      "primary_sources": [
+        "https://specs.ipfs.tech/cid/",
+        "https://docs.ipfs.tech/concepts/content-addressing/"
+      ],
+      "falsifier": "A CIDv1 multihash must match the exact encoded block, not a file name, claimed owner or digest of reassembled UnixFS bytes.",
+      "implementation_state": "LOCAL_BOUNDED_SHA256_CIDV1_VERIFIER",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-02",
+      "name": "CHUNK_CODEC_PROFILE_NON_EQUIVALENCE",
+      "family": "IPFS_IDENTITY",
+      "requires": [
+        "BLOCK_INTEGRITY_RECEIPT",
+        "CODEC_PROFILE"
+      ],
+      "produces": [
+        "CID_FILE_NON_EQUIVALENCE"
+      ],
+      "primary_sources": [
+        "https://docs.ipfs.tech/concepts/content-addressing/",
+        "https://specs.ipfs.tech/cid/"
+      ],
+      "falsifier": "Identical logical file data can have distinct DAG/CIDs depending on codec, chunking and profile.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-03",
+      "name": "IPLD_DECLARED_SELECTOR_TRAVERSAL",
+      "family": "IPLD_GRAPH",
+      "requires": [
+        "DECLARED_DAG",
+        "SELECTOR_POLICY"
+      ],
+      "produces": [
+        "DAG_TRAVERSAL_CANDIDATES"
+      ],
+      "primary_sources": [
+        "https://ipld.io/specs/selectors/",
+        "https://ipld.io/docs/data-model/traversal/"
+      ],
+      "falsifier": "Traversal of a caller-declared graph is not proof of IPLD selector semantics or authenticated CID links.",
+      "implementation_state": "LOCAL_FINITE_GRAPH_TRAVERSAL_ANALOGUE",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-04",
+      "name": "IPLD_DAG_LINK_CLOSURE",
+      "family": "IPLD_GRAPH",
+      "requires": [
+        "DAG_TRAVERSAL_CANDIDATES",
+        "VERIFIED_LINK_WITNESSES"
+      ],
+      "produces": [
+        "DAG_CLOSURE_AUDIT"
+      ],
+      "primary_sources": [
+        "https://ipld.io/specs/selectors/",
+        "https://ipld.io/docs/data-model/traversal/"
+      ],
+      "falsifier": "A graph that appears complete may lack codec-decoded links, trusted block bytes or other reachable nodes.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-05",
+      "name": "BITSWAP_WANT_CANCEL_STATE",
+      "family": "IPFS_NETWORK",
+      "requires": [
+        "BITSWAP_WANTLIST",
+        "PEER_RESPONSE"
+      ],
+      "produces": [
+        "BLOCK_EXCHANGE_HYPOTHESIS"
+      ],
+      "primary_sources": [
+        "https://github.com/ipfs/specs/blob/main/src/bitswap-protocol.md"
+      ],
+      "falsifier": "A peer WANT or HAVE response does not prove delivery, validity or observed CANCEL.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-06",
+      "name": "KADEMLIA_PROVIDER_ROUTING",
+      "family": "IPFS_NETWORK",
+      "requires": [
+        "PROVIDER_RECORD",
+        "CONTENT_KEY"
+      ],
+      "produces": [
+        "PROVIDER_DISCOVERY_REVIEW"
+      ],
+      "primary_sources": [
+        "https://libp2p.io/docs/dht/",
+        "https://docs.ipfs.tech/concepts/lifecycle/"
+      ],
+      "falsifier": "Provider advertisement is not proof of possession, availability, owner identity or authorization.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-07",
+      "name": "IPNS_SIGNED_MUTABLE_NAME",
+      "family": "IPFS_MUTABILITY",
+      "requires": [
+        "IPNS_RECORD_SIGNATURE",
+        "IPNS_SEQUENCE"
+      ],
+      "produces": [
+        "MUTABLE_NAME_RECORD_REVIEW"
+      ],
+      "primary_sources": [
+        "https://specs.ipfs.tech/ipns/ipns-record/"
+      ],
+      "falsifier": "Sequence number or syntactically valid record does not verify signature, binding or publisher authority.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-08",
+      "name": "IPNS_FRESHNESS_CACHE_BOUNDARY",
+      "family": "IPFS_MUTABILITY",
+      "requires": [
+        "MUTABLE_NAME_RECORD_REVIEW",
+        "CLOCK_EVIDENCE"
+      ],
+      "produces": [
+        "IPNS_FRESHNESS_REVIEW"
+      ],
+      "primary_sources": [
+        "https://docs.ipfs.tech/concepts/ipns/",
+        "https://specs.ipfs.tech/ipns/ipns-record/"
+      ],
+      "falsifier": "Signed record may be expired or stale compared with latest published sequence; incompatible clocks block freshness.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-09",
+      "name": "TRUSTLESS_GATEWAY_PROOF_SPLIT",
+      "family": "IPFS_RETRIEVAL",
+      "requires": [
+        "GATEWAY_RESPONSE",
+        "BLOCK_INTEGRITY_RECEIPT"
+      ],
+      "produces": [
+        "GATEWAY_VERIFICATION_LIMITS"
+      ],
+      "primary_sources": [
+        "https://specs.ipfs.tech/http-gateways/trustless-gateway/",
+        "https://docs.ipfs.tech/reference/http/gateway/"
+      ],
+      "falsifier": "HTTP success and a gateway label alone do not prove verified CAR/raw block retrieval or full DAG closure.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-10",
+      "name": "PINNING_VS_RETRIEVAL",
+      "family": "IPFS_RETRIEVAL",
+      "requires": [
+        "PIN_RECEIPT",
+        "FRESH_RETRIEVAL_RECEIPT"
+      ],
+      "produces": [
+        "AVAILABILITY_EVIDENCE_REVIEW"
+      ],
+      "primary_sources": [
+        "https://docs.ipfs.tech/concepts/persistence/",
+        "https://docs.ipfs.tech/concepts/lifecycle/"
+      ],
+      "falsifier": "Pin state and provider listing cannot guarantee current cross-node availability or indefinite persistence.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-11",
+      "name": "GOSSIPSUB_PEER_SCORE_BIAS",
+      "family": "PEER_SECURITY",
+      "requires": [
+        "PEER_GOSSIP_OBSERVATIONS",
+        "PEER_POLICY"
+      ],
+      "produces": [
+        "GOSSIP_SOURCE_BIAS"
+      ],
+      "primary_sources": [
+        "https://github.com/libp2p/specs/blob/master/pubsub/gossipsub/gossipsub-v1.1.md"
+      ],
+      "falsifier": "A local peer score measures a particular model/observer; it does not independently prove attacker identity or content truth.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-12",
+      "name": "ERASURE_THRESHOLD_COMMON_FAILURE",
+      "family": "DISTRIBUTED_RELIABILITY",
+      "requires": [
+        "DATA_SHARDS",
+        "FAILURE_DOMAINS"
+      ],
+      "produces": [
+        "ERASURE_AVAILABILITY_HYPOTHESIS"
+      ],
+      "primary_sources": [
+        "https://docs.ipfs.tech/concepts/persistence/",
+        "https://docs.ipfs.tech/concepts/lifecycle/"
+      ],
+      "falsifier": "N-of-K shard counts alone do not prove recoverability when shards share failure owners/domains.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-13",
+      "name": "CONTENT_DEFINED_CHUNKING_DELTA",
+      "family": "IPFS_IDENTITY",
+      "requires": [
+        "CHUNKING_PROFILE",
+        "CONTENT_BYTES"
+      ],
+      "produces": [
+        "CONTENT_DEFINED_CHUNK_VARIANTS"
+      ],
+      "primary_sources": [
+        "https://docs.ipfs.tech/concepts/content-addressing/",
+        "https://docs.ipfs.tech/concepts/content-addressing/"
+      ],
+      "falsifier": "A byte offset change invalidates fixed chunks differently from content-defined boundaries; no speed-up without benchmark.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-14",
+      "name": "MERKLE_LOG_CONSISTENCY_CHALLENGE",
+      "family": "PROOF_SYSTEMS",
+      "requires": [
+        "MERKLE_LOG_ROOTS",
+        "MERKLE_PROOFS"
+      ],
+      "produces": [
+        "APPEND_ONLY_CONSISTENCY_CANDIDATE"
+      ],
+      "primary_sources": [
+        "https://www.rfc-editor.org/rfc/rfc9162.html"
+      ],
+      "falsifier": "Inclusion in one tree root does not prove append-only history or independent signed checkpoint identity.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-15",
+      "name": "CRDT_SEMILATTICE_JOIN",
+      "family": "REPLICATED_STATE",
+      "requires": [
+        "REPLICA_2P_STATES"
+      ],
+      "produces": [
+        "MERGED_SEMILATTICE_STATE"
+      ],
+      "primary_sources": [
+        "https://arxiv.org/abs/1603.01529"
+      ],
+      "falsifier": "A join can converge on synthetic state while preserving disputed or unsigned content; convergence is not factual truth.",
+      "implementation_state": "LOCAL_FINITE_2P_SET_JOIN",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-16",
+      "name": "TOMBSTONE_NON_RESURRECTION",
+      "family": "REPLICATED_STATE",
+      "requires": [
+        "MERGED_SEMILATTICE_STATE",
+        "TOMBSTONE_HISTORY"
+      ],
+      "produces": [
+        "NO_RESURRECTION_WITNESS"
+      ],
+      "primary_sources": [
+        "https://arxiv.org/abs/1603.01529"
+      ],
+      "falsifier": "A 2P-set tombstone prevents re-adding an ID, but cannot prove the corresponding evidence was legally deleted.",
+      "implementation_state": "LOCAL_FINITE_2P_SET_INVARIANT",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-17",
+      "name": "DELTA_STATE_ANTIENTROPY",
+      "family": "REPLICATED_STATE",
+      "requires": [
+        "DELTA_STATE_MESSAGES",
+        "DELIVERY_MODEL"
+      ],
+      "produces": [
+        "CONVERGENCE_HYPOTHESIS"
+      ],
+      "primary_sources": [
+        "https://arxiv.org/abs/1603.01529"
+      ],
+      "falsifier": "Missing or reordered deltas plus insufficient causal context defeat unqualified convergence/causal claims.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-18",
+      "name": "IBLT_RECONCILIATION_SKETCH",
+      "family": "PROBABILISTIC_RECONCILIATION",
+      "requires": [
+        "TWO_SOURCE_SETS",
+        "SKETCH_PARAMS"
+      ],
+      "produces": [
+        "SET_DIFF_SKETCH_REVIEW"
+      ],
+      "primary_sources": [
+        "https://arxiv.org/abs/1101.2245"
+      ],
+      "falsifier": "A finite IBLT may fail to peel under excess load; a sketch alone is not full source reconciliation.",
+      "implementation_state": "LOCAL_FINITE_IBLT_SKETCH",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-19",
+      "name": "SKETCH_INDEPENDENT_REPLAY",
+      "family": "PROBABILISTIC_RECONCILIATION",
+      "requires": [
+        "SET_DIFF_SKETCH_REVIEW",
+        "EXACT_SET_WITNESS"
+      ],
+      "produces": [
+        "SKETCH_FALSIFIER"
+      ],
+      "primary_sources": [
+        "https://arxiv.org/abs/1101.2245"
+      ],
+      "falsifier": "Successful-looking peeling must agree with independent exact set differences; unknown source authenticity remains unresolved.",
+      "implementation_state": "LOCAL_EXACT_SET_FALSIFIER",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-20",
+      "name": "BLOOM_MEMBERSHIP_FALSE_POSITIVE",
+      "family": "PROBABILISTIC_RECONCILIATION",
+      "requires": [
+        "BLOOM_QUERY",
+        "FILTER_POLICY"
+      ],
+      "produces": [
+        "PROBABILISTIC_MEMBERSHIP_REVIEW"
+      ],
+      "primary_sources": [
+        "https://arxiv.org/abs/1101.2245"
+      ],
+      "falsifier": "A probabilistic positive cannot be elevated to proof of membership or absence of collision.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-21",
+      "name": "RENDEZVOUS_HASHING_PLACEMENT",
+      "family": "DISTRIBUTED_RELIABILITY",
+      "requires": [
+        "RENDEZVOUS_KEYS",
+        "CANDIDATE_NODES"
+      ],
+      "produces": [
+        "PLACEMENT_RANKING"
+      ],
+      "primary_sources": [
+        "https://libp2p.io/docs/dht/",
+        "https://arxiv.org/abs/1603.01529"
+      ],
+      "falsifier": "Deterministic rank/order does not prove any node is online or has retained the content.",
+      "implementation_state": "LOCAL_FINITE_HRW_PLANNER",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-22",
+      "name": "VECTOR_CLOCK_CAUSAL_PARTIAL_ORDER",
+      "family": "DISTRIBUTED_RELIABILITY",
+      "requires": [
+        "VECTOR_EVENT_PAIRS",
+        "CAUSAL_EDGES"
+      ],
+      "produces": [
+        "CAUSAL_ORDER_HYPOTHESIS"
+      ],
+      "primary_sources": [
+        "https://arxiv.org/abs/1603.01529"
+      ],
+      "falsifier": "A timestamp or shared trace ID alone cannot prove Lamport happens-before or clock synchronization.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-23",
+      "name": "REPLICA_COMMON_FAILURE_GUARD",
+      "family": "DISTRIBUTED_RELIABILITY",
+      "requires": [
+        "REPLICA_PLACEMENT_FAILURE_DOMAINS",
+        "PLACEMENT_RANKING"
+      ],
+      "produces": [
+        "SHARED_FAILURE_RISK_REVIEW"
+      ],
+      "primary_sources": [
+        "https://libp2p.io/docs/dht/",
+        "https://docs.ipfs.tech/concepts/persistence/"
+      ],
+      "falsifier": "Ranking different node IDs is not independent availability when storage operators or zones coincide.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-24",
+      "name": "SHARED_SOURCE_PROVENANCE_HYPEREDGE",
+      "family": "META_METHOD",
+      "requires": [
+        "SOURCE_GRAPH",
+        "INDEPENDENCE_ASSERTIONS"
+      ],
+      "produces": [
+        "INDEPENDENCE_AUDIT"
+      ],
+      "primary_sources": [
+        "https://www.rfc-editor.org/rfc/rfc9162.html",
+        "https://arxiv.org/abs/1603.01529"
+      ],
+      "falsifier": "Multiple derivations of one root record are not independent corroboration and do not authenticate a source owner.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-25",
+      "name": "INTEGRITY_VS_AVAILABILITY_INVERSION",
+      "family": "META_METHOD",
+      "requires": [
+        "BLOCK_INTEGRITY_RECEIPT",
+        "PROVIDER_DISCOVERY_REVIEW"
+      ],
+      "produces": [
+        "INTEGRITY_AVAILABILITY_SPLIT"
+      ],
+      "primary_sources": [
+        "https://docs.ipfs.tech/concepts/content-addressing/",
+        "https://docs.ipfs.tech/concepts/lifecycle/"
+      ],
+      "falsifier": "Correct block hash plus provider announcement does not prove the block can be obtained now.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-26",
+      "name": "CROSS_LAYER_METHOD_FALSIFIER",
+      "family": "META_METHOD",
+      "requires": [
+        "INTEGRITY_AVAILABILITY_SPLIT",
+        "IPNS_FRESHNESS_REVIEW"
+      ],
+      "produces": [
+        "METHOD_TRANSFER_FALSIFIERS"
+      ],
+      "primary_sources": [
+        "https://specs.ipfs.tech/cid/",
+        "https://specs.ipfs.tech/ipns/ipns-record/",
+        "https://specs.ipfs.tech/http-gateways/trustless-gateway/"
+      ],
+      "falsifier": "Integrity, fresh mutable naming, and network reachability require separate falsifiers; no transitive proof.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-27",
+      "name": "DAG_LOG_DOUBLE_ORACLE_CHALLENGE",
+      "family": "META_METHOD",
+      "requires": [
+        "DAG_CLOSURE_AUDIT",
+        "APPEND_ONLY_CONSISTENCY_CANDIDATE"
+      ],
+      "produces": [
+        "PROVENANCE_COMPLETENESS_CHALLENGE"
+      ],
+      "primary_sources": [
+        "https://ipld.io/specs/selectors/",
+        "https://www.rfc-editor.org/rfc/rfc9162.html"
+      ],
+      "falsifier": "Independent DAG and append-only proofs must be bound to the same source/version before comparing.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    },
+    {
+      "id": "RH-V25-28",
+      "name": "PLACEMENT_SKETCH_CORRELATED_BIAS",
+      "family": "META_METHOD",
+      "requires": [
+        "SHARED_FAILURE_RISK_REVIEW",
+        "SKETCH_FALSIFIER"
+      ],
+      "produces": [
+        "SELECTION_BIAS_WARNING"
+      ],
+      "primary_sources": [
+        "https://arxiv.org/abs/1101.2245",
+        "https://arxiv.org/abs/1603.01529"
+      ],
+      "falsifier": "Fast reconciliation and placement plans may share one bad topology assumption; agreement is not independent evidence.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY",
+      "source_identity": "CALLER_DECLARED_UNAUTHENTICATED",
+      "method_executed": false,
+      "original_registry_modified": false,
+      "remote_network_action": false
+    }
+  ]
+}
