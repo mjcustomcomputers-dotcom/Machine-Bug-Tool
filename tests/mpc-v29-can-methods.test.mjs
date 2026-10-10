@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {decodeCanDlcV29,inspectPassiveCanFrameV29,inspectCanCounterWindowV29,
  auditCanProtectionChainV29} from '../lib/mpc-v29-can-observation.mjs';
 import {planMethodMountainsV29,formatCompactEngineeringReceiptV29}
@@ -177,4 +178,22 @@ test('condensed report retains complete underlying original V28 clause order',()
  const r=formatCondensedLinguisticOutputV29(input);
  assert.deepEqual(r.exact_full_render,old);
  assert.deepEqual(r.claims.map(x=>x.claim_id),old.ordered_claim_ids);
+});
+
+test('method mountains accept full source context, reject partial identities, and invalidate source drift',()=>{
+ const x=mountain('CAN',[atom('a','RAW_CANID')]);
+ Object.assign(x,{source_ref:'fixture:bundle',source_owner:'fixture:owner',source_version:'v1'});
+ const a=planMethodMountainsV29(x);
+ assert.equal(a.declared_input_source.source_ref,'fixture:bundle');
+ const b=planMethodMountainsV29({...x,source_version:'v2'});
+ assert.notEqual(a.fingerprint,b.fingerprint);
+ const incomplete={...x};delete incomplete.source_owner;
+ assert.throws(()=>planMethodMountainsV29(incomplete),/INCOMPLETE_MOUNTAIN_SOURCE_IDENTITY/);
+});
+test('active assistant instructions prefer compact engineering view with full native receipts',()=>{
+ const doc=readFileSync(new URL('../assistant/GPT-INSTRUCTIONS.txt',import.meta.url),'utf8');
+ assert.match(doc,/RESPONSE FORMAT — V29 ENGINEERING VIEW/);
+ for(const field of ['METHOD','RESULT','EVIDENCE','NEXT'])
+  assert.match(doc,new RegExp(field+' — '));
+ assert.match(doc,/complete ACQUIRED → ANALYZED → DECIDED record/);
 });
