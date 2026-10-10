@@ -1,0 +1,30 @@
+name: FrontierOR Crew queue-reduction and large-MRV acceptance
+on:
+  push:
+    branches: [frontieror-crew-reduced-cp-20261010]
+    paths:
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/test_crew.py'
+      - '.github/workflows/frontieror-crew-large-mrv-verify.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bounded-crew-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Match official optimization packages
+        run: python -m pip install 'ortools==9.15.6755' 'scipy==1.18.1'
+      - name: Check crew syntax and exact source fingerprint
+        run: |
+          python -m py_compile frontieror/solvers/hoffman1993/solve.py
+          sha256sum frontieror/solvers/hoffman1993/solve.py frontieror/tests/test_crew.py
+      - name: Crew all original and new adversarial regression cases
+        run: python -m unittest discover -s frontieror/tests -p 'test_crew.py' -v
