@@ -1,0 +1,55 @@
+name: MPC V26 Time Auth Method Science
+
+on:
+  push:
+    branches:
+      - feature/mpc-temporal-auth-meta-router-v26
+  pull_request:
+    branches:
+      - feature/mpc-ipfs-unconventional-metamethod-v25
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-v26-method-science
+  cancel-in-progress: true
+
+jobs:
+  v26-method-science:
+    name: V26 meta router and old router equivalence plus full tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out exact source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Verify exact V25 ancestor and delta paths
+        shell: bash
+        run: |
+          git rev-parse HEAD
+          git merge-base --is-ancestor bc134031b2d251de5ac0093d9a13aca0a8d955c6 HEAD
+          git diff --name-status bc134031b2d251de5ac0093d9a13aca0a8d955c6 HEAD
+          git status --short
+      - name: Install pinned Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Activate pinned pnpm
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm --version
+      - name: Frozen dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Run focused V26 V25 regressions
+        run: |
+          node --test tests/mpc-v26-meta-router.test.mjs tests/ipfs-unconventional-metamethod-v25.test.mjs
+          node research/run-mpc-v26-method-science.mjs
+      - name: Run full existing MPC tests
+        run: node --test
+      - name: Build complete source
+        run: pnpm run build
