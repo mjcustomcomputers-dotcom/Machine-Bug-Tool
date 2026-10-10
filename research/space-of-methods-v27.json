@@ -1,0 +1,909 @@
+{
+  "version": "MPC_SPACE_OF_METHODS_V27",
+  "namespace": "NONCANONICAL_RH_V27",
+  "parent_git_sha": "306632b081c514120cfaa0c5c23ab43cf05010a4",
+  "original_evaluators": 24,
+  "original_method_atlas_candidates": 239,
+  "original_bl": "BL32/384",
+  "source_authentication": false,
+  "canonical_promotion": false,
+  "network_or_animal_playback_actions": false,
+  "protected_coordinates_processed": false,
+  "source_licenses_inherited": false,
+  "primary_sources": {
+    "whale": "https://www.nature.com/articles/s41467-024-47221-8",
+    "dolphin": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1472465/",
+    "dolphinContour": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0077671",
+    "dolphinAddress": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3740840/",
+    "deception": "https://www.cambridge.org/core/journals/behavioral-and-brain-sciences/article/abs/tactical-deception-in-primates/100E1747829535A834C21FB6D361D00C",
+    "bioacoustic": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11885706/",
+    "seti": "https://www.nature.com/articles/s41550-021-01508-8",
+    "gbif": "https://docs.gbif.org/sensitive-species-best-practices/master/en/",
+    "fossil": "https://humanorigins.si.edu/evidence/dating",
+    "fitch": "https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276",
+    "quantum": "https://www.nist.gov/quantum-information-science/quantum-sensing-explained",
+    "nba": "https://jr.nba.com/3-point-shot/",
+    "metrology": "https://www.nist.gov/quantum-information-science/quantum-sensing-explained",
+    "classic": "https://www.nature.com/articles/s41550-021-01508-8",
+    "elephant": "https://www.nature.com/articles/s41559-024-02420-w",
+    "honeybee": "https://pubmed.ncbi.nlm.nih.gov/36893231/",
+    "fruitbat": "https://www.nature.com/articles/srep39419",
+    "parrot": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0049747",
+    "cuttlefish": "https://www.sciencedirect.com/science/article/pii/S0042698905004943"
+  },
+  "hooks": [
+    {
+      "id": "RH-V27-01",
+      "domain": "SPACE",
+      "key": "SETI_ON_OFF_SOURCE_FALSIFIER",
+      "requires": [
+        "CANDIDATE_SIGNAL",
+        "OFF_SOURCE_CONTROL"
+      ],
+      "produces": [
+        "SETI_CONTROL_REVIEW"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "Signal absent off-source is a necessary control for this candidate, not proof of extraterrestrial origin.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-02",
+      "domain": "SPACE",
+      "key": "RADIO_FREQUENCY_INTERFERENCE_CROSSCHECK",
+      "requires": [
+        "SETI_CONTROL_REVIEW",
+        "RFI_MONITOR"
+      ],
+      "produces": [
+        "RFI_FALSIFIER"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "Known terrestrial interference or instrument artifacts can explain an apparent signal.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-03",
+      "domain": "SPACE",
+      "key": "LIGHT_CONE_PROPAGATION_DELAY",
+      "requires": [
+        "DISTANCE_KM",
+        "PROPAGATION_MEDIUM"
+      ],
+      "produces": [
+        "PHYSICAL_LATENCY_BOUND"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "A light-travel lower bound is not a real spacecraft communication receipt.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-04",
+      "domain": "SPACE",
+      "key": "INSTRUMENT_HEALTH_BEFORE_CLAIM",
+      "requires": [
+        "INSTRUMENT_HEALTH",
+        "CANDIDATE_SIGNAL"
+      ],
+      "produces": [
+        "INSTRUMENT_RELIABILITY_REVIEW"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "A malfunctioning detector must not create an astrobiology discovery.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-05",
+      "domain": "SPACE",
+      "key": "FOLLOWUP_REOBSERVATION_REPLICATION",
+      "requires": [
+        "INSTRUMENT_RELIABILITY_REVIEW",
+        "FOLLOWUP_INDEPENDENCE"
+      ],
+      "produces": [
+        "REPLICATION_CANDIDATE"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "Shared calibration or source can make two signals nonindependent.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-06",
+      "domain": "SPACE",
+      "key": "SPECULATIVE_STAR_TREK_ANALOGY_BOUNDARY",
+      "requires": [
+        "FUTURE_SCENARIO",
+        "SCIENTIFIC_MODEL"
+      ],
+      "produces": [
+        "ANALOGY_WITH_LIMITATIONS"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "Fictional communicators and warp drives are not verified physical methods.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-07",
+      "domain": "CETACEAN",
+      "key": "DOLPHIN_SIGNATURE_WHISTLE_IDENTITY",
+      "requires": [
+        "WHISTLE_CONTOUR",
+        "INDIVIDUAL_LABELS"
+      ],
+      "produces": [
+        "INDIVIDUAL_SIGNATURE_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC1472465/",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC3740840/"
+      ],
+      "falsifier": "Frequency contour may support recognition but does not prove vocal speaker or semantic translation.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-08",
+      "domain": "CETACEAN",
+      "key": "PARSONS_CONTOUR_DIRECTION_REDUCTION",
+      "requires": [
+        "FREQUENCY_TRACE",
+        "SAMPLING_PROFILE"
+      ],
+      "produces": [
+        "CONTOUR_SHAPE_CANDIDATE"
+      ],
+      "primary_source_urls": [
+        "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0077671"
+      ],
+      "falsifier": "Reducing frequency to up/down levels can lose individual identity information.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-09",
+      "domain": "CETACEAN",
+      "key": "SPERM_WHALE_CODA_RHYTHM_TEMPO",
+      "requires": [
+        "CODA_TIMINGS",
+        "SOCIAL_CONTEXT"
+      ],
+      "produces": [
+        "CODA_STRUCTURE_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41467-024-47221-8"
+      ],
+      "falsifier": "Contextual rhythm/tempo structure is not a translated animal language.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-10",
+      "domain": "CETACEAN",
+      "key": "FINITE_SYMBOL_SEQUENCE_PERMUTATION_CONTROL",
+      "requires": [
+        "SYMBOLIC_SEQUENCE",
+        "NULL_MODEL"
+      ],
+      "produces": [
+        "SEQUENCE_DEPENDENCE_SCORE"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41467-024-47221-8",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC11885706/"
+      ],
+      "falsifier": "Uncontrolled recording effort, speaker leakage or session grouping can create apparent structure.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-11",
+      "domain": "CETACEAN",
+      "key": "SPEAKER_CONTEXT_GROUP_LEAKAGE",
+      "requires": [
+        "SEQUENCE_DEPENDENCE_SCORE",
+        "RECORDING_GROUPS"
+      ],
+      "produces": [
+        "SESSION_LEAKAGE_AUDIT"
+      ],
+      "primary_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC11885706/"
+      ],
+      "falsifier": "Repeated recordings from one individual do not provide independent samples.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-12",
+      "domain": "CETACEAN",
+      "key": "PLAYBACK_CAUSAL_RESPONSE_APPROVAL",
+      "requires": [
+        "PLAYBACK_DESIGN",
+        "WELFARE_APPROVAL"
+      ],
+      "produces": [
+        "PLAYBACK_CLAIM_LIMIT"
+      ],
+      "primary_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC3740840/"
+      ],
+      "falsifier": "Observational matching alone cannot prove playback causation; do not stimulate wildlife autonomously.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-13",
+      "domain": "CETACEAN",
+      "key": "IMITATION_VS_SOURCE_IDENTITY",
+      "requires": [
+        "INDIVIDUAL_SIGNATURE_HYPOTHESIS",
+        "COPY_EVIDENCE"
+      ],
+      "produces": [
+        "CALLER_IDENTITY_LIMIT"
+      ],
+      "primary_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC1472465/",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC3740840/"
+      ],
+      "falsifier": "One animal can imitate another's learned signature whistle.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-14",
+      "domain": "ETHOLOGY",
+      "key": "TAXONOMIC_DETECTION_VS_TRUE_SPECIES",
+      "requires": [
+        "SPECIES_CANDIDATE",
+        "SENSOR_COVERAGE"
+      ],
+      "produces": [
+        "TAXON_IDENTIFICATION_REVIEW"
+      ],
+      "primary_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC11885706/"
+      ],
+      "falsifier": "Model confidence and taxon name are not verified species presence.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-15",
+      "domain": "ETHOLOGY",
+      "key": "PRIMATE_TACTICAL_DECEPTION_GUARD",
+      "requires": [
+        "OBSERVED_ACTION",
+        "BEHAVIORAL_CONTEXT"
+      ],
+      "produces": [
+        "DECEPTION_HYPOTHESIS_GUARD"
+      ],
+      "primary_source_urls": [
+        "https://www.cambridge.org/core/journals/behavioral-and-brain-sciences/article/abs/tactical-deception-in-primates/100E1747829535A834C21FB6D361D00C"
+      ],
+      "falsifier": "An unusual action is not proof of intentional deception or a theory of mind.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-16",
+      "domain": "ETHOLOGY",
+      "key": "ALARM_CALL_FALSE_POSITIVE_CONTROL",
+      "requires": [
+        "ALARM_SIGNAL",
+        "ECOLOGICAL_CONTEXT"
+      ],
+      "produces": [
+        "ALARM_FUNCTION_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC11885706/",
+        "https://www.cambridge.org/core/journals/behavioral-and-brain-sciences/article/abs/tactical-deception-in-primates/100E1747829535A834C21FB6D361D00C"
+      ],
+      "falsifier": "Predator calls, playback and equipment can be confused; controls remain necessary.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-17",
+      "domain": "ETHOLOGY",
+      "key": "ANIMAL_SIGNAL_IMPERSONATION_GUARD",
+      "requires": [
+        "CALL_PATTERN",
+        "INDIVIDUAL_SOURCE"
+      ],
+      "produces": [
+        "IMPERSONATION_EVIDENCE_LIMIT"
+      ],
+      "primary_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC1472465/",
+        "https://www.cambridge.org/core/journals/behavioral-and-brain-sciences/article/abs/tactical-deception-in-primates/100E1747829535A834C21FB6D361D00C"
+      ],
+      "falsifier": "Matching signals cannot prove liar identity or intent.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-18",
+      "domain": "ETHOLOGY",
+      "key": "MULTIMODAL_ETHOGRAM_STATE",
+      "requires": [
+        "AUDIO_OBSERVATION",
+        "VISUAL_BEHAVIOR"
+      ],
+      "produces": [
+        "ETHOGRAM_CONTEXT_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC11885706/"
+      ],
+      "falsifier": "Sound-only observation cannot silently become full behavioral state.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-19",
+      "domain": "CONSERVATION",
+      "key": "GBIF_SENSITIVE_LOCATION_WITHHOLDING",
+      "requires": [
+        "SENSITIVITY_CATEGORY",
+        "SHARE_REQUEST"
+      ],
+      "produces": [
+        "LOCATION_RELEASE_GUARD"
+      ],
+      "primary_source_urls": [
+        "https://docs.gbif.org/sensitive-species-best-practices/master/en/"
+      ],
+      "falsifier": "A sensitive occurrence must not be exposed through reverse joins or seemingly harmless metadata.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-20",
+      "domain": "CONSERVATION",
+      "key": "SURVEY_NONDETECTION_NOT_ABSENCE",
+      "requires": [
+        "SURVEY_COVERAGE",
+        "NO_SIGNAL"
+      ],
+      "produces": [
+        "NONDETECTION_CAUSAL_BOUNDARY"
+      ],
+      "primary_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC11885706/",
+        "https://docs.gbif.org/sensitive-species-best-practices/master/en/"
+      ],
+      "falsifier": "A quiet detector does not prove extinction or absence.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-21",
+      "domain": "CONSERVATION",
+      "key": "ECOLOGICAL_FALSE_POSITIVE_CROSSCHECK",
+      "requires": [
+        "TAXON_IDENTIFICATION_REVIEW",
+        "INDEPENDENT_ORACLE"
+      ],
+      "produces": [
+        "SPECIES_DETECTION_FALSIFIER"
+      ],
+      "primary_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC11885706/"
+      ],
+      "falsifier": "Model-only detector agrees with its own training labels but is not independently validated.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-22",
+      "domain": "CONSERVATION",
+      "key": "HABITAT_RISK_DATA_MINIMIZATION",
+      "requires": [
+        "LOCATION_RELEASE_GUARD",
+        "ACCESS_POLICY"
+      ],
+      "produces": [
+        "PRIVACY_SAFETY_DECISION"
+      ],
+      "primary_source_urls": [
+        "https://docs.gbif.org/sensitive-species-best-practices/master/en/"
+      ],
+      "falsifier": "Generalization must not leave precise nested location fields or coordinates in outputs.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-23",
+      "domain": "CONSERVATION",
+      "key": "ENDANGERED_STATUS_VERSION_GATE",
+      "requires": [
+        "IUCN_STATUS_RECORD",
+        "SOURCE_VERSION"
+      ],
+      "produces": [
+        "STATUS_REVIEW_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://docs.gbif.org/sensitive-species-best-practices/master/en/"
+      ],
+      "falsifier": "Endangered status cannot be inferred solely from species label or stale source version.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-24",
+      "domain": "EVOLUTION",
+      "key": "STRATIGRAPHIC_FOSSIL_AGE_BRACKET",
+      "requires": [
+        "GEOLOGICAL_LAYERS",
+        "AGE_CALIBRATION"
+      ],
+      "produces": [
+        "FOSSIL_INTERVAL_BOUND"
+      ],
+      "primary_source_urls": [
+        "https://humanorigins.si.edu/evidence/dating"
+      ],
+      "falsifier": "Age range of enclosing strata is not exact fossil formation date.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-25",
+      "domain": "EVOLUTION",
+      "key": "FITCH_MINIMUM_CHANGE_CHARACTER",
+      "requires": [
+        "TREE_TOPOLOGY",
+        "TIP_CHARACTER_STATES"
+      ],
+      "produces": [
+        "ANCESTRAL_CHARACTER_CANDIDATES"
+      ],
+      "primary_source_urls": [
+        "https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276"
+      ],
+      "falsifier": "Parsimony conditional on a given topology is not the true evolutionary history.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-26",
+      "domain": "EVOLUTION",
+      "key": "CONVERGENT_TRAIT_ALTERNATIVE",
+      "requires": [
+        "ANCESTRAL_CHARACTER_CANDIDATES",
+        "MORPHOLOGY_CONTEXT"
+      ],
+      "produces": [
+        "HOMOPLASY_CHALLENGE"
+      ],
+      "primary_source_urls": [
+        "https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276"
+      ],
+      "falsifier": "Identical features can arise independently; do not call this proven ancestry.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-27",
+      "domain": "EVOLUTION",
+      "key": "RADIOMETRIC_ERROR_PROPAGATION",
+      "requires": [
+        "AGE_CALIBRATION",
+        "UNCERTAINTY_PROFILE"
+      ],
+      "produces": [
+        "AGE_CONSISTENCY_CHECK"
+      ],
+      "primary_source_urls": [
+        "https://humanorigins.si.edu/evidence/dating"
+      ],
+      "falsifier": "Measurement uncertainty and reworking can defeat a falsely precise fossil age.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-28",
+      "domain": "EVOLUTION",
+      "key": "DINOSAUR_PALEOECOLOGY_INVERSION",
+      "requires": [
+        "FOSSIL_INTERVAL_BOUND",
+        "ENVIRONMENT_CONTEXT"
+      ],
+      "produces": [
+        "PALEOENVIRONMENT_CANDIDATE"
+      ],
+      "primary_source_urls": [
+        "https://humanorigins.si.edu/evidence/dating"
+      ],
+      "falsifier": "Stratigraphic position plus modern animal analogies do not prove extinct behavior.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-29",
+      "domain": "QUANTUM",
+      "key": "QUANTUM_SENSOR_CAPABILITY_NOT_BRANDING",
+      "requires": [
+        "SENSOR_SPECIFICATION",
+        "MEASUREMENT_CHAIN"
+      ],
+      "produces": [
+        "QUANTUM_REQUIREMENT_AUDIT"
+      ],
+      "primary_source_urls": [
+        "https://www.nist.gov/quantum-information-science/quantum-sensing-explained"
+      ],
+      "falsifier": "Marketing claims of quantum advantage require device-specific demonstrated quantum observables.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-30",
+      "domain": "QUANTUM",
+      "key": "CLASSICAL_CONTROL_BEFORE_QUANTUM_GAIN",
+      "requires": [
+        "QUANTUM_REQUIREMENT_AUDIT",
+        "CLASSICAL_BASELINE"
+      ],
+      "produces": [
+        "SENSITIVITY_DIFFERENTIAL_PLAN"
+      ],
+      "primary_source_urls": [
+        "https://www.nist.gov/quantum-information-science/quantum-sensing-explained"
+      ],
+      "falsifier": "A lower noise number without matched classical control and uncertainties is no quantum proof.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-31",
+      "domain": "QUANTUM",
+      "key": "SINGLE_PHOTON_FALSE_ALARM_GUARD",
+      "requires": [
+        "PHOTON_COUNT",
+        "NOISE_MODEL"
+      ],
+      "produces": [
+        "PHOTON_EVENT_FALSIFIER"
+      ],
+      "primary_source_urls": [
+        "https://www.nist.gov/quantum-information-science/quantum-sensing-explained"
+      ],
+      "falsifier": "Noise and detector dark counts can masquerade as photon detections.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-32",
+      "domain": "SPORT",
+      "key": "THREE_POINT_EXPECTED_POINTS_ANALOGY",
+      "requires": [
+        "TWO_POINT_RATE",
+        "THREE_POINT_RATE"
+      ],
+      "produces": [
+        "THREE_POINT_VALUE_MODEL"
+      ],
+      "primary_source_urls": [
+        "https://jr.nba.com/3-point-shot/"
+      ],
+      "falsifier": "A simple points expectation does not capture fouls, defenders, players or actual game strategy.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-33",
+      "domain": "SPORT",
+      "key": "SHOT_RESULT_VS_INTENT_REDUCTION",
+      "requires": [
+        "THREE_POINT_VALUE_MODEL",
+        "GAME_CONTEXT"
+      ],
+      "produces": [
+        "SPORT_METHOD_TRANSFER_LIMIT"
+      ],
+      "primary_source_urls": [
+        "https://jr.nba.com/3-point-shot/"
+      ],
+      "falsifier": "A successful shot is not proof of the player's intent or general method effectiveness.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-34",
+      "domain": "CRYPTO",
+      "key": "CHALKBOARD_REPETITION_HASH_CHAIN",
+      "requires": [
+        "REPETITION_PAYLOAD",
+        "ORDERED_INDEX"
+      ],
+      "produces": [
+        "REPEAT_CHAIN_DIGEST"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "Repeated checksum digest changes do not authenticate who wrote the text.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-35",
+      "domain": "CRYPTO",
+      "key": "DUPLICATED_SIGNAL_NONINDEPENDENCE",
+      "requires": [
+        "REPEAT_CHAIN_DIGEST",
+        "SOURCE_LINEAGE"
+      ],
+      "produces": [
+        "REPEATED_SOURCE_WARNING"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "A hundred repeated copies from one source are not 100 independent witnesses.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-36",
+      "domain": "META",
+      "key": "METHOD_AS_ATOM_TYPED_INTERFACE",
+      "requires": [
+        "METHOD_CONTRACT",
+        "METHOD_SOURCE"
+      ],
+      "produces": [
+        "METHOD_ATOM_REVIEW"
+      ],
+      "primary_source_urls": [
+        "https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276",
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "A method contract can be observed while underlying science remains unexecuted.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-37",
+      "domain": "META",
+      "key": "CROSS_SPECIES_TRANSFER_FALSIFIER",
+      "requires": [
+        "CALLER_IDENTITY_LIMIT",
+        "ALARM_FUNCTION_HYPOTHESIS"
+      ],
+      "produces": [
+        "CROSS_SPECIES_ASSUMPTION_GUARD"
+      ],
+      "primary_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC1472465/",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC11885706/"
+      ],
+      "falsifier": "Transfer from cetacean calls to primate alarms needs species-specific validation.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-38",
+      "domain": "META",
+      "key": "CROSS_DOMAIN_ANALOGY_PERMISSION",
+      "requires": [
+        "ANALOGY_WITH_LIMITATIONS",
+        "METHOD_ATOM_REVIEW"
+      ],
+      "produces": [
+        "ANALOGY_BOUNDARY_AUDIT"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "Fiction or analogy must not become a source-owned factual technique.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-39",
+      "domain": "META",
+      "key": "SPACE_OF_METHODS_COMPOSITION",
+      "requires": [
+        "METHOD_ATOM_REVIEW",
+        "COMPARABILITY_RULE"
+      ],
+      "produces": [
+        "METHOD_RELATION_CANDIDATES"
+      ],
+      "primary_source_urls": [
+        "https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276",
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "Shared words like rhythm/time do not imply equivalent inputs or evidence.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-40",
+      "domain": "META",
+      "key": "METHOD_MIRROR_NEGATIVE_CONTROL",
+      "requires": [
+        "METHOD_RELATION_CANDIDATES",
+        "INDEPENDENT_FALSIFIER"
+      ],
+      "produces": [
+        "MIRRORED_METHOD_REVIEW"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "Inverse candidate not observed; absent signal or claim does not prove opposite.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-41",
+      "domain": "META",
+      "key": "SOURCE_VERSION_AND_PROVENANCE_LOCK",
+      "requires": [
+        "MIRRORED_METHOD_REVIEW",
+        "SOURCE_LINEAGE"
+      ],
+      "produces": [
+        "PROVENANCE_AUDIT"
+      ],
+      "primary_source_urls": [
+        "https://docs.gbif.org/sensitive-species-best-practices/master/en/"
+      ],
+      "falsifier": "Shared original evidence and stale source versions cannot be counted as independent validation.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-42",
+      "domain": "META",
+      "key": "SENSITIVE_OUTPUT_GATE",
+      "requires": [
+        "LOCATION_RELEASE_GUARD",
+        "PROVENANCE_AUDIT"
+      ],
+      "produces": [
+        "RELEASE_PERMISSION_REVIEW"
+      ],
+      "primary_source_urls": [
+        "https://docs.gbif.org/sensitive-species-best-practices/master/en/"
+      ],
+      "falsifier": "Exact endangered habitat coordinates or reconstructed locations must not be publicly released.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-43",
+      "domain": "META",
+      "key": "NO_GAIN_EXPLORATION_STOP",
+      "requires": [
+        "METHOD_RELATION_CANDIDATES",
+        "EXPERIMENT_RECEIPT"
+      ],
+      "produces": [
+        "BOUNDED_METHOD_DECISION"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41550-021-01508-8"
+      ],
+      "falsifier": "No new evidence, no control and no changed source should stop recursive method exploration.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-44",
+      "domain": "ETHOLOGY",
+      "key": "ELEPHANT_NAME_LIKE_ADDRESSEE_CONTROL",
+      "requires": [
+        "ELEPHANT_CALL",
+        "RECEIVER_IDENTITY"
+      ],
+      "produces": [
+        "ADDRESSEE_SIGNAL_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41559-024-02420-w"
+      ],
+      "falsifier": "Receiver-specific acoustic structure and differential playback response do not establish full elephant language or unique real-time addressee identity.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-45",
+      "domain": "ETHOLOGY",
+      "key": "HONEYBEE_WAGGLE_SOCIAL_LEARNING",
+      "requires": [
+        "WAGGLE_DIRECTION",
+        "SOCIAL_LEARNING_CONDITION"
+      ],
+      "produces": [
+        "DANCE_SPATIAL_SIGNAL_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/36893231/"
+      ],
+      "falsifier": "Dance angle and resource distance can be affected by learning, optics and context; no autonomous hive manipulation or field claim.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-46",
+      "domain": "ETHOLOGY",
+      "key": "FRUIT_BAT_CONTEXT_AND_ADDRESSEE",
+      "requires": [
+        "BAT_CALL",
+        "CALLER_RECEIVER_CONTEXT"
+      ],
+      "produces": [
+        "BAT_ADDRESSEE_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/srep39419"
+      ],
+      "falsifier": "Caller, addressee and behavior correlations require specific controlled observations, not inferred human speech.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-47",
+      "domain": "ETHOLOGY",
+      "key": "CONURE_CONTACT_CALL_IMITATION",
+      "requires": [
+        "PARROT_CONTACT_CALLS",
+        "IMITATION_CONTEXT"
+      ],
+      "produces": [
+        "PARROT_ADDRESSING_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0049747"
+      ],
+      "falsifier": "Imitation and preferential responses do not authenticate vocal emitter identity or species-independent address semantics.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-48",
+      "domain": "ETHOLOGY",
+      "key": "CUTTLEFISH_CHROMATOPHORE_CONTRAST",
+      "requires": [
+        "VISUAL_PATTERN",
+        "BACKGROUND_CONTRAST"
+      ],
+      "produces": [
+        "CAMOUFLAGE_SENSOR_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/S0042698905004943"
+      ],
+      "falsifier": "Visual matching and contrast response are not proof of conscious deceptive intent or color perception beyond tested conditions.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    }
+  ]
+}

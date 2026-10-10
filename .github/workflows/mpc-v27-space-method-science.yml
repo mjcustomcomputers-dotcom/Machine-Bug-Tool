@@ -1,0 +1,63 @@
+name: MPC V27 Space Animal Method Science
+
+on:
+  push:
+    branches:
+      - feature/mpc-space-animal-method-atlas-v27
+  pull_request:
+    branches:
+      - feature/mpc-temporal-auth-meta-router-v26
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-v27-space-of-methods-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  method-science:
+    name: V27 source-bound scientific methods and complete build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out immutable source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Verify V26 parent and additive changes
+        shell: bash
+        run: |
+          git rev-parse HEAD
+          git merge-base --is-ancestor 306632b081c514120cfaa0c5c23ab43cf05010a4 HEAD
+          git diff --name-status 306632b081c514120cfaa0c5c23ab43cf05010a4 HEAD
+          git status --short
+
+      - name: Use pinned Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+
+      - name: Activate pinned pnpm
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm --version
+
+      - name: Frozen dependency setup
+        run: pnpm install --frozen-lockfile
+
+      - name: Focused V27 and V26 scientific method regressions
+        run: |
+          node --test tests/mpc-v27-space-methods.test.mjs tests/mpc-v26-meta-router.test.mjs
+          node research/run-mpc-v27-space-of-methods.mjs
+
+      - name: All original and new MPC tests
+        run: node --test
+
+      - name: Complete MPC production source build
+        run: pnpm run build
