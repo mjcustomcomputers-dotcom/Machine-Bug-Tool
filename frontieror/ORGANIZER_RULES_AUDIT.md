@@ -1,6 +1,6 @@
 # FrontierOR Main — published rule-by-rule contract audit
 
-**Audit performed:** 2026-10-10. **Testing-stage only.**
+**Audit performed and CI refreshed:** 2026-10-10. **Testing-stage only.**\n**Latest host run:** [38079464204](https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/actions/runs/38079464204), source commit `5a5422da70773edc846e6b769493a517c51fe90c`, **SUCCESS, 28/28 tests**.\n**Latest ZIP SHA-256:** `f8c93753298cd9c572ba50283139bb0c4d1d2d88b0ebf655cd422c10510ab6a9` (GitHub run artifact ID `11679916300`).
 Sources: Organizer's own
 [Overview](https://frontieror-challenge.com/docs),
 [Problems](https://frontieror-challenge.com/docs/problems),
@@ -35,8 +35,8 @@ and the six published problem pages.
 | One ZIP/TAR/TAR.GZ <= 4 MB | `PASS_HOSTED` | `frontieror/build_submission.py` generates a small ZIP and checks size. |
 | Current stage slug folder / `solve.py` for every problem | `PASS_HOSTED` | Six exact Testing-stage slugs: barnhart2000, bodur2017, cordeau2006, fischetti1998, hoffman1993, nagy2015. |
 | No symlinks, hardlinks, absolute paths, unsafe `..`, backslashes, >10,000 entries or 256MB inflated | `PASS_HOSTED_BY_CONSTRUCTION` | Archive contains exactly six filenames `<slug>/solve.py`, all stored as text by Python ZipFile; its contents and hashes are read back in CI. |
-| Python entrypoint receives `--problem --instance --output --time-limit` | `PASS_STATIC`, `CI_CLI_TEST_PENDING` | Every solver has a CLI main. New `tests/test_official_cli.py` actually executes all six entrypoints. |
-| Output is JSON at requested `--output` and <= 16 MB | `PASS_STATIC`, `CI_CLI_TEST_PENDING` | Each main writes JSON, new CLI tests check shape and size. Whether larger organizer fixtures exceed the size limit is unknown. |
+| Python entrypoint receives `--problem --instance --output --time-limit` | `PASS_HOSTED_CLI` | Every solver has a CLI main. New `tests/test_official_cli.py` actually executes all six entrypoints. |
+| Output is JSON at requested `--output` and <= 16 MB | `PASS_HOSTED_CLI` | Each main writes JSON, new CLI tests check shape and size. Whether larger organizer fixtures exceed the size limit is unknown. |
 | Proper `objective_value` and all schema fields | `PASS_SYNTHETIC` / `UNKNOWN_OFFICIAL` | Independent fixtures verify published fields. Organizer's exact `solution_json_schema` is available ONLY through authenticated API/downloaded stage files. |
 | Exact capacities, scheduling, precedence, path-flow, routing and scenarios checked | `PASS_SYNTHETIC` / `UNKNOWN_OFFICIAL` | Mathematical validations in test modules. The formal checker is private. |
 | 2 CPU, 4 GB, no network, read-only solver folder | `PARTIAL` | Github uses Python 3.14 matching organizer libraries, but resource/container enforcement is not identical. `official_test_onecommand.sh` prefers the organizer Docker sandbox when the daemon is available. |
@@ -56,7 +56,7 @@ and the six published problem pages.
 
 ## Explicit outstanding gates (do not promote away)
 
-1. CI CLI subprocess test across all six versions; check run receipt once complete.
+1. CI CLI subprocess test complete: `test_official_cli.OrganizerCommandContractTests.test_six_real_cli_entrypoints` PASSED on run `38079464204` (28/28 total).
 2. Authenticated organizer `GET /me` verifies new Main team and active Testing stage.
 3. Authenticated problem `solution_json_schema` and organizer actual public-instance files; `uv run frontieror test --docker` when available. These are accessible in the user's existing Codespaces only.
 4. Actual official scoring upload, which consumes a team submission credit, and private feasibility receipt. The organizer's hidden checker is unavailable to GitHub Actions.
@@ -66,6 +66,6 @@ Submission is a consequential, rate-limited action. The one-command bridge delib
 
 ## Submission ZIP identity
 
-The last verified all-six ZIP artifact was generated from branch commit `d533b591627ab5539ccbbfaf3fabc8d6ffc67fab` and attached to [GitHub run 38078780485](https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/actions/runs/38078780485). The current head may differ from that archive when audit improvements are committed. Always use the latest successful CI ZIP with a manifest hash and the corresponding authenticated public test result; never assume an older archive represents new code.
+The last verified all-six ZIP artifact was generated from branch commit `5a5422da70773edc846e6b769493a517c51fe90c` and attached to [GitHub run 38079464204](https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/actions/runs/38079464204). The current head may differ from that archive when audit improvements are committed. Always use the latest successful CI ZIP with a manifest hash and the corresponding authenticated public test result; never assume an older archive represents new code.
 
 **Disposition:** STRUCTURAL HOSTED PASS; ORGANIZER ACCEPTANCE NOT VERIFIED.
