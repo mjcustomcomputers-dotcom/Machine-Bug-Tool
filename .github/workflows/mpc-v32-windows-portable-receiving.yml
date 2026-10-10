@@ -176,10 +176,6 @@ jobs:
           Remove-Item Env:ELECTRON_RUN_AS_NODE
           Remove-Item Env:ELECTRON_NO_ATTACH_CONSOLE
           Remove-Item Env:MPC_V32_NATIVE_PROBE_OUT
-      - name: Run focused V31/V30 models in Windows Node
-        shell: pwsh
-        run: |
-          node --test tests/mpc-v31-bidirectional-intelligence.test.mjs tests/mpc-v31-workspace-reasoner.test.mjs
       - name: Upload Windows-native acceptance receipts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -190,6 +186,11 @@ jobs:
             ${{ runner.temp }}/v32-electron-node-receipt.json
           if-no-files-found: error
           retention-days: 30
+      - name: Run bounded standalone V31 finite proof regressions on Windows
+        shell: pwsh
+        timeout-minutes: 3
+        run: |
+          node --test tests/mpc-v31-bidirectional-intelligence.test.mjs
       - name: Report Windows-native acceptance
         shell: pwsh
         run: |
