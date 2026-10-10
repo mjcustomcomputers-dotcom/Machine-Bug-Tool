@@ -260,24 +260,27 @@ def sparse_milp(p, deadline):
         return None
     m, n, costs, columns, _, d, lo, hi = p
     disabled=dominated_rotations(p)
+    active=[j for j in range(n) if j not in disabled]
+    if not active:
+        return None
     rr, cc = [], []
-    for j, rows in enumerate(columns):
-        for r in rows:
+    for z,j in enumerate(active):
+        for r in columns[j]:
             rr.append(r)
-            cc.append(j)
+            cc.append(z)
     entries = np.ones(len(rr), dtype=float)
-    A = coo_matrix((entries, (rr, cc)), shape=(m, n)).tocsr()
+    A = coo_matrix((entries, (rr, cc)), shape=(m, len(active))).tocsr()
     lhs = [1.0] * m
     rhs = [1.0] * m
     if d:
-        A = vstack([A, csr_matrix(np.asarray(d, dtype=float))], format="csr")
+        A = vstack([A, csr_matrix(np.asarray([[row[j] for j in active] for row in d], dtype=float))], format="csr")
         lhs += lo
         rhs += hi
     try:
         result = milp(
-            c=np.asarray(costs),
-            integrality=np.ones(n, dtype=np.int32),
-            bounds=Bounds(np.zeros(n), np.asarray([0.0 if j in disabled else 1.0 for j in range(n)])),
+            c=np.asarray([costs[j] for j in active]),
+            integrality=np.ones(len(active), dtype=np.int32),
+            bounds=Bounds(np.zeros(len(active)), np.ones(len(active))),
             constraints=LinearConstraint(A, np.asarray(lhs), np.asarray(rhs)),
             options={"time_limit": max(0.1, deadline - time.monotonic() - 0.15),
                      "mip_rel_gap": 0.005, "presolve": True}
@@ -286,7 +289,7 @@ def sparse_milp(p, deadline):
         return None
     if result.x is None:
         return None
-    selected = [j for j, x in enumerate(result.x) if x > 0.5]
+    selected = [active[z] for z, x in enumerate(result.x) if x > 0.5]
     return selected if verify(p, selected) else None
 
 
