@@ -32,7 +32,7 @@ const atom=(id,dimension,state='SYNTHETIC',src='fixture:source',version='r1')=>(
 const route=(domain,atoms=[],extra={})=>({...scope,domain,world:'SYNTHETIC',
  atoms,max_methods:8,...extra});
 test('V27 atlas is noncanonical and 43 hooks retain real sources, falsifiers and domains',()=>{
- assert.equal(frontier.hooks.length,43);
+ assert.equal(frontier.hooks.length,48);
  assert.equal(frontier.original_evaluators,24);
  assert.equal(frontier.original_method_atlas_candidates,239);
  assert.equal(frontier.canonical_promotion,false);
@@ -43,6 +43,21 @@ test('V27 atlas is noncanonical and 43 hooks retain real sources, falsifiers and
  h.primary_source_urls.every(x=>x.startsWith('https://'))&&h.falsifier.length>12));
  assert.equal(frontier.hooks.filter(x=>x.domain==='META').length,8);
 });
+test('species-specific rare communication hooks are evidence-only and do not transfer species identity',()=>{
+ const extra=frontier.hooks.filter(h=>Number(h.id.slice(-2))>=44);
+ assert.equal(extra.length,5);
+ assert.ok(extra.every(h=>h.domain==='ETHOLOGY'));
+ assert.ok(extra.every(h=>h.implementation_state==='RESEARCH_METHOD_CONTRACT_NOT_EXECUTED'));
+ assert.ok(extra.every(h=>h.primary_source_urls.every(x=>x.startsWith('https://'))));
+ const r=routeSpaceOfMethodsV27(route('ETHOLOGY',[
+  atom('elephant','ELEPHANT_CALL'),atom('receiver','RECEIVER_IDENTITY')]));
+ assert.equal(r.domain_applicable_contracts,18);
+ assert.equal(r.selected_methods.find(x=>x.id==='RH-V27-44').state,
+  'RESEARCH_APPLICABLE_NOT_EXECUTED');
+ assert.equal(r.cross_species_semantics_inferred,false);
+ assert.equal(r.real_science_methods_executed,0);
+});
+
 test('symbolic alternation retains adjacent dependence against seeded permutations',()=>{
  const s=Array.from({length:32},(_,i)=>i%2?'B':'A');
  const r=compareSymbolicCallSequenceV27(seq(s));
@@ -214,7 +229,7 @@ test('space router uses domain-limited source-bound candidate selection, no tran
  const r=routeSpaceOfMethodsV27(route('CETACEAN',[
  atom('seq','SYMBOLIC_SEQUENCE'),atom('null','NULL_MODEL')]));
  assert.equal(r.domain,'CETACEAN');
- assert.equal(r.method_registry_total,43);
+ assert.equal(r.method_registry_total,48);
  assert.ok(r.domain_applicable_contracts<43);
  const m=r.selected_methods.find(x=>x.id==='RH-V27-10');
  assert.equal(m.state,'RESEARCH_APPLICABLE_NOT_EXECUTED');
