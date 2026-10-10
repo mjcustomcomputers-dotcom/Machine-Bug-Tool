@@ -1,0 +1,191 @@
+name: MPC V32 Exact Windows Portable Receiving
+
+on:
+  push:
+    branches:
+      - feature/mpc-v32-windows-portable-receiving
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-v32-windows-portable-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package:
+    name: Full source acceptance and exact Windows portable build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    outputs:
+      source_sha: ${{ steps.source.outputs.sha }}
+      artifact_url: ${{ steps.portable.outputs.artifact-url }}
+      artifact_digest: ${{ steps.portable.outputs.artifact-digest }}
+    steps:
+      - name: Check out controlling exact source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Pin source and verify exact V31 parent
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha="$(git rev-parse HEAD)"
+          git merge-base --is-ancestor 08216cdc968b3d0688e615d3f220905f7feede55 HEAD
+          test -z "$(git status --porcelain)"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          git diff --name-status 08216cdc968b3d0688e615d3f220905f7feede55 HEAD
+      - name: Install pinned Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Activate pinned pnpm
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm --version
+      - name: Frozen dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Exact byte-verifier negative controls and V31 method replay
+        shell: bash
+        run: |
+          node --test tests/mpc-v32-windows-portable-verification.test.mjs tests/mpc-v31-bidirectional-intelligence.test.mjs tests/mpc-v31-workspace-reasoner.test.mjs
+      - name: Entire MPC repository regression
+        run: node --test
+      - name: Full production source build
+        run: pnpm run build
+      - name: Produce existing Windows x64 portable ZIP and source manifest
+        shell: bash
+        timeout-minutes: 18
+        run: |
+          set -euo pipefail
+          pnpm run desktop:package:windows --output-dir "$RUNNER_TEMP/v32-windows" > "$RUNNER_TEMP/v32-package.log"
+          test -s "$RUNNER_TEMP/v32-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip"
+          test -s "$RUNNER_TEMP/v32-windows/MPC-Workspace-0.1.0-windows-x64-build-receipt.json"
+          sha256sum --check "$RUNNER_TEMP/v32-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip.sha256"
+        working-directory: ${{ github.workspace }}
+      - name: Verify all packaged ASAR files, external renderer, payload bytes and source
+        shell: bash
+        run: |
+          node scripts/verify-v32-windows-portable.mjs \
+            --portable "$RUNNER_TEMP/v32-windows/MPC-Workspace-win32-x64" \
+            --receipt "$RUNNER_TEMP/v32-windows/MPC-Workspace-0.1.0-windows-x64-build-receipt.json" \
+            --zip "$RUNNER_TEMP/v32-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip" \
+            --source-commit "${{ steps.source.outputs.sha }}" \
+            --output "$RUNNER_TEMP/v32-windows/MPC-V32-Package-Verification.json"
+      - name: Upload receivable, source-verified Windows ZIP and receipts
+        id: portable
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: MPC-V32-Windows-x64-${{ steps.source.outputs.sha }}
+          path: |
+            ${{ runner.temp }}/v32-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip
+            ${{ runner.temp }}/v32-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip.sha256
+            ${{ runner.temp }}/v32-windows/MPC-Workspace-0.1.0-windows-x64-build-receipt.json
+            ${{ runner.temp }}/v32-windows/MPC-V32-Package-Verification.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - name: Report artifact and immutable build identity
+        shell: bash
+        run: |
+          {
+            echo "## MPC V32 Windows Portable"
+            echo
+            echo "[Windows ZIP and receipts](${{ steps.portable.outputs.artifact-url }})"
+            echo
+            echo "- Source commit: \`${{ steps.source.outputs.sha }}\`"
+            echo "- Artifact digest: \`${{ steps.portable.outputs.artifact-digest }}\`"
+            echo "- Receipt: source-exact ASAR, Windows binary and external renderer verified"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  windows_native:
+    name: Windows binary and packaged reasoning receiving
+    runs-on: windows-2022
+    needs: package
+    timeout-minutes: 40
+    steps:
+      - name: Check out the same source commit as the portable build
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ needs.package.outputs.source_sha }}
+          fetch-depth: 0
+      - name: Set up Windows Node 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Restore locked verifier dependencies
+        shell: pwsh
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm install --frozen-lockfile
+      - name: Download exact same-run Windows portable bundle
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: MPC-V32-Windows-x64-${{ needs.package.outputs.source_sha }}
+          path: ${{ runner.temp }}/v32-delivery
+      - name: Verify ZIP checksum and unpack without changing deliverable
+        shell: pwsh
+        run: |
+          $delivery = Join-Path $env:RUNNER_TEMP 'v32-delivery'
+          $zip = Join-Path $delivery 'MPC-Workspace-0.1.0-windows-x64-portable.zip'
+          $checksum = Join-Path $delivery 'MPC-Workspace-0.1.0-windows-x64-portable.zip.sha256'
+          $expected = ((Get-Content -LiteralPath $checksum -Raw).Trim() -split '\s+')[0]
+          $actual = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($expected -ne $actual) { throw 'MPC_V32_WINDOWS_ZIP_DIGEST_MISMATCH' }
+          Expand-Archive -LiteralPath $zip -DestinationPath (Join-Path $env:RUNNER_TEMP 'v32-unpacked') -Force
+      - name: Verify Windows extracted source exact bytes against Linux build
+        shell: pwsh
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP 'v32-unpacked/MPC-Workspace-win32-x64'
+          $delivery = Join-Path $env:RUNNER_TEMP 'v32-delivery'
+          node scripts/verify-v32-windows-portable.mjs `
+            --portable "$root" `
+            --receipt (Join-Path $delivery 'MPC-Workspace-0.1.0-windows-x64-build-receipt.json') `
+            --zip (Join-Path $delivery 'MPC-Workspace-0.1.0-windows-x64-portable.zip') `
+            --source-commit "${{ needs.package.outputs.source_sha }}" `
+            --output (Join-Path $env:RUNNER_TEMP 'v32-windows-byte-verification.json')
+      - name: Execute Windows portable Electron binary in native Node mode
+        shell: pwsh
+        run: |
+          $exe = Join-Path $env:RUNNER_TEMP 'v32-unpacked/MPC-Workspace-win32-x64/MPC-Workspace.exe'
+          $env:ELECTRON_RUN_AS_NODE = '1'
+          $value = & $exe --eval "process.stdout.write(JSON.stringify({platform:process.platform,electron:process.versions.electron}))"
+          if ($LASTEXITCODE -ne 0) { throw 'MPC_V32_ELECTRON_BINARY_NATIVE_EXECUTION_FAILED' }
+          $native = $value | ConvertFrom-Json
+          if ($native.platform -ne 'win32' -or [string]::IsNullOrWhiteSpace($native.electron)) {
+            throw 'MPC_V32_ELECTRON_NATIVE_RUNTIME_IDENTITY_FAILED'
+          }
+          $native | ConvertTo-Json | Set-Content -Path (Join-Path $env:RUNNER_TEMP 'v32-electron-node-receipt.json') -Encoding utf8
+          Remove-Item Env:ELECTRON_RUN_AS_NODE
+      - name: Run verified packaged V31 reasoning through real Windows local Workspace service
+        shell: pwsh
+        run: |
+          node scripts/smoke-v32-packaged-receiver.mjs `
+            --portable (Join-Path $env:RUNNER_TEMP 'v32-unpacked/MPC-Workspace-win32-x64') `
+            --source-commit "${{ needs.package.outputs.source_sha }}" `
+            --result (Join-Path $env:RUNNER_TEMP 'v32-native-receiver.json')
+      - name: Run focused V31/V30 models in Windows Node
+        shell: pwsh
+        run: |
+          node --test tests/mpc-v31-bidirectional-intelligence.test.mjs tests/mpc-v31-workspace-reasoner.test.mjs
+      - name: Upload Windows-native acceptance receipts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: MPC-V32-Windows-Native-Acceptance-${{ needs.package.outputs.source_sha }}
+          path: |
+            ${{ runner.temp }}/v32-native-receiver.json
+            ${{ runner.temp }}/v32-windows-byte-verification.json
+            ${{ runner.temp }}/v32-electron-node-receipt.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Report Windows-native acceptance
+        shell: pwsh
+        run: |
+          "## Windows Native Source Receiving" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          "Source: ${{ needs.package.outputs.source_sha }}" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          "Verified Windows package: ASAR, external renderer, Electron native runtime, and synthetic opt-in V31 source-bound review." | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
