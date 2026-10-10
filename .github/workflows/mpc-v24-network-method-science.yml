@@ -1,0 +1,63 @@
+name: MPC V24 Network Method Science
+
+on:
+  push:
+    branches:
+      - feature/mpc-network-meta-methods-v24
+  pull_request:
+    branches:
+      - feature/mpc-behavioral-meta-methods-v23
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-network-v24-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  network-method-science:
+    name: Source-bound network method tests and complete build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out exact V24 source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Verify V23 base and source-only additions
+        shell: bash
+        run: |
+          git rev-parse HEAD
+          git merge-base --is-ancestor cc6f19023fd852154f463421f6e50727419ac687 HEAD
+          git diff --name-status cc6f19023fd852154f463421f6e50727419ac687 HEAD
+          git status --short
+
+      - name: Install pinned Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+
+      - name: Activate pinned pnpm
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm --version
+
+      - name: Install frozen dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: V24 V23 and V22 synthetic regressions
+        run: |
+          node --test tests/network-method-science-v24.test.mjs tests/behavioral-meta-methods-v23.test.mjs tests/method-synergy-v22.test.mjs
+          node research/run-network-methods-v24.mjs
+
+      - name: Run full repository tests
+        run: node --test
+
+      - name: Run full build
+        run: pnpm run build
