@@ -219,6 +219,45 @@
             <div class="wide button-row"><button class="button accent" id="run-method" type="button">Acquire and evaluate</button><span class="micro-state" id="method-run-status">NOT RUN</span></div>
             <div class="wide honesty-note">JSON is treated as data. No script, connector, target or external action is invoked.</div>
           </section>
+
+          <details class="panel engineering-lab" id="engineering-lab-panel">
+            <summary>Engineering Lab — local methods (opt-in)</summary>
+            <div class="engineering-lab-body">
+              <p>Run one selected finite method on source-bound JSON. Open a project, load a synthetic example or enter your own records, then choose Run. The original evaluator workflow remains available above.</p>
+              <div class="engineering-lab-controls">
+                <label for="engineering-lab-operation">Analysis method
+                  <select id="engineering-lab-operation">
+                    <option value="MOUNTAINS">Blocks → mountains → smallest source</option>
+                    <option value="TRANSLATION">Translation &amp; independent replay</option>
+                    <option value="JAVA_EXPRESSION">Java int32 compiler check</option>
+                    <option value="CAN_FRAME">Passive CAN / CAN FD frame</option>
+                    <option value="CAN_COUNTER">CAN counter &amp; clock window</option>
+                    <option value="CAN_PROTECTION">CAN protection evidence</option>
+                    <option value="LINGUISTIC_OUTPUT">Source-bound language output</option>
+                  </select>
+                </label>
+                <button class="button" id="engineering-lab-example" type="button">Load synthetic example</button>
+              </div>
+              <label for="engineering-lab-input">Method input JSON</label>
+              <textarea id="engineering-lab-input" rows="11" spellcheck="false" aria-describedby="engineering-lab-guidance" placeholder="Select a method, load a sample, or paste the method's source-owned JSON input."></textarea>
+              <p id="engineering-lab-guidance" class="micro-state">Read-only local calculation · explicit Run · 32 KiB input limit · current project only</p>
+              <div class="button-row">
+                <button class="button accent" id="engineering-lab-run" type="button">Run selected method</button>
+                <span id="engineering-lab-status" role="status" aria-live="polite">NOT RUN</span>
+              </div>
+              <h3>Engineering result</h3>
+              <pre id="engineering-lab-preview" class="engineering-lab-preview" aria-label="Compact engineering method result">Load a reviewed example or enter a source-bound JSON input.</pre>
+              <div class="button-row">
+                <button class="button" id="engineering-lab-copy" type="button" disabled>Copy result</button>
+                <button class="button" id="engineering-lab-copy-full" type="button" disabled>Copy full receipt</button>
+              </div>
+              <details class="engineering-lab-details">
+                <summary>Full source-bound receipt</summary>
+                <label for="engineering-lab-full">Complete machine-readable method result</label>
+                <textarea id="engineering-lab-full" readonly rows="15" spellcheck="false" aria-label="Complete method and independent audit receipt"></textarea>
+              </details>
+            </div>
+          </details>
           <section class="panel"><div class="search-row"><input class="grow" id="method-search" type="search" placeholder="Search method ID, name, dimension or required input"><label class="toggle-label"><input id="method-implemented-only" type="checkbox"> Implemented only</label></div><div id="methods-list" class="method-list"><div class="empty-row">Method inventory is unavailable until the local service starts.</div></div></section>
         </section>
 
