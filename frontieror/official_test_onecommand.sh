@@ -65,8 +65,15 @@ for slug in "${SLUGS[@]}"; do
 done
 
 echo
-echo "Running organizer toolkit on all six real public instances..."
-uv run frontieror test
+echo "Running organizer public instances using their own solver runner..."
+if command -v docker >/dev/null 2>&1 && timeout 12 docker info >/dev/null 2>&1; then
+  echo "Docker detected: using organizer's 2-vCPU / 4-GB isolated sandbox."
+  uv run frontieror test --docker
+else
+  echo "Docker unavailable: running native public tests (format/time checks only)."
+  echo "LIMITATION: this does NOT reproduce the exact container memory/CPU limits."
+  uv run frontieror test
+fi
 echo
-echo "FINISHED: tests ran, NO competition submission was sent."
-echo "If the toolkit reports failures, save its terminal output for solver repair."
+echo "FINISHED: public tests ran; NO competition submission was sent."
+echo "Organizer's private feasibility checker and private score remain unverified."
