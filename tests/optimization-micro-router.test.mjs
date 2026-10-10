@@ -23,7 +23,10 @@ test('Official result codes select a public gate, private timeout and phase auto
  assert.deepEqual(p.priority_queue.map(x=>x.problem_id),['bodur2017','hoffman1993','nagy2015','fischetti1998','cordeau2006','barnhart2000']);
  assert.equal(p.priority_queue[0].priority,'P0_PUBLIC_GATE');
  assert.equal(p.priority_queue[1].priority,'P1_PRIVATE_FAILURE');
- assert.equal(p.priority_queue[5].priority,'P3_PRESERVE');
+ assert.equal(p.priority_queue[5].priority,'P2_QUALITY');
+ assert.equal(p.target_score,1.5);
+ assert.equal(p.priority_queue[5].target_gap,0.5);
+ assert.equal(p.priority_queue[5].reference_gap,0);
  assert.equal(p.failure_atoms.find(x=>x.problem_id==='nagy2015').failure_class,'INFEASIBLE_PHASE');
  assert.ok(p.failure_atoms.find(x=>x.problem_id==='bodur2017').method_family.includes('SPARSE_WITNESS'));
  assert.ok(p.failure_atoms.find(x=>x.problem_id==='hoffman1993').method_family.includes('ISOLATED_NATIVE_SOLVER'));
@@ -141,4 +144,19 @@ test('MPC additive tool is registered and canonical method count remains intact'
  assert.equal(status.implemented_evaluators,24);
  assert.equal(status.business_logic_registry.classifier_count,384);
  assert.equal(status.proof_gate_hosted,false);
+});
+
+test('Target score remains distinct from the official reference baseline',async()=>{
+ const q=campaign();
+ const p=await planOptimizationMicroPass(q);
+ assert.equal(p.target_score,1.5);
+ assert.equal(p.target_gap_mean,Math.round(q.problems.reduce((sum,x)=>sum+Math.max(0,1.5-x.score),0)/6*1e9)/1e9);
+ assert.equal(p.priority_queue.find(x=>x.problem_id==='barnhart2000').priority,'P2_QUALITY');
+ assert.equal(p.priority_queue.find(x=>x.problem_id==='barnhart2000').reference_gap,0);
+ const atReference={...q,target_score:1};
+ const one=await planOptimizationMicroPass(atReference);
+ assert.equal(one.priority_queue.find(x=>x.problem_id==='barnhart2000').priority,'P3_PRESERVE');
+ const achieved={...q,problems:q.problems.map(x=>({...x,score:1.6,instances:x.instances.map(i=>({...i,result:'FEASIBLE'}))}))};
+ const done=await planOptimizationMicroPass(achieved);
+ assert.ok(done.priority_queue.every(x=>x.priority==='P3_PRESERVE'));
 });
