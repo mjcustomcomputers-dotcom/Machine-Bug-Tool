@@ -1,0 +1,481 @@
+{
+  "version": "MPC_BEHAVIORAL_META_METHOD_FRONTIER_V23",
+  "identity_class": "NONCANONICAL_RESEARCH_OVERLAY",
+  "parent_source_commit": "fa36798a6c61bd8953a0d77e2eea202b82f8ea77",
+  "theory_source_urls": {
+    "comb": "https://doi.org/10.1186/1748-5908-6-42",
+    "fogg": "https://behaviordesign.stanford.edu/resources/fogg-behavior-model",
+    "bct": "https://pubmed.ncbi.nlm.nih.gov/23512568/",
+    "basic": "https://www.oecd.org/en/publications/tools-and-ethics-for-applied-behavioural-insights-the-basic-toolkit_9ea76a8f-en.html",
+    "nudge": "https://doi.org/10.1073/pnas.2107346118",
+    "oecdDark": "https://www.oecd.org/en/publications/dark-commercial-patterns_44f5e846-en.html",
+    "ftc": "https://www.ftc.gov/reports/bringing-dark-patterns-light",
+    "spin": "https://www.huthwaiteinternational.com/spin-methodology",
+    "jtbd": "https://store.hbr.org/product/know-your-customers-jobs-to-be-done/R1609D",
+    "adaptive": "https://doi.org/10.1177/002224379002700106",
+    "sdt": "https://selfdeterminationtheory.org/the-theory/",
+    "most": "https://researchmethodsresources.nih.gov/methods/additional",
+    "tidier": "https://doi.org/10.1136/bmj.g1687",
+    "sequential": "https://arxiv.org/abs/1512.04922",
+    "meta": "https://www.oecd.org/en/publications/tools-and-ethics-for-applied-behavioural-insights-the-basic-toolkit_9ea76a8f-en/full-report/component-6.html"
+  },
+  "native_evaluator_count_unchanged": 24,
+  "original_atlas_candidate_count_unchanged": 239,
+  "original_research_hook_count_unchanged": 10,
+  "original_bl_registry_unchanged": "BL32/384",
+  "no_automatic_personal_inference": true,
+  "algorithm_status": "BOUNDED_STRUCTURAL_AUDITS_ONLY_NO_BEHAVIORAL_EFFECT_ESTIMATION",
+  "target_actions": false,
+  "canonical_promotion": false,
+  "terminology": "Theories, source-backed procedures and sales frameworks are distinct: no predictive validity or sales efficacy is inferred from labels alone.",
+  "methods": [
+    {
+      "id": "RH-V23-01",
+      "key": "COM_B_BARRIER_DIAGNOSIS",
+      "name": "COM B BARRIER DIAGNOSIS",
+      "family": "BEHAVIORAL_PSYCHOLOGY",
+      "phase": "ANALYSIS",
+      "requires": [
+        "GOAL",
+        "CAPABILITY",
+        "OPPORTUNITY",
+        "MOTIVATION"
+      ],
+      "produces": [
+        "BARRIER_HYPOTHESIS"
+      ],
+      "mechanism": "Diagnose separately declared ability, opportunity and motivation; no hidden personality inference.",
+      "falsifier": "Cannot distinguish absent motivation from access barrier or has unsupported causal leap.",
+      "source_urls": [
+        "https://doi.org/10.1186/1748-5908-6-42"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0192",
+        "MHA-0193"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-02",
+      "key": "FOGG_PROMPT_FIT",
+      "name": "FOGG PROMPT FIT",
+      "family": "BEHAVIORAL_PSYCHOLOGY",
+      "phase": "ANALYSIS",
+      "requires": [
+        "GOAL",
+        "ABILITY",
+        "MOTIVATION",
+        "PROMPT"
+      ],
+      "produces": [
+        "PROMPT_FIT_HYPOTHESIS"
+      ],
+      "mechanism": "Contrast declared motivation, ability and prompt timing without assuming intent.",
+      "falsifier": "Timing or ability is unknown; claimed response does not match observed opportunity.",
+      "source_urls": [
+        "https://behaviordesign.stanford.edu/resources/fogg-behavior-model"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0192",
+        "MHA-0197"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-03",
+      "key": "BCW_FUNCTION_MAPPING",
+      "name": "BCW FUNCTION MAPPING",
+      "family": "INTERVENTION_METHOD",
+      "phase": "DESIGN",
+      "requires": [
+        "BARRIER_HYPOTHESIS",
+        "POLICY_CONSTRAINTS"
+      ],
+      "produces": [
+        "INTERVENTION_OPTIONS"
+      ],
+      "mechanism": "Map a hypothesis to an intervention function subject to context and ethical acceptability.",
+      "falsifier": "Proposed function addresses a different barrier, or infeasible policy/resource state.",
+      "source_urls": [
+        "https://doi.org/10.1186/1748-5908-6-42"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0192",
+        "MHA-0199"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-04",
+      "key": "BCT_CODEBOOK_BOUNDARY",
+      "name": "BCT CODEBOOK BOUNDARY",
+      "family": "INTERVENTION_METHOD",
+      "phase": "ANALYSIS",
+      "requires": [
+        "INTERVENTION_OPTIONS",
+        "TECHNIQUE_DESCRIPTION"
+      ],
+      "produces": [
+        "BCT_CODING_CANDIDATES"
+      ],
+      "mechanism": "Record an explicit technique description against the published BCT v1 taxonomy; do not treat named class as proof of effectiveness.",
+      "falsifier": "Insufficient operational description or multi-label ambiguity.",
+      "source_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/23512568/"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0193",
+        "MHA-0194"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-05",
+      "key": "BASIC_BEHAVIORAL_PROCESS",
+      "name": "BASIC BEHAVIORAL PROCESS",
+      "family": "BEHAVIORAL_PSYCHOLOGY",
+      "phase": "DESIGN",
+      "requires": [
+        "USER_JOURNEY",
+        "BARRIER_HYPOTHESIS"
+      ],
+      "produces": [
+        "BEHAVIORAL_DESIGN_OPTIONS"
+      ],
+      "mechanism": "Follow behaviour-analysis-strategy-intervention-change and test ethics across stages.",
+      "falsifier": "No actor journey, context mismatch, or adverse consequence ignored.",
+      "source_urls": [
+        "https://www.oecd.org/en/publications/tools-and-ethics-for-applied-behavioural-insights-the-basic-toolkit_9ea76a8f-en.html"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0131",
+        "MHA-0192"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-06",
+      "key": "NUDGE_DEFAULT_SYMMETRY",
+      "name": "NUDGE DEFAULT SYMMETRY",
+      "family": "CHOICE_ARCHITECTURE",
+      "phase": "AUDIT",
+      "requires": [
+        "CHOICE_INTERFACE",
+        "EXIT_PATH"
+      ],
+      "produces": [
+        "DEFAULT_ASYMMETRY_HYPOTHESIS"
+      ],
+      "mechanism": "Compare declared default, accept/decline path, reversibility and friction; generate review flags, not findings.",
+      "falsifier": "Preference preselection or missing exit data creates a misleading equivalence claim.",
+      "source_urls": [
+        "https://doi.org/10.1073/pnas.2107346118",
+        "https://www.oecd.org/en/publications/dark-commercial-patterns_44f5e846-en.html"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0193",
+        "MHA-0218"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-07",
+      "key": "CHOICE_DISCLOSURE_AUDIT",
+      "name": "CHOICE DISCLOSURE AUDIT",
+      "family": "CHOICE_ARCHITECTURE",
+      "phase": "AUDIT",
+      "requires": [
+        "CHOICE_INTERFACE",
+        "DISCLOSURE",
+        "EXIT_PATH"
+      ],
+      "produces": [
+        "AUTONOMY_AUDIT"
+      ],
+      "mechanism": "Check timing, prominence and path symmetry of materially important choices.",
+      "falsifier": "A late price or blocked decline contradicts a free-choice claim.",
+      "source_urls": [
+        "https://www.oecd.org/en/publications/dark-commercial-patterns_44f5e846-en.html",
+        "https://www.ftc.gov/reports/bringing-dark-patterns-light"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0093",
+        "MHA-0194"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-08",
+      "key": "DARK_PATTERN_COUNTERCHECK",
+      "name": "DARK PATTERN COUNTERCHECK",
+      "family": "CONSUMER_PROTECTION",
+      "phase": "AUDIT",
+      "requires": [
+        "AUTONOMY_AUDIT",
+        "OFFER_TERMS"
+      ],
+      "produces": [
+        "POTENTIAL_DARK_PATTERN"
+      ],
+      "mechanism": "Falsify coercive/default/scarcity/fee narratives with independent terms and exact screen versions.",
+      "falsifier": "Allegation is merely a suspicious layout without confirmed terms, actor or consumer harm.",
+      "source_urls": [
+        "https://www.ftc.gov/reports/bringing-dark-patterns-light",
+        "https://www.oecd.org/en/publications/dark-commercial-patterns_44f5e846-en.html"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0196",
+        "MHA-0216"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-09",
+      "key": "SPIN_NEEDS_DISCOVERY",
+      "name": "SPIN NEEDS DISCOVERY",
+      "family": "SALES_RESEARCH",
+      "phase": "ANALYSIS",
+      "requires": [
+        "BUYER_SITUATION",
+        "BUYER_PROBLEM",
+        "BUYER_IMPLICATION",
+        "BUYER_OUTCOME"
+      ],
+      "produces": [
+        "CUSTOMER_NEEDS_MAP"
+      ],
+      "mechanism": "Differentiate situation, problems, implications and buyer-stated payoff in a consented conversation.",
+      "falsifier": "Seller infers a need not expressed by the buyer; source attribution is missing.",
+      "source_urls": [
+        "https://www.huthwaiteinternational.com/spin-methodology"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0109",
+        "MHA-0194"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-10",
+      "key": "JTBD_PROGRESS_HYPOTHESIS",
+      "name": "JTBD PROGRESS HYPOTHESIS",
+      "family": "SALES_RESEARCH",
+      "phase": "ANALYSIS",
+      "requires": [
+        "CUSTOMER_NEEDS_MAP",
+        "PROGRESS_CONTEXT"
+      ],
+      "produces": [
+        "JOB_HYPOTHESIS"
+      ],
+      "mechanism": "State a task/progress hypothesis rather than infer demographic or psychological identity.",
+      "falsifier": "Hypothesis explains no customer action better than ordinary alternatives.",
+      "source_urls": [
+        "https://store.hbr.org/product/know-your-customers-jobs-to-be-done/R1609D"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0114",
+        "MHA-0197"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-11",
+      "key": "ADAPTIVE_SALES_FIT",
+      "name": "ADAPTIVE SALES FIT",
+      "family": "SALES_RESEARCH",
+      "phase": "DESIGN",
+      "requires": [
+        "CUSTOMER_NEEDS_MAP",
+        "SOLUTION_CAPABILITY"
+      ],
+      "produces": [
+        "MUTUAL_VALUE_HYPOTHESIS"
+      ],
+      "mechanism": "Compare proposed solution to buyer-stated constraints and declared product capability.",
+      "falsifier": "Claims exceed specifications or adaptation relies on covert profiling.",
+      "source_urls": [
+        "https://doi.org/10.1177/002224379002700106",
+        "https://www.huthwaiteinternational.com/spin-methodology"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0193",
+        "MHA-0194"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-12",
+      "key": "SELF_DETERMINATION_AUTONOMY",
+      "name": "SELF DETERMINATION AUTONOMY",
+      "family": "BEHAVIORAL_PSYCHOLOGY",
+      "phase": "AUDIT",
+      "requires": [
+        "BARRIER_HYPOTHESIS",
+        "AUTONOMY_AUDIT"
+      ],
+      "produces": [
+        "AUTONOMY_SUPPORT_HYPOTHESIS"
+      ],
+      "mechanism": "Challenge proposed influence for autonomy and competence; never classify a person's hidden psychiatric status.",
+      "falsifier": "Person's express refusal is overridden or motivational interpretation lacks direct data.",
+      "source_urls": [
+        "https://selfdeterminationtheory.org/the-theory/"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0091",
+        "MHA-0193"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-13",
+      "key": "MOST_COMPONENT_OPTIMIZATION",
+      "name": "MOST COMPONENT OPTIMIZATION",
+      "family": "EXPERIMENTAL_META_METHOD",
+      "phase": "DESIGN",
+      "requires": [
+        "INTERVENTION_OPTIONS",
+        "EXPERIMENT_CONSTRAINTS"
+      ],
+      "produces": [
+        "COMPONENT_EXPERIMENT_PLAN"
+      ],
+      "mechanism": "Plan component ablations/interactions under budget and harms constraints, not inferred effect sizes.",
+      "falsifier": "No independent component definition, randomized comparison, or declared objective.",
+      "source_urls": [
+        "https://researchmethodsresources.nih.gov/methods/additional"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0197",
+        "MHA-0228"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-14",
+      "key": "TIDIER_REPLICATION_CHECK",
+      "name": "TIDIER REPLICATION CHECK",
+      "family": "EXPERIMENTAL_META_METHOD",
+      "phase": "VERIFICATION",
+      "requires": [
+        "COMPONENT_EXPERIMENT_PLAN",
+        "DELIVERY_DETAILS"
+      ],
+      "produces": [
+        "REPLICATION_PACKET"
+      ],
+      "mechanism": "Record who, what, how, context, schedule, adaptations and fidelity of intervention.",
+      "falsifier": "The same method name conceals materially different delivery conditions.",
+      "source_urls": [
+        "https://doi.org/10.1136/bmj.g1687"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0194",
+        "MHA-0198"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-15",
+      "key": "SEQUENTIAL_INFERENCE_GATE",
+      "name": "SEQUENTIAL INFERENCE GATE",
+      "family": "EXPERIMENTAL_META_METHOD",
+      "phase": "VERIFICATION",
+      "requires": [
+        "COMPONENT_EXPERIMENT_PLAN",
+        "PRIMARY_OUTCOME",
+        "STOPPING_RULE"
+      ],
+      "produces": [
+        "INFERENCE_PLAN"
+      ],
+      "mechanism": "Require fixed horizon or justified anytime-valid inference and multiple-testing control; no automatic p-value claims.",
+      "falsifier": "Optional stopping/multiplicity is unreported, or analysis differs from prespecified plan.",
+      "source_urls": [
+        "https://arxiv.org/abs/1512.04922"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0197",
+        "MHA-0198"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    },
+    {
+      "id": "RH-V23-16",
+      "key": "META_METHOD_ADVERSARY",
+      "name": "META METHOD ADVERSARY",
+      "family": "EXPERIMENTAL_META_METHOD",
+      "phase": "VERIFICATION",
+      "requires": [
+        "AUTONOMY_AUDIT",
+        "REPLICATION_PACKET",
+        "INFERENCE_PLAN"
+      ],
+      "produces": [
+        "META_FALSIFIERS"
+      ],
+      "mechanism": "Ask what would disprove mechanism, benefits, transferability, independent evidence and ethical acceptability.",
+      "falsifier": "Improved sales conversion is claimed as proof of consumer benefit without measured welfare/harms.",
+      "source_urls": [
+        "https://www.oecd.org/en/publications/tools-and-ethics-for-applied-behavioural-insights-the-basic-toolkit_9ea76a8f-en.html",
+        "https://www.ftc.gov/reports/bringing-dark-patterns-light",
+        "https://doi.org/10.1136/bmj.g1687"
+      ],
+      "existing_mha_anchor_ids": [
+        "MHA-0195",
+        "MHA-0219",
+        "MHA-0229"
+      ],
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_ONLY_NOT_SCIENTIFIC_EXECUTION",
+      "ethics_model": "AUTONOMY_TRUTHFULNESS_CONSENT_NONEXPLOITATION",
+      "no_personality_inference": true,
+      "no_target_actions": true
+    }
+  ]
+}
