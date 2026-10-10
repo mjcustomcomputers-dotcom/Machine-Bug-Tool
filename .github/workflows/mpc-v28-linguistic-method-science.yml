@@ -1,0 +1,63 @@
+name: MPC V28 Linguistic Methods on Methods
+
+on:
+  push:
+    branches:
+      - feature/mpc-linguistic-methods-on-methods-v28
+  pull_request:
+    branches:
+      - feature/mpc-space-animal-method-atlas-v27
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-v28-linguistic-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linguistic-methods:
+    name: V28 source-exact semantic output replay plus full build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out exact commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Verify V27 ancestor and additive file changes
+        shell: bash
+        run: |
+          git rev-parse HEAD
+          git merge-base --is-ancestor 8cf6888c46f040519b1342cfe21baf02431423ff HEAD
+          git diff --name-status 8cf6888c46f040519b1342cfe21baf02431423ff HEAD
+          git status --short
+
+      - name: Install pinned Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+
+      - name: Use pinned pnpm 11.25
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm --version
+
+      - name: Install frozen project dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run V28 linguistic and V27 method-space regressions
+        run: |
+          node --test tests/mpc-linguistic-v28.test.mjs tests/mpc-v27-space-methods.test.mjs
+          node research/run-linguistic-method-pass-v28.mjs
+
+      - name: Run all original and new MPC tests
+        run: node --test
+
+      - name: Build source and portable framework
+        run: pnpm run build
