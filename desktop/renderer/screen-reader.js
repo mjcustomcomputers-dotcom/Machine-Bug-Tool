@@ -1,5 +1,6 @@
 import {screenSettings,screenEvidenceText} from './screen-policy.js';
 import {screenSourceStartGate} from './screen-source-choice.js';
+import {proposeInverseOcrCrop} from './roi-process.js';
 
 const $=id=>document.getElementById(id);
 const number=id=>Number($(id).value);
@@ -13,6 +14,7 @@ function saveText(name,text,type='text/plain;charset=utf-8'){
 export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announce}){
   let active=false,starting=false,revision=0,receipt=null,pending=null,previewUrl=null,stats=null,project=null,lastCaptureMs=null;
   let sourcesListedAt=0,sourceRequest=0;
+  let roiProposal=null,roiSource=null,roiTrial=null;
   const masks=[];
   const available=typeof bridge?.screenStart==='function';
   const message=value=>{$('screen-status').textContent=value;};
@@ -26,8 +28,32 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
     $('screen-start').disabled=!available||active||starting||!selectionGate().allowed;$('screen-stop').disabled=!active&&!starting;$('screen-now').disabled=!active;
     for(const id of ['screen-copy','screen-save','screen-use','screen-select','screen-copy-packet'])$(id).disabled=!receipt;
     $('screen-apply-result').disabled=!pending;
+    $('screen-roi-suggest').disabled=!receipt||!!roiTrial;
+    $('screen-roi-copy').disabled=!roiProposal;
+    $('screen-roi-apply').disabled=!roiProposal||receipt!==roiSource||
+      $('screen-source').value!==roiProposal?.source?.source_id||
+      getProjectId()!==roiProposal?.source?.project_id;
   }
   function applyResult(value){
+    const trial=roiTrial;
+    roiTrial=null;roiProposal=null;roiSource=null;
+    if(trial){
+      const sameSource=value.context?.projectId===trial.projectId&&value.context?.sourceId===trial.sourceId;
+      const expected=trial.percent,observed=value.context?.crop;
+      const sameCrop=observed&&
+        Math.abs(observed.x-expected.left/100)<0.001&&
+        Math.abs(observed.y-expected.top/100)<0.001&&
+        Math.abs(observed.width-expected.width/100)<0.001&&
+        Math.abs(observed.height-expected.height/100)<0.001;
+      const comparisonMs=value.ocr_duration_ms;
+      if(sameSource&&sameCrop&&Number.isFinite(comparisonMs)&&Number.isFinite(trial.baselineMs)&&trial.baselineMs>0){
+        const change=Math.round((trial.baselineMs-comparisonMs)/trial.baselineMs*1000)/10;
+        $('screen-roi-status').textContent='One observed OCR timing comparison: '+Math.round(trial.baselineMs)+
+          ' ms before → '+Math.round(comparisonMs)+' ms after ('+
+          (change>=0?String(change)+'% shorter':String(-change)+'% longer')+
+          '). Pixel area proposal saved '+trial.pixelSaved+'%. Screen content may have changed; not a controlled speed claim.';
+      }else $('screen-roi-status').textContent='Crop or source changed; cannot compare OCR timings. Capture again to generate a new suggestion.';
+    }else $('screen-roi-status').textContent='Text atoms are ready. Expand Crop area and select Suggest crop from OCR.';
     receipt=value;pending=null;$('screen-text').value=textOf(value);
     const ocr=value.ocr??value.result??value;
     $('screen-result-meta').textContent=`${ocr.width??value.frame?.width??'?'} × ${ocr.height??value.frame?.height??'?'} OCR pixels · ${ocr.words?.length??0} word atoms · confidence ${Number.isFinite(ocr.confidence)?ocr.confidence.toFixed(1):'unavailable'} · OCR ${Math.round(value.ocr_duration_ms??0)} ms · capture to result ${Math.round(value.capture_to_delivery_ms??0)} ms · local`;
@@ -75,6 +101,10 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
         preview:$('screen-preview-enabled').checked,printScreen:$('screen-print-key').checked,
         excludeMpc:$('screen-exclude-mpc').checked,durationMinutes:number('screen-duration'),imageMode:$('screen-image-mode').value};
       screenSettings(input);if(!project)throw Error('Create or choose a project first. OCR works without a model.');
+      if(roiTrial&&(roiTrial.projectId!==project||roiTrial.sourceId!==input.sourceId||
+        ['x','y','width','height'].some((k,i)=>Math.abs(input.crop[k]-
+          ([roiTrial.percent.left,roiTrial.percent.top,roiTrial.percent.width,roiTrial.percent.height][i]/100))>0.001)))
+        roiTrial=null;
       const admission=selectionGate();
       if(!admission.allowed)throw Error(admission.code==='SCREEN_REFRESH_SOURCE_LIST'
         ? 'The source list expired. Choose / refresh sources and select the window again.'
@@ -116,6 +146,47 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
         : 'Windows returned no selectable screens or windows. Restart MPC if this continues; no capture started.');
     }catch(error){if(request!==sourceRequest)return;sourcesListedAt=0;buttons();message(safeCode(error));}
   }
+  function suggestCrop(){
+    if(!receipt)return;
+    try{
+      const proposal=proposeInverseOcrCrop(receipt);
+      roiProposal=proposal.status==='PROPOSED'?proposal:null;
+      roiSource=roiProposal?receipt:null;
+      if(!roiProposal){
+        $('screen-roi-status').textContent=proposal.status+': '+proposal.reason;
+      }else{
+        const p=proposal.proposed_region;
+        $('screen-roi-status').textContent='Proposed native region: left '+p.left+'%, top '+p.top+
+          '%, width '+p.width+'%, height '+p.height+'%. Pixel area -'+
+          proposal.projected_pixel_area.saved_percent+'%; this retains '+
+          proposal.observed_text_atomics.weighted_coverage_percent+
+          '% of weighted, previously recognized text atoms ('+
+          proposal.observed_text_atomics.omitted+' omitted). Other text outside this crop is unknown. '+
+          'Review it before applying; faster OCR is not guaranteed.';
+      }
+      buttons();
+    }catch(error){roiProposal=null;roiSource=null;
+      $('screen-roi-status').textContent='The OCR geometry could not support a safe crop proposal ('+safeCode(error)+').';
+      buttons();
+    }
+  }
+  async function applyCrop(){
+    const proposed=roiProposal;
+    if(!proposed||!roiSource||receipt!==roiSource||proposed.source.project_id!==getProjectId()||
+      proposed.source.source_id!==$('screen-source').value)
+      return message('The selected source or OCR result changed. Suggest the crop again.');
+    if(active||starting)await stop('Crop settings changed. Restart explicitly when ready.');
+    if(receipt!==roiSource||proposed.source.project_id!==getProjectId()||
+      proposed.source.source_id!==$('screen-source').value)return;
+    const p=proposed.proposed_region,baseline=roiSource;
+    for(const [id,value] of [['x',p.left],['y',p.top],['w',p.width],['h',p.height]])
+      $('screen-crop-'+id).value=String(value);
+    roiTrial={projectId:proposed.source.project_id,sourceId:proposed.source.source_id,
+      percent:p,baselineMs:baseline.ocr_duration_ms,pixelSaved:proposed.projected_pixel_area.saved_percent};
+    roiProposal=null;roiSource=null;buttons();
+    $('screen-roi-status').textContent='Suggested crop applied to the native source. All existing privacy masks remain unchanged. '+
+      'Click Start to take a new capture; previous full-frame OCR remains available for comparison.';
+  }
   function renderMasks(){
     const list=$('screen-mask-list');list.replaceChildren();
     masks.forEach((mask,index)=>{const row=document.createElement('li'),button=document.createElement('button');
@@ -124,15 +195,26 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
       button.addEventListener('click',()=>{void stop('Mask changed. Start a new session when ready.');masks.splice(index,1);renderMasks()});row.append(button);list.append(row);});
   }
   $('screen-refresh').addEventListener('click',()=>{void sources()});$('screen-start').addEventListener('click',start);
+  $('screen-roi-suggest').addEventListener('click',suggestCrop);
+  $('screen-roi-apply').addEventListener('click',()=>void applyCrop());
+  $('screen-roi-copy').addEventListener('click',()=>{
+    if(!roiProposal)return;
+    bridge.copyText(JSON.stringify(roiProposal,null,2))
+      .then(()=>announce('Inverse OCR method proposal copied with source identity, omissions and limits.'))
+      .catch(error=>message(safeCode(error)));
+  });
   $('screen-stop').addEventListener('click',()=>void stop());$('screen-now').addEventListener('click',()=>bridge.screenNow().catch(error=>message(safeCode(error))));
-  $('screen-clear').addEventListener('click',async()=>{await stop('Stopped and cleared.');receipt=pending=null;$('screen-text').value='';$('screen-result-meta').textContent='';$('screen-pending').textContent='';clearClassification();buttons()});
+  $('screen-clear').addEventListener('click',async()=>{await stop('Stopped and cleared.');roiProposal=roiSource=roiTrial=null;receipt=pending=null;
+    $('screen-roi-status').textContent='No OCR geometry retained. Take a new capture to suggest a crop.';$('screen-text').value='';$('screen-result-meta').textContent='';$('screen-pending').textContent='';clearClassification();buttons()});
   $('screen-add-mask').addEventListener('click',()=>{
     try{if(masks.length>=8)throw Error('Use up to eight privacy masks.');const mask=percentRect('screen-mask');
       screenSettings({consent:true,mode:'single',fps:1,durationMinutes:5,crop:{x:0,y:0,width:1,height:1},masks:[mask]});
       void stop('Mask added. Start a new session when ready.');masks.push(mask);renderMasks();}catch(error){message(safeCode(error))}
   });
   for(const input of document.querySelectorAll('#screen-capture-settings input,#screen-capture-settings select,#screen-consent'))input.addEventListener('change',()=>{if(active||starting)void stop('Settings changed. Start again to apply them.');buttons()});
-  $('screen-source').addEventListener('change',()=>{if(active||starting)void stop('Source changed. Start again when ready.');buttons()});
+  $('screen-source').addEventListener('change',()=>{roiProposal=roiSource=roiTrial=null;
+    $('screen-roi-status').textContent='Source changed. Capture it before suggesting a region.';
+    if(active||starting)void stop('Source changed. Start again when ready.');buttons()});
   $('screen-select').addEventListener('click',()=>{$('screen-text').focus();$('screen-text').select()});
   $('screen-copy').addEventListener('click',()=>bridge.copyText($('screen-text').value).then(()=>announce('Recognized text copied.')));
   $('screen-copy-packet').addEventListener('click',()=>bridge.copyText(screenEvidenceText(receipt)).then(()=>announce('Source-bound screen packet copied for ChatGPT or Codex.')));
@@ -165,12 +247,13 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
       sourcesListedAt=0;buttons();message('Source list expired. Choose / refresh sources and select your window or monitor again.');
     }
     if((active||starting)&&project!==getProjectId()||receipt&&receipt.context?.projectId!==getProjectId()){
-      await stop('Project changed. Choose a source for the new project.');receipt=pending=null;$('screen-text').value='';$('screen-result-meta').textContent='';$('screen-pending').textContent='';clearClassification();buttons();
+      await stop('Project changed. Choose a source for the new project.');roiProposal=roiSource=roiTrial=null;
+      $('screen-roi-status').textContent='Project changed. The previous crop suggestion is invalid.';receipt=pending=null;$('screen-text').value='';$('screen-result-meta').textContent='';$('screen-pending').textContent='';clearClassification();buttons();
     }
     if(!available||$('view-screen').hidden&&!active)return;
     try{const value=await bridge.screenStatus();showMetrics(value.metrics)}catch{}
   },1500);
   globalThis.addEventListener('beforeunload',()=>{clearInterval(timer);clearPreview()});
   buttons();message(available?'Screen reading is off. Choose a window or screen to begin.':'Use the Windows desktop build for local screen OCR.');
-  return {stop,clear:async()=>{await stop('Cleared.');receipt=pending=null;$('screen-text').value='';clearClassification();buttons()},sources};
+  return {stop,clear:async()=>{await stop('Cleared.');roiProposal=roiSource=roiTrial=null;receipt=pending=null;$('screen-text').value='';clearClassification();buttons()},sources};
 }

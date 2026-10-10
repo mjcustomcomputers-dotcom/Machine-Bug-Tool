@@ -1,5 +1,11 @@
 # Private screen reading and change analysis
 
+## Inverse OCR method — optional next-capture region
+
+When full-frame OCR produces word and line positions, expand **Screen reader → Crop area**, select **Suggest crop from OCR**, and inspect the proposed native-source percentages before using **Apply crop for next capture**. MPC uses already recognized geometries (up to 128 qualifying atoms), tries bounded dense-region/inverse-frame candidates and validates the fraction of recognized text it would retain. It never automatically changes the crop, restarts capture, probes network targets or changes privacy masks. A crop can omit previously unseen information.
+
+This is a process transformation rather than an additional classifier: OCR text atoms → spatial proposal → source-geometry audit → user review → a newly permitted capture. The estimate reports **pixel area reduction**, not guaranteed OCR speed. When a second capture uses the proposed region, the interface displays one observed OCR timing comparison, explicitly not a controlled performance benchmark. The current classifiers, virtual-OSI layers, source boundaries and Tesseract assets stay unchanged.
+
 The Windows desktop now has **Screen reader** in the navigation. It samples a selected window or monitor, crops and masks the image before encoding, reads English text locally, and runs the existing MPC classifier and dependency methods on the observation. A large text area supports selection, copying, `.txt` export, and an explicit handoff to chat.
 
 The application starts centered within the monitor's usable work area, including its native window frame. It uses Windows' device-independent work-area coordinates so a smaller or DPI-scaled desktop caps both the starting size and minimum size. The permission checkbox sits beside the capture controls, copy/export controls sit above the large output, and the performance panel is optional. Unchecking active session permission stops capture. The existing interface zoom and movable assistant remain available.

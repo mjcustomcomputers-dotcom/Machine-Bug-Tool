@@ -8,6 +8,7 @@ import {tmpdir} from 'node:os';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {app, BrowserWindow, nativeImage, screen as nativeScreen} from 'electron';
+import {proposeInverseOcrCrop} from '../desktop/renderer/roi-process.js';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outputFlag = process.argv.indexOf('--output');
@@ -353,6 +354,11 @@ try {
   }
   assert.equal(unmasked.result.ocr.network, 'DISABLED');
   assert.equal(unmasked.result.context.projectId, 'NATIVE-SMOKE');
+  const roiRecommendation=proposeInverseOcrCrop(unmasked.result);
+  assert.equal(roiRecommendation.kind,'MPC_ROI_PROCESS_PROPOSAL');
+  assert.equal(roiRecommendation.automatic_capture,false);
+  assert.equal(roiRecommendation.source.source_id,selected.id);
+  assert.ok(['NO_GAIN','INSUFFICIENT_GEOMETRY','LOW_CONFIDENCE','BOUNDED_COVERAGE'].includes(roiRecommendation.status));
   assert.equal(unmasked.result.classification?.status, 'CLASSIFIED',
     'Native OCR reached an unavailable classifier: '+JSON.stringify({status:unmasked.result.classification?.status,
       error:unmasked.result.classification?.error,summary:unmasked.result.classification?.summary}));
@@ -377,6 +383,9 @@ try {
 
   // Exercise the visible Start and Stop controls as well as the direct trusted
   // IPC used above. The test consents only to its own synthetic fixture.
+  const roiLoaded=await js("return import('/roi-process.js').then(mod=>typeof mod.proposeInverseOcrCrop==='function');");
+  assert.equal(roiLoaded,true,'Native interface failed to load ROI process helper');
+  assert.equal(await js("return !!document.querySelector('#screen-roi-suggest') && !!document.querySelector('#screen-roi-apply');"),true);
   phase('LIVE_UI_SOURCE_REFRESH');
   await js("document.querySelector('[data-view=screen]').click();document.querySelector('#screen-refresh').click();");
   await waitFor('UI source enumeration', () => js(`return [...document.querySelector('#screen-source').options].some(option=>option.value===${JSON.stringify(selected.id)});`));
