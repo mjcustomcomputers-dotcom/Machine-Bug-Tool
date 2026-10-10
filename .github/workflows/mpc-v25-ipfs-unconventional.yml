@@ -1,0 +1,63 @@
+name: MPC V25 IPFS and Unconventional Method Science
+
+on:
+  push:
+    branches:
+      - feature/mpc-ipfs-unconventional-metamethod-v25
+  pull_request:
+    branches:
+      - feature/mpc-network-meta-methods-v24
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-ipfs-v25-source-review
+  cancel-in-progress: true
+
+jobs:
+  ipfs-metamethod-science:
+    name: IPFS CID CRDT IBLT finite controls plus complete build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out pinned source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Verify native V24 parent and clean source status
+        shell: bash
+        run: |
+          git rev-parse HEAD
+          git merge-base --is-ancestor 902bedcfc296d3a5f53456f872b4aefcf153dc56 HEAD
+          git diff --name-status 902bedcfc296d3a5f53456f872b4aefcf153dc56 HEAD
+          git status --short
+
+      - name: Activate Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+
+      - name: Restore pinned pnpm
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm --version
+
+      - name: Install from frozen lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Run finite V25 V24 V23 V22 negative and source tests
+        run: |
+          node --test tests/ipfs-unconventional-metamethod-v25.test.mjs tests/network-method-science-v24.test.mjs tests/behavioral-meta-methods-v23.test.mjs tests/method-synergy-v22.test.mjs
+          node research/run-ipfs-unconventional-v25.mjs
+
+      - name: Run all repository tests
+        run: node --test
+
+      - name: Run production source build
+        run: pnpm run build
