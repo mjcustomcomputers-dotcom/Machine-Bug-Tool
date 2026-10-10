@@ -114,6 +114,24 @@ test('Missing public predecessor blocks inferred downstream success',async()=>{
  const q=campaign();q.problems[4].instances=[{id:'public-tiny',visibility:'PUBLIC',result:'NOT_RUN',evidence_ref:'official:no-predecessor'}];
  await assert.rejects(()=>planOptimizationMicroPass(q),/PUBLIC_NOT_RUN_NEEDS_PREDECESSOR/);
 });
+test('Closed facility with positive shipment fails structural precondition',()=>{
+ const model={problem_id:'facility',fixed_costs:[4,8],opened:[0],scenario_shipments:[[1,1]],
+ objective_contract:'OPENING_COST_PLUS_UNCHANGED_SHIPMENT_COST',source_ref:'synthetic:bad-witness'};
+ assert.throws(()=>exactIdleReduction(model),/SHIPMENT_FROM_CLOSED_FACILITY/);
+});
+test('256 atomic micro fixtures conserve exact savings under zero/positive/negative cost variations',()=>{
+ for(let seed=0;seed<256;seed++){
+  const fixed=Array.from({length:32},(_,j)=>j%7===0?-5:j%3===0?0:1+(j+seed)%11);
+  const rows=Array.from({length:8},(_,sc)=>Array.from({length:32},(_,j)=>((j*17+sc*13+seed)%23===0)?1:0));
+  const model={problem_id:'test',fixed_costs:fixed,opened:Array.from({length:32},(_,j)=>j),
+  scenario_shipments:rows,objective_contract:'OPENING_COST_PLUS_UNCHANGED_SHIPMENT_COST',source_ref:'synthetic:seed-'+seed};
+  const x=exactIdleReduction(model);
+  const expected=model.opened.filter(j=>fixed[j]>0&&rows.every(r=>r[j]===0));
+  assert.deepEqual(x.closed,expected);
+  assert.equal(x.objective_saving,expected.reduce((a,j)=>a+fixed[j],0));
+  assert.equal(x.open_after.length+x.closed.length,32);
+ }
+});
 test('MPC additive tool is registered and canonical method count remains intact',async()=>{
  assert.ok(optimizationMicroSchema.properties.problems);
  assert.ok(toolList.some(t=>t.name==='plan_optimization_pass'));
