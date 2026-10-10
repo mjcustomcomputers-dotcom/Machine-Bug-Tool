@@ -1,0 +1,42 @@
+name: FrontierOR resource-constrained two-version verification
+on:
+  push:
+    branches: [frontieror-darp-testing-20261010]
+    paths:
+      - 'frontieror/solvers/**'
+      - 'frontieror/tests/**'
+      - 'frontieror/hardening/**'
+      - '.github/workflows/frontieror-sandbox-hardening.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  constrained-sandbox:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        py: ['3.12', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Construct published-library sandbox on Debian bookworm
+        run: |
+          docker info >/dev/null
+          docker build -f frontieror/hardening/Dockerfile --build-arg PY_VERSION=${{ matrix.py }} -t frontieror-sandbox:${{ matrix.py }} .
+      - name: Enforce 2 CPUs, 4 GB no swap, no network, read-only source, and test every solver
+        run: |
+          python frontieror/hardening/sandbox_probe.py --image frontieror-sandbox:${{ matrix.py }} --seconds 22 --out frontieror/artifacts/resource-probe-py${{ matrix.py }}.json
+      - name: Save independent constraint receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontieror-resource-py${{ matrix.py }}
+          path: frontieror/artifacts/resource-probe-py${{ matrix.py }}.json
+          if-no-files-found: warn
+          retention-days: 7
