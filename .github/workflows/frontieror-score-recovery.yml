@@ -1,0 +1,65 @@
+name: FrontierOR score recovery validation
+on:
+  push:
+    branches: [frontieror-score-recovery-20261010]
+    paths:
+      - 'frontieror/**'
+      - '.github/workflows/frontieror-score-recovery.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.12', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install organizer's open-source scientific dependencies
+        run: python -m pip install 'ortools==9.15.6755' 'scipy==1.18.1'
+      - name: Run independent solver validators, including positive-arc-cost oracle
+        run: python -m unittest discover -s frontieror/tests -v
+      - name: Produce submission ZIP and exact source hash manifest
+        run: python frontieror/build_submission.py
+      - name: Publish validated ZIP for review without submitting
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontieror-score-recovery-py${{ matrix.python }}
+          path: frontieror/artifacts/*
+          if-no-files-found: error
+          retention-days: 14
+
+  constrained-sandbox:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.12', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Build resource-limited execution environment
+        run: |
+          docker build -f frontieror/hardening/Dockerfile --build-arg PY_VERSION=${{ matrix.python }} -t frontieror-recovery:${{ matrix.python }} .
+      - name: Test six CLI solvers with 2 vCPU 4 GB no network read-only source
+        run: |
+          python frontieror/hardening/sandbox_probe.py --image frontieror-recovery:${{ matrix.python }} --seconds 22 --out frontieror/artifacts/recovery-probe-py${{ matrix.python }}.json
+      - name: Save machine-verifiable resource report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontieror-recovery-resource-py${{ matrix.python }}
+          path: frontieror/artifacts/recovery-probe-py${{ matrix.python }}.json
+          if-no-files-found: warn
+          retention-days: 14

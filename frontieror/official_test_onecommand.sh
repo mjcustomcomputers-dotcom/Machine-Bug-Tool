@@ -48,7 +48,7 @@ BACKUP="runs/frontieror-previous-solvers/$(date -u +%Y%m%dT%H%M%SZ)"
 mkdir -p "$BACKUP"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
-BASE="https://raw.githubusercontent.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/frontieror-darp-testing-20261010/frontieror/solvers"
+BASE="https://raw.githubusercontent.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/frontieror-score-recovery-20261010/frontieror/solvers"
 for slug in "${SLUGS[@]}"; do
   mkdir -p "$TMP/$slug"
   curl --fail --location --silent --show-error --retry 2 --max-time 30 \
