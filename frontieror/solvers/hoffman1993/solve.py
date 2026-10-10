@@ -78,12 +78,16 @@ def forced_greedy(p, deadline):
     best_cost = math.inf
     start = time.monotonic()
     nodes = 0
+    # Incremental base totals: avoid re-summing every selected column per child.
+    # Upper-bound pruning is sound only if all remaining contributions are nonnegative.
+    nonnegative_base = [all(v >= 0 for v in row) for row in d]
+    zero_base = (0.0,) * len(d)
     for mode in range(3):
         if time.monotonic() > deadline - 0.005:
             break
-        stack = [(frozenset(range(m)), frozenset(), tuple(), 0.0)]
+        stack = [(frozenset(range(m)), frozenset(), tuple(), 0.0, zero_base)]
         while stack and time.monotonic() < deadline - 0.004 and nodes < 25000:
-            remain, chosen, path, score = stack.pop()
+            remain, chosen, path, score, base_totals = stack.pop()
             nodes += 1
             if score >= best_cost and all(x >= 0 for x in costs):
                 continue
@@ -112,9 +116,10 @@ def forced_greedy(p, deadline):
                 choices.sort(key=lambda j: (-len(columns[j]), costs[j], j))
             # Least promising first on a LIFO stack, so best candidates are visited first.
             for j in reversed(choices[:18]):
-                if d and any(sum(d[i][k] for k in path) + d[i][j] > hi[i] + 1e-7 for i in range(len(d))):
+                next_base = tuple(base_totals[i] + d[i][j] for i in range(len(d)))
+                if any(nonnegative_base[i] and next_base[i] > hi[i] + 1e-7 for i in range(len(d))):
                     continue
-                stack.append((remain - colsets[j], chosen | {j}, path + (j,), score + costs[j]))
+                stack.append((remain - colsets[j], chosen | {j}, path + (j,), score + costs[j], next_base))
         if time.monotonic() - start > 2.0:
             break
     return best
