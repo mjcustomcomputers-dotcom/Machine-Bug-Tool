@@ -1,0 +1,56 @@
+name: MPC V30 Workspace Engineering Lab Source Acceptance
+
+on:
+  push:
+    branches:
+      - feature/mpc-workspace-engineering-lab-v30
+  pull_request:
+    branches:
+      - feature/mpc-multilingual-can-code-method-mountains-v29
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-v30-workspace-engineering-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  workspace-engineering-lab:
+    name: Local-method receiving, security gates, portable stage and full build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Check out exact V30 source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Check exact V29 ancestor and changed source
+        shell: bash
+        run: |
+          git rev-parse HEAD
+          git merge-base --is-ancestor 5f624980c12620811459fa80684d9cb1458811ef HEAD
+          git diff --name-status 5f624980c12620811459fa80684d9cb1458811ef HEAD
+          git status --short
+      - name: Use pinned Node 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Use pinned pnpm
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm --version
+      - name: Install frozen dependencies
+        run: pnpm install --frozen-lockfile
+      - name: V30 source, renderer, loopback and staged Windows acceptance
+        run: |
+          node --test tests/mpc-v30-engineering-lab.test.mjs tests/mpc-v30-engineering-server.test.mjs
+          node --test tests/mpc-workspace-renderer.test.mjs tests/mpc-workspace-display.test.mjs tests/mpc-workspace-server.test.mjs tests/mpc-workspace-desktop.test.mjs
+          node --test tests/mpc-v29-language-java.test.mjs tests/mpc-v29-can-methods.test.mjs
+      - name: Run full MPC test suite
+        run: node --test
+      - name: Build production source
+        run: pnpm run build
