@@ -173,7 +173,6 @@ def repair_residual(arcs,adj,goods,assignment,deadline):
     """
     if not verify(arcs,goods,assignment):return assignment
     current=dict(assignment)
-    by_id={c['id']:c for c in goods}
     best_cost=_route_objective(arcs,goods,current)
     residual={aid:arc['cap'] for aid,arc in arcs.items()}
     for c in goods:
@@ -285,7 +284,8 @@ def optimize(arcs,goods,paths,deadline,incumbent=None):
     assignment={c['id']:None for c in goods}
     for c in goods:
         for k,path in enumerate(paths.get(c['id'],())):
-            if solver.Value(choices[c['id'],k]):
+            choice=choices.get((c['id'],k))
+            if choice is not None and solver.Value(choice):
                 assignment[c['id']]=path
                 break
     return assignment if verify(arcs,goods,assignment) else None
