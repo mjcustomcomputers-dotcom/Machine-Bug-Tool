@@ -204,7 +204,11 @@ def cp_sat_side(p,deadline,incumbent=None,feasibility_only=True):
         chosen=set(incumbent)
         for j,x in enumerate(vars):model.add_hint(x,int(j in chosen))
     if not feasibility_only:
-        obj=[int(round(v)) if abs(v-round(v))<1e-7 else int(round(v*100)) for v in costs]
+        # A single coefficient scale preserves the objective ranking.
+        # Mixed non-integral costs remain with the exact floating MILP path.
+        if any(not math.isfinite(v) or abs(v-round(v))>1e-8 for v in costs):
+            return None
+        obj=[int(round(v)) for v in costs]
         model.minimize(sum(obj[j]*vars[j] for j in range(n)))
     solver=cp_model.CpSolver()
     solver.parameters.num_search_workers=2
