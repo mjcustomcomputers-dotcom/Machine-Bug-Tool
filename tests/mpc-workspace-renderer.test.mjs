@@ -83,6 +83,7 @@ test('complete first-journey controls and all nine product areas remain visible'
     'method-run-picker', 'method-run-input', 'run-method', 'method-run-status',
     'draft-script', 'script-content', 'script-output', 'ingest-script-output', 'export-task', 'import-task',
     'portable-task-input', 'open-logs', 'restart-service', 'copy-error',
+    'screen-roi-suggest','screen-roi-apply','screen-roi-status',
     'network-refresh', 'network-clear', 'network-consent', 'network-rows', 'network-text', 'network-copy', 'network-save', 'network-use'
   ]) assert.match(html, new RegExp(`id="${id}"`, 'u'), id);
   assert.match(html, /Drop files into this project/u);

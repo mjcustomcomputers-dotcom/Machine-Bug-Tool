@@ -1,3 +1,9 @@
+## Inverse OCR method — optional next-capture region
+
+When full-frame OCR produces word and line positions, expand **Screen reader → Crop area**, select **Suggest crop from OCR**, and inspect the proposed native-source percentages before using **Apply crop for next capture**. MPC uses already recognized geometries (up to 128 qualifying atoms), tries bounded dense-region/inverse-frame candidates and validates the fraction of recognized text it would retain. It never automatically changes the crop, restarts capture, probes network targets or changes privacy masks. A crop can omit previously unseen information.
+
+This is a process transformation rather than an additional classifier: OCR text atoms → spatial proposal → source-geometry audit → user review → a newly permitted capture. The estimate reports **pixel area reduction**, not guaranteed OCR speed. When a second capture uses the proposed region, the interface displays one observed OCR timing comparison, explicitly not a controlled performance benchmark. The current classifiers, virtual-OSI layers, source boundaries and Tesseract assets stay unchanged.
+
 # Private screen reading and change analysis
 
 The Windows desktop now has **Screen reader** in the navigation. It samples a selected window or monitor, crops and masks the image before encoding, reads English text locally, and runs the existing MPC classifier and dependency methods on the observation. A large text area supports selection, copying, `.txt` export, and an explicit handoff to chat.
