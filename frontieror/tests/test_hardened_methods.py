@@ -19,13 +19,14 @@ class HardenedMethods(unittest.TestCase):
         self.assertEqual(ans["objective_value"],0)
         self.assertLess(time.monotonic()-t,5)
 
-    def test_flow_negative_cost_cannot_use_zero_bound(self):
+    def test_flow_negative_physical_cost_does_not_change_rejection_bound(self):
         data=flow_fixture([(1,10)],(2,2))
         data["network"]["arcs"][0]["cost"]=-1
-        with patch.object(flow,"optimize",return_value=None) as optimize:
+        with patch.object(flow,"optimize",side_effect=AssertionError(
+                "Physical arc cost is outside the published objective")):
             ans=flow.solve(data,3)
         check_flow(data,ans)
-        self.assertTrue(optimize.called,"Negative arc removes zero-objective proof")
+        self.assertEqual(ans["objective_value"],0)
 
     def test_orienteering_full_prize_ends_without_more_search(self):
         data=op_fixture(10,17)

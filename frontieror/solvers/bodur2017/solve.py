@@ -112,7 +112,10 @@ def try_closures(p,opened,ship,deadline):
     best_ship=ship
     best_score=objective(p,best_opened,ship)
     maxd=max((math.fsum(row) for row in demand),default=0)
-    for iteration in range(2):
+    # Continue the descent until no single closure helps or the bounded slice
+    # expires. The former two-pass cap left many needless opening charges on
+    # large instances where the extensive MIP is intentionally skipped.
+    for iteration in range(f):
         changed=False
         for i in sorted(best_opened,key=lambda j:(-fixed[j]/max(cap[j],1),-fixed[j])):
             if time.monotonic()>=deadline:

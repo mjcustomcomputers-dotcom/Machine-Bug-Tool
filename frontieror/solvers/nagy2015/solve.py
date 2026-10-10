@@ -49,10 +49,17 @@ def feasible(p,r):
     load = math.fsum(deliveries[i] for i in r[1:-1] if i <= n)
     if load > cap + 1e-7 or load < -1e-7:
         return False
+    backhaul_started = False
     for node in r[1:-1]:
         if node <= n:
+            # Published Constraint 15: all linehaul deliveries precede the
+            # first backhaul pickup, even when an interleaving would satisfy
+            # the numeric load bound.
+            if backhaul_started:
+                return False
             load -= deliveries[node]
         else:
+            backhaul_started = True
             load += pickups[node-n]
         if load > cap + 1e-7 or load < -1e-7:
             return False
@@ -184,6 +191,10 @@ def cross_phase_two_opt(p,route,deadline):
                 break
             a,b=current[i-1],current[i]
             for j in range(i+1,len(current)-1):
+                # A reversal may stay inside either phase. Crossing the phase
+                # boundary would put a backhaul before a later linehaul.
+                if (current[i] <= p[0]) != (current[j] <= p[0]):
+                    continue
                 c,d=current[j],current[j+1]
                 delta=(travel(p,a,c)+travel(p,b,d)
                        -travel(p,a,b)-travel(p,c,d))
@@ -214,8 +225,6 @@ def relocation(p, routes, deadline):
                     break
                 bnode=uid+n
                 base=[x for x in incumbent[a] if x not in (uid,bnode)]
-                if len(base) < 3:
-                    continue
                 for b in range(len(incumbent)):
                     if b==a or time.monotonic() >= deadline:
                         continue
@@ -233,9 +242,17 @@ def relocation(p, routes, deadline):
                             if feasible(p,trial):
                                 candidates.append((routecost(p,trial),trial))
                     for _,trial in sorted(candidates, key=lambda x:x[0])[:2]:
-                        proposal=[r[:] for r in incumbent]
-                        proposal[a]=base
-                        proposal[b]=trial
+                        # Moving the only request out of a route eliminates
+                        # that vehicle instead of retaining invalid [0,0].
+                        proposal=[]
+                        for route_index,route in enumerate(incumbent):
+                            if route_index==a:
+                                if len(base)>=3:
+                                    proposal.append(base)
+                            elif route_index==b:
+                                proposal.append(trial)
+                            else:
+                                proposal.append(route[:])
                         if verify(p,proposal):
                             cost=score(p,proposal)
                             if cost < bestcost-1e-7:

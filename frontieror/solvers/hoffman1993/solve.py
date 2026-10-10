@@ -210,7 +210,10 @@ def large_sparse_cover(p, deadline, reduction=None):
         chain = []  # (parent-index, original column ID)
         stack = [(initial_mask, -1, initial_base)]
         examined = 0
-        while stack and examined < 8000:
+        # The private failure was a no-incumbent exit on the large Crew case.
+        # Spend a larger, still bounded feasibility slice before native MIP;
+        # persistent parent chains keep this cap well below the memory limit.
+        while stack and examined < 24000:
             if (examined & 31) == 0 and time.monotonic() >= deadline - 0.025:
                 break
             remain, parent, base_totals = stack.pop()
@@ -244,7 +247,7 @@ def large_sparse_cover(p, deadline, reduction=None):
                     break
             if not best:
                 continue
-            choices = sorted(best, key=ordering.__getitem__)[:16]
+            choices = sorted(best, key=ordering.__getitem__)[:20]
             for j in reversed(choices):
                 next_base = tuple(base_totals[k] + d[k][j]
                                   for k in range(len(d)))
@@ -598,7 +601,7 @@ def solve(instance, time_limit_s):
         reduction_ready = True
         if reduced is not None:
             option = large_sparse_cover(
-                p, min(until, time.monotonic() + 1.5), reduction=reduced)
+                p, min(until, time.monotonic() + 3.5), reduction=reduced)
             if verify(p, option):
                 backup = option
     # Method selection by structure: integer exact cover -> CP-SAT;

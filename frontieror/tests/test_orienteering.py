@@ -74,5 +74,14 @@ class OrienteeringMethodsTests(unittest.TestCase):
         tour,proof=op.cp_sat_circuit(p,time.monotonic()+6)
         independent_check(data,op.build_solution(p,tour))
 
+    def test_cp_sat_uses_feasible_hint_above_old_55_city_cutoff(self):
+        data=fixture(60,711)
+        data['t0']=100000
+        p=op.parse_problem(data)
+        incumbent=[p.depot,*[c for c in p.cities if c!=p.depot],p.depot]
+        tour,_=op.cp_sat_circuit(p,time.monotonic()+4,incumbent)
+        independent_check(data,op.build_solution(p,tour))
+        self.assertEqual(p.prize(tour),p.prize(incumbent))
+
 
 if __name__=='__main__':unittest.main()

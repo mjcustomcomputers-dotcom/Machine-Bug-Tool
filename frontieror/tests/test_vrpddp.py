@@ -40,14 +40,17 @@ def independent(data, sol):
         delivery=sum(byid[x]["delivery_demand"] for x in route[1:-1] if x<=n)
         load=delivery
         assert 0<=load<=data["vehicle_capacity"]
+        backhaul_started=False
         for x,item in zip(route,details):
             assert item["node_id"]==x
             if x==0: assert item["role"]=="depot"
             elif x<=n:
+                assert not backhaul_started
                 visits.append(x)
                 assert item["role"]=="linehaul" and item["customer_id"]==x
                 load-=byid[x]["delivery_demand"]
             else:
+                backhaul_started=True
                 visits.append(x)
                 assert item["role"]=="backhaul" and item["customer_id"]==x-n
                 load+=byid[x-n]["pickup_demand"]
@@ -90,6 +93,22 @@ class DivisibleVRPTests(unittest.TestCase):
                          for route in seed_routes]
                 self.assertTrue(vrp.verify(p,revised))
                 self.assertLessEqual(vrp.score(p,revised),original+1e-7)
+
+    def test_constraint_15_rejects_backhaul_before_linehaul(self):
+        data=fixture(2,31)
+        p=vrp.parse(data)
+        self.assertFalse(vrp.feasible(p,[0,1,3,2,4,0]))
+
+    def test_relocation_can_eliminate_single_request_route(self):
+        n=3
+        distances=[[abs(i-j) for j in range(n+1)] for i in range(n+1)]
+        p=(n,10.0,[0.0,1.0,1.0,1.0],[0.0,1.0,1.0,1.0],distances)
+        routes=[[0,1,4,0],[0,2,3,5,6,0]]
+        import time
+        revised=vrp.relocation(p,routes,time.monotonic()+1.0)
+        self.assertTrue(vrp.verify(p,revised))
+        self.assertEqual(len(revised),1)
+        self.assertLess(vrp.score(p,revised),vrp.score(p,routes))
 
     def test_rejects_capacity_violation(self):
         data=fixture(2,1)

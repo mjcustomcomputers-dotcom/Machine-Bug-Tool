@@ -353,7 +353,8 @@ def local_neighborhood(p: Problem, start_route: list[int], deadline: float) -> l
     return incumbent
 
 
-def cp_sat_circuit(p:Problem, deadline:float) -> tuple[list[int], bool]:
+def cp_sat_circuit(p:Problem, deadline:float,
+                   incumbent:list[int]|None=None) -> tuple[list[int], bool]:
     """Exact CP-SAT single tour formulation (optional, Open Source OR-Tools).
 
     With AddCircuit: unvisited nodes use self-loops; depot cannot self-loop;
@@ -361,12 +362,13 @@ def cp_sat_circuit(p:Problem, deadline:float) -> tuple[list[int], bool]:
     for the encoded OP mathematical model, independently checked afterwards.
     """
     from ortools.sat.python import cp_model
-    if len(p.cities)>55:raise ValueError('CP-SAT deliberately bounded to <=55 cities')
+    if len(p.cities)>80:raise ValueError('CP-SAT deliberately bounded to <=80 cities')
     cities=p.cities
     m=cp_model.CpModel()
     arcs=[]
     chosen=[]
     selected={}
+    arc_vars={}
     for i, city in enumerate(cities):
         if city!=p.depot:
             off=m.NewBoolVar(f'drop_{i}')
@@ -374,15 +376,26 @@ def cp_sat_circuit(p:Problem, deadline:float) -> tuple[list[int], bool]:
             m.Add(y+off==1)
             selected[i]=y
             arcs.append((i,i,off))
+            arc_vars[i,i]=off
         for j, other in enumerate(cities):
             if i==j:continue
             arc=m.NewBoolVar(f'a_{i}_{j}')
             arcs.append((i,j,arc))
             chosen.append((i,j,arc))
+            arc_vars[i,j]=arc
     m.AddCircuit(arcs)
     m.Add(sum(p.distance(cities[i],cities[j])*var for i,j,var in chosen)<=p.limit)
     m.Add(sum(selected.values())>=2)
     m.Maximize(sum(p.prizes[cities[i]]*var for i,var in selected.items()))
+    if incumbent is not None:
+        city_index={city:i for i,city in enumerate(cities)}
+        used={city_index[city] for city in incumbent[1:-1]}
+        route_edges={(city_index[a],city_index[b])
+                     for a,b in zip(incumbent,incumbent[1:])}
+        for i,var in selected.items():m.AddHint(var,int(i in used))
+        for edge,var in arc_vars.items():
+            if edge[0]==edge[1]:m.AddHint(var,int(edge[0] not in used))
+            else:m.AddHint(var,int(edge in route_edges))
     solver=cp_model.CpSolver()
     solver.parameters.max_time_in_seconds=max(0.02,deadline-time.monotonic()-0.25)
     solver.parameters.num_search_workers=2
@@ -455,9 +468,11 @@ def run_method(instance: dict, method: str, time_limit_s: float = 60) -> tuple[d
         if not proof and 6<len(p.cities)<=60 and time.monotonic()<deadline:
             try:candidates.append(beam_construct(p,min(deadline,start+max(0.14,budget*0.47))))
             except ValueError:pass
-        if not proof and 14<len(p.cities)<=55 and time.monotonic()<deadline:
+        if not proof and 14<len(p.cities)<=80 and time.monotonic()<deadline:
             try:
-                cp_route,cp_proof=cp_sat_circuit(p,min(deadline,start+max(0.18,budget*0.81)))
+                incumbent=min(candidates,key=lambda r:(-p.prize(r),p.cost(r)))
+                cp_route,cp_proof=cp_sat_circuit(
+                    p,min(deadline,start+max(0.18,budget*0.81)),incumbent)
                 candidates.append(cp_route)
                 proof=cp_proof
             except (ImportError,ValueError):pass  # optional OR-Tools

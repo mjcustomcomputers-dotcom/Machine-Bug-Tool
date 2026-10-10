@@ -100,6 +100,23 @@ class FacilityTests(unittest.TestCase):
         self.assertLess(solver.objective(p,new_open,ship),before)
         self.assertEqual(new_open,{0})
 
+    def test_closure_descent_is_not_limited_to_two_facilities(self):
+        import time
+        raw=fixture(8,4,2,91)
+        for i,row in enumerate(raw["facilities"]):
+            row["capacity"]=50.0
+            row["opening_cost"]=10.0+i
+        raw["transportation_costs"]=[[1.0]*4 for _ in range(8)]
+        p=solver.parse(raw)
+        opened=set(range(8))
+        ship=solver.greedy_transport(p,opened)
+        revised_open,revised_ship=solver.try_closures(
+            p,opened,ship,time.monotonic()+3.0)
+        self.assertTrue(solver.check(p,revised_open,revised_ship))
+        self.assertEqual(revised_open,{0})
+        self.assertLess(solver.objective(p,revised_open,revised_ship),
+                        solver.objective(p,opened,ship))
+
     def test_greedy_fallback_always_feasible(self):
         raw=fixture()
         p=solver.parse(raw)

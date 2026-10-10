@@ -120,4 +120,30 @@ class MulticommodityTests(unittest.TestCase):
         self.assertTrue(solver.verify(arcs,goods,selected))
         self.assertEqual(solver._route_objective(arcs,goods,selected),0.0)
 
+    def test_residual_recovery_ignores_real_arc_cost(self):
+        data=instance([(4,20)],(5,0))
+        for arc in data['network']['arcs']:
+            arc['cost']=1_000_000.0
+        arcs,adj,goods=solver.parse(data)
+        rejected={goods[0]['id']:None}
+        import time
+        repaired=solver.repair_residual(arcs,adj,goods,rejected,time.monotonic()+2)
+        self.assertTrue(solver.verify(arcs,goods,repaired))
+        self.assertIsNotNone(repaired[goods[0]['id']])
+        self.assertEqual(solver._route_objective(arcs,goods,repaired),0.0)
+
+    def test_residual_ejection_uses_rejection_penalty_delta(self):
+        # One saturated path: replacing a low-penalty incumbent with the
+        # higher-penalty rejected commodity must improve the official score.
+        data=instance([(5,1),(5,20)],(5,0))
+        arcs,adj,goods=solver.parse(data)
+        current={goods[0]['id']:(0,1),goods[1]['id']:None}
+        import time
+        repaired=solver.repair_residual(arcs,adj,goods,current,time.monotonic()+2)
+        self.assertTrue(solver.verify(arcs,goods,repaired))
+        self.assertIsNone(repaired[goods[0]['id']])
+        self.assertEqual(repaired[goods[1]['id']],(0,1))
+        self.assertLess(solver._route_objective(arcs,goods,repaired),
+                        solver._route_objective(arcs,goods,current))
+
 if __name__=='__main__':unittest.main()
