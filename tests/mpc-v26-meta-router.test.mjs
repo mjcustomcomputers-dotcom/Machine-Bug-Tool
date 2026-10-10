@@ -289,7 +289,7 @@ test('legacy Atlas default route stays identical under opt-in wrapper and source
   assert.equal(integrated.canonical_registry_mutation,false);
   assert.equal(integrated.methods_executed,false);
   assert.equal(integrated.source_versions_authenticated,false);
-  assert.throws(()=>routeMethodAtlasWithV26(adapter,{opt_in:false,atlas,meta}),/EXPLICIT_V26_OPT_IN_REQUIRED/);
+  await assert.rejects(()=>routeMethodAtlasWithV26(adapter,{opt_in:false,atlas,meta}),/EXPLICIT_V26_OPT_IN_REQUIRED/);
   const wrong=input([atom('QUALITY_TIERS',1,{source_ref:'fixture:other'})]);
   await assert.rejects(()=>routeMethodAtlasWithV26(adapter,{opt_in:true,atlas,meta:wrong}),
    /ATLAS_META_SOURCE_SUBJECT_NON_EQUIVALENCE/);
