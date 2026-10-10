@@ -286,3 +286,29 @@ test('forged portfolio winner and source proofs fail independent method audit',(
  assert.ok(audit.issues.includes('MINIMAL_SOURCE_PROOFS_CHANGED'));
  assert.ok(audit.issues.includes('FALSE_SOURCE_OR_ACTION_PROMOTION'));
 });
+
+test('hostile coverage review blocks method selection when rule/fact budgets skip controls',()=>{
+ const input={...model(),facts:Array.from({length:12},(_,i)=>fact('f'+i,'A'+i)),
+  rules:Array.from({length:24},(_,i)=>rule('r'+i,['A'+(i%12)],
+    i===0?'GOAL':'B'+i))};
+ const checks=metamorphicBidirectionalChecksV31(input);
+ assert.equal(checks.controls.length,1);
+ assert.equal(checks.all_controls_pass,true);
+ assert.equal(checks.coverage_complete,false);
+ assert.deepEqual(checks.omitted_controls,['DUPLICATE_RULE','IRRELEVANT_DECLARED_SYMBOL']);
+ const p=selectMethodPortfolioV31(input);
+ assert.equal(p.selected_method,'NONE_PENDING_REVIEW');
+ assert.equal(p.comparison_state,'METHOD_COMPARISON_COVERAGE_INCOMPLETE');
+ assert.equal(auditMethodPortfolioV31(input,p).state,
+  'SOURCE_BOUND_METHOD_TOURNAMENT_REPLAY_MATCH');
+});
+test('independent portfolio audit rejects forged compact result even when logical proof is untouched',()=>{
+ const x=model(),p=selectMethodPortfolioV31(x);
+ const broken=structuredClone(p);
+ broken.compact_output=broken.compact_output.replace('ORACLES_PASS','VERIFIED_FINALLY');
+ assert.equal(auditMethodPortfolioV31(x,broken).state,'METHOD_TOURNAMENT_RECEIPT_REJECTED');
+ assert.ok(auditMethodPortfolioV31(x,broken).issues.includes('COMPACT_METHOD_OUTPUT_DRIFT'));
+ const summary=structuredClone(p);
+ summary.next_action='Publish all these facts now.';
+ assert.ok(auditMethodPortfolioV31(x,summary).issues.includes('COMPACT_METHOD_OUTPUT_DRIFT'));
+});
