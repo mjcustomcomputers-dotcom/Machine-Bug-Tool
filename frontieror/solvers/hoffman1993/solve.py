@@ -74,6 +74,10 @@ def forced_greedy(p, deadline):
     if m > 180 or n > 6500:
         return None
     colsets = [frozenset(rows) for rows in columns]
+    # Atomic bitmask representation: integer subset checks are native C operations.
+    # Retain the original column and incidence records for independent verification.
+    colmasks = [sum(1 << r for r in rows) for rows in colsets]
+    initial_mask = (1 << m) - 1
     best = None
     best_cost = math.inf
     start = time.monotonic()
@@ -93,7 +97,7 @@ def forced_greedy(p, deadline):
     for mode in range(3):
         if time.monotonic() > deadline - 0.005:
             break
-        stack = [(frozenset(range(m)), tuple(), 0.0, zero_base)]
+        stack = [(initial_mask, tuple(), 0.0, zero_base)]
         while stack and time.monotonic() < deadline - 0.004 and nodes < 25000:
             remain, path, score, base_totals = stack.pop()
             nodes += 1
@@ -105,10 +109,14 @@ def forced_greedy(p, deadline):
                 continue
             pivot = None
             choices = None
-            for r in remain:
+            remaining_rows = remain
+            while remaining_rows:
+                lowest_bit = remaining_rows & -remaining_rows
+                r = lowest_bit.bit_length() - 1
+                remaining_rows ^= lowest_bit
                 # Every chosen column covers at least one removed row; a column
                 # wholly contained in remain cannot already be selected.
-                options = [j for j in incidence[r] if colsets[j] and colsets[j].issubset(remain)]
+                options = [j for j in incidence[r] if colmasks[j] and (colmasks[j] & remain) == colmasks[j]]
                 if not options:
                     choices = []
                     break
@@ -124,7 +132,7 @@ def forced_greedy(p, deadline):
                 next_base = tuple(base_totals[i] + d[i][j] for i in range(len(d)))
                 if any(nonnegative_base[i] and next_base[i] > hi[i] + 1e-7 for i in range(len(d))):
                     continue
-                stack.append((remain - colsets[j], path + (j,), score + costs[j], next_base))
+                stack.append((remain ^ colmasks[j], path + (j,), score + costs[j], next_base))
         if time.monotonic() - start > 2.0:
             break
     return best
