@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {auditMetaMethodGraph} from '../lib/mpc-meta-audit.mjs';
 import {inspectNegationScopes} from '../lib/mpc-natural-negation.mjs';
 import test from 'node:test';
 import {META_TRUTH,notTruth,andTruth,orTruth,generateMetaMethodGraph,createMpcMetaCache} from '../lib/mpc-meta-logic.mjs';
@@ -68,6 +69,28 @@ test('method-on-method DAG is source keyed, deterministic, bounded and deliberat
   assert.throws(()=>generateMetaMethodGraph({...fixture,source_digest:'abc'}),/META_SOURCE_DIGEST_REQUIRED/u);
   assert.throws(()=>generateMetaMethodGraph({...fixture,atoms:[atom('SAME',META_TRUTH.YES),atom('SAME',META_TRUTH.NO)]}),/META_ATOM_DUPLICATE/u);
 });
+test('second-order algebra audit checks the method generator and rejects changed conclusions or identities',()=>{
+  const graph=generateMetaMethodGraph({source_digest:hash('audit-source'),
+    atoms:[atom('A',META_TRUTH.YES),atom('B',META_TRUTH.UNKNOWN)]});
+  const seeds=[atom('A',META_TRUTH.YES),atom('B',META_TRUTH.UNKNOWN)];
+  const audit=auditMetaMethodGraph(graph,seeds);
+  assert.equal(audit.kind,'MPC_META_ALGEBRA_AUDIT');
+  assert.equal(audit.candidates_checked,9);
+  assert.equal(audit.native_methods_executed,false);
+  assert.equal(audit.real_world_verification,false);
+  const tamper=structuredClone(graph);
+  tamper.nodes[0].logical_state='SUPPORTED';
+  assert.throws(()=>auditMetaMethodGraph(tamper,seeds),/META_AUDIT_TRUTH_TABLE_MISMATCH/u);
+  const identity=structuredClone(graph);
+  identity.nodes[1].candidate_id='MPC-META-INVALID';
+  assert.throws(()=>auditMetaMethodGraph(identity,seeds),/META_AUDIT_IDENTITY_MISMATCH/u);
+  const forged=structuredClone(graph);
+  forged.nodes[0].method_execution='EXECUTED';
+  assert.throws(()=>auditMetaMethodGraph(forged,seeds),/META_AUDIT_UNSAFE_NODE/u);
+  assert.throws(()=>auditMetaMethodGraph(graph,[atom('A',META_TRUTH.NO),atom('B',META_TRUTH.UNKNOWN)]),
+    /META_AUDIT_TRUTH_TABLE_MISMATCH/u);
+});
+
 test('bounded metadata cache reuses only same source/method/session and revokes across time, project and TTL',()=>{
   let now=1000;
   const cache=createMpcMetaCache({now:()=>now,maxEntries:2,maxBytes:12_000,ttlMs:100});
