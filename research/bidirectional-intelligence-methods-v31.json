@@ -1,0 +1,716 @@
+{
+  "version": "MPC_V31_BIDIRECTIONAL_INTELLIGENCE_METHODS_ON_METHODS",
+  "namespace": "RH_V31_NONCANONICAL_RESEARCH",
+  "parent_commit": "1749089a1666cfa47daf0d2b2a131d02f568cf54",
+  "original_native_evaluators": 24,
+  "original_atlas_candidates": 239,
+  "v30_receiver_unchanged_initially": true,
+  "no_registry_promotion": true,
+  "untrusted_facts_are_declared": true,
+  "formal_proofs_are_model_local": true,
+  "sources": {
+    "horn": "https://www.cs.cmu.edu/~fp/courses/lp/lectures/01-intro.pdf",
+    "magic": "https://cris.huji.ac.il/en/publications/magic-sets-and-other-strange-ways-to-implement-logic-programs/",
+    "atms": "https://www.sciencedirect.com/science/article/pii/0004370286900809",
+    "diagnosis": "https://www.sciencedirect.com/science/article/pii/0004370287900622",
+    "diagMeasure": "https://www.sciencedirect.com/science/article/pii/0004370294900191",
+    "cegar": "https://web.stanford.edu/class/cs357/cegar.pdf",
+    "aslib": "https://research.ibm.com/publications/aslib-a-benchmark-library-for-algorithm-selection",
+    "meta": "https://link.springer.com/article/10.1007/s10994-022-06161-4",
+    "pdr": "https://www.mdpi.com/1999-4893/17/6/253",
+    "mpc": "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/1749089a1666cfa47daf0d2b2a131d02f568cf54/docs/MPC-V30-ENGINEERING-LAB.md",
+    "semiring": "https://www.cs.cornell.edu/andru/papers/provenance.pdf",
+    "zeller": "https://www.st.cs.uni-saarland.de/papers/tse2002/"
+  },
+  "hooks": [
+    {
+      "id": "RH-V31-01",
+      "family": "LOGIC",
+      "key": "FINITE_FORWARD_HORN_CLOSURE",
+      "requires": [
+        "FACTS",
+        "HORN_RULES"
+      ],
+      "produces": [
+        "FORWARD_CLOSURE"
+      ],
+      "source_urls": [
+        "https://www.cs.cmu.edu/~fp/courses/lp/lectures/01-intro.pdf"
+      ],
+      "falsifier": "Only all premises jointly support a new proposition, never a partial match.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-02",
+      "family": "LOGIC",
+      "key": "AND_HYPEREDGE_PREMISE_CONJUNCTION",
+      "requires": [
+        "RULE_PREMISES",
+        "SUPPORTED_FACTS"
+      ],
+      "produces": [
+        "CONJUNCTION_PROOF"
+      ],
+      "source_urls": [
+        "https://www.cs.cmu.edu/~fp/courses/lp/lectures/01-intro.pdf"
+      ],
+      "falsifier": "Missing one conjunct blocks this rule.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-03",
+      "family": "LOGIC",
+      "key": "OR_ALTERNATE_JUSTIFICATIONS",
+      "requires": [
+        "ALTERNATE_RULES",
+        "SOURCE_SUPPORTS"
+      ],
+      "produces": [
+        "DISJUNCTIVE_PROOF_SETS"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370286900809"
+      ],
+      "falsifier": "Two alternative rules create separate proof routes, not a single merged source.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-04",
+      "family": "LOGIC",
+      "key": "BACKWARD_GOAL_SLICING",
+      "requires": [
+        "TARGET",
+        "GOAL_RULE_INDEX"
+      ],
+      "produces": [
+        "REVERSE_GOAL_REQUIREMENTS"
+      ],
+      "source_urls": [
+        "https://cris.huji.ac.il/en/publications/magic-sets-and-other-strange-ways-to-implement-logic-programs/"
+      ],
+      "falsifier": "A goal query must not inspect all irrelevant rules as if they were evidence.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-05",
+      "family": "LOGIC",
+      "key": "FORWARD_BACKWARD_DUAL_ORACLE",
+      "requires": [
+        "FORWARD_CLOSURE",
+        "REVERSE_GOAL_REQUIREMENTS"
+      ],
+      "produces": [
+        "BIDIRECTIONAL_REPLAY_RECEIPT"
+      ],
+      "source_urls": [
+        "https://www.cs.cmu.edu/~fp/courses/lp/lectures/01-intro.pdf",
+        "https://cris.huji.ac.il/en/publications/magic-sets-and-other-strange-ways-to-implement-logic-programs/"
+      ],
+      "falsifier": "Forward and backward derivability on a declared finite positive Horn model must agree.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-06",
+      "family": "LOGIC",
+      "key": "SEMI_NAIVE_DELTA_FIXPOINT",
+      "requires": [
+        "DELTA_FACTS",
+        "RULE_DEPENDENCIES"
+      ],
+      "produces": [
+        "INCREMENTAL_FIXPOINT_PLAN"
+      ],
+      "source_urls": [
+        "https://cris.huji.ac.il/en/publications/magic-sets-and-other-strange-ways-to-implement-logic-programs/"
+      ],
+      "falsifier": "A changed rule/source invalidates prior incremental reuse.",
+      "implementation_state": "RESEARCH_ONLY",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-07",
+      "family": "LOGIC",
+      "key": "MAGIC_SET_QUERY_RELEVANCE",
+      "requires": [
+        "GOAL_DEPENDENCIES",
+        "RULE_GRAPH"
+      ],
+      "produces": [
+        "RELEVANT_RULE_SLICE"
+      ],
+      "source_urls": [
+        "https://cris.huji.ac.il/en/publications/magic-sets-and-other-strange-ways-to-implement-logic-programs/"
+      ],
+      "falsifier": "Goal irrelevance can shrink search only if the dependency closure is sound.",
+      "implementation_state": "RESEARCH_ONLY",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-08",
+      "family": "LOGIC",
+      "key": "MINIMAL_SOURCE_SUPPORT_ANTICHAIN",
+      "requires": [
+        "DERIVATION_SETS",
+        "SUBSET_LATTICE"
+      ],
+      "produces": [
+        "MINIMAL_SUPPORT_FAMILIES"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370286900809"
+      ],
+      "falsifier": "A superset proof cannot be called a new minimal explanation.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-09",
+      "family": "LOGIC",
+      "key": "CIRCULAR_DERIVATION_NON_BOOTSTRAP",
+      "requires": [
+        "CYCLIC_RULES",
+        "SEED_FACTS"
+      ],
+      "produces": [
+        "CYCLE_REVIEW"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370286900809"
+      ],
+      "falsifier": "Mutually recursive rules with no seed cannot invent a supported proposition.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-10",
+      "family": "LOGIC",
+      "key": "IMPLICATION_VS_CONVERSE_DIAGNOSTIC",
+      "requires": [
+        "IF_THEN_RULES",
+        "CONVERSE_PROPOSITION"
+      ],
+      "produces": [
+        "CONVERSE_GUARD"
+      ],
+      "source_urls": [
+        "https://www.cs.cmu.edu/~fp/courses/lp/lectures/01-intro.pdf"
+      ],
+      "falsifier": "A entails B does not mean B entails A.",
+      "implementation_state": "RESEARCH_ONLY",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-11",
+      "family": "LOGIC",
+      "key": "PARACONSISTENT_EVIDENCE_VS_HORN",
+      "requires": [
+        "CONTRARY_EVIDENCE",
+        "POSITIVE_HORN_CLOSURE"
+      ],
+      "produces": [
+        "CONFLICT_QUARANTINE"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370286900809"
+      ],
+      "falsifier": "Contradictions cannot explode into arbitrary unrelated facts.",
+      "implementation_state": "RESEARCH_ONLY",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-12",
+      "family": "LOGIC",
+      "key": "SEMIRING_PROVENANCE_ANALOGY",
+      "requires": [
+        "PROOF_FAMILIES",
+        "SOURCE_LINEAGES"
+      ],
+      "produces": [
+        "PROVENANCE_POLYNOMIAL_REVIEW"
+      ],
+      "source_urls": [
+        "https://www.cs.cornell.edu/andru/papers/provenance.pdf"
+      ],
+      "falsifier": "Symbolic witness multiplicity is not independent external corroboration.",
+      "implementation_state": "RESEARCH_ONLY",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-13",
+      "family": "DIAGNOSIS",
+      "key": "REITER_MINIMAL_CONFLICT_TRANSVERSAL",
+      "requires": [
+        "DECLARED_CONFLICT_SETS",
+        "ASSUMPTIONS"
+      ],
+      "produces": [
+        "MINIMAL_DIAGNOSES"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370287900622"
+      ],
+      "falsifier": "A diagnosis must intersect every declared conflict and be subset-minimal.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-14",
+      "family": "DIAGNOSIS",
+      "key": "MINIMAL_DIAGNOSIS_COST_ORDER",
+      "requires": [
+        "MINIMAL_DIAGNOSES",
+        "COSTS"
+      ],
+      "produces": [
+        "DIAGNOSIS_COST_RANK"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370294900191"
+      ],
+      "falsifier": "Declared costs are not automatically observed likelihoods.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-15",
+      "family": "DIAGNOSIS",
+      "key": "ATMS_CONTEXT_SWITCHING",
+      "requires": [
+        "ASSUMPTION_CONTEXTS",
+        "PROOF_SUPPORTS"
+      ],
+      "produces": [
+        "CONTEXTUAL_TRUTH_STATES"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370286900809"
+      ],
+      "falsifier": "Switching assumptions must not retain stale derived facts.",
+      "implementation_state": "RESEARCH_ONLY",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-16",
+      "family": "DIAGNOSIS",
+      "key": "ABDUCTION_MINIMUM_ASSUMPTIONS",
+      "requires": [
+        "MISSING_GOAL",
+        "ASSUMPTION_CANDIDATES"
+      ],
+      "produces": [
+        "ABDUCTIVE_EXPLANATIONS"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370286900809",
+        "https://www.sciencedirect.com/science/article/pii/0004370287900622"
+      ],
+      "falsifier": "Explanations require independent validation and cannot be called observed evidence.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-17",
+      "family": "DIAGNOSIS",
+      "key": "ASSUMPTION_RETRACTION_RECOMPUTE",
+      "requires": [
+        "ABDUCTIVE_EXPLANATIONS",
+        "RETRACTED_FACT"
+      ],
+      "produces": [
+        "RETRACTION_CHECK"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370286900809"
+      ],
+      "falsifier": "Retracting a premise requires the closure to be recalculated.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-18",
+      "family": "DIAGNOSIS",
+      "key": "MULTIPLE_EXPLANATIONS_KEEP_ALTERNATIVES",
+      "requires": [
+        "ABDUCTIVE_EXPLANATIONS",
+        "PROOF_FAMILIES"
+      ],
+      "produces": [
+        "ALTERNATIVE_EXPLANATION_SET"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370286900809"
+      ],
+      "falsifier": "The cheapest explanation need not be the true one.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-19",
+      "family": "DIAGNOSIS",
+      "key": "MEASUREMENT_SELECTION_VS_DIAGNOSIS",
+      "requires": [
+        "DIAGNOSIS_CANDIDATES",
+        "EXPERIMENT_COSTS"
+      ],
+      "produces": [
+        "DISCRIMINATING_MEASUREMENT_PLAN"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370294900191"
+      ],
+      "falsifier": "A diagnostic test must distinguish alternatives under its observable outcome model.",
+      "implementation_state": "RESEARCH_ONLY",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-20",
+      "family": "DIAGNOSIS",
+      "key": "SUPPORT_CONFLICT_SEPARATION",
+      "requires": [
+        "CONFLICT_SETS",
+        "HORN_RULES"
+      ],
+      "produces": [
+        "MODEL_DIAGNOSIS_BOUNDARY"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370287900622"
+      ],
+      "falsifier": "A conflicting source claim is not itself a proven broken component.",
+      "implementation_state": "RESEARCH_ONLY",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-21",
+      "family": "FALSIFICATION",
+      "key": "MINIMAL_FACT_WITHDRAWAL_CUT",
+      "requires": [
+        "GOAL_PROOFS",
+        "ORIGINAL_FACTS"
+      ],
+      "produces": [
+        "COUNTERFACTUAL_CUT_SETS"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370287900622"
+      ],
+      "falsifier": "Only a set whose removal actually breaks the goal qualifies as a sufficient cut.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-22",
+      "family": "FALSIFICATION",
+      "key": "CONCLUSION_SENSITIVITY_RANK",
+      "requires": [
+        "COUNTERFACTUAL_CUT_SETS",
+        "SOURCE_OWNERS"
+      ],
+      "produces": [
+        "CRITICAL_EVIDENCE_FRONTIER"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370287900622"
+      ],
+      "falsifier": "A logically critical premise is not automatically causally decisive in the real world.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-23",
+      "family": "FALSIFICATION",
+      "key": "MUTATION_RELATION_ORDER_INVARIANCE",
+      "requires": [
+        "RULE_ORDER",
+        "GOAL_PROOF"
+      ],
+      "produces": [
+        "ORDER_METAMORPHIC_REPLAY"
+      ],
+      "source_urls": [
+        "https://web.stanford.edu/class/cs357/cegar.pdf"
+      ],
+      "falsifier": "Rule permutation must preserve finite Horn closure.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-24",
+      "family": "FALSIFICATION",
+      "key": "DUPLICATE_RULE_IDEMPOTENCE",
+      "requires": [
+        "DUPLICATE_RULES",
+        "CLOSURE"
+      ],
+      "produces": [
+        "DUPLICATE_REPLAY"
+      ],
+      "source_urls": [
+        "https://www.cs.cmu.edu/~fp/courses/lp/lectures/01-intro.pdf"
+      ],
+      "falsifier": "Repeating identical logic cannot invent new factual support.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-25",
+      "family": "FALSIFICATION",
+      "key": "IRRELEVANT_FACT_NON_EFFECT",
+      "requires": [
+        "DISCONNECTED_FACT",
+        "GOAL"
+      ],
+      "produces": [
+        "IRRELEVANCE_REPLAY"
+      ],
+      "source_urls": [
+        "https://cris.huji.ac.il/en/publications/magic-sets-and-other-strange-ways-to-implement-logic-programs/"
+      ],
+      "falsifier": "Adding an unrelated atom should not change a fixed goal proof.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-26",
+      "family": "FALSIFICATION",
+      "key": "PROOF_WITNESS_SUBSET_MINIMALITY",
+      "requires": [
+        "PROOF_SUPPORTS",
+        "INDEPENDENT_REPLAY"
+      ],
+      "produces": [
+        "WITNESS_MINIMALITY_AUDIT"
+      ],
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/0004370286900809"
+      ],
+      "falsifier": "Removing any member of a truly minimal proof should invalidate that proof route.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-27",
+      "family": "FALSIFICATION",
+      "key": "CEGAR_COUNTEREXAMPLE_REFINEMENT_BRIDGE",
+      "requires": [
+        "ABSTRACT_COUNTEREXAMPLE",
+        "CONCRETE_TRACE"
+      ],
+      "produces": [
+        "REFINEMENT_CANDIDATE"
+      ],
+      "source_urls": [
+        "https://web.stanford.edu/class/cs357/cegar.pdf"
+      ],
+      "falsifier": "Spurious counterexample requires targeted refinement, not unsupported rejection.",
+      "implementation_state": "REUSE_EXISTING_V15",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-28",
+      "family": "FALSIFICATION",
+      "key": "PDR_INDUCTIVE_BLOCKING_CANDIDATE",
+      "requires": [
+        "FINITE_STATE_MODEL",
+        "BLOCKED_STATES"
+      ],
+      "produces": [
+        "INDUCTIVE_REACHABILITY_CHALLENGE"
+      ],
+      "source_urls": [
+        "https://www.mdpi.com/1999-4893/17/6/253"
+      ],
+      "falsifier": "Inductive invariant must include initial states and preserve transitions.",
+      "implementation_state": "RESEARCH_ONLY",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-29",
+      "family": "PORTFOLIO",
+      "key": "PAIRED_METHOD_TOURNAMENT",
+      "requires": [
+        "METHOD_RECEIPTS",
+        "COMMON_GOAL"
+      ],
+      "produces": [
+        "METHOD_AGREEMENT_MATRIX"
+      ],
+      "source_urls": [
+        "https://research.ibm.com/publications/aslib-a-benchmark-library-for-algorithm-selection",
+        "https://link.springer.com/article/10.1007/s10994-022-06161-4"
+      ],
+      "falsifier": "Compare methods on identical supplied evidence, not different tasks.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-30",
+      "family": "PORTFOLIO",
+      "key": "PER_INSTANCE_METHOD_SELECTION",
+      "requires": [
+        "CASE_FEATURES",
+        "APPLICABLE_METHODS"
+      ],
+      "produces": [
+        "CASE_METHOD_RANKING"
+      ],
+      "source_urls": [
+        "https://research.ibm.com/publications/aslib-a-benchmark-library-for-algorithm-selection"
+      ],
+      "falsifier": "A universally best method cannot be assumed from one synthetic case.",
+      "implementation_state": "RESEARCH_ONLY",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-31",
+      "family": "PORTFOLIO",
+      "key": "COST_COVERAGE_PARETO_DOMINANCE",
+      "requires": [
+        "METHOD_COSTS",
+        "METHOD_COVERAGE"
+      ],
+      "produces": [
+        "PARETO_FRONTIER"
+      ],
+      "source_urls": [
+        "https://research.ibm.com/publications/aslib-a-benchmark-library-for-algorithm-selection"
+      ],
+      "falsifier": "Lower cost with lower coverage may not strictly dominate.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-32",
+      "family": "PORTFOLIO",
+      "key": "FALSIFIER_FAILURE_PENALTY",
+      "requires": [
+        "METHOD_AUDIT_RESULTS",
+        "METHOD_COSTS"
+      ],
+      "produces": [
+        "AUDIT_ADJUSTED_RANK"
+      ],
+      "source_urls": [
+        "https://link.springer.com/article/10.1007/s10994-022-06161-4"
+      ],
+      "falsifier": "A failed replay must outrank convenient speed claims.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-33",
+      "family": "PORTFOLIO",
+      "key": "METHOD_DISAGREEMENT_TRIAGE",
+      "requires": [
+        "METHOD_AGREEMENT_MATRIX",
+        "METHOD_LINEAGES"
+      ],
+      "produces": [
+        "DISAGREEMENT_FRONTIER"
+      ],
+      "source_urls": [
+        "https://link.springer.com/article/10.1007/s10994-022-06161-4"
+      ],
+      "falsifier": "Shared inputs are not independent proof and disagreement demands review.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-34",
+      "family": "PORTFOLIO",
+      "key": "STOP_NO_NEW_EVIDENCE",
+      "requires": [
+        "INPUT_FINGERPRINT",
+        "PRIOR_FINGERPRINT"
+      ],
+      "produces": [
+        "NO_DELTA_STOP"
+      ],
+      "source_urls": [
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/1749089a1666cfa47daf0d2b2a131d02f568cf54/docs/MPC-V30-ENGINEERING-LAB.md"
+      ],
+      "falsifier": "Same inputs with no changed source should stop further search.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-35",
+      "family": "PORTFOLIO",
+      "key": "BUSINESS_FIRST_METHOD_APPLICATION",
+      "requires": [
+        "BUSINESS_GOAL",
+        "REQUIRED_EVIDENCE"
+      ],
+      "produces": [
+        "BUSINESS_REASONING_ROUTE"
+      ],
+      "source_urls": [
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/1749089a1666cfa47daf0d2b2a131d02f568cf54/docs/MPC-V30-ENGINEERING-LAB.md",
+        "https://research.ibm.com/publications/aslib-a-benchmark-library-for-algorithm-selection"
+      ],
+      "falsifier": "Select the smallest method that advances a real business task.",
+      "implementation_state": "RESEARCH_ONLY",
+      "method_executed": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V31-36",
+      "family": "PORTFOLIO",
+      "key": "METAMETHOD_ORACLE_CONTEST",
+      "requires": [
+        "FORWARD_BACKWARD_DUAL_ORACLE",
+        "DIAGNOSIS_CANDIDATES"
+      ],
+      "produces": [
+        "METHOD_OF_METHODS_RECEIPT"
+      ],
+      "source_urls": [
+        "https://link.springer.com/article/10.1007/s10994-022-06161-4",
+        "https://www.sciencedirect.com/science/article/pii/0004370287900622"
+      ],
+      "falsifier": "An audit method itself must pass a separately constructed falsifier.",
+      "implementation_state": "LOCAL_EXECUTABLE",
+      "method_executed": false,
+      "canonical_member": false
+    }
+  ]
+}

@@ -9,7 +9,10 @@ export const ENGINEERING_METHOD_LAB_OPERATIONS=Object.freeze([
  ['CAN_FRAME','Passive CAN / CAN FD frame'],
  ['CAN_COUNTER','CAN counter window'],
  ['CAN_PROTECTION','CAN protection evidence'],
- ['LINGUISTIC_OUTPUT','Compact claim-language audit']
+ ['LINGUISTIC_OUTPUT','Compact claim-language audit'],
+ ['REASONING_DUEL','Forward vs reverse: proof duel'],
+ ['ABDUCTIVE_EXPLANATIONS','Reverse: minimal explanations'],
+ ['DIAGNOSIS_HITTING_SETS','Method diagnosis: minimal conflicts']
 ]);
 const SAMPLE_COMMIT='5f624980c12620811459fa80684d9cb1458811ef';
 const SRC=/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,239}$/u;
@@ -43,6 +46,34 @@ export function methodLabSyntheticExampleV30(operation,projectId){
  if(operation==='CAN_PROTECTION')
   return {...context,crc_state:'PASS',freshness_state:'UNKNOWN',
    authenticator_state:'UNKNOWN',authorization_state:'UNKNOWN'};
+ if(['REASONING_DUEL','ABDUCTIVE_EXPLANATIONS'].includes(operation)){
+  const f=(id,symbol)=>({id,symbol,state:'SYNTHETIC',
+   source_ref:'fixture:'+id,source_owner:context.source_owner,
+   source_version:context.source_version});
+  const r=(id,premises,conclusion)=>({id,premises,conclusion,
+   source_ref:'fixture:'+id,source_owner:context.source_owner,
+   source_version:context.source_version});
+  const model={...context,world:'SYNTHETIC',goal:'GOAL',
+   facts:operation==='REASONING_DUEL'?
+     [f('fA','A'),f('fB','B'),f('fC','C')]:[],
+   rules:[r('rAND',['A','B'],'X'),r('rX',['X'],'GOAL'),
+    r('rC',['C'],'GOAL'),r('rLOOP1',['L'],'M'),r('rLOOP2',['M'],'L')]};
+  return operation==='ABDUCTIVE_EXPLANATIONS'?
+   {...model,assumption_candidates:[
+    {id:'hA',symbol:'A',cost:1,source_ref:'fixture:hA'},
+    {id:'hB',symbol:'B',cost:1,source_ref:'fixture:hB'},
+    {id:'hC',symbol:'C',cost:5,source_ref:'fixture:hC'}
+   ]}:model;
+ }
+ if(operation==='DIAGNOSIS_HITTING_SETS')
+  return {...context,assumptions:[
+   {id:'componentA',cost:1,source_ref:'fixture:a'},
+   {id:'componentB',cost:9,source_ref:'fixture:b'},
+   {id:'componentC',cost:1,source_ref:'fixture:c'}
+  ],conflicts:[
+   {id:'c1',assumption_ids:['componentA','componentB'],source_ref:'fixture:conflict1'},
+   {id:'c2',assumption_ids:['componentB','componentC'],source_ref:'fixture:conflict2'}
+  ]};
  if(operation==='LINGUISTIC_OUTPUT')
   return {source_commit:context.source_commit,scope_id:projectId,
    subject_id:context.subject_id,world:'SYNTHETIC',format:'TECHNICAL',frames:[{
