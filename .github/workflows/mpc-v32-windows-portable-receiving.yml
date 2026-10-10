@@ -65,7 +65,7 @@ jobs:
           pnpm run desktop:package:windows --output-dir "$RUNNER_TEMP/v32-windows" > "$RUNNER_TEMP/v32-package.log"
           test -s "$RUNNER_TEMP/v32-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip"
           test -s "$RUNNER_TEMP/v32-windows/MPC-Workspace-0.1.0-windows-x64-build-receipt.json"
-          sha256sum --check "$RUNNER_TEMP/v32-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip.sha256"
+          (cd "$RUNNER_TEMP/v32-windows" && sha256sum --check "MPC-Workspace-0.1.0-windows-x64-portable.zip.sha256")
         working-directory: ${{ github.workspace }}
       - name: Verify all packaged ASAR files, external renderer, payload bytes and source
         shell: bash
