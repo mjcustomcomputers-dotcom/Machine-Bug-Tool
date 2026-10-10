@@ -4,7 +4,7 @@
 
 ## Mission: take the ATOM of a method apart, then challenge it with another method
 
-Preserve the existing native 24 finite MPC evaluators, 239 Method Atlas candidate IDs, MAXVAR/NESTMAX/BL32-384/MBSS/EXT semantics, original typed atomic operations, evidence acquisition controllers, hosted plugin source, V20 screen/network OSI, V22 method synergies, V23 behavioral, V24 networking, V25 IPFS and V26 time/authentication router. V27 adds a **noncanonical `RH-V27` research overlay with 48 source-attributed contracts** and a **separate finite science lab and domain-bound method router**. None of the 43 contracts is automatically a scientific implementation or native evaluator.
+Preserve the existing native 24 finite MPC evaluators, 239 Method Atlas candidate IDs, MAXVAR/NESTMAX/BL32-384/MBSS/EXT semantics, original typed atomic operations, evidence acquisition controllers, hosted plugin source, V20 screen/network OSI, V22 method synergies, V23 behavioral, V24 networking, V25 IPFS and V26 time/authentication router. V27 adds a **noncanonical `RH-V27` research overlay with 48 source-attributed contracts** and a **separate finite science lab and domain-bound method router**. None of the 48 contracts is automatically a scientific implementation or native evaluator.
 
 User-inspired names (`Star Trek`, `Sagan`, `Bart Simpson chalkboard`, `three-point shot`, `dawn/Darwin`) are useful **creative comparison labels**. They are not claims that fictional technologies exist, TV characters authored algorithms, Sagan endorsed this product, or NBA mathematics transfers automatically to dolphins.
 
