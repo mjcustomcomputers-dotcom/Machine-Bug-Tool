@@ -5,6 +5,7 @@ import {createServer} from 'node:http';
 import {existsSync, lstatSync, readFileSync, realpathSync} from 'node:fs';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {reviewEngineeringMethodLabV30} from '../lib/mpc-workspace-method-lab-v30.mjs';
 
 export const MPC_WORKSPACE_SERVER_VERSION = 'MPC_WORKSPACE_SERVER_1';
 export const MPC_WORKSPACE_HOST = '127.0.0.1';
@@ -20,6 +21,7 @@ const STATIC_FILES = Object.freeze({
   '/index.html': Object.freeze({name: 'index.html', type: 'text/html; charset=utf-8', maxBytes: 2 * 1024 * 1024}),
   '/styles.css': Object.freeze({name: 'styles.css', type: 'text/css; charset=utf-8', maxBytes: 2 * 1024 * 1024}),
   '/app.js': Object.freeze({name: 'app.js', type: 'text/javascript; charset=utf-8', maxBytes: 4 * 1024 * 1024}),
+  '/method-lab.js': Object.freeze({name: 'method-lab.js', type: 'text/javascript; charset=utf-8', maxBytes: 128 * 1024}),
   '/screen-policy.js': Object.freeze({name: 'screen-policy.js', type: 'text/javascript; charset=utf-8', maxBytes: 256 * 1024}),
   '/screen-reader.js': Object.freeze({name: 'screen-reader.js', type: 'text/javascript; charset=utf-8', maxBytes: 512 * 1024}),
   '/screen-source-choice.js': Object.freeze({name: 'screen-source-choice.js', type: 'text/javascript; charset=utf-8', maxBytes: 64 * 1024}),
@@ -461,6 +463,19 @@ export async function startMpcWorkspaceServer({
 
       let body;
       const postBody = async () => body ??= await readJsonBody(request);
+      if (url.pathname === '/api/workspace/methods/engineering') {
+        if (method !== 'POST') {
+          sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'POST'});
+          return;
+        }
+        const payload = await postBody();
+        // This existing project check binds the operation to the selected
+        // native workspace without launching a job or acquiring a new source.
+        await callService(workspaceService, ['getProject'], payload?.project_id);
+        const receipt = reviewEngineeringMethodLabV30(payload);
+        sendJson(response, 200, {receipt});
+        return;
+      }
       if (url.pathname === '/api/workspace/local-model/status') {
         if (method !== 'GET') {sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'GET'}); return;}
         sendJson(response, 200, await callService(workspaceService, ['localModelStatus']));
