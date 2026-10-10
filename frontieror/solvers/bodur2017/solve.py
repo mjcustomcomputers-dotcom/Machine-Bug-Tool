@@ -179,6 +179,60 @@ def lp_transport(p,opened,deadline):
     return shipped if check(p,opened,shipped) else None
 
 
+
+def improve_openings_lp(p, opened, ship, deadline):
+    """Bounded 1-close / 1-swap descent with exact scenario-wise LP recourse.
+
+    Unlike greedy closure, measure the same true expected objective after
+    reoptimizing shipping for each proposed opening configuration.
+    """
+    f,c,scenarios,cap,fixed,costs,demand,prob=p
+    if f>14 or c>100 or scenarios>36 or deadline-time.monotonic()<0.45:
+        return opened,ship
+    best_open=set(opened)
+    best_ship=ship
+    best_value=objective(p,best_open,best_ship)
+    required=max((math.fsum(row) for row in demand),default=0.0)
+    capacity=math.fsum(cap[i] for i in best_open)
+    # Deterministic orders: expensive opening first, then cheap replacement.
+    for _ in range(2):
+        if deadline-time.monotonic()<0.45:
+            break
+        changed=False
+        active=sorted(best_open,key=lambda i:(-fixed[i],i))
+        inactive=sorted(set(range(f))-best_open,key=lambda i:(fixed[i],i))
+        for leaving in active:
+            if deadline-time.monotonic()<0.45:
+                break
+            choices=[None]+inactive
+            for entering in choices:
+                if deadline-time.monotonic()<0.45:
+                    break
+                if entering is None and capacity-cap[leaving]<required-1e-8:
+                    continue
+                if entering is not None and capacity-cap[leaving]+cap[entering]<required-1e-8:
+                    continue
+                candidate_open=(best_open-{leaving})|({entering} if entering is not None else set())
+                # A lower bound on shipping is zero only when costs nonnegative.
+                candidate_fixed=math.fsum(fixed[i] for i in candidate_open)
+                if candidate_fixed>=best_value-1e-7 and all(x>=0 for row in costs for x in row):
+                    continue
+                candidate_ship=lp_transport(p,candidate_open,min(deadline,time.monotonic()+0.65))
+                if candidate_ship is None:
+                    continue
+                value=objective(p,candidate_open,candidate_ship)
+                if value<best_value-1e-7 and check(p,candidate_open,candidate_ship):
+                    best_open,best_ship,best_value=candidate_open,candidate_ship,value
+                    capacity=math.fsum(cap[i] for i in best_open)
+                    changed=True
+                    break
+            if changed:
+                break
+        if not changed:
+            break
+    return best_open,best_ship
+
+
 def extensive_milp(p,deadline):
     """Exact sparse extensive-form MIP; skip models that could exceed memory."""
     f,c,s,cap,fixed,cost,demand,prob=p
@@ -258,6 +312,14 @@ def solve(instance,time_limit_s):
         if lp is not None and check(p,best_opened,lp) and (
                 objective(p,best_opened,lp)<objective(p,best_opened,best_ship)-1e-7):
             best_ship=lp
+    # Spend a bounded slice improving actual first-stage decisions using
+    # exact LP recourse, rather than optimizing shipments only once.
+    if time.monotonic()<deadline-1.1:
+        candidate_open,candidate_ship=improve_openings_lp(
+            p,best_opened,best_ship,min(deadline,time.monotonic()+3.0))
+        if check(p,candidate_open,candidate_ship) and (
+                objective(p,candidate_open,candidate_ship)<objective(p,best_opened,best_ship)-1e-7):
+            best_opened,best_ship=candidate_open,candidate_ship
     if time.monotonic()<deadline-.6:
         challenger=extensive_milp(p,deadline)
         if challenger is not None and check(p,*challenger):
