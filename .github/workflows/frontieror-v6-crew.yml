@@ -8,6 +8,8 @@ on:
       - 'frontieror/tests/test_crew.py'
       - 'frontieror/tests/bench_crew_base_cache.py'
       - 'frontieror/tests/bench_crew_bitsets.py'
+      - 'frontieror/solvers/bodur2017/**'
+      - 'frontieror/tests/test_facility.py'
       - '.github/workflows/frontieror-v6-crew.yml'
   workflow_dispatch:
 permissions:
@@ -31,3 +33,4 @@ jobs:
           python frontieror/tests/test_crew.py
           python frontieror/tests/bench_crew_base_cache.py
           python frontieror/tests/bench_crew_bitsets.py
+          python frontieror/tests/test_facility.py
