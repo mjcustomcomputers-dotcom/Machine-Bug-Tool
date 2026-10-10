@@ -137,5 +137,5 @@ test('Registry and contract data require both trusted identity headers; discover
  const identity={'oai-authenticated-user-id':'owner','oai-authenticated-user-email':'owner@example.invalid'};
  assert.equal((await handleMcp(req('get_registry',identity,{ids:[31]}))).status,200);
  const contract=await(await handleMcp(req('get_universal_contract',identity))).json();assert.equal(contract.result.structuredContent.research_storage.version,'RESEARCH-STORAGE-2.0');
- const runtime=await(await handleMcp(req('runtime_status'))).json();assert.equal(runtime.result.structuredContent.runtime_version,'0.10.0-http.1');assert.equal(runtime.result.structuredContent.registry_authenticated_identity_required,true);
+ const runtime=await(await handleMcp(req('runtime_status'))).json();assert.equal(runtime.result.structuredContent.runtime_version,'0.10.1-http.1');assert.equal(runtime.result.structuredContent.registry_authenticated_identity_required,true);
 });
