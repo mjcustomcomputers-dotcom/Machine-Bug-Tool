@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {inspectNegationScopes} from '../lib/mpc-natural-negation.mjs';
 import test from 'node:test';
 import {META_TRUTH,notTruth,andTruth,orTruth,generateMetaMethodGraph,createMpcMetaCache} from '../lib/mpc-meta-logic.mjs';
 import {MPC_VOSI_LAYERS,MPC_VOSI_VERSION,buildScreenVirtualOsi,buildNetworkVirtualOsi,
@@ -117,6 +118,12 @@ test('OCR virtual OSI stages express 4K work as crop/manual-recapture advice, no
   assert.equal(override.virtual_layers[3].truth,META_TRUTH.YES);
   assert.equal(override.virtual_layers[4].truth,META_TRUTH.UNKNOWN,'cue does not authenticate intent');
   assert.equal(override.router.action,'REVIEW_SOURCE_BOUND_CUES');
+  const ambiguous=buildScreenVirtualOsi({...source(),cue_ids:['CREDENTIAL_MENTION'],
+    negation_observation:inspectNegationScopes('No evidence of a credential being shared.')});
+  assert.equal(ambiguous.observed.language_negation.absence_claims>=1,true);
+  assert.equal(ambiguous.router.action,'REVIEW_NATURAL_LANGUAGE_NEGATION_SCOPE');
+  assert.equal(ambiguous.virtual_layers[4].truth,META_TRUTH.UNKNOWN);
+
   const noCue=buildScreenVirtualOsi({...source(),frame_width:600,frame_height:400,cache});
   assert.equal(noCue.virtual_layers[3].truth,META_TRUTH.NO,'no match is about fixed lexical rules only');
   assert.equal(noCue.virtual_layers[4].truth,META_TRUTH.UNKNOWN,'no cue is not safety proof');
