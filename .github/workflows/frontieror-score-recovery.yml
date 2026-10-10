@@ -4,6 +4,7 @@ on:
     branches: [frontieror-score-recovery-20261010]
     paths:
       - 'frontieror/**'
+      - '!frontieror/downloads/**'
       - '.github/workflows/frontieror-score-recovery.yml'
   workflow_dispatch:
 
@@ -63,3 +64,53 @@ jobs:
           path: frontieror/artifacts/recovery-probe-py${{ matrix.python }}.json
           if-no-files-found: warn
           retention-days: 14
+
+  publish-reviewed-zip:
+    needs: [python-compatibility, constrained-sandbox]
+    if: github.ref == 'refs/heads/frontieror-score-recovery-20261010'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Rebuild six-file ZIP from successful validation commit
+        run: python frontieror/build_submission.py
+      - name: Check only permitted slug entries and authenticated hash manifest
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, zipfile
+          folder=Path('frontieror')
+          manifest=json.loads((folder/'artifacts/manifest.json').read_text())
+          archive=folder/'artifacts/FrontierOR-Main.zip'
+          expected={row['slug']+'/solve.py':row['sha256'] for row in manifest['sources']}
+          assert len(expected)==6
+          with zipfile.ZipFile(archive) as z:
+              assert set(z.namelist())==set(expected)
+              for filename,sha in expected.items():
+                  assert hashlib.sha256(z.read(filename)).hexdigest()==sha
+          assert hashlib.sha256(archive.read_bytes()).hexdigest()==manifest['zip_sha256']
+          print('PASS: six exact source identities and archive hash verified')
+          PY
+      - name: Publish a direct ZIP after the tests and sandbox both pass
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p frontieror/downloads
+          cp frontieror/artifacts/FrontierOR-Main.zip frontieror/downloads/FrontierOR-Main-Score-Recovery-Upload-This.zip
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f frontieror/downloads/FrontierOR-Main-Score-Recovery-Upload-This.zip
+          if git diff --cached --quiet; then
+            echo 'Exact upload ZIP already published'
+          else
+            git commit -m 'Publish tested FrontierOR recovery ZIP after all gates'
+            git push origin HEAD:refs/heads/frontieror-score-recovery-20261010
+          fi
