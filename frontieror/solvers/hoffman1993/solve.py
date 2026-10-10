@@ -248,6 +248,39 @@ def dominated_rotations(p):
     return dominated
 
 
+def reduce_forced_rotations(p, disabled):
+    """Exact-cover singleton propagation with original-column identity."""
+    m,n,costs,columns,incidence,d,lo,hi=p
+    active=set(range(n))-set(disabled)
+    uncovered=set(range(m))
+    forced=set()
+    while True:
+        singleton=None
+        for row in sorted(uncovered):
+            candidates=[j for j in incidence[row] if j in active]
+            if not candidates:
+                return None
+            if len(candidates)==1:
+                singleton=candidates[0]
+                break
+        if singleton is None:
+            break
+        if singleton in forced:
+            return None
+        forced.add(singleton)
+        covered=set(columns[singleton])
+        if not covered.issubset(uncovered):
+            return None
+        uncovered.difference_update(covered)
+        # Every competing column touching a covered row must be zero.
+        forbidden={j for row in covered for j in incidence[row]}
+        active.difference_update(forbidden)
+    # Columns touching a solved row are already excluded. Empty columns remain
+    # available when their original cost or base effects can matter.
+    remaining=sorted(active)
+    return sorted(forced), sorted(uncovered), remaining
+
+
 def sparse_milp(p, deadline):
     """SCIP/HiGHS-style sparse 0-1 exact cover with literal real base bounds."""
     if deadline - time.monotonic() < 0.5:
@@ -260,22 +293,28 @@ def sparse_milp(p, deadline):
         return None
     m, n, costs, columns, _, d, lo, hi = p
     disabled=dominated_rotations(p)
-    active=[j for j in range(n) if j not in disabled]
-    if not active:
+    reduced=reduce_forced_rotations(p,disabled)
+    if reduced is None:
         return None
+    forced,uncovered,active=reduced
+    if not active:
+        return forced if verify(p,forced) else None
+    offset=[math.fsum(row[j] for j in forced) for row in d]
     rr, cc = [], []
+    row_id={row:z for z,row in enumerate(uncovered)}
     for z,j in enumerate(active):
-        for r in columns[j]:
-            rr.append(r)
-            cc.append(z)
-    entries = np.ones(len(rr), dtype=float)
-    A = coo_matrix((entries, (rr, cc)), shape=(m, len(active))).tocsr()
-    lhs = [1.0] * m
-    rhs = [1.0] * m
+        for row in columns[j]:
+            if row in row_id:
+                rr.append(row_id[row])
+                cc.append(z)
+    entries=np.ones(len(rr),dtype=float)
+    A=coo_matrix((entries,(rr,cc)),shape=(len(uncovered),len(active))).tocsr()
+    lhs=[1.0]*len(uncovered)
+    rhs=[1.0]*len(uncovered)
     if d:
-        A = vstack([A, csr_matrix(np.asarray([[row[j] for j in active] for row in d], dtype=float))], format="csr")
-        lhs += lo
-        rhs += hi
+        A=vstack([A,csr_matrix(np.asarray([[row[j] for j in active] for row in d],dtype=float))],format="csr")
+        lhs += [lo[k]-offset[k] for k in range(len(d))]
+        rhs += [hi[k]-offset[k] for k in range(len(d))]
     try:
         result = milp(
             c=np.asarray([costs[j] for j in active]),
@@ -289,7 +328,7 @@ def sparse_milp(p, deadline):
         return None
     if result.x is None:
         return None
-    selected = [active[z] for z, x in enumerate(result.x) if x > 0.5]
+    selected = forced + [active[z] for z, x in enumerate(result.x) if x > 0.5]
     return selected if verify(p, selected) else None
 
 
