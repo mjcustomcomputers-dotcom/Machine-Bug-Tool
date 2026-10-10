@@ -5,6 +5,13 @@ constraint propagation. No API access or language model at solver runtime.
 """
 from __future__ import annotations
 
+import os
+# Limit BLAS thread amplification under the organizer's two-vCPU cap.
+# SciPy/NumPy are imported lazily after this module-level configuration.
+os.environ["OPENBLAS_NUM_THREADS"]="1"
+os.environ["MKL_NUM_THREADS"]="1"
+os.environ["NUMEXPR_NUM_THREADS"]="1"
+
 import argparse
 import json
 import math

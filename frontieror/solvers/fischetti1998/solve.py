@@ -424,7 +424,11 @@ def run_method(instance: dict, method: str, time_limit_s: float = 60) -> tuple[d
             try:candidates.append(greedy(p,key,phase1))
             except ValueError:pass
         if not candidates:raise ValueError('No feasible route found')
-        if len(p.cities)<=14 and time.monotonic()<deadline:
+        # Full prize collection is a mathematical upper-bound certificate.
+        # Don't spend the remaining budget re-solving an achieved optimum.
+        if any(p.prize(r)==sum(p.prizes.values()) for r in candidates):
+            proof=True
+        if not proof and len(p.cities)<=14 and time.monotonic()<deadline:
             try:
                 candidate,proved=exact_dp(p,min(deadline,start+max(0.3,budget*0.37)))
                 candidates.append(candidate)

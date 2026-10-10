@@ -108,6 +108,10 @@ def savings(p, deadline):
         nonlocal serial
         if time.monotonic() >= deadline:
             return
+        # Memory guard: the original quadratic candidate heap grows without
+        # bound on unusually large instances. Baseline remains valid.
+        if len(heap)>=60000:
+            return
         candidate=merge_pair(p,routes[i],routes[j])
         if candidate is None:
             return

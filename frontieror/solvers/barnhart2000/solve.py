@@ -49,7 +49,11 @@ def route_paths(arcs,adj,c,deadline,max_paths=9):
                 if mode==0:weight=1 + 0.03*ratio
                 elif mode==1:weight=1 + 1.3*ratio
                 else:weight=1 + 0.15*ratio + ((aid*28657+c['id']*917)%19)/100
-                heapq.heappush(queue,(length+weight,hops+1,a['to'],path+(aid,),visited|{a['to']}))
+                # Bounded queue protects the 4-GB sandbox on high-degree graphs.
+                # Truncation affects candidate quality, never feasibility:
+                # reject-all remains a verified legal backup.
+                if len(queue)<30000:
+                    heapq.heappush(queue,(length+weight,hops+1,a['to'],path+(aid,),visited|{a['to']}))
     return result
 
 
@@ -162,7 +166,13 @@ def solve(instance,time_limit_s):
     backup={c['id']:None for c in goods}
     found=greedy(arcs,goods,paths,min(deadline,time.monotonic()+2.0))
     if found is not None and verify(arcs,goods,found):backup=found
-    if time.monotonic()<deadline-0.5:
+    # Official physical costs and rejection penalties are nonnegative.
+    # A feasible objective of zero is a certified global lower bound:
+    # no integer solver can improve it. Avoid burning 50+ seconds.
+    zero_lower_bound_reached=(_route_objective(arcs,goods,backup)<=1e-8
+                              and all(a['cost']>=0 for a in arcs.values())
+                              and all(c['reject']>=0 for c in goods))
+    if not zero_lower_bound_reached and time.monotonic()<deadline-0.5:
         other=optimize(arcs,goods,paths,deadline)
         if other is not None and verify(arcs,goods,other) and _route_objective(arcs,goods,other)<_route_objective(arcs,goods,backup):
             backup=other
