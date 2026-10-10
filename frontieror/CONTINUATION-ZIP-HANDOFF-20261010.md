@@ -50,3 +50,6 @@ Expected next actions:
 3. Implement one well-grounded cross-solver improvement (likely VRPDDP affected-route delta scoring), compare matched instances and CI.
 4. Consolidate six SHA-pinned solve.py files and final build script for later handoff; do NOT create/submit ZIP until pass gates and user instruction.
 Use this document as navigation pointer; native source commits, official dashboard result and action logs outrank chat text.
+
+## Major cross-solver audit delta — dense facility output regression
+The V6 `bodur2017/solve.py` previously emitted a full f × c × s dense output map, even though a much earlier organizer-confirmed facility fix depended on sparse output. In shape 120×300×1200, the dense indexing enumerates 43,200,000 potential flow entries and risks the organizer 16-MB solution limit. Sparse nonzero JSON repair commit `737edc43`; independent checker reconstructs missing zeros plus sparse test in `test_facility.py` commit `2de80376`; CI workflow cross-suite commit `db0bda87`, run 38088752602. Validate CI result after completion, then organizer public JSON. Do not treat source-level feasibility or the earlier V5 official score as a new V6 official result. This is a score-protection / no-regression change, not an objective-quality gain. Audit every solver for other resource-limit regressions before ZIP.
