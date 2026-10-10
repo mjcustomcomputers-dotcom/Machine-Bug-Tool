@@ -166,6 +166,21 @@ class CrewTests(unittest.TestCase):
         self.assertNotIn(8,crew.dominated_rotations(p))
         self.assertNotIn(9,crew.dominated_rotations(p))
 
+    def test_compacted_duplicate_columns_preserve_original_ids(self):
+        import time
+        data=example(False)
+        # Cheap equivalent replacement after costly earlier rotation.
+        data["constraint_matrix_A"]["columns"].append([0,1])
+        data["cost_vector"].append(2)
+        data["dimensions"]["num_cols"]+=1
+        p=crew.parse(data)
+        self.assertIn(4,crew.dominated_rotations(p))
+        chosen=crew.sparse_milp(p,time.monotonic()+4)
+        self.assertTrue(crew.verify(p,chosen))
+        self.assertIn(8,chosen)
+        self.assertNotIn(4,chosen)
+        self.assertEqual(crew.objective(p,chosen),9)
+
     def test_literal_sparse_milp(self):
         data = example(True)
         p = crew.parse(data)
