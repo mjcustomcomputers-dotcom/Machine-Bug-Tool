@@ -38,8 +38,8 @@
 - `abduceFiniteGoalV31`: enumerate ≤8 hypothetical missing source atoms; find subset-minimal assumption sets that would satisfy the goal through actual finite forward replay. Distinguish hypothesis costs from measured probability.
 - `calculateMinimalRetractionCutsV31`: solve the *dual* of minimal proof supports. Find every subset-minimal fact withdrawal that intersects all proof routes; recompute the goal after each cut and each candidate's smaller subset.
 - `metamorphicBidirectionalChecksV31`: reorder rules, duplicate a rule and introduce an irrelevant synthetic fact; verify that exactly the same minimal target source proofs emerge.
-- `selectMethodPortfolioV31`: compare per-input actual work counts (forward rule checks versus backward goal calls and rule checks); choose the cheaper locally observed reasoning method **only after** source-provenance agreement and metamorphic tests pass.
-- `auditMethodPortfolioV31`: recompute the proof and method workload from the original source input, checking for edited winners, dropped source proof sets, forged status and incorrect source-authentication claims.
+- `selectMethodPortfolioV31`: compare per-input actual work counts (forward rule checks versus backward goal calls and rule checks); choose the cheaper locally observed reasoning method **only after** source-provenance agreement and **all three** metamorphic controls pass. If input caps prevent rule duplication or an irrelevant-seed check, return `METHOD_COMPARISON_COVERAGE_INCOMPLETE` and withhold method promotion.
+- `auditMethodPortfolioV31`: recompute the proof and method workload from the original source input, checking for edited winners, dropped source proof sets, forged status, missing negative-control coverage, incorrect source-authentication claims, and tampered four-line engineering output.
 
 ### Concrete three-way experiment
 
