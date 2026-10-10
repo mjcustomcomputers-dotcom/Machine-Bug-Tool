@@ -24,7 +24,12 @@
     "quantum": "https://www.nist.gov/quantum-information-science/quantum-sensing-explained",
     "nba": "https://jr.nba.com/3-point-shot/",
     "metrology": "https://www.nist.gov/quantum-information-science/quantum-sensing-explained",
-    "classic": "https://www.nature.com/articles/s41550-021-01508-8"
+    "classic": "https://www.nature.com/articles/s41550-021-01508-8",
+    "elephant": "https://www.nature.com/articles/s41559-024-02420-w",
+    "honeybee": "https://pubmed.ncbi.nlm.nih.gov/36893231/",
+    "fruitbat": "https://www.nature.com/articles/srep39419",
+    "parrot": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0049747",
+    "cuttlefish": "https://www.sciencedirect.com/science/article/pii/S0042698905004943"
   },
   "hooks": [
     {
@@ -807,6 +812,96 @@
         "https://www.nature.com/articles/s41550-021-01508-8"
       ],
       "falsifier": "No new evidence, no control and no changed source should stop recursive method exploration.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-44",
+      "domain": "ETHOLOGY",
+      "key": "ELEPHANT_NAME_LIKE_ADDRESSEE_CONTROL",
+      "requires": [
+        "ELEPHANT_CALL",
+        "RECEIVER_IDENTITY"
+      ],
+      "produces": [
+        "ADDRESSEE_SIGNAL_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/s41559-024-02420-w"
+      ],
+      "falsifier": "Receiver-specific acoustic structure and differential playback response do not establish full elephant language or unique real-time addressee identity.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-45",
+      "domain": "ETHOLOGY",
+      "key": "HONEYBEE_WAGGLE_SOCIAL_LEARNING",
+      "requires": [
+        "WAGGLE_DIRECTION",
+        "SOCIAL_LEARNING_CONDITION"
+      ],
+      "produces": [
+        "DANCE_SPATIAL_SIGNAL_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/36893231/"
+      ],
+      "falsifier": "Dance angle and resource distance can be affected by learning, optics and context; no autonomous hive manipulation or field claim.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-46",
+      "domain": "ETHOLOGY",
+      "key": "FRUIT_BAT_CONTEXT_AND_ADDRESSEE",
+      "requires": [
+        "BAT_CALL",
+        "CALLER_RECEIVER_CONTEXT"
+      ],
+      "produces": [
+        "BAT_ADDRESSEE_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://www.nature.com/articles/srep39419"
+      ],
+      "falsifier": "Caller, addressee and behavior correlations require specific controlled observations, not inferred human speech.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-47",
+      "domain": "ETHOLOGY",
+      "key": "CONURE_CONTACT_CALL_IMITATION",
+      "requires": [
+        "PARROT_CONTACT_CALLS",
+        "IMITATION_CONTEXT"
+      ],
+      "produces": [
+        "PARROT_ADDRESSING_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0049747"
+      ],
+      "falsifier": "Imitation and preferential responses do not authenticate vocal emitter identity or species-independent address semantics.",
+      "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
+      "native_registry_member": false
+    },
+    {
+      "id": "RH-V27-48",
+      "domain": "ETHOLOGY",
+      "key": "CUTTLEFISH_CHROMATOPHORE_CONTRAST",
+      "requires": [
+        "VISUAL_PATTERN",
+        "BACKGROUND_CONTRAST"
+      ],
+      "produces": [
+        "CAMOUFLAGE_SENSOR_HYPOTHESIS"
+      ],
+      "primary_source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/S0042698905004943"
+      ],
+      "falsifier": "Visual matching and contrast response are not proof of conscious deceptive intent or color perception beyond tested conditions.",
       "implementation_state": "RESEARCH_METHOD_CONTRACT_NOT_EXECUTED",
       "native_registry_member": false
     }
