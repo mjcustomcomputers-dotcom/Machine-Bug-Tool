@@ -195,6 +195,9 @@ def repair_residual(arcs,adj,goods,assignment,deadline):
             for aid in path:residual[aid]-=c['demand']
             improved=True
         if not improved or time.monotonic()>=deadline-0.02:break
+    # Reset the baseline after every direct admission. Ejection is accepted
+    # only if it improves on this newer, already-better assignment.
+    best_cost=_route_objective(arcs,goods,current)
 
     # If every remaining high-value commodity is blocked by congestion,
     # try moving one existing commodity (bounded two-commodity ejection).
@@ -234,7 +237,7 @@ def repair_residual(arcs,adj,goods,assignment,deadline):
     return current if verify(arcs,goods,current) else assignment
 
 
-def optimize(arcs,goods,paths,deadline):
+def optimize(arcs,goods,paths,deadline,incumbent=None):
     """Exact 0-1 allocation over finitely enumerated paths (two CPU)."""
     try:
         from ortools.sat.python import cp_model
@@ -246,6 +249,10 @@ def optimize(arcs,goods,paths,deadline):
     for c in goods:
         vars=[]
         for k,path in enumerate(paths.get(c['id'],())):
+            # A route no cheaper than rejection cannot improve a minimization
+            # objective and only increases the capacity-constrained search.
+            savings=c['reject']-_path_monetary_cost(arcs,c,path)
+            if savings<=0:continue
             v=model.NewBoolVar('k%d_p%d'%(c['id'],k))
             vars.append(v)
             choices[(c['id'],k)]=v
@@ -253,13 +260,20 @@ def optimize(arcs,goods,paths,deadline):
         if vars:model.Add(sum(vars)<=1)
     for aid,a in arcs.items():
         if usage[aid]:model.Add(sum(usage[aid])<=a['cap'])
+    if incumbent is not None:
+        for c in goods:
+            for k,path in enumerate(paths.get(c['id'],())):
+                key=(c['id'],k)
+                if key in choices:
+                    model.AddHint(choices[key],int(incumbent.get(c['id'])==path))
     # Scale objective only to retain fractional cost, not a solver constraint.
     scale=1000
     objective=[]
     for c in goods:
         for k,path in enumerate(paths.get(c['id'],())):
             improvement=c['reject']-c['demand']*sum(arcs[aid]['cost'] for aid in path)
-            objective.append(round(scale*improvement)*choices[c['id'],k])
+            if (c['id'],k) in choices:
+                objective.append(round(scale*improvement)*choices[c['id'],k])
     model.Maximize(sum(objective))
     solver=cp_model.CpSolver()
     solver.parameters.num_search_workers=2
@@ -308,7 +322,7 @@ def solve(instance,time_limit_s):
                               and all(a['cost']>=0 for a in arcs.values())
                               and all(c['reject']>=0 for c in goods))
     if not zero_lower_bound_reached and time.monotonic()<deadline-0.5:
-        other=optimize(arcs,goods,paths,deadline)
+        other=optimize(arcs,goods,paths,deadline,incumbent=backup)
         if other is not None and verify(arcs,goods,other) and _route_objective(arcs,goods,other)<_route_objective(arcs,goods,backup):
             backup=other
     if not verify(arcs,goods,backup):raise RuntimeError('Invalid internal routing assignment')
