@@ -51,6 +51,10 @@ export function initializeNetworkPanel({bridge,getProjectId,onUseEvidence,announ
         :diff.state+': '+diff.counts.added+' newly observed · '+diff.counts.removed+
           ' no longer observed · '+diff.counts.changed_state+
           ' TCP states changed. These are two non-atomic samples, not complete traffic history.');
+    text('network-meta-route',latest.virtual_osi?.router
+      ? 'Virtual OSI routing: '+latest.virtual_osi.router.action+' · '+latest.virtual_osi.method_generation.generated+
+        ' method candidates, not executed findings.'
+      : 'Virtual network classifier: no observation yet.');
     $('network-text').value=textOf(latest);
     showRows();buttons();
   }
@@ -60,6 +64,7 @@ export function initializeNetworkPanel({bridge,getProjectId,onUseEvidence,announ
     $('network-rows').replaceChildren();
     text('network-summary','No native network snapshot collected.');
     text('network-diff','No prior observation to compare.');
+    text('network-meta-route','Virtual network classifier: no observation yet.');
     text('network-visible','No endpoint rows.');
     text('network-observation-status',message);buttons();
     try{await bridge?.networkClear?.();}catch{}

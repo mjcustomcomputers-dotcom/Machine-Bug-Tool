@@ -33,6 +33,9 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
     $('screen-result-meta').textContent=`${ocr.width??value.frame?.width??'?'} × ${ocr.height??value.frame?.height??'?'} OCR pixels · ${ocr.words?.length??0} word atoms · confidence ${Number.isFinite(ocr.confidence)?ocr.confidence.toFixed(1):'unavailable'} · OCR ${Math.round(value.ocr_duration_ms??0)} ms · capture to result ${Math.round(value.capture_to_delivery_ms??0)} ms · local`;
     const report=value.classification;
     $('screen-classifier-summary').textContent=report?.summary??'No local classifier report is available for this observation.';
+    $('screen-virtual-route').textContent=report?.virtual_osi?.router
+      ? `Virtual OCR route: ${report.virtual_osi.router.action} · ${report.virtual_osi.method_generation.generated} bounded method transformations · source interpretation unverified.`
+      : 'No virtual OCR routing metadata is available for this observation.';
     const cues=$('screen-classifier-cues');cues.replaceChildren();
     for(const cue of report?.cues??[]){const li=document.createElement('li');li.textContent=`${cue.label}: ${cue.excerpt}${cue.protective_or_quoted_context?' (protective or quoted context detected)':''}`;cues.append(li);}
     const change=report?.change;
@@ -43,6 +46,7 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
   function clearClassification(){
     $('screen-classifier-summary').textContent='No classification yet.';$('screen-classifier-cues').replaceChildren();
     $('screen-classifier-change').textContent='';$('screen-classifier-detail').textContent='No classification yet.';
+    $('screen-virtual-route').textContent='No virtual OCR routing metadata yet.';
   }
   function showMetrics(value){
     stats=value;const pipe=value?.pipeline??value;const counts=pipe?.metrics??{};

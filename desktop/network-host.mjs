@@ -3,6 +3,7 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {buildNetworkVirtualOsi,createVirtualOsiCache} from '../lib/mpc-osi-virtual.mjs';
 
 export const NETWORK_SNAPSHOT_VERSION = 'MPC_NETWORK_SNAPSHOT_1';
 export const NETWORK_MAX_ROWS = 256;
@@ -96,7 +97,8 @@ export function compareNetworkSnapshots(previous,current){
 export function createWindowsNetworkObserver({platform=process.platform,systemRoot=process.env.SystemRoot,
   execFileImpl=execFile,readScript=()=>readFileSync(SCRIPT_PATH,'utf8'),now=()=>Date.now()}={}){
   let pending=null,epoch=0,previous=null,lastProject=null;
-  const stop=()=>{epoch++;pending?.abort();pending=null;previous=null;lastProject=null;return {state:'CLEARED'};};
+  const metaCache=createVirtualOsiCache({maxEntries:4,maxBytes:64*1024,ttlMs:10_000,now});
+  const stop=()=>{epoch++;pending?.abort();pending=null;previous=null;lastProject=null;metaCache.clear();return {state:'CLEARED'};};
   const status=()=>({state:pending?'READING':'IDLE',has_previous_snapshot:Boolean(previous),
     platform_supported:platform==='win32',version:NETWORK_SNAPSHOT_VERSION});
   async function snapshot(input){
@@ -104,7 +106,7 @@ export function createWindowsNetworkObserver({platform=process.platform,systemRo
     if(typeof input.projectId!=='string'||!input.projectId.trim()||input.projectId.length>128)fail('NETWORK_PROJECT_REQUIRED');
     if(platform!=='win32')fail('NETWORK_WINDOWS_ONLY');
     if(pending)fail('NETWORK_SNAPSHOT_BUSY');
-    if(input.projectId!==lastProject){previous=null;lastProject=input.projectId;}
+    if(input.projectId!==lastProject){previous=null;lastProject=input.projectId;metaCache.clear();}
     const controller=new AbortController(),stamp=epoch;
     pending=controller;
     try{
@@ -125,8 +127,9 @@ export function createWindowsNetworkObserver({platform=process.platform,systemRo
       const current=parseWindowsNetworkSnapshot(output,{projectId:input.projectId,nowMs:now()});
       const diff=compareNetworkSnapshots(previous,current);
       if(controller.signal.aborted||epoch!==stamp)fail('NETWORK_CANCELLED');
+      const virtual_osi=buildNetworkVirtualOsi({snapshot:current,diff,cache:metaCache});
       previous=current;
-      return {snapshot:current,diff};
+      return {snapshot:current,diff,virtual_osi};
     }finally{if(pending===controller)pending=null;}
   }
   return Object.freeze({snapshot,stop,status});
