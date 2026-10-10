@@ -67,6 +67,30 @@ class CrewTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             crew.solve(data, 2)
 
+    def test_incremental_base_sums_with_negative_contribution(self):
+        # A temporary upper-bound excess can be repaired by a negative D coefficient.
+        # This protects exact-cover feasibility while caching partial sums.
+        import time
+        data = {"dimensions": {"num_rows": 2, "num_cols": 3},
+                "cost_vector": [1, 1, 10],
+                "constraint_matrix_A": {"columns": [[0], [1], [0, 1]]},
+                "has_base_constraints": True,
+                "base_constraints": {"D_matrix": {"rows": [[5.0, -5.0, 0.0]]},
+                                     "lower_bounds_d1": [-0.1],
+                                     "upper_bounds_d2": [0.1]}}
+        p = crew.parse(data)
+        chosen = crew.forced_greedy(p, time.monotonic() + 1.0)
+        self.assertTrue(crew.verify(p, chosen))
+        self.assertEqual(crew.objective(p, chosen), 2.0)
+
+    def test_incremental_totals_preserve_independent_exact_cover(self):
+        import time
+        data = example(True)
+        p = crew.parse(data)
+        selected = crew.forced_greedy(p, time.monotonic() + 1.0)
+        self.assertTrue(crew.verify(p, selected))
+        self.assertEqual(crew.objective(p, selected), 14)
+
     def test_literal_sparse_milp(self):
         data = example(True)
         p = crew.parse(data)
