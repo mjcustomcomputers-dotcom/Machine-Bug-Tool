@@ -169,6 +169,30 @@ def phase_two_opt(p, route, deadline):
     return current
 
 
+def cross_phase_two_opt(p,route,deadline):
+    """Swap delivery/pickup positions only when the complete load trajectory is valid."""
+    current=route[:]
+    while time.monotonic()<deadline:
+        best_delta=-1e-7
+        best=None
+        for i in range(1,len(current)-2):
+            if time.monotonic()>=deadline:
+                break
+            a,b=current[i-1],current[i]
+            for j in range(i+1,len(current)-1):
+                c,d=current[j],current[j+1]
+                delta=(travel(p,a,c)+travel(p,b,d)
+                       -travel(p,a,b)-travel(p,c,d))
+                if delta < best_delta:
+                    trial=current[:i]+list(reversed(current[i:j+1]))+current[j+1:]
+                    if feasible(p,trial):
+                        best_delta,best=delta,trial
+        if best is None:
+            break
+        current=best
+    return current
+
+
 def relocation(p, routes, deadline):
     """Bounded strict-improvement operator: move an entire paired request."""
     if not routes or time.monotonic() > deadline:
@@ -263,6 +287,13 @@ def solve(instance,time_limit_s):
     if time.monotonic() + 0.5 < deadline and len(best) < 100:
         tuned=relocation(p,best,min(deadline,time.monotonic()+10.0))
         if verify(p,tuned) and score(p,tuned) < score(p,best)-1e-7:
+            best=tuned
+    # Cross-phase reversal can improve on strictly delivery-first routes.
+    # It never promotes a reversal that violates the actual vehicle load.
+    if time.monotonic()+0.25 < deadline:
+        phase_deadline=min(deadline,time.monotonic()+2.0)
+        tuned=[cross_phase_two_opt(p,r,phase_deadline) for r in best]
+        if verify(p,tuned) and score(p,tuned)<score(p,best)-1e-7:
             best=tuned
     assert verify(p,best)
     return {"objective_value":score(p,best),
