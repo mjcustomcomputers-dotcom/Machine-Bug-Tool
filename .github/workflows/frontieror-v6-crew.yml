@@ -1,0 +1,23 @@
+name: FrontierOR V6 crew feasibility micro-verify
+on:
+  push:
+    branches: [frontieror-v6-feasible-cover-validation-20261010]
+    paths:
+      - 'frontieror/v6/**'
+      - '.github/workflows/frontieror-v6-crew.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cp-sat-side-base:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Match competition libraries
+        run: python -m pip install 'ortools==9.15.6755' 'scipy==1.18.1'
+      - name: Run base-constrained exact-cover feasibility and counterexamples
+        run: python frontieror/v6/verify_cp_side.py
