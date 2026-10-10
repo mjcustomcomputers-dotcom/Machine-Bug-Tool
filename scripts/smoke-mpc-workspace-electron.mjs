@@ -210,15 +210,15 @@ async function layout(width, height) {
     screen[control].y >= 0 && screen[control].bottom <= height, `${control} control must be visible in the initial screen view`);
   assert.ok(screen.hold.width <= 24 && screen.hold.height <= 24, 'Hold-text checkbox must keep its intended compact size');
   await diagnosticScreenshot(`screen-${width}x${height}.png`);
-  await js("document.querySelector('[data-view=connections]').click(); document.querySelector('[data-provider=GITHUB] button').click();");
-  await waitFor('connection dialog', () => js("return document.querySelector('#connection-dialog').open;"));
-  const dialog = await js(`const d=document.querySelector('#connection-dialog'),r=d.getBoundingClientRect();return {
+  await js("document.querySelector('[data-view=connections]').click(); document.querySelector('[data-provider=GITHUB] .connection-primary').click();");
+  await waitFor('connector setup dialog', () => js("return document.querySelector('#connector-setup-dialog').open;"));
+  const dialog = await js(`const d=document.querySelector('#connector-setup-dialog'),r=d.getBoundingClientRect();return {
     x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height,client_width:d.clientWidth,scroll_width:d.scrollWidth};`);
   assert.ok(dialog.x >= 0 && dialog.y >= 0 && dialog.right <= width + 1 && dialog.bottom <= height + 1,
-    'Connection dialog is outside the viewport');
-  assert.ok(dialog.scroll_width <= dialog.client_width + 1, 'Connection dialog horizontal overflow');
+    'Connector setup dialog is outside the viewport');
+  assert.ok(dialog.scroll_width <= dialog.client_width + 1, 'Connector setup dialog horizontal overflow');
   await diagnosticScreenshot(`connection-${width}x${height}.png`);
-  await js("document.querySelector('#close-connection-dialog').click();");
+  await js("document.querySelector('#close-connector-setup').click();");
   checks.push({check: 'NATIVE_RENDERED_LAYOUT', width, height, screen, dialog});
   breadcrumb('CHECK_PASSED', {check: 'NATIVE_RENDERED_LAYOUT', width, height});
 }
@@ -231,11 +231,14 @@ try {
   await app.whenReady();
   phase('FIND_PRODUCTION_RENDERER');
   main = await waitFor('actual app renderer startup', async () => {
-    const candidate = BrowserWindow.getAllWindows().find(window => !window.isDestroyed() &&
-      /^http:\/\/127\.0\.0\.1:\d+\//u.test(window.webContents.getURL()));
+    const candidate = BrowserWindow.getAllWindows().find(window => !window.isDestroyed());
     if (!candidate) return false;
-    const ready = await candidate.webContents.executeJavaScript("typeof window.mpcWorkspace?.screenStart==='function' && !!document.querySelector('[data-provider=GITHUB]')");
-    return ready ? candidate : false;
+    const observed = await candidate.webContents.executeJavaScript(`({
+      ready: typeof window.mpcWorkspace?.screenStart==='function' && !!document.querySelector('[data-provider=GITHUB]'),
+      startup_error: document.querySelector('#details')?.textContent ?? null
+    })`);
+    if (observed.startup_error) throw Error(`MPC_WORKSPACE_STARTUP_ERROR:${String(observed.startup_error).slice(0, 1_000)}`);
+    return observed.ready && /^http:\/\/127\.0\.0\.1:\d+\//u.test(candidate.webContents.getURL()) ? candidate : false;
   });
   const uiErrors = [];
   main.webContents.on('console-message', (event, legacyLevel, legacyMessage) => {

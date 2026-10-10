@@ -17,6 +17,7 @@ import {
   screen,
   powerMonitor,
   globalShortcut,
+  nativeImage,
 } from 'electron';
 import {createScreenCaptureHost} from './screen-host.mjs';
 import {createWindowsNetworkObserver} from './network-host.mjs';
@@ -172,7 +173,7 @@ async function startWorkspaceService(){
     throw Object.assign(new Error('MPC_WORKSPACE_SERVER_EXPORT_MISSING'),{code:'MPC_WORKSPACE_SERVER_EXPORT_MISSING'});
   }
   const noFollowFlag=process.platform==='win32'?0:constants.O_NOFOLLOW;
-  const screenContext=createScreenContextHost({clipboard,dialog,
+  const screenContext=createScreenContextHost({clipboard,nativeImage,dialog,
     openFile:path=>openFileHandle(path,constants.O_RDONLY|noFollowFlag),lstat:lstatSync,mainWindow});
   const hostAdapters=createWorkspaceHostAdapters({resolveCredential:(reference,context)=>secretStore?.resolveCredential(reference,context)??null});
   const started=await serverModule.startMpcWorkspaceServer({host:LOOPBACK_HOST,port:0,dataRoot,rendererRoot,

@@ -6,12 +6,14 @@ export const SCREEN_CONTEXT_LIMITS = Object.freeze({
   maximum_source_pixels: 16_777_216,
   maximum_preview_long_edge_pixels: 1_280,
   maximum_preview_bytes: 2_000_000,
+  maximum_clipboard_encoded_bytes: 80 * 1024 * 1024,
   maximum_har_bytes: 4 * 1024 * 1024,
   jpeg_quality: 65
 });
 
 const SCREEN_CONTEXT_CAPTURE_VERSION = 'MPC_SCREEN_CONTEXT_CAPTURE_1';
 const FIREFOX_HAR_SELECTION_VERSION = 'MPC_FIREFOX_HAR_SELECTION_1';
+const CLIPBOARD_IMAGE_TYPES = Object.freeze(['image/png', 'image/jpeg', 'image/webp']);
 const textDecoder = new TextDecoder('utf-8', {fatal: true});
 
 function fail(code) {
@@ -121,6 +123,31 @@ function elapsed(start, end) {
   return Math.max(0, end - start);
 }
 
+async function readClipboardImage(clipboard, nativeImage) {
+  if (typeof clipboard.readImage === 'function') return clipboard.readImage();
+  const items = await clipboard.read();
+  if (!Array.isArray(items)) fail('MPC_SCREEN_CONTEXT_CLIPBOARD_READ_INVALID');
+  for (const item of items) {
+    if (!item || !Array.isArray(item.types) || typeof item.getType !== 'function') continue;
+    for (const mediaType of CLIPBOARD_IMAGE_TYPES) {
+      if (!item.types.includes(mediaType)) continue;
+      const payload = await item.getType(mediaType);
+      if (!payload || typeof payload.arrayBuffer !== 'function') fail('MPC_SCREEN_CONTEXT_CLIPBOARD_IMAGE_INVALID');
+      if (Number.isFinite(payload.size) &&
+          (payload.size < 1 || payload.size > SCREEN_CONTEXT_LIMITS.maximum_clipboard_encoded_bytes)) {
+        fail('MPC_SCREEN_CONTEXT_CLIPBOARD_IMAGE_SIZE_LIMIT');
+      }
+      const bytes = Buffer.from(await payload.arrayBuffer());
+      if (bytes.byteLength < 1 || bytes.byteLength > SCREEN_CONTEXT_LIMITS.maximum_clipboard_encoded_bytes) {
+        fail('MPC_SCREEN_CONTEXT_CLIPBOARD_IMAGE_SIZE_LIMIT');
+      }
+      const image = nativeImage.createFromBuffer(bytes);
+      if (image && typeof image.isEmpty === 'function' && !image.isEmpty()) return image;
+    }
+  }
+  return null;
+}
+
 function statNumber(value) {
   return typeof value === 'bigint' ? value.toString() : Number.isFinite(value) ? value : null;
 }
@@ -159,6 +186,7 @@ async function readBoundedFile(handle, expectedSize) {
  */
 export function createScreenContextHost({
   clipboard,
+  nativeImage,
   dialog,
   openFile,
   lstat,
@@ -166,7 +194,10 @@ export function createScreenContextHost({
   clock = () => new Date(),
   nowMs = () => performance.now()
 } = {}) {
-  if (!clipboard || typeof clipboard.readImage !== 'function') fail('MPC_SCREEN_CONTEXT_CLIPBOARD_REQUIRED');
+  const legacyClipboard = clipboard && typeof clipboard.readImage === 'function';
+  const modernClipboard = clipboard && typeof clipboard.read === 'function' &&
+    nativeImage && typeof nativeImage.createFromBuffer === 'function';
+  if (!legacyClipboard && !modernClipboard) fail('MPC_SCREEN_CONTEXT_CLIPBOARD_REQUIRED');
   if (!dialog || typeof dialog.showOpenDialog !== 'function') fail('MPC_SCREEN_CONTEXT_DIALOG_REQUIRED');
   if (typeof openFile !== 'function' || typeof lstat !== 'function') fail('MPC_SCREEN_CONTEXT_FILESYSTEM_REQUIRED');
   if (typeof clock !== 'function' || typeof nowMs !== 'function') fail('MPC_SCREEN_CONTEXT_CLOCK_REQUIRED');
@@ -175,7 +206,7 @@ export function createScreenContextHost({
     async captureClipboardImage() {
       const startedAtUtc = iso(clock);
       const started = mark(nowMs);
-      const image = await clipboard.readImage();
+      const image = await readClipboardImage(clipboard, nativeImage);
       const readFinished = mark(nowMs);
       if (!image || typeof image.isEmpty !== 'function' || image.isEmpty()) {
         fail('MPC_SCREEN_CONTEXT_CLIPBOARD_IMAGE_EMPTY');

@@ -36,9 +36,10 @@ function fakeImage({width, height, png = Buffer.from('normalized-png'), jpeg = B
 
 function host({image = fakeImage({width: 800, height: 600}), selection = {canceled: true, filePaths: []},
   stat = regularStat(2), openedStat = stat, completedStat = openedStat,
-  bytes = Buffer.from('{}'), calls = [], nowMs = timer()} = {}) {
+  bytes = Buffer.from('{}'), calls = [], nowMs = timer(), clipboard = null, nativeImage = null} = {}) {
   return createScreenContextHost({
-    clipboard: {readImage: async () => { calls.push(['readImage']); return image; }},
+    clipboard: clipboard ?? {readImage: async () => { calls.push(['readImage']); return image; }},
+    nativeImage,
     dialog: {showOpenDialog: async (...args) => { calls.push(['showOpenDialog', ...args]); return selection; }},
     lstat: async path => { calls.push(['lstat', path]); return stat; },
     openFile: async path => {
@@ -78,6 +79,27 @@ test('screen context host is idle until an explicit one-shot clipboard capture',
     derive_ms: 1,
     elapsed_ms: 3
   });
+});
+
+test('Electron 44 ClipboardItem image bytes decode through the injected nativeImage boundary', async () => {
+  const calls = [];
+  const encoded = Buffer.from('electron-44-clipboard-image');
+  const image = fakeImage({width: 640, height: 480, calls});
+  const clipboard = {read: async () => {
+    calls.push(['read']);
+    return [{types: ['text/plain', 'image/png'], getType: async mediaType => {
+      calls.push(['getType', mediaType]);
+      return new Blob([encoded], {type: mediaType});
+    }}];
+  }};
+  const nativeImage = {createFromBuffer: bytes => {
+    calls.push(['createFromBuffer', Buffer.from(bytes)]);
+    return image;
+  }};
+  const result = await host({clipboard, nativeImage, calls}).captureClipboardImage();
+  assert.equal(result.status, 'CAPTURED');
+  assert.deepEqual(calls.slice(0, 3), [['read'], ['getType', 'image/png'], ['createFromBuffer', encoded]]);
+  assert.equal(calls.some(([name]) => name === 'readImage'), false);
 });
 
 test('clipboard capture rejects an empty image before normalization', async () => {
