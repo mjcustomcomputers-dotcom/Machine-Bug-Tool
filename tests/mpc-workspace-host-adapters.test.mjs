@@ -43,6 +43,24 @@ test('GitHub binds a moving ref to the returned commit before file read and veri
   const h = harness([jsonResponse({id: 41}), jsonResponse({sha: COMMIT}), jsonResponse(fileRecord(), {'x-github-request-id': 'GITHUB-REQUEST-1'})]);
   const result = await read(h, 'GITHUB', {repository: 'owner/repo', ref: 'feature/current', path: 'README.md'});
   assert.equal(result.resource.native_version, COMMIT);
+  assert.deepEqual({
+    owner: result.resource.owner,
+    source_namespace: result.resource.source_namespace,
+    identity_namespace: result.resource.identity_namespace,
+    native_id_type: result.resource.native_id_type,
+    native_id: result.resource.native_id,
+    repository: result.resource.repository,
+    path: result.resource.path
+  }, {
+    owner: 'GITHUB',
+    source_namespace: 'GITHUB',
+    identity_namespace: 'owner/repo',
+    native_id_type: 'repository_path',
+    native_id: 'owner/repo:README.md',
+    repository: 'owner/repo',
+    path: 'README.md'
+  });
+  assert.equal(result.resource.native_locator, `https://github.com/owner/repo/blob/${COMMIT}/README.md`);
   assert.equal(result.content, 'selected native text\n');
   assert.equal(result.content_sha256, sha(result.content));
   assert.equal(result.native_request_id, 'GITHUB-REQUEST-1');
@@ -145,6 +163,10 @@ test('Drive text is bracketed by the same native version and checked against its
   const result = await read(h, 'GOOGLE_DRIVE', {file_id: 'drive_id'});
   assert.equal(result.content, bytes.toString());
   assert.equal(result.resource.native_version, '5');
+  assert.equal(result.resource.source_namespace, 'GOOGLE_DRIVE');
+  assert.equal(result.resource.native_id_type, 'file_id');
+  assert.equal(result.resource.native_id, 'drive_id');
+  assert.equal(result.resource.native_locator, 'https://drive.google.com/file/d/drive_id/view');
   assert.equal(result.context.account_id, 'drive:42');
   assert.equal(h.calls.length, 4);
   assert.ok(h.calls[2].url.includes('alt=media'));
@@ -181,6 +203,10 @@ test('Dropbox downloads the selected revision and verifies its distinct native c
   const result = await read(h, 'DROPBOX', {path: '/Selected.txt'});
   assert.equal(result.content, body.toString());
   assert.equal(result.resource.native_version, metadata.rev);
+  assert.equal(result.resource.source_namespace, 'DROPBOX');
+  assert.equal(result.resource.native_id_type, 'file_id');
+  assert.equal(result.resource.native_id, metadata.id);
+  assert.equal(result.resource.native_locator, `dropbox:${metadata.id}`);
   assert.equal(result.resource.native_content_hash, digest);
   assert.notEqual(result.content_sha256, digest);
   assert.equal(h.calls[2].url, 'https://content.dropboxapi.com/2/files/download');
@@ -202,6 +228,11 @@ test('Gmail reads exactly one message, extracts plain text, and excludes attachm
     ]}})]);
   const result = await read(h, 'GMAIL', {message_id: 'abcd'});
   assert.equal(result.content, 'User message text');
+  assert.equal(result.resource.source_namespace, 'GMAIL');
+  assert.equal(result.resource.native_id_type, 'message_id');
+  assert.equal(result.resource.native_id, 'abcd');
+  assert.equal(result.resource.native_version, 'history:7');
+  assert.equal(result.resource.native_locator, 'gmail-api://me/messages/abcd');
   assert.equal(result.attachment_fetch_performed, false);
   assert.equal(result.message_send_performed, false);
   assert.equal(result.resource.headers.length, 1);
@@ -231,6 +262,10 @@ test('local MPC executes the actual bundled contract without credentials, networ
   assert.ok(result.contract.packet_schema);
   assert.equal(result.hosted_mpc_authentication, false);
   assert.equal(result.resource.owner, 'BUNDLED_LOCAL_MPC');
+  assert.equal(result.resource.source_namespace, 'LOCAL_MPC');
+  assert.equal(result.resource.native_id_type, 'module_path');
+  assert.equal(result.resource.native_id, 'lib/tools.mjs');
+  assert.equal(result.resource.native_locator, 'local-mpc://bundled');
 });
 
 test('service binds the saved credential reference into a real adapter and records its actual read observation', async t => {

@@ -1,8 +1,8 @@
 # MPC Workspace: host connectors and transfer integration
 
 Contract: `MPC_WORKSPACE_HOST_ADAPTER_1.0`  
-Status: implementation instructions based on acquired native source; this document does not assert that the new host adapters or Windows connections have been installed.  
-Reviewed: October 9, 2026.
+Status: implementation contract plus the receipt-bound read/Atlas slice described below; provider account availability still requires an actual protected operation on the installed Windows host.
+Reviewed: October 10, 2026.
 
 ## 1. Extend the existing pieces
 
@@ -76,6 +76,14 @@ The renderer can request only `INSTALL`, `SIGN_IN`, `STATUS` or `CANCEL` for a c
 An installed driver should use the provider-owned system-browser flow (authorization code plus PKCE, or an officially supported device flow), a one-shot loopback callback where applicable, and Windows DPAPI-backed `safeStorage` or another supported OS credential store. SQL retains only an opaque `os-secret://...` locator. GitHub, Google Drive/Gmail and Dropbox each require a registered provider client and approved redirect/consent configuration before the host may advertise `SIGN_IN`. Hosted ChatGPT connector state is not a portable Windows credential. Custom MCP may advertise OAuth only when the configured remote server and installed client support it.
 
 The current stock desktop advertises Ollama and local MPC as built in. It does not ship registered remote provider drivers, so those cards report `NOT_INSTALLED` and show the exact setup dependency. This preserves a real upgrade path without presenting a manual endpoint form as SSO. A driver becomes accepted only after sign-in/account readback, discovery, and one user-selected protected operation produce their separate observations; only the last can set `RECEIPT_BACKED`.
+
+### Implemented receipt-bound read and Atlas slice (October 10, 2026)
+
+The Windows host now has bounded read-only adapters for one selected GitHub file, Drive file, Dropbox file, Gmail message and the bundled local MPC contract. A successful text read returns a provider-typed resource identity. GitHub resolves a branch or tag to an exact commit, rereads the path at that commit and verifies the native Git blob before the result is eligible for evidence.
+
+The protected read immediately preserves its immutable native operation receipt, but it does not automatically create an evidence source, artifact or retained document. `POST /api/workspace/connections/acquire` accepts only the open project ID and a short-lived opaque read handle produced by that operation. Only the explicit **Use as evidence** action atomically persists the provider namespace, typed native ID, exact version/commit and SHA-256 with a separate local selection receipt that points back to the protected-operation receipt. The renderer never pastes connector bytes back through `LOCAL_INPUT`. Metadata-only projects retain the identity, digest and receipts but require the original content for a later analysis. Retained-text projects can restore the exact content after restart. Rejected or expired handles persist no candidate evidence, and old process handles never become valid again.
+
+The same build derives the checked-in 239-method Method Atlas into a private in-memory SQLite view. Bootstrap exposes Atlas candidates separately from the 24 implemented evaluators. `POST /api/workspace/methods/route` accepts typed dimensions, exact acquired source IDs from the open project, explicit subject IDs, domain and optional purpose. It rejects cross-project source IDs and returns classifier questions, missing evidence, falsifiers, sources and the seven planned reasoning stages. Every result is labeled **STRUCTURAL CANDIDATE · NOT EXECUTED**; the route neither modifies canonical Atlas records nor promotes a candidate to an evaluator.
 
 ## 3. First connected project journey
 

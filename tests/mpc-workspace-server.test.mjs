@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {mkdirSync,mkdtempSync,rmSync,writeFileSync} from 'node:fs';
 import {request as httpRequest} from 'node:http';
 import {tmpdir} from 'node:os';
@@ -138,6 +139,15 @@ test('real loopback service completes and restores the source-bound workspace jo
   assert.equal(folderInput.json.input.originals_modified,false);
   assert.equal(folderInput.json.input.acquisition_ids.length,1);
   assert.match(folderInput.json.input.snapshot_id,/^SNAPSHOT-/u);
+  const atlasRoute=await postJson(running,'/api/workspace/methods/route',{
+    project_id:'PROJECT-E2E',dimensions:['COMPARISON','VERIFICATION'],
+    source_refs:[folderInput.json.input.acquisitions[0].source.id],subject_ids:['PROJECT:PROJECT-E2E'],
+    domain_profile:'GENERAL',max_candidates:3
+  });
+  assert.equal(atlasRoute.status,200,atlasRoute.text);
+  assert.ok(atlasRoute.json.route.selected_count>0&&atlasRoute.json.route.selected_count<=3);
+  assert.equal(atlasRoute.json.route.no_method_executed,true);
+  assert.equal(atlasRoute.json.route.canonical_records_changed,false);
 
   const started=await postJson(running,'/api/workspace/jobs',{
     operation:'START',project_id:'PROJECT-E2E',task_id:'TASK-E2E',question:'What does alpha show?',
@@ -230,7 +240,18 @@ test('real loopback service completes and restores the source-bound workspace jo
   assert.equal(observed.json.observation.current_observation.status,'UNAVAILABLE');
   assert.equal(observed.json.observation.attempted_operation,false);
   assert.equal(observed.json.observation.last_operation_verified,false);
-  running.service.adapters.testConnection=async()=>({status:'SUCCESS',receipt_id:'TEST-NATIVE-RECEIPT-1',selected_resource:'fixture'});
+  const connectorText='receipt-bound connector evidence\n';
+  running.service.adapters.testConnection=async()=>({schema_version:'MPC_WORKSPACE_HOST_ADAPTERS_1',status:'SUCCESS',receipt_id:'TEST-NATIVE-RECEIPT-1',
+    resource:{owner:'GITHUB',source_namespace:'GITHUB',native_id_type:'repository_path',
+      native_id:'owner/repo:README.md',native_version:'a'.repeat(40),
+      native_locator:`https://github.com/owner/repo/blob/${'a'.repeat(40)}/README.md`},
+    content:connectorText,content_sha256:createHash('sha256').update(connectorText).digest('hex'),
+    content_bytes:Buffer.byteLength(connectorText),read_only:true,source_instructions_executed:false});
+  const connectorRowsBefore={
+    sources:running.service.store.db.prepare('SELECT count(*) AS count FROM cc_sources WHERE project_id=?').get('PROJECT-E2E').count,
+    artifacts:running.service.store.db.prepare('SELECT count(*) AS count FROM cc_artifacts WHERE project_id=?').get('PROJECT-E2E').count,
+    documents:running.service.store.db.prepare('SELECT count(*) AS count FROM cc_retained_documents WHERE project_id=?').get('PROJECT-E2E').count
+  };
   const verified=await postJson(running,'/api/workspace/connections/test',{
     project_id:'PROJECT-E2E',connection_id:connectionId,operation:'READ',
     operation_input:{selected_resource:'fixture'}
@@ -239,6 +260,20 @@ test('real loopback service completes and restores the source-bound workspace jo
   assert.equal(verified.json.observation.current_observation.status,'SUCCESS');
   assert.equal(verified.json.observation.last_operation_verified,true);
   assert.match(verified.json.observation.operation_receipt_id,/^RECEIPT-/u);
+  assert.match(verified.json.observation.read_handle,/^READ-/u);
+  assert.equal(running.service.store.db.prepare('SELECT count(*) AS count FROM cc_sources WHERE project_id=?').get('PROJECT-E2E').count,connectorRowsBefore.sources);
+  assert.equal(running.service.store.db.prepare('SELECT count(*) AS count FROM cc_artifacts WHERE project_id=?').get('PROJECT-E2E').count,connectorRowsBefore.artifacts);
+  assert.equal(running.service.store.db.prepare('SELECT count(*) AS count FROM cc_retained_documents WHERE project_id=?').get('PROJECT-E2E').count,connectorRowsBefore.documents);
+  const acquiredConnector=await postJson(running,'/api/workspace/connections/acquire',{
+    project_id:'PROJECT-E2E',read_handle:verified.json.observation.read_handle
+  });
+  assert.equal(acquiredConnector.status,200,acquiredConnector.text);
+  assert.equal(acquiredConnector.json.acquisition.status,'SELECTED_AS_EVIDENCE');
+  assert.equal(acquiredConnector.json.acquisition.source.source_namespace,'GITHUB');
+  assert.equal(acquiredConnector.json.acquisition.acquisition.source.owner,'GITHUB');
+  assert.equal(running.service.store.db.prepare('SELECT count(*) AS count FROM cc_sources WHERE project_id=?').get('PROJECT-E2E').count,connectorRowsBefore.sources+1);
+  assert.equal(running.service.store.db.prepare('SELECT count(*) AS count FROM cc_artifacts WHERE project_id=?').get('PROJECT-E2E').count,connectorRowsBefore.artifacts+1);
+  assert.equal(running.service.store.db.prepare('SELECT count(*) AS count FROM cc_retained_documents WHERE project_id=?').get('PROJECT-E2E').count,connectorRowsBefore.documents+1);
 
   const scripted=await postJson(running,'/api/workspace/scripts',{
     operation:'CREATE',project_id:'PROJECT-E2E',job_id:jobId,language:'POWERSHELL',request:'List the selected directory without modifying it.'

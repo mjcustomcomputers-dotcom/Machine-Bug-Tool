@@ -668,6 +668,24 @@ export async function startMpcWorkspaceServer({
         sendJson(response, 200, {observation});
         return;
       }
+      if (url.pathname === '/api/workspace/connections/acquire') {
+        if (method !== 'POST') {
+          sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'POST'});
+          return;
+        }
+        const acquisition = await callService(workspaceService, ['acquireConnectionRead'], await postBody());
+        sendJson(response, 200, {acquisition});
+        return;
+      }
+      if (url.pathname === '/api/workspace/methods/route') {
+        if (method !== 'POST') {
+          sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'POST'});
+          return;
+        }
+        const route = await callService(workspaceService, ['routeMethodAtlas'], await postBody());
+        sendJson(response, 200, {route});
+        return;
+      }
       if (url.pathname === '/api/workspace/connections/setup') {
         if (method !== 'POST') {
           sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'POST'});

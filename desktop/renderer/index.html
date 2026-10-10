@@ -276,6 +276,18 @@
             <div class="wide button-row"><button class="button accent" id="run-method" type="button">Acquire and evaluate</button><span class="micro-state" id="method-run-status" role="status" aria-live="polite" aria-atomic="true">NOT RUN</span></div>
             <div class="wide honesty-note">JSON is treated as data. No script, connector, target or external action is invoked.</div>
           </section>
+          <section class="panel form-panel" aria-labelledby="atlas-route-title">
+            <div class="wide"><div class="eyebrow">Methods on methods</div><h2 id="atlas-route-title" tabindex="-1">Find Method Atlas candidates</h2><p>Bind acquired project evidence to typed dimensions. Atlas returns research candidates, classifier questions, missing evidence and falsifiers; it does not execute a method.</p></div>
+            <label>Dimensions (Ctrl/Command selects several)<select id="atlas-dimensions" multiple size="6" aria-describedby="atlas-route-boundary"></select></label>
+            <label>Acquired project sources<select id="atlas-source-refs" multiple size="6" aria-describedby="atlas-route-boundary"></select></label>
+            <label>Subject IDs, comma separated<input id="atlas-subject-ids" maxlength="1200" placeholder="PROJECT:my-project"></label>
+            <label>Domain profile<select id="atlas-domain"><option value="GENERAL">General</option><option value="BUSINESS">Business</option><option value="GAMING">Gaming</option></select></label>
+            <label>Purpose filter<select id="atlas-purpose"><option value="">Any registered purpose</option></select></label>
+            <label>Maximum candidates<input id="atlas-max" type="number" min="1" max="12" value="6"></label>
+            <div class="wide button-row"><button class="button accent" id="atlas-route" type="button">Find Atlas candidates</button><button class="button" id="atlas-copy" type="button" disabled>Copy routing receipt</button><span class="micro-state" id="atlas-route-status" role="status" aria-live="polite" aria-atomic="true">NOT ROUTED</span></div>
+            <div class="wide honesty-note" id="atlas-route-boundary">STRUCTURAL CANDIDATE · NOT EXECUTED. Sources are checked against the open project by the local host. Atlas records remain unchanged.</div>
+            <div class="wide method-list" id="atlas-route-results" tabindex="-1"><div class="empty-row">Choose acquired evidence and dimensions to route the Atlas.</div></div>
+          </section>
           <section class="panel"><div class="search-row"><input class="grow" id="method-search" type="search" placeholder="Search method ID, name, dimension or required input"><label class="toggle-label"><input id="method-implemented-only" type="checkbox"> Implemented only</label></div><div id="methods-list" class="method-list"><div class="empty-row">Method inventory is unavailable until the local service starts.</div></div></section>
         </section>
 
@@ -510,7 +522,7 @@
     <div id="connection-github-fields"><label>Repository<input id="connection-repository" value="mjcustomcomputers-dotcom/Machine-Bug-Tool" maxlength="200"></label><label>Branch, tag or commit<input id="connection-ref" value="feature/mpc-screen-ocr-20261009" maxlength="200"></label><label>File path<input id="connection-file-path" value="docs/MPC-SCREEN-READER.md" maxlength="1500"></label></div>
     <label id="connection-native-field">Native file / message ID or Dropbox path<input id="connection-native-id" maxlength="2000" autocomplete="off"></label>
     <label class="toggle-label"><input id="connection-include-content" type="checkbox" checked> Read the selected text content</label>
-    <div class="button-row"><button class="button accent" id="connection-read-run" type="button">Read selected resource</button><button class="button" id="connection-read-use" type="button" disabled>Use in chat</button><button class="button" id="connection-read-copy" type="button" disabled>Copy receipt</button></div>
+    <div class="button-row"><button class="button accent" id="connection-read-run" type="button">Read selected resource</button><button class="button" id="connection-read-use" type="button" disabled>Use as evidence</button><button class="button" id="connection-read-copy" type="button" disabled>Copy receipt</button></div>
     <p id="connection-read-status" role="status" aria-live="polite"></p><label class="sr-only" for="connection-read-output">Selected resource result</label><textarea id="connection-read-output" readonly spellcheck="false"></textarea>
   </section></dialog>
   <div class="toast-region" id="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>

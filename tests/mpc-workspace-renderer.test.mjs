@@ -44,7 +44,9 @@ test('renderer declares one bounded same-origin JSON API surface', () => {
     snapshotCompare: '/api/workspace/snapshots/compare',
     connections: '/api/workspace/connections',
     connectionTest: '/api/workspace/connections/test',
+    connectionAcquire: '/api/workspace/connections/acquire',
     connectionSetup: '/api/workspace/connections/setup',
+    methodAtlasRoute: '/api/workspace/methods/route',
     scripts: '/api/workspace/scripts',
     transferExport: '/api/workspace/transfers/export',
     transferImport: '/api/workspace/transfers/import',
@@ -93,6 +95,8 @@ test('complete first-journey controls and all nine product areas remain visible'
     'evidence-add-text', 'evidence-attach-files', 'evidence-add-folder',
     'run-work', 'stop-work', 'resume-work', 'save-report', 'copy-answer', 'search-query', 'compare-snapshots', 'add-connection',
     'method-run-picker', 'method-run-input', 'run-method', 'method-run-status',
+    'atlas-dimensions', 'atlas-source-refs', 'atlas-subject-ids', 'atlas-domain', 'atlas-purpose', 'atlas-max',
+    'atlas-route', 'atlas-copy', 'atlas-route-status', 'atlas-route-results',
     'draft-script', 'script-content', 'script-output', 'ingest-script-output', 'export-task', 'import-task',
     'portable-task-input', 'open-logs', 'restart-service', 'copy-error',
     'screen-roi-suggest','screen-roi-apply','screen-roi-copy','screen-roi-status',
@@ -179,7 +183,7 @@ test('the first screen exposes the core journey and mobile reflow keeps the work
   assert.match(html, /id="job-progress" role="progressbar"[^>]*aria-valuenow="0"/u);
   assert.match(html, /id="compare-snapshots"[^>]*disabled/u);
   assert.match(html, /Side panel \(bottom on narrow windows\)/u);
-  for (const id of ['service-status', 'network-status', 'work-stage', 'search-coverage', 'method-run-status']) {
+  for (const id of ['service-status', 'network-status', 'work-stage', 'search-coverage', 'method-run-status', 'atlas-route-status']) {
     assert.match(html, new RegExp(`id="${id}"[^>]*role="status"[^>]*aria-live="polite"`, 'u'));
   }
   assert.match(css, /\.workspace-frame\s*\{[^}]*grid-column:\s*2/su);
@@ -275,6 +279,33 @@ test('connection controls describe local enablement and refresh canonical state'
     assert.ok(start >= 0, functionName);
     assert.match(source, /await refreshBootstrap\(\)/u, `${functionName} refreshes host-owned state`);
   }
+  assert.match(html, /id="connection-read-use"[^>]*>Use as evidence</u);
+  assert.match(js, /API_PATHS\.connectionAcquire[\s\S]{0,220}read_handle:readResult\.observation\.read_handle/u);
+  assert.match(js, /connectorAcquisitions\.push\(acquisition\)/u);
+  assert.match(js, /function connectorAcquisitionChip\([\s\S]{0,900}Remove connected evidence/u);
+  assert.match(js, /function renderAttachments\(\)[\s\S]{0,500}connectorAcquisitions\.map\(connectorAcquisitionChip\)/u);
+  assert.match(js, /connectorAcquisitions\.push\(acquisition\);[\s\S]{0,100}renderAttachments\(\)/u);
+  const connectorSelection = js.slice(js.indexOf("$('connection-read-use').addEventListener"), js.indexOf('bindNavigation();'));
+  assert.doesNotMatch(connectorSelection, /useSelectedEvidence\(/u,
+    'native connector bytes must not be downgraded into pasted LOCAL_INPUT text');
+});
+
+test('Method Atlas display and late responses remain bound to the open project', () => {
+  const resetStart = js.indexOf('function resetAtlasRouteState()');
+  const resetEnd = js.indexOf('\nfunction resetEvidenceSelection()', resetStart);
+  const resetSource = js.slice(resetStart, resetEnd);
+  assert.ok(resetStart >= 0 && resetEnd > resetStart);
+  assert.match(resetSource, /state\.atlasRouteToken = null/u);
+  assert.match(resetSource, /`PROJECT:\$\{projectId\}`/u);
+  assert.match(resetSource, /atlas-route-results/u);
+  assert.match(resetSource, /NOT ROUTED/u);
+  const routeStart = js.indexOf('async function runAtlasRoute()');
+  const routeEnd = js.indexOf('\nfunction rerenderMethods()', routeStart);
+  const routeSource = js.slice(routeStart, routeEnd);
+  assert.match(routeSource, /const projectId = currentProjectId\(\)/u);
+  assert.match(routeSource, /const requestToken = makeId\('atlas-route-request'\)/u);
+  assert.match(routeSource, /state\.atlasRouteToken !== requestToken \|\| currentProjectId\(\) !== projectId/u);
+  assert.match(routeSource, /project_id:projectId/u);
 });
 
 test('desktop runtime identity is displayed only from observed metadata', () => {

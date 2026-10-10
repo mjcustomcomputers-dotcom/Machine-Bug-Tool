@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+// Electron sandbox preloads intentionally use the restricted CommonJS bridge.
 const {contextBridge,ipcRenderer}=require('electron');
 contextBridge.exposeInMainWorld('mpcCapture',Object.freeze({
   configuration:()=>ipcRenderer.invoke('mpc-capture:configuration'),
