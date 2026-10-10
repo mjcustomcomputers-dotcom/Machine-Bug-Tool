@@ -93,9 +93,9 @@ def forced_greedy(p, deadline):
     for mode in range(3):
         if time.monotonic() > deadline - 0.005:
             break
-        stack = [(frozenset(range(m)), frozenset(), tuple(), 0.0, zero_base)]
+        stack = [(frozenset(range(m)), tuple(), 0.0, zero_base)]
         while stack and time.monotonic() < deadline - 0.004 and nodes < 25000:
-            remain, chosen, path, score, base_totals = stack.pop()
+            remain, path, score, base_totals = stack.pop()
             nodes += 1
             if score >= best_cost and nonnegative_costs:
                 continue
@@ -124,7 +124,7 @@ def forced_greedy(p, deadline):
                 next_base = tuple(base_totals[i] + d[i][j] for i in range(len(d)))
                 if any(nonnegative_base[i] and next_base[i] > hi[i] + 1e-7 for i in range(len(d))):
                     continue
-                stack.append((remain - colsets[j], chosen | {j}, path + (j,), score + costs[j], next_base))
+                stack.append((remain - colsets[j], path + (j,), score + costs[j], next_base))
         if time.monotonic() - start > 2.0:
             break
     return best
