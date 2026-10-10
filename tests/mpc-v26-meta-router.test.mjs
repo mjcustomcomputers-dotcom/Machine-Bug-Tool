@@ -37,7 +37,7 @@ const hypotheses=[
  {id:'h1',predictions:{Q1:'YES',Q2:'YES',Q3:'YES'}},
  {id:'h2',predictions:{Q1:'NO',Q2:'YES',Q3:'NO'}},
  {id:'h3',predictions:{Q1:'NO',Q2:'NO',Q3:'YES'}}];
-const distinguish=()=>({...ctx,questions,hypotheses,max_questions:3});
+const distinguish=()=>({...ctx,questions:structuredClone(questions),hypotheses:structuredClone(hypotheses),max_questions:3});
 const input=(atoms=[],extra={})=>({...ctx,world:'SYNTHETIC',profile:'BUSINESS_STARTUP',atoms,...extra});
 
 test('V26 overlay is additive, source-attributed, no native evaluator inflation',()=>{
