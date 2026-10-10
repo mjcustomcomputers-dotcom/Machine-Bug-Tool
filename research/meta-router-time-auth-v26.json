@@ -1,0 +1,676 @@
+{
+  "version": "MPC_META_ROUTER_CLOCK_AUTH_REDUCTION_V26",
+  "namespace": "NONCANONICAL_RH_V26",
+  "parent_source_commit": "bc134031b2d251de5ac0093d9a13aca0a8d955c6",
+  "existing_native_evaluators": 24,
+  "existing_method_atlas_candidates": 239,
+  "original_maxvar_bl_and_variants_unchanged": true,
+  "original_v25_ipfs_untouched": true,
+  "default_declared_profile": "BUSINESS_STARTUP",
+  "source_authentication": false,
+  "method_execution": false,
+  "legal_or_business_facts_proven": false,
+  "platform_sandbox_enforced": false,
+  "production_integrated": false,
+  "remote_actions": false,
+  "canonical_promotion": false,
+  "sources": {
+    "lamport": "https://www.microsoft.com/en-us/research/publication/time-clocks-ordering-events-distributed-system/",
+    "vector": "https://doi.org/10.1016/0020-0190(88)90026-0",
+    "hybrid": "https://arxiv.org/abs/2104.15099",
+    "identity": "https://csrc.nist.gov/pubs/sp/800/63/4/final",
+    "ed": "https://www.rfc-editor.org/rfc/rfc8032",
+    "zanzibar": "https://www.usenix.org/conference/atc19/presentation/pang",
+    "pcc": "https://doi.org/10.1145/263699.263712",
+    "abstract": "https://www.di.ens.fr/~cousot/COUSOTpapers/POPL77.shtml",
+    "belnap": "https://arxiv.org/abs/2503.20679",
+    "delta": "https://www.st.cs.uni-saarland.de/papers/tse2002/",
+    "sandbox": "https://cdn.kernel.org/doc/html/latest/security/landlock.html",
+    "sandboxuser": "https://cdn.kernel.org/doc/html/latest/userspace-api/landlock.html",
+    "lemons": "https://doi.org/10.2307/1879431",
+    "screening": "https://www.nobelprize.org/prizes/economic-sciences/2001/press-release/"
+  },
+  "hooks": [
+    {
+      "id": "RH-V26-01",
+      "family": "TIME",
+      "key": "VECTOR_CLOCK_CAUSAL_ORDER",
+      "requires": [
+        "EVENT_VECTORS",
+        "CLOCK_DOMAIN"
+      ],
+      "produces": [
+        "CAUSAL_PARTIAL_ORDER"
+      ],
+      "source_urls": [
+        "https://www.microsoft.com/en-us/research/publication/time-clocks-ordering-events-distributed-system/",
+        "https://doi.org/10.1016/0020-0190(88)90026-0"
+      ],
+      "falsifier": "Compare finite vector clocks; unknown completeness cannot establish real-world causal independence.",
+      "implementation_state": "EXECUTABLE_FINITE_MODEL",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-02",
+      "family": "TIME",
+      "key": "INTERVAL_CLOCK_UNCERTAINTY",
+      "requires": [
+        "EVENT_INTERVALS",
+        "CLOCK_DOMAIN"
+      ],
+      "produces": [
+        "INTERVAL_ORDER_CANDIDATES"
+      ],
+      "source_urls": [
+        "https://www.microsoft.com/en-us/research/publication/time-clocks-ordering-events-distributed-system/"
+      ],
+      "falsifier": "Comparable clock domains and nonoverlap support measured precedence, not causation.",
+      "implementation_state": "EXECUTABLE_FINITE_MODEL",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-03",
+      "family": "TIME",
+      "key": "HYBRID_LOGICAL_CLOCK_CONTRAST",
+      "requires": [
+        "HYBRID_CLOCK_STAMPS",
+        "CLOCK_SKEW_BOUNDS"
+      ],
+      "produces": [
+        "HLC_REVIEW_HYPOTHESES"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2104.15099"
+      ],
+      "falsifier": "HLC physical and logical clock assumptions cannot be discarded.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-04",
+      "family": "TIME",
+      "key": "LEASE_AND_REVOCATION_CUT",
+      "requires": [
+        "LEASE_BOUNDARIES",
+        "ACCESS_POLICY_VERSION"
+      ],
+      "produces": [
+        "REVOCATION_TIMING_REVIEW"
+      ],
+      "source_urls": [
+        "https://www.usenix.org/conference/atc19/presentation/pang",
+        "https://csrc.nist.gov/pubs/sp/800/63/4/final"
+      ],
+      "falsifier": "Unexpired lease alone cannot establish current authorization.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-05",
+      "family": "TIME",
+      "key": "MONOTONIC_VS_WALL_CLOCK",
+      "requires": [
+        "CLOCK_OBSERVATIONS",
+        "SOURCE_OWNER"
+      ],
+      "produces": [
+        "CLOCK_DOMAIN_DIFFERENCES"
+      ],
+      "source_urls": [
+        "https://www.microsoft.com/en-us/research/publication/time-clocks-ordering-events-distributed-system/"
+      ],
+      "falsifier": "Epoch milliseconds and monotonic counters must not be silently compared.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-06",
+      "family": "TIME",
+      "key": "METHOD_VERSION_EXPIRATION",
+      "requires": [
+        "METHOD_SOURCE_VERSION",
+        "METHOD_INVOCATION_TIME"
+      ],
+      "produces": [
+        "STALE_METHOD_REVIEW"
+      ],
+      "source_urls": [
+        "https://www.usenix.org/conference/atc19/presentation/pang"
+      ],
+      "falsifier": "Changing a source/version invalidates a cached method conclusion.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-07",
+      "family": "TIME",
+      "key": "TEMPORAL_AUTHORIZATION_CONSISTENCY",
+      "requires": [
+        "REVOCATION_TIMING_REVIEW",
+        "AUTHORIZATION_RECEIPT"
+      ],
+      "produces": [
+        "CONSISTENCY_GAP_REVIEW"
+      ],
+      "source_urls": [
+        "https://www.usenix.org/conference/atc19/presentation/pang"
+      ],
+      "falsifier": "Successful login may rely on obsolete policy state.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-08",
+      "family": "AUTHENTICATION",
+      "key": "ED25519_BYTES_SIGNATURE_VERIFIER",
+      "requires": [
+        "SIGNED_BYTES",
+        "PUBLIC_KEY",
+        "SIGNATURE"
+      ],
+      "produces": [
+        "SIGNATURE_VALIDITY_RECEIPT"
+      ],
+      "source_urls": [
+        "https://www.rfc-editor.org/rfc/rfc8032"
+      ],
+      "falsifier": "Cryptographic signature verification is not trusted signer identity.",
+      "implementation_state": "EXECUTABLE_ED25519_CRYPTO",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-09",
+      "family": "AUTHENTICATION",
+      "key": "IDENTITY_PROOFING_VS_AUTHENTICATION",
+      "requires": [
+        "IDENTITY_PROOFING_RECORD",
+        "AUTHENTICATION_RECEIPT"
+      ],
+      "produces": [
+        "IDENTITY_LADDER_REVIEW"
+      ],
+      "source_urls": [
+        "https://csrc.nist.gov/pubs/sp/800/63/4/final"
+      ],
+      "falsifier": "Authentication is not automatically identity proofing or authorization.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-10",
+      "family": "AUTHENTICATION",
+      "key": "TRUST_ANCHOR_AND_KEY_OWNER",
+      "requires": [
+        "SIGNATURE_VALIDITY_RECEIPT",
+        "KEY_OWNER_ATTESTATION"
+      ],
+      "produces": [
+        "KEY_OWNER_REVIEW"
+      ],
+      "source_urls": [
+        "https://csrc.nist.gov/pubs/sp/800/63/4/final",
+        "https://www.rfc-editor.org/rfc/rfc8032"
+      ],
+      "falsifier": "A caller-supplied key has no independently authenticated owner.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-11",
+      "family": "AUTHENTICATION",
+      "key": "NONCE_REPLAY_CONTEXT",
+      "requires": [
+        "SIGNATURE_VALIDITY_RECEIPT",
+        "NONCE_SCOPE"
+      ],
+      "produces": [
+        "REPLAY_GUARD_HYPOTHESIS"
+      ],
+      "source_urls": [
+        "https://csrc.nist.gov/pubs/sp/800/63/4/final",
+        "https://www.usenix.org/conference/atc19/presentation/pang"
+      ],
+      "falsifier": "A signature without a fresh scoped challenge can be replayed.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-12",
+      "family": "AUTHENTICATION",
+      "key": "PROOF_CARRYING_METHOD_RECEIPT",
+      "requires": [
+        "METHOD_CERTIFICATE",
+        "INDEPENDENT_CHECKER"
+      ],
+      "produces": [
+        "METHOD_PROOF_REPLAY"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1145/263699.263712"
+      ],
+      "falsifier": "Producer and verifier must not share unchallenged faulty assumptions.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-13",
+      "family": "AUTHENTICATION",
+      "key": "AUTHORIZATION_AS_SEPARATE_GATE",
+      "requires": [
+        "KEY_OWNER_REVIEW",
+        "POLICY_DECISION"
+      ],
+      "produces": [
+        "EXECUTION_AUTHORIZATION_REVIEW"
+      ],
+      "source_urls": [
+        "https://www.usenix.org/conference/atc19/presentation/pang",
+        "https://csrc.nist.gov/pubs/sp/800/63/4/final"
+      ],
+      "falsifier": "Identity and authenticity never alone grant consequential action.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-14",
+      "family": "AUTHENTICATION",
+      "key": "PROOF_LINEAGE_NONINDEPENDENCE",
+      "requires": [
+        "SOURCE_LINEAGES",
+        "DERIVED_RECEIPTS"
+      ],
+      "produces": [
+        "INDEPENDENCE_REVIEW"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1145/263699.263712"
+      ],
+      "falsifier": "One source copied many times is not independent corroboration.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-15",
+      "family": "REDUCTION",
+      "key": "FOUR_VALUED_KNOWLEDGE_JOIN",
+      "requires": [
+        "EVIDENCE_ASSERTIONS",
+        "SOURCE_LINEAGES"
+      ],
+      "produces": [
+        "BILATTICE_KNOWLEDGE_STATE"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2503.20679"
+      ],
+      "falsifier": "A contradictory claim must retain BOTH rather than become supported or be averaged away.",
+      "implementation_state": "EXECUTABLE_FINITE_BILATTICE",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-16",
+      "family": "REDUCTION",
+      "key": "ABSTRACT_INTERPRETATION_PRECISION",
+      "requires": [
+        "CONCRETE_STATES",
+        "ABSTRACT_DOMAIN"
+      ],
+      "produces": [
+        "ABSTRACTION_GUARD"
+      ],
+      "source_urls": [
+        "https://www.di.ens.fr/~cousot/COUSOTpapers/POPL77.shtml"
+      ],
+      "falsifier": "Abstraction may overapproximate; do not assert detail preserved without a check.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-17",
+      "family": "REDUCTION",
+      "key": "MINIMAL_DISTINGUISHING_QUESTIONS",
+      "requires": [
+        "COMPETING_HYPOTHESES",
+        "DECLARED_PREDICTIONS"
+      ],
+      "produces": [
+        "DISTINGUISHING_QUERY_PLAN"
+      ],
+      "source_urls": [
+        "https://www.st.cs.uni-saarland.de/papers/tse2002/",
+        "https://www.di.ens.fr/~cousot/COUSOTpapers/POPL77.shtml"
+      ],
+      "falsifier": "Questions separate hypotheses only where predictions differ, not because named.",
+      "implementation_state": "EXECUTABLE_FINITE_SET_COVER",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-18",
+      "family": "REDUCTION",
+      "key": "MIRROR_OPPOSITE_FALSIFIER",
+      "requires": [
+        "DISTINGUISHING_QUERY_PLAN",
+        "BENIGN_ALTERNATIVES"
+      ],
+      "produces": [
+        "MIRROR_REVIEW"
+      ],
+      "source_urls": [
+        "https://www.st.cs.uni-saarland.de/papers/tse2002/"
+      ],
+      "falsifier": "Reverse an inference for challenge, not to assert its converse.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-19",
+      "family": "REDUCTION",
+      "key": "ABDUCTION_DEDUCTION_SEPARATION",
+      "requires": [
+        "BILATTICE_KNOWLEDGE_STATE",
+        "HYPOTHESIS_PRIORS"
+      ],
+      "produces": [
+        "ABDUCTION_GUARD"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2503.20679",
+        "https://www.di.ens.fr/~cousot/COUSOTpapers/POPL77.shtml"
+      ],
+      "falsifier": "A plausible explanation is not a logically entailed conclusion.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-20",
+      "family": "REDUCTION",
+      "key": "CONFLICT_TOLERANT_SOURCE_ALGEBRA",
+      "requires": [
+        "BILATTICE_KNOWLEDGE_STATE",
+        "INDEPENDENCE_REVIEW"
+      ],
+      "produces": [
+        "CONFLICT_PROVENANCE_REVIEW"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2503.20679"
+      ],
+      "falsifier": "Four-valued logic cannot authenticate or determine causation.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-21",
+      "family": "SANDBOX",
+      "key": "DECLARED_CAPABILITY_CONTAINMENT",
+      "requires": [
+        "REQUIRED_CAPABILITIES",
+        "SANDBOX_CAPABILITY_POLICY"
+      ],
+      "produces": [
+        "CAPABILITY_DIFF_REVIEW"
+      ],
+      "source_urls": [
+        "https://cdn.kernel.org/doc/html/latest/security/landlock.html",
+        "https://cdn.kernel.org/doc/html/latest/userspace-api/landlock.html"
+      ],
+      "falsifier": "Declared allowlist is not evidence kernel enforcement exists.",
+      "implementation_state": "EXECUTABLE_FINITE_POLICY_REVIEW",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-22",
+      "family": "SANDBOX",
+      "key": "NESTED_CAPABILITY_INTERSECTION",
+      "requires": [
+        "SANDBOX_CAPABILITY_POLICY",
+        "PARENT_CAPABILITIES"
+      ],
+      "produces": [
+        "EFFECTIVE_POLICY_PROPOSAL"
+      ],
+      "source_urls": [
+        "https://cdn.kernel.org/doc/html/latest/security/landlock.html"
+      ],
+      "falsifier": "Child permissions must not broaden the parent policy.",
+      "implementation_state": "EXECUTABLE_FINITE_POLICY_REVIEW",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-23",
+      "family": "SANDBOX",
+      "key": "TWIN_SANDBOX_DIFFERENTIAL",
+      "requires": [
+        "CAPABILITY_DIFF_REVIEW",
+        "CONTROL_RUNS"
+      ],
+      "produces": [
+        "SANDBOX_DIFFERENTIAL_HYPOTHESIS"
+      ],
+      "source_urls": [
+        "https://cdn.kernel.org/doc/html/latest/security/landlock.html",
+        "https://doi.org/10.1145/263699.263712"
+      ],
+      "falsifier": "Differential experiments require independent controls and same inputs.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-24",
+      "family": "SANDBOX",
+      "key": "SANDBOX_POLICY_VS_EFFECTIVE_ENFORCEMENT",
+      "requires": [
+        "EFFECTIVE_POLICY_PROPOSAL",
+        "NATIVE_ENFORCEMENT_RECEIPT"
+      ],
+      "produces": [
+        "SANDBOX_TRUST_BOUNDARY"
+      ],
+      "source_urls": [
+        "https://cdn.kernel.org/doc/html/latest/userspace-api/landlock.html"
+      ],
+      "falsifier": "Manifest-only policy has no enforced-security proof.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-25",
+      "family": "BUSINESS",
+      "key": "LEMONS_QUALITY_ASYMMETRY",
+      "requires": [
+        "QUALITY_TIERS",
+        "BUYER_BELIEF"
+      ],
+      "produces": [
+        "ADVERSE_SELECTION_HYPOTHESIS"
+      ],
+      "source_urls": [
+        "https://doi.org/10.2307/1879431"
+      ],
+      "falsifier": "Toy Akerlof market cannot estimate customer behavior or real product quality.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-26",
+      "family": "BUSINESS",
+      "key": "SIGNAL_VS_VERIFIED_QUALITY",
+      "requires": [
+        "SELLER_SIGNAL",
+        "QUALITY_OWNER_RECORD"
+      ],
+      "produces": [
+        "QUALITY_SIGNAL_FALSIFIER"
+      ],
+      "source_urls": [
+        "https://doi.org/10.2307/1879431",
+        "https://www.nobelprize.org/prizes/economic-sciences/2001/press-release/"
+      ],
+      "falsifier": "Badges and seller promises are signals, not independent quality proof.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-27",
+      "family": "BUSINESS",
+      "key": "SCREENING_VS_MANIPULATION",
+      "requires": [
+        "BUYER_VERIFICATION_OPTIONS",
+        "CHOICE_AUTONOMY"
+      ],
+      "produces": [
+        "SCREENING_CONTRACT_REVIEW"
+      ],
+      "source_urls": [
+        "https://www.nobelprize.org/prizes/economic-sciences/2001/press-release/"
+      ],
+      "falsifier": "Screening imposes burden and may exclude good participants.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-28",
+      "family": "BUSINESS",
+      "key": "QUALITY_ASSURANCE_COUNTERSIGNAL",
+      "requires": [
+        "QUALITY_SIGNAL_FALSIFIER",
+        "INDEPENDENT_AUDIT"
+      ],
+      "produces": [
+        "QUALITY_VERIFICATION_CANDIDATE"
+      ],
+      "source_urls": [
+        "https://doi.org/10.2307/1879431",
+        "https://doi.org/10.1145/263699.263712"
+      ],
+      "falsifier": "A seller-authored audit lacks independent corroboration.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-29",
+      "family": "ROUTER",
+      "key": "BUSINESS_FIRST_PHASE_SELECTION",
+      "requires": [
+        "REQUESTED_OUTCOME",
+        "BOUND_SOURCE_ATOMS"
+      ],
+      "produces": [
+        "BUSINESS_PHASE_PLAN"
+      ],
+      "source_urls": [
+        "https://www.di.ens.fr/~cousot/COUSOTpapers/POPL77.shtml",
+        "https://www.st.cs.uni-saarland.de/papers/tse2002/"
+      ],
+      "falsifier": "Startup default is context, not proof a business exists.",
+      "implementation_state": "EXECUTABLE_META_ROUTER",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-30",
+      "family": "ROUTER",
+      "key": "SOURCE_FIRST_METHOD_APPLICABILITY",
+      "requires": [
+        "BOUND_SOURCE_ATOMS",
+        "METHOD_INPUT_REQUIREMENTS"
+      ],
+      "produces": [
+        "METHOD_FRONTIER"
+      ],
+      "source_urls": [
+        "https://www.di.ens.fr/~cousot/COUSOTpapers/POPL77.shtml"
+      ],
+      "falsifier": "Missing evidence enters acquisition rather than false PASS.",
+      "implementation_state": "EXECUTABLE_META_ROUTER",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-31",
+      "family": "ROUTER",
+      "key": "METHOD_ON_METHOD_PROOF_ROUTE",
+      "requires": [
+        "METHOD_FRONTIER",
+        "FALSIFIERS"
+      ],
+      "produces": [
+        "MIRRORED_METHOD_CANDIDATES"
+      ],
+      "source_urls": [
+        "https://www.st.cs.uni-saarland.de/papers/tse2002/",
+        "https://doi.org/10.1145/263699.263712"
+      ],
+      "falsifier": "Chained hypothetical outputs are not source-authenticated facts.",
+      "implementation_state": "EXECUTABLE_META_ROUTER",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-32",
+      "family": "ROUTER",
+      "key": "ZERO_DELTA_BUDGET_BREAKER",
+      "requires": [
+        "MIRRORED_METHOD_CANDIDATES",
+        "SOURCE_VERSION"
+      ],
+      "produces": [
+        "BOUNDED_NEXT_ACTION"
+      ],
+      "source_urls": [
+        "https://www.st.cs.uni-saarland.de/papers/tse2002/"
+      ],
+      "falsifier": "Zero-delta or exhausted budget must stop recursive method fanout.",
+      "implementation_state": "EXECUTABLE_META_ROUTER",
+      "canonical_registry_member": false,
+      "method_executed": false
+    },
+    {
+      "id": "RH-V26-33",
+      "family": "ROUTER",
+      "key": "MPC_V26_OPT_IN_ATLAS_BRIDGE",
+      "requires": [
+        "METHOD_FRONTIER",
+        "ATLAS_ROUTE"
+      ],
+      "produces": [
+        "INTEGRATED_ROUTE_RECEIPT"
+      ],
+      "source_urls": [
+        "https://www.di.ens.fr/~cousot/COUSOTpapers/POPL77.shtml"
+      ],
+      "falsifier": "Only explicit opt-in may add meta; default Atlas route unchanged.",
+      "implementation_state": "EXECUTABLE_OPT_IN_ADAPTER",
+      "canonical_registry_member": false,
+      "method_executed": false
+    }
+  ]
+}
