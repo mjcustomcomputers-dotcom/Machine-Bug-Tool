@@ -81,6 +81,14 @@ def forced_greedy(p, deadline):
     # Incremental base totals: avoid re-summing every selected column per child.
     # Upper-bound pruning is sound only if all remaining contributions are nonnegative.
     nonnegative_base = [all(v >= 0 for v in row) for row in d]
+    nonnegative_costs = all(x >= 0 for x in costs)
+    # Predetermine the three static candidate orderings once, instead of sorting
+    # the same candidate alternatives at every search node.
+    priority_keys = [
+        [(costs[j] / max(len(columns[j]), 1), costs[j], j) for j in range(n)],
+        [(costs[j], -len(columns[j]), j) for j in range(n)],
+        [(-len(columns[j]), costs[j], j) for j in range(n)],
+    ]
     zero_base = (0.0,) * len(d)
     for mode in range(3):
         if time.monotonic() > deadline - 0.005:
@@ -89,7 +97,7 @@ def forced_greedy(p, deadline):
         while stack and time.monotonic() < deadline - 0.004 and nodes < 25000:
             remain, chosen, path, score, base_totals = stack.pop()
             nodes += 1
-            if score >= best_cost and all(x >= 0 for x in costs):
+            if score >= best_cost and nonnegative_costs:
                 continue
             if not remain:
                 if verify(p, path) and score < best_cost:
@@ -98,7 +106,9 @@ def forced_greedy(p, deadline):
             pivot = None
             choices = None
             for r in remain:
-                options = [j for j in incidence[r] if j not in chosen and colsets[j].issubset(remain)]
+                # Every chosen column covers at least one removed row; a column
+                # wholly contained in remain cannot already be selected.
+                options = [j for j in incidence[r] if colsets[j] and colsets[j].issubset(remain)]
                 if not options:
                     choices = []
                     break
@@ -108,12 +118,7 @@ def forced_greedy(p, deadline):
                         break
             if not choices:
                 continue
-            if mode == 0:
-                choices.sort(key=lambda j: (costs[j] / max(len(columns[j]), 1), costs[j], j))
-            elif mode == 1:
-                choices.sort(key=lambda j: (costs[j], -len(columns[j]), j))
-            else:
-                choices.sort(key=lambda j: (-len(columns[j]), costs[j], j))
+            choices.sort(key=priority_keys[mode].__getitem__)
             # Least promising first on a LIFO stack, so best candidates are visited first.
             for j in reversed(choices[:18]):
                 next_base = tuple(base_totals[i] + d[i][j] for i in range(len(d)))
