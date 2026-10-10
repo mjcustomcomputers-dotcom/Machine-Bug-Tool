@@ -139,6 +139,128 @@ def forced_greedy(p, deadline):
     return best
 
 
+def large_sparse_cover(p, deadline, reduction=None):
+    """Feasibility-first bounded MRV recovery for large exact-cover models.
+
+    Sparse bitset column masks + persistent parent-pointer paths avoid copying
+    full selected schedules into each branch. This is a search heuristic:
+    branch caps or deadlines return UNKNOWN (None), never INFEASIBLE.
+    Every promoted answer is reconstructed to original IDs and verified with
+    all literal floating base constraints.
+    """
+    if time.monotonic() >= deadline - 0.05:
+        return None
+    m, n, costs, columns, incidence, d, lo, hi = p
+    if (m <= 180 or m > 12000 or n > 50000 or
+            sum(len(rows) for rows in columns) > 400000):
+        return None
+    if reduction is None:
+        reduction = reduce_forced_rotations(p, dominated_rotations(p))
+    if reduction is None:
+        return None
+    forced, uncovered, active = reduction
+    if not uncovered:
+        return forced if verify(p, forced) else None
+    # Build only the remaining coverage incidence, with temporary dense
+    # bit positions; original column indices are never renumbered in output.
+    row_id = {row: k for k, row in enumerate(uncovered)}
+    row_candidates = [[] for _ in uncovered]
+    masks = {}
+    length = {}
+    for j in active:
+        if not columns[j]:
+            continue  # Optional empty columns remain for CP-SAT / MILP.
+        mask = 0
+        for original_row in columns[j]:
+            k = row_id.get(original_row)
+            if k is None:
+                mask = 0
+                break
+            mask |= (1 << k)
+        if not mask:
+            continue
+        masks[j] = mask
+        length[j] = mask.bit_count()
+        remaining_bits = mask
+        while remaining_bits:
+            bit = remaining_bits & -remaining_bits
+            remaining_bits ^= bit
+            row_candidates[bit.bit_length() - 1].append(j)
+    if any(not row for row in row_candidates):
+        return None
+    # Static row scarcity is cheap; dynamic eligibility is checked with
+    # native integer masks before branching, not inferred from this ranking.
+    rarest = sorted(range(len(uncovered)),
+                    key=lambda k: (len(row_candidates[k]), k))
+    initial_mask = (1 << len(uncovered)) - 1
+    initial_base = tuple(math.fsum(base[j] for j in forced) for base in d)
+    nonnegative = tuple(all(base[j] >= 0 for j in active) for base in d)
+    nonpositive = tuple(all(base[j] <= 0 for j in active) for base in d)
+    orderings = (
+        {j: (costs[j] / max(1, length[j]), costs[j], j)
+         for j in masks},
+        {j: (-length[j], costs[j], j) for j in masks},
+        {j: (costs[j], -length[j], j) for j in masks},
+    )
+    # A persistent parent-index chain reduces memory from O(nodes*depth)
+    # to O(nodes). The complete schedule is materialized only at a leaf.
+    for ordering in orderings:
+        if time.monotonic() >= deadline - 0.03:
+            break
+        chain = []  # (parent-index, original column ID)
+        stack = [(initial_mask, -1, initial_base)]
+        examined = 0
+        while stack and examined < 8000:
+            if (examined & 31) == 0 and time.monotonic() >= deadline - 0.025:
+                break
+            remain, parent, base_totals = stack.pop()
+            examined += 1
+            if not remain:
+                chosen = list(forced)
+                node = parent
+                while node != -1:
+                    previous, j = chain[node]
+                    chosen.append(j)
+                    node = previous
+                if verify(p, chosen):
+                    return sorted(chosen)
+                # Empty-cover base repairs and fractional edge cases remain
+                # for the original CP-SAT / HiGHS fallback.
+                continue
+            best = None
+            scanned = 0
+            for k in rarest:
+                if not (remain & (1 << k)):
+                    continue
+                eligible = [j for j in row_candidates[k]
+                            if masks[j] & remain == masks[j]]
+                if not eligible:
+                    best = []
+                    break
+                if best is None or len(eligible) < len(best):
+                    best = eligible
+                scanned += 1
+                if len(best) == 1 or scanned >= 48:
+                    break
+            if not best:
+                continue
+            choices = sorted(best, key=ordering.__getitem__)[:16]
+            for j in reversed(choices):
+                next_base = tuple(base_totals[k] + d[k][j]
+                                  for k in range(len(d)))
+                if any(
+                        (nonnegative[k] and next_base[k] >
+                         hi[k] + 1e-6 * max(1, abs(hi[k]))) or
+                        (nonpositive[k] and next_base[k] <
+                         lo[k] - 1e-6 * max(1, abs(lo[k])))
+                        for k in range(len(d))):
+                    continue
+                chain.append((parent, j))
+                stack.append((remain ^ masks[j], len(chain) - 1,
+                              next_base))
+    return None
+
+
 def cp_sat(p, deadline, incumbent=None):
     """Exact-cover integer model; base constraints handled by floating MILP."""
     if p[5] or deadline - time.monotonic() < 0.7:
@@ -249,36 +371,56 @@ def dominated_rotations(p):
 
 
 def reduce_forced_rotations(p, disabled):
-    """Exact-cover singleton propagation with original-column identity."""
-    m,n,costs,columns,incidence,d,lo,hi=p
-    active=set(range(n))-set(disabled)
-    uncovered=set(range(m))
-    forced=set()
-    while True:
-        singleton=None
-        for row in sorted(uncovered):
-            candidates=[j for j in incidence[row] if j in active]
-            if not candidates:
-                return None
-            if len(candidates)==1:
-                singleton=candidates[0]
-                break
+    """Queue-driven exact singleton propagation with original column IDs.
+
+    Every active rotation is invalidated at most once; coverage counts for
+    other uncovered rows update only along its incidence edges. Empty
+    rotations remain eligible for separate base bounds or negative costs.
+    This replaces repeated global sorted-row rescans with O(nnz+m+n) work.
+    """
+    from collections import deque
+    m, n, costs, columns, incidence, d, lo, hi = p
+    active = bytearray(b"\x01") * n
+    for j in disabled:
+        if 0 <= j < n:
+            active[j] = 0
+    row_remaining = [sum(active[j] for j in incidence[row])
+                     for row in range(m)]
+    if any(count == 0 for count in row_remaining):
+        return None
+    uncovered = bytearray(b"\x01") * m
+    pending = deque(i for i, count in enumerate(row_remaining) if count == 1)
+    forced = []
+    while pending:
+        row = pending.popleft()
+        if not uncovered[row] or row_remaining[row] != 1:
+            continue
+        singleton = next((j for j in incidence[row] if active[j]), None)
         if singleton is None:
-            break
-        if singleton in forced:
             return None
-        forced.add(singleton)
-        covered=set(columns[singleton])
-        if not covered.issubset(uncovered):
+        # Mark the selected rotation's covered rows before removing every
+        # conflicting column, so counts are updated only for still-open rows.
+        covered = set(columns[singleton])
+        if not covered or any(not uncovered[r] for r in covered):
             return None
-        uncovered.difference_update(covered)
-        # Every competing column touching a covered row must be zero.
-        forbidden={j for row in covered for j in incidence[row]}
-        active.difference_update(forbidden)
-    # Columns touching a solved row are already excluded. Empty columns remain
-    # available when their original cost or base effects can matter.
-    remaining=sorted(active)
-    return sorted(forced), sorted(uncovered), remaining
+        forced.append(singleton)
+        for r in covered:
+            uncovered[r] = 0
+        for r in covered:
+            for j in incidence[r]:
+                if not active[j]:
+                    continue
+                active[j] = 0
+                for affected in set(columns[j]):
+                    if not uncovered[affected]:
+                        continue
+                    row_remaining[affected] -= 1
+                    if row_remaining[affected] == 0:
+                        return None
+                    if row_remaining[affected] == 1:
+                        pending.append(affected)
+    return sorted(forced), [r for r in range(m) if uncovered[r]], [
+        j for j in range(n) if active[j]]
 
 
 def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
@@ -446,6 +588,19 @@ def solve(instance, time_limit_s):
     until = time.monotonic() + max(0.25, float(time_limit_s) - 2.5)
     m, n = p[:2]
     backup = forced_greedy(p, min(until, time.monotonic() + 1.5))
+    # MPC CEGAR repair: the legacy MRV fallback completely disabled itself
+    # above 180 rows. A separate bounded sparse search now tries to obtain a
+    # valid large-instance incumbent before any expensive native optimizer.
+    reduced = None
+    reduction_ready = False
+    if backup is None and m > 180 and time.monotonic() < until - 2.0:
+        reduced = reduce_forced_rotations(p, dominated_rotations(p))
+        reduction_ready = True
+        if reduced is not None:
+            option = large_sparse_cover(
+                p, min(until, time.monotonic() + 1.5), reduction=reduced)
+            if verify(p, option):
+                backup = option
     # Method selection by structure: integer exact cover -> CP-SAT;
     # real-valued base constraints -> sparse MILP with numerical validation.
     if not p[5] and time.monotonic() < until - 0.8:
@@ -454,9 +609,9 @@ def solve(instance, time_limit_s):
             backup = option
     # One version-bound exact reduction shared by side CP and HiGHS MILP.
     # This avoids repeating column elimination/matrix recovery in each method.
-    reduced = None
-    if p[5] and time.monotonic() < until - 1.3:
+    if p[5] and not reduction_ready and time.monotonic() < until - 1.3:
         reduced = reduce_forced_rotations(p, dominated_rotations(p))
+        reduction_ready = True
     # First try the physically smaller, proof-preserving CP model; retain
     # the original full CP-SAT as an independently structured rescue.
     if p[5] and backup is None and time.monotonic() < until - 1.0:

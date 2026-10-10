@@ -277,6 +277,100 @@ class CrewTests(unittest.TestCase):
         self.assertEqual(crew.objective(p,ans),6)
 
 
+    def test_large_sparse_direct_incumbent_with_base_window(self):
+        import time
+        m=240
+        cols=[[r] for r in range(m)]+[[2*r,2*r+1] for r in range(m//2)]
+        n=len(cols)
+        data={"dimensions":{"num_rows":m,"num_cols":n},
+              "cost_vector":[20.0]*m+[3.0]*(m//2),
+              "constraint_matrix_A":{"columns":cols},
+              "has_base_constraints":True,
+              "base_constraints":{"D_matrix":{"rows":[[1.0]*n]},
+                  "lower_bounds_d1":[120.],"upper_bounds_d2":[120.]}}
+        p=crew.parse(data)
+        self.assertIsNone(crew.forced_greedy(p,time.monotonic()+0.05))
+        candidate=crew.large_sparse_cover(p,time.monotonic()+2.0)
+        self.assertTrue(crew.verify(p,candidate))
+        self.assertEqual(len(candidate),120)
+        self.assertEqual(crew.objective(p,candidate),360.)
+
+    def test_large_sparse_is_valid_without_native_solvers(self):
+        import time
+        from unittest.mock import patch
+        m=210
+        cols=[[r] for r in range(m)]+[[2*r,2*r+1] for r in range(m//2)]
+        n=len(cols)
+        data={"dimensions":{"num_rows":m,"num_cols":n},
+              "cost_vector":[20.0]*m+[3.0]*(m//2),
+              "constraint_matrix_A":{"columns":cols},
+              "has_base_constraints":True,
+              "base_constraints":{"D_matrix":{"rows":[[1.0]*n]},
+                  "lower_bounds_d1":[105.],"upper_bounds_d2":[105.]}}
+        with patch.object(crew,"cp_sat_side",return_value=None), \
+             patch.object(crew,"cp_sat_side_compact",return_value=None), \
+             patch.object(crew,"sparse_milp",return_value=None):
+            result=crew.solve(data,5.0)
+        independently_check(data,result)
+        self.assertEqual(result["objective_value"],315.)
+
+    def test_large_sparse_signed_base_never_promotes_false_feasibility(self):
+        import time
+        m=210
+        cols=[[r] for r in range(m)]+[[2*r,2*r+1] for r in range(m//2)]
+        n=len(cols)
+        data={"dimensions":{"num_rows":m,"num_cols":n},
+              "cost_vector":[20.0]*m+[3.0]*(m//2),
+              "constraint_matrix_A":{"columns":cols},
+              "has_base_constraints":True,
+              "base_constraints":{"D_matrix":{"rows":[[1.0]*m+
+                  [-1.0]*(m//2)]},
+                  "lower_bounds_d1":[-105.],"upper_bounds_d2":[-105.]}}
+        p=crew.parse(data)
+        ans=crew.large_sparse_cover(p,time.monotonic()+2.0)
+        self.assertTrue(crew.verify(p,ans))
+        self.assertEqual(crew.objective(p,ans),315.)
+
+    def test_propagation_queue_on_many_forced_rows(self):
+        m=1600
+        cols=[[r] for r in range(m)]
+        data={"dimensions":{"num_rows":m,"num_cols":m},
+              "cost_vector":[1.]*m,
+              "constraint_matrix_A":{"columns":cols},
+              "has_base_constraints":True,
+              "base_constraints":{"D_matrix":{"rows":[[1.]*m]},
+                  "lower_bounds_d1":[float(m)],
+                  "upper_bounds_d2":[float(m)]}}
+        p=crew.parse(data)
+        forced,uncovered,active=crew.reduce_forced_rotations(p,set())
+        self.assertEqual(forced,list(range(m)))
+        self.assertEqual(uncovered,[])
+        self.assertEqual(active,[])
+        self.assertTrue(crew.verify(p,forced))
+
+    def test_queue_detects_conflicting_forced_columns(self):
+        data={"dimensions":{"num_rows":3,"num_cols":2},
+              "cost_vector":[1.,1.],
+              "constraint_matrix_A":{"columns":[[0,1],[1,2]]},
+              "has_base_constraints":False}
+        p=crew.parse(data)
+        self.assertIsNone(crew.reduce_forced_rotations(p,set()))
+
+    def test_queue_keeps_unsolved_optional_empty_base_column(self):
+        data={"dimensions":{"num_rows":2,"num_cols":3},
+              "cost_vector":[2.,3.,1.],
+              "constraint_matrix_A":{"columns":[[0],[1],[]]},
+              "has_base_constraints":True,
+              "base_constraints":{"D_matrix":{"rows":[[0.,0.,1.]]},
+                  "lower_bounds_d1":[1.],"upper_bounds_d2":[1.]}}
+        p=crew.parse(data)
+        forced,uncovered,active=crew.reduce_forced_rotations(p,set())
+        self.assertEqual(forced,[0,1])
+        self.assertEqual(uncovered,[])
+        self.assertEqual(active,[2])
+        self.assertTrue(crew.verify(p,[0,1,2]))
+
+
 
 if __name__ == "__main__":
     unittest.main()
