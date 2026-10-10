@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync,rmSync} from 'node:fs';
+import {mkdtempSync,rmSync,writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 import {request as http} from 'node:http';
@@ -117,4 +117,23 @@ test('seven supported lab operations produce distinct source-scoped receipts wit
   assert.equal(result.json.receipt.output_persisted,false);
   assert.match(result.json.receipt.compact_output,/^METHOD  /u);
  }
+});
+
+test('legacy renderer fixture without lab imports remains valid; opt-in assets cannot be silently missing',async t=>{
+ const folder=mkdtempSync(join(tmpdir(),'v30-optional-asset-'));
+ t.after(()=>rmSync(folder,{recursive:true,force:true}));
+ const fixture={bootstrap:async()=>({service:{status:'READY_LOCAL'}}),close:async()=>{}};
+ const html='<meta http-equiv="Content-Security-Policy" content="'+MPC_WORKSPACE_CSP+'"><main>Legacy fixture</main>';
+ writeFileSync(join(folder,'index.html'),html);
+ for(const file of ['styles.css','app.js','screen-policy.js','screen-reader.js',
+  'screen-source-choice.js','network-reader.js','roi-process.js','capture.js',
+  'capture.html'])writeFileSync(join(folder,file),'');
+ const legacy=await startMpcWorkspaceServer({rendererRoot:folder,service:fixture,csrfToken:CSRF});
+ const missing=await call(legacy,{path:'/method-lab.js'});
+ assert.equal(missing.status,404);
+ assert.equal(missing.json.error,'MPC_WORKSPACE_NOT_FOUND');
+ await legacy.close();
+ writeFileSync(join(folder,'app.js'),"import {initializeEngineeringMethodLabV30} from './method-lab.js';");
+ await assert.rejects(()=>startMpcWorkspaceServer({rendererRoot:folder,service:fixture,csrfToken:CSRF}),
+  /MPC_WORKSPACE_RENDERER_FILE_MISSING/);
 });
