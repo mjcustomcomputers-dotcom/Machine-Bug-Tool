@@ -16,6 +16,7 @@ import argparse
 import json
 import math
 import time
+from decimal import Decimal, ROUND_FLOOR, ROUND_CEILING
 
 
 def parse(raw):
@@ -172,6 +173,51 @@ def cp_sat(p, deadline, incumbent=None):
     return chosen if verify(p, chosen) else None
 
 
+def cp_sat_side(p,deadline,incumbent=None,feasibility_only=True):
+    if time.monotonic()>=deadline-0.4:return None
+    try:from ortools.sat.python import cp_model
+    except ImportError:return None
+    m,n,costs,columns,incidence,d,lo,hi=p
+    if n>25000 or m>12000 or sum(map(len,columns))>1000000:return None
+    model=cp_model.CpModel()
+    vars=[model.new_bool_var(f'r_{j}') for j in range(n)]
+    for k,row in enumerate(incidence):
+        if not row:return None
+        model.add_exactly_one(vars[j] for j in row)
+        if k%1000==0 and time.monotonic()>deadline-0.8:return None
+    for k,base in enumerate(d):
+        max_digits=0
+        for x in [lo[k],hi[k],*base]:
+            v=Decimal(str(x))
+            if not v.is_finite():return None
+            if v!=0:max_digits=max(max_digits,max(0,-v.as_tuple().exponent))
+        scale=10**min(6,max_digits)
+        coef=[int(round(v*scale)) for v in base]
+        if max((abs(x) for x in coef),default=0)*max(1,n)>10**16:return None
+        lower=int((Decimal(str(lo[k]))*scale-1).to_integral_value(rounding=ROUND_FLOOR))
+        upper=int((Decimal(str(hi[k]))*scale+1).to_integral_value(rounding=ROUND_CEILING))
+        nz=[coef[j]*vars[j] for j in range(n) if coef[j]]
+        model.add(sum(nz)>=lower)
+        model.add(sum(nz)<=upper)
+        if time.monotonic()>deadline-0.7:return None
+    if incumbent is not None:
+        chosen=set(incumbent)
+        for j,x in enumerate(vars):model.add_hint(x,int(j in chosen))
+    if not feasibility_only:
+        obj=[int(round(v)) if abs(v-round(v))<1e-7 else int(round(v*100)) for v in costs]
+        model.minimize(sum(obj[j]*vars[j] for j in range(n)))
+    solver=cp_model.CpSolver()
+    solver.parameters.num_search_workers=2
+    solver.parameters.max_time_in_seconds=max(0.1,deadline-time.monotonic()-0.25)
+    solver.parameters.stop_after_first_solution=feasibility_only
+    solver.parameters.random_seed=31103
+    try:status=solver.solve(model)
+    except Exception:return None
+    if status not in (cp_model.OPTIMAL,cp_model.FEASIBLE):return None
+    selected=[j for j,x in enumerate(vars) if solver.value(x)]
+    return selected if verify(p,selected) else None
+
+
 def sparse_milp(p, deadline):
     """SCIP/HiGHS-style sparse 0-1 exact cover with literal real base bounds."""
     if deadline - time.monotonic() < 0.5:
@@ -223,6 +269,12 @@ def solve(instance, time_limit_s):
     if not p[5] and time.monotonic() < until - 0.8:
         option = cp_sat(p, min(until, time.monotonic() + 22.0), backup)
         if verify(p, option) and (backup is None or objective(p, option) < objective(p, backup) - 1e-8):
+            backup = option
+    # Recovery path for large, base-constrained exact covers: the existing
+    # V6 side-constraint model was independently tested, but never wired here.
+    if p[5] and backup is None and time.monotonic() < until - 1.0:
+        option = cp_sat_side(p, min(until, time.monotonic() + 12.0), feasibility_only=True)
+        if verify(p, option):
             backup = option
     if time.monotonic() < until - 0.8:
         option = sparse_milp(p, until)
