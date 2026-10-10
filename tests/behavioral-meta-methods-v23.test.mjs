@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import frontier from '../research/behavioral-meta-method-frontier-v23.json' with {type:'json'};
 import {
- behavioralMetaContract,reviewBehavioralAtoms,planBehavioralMethodInteractions,
+ behavioralMetaContract,reviewBehavioralAtoms,planBehavioralEvidenceAcquisition,planBehavioralMethodInteractions,
  auditChoiceArchitecture,auditBehavioralExperimentProtocol,planBehavioralInteractionControls
 } from '../lib/behavioral-meta-methods-v23.mjs';
 
@@ -194,6 +194,36 @@ test('protocol and source context cannot be hijacked with unmodeled extra fields
  assert.throws(()=>auditBehavioralExperimentProtocol(x),/INVALID_EXPERIMENT_PROTOCOL_FIELDS/);
  const y=experiment();y.source_commit='not-a-commit';
  assert.throws(()=>auditBehavioralExperimentProtocol(y),/INVALID_BEHAVIORAL_SOURCE_CONTEXT/);
+});
+test('meta-method classifies absent source evidence separately from method-derived outputs',()=>{
+ const x=sample();x.atoms=x.atoms.filter(a=>!['CAPABILITY','BUYER_PROBLEM'].includes(a.dimension));
+ const route=reviewBehavioralAtoms(x);
+ const com=route.recommendations.find(m=>m.id==='RH-V23-01');
+ const downstream=route.recommendations.find(m=>m.id==='RH-V23-03');
+ assert.deepEqual(com.missing_primary_records,['CAPABILITY']);
+ assert.deepEqual(com.missing_method_outputs,[]);
+ assert.equal(downstream.state,'METHOD_OUTPUT_REVIEW_REQUIRED');
+ assert.deepEqual(downstream.missing_method_outputs,['BARRIER_HYPOTHESIS']);
+ assert.deepEqual(downstream.missing_primary_records,[]);
+ const p=planBehavioralEvidenceAcquisition(x);
+ assert.ok(p.candidate_primary_records.some(a=>a.input_type==='CAPABILITY'));
+ assert.ok(p.candidate_primary_records.some(a=>a.input_type==='BUYER_PROBLEM'));
+ assert.ok(!p.candidate_primary_records.some(a=>a.input_type==='BARRIER_HYPOTHESIS'));
+ assert.ok(p.unexecuted_method_output_types.includes('BARRIER_HYPOTHESIS'));
+ assert.equal(p.records_acquired,0);
+ assert.equal(p.candidate_primary_records[0].actual_expected_information_gain,'UNKNOWN_NO_PROBABILITIES');
+ assert.equal(p.canonical_promotion,false);
+});
+test('meta-method acquisition ranking is deterministic, bounded, and never performs a source read',()=>{
+ const x=sample();x.atoms=x.atoms.filter(a=>!['CAPABILITY','OPPORTUNITY','BUYER_PROBLEM','DISCLOSURE'].includes(a.dimension));
+ const p=planBehavioralEvidenceAcquisition(x);
+ assert.deepEqual(p,planBehavioralEvidenceAcquisition(x));
+ for(let i=1;i<p.candidate_primary_records.length;i++){
+  assert.ok(p.candidate_primary_records[i-1].unlock_count>=p.candidate_primary_records[i].unlock_count);
+ }
+ assert.ok(p.candidate_primary_records.every(e=>e.retrieval_performed===false));
+ assert.ok(p.candidate_primary_records.every(e=>e.source_locator==='NOT_ACQUIRED'));
+ assert.equal(p.source_authentication,false);
 });
 test('V22 combinatorial method used, auditable and not a sales-effect experiment',()=>{
  const p={source_commit,scope_id,max_cases:24,factors:[
