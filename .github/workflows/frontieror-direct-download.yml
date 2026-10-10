@@ -29,12 +29,12 @@ jobs:
           python - <<'PY'
           import hashlib,zipfile
           expected={
-            "barnhart2000":"dfab79c072579da5f433643819764f4c8d95a97c5d53ff8524b457117df48f0f",
-            "bodur2017":"31882b9e0316af95fdb1f8b9a0adcb3c251d656c7bbae1ed454a5f8bf2b85c62",
+            "barnhart2000":"bd2ab689b3d24ee7137e6b304526c013ab131063f05e63bea8ccf89b7a1c7069",
+            "bodur2017":"dec3c4cb339cf07141a6e19ee91abc799fb6eb9594bcd92f3e69fbdd8e19ec6e",
             "cordeau2006":"5abd27e464e6e2b6de672f295aabaa27809c35be85e48a097ba4982c1ff4e962",
-            "fischetti1998":"7f808c4f9e55d9185b865b5bc3d32fe2466b86a1f92f526db9d22e779cfe765e",
-            "hoffman1993":"e22d695919a9c7f9556f4bc1f7ed2e2f0318c5418eaf2e2544af2b912351dfc2",
-            "nagy2015":"5fe3d646984f97442cbe9f1504682a65ca078c8a39306d457009945492717ec0",
+            "fischetti1998":"8b49cecd365ef5b5f9ef69c9d75ec95a9c7795351b620fdc0c631a0d4336078d",
+            "hoffman1993":"6f093d191490b32eca9410ac79be2b8ca65171e1bd200ead4cc8ab5c40681e6f",
+            "nagy2015":"e40e06b74650bd9522cefbbb3ef7514125b3172610a0894061158fb9a11a2b67",
           }
           with zipfile.ZipFile("frontieror/artifacts/FrontierOR-Main.zip") as archive:
             assert set(archive.namelist())=={f"{slug}/solve.py" for slug in expected}
@@ -49,10 +49,10 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p frontieror/downloads
-          cp frontieror/artifacts/FrontierOR-Main.zip frontieror/downloads/FrontierOR-Main-Upload-This.zip
+          cp frontieror/artifacts/FrontierOR-Main.zip frontieror/downloads/FrontierOR-Main-Hardened-NextSubmission.zip
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f frontieror/downloads/FrontierOR-Main-Upload-This.zip
+          git add -f frontieror/downloads/FrontierOR-Main-Hardened-NextSubmission.zip
           if git diff --cached --quiet; then
             echo "Verified competition ZIP already published."
           else
