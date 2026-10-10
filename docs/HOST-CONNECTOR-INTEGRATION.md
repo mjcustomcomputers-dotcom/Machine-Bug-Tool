@@ -62,6 +62,21 @@ For local MPC inside the desktop host, reuse `createSecurityAssistant({workspace
 
 For the existing Codex installation, [`scripts/Connect-MpcSecurityAssistant.ps1`](https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/297f586a3828c6d50b783fe1fdce766bce5344cd/scripts/Connect-MpcSecurityAssistant.ps1) already registers the Node STDIO server and preserves an existing same-name registration. Its `--check` stage proves local startup only; actual MCP tool use supplies connection evidence. Normal packaged GUI use should not require this script.
 
+### Windows setup and sign-in broker
+
+The Workbench renderer consumes `MPC_WORKSPACE_AUTH_BROKER_1.0` capability descriptors and calls only the same-origin `POST /api/workspace/connections/setup` route. This is a host seam, not an OAuth implementation and not a new native MPC tool. Each provider reports four independent facts:
+
+- adapter: `BUILT_IN`, `INSTALLED`, `NOT_INSTALLED` or `UNAVAILABLE`;
+- local configuration: absent, enabled or disabled in the existing connection row;
+- authentication: `NOT_APPLICABLE`, `SIGNED_OUT`, `AUTHORIZING`, `ACCOUNT_OBSERVED` or `REAUTH_REQUIRED`;
+- useful capability: `NOT_DISCOVERED`, `DISCOVERED`, `RECEIPT_BACKED`, `FAILED` or `UNAVAILABLE`.
+
+The renderer can request only `INSTALL`, `SIGN_IN`, `STATUS` or `CANCEL` for a catalog provider, and an action is advertised only when its installed driver implements the matching host method. It cannot supply an authorization URL, token endpoint, callback, account identity, client secret or arbitrary issuer. The host adapter owns those values and returns an allowlisted status object. The service emits its own next-action text and a fixed account-observed label; it does not relay driver prose, account labels, raw scope strings, tokens or authorization codes to the renderer. Pending driver IDs remain host-only: the renderer receives a random one-session handle bound to the originating project, provider and permitted continuation actions. A setup result never creates an operation receipt, and `SIGNED_IN_UNVERIFIED` is deliberately not displayed as connected.
+
+An installed driver should use the provider-owned system-browser flow (authorization code plus PKCE, or an officially supported device flow), a one-shot loopback callback where applicable, and Windows DPAPI-backed `safeStorage` or another supported OS credential store. SQL retains only an opaque `os-secret://...` locator. GitHub, Google Drive/Gmail and Dropbox each require a registered provider client and approved redirect/consent configuration before the host may advertise `SIGN_IN`. Hosted ChatGPT connector state is not a portable Windows credential. Custom MCP may advertise OAuth only when the configured remote server and installed client support it.
+
+The current stock desktop advertises Ollama and local MPC as built in. It does not ship registered remote provider drivers, so those cards report `NOT_INSTALLED` and show the exact setup dependency. This preserves a real upgrade path without presenting a manual endpoint form as SSO. A driver becomes accepted only after sign-in/account readback, discovery, and one user-selected protected operation produce their separate observations; only the last can set `RECEIPT_BACKED`.
+
 ## 3. First connected project journey
 
 1. Open a project, attach a local folder or paste material, and make ordinary local conversation usable immediately. Ask for project evidence only when the requested answer needs it.

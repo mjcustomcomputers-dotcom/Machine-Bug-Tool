@@ -647,6 +647,15 @@ export async function startMpcWorkspaceServer({
         sendJson(response, 200, {observation});
         return;
       }
+      if (url.pathname === '/api/workspace/connections/setup') {
+        if (method !== 'POST') {
+          sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'POST'});
+          return;
+        }
+        const setup = await callService(workspaceService, ['setupConnection'], await postBody());
+        sendJson(response, 200, {setup});
+        return;
+      }
       if (url.pathname === '/api/workspace/scripts') {
         if (method === 'GET') {
           const scripts = await optionalService(workspaceService, ['listScripts'], [], undefined);

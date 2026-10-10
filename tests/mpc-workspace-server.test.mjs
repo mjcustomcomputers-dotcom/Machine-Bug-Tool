@@ -193,6 +193,15 @@ test('real loopback service completes and restores the source-bound workspace jo
   assert.equal(search.json.coverage.status,'RETAINED_TEXT_ONLY');
   assert.deepEqual(search.json.unavailable.map(row=>row.scope),['GOOGLE_DRIVE']);
 
+  const setupRequired=await postJson(running,'/api/workspace/connections/setup',{
+    project_id:'PROJECT-E2E',provider:'GITHUB',action:'SIGN_IN'
+  });
+  assert.equal(setupRequired.status,200,setupRequired.text);
+  assert.equal(setupRequired.json.setup.status,'DRIVER_SETUP_REQUIRED');
+  assert.equal(setupRequired.json.setup.external_action_performed,false);
+  assert.equal(setupRequired.json.setup.last_operation_verified,false);
+  assert.equal(running.service.store.listConnections('PROJECT-E2E').length,0);
+
   const configured=await postJson(running,'/api/workspace/connections',{
     operation:'CONFIGURE',project_id:'PROJECT-E2E',configuration:{display_name:'GitHub test',provider:'GITHUB',transport:'stdio',endpoint_or_command:'github-mcp'}
   });

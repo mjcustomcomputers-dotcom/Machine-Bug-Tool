@@ -7,6 +7,11 @@ import {
   MAX_BROWSER_FILE_BYTES,
   MAX_RESPONSE_BYTES,
   RENDERER_CONTRACT_VERSION,
+  buildConnectionActionModel,
+  buildEvidenceCardModel,
+  buildHomeActionModel,
+  buildHomeNextActionModel,
+  evidenceSearchSeed,
   buildQuestionEvidenceBinding,
   clampCount,
   collectAcquisitionIds,
@@ -15,7 +20,8 @@ import {
   jobApiPath,
   providerAvailabilityLabel,
   runtimeIdentityLabel,
-  sourceIdentityLabel
+  sourceIdentityLabel,
+  sourceIdentityText
 } from '../desktop/renderer/app.js';
 
 const root = resolve(import.meta.dirname, '..');
@@ -37,6 +43,7 @@ test('renderer declares one bounded same-origin JSON API surface', () => {
     snapshotCompare: '/api/workspace/snapshots/compare',
     connections: '/api/workspace/connections',
     connectionTest: '/api/workspace/connections/test',
+    connectionSetup: '/api/workspace/connections/setup',
     scripts: '/api/workspace/scripts',
     transferExport: '/api/workspace/transfers/export',
     transferImport: '/api/workspace/transfers/import',
@@ -79,6 +86,8 @@ test('complete first-journey controls and all nine product areas remain visible'
   }
   for (const id of [
     'project-picker', 'new-project', 'model-picker', 'material-input', 'composer-input', 'paste-input', 'attach-files', 'add-folder',
+    'home-primary-action', 'home-ask', 'home-paste', 'home-files', 'home-folder', 'home-connections', 'home-next-action',
+    'evidence-add-text', 'evidence-attach-files', 'evidence-add-folder',
     'run-work', 'stop-work', 'resume-work', 'save-report', 'copy-answer', 'search-query', 'compare-snapshots', 'add-connection',
     'method-run-picker', 'method-run-input', 'run-method', 'method-run-status',
     'draft-script', 'script-content', 'script-output', 'ingest-script-output', 'export-task', 'import-task',
@@ -91,6 +100,93 @@ test('complete first-journey controls and all nine product areas remain visible'
   assert.match(html, /Export portable task/u);
   assert.match(html, /Import portable task/u);
   assert.match(html, /No external action has been performed/u);
+});
+
+test('home, evidence and connection action models preserve independent truth states', () => {
+  const empty = buildHomeActionModel();
+  assert.equal(empty.primary, 'CREATE_PROJECT');
+  const open = buildHomeActionModel({project: {project_id: 'P1', source_coverage: {total: 2}}, reports: [{}],
+    connections: [{current_observation: {observation_state: 'SUCCEEDED', operation_receipt_id: 'R1'}}]});
+  assert.deepEqual({primary: open.primary, sources: open.sourceCount, reports: open.reportCount, verified: open.verifiedConnections},
+    {primary: 'ASK', sources: 2, reports: 1, verified: 1});
+  const resumable = buildHomeActionModel({project: {resume_state: {resume_required: true, job: {job_id: 'J1'}}}});
+  assert.equal(resumable.primary, 'RESUME');
+
+  const evidence = buildEvidenceCardModel({source_owner: 'LOCAL_WORKSPACE', source_id: 'SOURCE-1', native_version: 'v1',
+    display_name: 'Retained note', acquisition_state: 'ACQUIRED', retained_document_id: 'DOC-1', job_count: 2,
+    report_count: 1, content_sha256: 'a'.repeat(64)});
+  assert.equal(evidence.state, 'ACQUIRED', 'acquired source state must not degrade to UNKNOWN');
+  assert.equal(evidence.retention, 'TEXT_RETAINED');
+  assert.equal(evidence.jobCount, 2);
+  assert.equal(evidence.reportCount, 1);
+  assert.equal(evidence.contentSha256, 'a'.repeat(64));
+
+  const unavailable = buildConnectionActionModel({setup: {provider: 'GITHUB', adapter_state: 'NOT_INSTALLED',
+    auth_state: 'NOT_APPLICABLE', capability_state: 'UNAVAILABLE', primary_action: 'SETUP_INFO', primary_label: 'Set up GitHub'}}, 'GitHub');
+  assert.equal(unavailable.action, 'SETUP_INFO');
+  assert.equal(unavailable.canSignIn, false);
+  assert.equal(unavailable.status, 'ADAPTER NOT INSTALLED');
+  const signIn = buildConnectionActionModel({setup: {provider: 'GITHUB', adapter_state: 'INSTALLED', auth_state: 'SIGNED_OUT',
+    capability_state: 'NOT_DISCOVERED', primary_action: 'SIGN_IN', primary_label: 'Sign in with GitHub'}}, 'GitHub');
+  assert.equal(signIn.action, 'SIGN_IN');
+  assert.equal(signIn.canSignIn, true);
+  const verified = buildConnectionActionModel({connection_id: 'C1', enabled: true,
+    setup: {provider: 'GITHUB', adapter_state: 'INSTALLED', auth_state: 'ACCOUNT_OBSERVED', capability_state: 'RECEIPT_BACKED'},
+    current_observation: {observation_state: 'SUCCEEDED', operation_receipt_id: 'R1'}}, 'GitHub');
+  assert.equal(verified.action, 'TEST');
+  assert.equal(verified.status, 'LAST OPERATION VERIFIED');
+  const manualWithoutDriver = buildConnectionActionModel({connection_id: 'C2', enabled: true,
+    setup: {provider: 'GITHUB', adapter_state: 'NOT_INSTALLED', auth_state: 'NOT_APPLICABLE',
+      capability_state: 'UNAVAILABLE', primary_action: 'SETUP_INFO', primary_label: 'Set up GitHub'}}, 'GitHub');
+  assert.equal(manualWithoutDriver.action, 'SETUP_INFO');
+  assert.equal(manualWithoutDriver.actionLabel, 'Set up GitHub');
+  assert.equal(manualWithoutDriver.status, 'ADAPTER NOT INSTALLED');
+
+  const staleResume = buildHomeActionModel({project: {resume_state: {resume_required: true, job: {job_id: 'J1'}}},
+    currentJob: {job_id: 'J1', job_state: 'SUCCEEDED', terminal: true}});
+  assert.equal(staleResume.primary, 'ASK');
+  assert.equal(buildHomeNextActionModel({project: {project_id: 'P1'}, currentJob: {job_id: 'J1', job_state: 'BLOCKED',
+    next_action: {kind: 'MODEL_SETUP', title: 'Make local model available'}}}).action, 'LOCAL_MODEL_SETUP');
+  assert.equal(buildHomeNextActionModel({project: {project_id: 'P1'}, currentJob: {job_id: 'J1', job_state: 'BLOCKED',
+    next_action: {kind: 'MODEL_SETUP', title: 'Make local model available'}}, selectedProfileAvailable: true}).action, 'RESUME');
+  assert.equal(buildHomeNextActionModel({project: {project_id: 'P1'}, currentJob: {job_id: 'J2', job_state: 'BLOCKED',
+    next_action: {kind: 'ACQUIRE_RECORD', title: 'Read exact source'}}}).action, 'EVIDENCE');
+  assert.equal(buildHomeNextActionModel({project: {project_id: 'P1', resume_state: {resume_required: true, job: {job_id: 'J3'}}},
+    currentJob: {job_id: 'J3', job_state: 'BLOCKED', next_action: {kind: 'BEGIN_ANALYSIS'}}}).action, 'RESUME');
+
+  const nativeIdentity = {source_id: 'internal-row', source_owner: 'LOCAL_HOST', source_namespace: 'LOCAL_INPUT',
+    native_id_type: 'WINDOWS_PATH', native_id: 'C:/exact/file.pdf', native_version: 'sha256:abc'};
+  assert.equal(sourceIdentityLabel(nativeIdentity), 'LOCAL_HOST · LOCAL_INPUT · WINDOWS_PATH · C:/exact/file.pdf · sha256:abc');
+  assert.deepEqual(JSON.parse(sourceIdentityText(nativeIdentity)), {owner: 'LOCAL_HOST', namespace: 'LOCAL_INPUT',
+    native_id_type: 'WINDOWS_PATH', native_id: 'C:/exact/file.pdf', version: 'sha256:abc'});
+  assert.equal(evidenceSearchSeed({excerpt: 'Alpha retained evidence; exact source 42.'}), 'Alpha retained evidence exact source 42');
+  assert.equal(evidenceSearchSeed({excerpt: ''}), '');
+});
+
+test('the first screen exposes the core journey and mobile reflow keeps the workspace in the content column', () => {
+  assert.match(js, /composerCollapsed:\s*false/u);
+  assert.match(html, /id="home-ask"[\s\S]{0,120}Ask or analyze/u);
+  assert.match(html, /id="home-paste"[\s\S]{0,120}Paste evidence/u);
+  assert.match(html, /id="home-files"[\s\S]{0,120}Attach files/u);
+  assert.match(html, /id="home-folder"[\s\S]{0,120}Add a folder/u);
+  assert.match(html, /id="home-connections"[\s\S]{0,120}Connect a service/u);
+  assert.match(html, /id="job-progress" role="progressbar"[^>]*aria-valuenow="0"/u);
+  assert.match(html, /id="compare-snapshots"[^>]*disabled/u);
+  assert.match(html, /Side panel \(bottom on narrow windows\)/u);
+  for (const id of ['service-status', 'network-status', 'work-stage', 'search-coverage', 'method-run-status']) {
+    assert.match(html, new RegExp(`id="${id}"[^>]*role="status"[^>]*aria-live="polite"`, 'u'));
+  }
+  assert.match(css, /\.workspace-frame\s*\{[^}]*grid-column:\s*2/su);
+  assert.match(js, /\$\('sidebar'\)\.inert = !open/u);
+  assert.match(js, /workStage === jobState \? workStage : `\$\{workStage\} · \$\{jobState\}`/u);
+  assert.match(js, /search\.disabled = model\.retention !== 'TEXT_RETAINED' \|\| !searchSeed/u);
+  assert.match(js, /provider_profile_id: state\.selectedProfileId \?\? null/u);
+  assert.match(js, /\$\('model-picker'\)\.addEventListener\('change',[\s\S]{0,240}renderHomeNextAction\(\)/u);
+  assert.match(js, /setup\.status === 'AUTHORIZING' && setup\.external_action_performed === true/u);
+  assert.match(js, /\['OLLAMA', 'LOCAL_MPC', 'CHATGPT_SIGN_IN'\]\.includes\(provider\)/u);
+  assert.match(js, /current\.workspace_project_id !== currentProjectId\(\)/u);
+  assert.match(js, /row\.dataset\.jobId = task\.job_id/u);
+  assert.match(js, /Choose two different acquired snapshot manifests/u);
 });
 
 test('question instructions and acquired evidence remain separate across repeat runs', () => {
@@ -128,10 +224,10 @@ test('question instructions and acquired evidence remain separate across repeat 
 });
 
 test('connection controls describe local enablement and refresh canonical state', () => {
-  assert.match(js, /enabled \? 'Disable locally' : 'Enable locally'/u);
+  assert.match(js, /model\.enabled \? `Disable \$\{label\} locally` : `Enable \$\{label\} locally`/u);
   assert.doesNotMatch(js, /'Connect'\)|'Disconnect'\)/u);
   assert.match(js, /Authentication remains unverified until a permitted operation returns a receipt/u);
-  assert.match(html, /Enable or disable a local configuration here; neither action proves access\./u);
+  assert.match(html, /Adapter installed, signed in, capability discovered and protected read verified remain separate facts\./u);
   for (const functionName of ['configureConnection', 'setConnectionEnabled', 'testConnection']) {
     const start = js.indexOf(`async function ${functionName}`);
     const next = js.indexOf('\nasync function ', start + 1);
@@ -157,7 +253,7 @@ test('renderer preserves honest provider, evidence, script and delivery states',
   assert.equal(providerAvailabilityLabel({availability: 'CONFIGURED_ONLY'}), 'configured, unobserved');
   assert.equal(providerAvailabilityLabel({}), 'not yet observed');
   assert.equal(sourceIdentityLabel({owner: 'Drive', id: '001', version: 'v3'}), 'Drive · 001 · v3');
-  assert.match(html, /configured, authenticated, last successful and currently failed are different facts/i);
+  assert.match(html, /A browser launch or saved account is not “connected\.”/i);
   assert.match(html, /Saving a URL means configured, not connected/u);
   assert.match(html, /Drafting never claims execution/u);
   assert.match(html, /queued destination and provider-confirmed delivery are separate states/u);

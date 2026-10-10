@@ -93,6 +93,59 @@ test('new v2 store isolates projects and applies retention before drafts, inputs
   /MPC_WORKSPACE_SECRET_MATERIAL_REJECTED/u);
 });
 
+test('evidence ledger joins retained representation, task use and report use without changing source identity',t=>{
+ const {path}=fixture(t,'workspace-evidence-ledger');
+ const store=open(path);
+ t.after(()=>store.close());
+ project(store);
+ const acquired=store.acquireTextInput({project_id:'p1',source_id:'evidence-001',document_id:'document-001',
+  artifact_id:'artifact-001',display_name:'Exact retained note',text:'alpha retained evidence excerpt'});
+ let [ledger]=store.listEvidenceLedger('p1');
+ assert.equal(ledger.source_id,acquired.source_id);
+ assert.equal(ledger.display_name,'Exact retained note');
+ assert.equal(ledger.excerpt,'alpha retained evidence excerpt');
+ assert.equal(ledger.retention_state,'TEXT_RETAINED');
+ assert.equal(ledger.replay_state,'READY_FROM_RETAINED_TEXT');
+ assert.equal(ledger.job_count,0);
+ assert.equal(ledger.report_count,0);
+
+ taskAndJob(store);
+ store.addJobInput({project_id:'p1',job_id:'j1',input_kind:'SOURCE',source_id:'evidence-001',ordinal:0});
+ store.appendJobEvent({project_id:'p1',job_id:'j1',event_id:'event-1',job_state:'SUCCEEDED',
+  fact_summary:'Retained evidence analyzed',action_label:'Analysis complete',acquired_count:1,analyzed_count:1,
+  decided_count:1,completed_count:3,total_count:3});
+ store.createReport({project_id:'p1',report_id:'report-001',job_id:'j1',title:'Evidence trace report',
+  artifact_id:'report-artifact-001',artifact_ref:'artifact://reports/evidence-trace.md',
+  artifact_sha256:hash('evidence trace report'),artifact_bytes:21,
+  source_links:[{source_id:'evidence-001',source_role:'EVIDENCE'}]});
+ [ledger]=store.listEvidenceLedger('p1');
+ assert.equal(ledger.job_count,1);
+ assert.equal(ledger.report_count,1);
+ assert.equal(ledger.latest_job_id,'j1');
+ assert.equal(ledger.latest_job_state,'SUCCEEDED');
+ assert.equal(ledger.latest_report_id,'report-001');
+ assert.match(ledger.next_action,/related report/u);
+ assert.equal(ledger.content_sha256,hash('alpha retained evidence excerpt'));
+ store.createReport({project_id:'p1',report_id:'report-000-newer',job_id:'j1',title:'Newer evidence report',
+  artifact_id:'report-artifact-000-newer',artifact_ref:'artifact://reports/newer-evidence.md',
+  artifact_sha256:hash('newer evidence report'),artifact_bytes:21,
+  source_links:[{source_id:'evidence-001',source_role:'EVIDENCE'}]});
+ [ledger]=store.listEvidenceLedger('p1');
+ assert.equal(ledger.latest_report_id,'report-000-newer','latest report follows creation time, not random ID order');
+
+ store.createSource({project_id:'p1',source_id:'binary-001',source_owner:'LOCAL_HOST',source_namespace:'LOCAL_INPUT',
+  native_id_type:'WINDOWS_PATH',native_id:'C:/exact/file.pdf',native_version:'v1',content_sha256:hash('raw-pdf'),
+  acquisition_state:'ACQUIRED'});
+ store.createArtifact({project_id:'p1',artifact_id:'binary-artifact-001',artifact_kind:'INPUT_FILE',source_id:'binary-001',
+  display_name:'Exact retained PDF',media_type:'application/pdf',artifact_ref:'mpc-workspace-artifact://p1/binary-001.bin',
+  artifact_sha256:hash('raw-pdf'),artifact_bytes:7});
+ const binary=store.listEvidenceLedger('p1').find(row=>row.source_id==='binary-001');
+ assert.equal(binary.retained_raw_artifact_id,'binary-artifact-001');
+ assert.equal(binary.retention_state,'RAW_FILE_RETAINED');
+ assert.equal(binary.replay_state,'RETAINED_BYTES_REPRESENTATION_REQUIRED');
+ assert.match(binary.next_action,/retained file bytes are available/u);
+});
+
 test('job idempotency, checkpoints and terminal guards survive close and reopen',t=>{
  const {path}=fixture(t,'workspace-resume');
  let store=open(path);

@@ -74,8 +74,8 @@
           <button class="icon-button" id="zoom-in" type="button" aria-label="Larger interface" title="Larger interface">+</button>
         </div>
         <div class="top-status">
-          <span class="status-pill neutral" id="service-status"><i></i>Service unknown</span>
-          <span class="status-pill neutral" id="network-status"><i></i>Offline state unknown</span>
+          <span class="status-pill neutral" id="service-status" role="status" aria-live="polite" aria-atomic="true"><i></i>Service unknown</span>
+          <span class="status-pill neutral" id="network-status" role="status" aria-live="polite" aria-atomic="true"><i></i>Offline state unknown</span>
         </div>
         <button class="icon-button" id="quiet-toggle" type="button" aria-pressed="false" title="Quiet mode">◐<span class="sr-only">Toggle quiet mode</span></button>
       </header>
@@ -94,23 +94,44 @@
             </div>
           </div>
 
+          <section class="panel home-launchpad" aria-labelledby="home-start-title">
+            <div class="panel-head">
+              <div><h2 id="home-start-title">Start or continue</h2><p>Ask immediately, add exact source material, or open a verified service. Every path keeps your draft and project state.</p></div>
+              <span class="stage-chip">YOUR NEXT MOVE</span>
+            </div>
+            <div class="home-action-grid">
+              <button class="home-action primary" id="home-primary-action" type="button" data-action="CREATE_PROJECT"><strong id="home-primary-label">Create your first project</strong><span>Start a saved workspace, or resume its exact checkpoint.</span></button>
+              <button class="home-action" id="home-ask" type="button"><strong>Ask or analyze</strong><span>Use local chat alone, or bind the question to selected evidence.</span></button>
+              <button class="home-action" id="home-paste" type="button"><strong>Paste evidence</strong><span>Acquire clipboard text with its hash and chosen retention policy.</span></button>
+              <button class="home-action" id="home-files" type="button"><strong>Attach files</strong><span>Inspect copies while the originals stay in place.</span></button>
+              <button class="home-action" id="home-folder" type="button"><strong>Add a folder</strong><span>Index nested files in place and track later version changes.</span></button>
+              <button class="home-action" id="home-connections" type="button"><strong>Connect a service</strong><span>Set up sign-in when supported and verify a protected read.</span></button>
+            </div>
+            <div class="home-pulse" aria-label="Project readiness">
+              <button id="home-project-pulse" type="button"><span>Project</span><strong id="home-project-status">No project open</strong></button>
+              <button id="home-source-pulse" type="button"><span>Evidence</span><strong id="home-source-status">0 exact sources</strong></button>
+              <button id="home-report-pulse" type="button"><span>Reports</span><strong id="home-report-status">0 saved reports</strong></button>
+              <button id="home-connection-pulse" type="button"><span>Connections</span><strong id="home-connection-status">0 receipt-verified operations</strong></button>
+            </div>
+          </section>
+
           <div class="work-grid">
             <aside class="panel job-panel" aria-labelledby="job-title">
               <div class="panel-head">
                 <div><h2 id="job-title">Project progress</h2><p id="job-action">No active job</p></div>
-                <span class="stage-chip" id="work-stage">IDLE</span>
+                <span class="stage-chip" id="work-stage" role="status" aria-live="polite" aria-atomic="true">IDLE</span>
               </div>
-              <div class="progress-track" aria-label="Job progress"><span id="job-progress-bar" style="width:0%"></span></div>
+              <div class="progress-track" id="job-progress" role="progressbar" aria-label="Job progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="job-progress-bar" style="width:0%"></span></div>
               <div class="count-grid" aria-label="Completed work counts">
                 <div><strong id="count-acquired">0</strong><span>Acquired</span></div>
                 <div><strong id="count-analyzed">0</strong><span>Analyzed</span></div>
                 <div><strong id="count-decided">0</strong><span>Decided</span></div>
               </div>
-              <div class="next-action-card">
+              <button class="next-action-card" id="home-next-action" type="button">
                 <span>One useful next action</span>
                 <strong id="next-action-title">Attach a record or paste text</strong>
-                <p id="next-action-detail">No external action has been performed.</p>
-              </div>
+                <span id="next-action-detail">No external action has been performed.</span>
+              </button>
               <div class="receipt-strip" id="job-receipt">No job receipt</div>
             </aside>
           </div>
@@ -130,11 +151,11 @@
             </section>
           </div>
 
-          <section class="panel script-workshop" aria-labelledby="script-title">
-            <div class="panel-head">
+          <details class="panel script-workshop" aria-labelledby="script-title">
+            <summary class="panel-head">
               <div><h2 id="script-title">Script workshop</h2><p>Draft → manual run → returned-output ingestion. Drafting never claims execution.</p></div>
               <span class="stage-chip" id="script-state">NO DRAFT</span>
-            </div>
+            </summary>
             <div class="script-grid">
               <div class="script-request">
                 <label for="script-request">What should the script help you inspect?</label>
@@ -163,7 +184,7 @@
               </div>
             </div>
             <details class="explanation-box" id="script-explanation"><summary>Explanation, prerequisites and expected output</summary><div id="script-explanation-body">No explanation available.</div></details>
-          </section>
+          </details>
         </section>
 
         <section class="view" id="view-search" data-view-panel="search" aria-labelledby="search-title" hidden>
@@ -186,19 +207,25 @@
               <select id="search-time" aria-label="Time range"><option value="">Any time</option><option value="DAY">Past day</option><option value="WEEK">Past week</option><option value="MONTH">Past month</option></select>
             </div>
           </section>
-          <section class="panel"><div class="panel-head"><div><h2>Results</h2><p id="search-coverage">No search run</p></div><span id="search-result-count">0</span></div><div id="search-results" class="search-results"><div class="empty-row">Run a search to see exact source identities and coverage.</div></div></section>
+          <section class="panel"><div class="panel-head"><div><h2>Results</h2><p id="search-coverage" role="status" aria-live="polite" aria-atomic="true">No search run</p></div><span id="search-result-count">0</span></div><div id="search-results" class="search-results"><div class="empty-row">Run a search to see exact source identities and coverage.</div></div></section>
         </section>
 
         <section class="view" id="view-evidence" data-view-panel="evidence" aria-labelledby="evidence-title" hidden>
-          <div class="page-heading"><div><div class="eyebrow">Source state and comparison</div><h1 id="evidence-title">Evidence</h1><p>Original excerpts stay beside typed atoms, versions, dependencies and unresolved coverage.</p></div></div>
+          <div class="page-heading"><div><div class="eyebrow">Source state and comparison</div><h1 id="evidence-title">Evidence</h1><p>See what was acquired, whether its content can be replayed, where it was used, and the next useful action.</p></div><div class="heading-actions"><button class="button" id="evidence-add-text" type="button">Paste evidence</button><button class="button" id="evidence-attach-files" type="button">Attach files</button><button class="button accent" id="evidence-add-folder" type="button">Add folder</button></div></div>
+          <div class="evidence-summary" aria-label="Evidence coverage">
+            <div><strong id="evidence-total">0</strong><span>Exact sources</span></div>
+            <div><strong id="evidence-retained">0</strong><span>Text retained</span></div>
+            <div><strong id="evidence-used">0</strong><span>Used by tasks</span></div>
+            <div><strong id="evidence-reported">0</strong><span>In reports</span></div>
+          </div>
           <div class="two-column">
             <section class="panel"><div class="panel-head"><div><h2>Evidence ledger</h2><p>Editing a proposed atom creates a draft; it never rewrites the source.</p></div></div><div id="evidence-ledger" class="stack-list"><div class="empty-row">No project evidence acquired.</div></div></section>
             <section class="panel snapshot-panel" aria-labelledby="snapshot-title">
               <div class="panel-head"><div><h2 id="snapshot-title">Stored snapshot comparison</h2><p>Compare acquired manifests. A stored Drive-labeled snapshot is not a fresh Drive read.</p></div></div>
               <label>Earlier snapshot<select id="snapshot-left"><option value="">Choose an acquired snapshot</option></select></label>
               <label>Current snapshot<select id="snapshot-right"><option value="">Choose an acquired snapshot</option></select></label>
-              <button class="button" id="compare-snapshots" type="button">Compare exact manifests</button>
-              <div id="snapshot-status" class="honesty-note">No comparison run. Partial inventory cannot establish removal.</div>
+              <button class="button" id="compare-snapshots" type="button" disabled>Compare exact manifests</button>
+              <div id="snapshot-status" class="honesty-note" role="status">Acquire at least two snapshot manifests before comparison. Partial inventory cannot establish removal.</div>
               <div class="snapshot-counts" id="snapshot-counts" hidden>
                 <div><strong data-snapshot-count="added">0</strong><span>Added</span></div><div><strong data-snapshot-count="removed">0</strong><span>Removed</span></div>
                 <div><strong data-snapshot-count="changed">0</strong><span>Changed</span></div><div><strong data-snapshot-count="unknown">0</strong><span>Unknown</span></div>
@@ -214,7 +241,7 @@
             <div class="wide"><h2 id="method-run-title">Run an implemented evaluator</h2><p>Supply explicit JSON. MPC Workspace acquires those exact bytes, validates the registered schema, executes one native evaluator call, and adds exact numerical review where supported.</p></div>
             <label>Evaluator<select id="method-run-picker"><option value="">Choose an implemented evaluator</option></select></label>
             <label class="wide">Evaluator input JSON<textarea id="method-run-input" rows="10" spellcheck="false" placeholder="Choose an evaluator, then enter its registered JSON input."></textarea></label>
-            <div class="wide button-row"><button class="button accent" id="run-method" type="button">Acquire and evaluate</button><span class="micro-state" id="method-run-status">NOT RUN</span></div>
+            <div class="wide button-row"><button class="button accent" id="run-method" type="button">Acquire and evaluate</button><span class="micro-state" id="method-run-status" role="status" aria-live="polite" aria-atomic="true">NOT RUN</span></div>
             <div class="wide honesty-note">JSON is treated as data. No script, connector, target or external action is invoked.</div>
           </section>
           <section class="panel"><div class="search-row"><input class="grow" id="method-search" type="search" placeholder="Search method ID, name, dimension or required input"><label class="toggle-label"><input id="method-implemented-only" type="checkbox"> Implemented only</label></div><div id="methods-list" class="method-list"><div class="empty-row">Method inventory is unavailable until the local service starts.</div></div></section>
@@ -231,7 +258,8 @@
         </section>
 
         <section class="view" id="view-connections" data-view-panel="connections" aria-labelledby="connections-title" hidden>
-          <div class="page-heading"><div><div class="eyebrow">Observed capability</div><h1 id="connections-title">Connections</h1><p>Configured, authenticated, last successful and currently failed are different facts. Enable or disable a local configuration here; neither action proves access.</p></div><button class="button accent" id="add-connection" type="button">Add connection</button></div>
+          <div class="page-heading"><div><div class="eyebrow">Setup + observed capability</div><h1 id="connections-title">Connections</h1><p>Use the large provider action first. Adapter installed, signed in, capability discovered and protected read verified remain separate facts.</p></div><button class="button" id="add-connection" type="button">Advanced manual setup</button></div>
+          <div class="connection-boundary" role="note"><strong>Normal sign-in stays host-owned.</strong><span>A Sign in button appears only when the packaged host advertises a registered provider driver. Tokens never enter this page or the project database.</span></div>
           <div id="connections-grid" class="connection-grid"><div class="panel empty-row">No connection observations loaded.</div></div>
         </section>
 
@@ -262,7 +290,7 @@
         <div class="composer-resizer" id="composer-resizer" role="separator" tabindex="0" aria-label="Resize chat; use arrow keys or drag" aria-orientation="horizontal" aria-valuemin="170" aria-valuemax="430" aria-valuenow="200"></div>
         <div class="composer-head">
           <strong id="composer-title">MPC Assistant</strong>
-          <div class="button-row"><span id="draft-state" class="micro-state">DRAFT NOT SAVED</span><label class="sr-only" for="dock-composer">Assistant placement</label><select id="dock-composer" class="dock-picker"><option value="right" selected>Side panel</option><option value="floating">Floating box</option><option value="bottom">Bottom panel</option></select><button class="button compact" id="move-composer" type="button" aria-label="Move floating assistant; drag or use arrow keys" hidden>Move</button><button class="button compact" id="reset-composer-size" type="button" title="Fit chat to its content">Fit</button><button class="button compact" id="hide-composer" type="button" aria-controls="composer">Hide chat</button></div>
+          <div class="button-row"><span id="draft-state" class="micro-state">DRAFT NOT SAVED</span><label class="sr-only" for="dock-composer">Assistant placement</label><select id="dock-composer" class="dock-picker"><option value="right" selected>Side panel (bottom on narrow windows)</option><option value="floating">Floating box</option><option value="bottom">Bottom panel</option></select><button class="button compact" id="move-composer" type="button" aria-label="Move floating assistant; drag or use arrow keys" hidden>Move</button><button class="button compact" id="reset-composer-size" type="button" title="Fit chat to its content">Fit</button><button class="button compact" id="hide-composer" type="button" aria-controls="composer">Hide chat</button></div>
         </div>
         <div class="composer-body"><div class="assistant-conversation-host" id="assistant-conversation-host">
             <section class="panel conversation-panel" aria-labelledby="conversation-title">
@@ -330,6 +358,22 @@
       <div class="output-toolbar"><label>Show<select id="output-mode"><option value="answer">Latest answer</option><option value="transcript">Full visible chat log</option></select></label><button class="button compact" id="refresh-output" type="button">Refresh</button><span id="output-size" class="input-boundary-note"></span></div>
       <label class="sr-only" for="output-text">Plain-text chat results</label><textarea id="output-text" readonly spellcheck="false" placeholder="No answer yet. Send a message in the assistant."></textarea>
       <div class="dialog-actions"><button class="button" id="select-output" type="button">Select all</button><button class="button" id="save-output" type="button">Save .txt</button><button class="button accent" id="copy-output" type="button">Copy text</button></div>
+    </section>
+  </dialog>
+
+  <dialog id="connector-setup-dialog" aria-labelledby="connector-setup-title">
+    <section class="dialog-card connector-setup-card">
+      <div class="dialog-head"><div><div class="eyebrow">MPC Workspace auth broker</div><h2 id="connector-setup-title">Connector setup</h2></div><button class="icon-button" id="close-connector-setup" type="button" aria-label="Close connector setup">×</button></div>
+      <p id="connector-setup-status" class="connection-setup-status" role="status">Setup status</p>
+      <dl class="connector-state-grid">
+        <div><dt>Adapter</dt><dd id="connector-adapter-state">UNAVAILABLE</dd></div>
+        <div><dt>Sign-in</dt><dd id="connector-auth-state">NOT_APPLICABLE</dd></div>
+        <div><dt>Capability</dt><dd id="connector-capability-state">UNAVAILABLE</dd></div>
+        <div><dt>Observed account</dt><dd id="connector-account-state">Not observed</dd></div>
+      </dl>
+      <div class="next-action-card static"><span>Exact next action</span><strong id="connector-next-action">Install a reviewed host adapter, then return to sign in.</strong></div>
+      <p class="honesty-note">A browser launch or saved account is not “connected.” MPC Workspace marks only a matching protected operation as verified, and preserves earlier success separately from a current failure.</p>
+      <div class="dialog-actions"><button class="button" id="connector-manual-setup" type="button">Advanced manual setup</button><button class="button" id="connector-cancel-setup" type="button" hidden>Cancel sign-in</button><button class="button accent" id="connector-check-status" type="button" hidden>Check sign-in status</button></div>
     </section>
   </dialog>
 

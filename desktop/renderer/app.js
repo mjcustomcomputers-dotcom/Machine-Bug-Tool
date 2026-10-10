@@ -18,6 +18,7 @@
  *                                            CONNECT/DISCONNECT enable or disable the
  *                                            saved local configuration, never prove access
  *   POST /api/workspace/connections/test    one harmless permitted operation and its real receipt
+ *   POST /api/workspace/connections/setup   host-owned install/sign-in lifecycle when an adapter advertises it
  *   POST /api/workspace/scripts             {operation: CREATE|SAVE_DRAFT|EXPORTED|INGEST_OUTPUT, ...}
  *   POST /api/workspace/transfers/export    bounded portable data envelope; performs no external action
  *   POST /api/workspace/transfers/import    verified data-only import into the explicitly selected project
@@ -39,6 +40,7 @@ export const API_PATHS = Object.freeze({
   snapshotCompare: '/api/workspace/snapshots/compare',
   connections: '/api/workspace/connections',
   connectionTest: '/api/workspace/connections/test',
+  connectionSetup: '/api/workspace/connections/setup',
   scripts: '/api/workspace/scripts',
   transferExport: '/api/workspace/transfers/export',
   transferImport: '/api/workspace/transfers/import',
@@ -66,6 +68,7 @@ const CONNECTION_SERVICES = Object.freeze([
   ['LOCAL_MPC', 'Local MPC', 'This computer’s source-bound engine'],
   ['OLLAMA', 'Local model', 'Explicit loopback inference'],
   ['OPENAI_API', 'OpenAI / Daybreak API', 'Explicit entitled API project inference'],
+  ['CHATGPT_SIGN_IN', 'Continue with ChatGPT', 'Eligible registered-client inference; local connectors stay separate'],
   ['CUSTOM_MCP', 'Custom MCP', 'User-configured bounded MCP transport']
 ]);
 
@@ -140,6 +143,102 @@ export function connectionInputGuidance(provider) {
   };
 }
 
+/** Derive one honest, provider-qualified primary action from independent connection states. */
+export function buildConnectionActionModel(entry = {}, label = 'Connection') {
+  const setup = entry?.setup && typeof entry.setup === 'object' ? entry.setup : {};
+  const connection = entry?.connection_id ? entry : entry?.configuration?.connection_id
+    ? {...entry, ...entry.configuration} : null;
+  const observation = entry?.current_observation ?? connection?.latest_observation ?? null;
+  const enabled = connection?.enabled !== false;
+  const verified = observation?.observation_state === 'SUCCEEDED' && Boolean(observation?.operation_receipt_id);
+  const currentFailed = ['FAILED', 'ERROR'].includes(String(observation?.observation_state ?? observation?.status ?? '').toUpperCase());
+  let action = setup.primary_action ?? 'SETUP_INFO';
+  let actionLabel = setup.primary_label ?? `Set up ${label}`;
+  if (setup.provider === 'OLLAMA' || action === 'LOCAL_SETUP') {
+    action = 'LOCAL_SETUP'; actionLabel = 'Set up local AI';
+  } else if (setup.provider === 'LOCAL_MPC' || action === 'USE_LOCAL') {
+    action = 'USE_LOCAL'; actionLabel = 'Use local MPC';
+  } else if (connection && !enabled) {
+    action = 'ENABLE'; actionLabel = `Enable ${label} locally`;
+  } else if (['NOT_INSTALLED', 'UNAVAILABLE'].includes(setup.adapter_state) && !['SIGN_IN', 'INSTALL'].includes(action)) {
+    action = 'SETUP_INFO'; actionLabel = setup.primary_label ?? `Set up ${label}`;
+  } else if (connection && !['SIGN_IN', 'INSTALL'].includes(action)) {
+    action = 'TEST'; actionLabel = `Test permitted ${label} read`;
+  }
+  const status = verified ? 'LAST OPERATION VERIFIED' : currentFailed ? 'CURRENT OPERATION FAILED'
+    : setup.adapter_state === 'NOT_INSTALLED' ? 'ADAPTER NOT INSTALLED'
+      : setup.adapter_state === 'UNAVAILABLE' ? 'ADAPTER UNAVAILABLE'
+        : setup.auth_state === 'ACCOUNT_OBSERVED' ? 'SIGNED IN · READ NOT VERIFIED'
+      : connection ? 'CONFIGURED · ACCESS UNVERIFIED'
+        : setup.adapter_state === 'INSTALLED' ? 'ADAPTER READY' : setup.adapter_state ?? 'SETUP REQUIRED';
+  return {
+    action, actionLabel, status, connection, enabled, verified,
+    adapterState: setup.adapter_state ?? 'UNAVAILABLE',
+    authState: setup.auth_state ?? 'NOT_APPLICABLE',
+    capabilityState: setup.capability_state ?? 'UNAVAILABLE',
+    nextAction: setup.next_action ?? entry?.next_action ?? 'Review setup requirements.',
+    canSignIn: action === 'SIGN_IN', canInstall: action === 'INSTALL'
+  };
+}
+
+/** Evidence display never upgrades acquisition, retention, analysis or reporting state. */
+export function buildEvidenceCardModel(item = {}) {
+  const stateValue = item.evidence_state ?? item.state ?? item.acquisition_state ?? item.status ?? 'UNKNOWN';
+  const title = item.display_name ?? item.title ?? item.atom_type ?? item.native_id ?? item.source_id ?? 'Evidence record';
+  const jobCount = clampCount(item.job_count);
+  const reportCount = clampCount(item.report_count);
+  return {
+    title: String(title), state: String(stateValue), identity: sourceIdentityLabel(item.source ?? item),
+    identityText: sourceIdentityText(item.source ?? item),
+    excerpt: item.excerpt ?? item.quote ?? null,
+    retention: item.retention_state ?? (item.retained_document_id ? 'TEXT_RETAINED' : 'METADATA_ONLY'),
+    replay: item.replay_state ?? (item.retained_document_id ? 'READY_FROM_RETAINED_TEXT' : 'ORIGINAL_REQUIRED'),
+    jobCount, reportCount, latestJobId: item.latest_job_id ?? null, latestJobState: item.latest_job_state ?? null,
+    latestReportId: item.latest_report_id ?? null, nextAction: item.next_action ?? 'Inspect the exact source identity.',
+    contentSha256: item.content_sha256 ?? '', mediaType: item.media_type ?? null, bytes: clampCount(item.artifact_bytes)
+  };
+}
+
+export function buildHomeActionModel({project = null, currentJob = null, reports = [], connections = []} = {}) {
+  const finished = currentJob?.terminal === true || ['SUCCEEDED', 'FAILED', 'CANCELLED', 'COMPLETE']
+    .includes(String(currentJob?.job_state ?? currentJob?.state ?? '').toUpperCase());
+  const resumable = !finished && Boolean(project?.resume_state?.resume_required && project?.resume_state?.job?.job_id);
+  const verifiedConnections = array(connections).filter(item => item?.current_observation?.observation_state === 'SUCCEEDED' &&
+    item.current_observation.operation_receipt_id).length;
+  return {
+    primary: !project ? 'CREATE_PROJECT' : resumable ? 'RESUME' : 'ASK',
+    primaryLabel: !project ? 'Create your first project' : resumable ? 'Resume exact checkpoint' : finished ? 'Ask a follow-up' : 'Ask or analyze',
+    projectReady: Boolean(project), sourceCount: clampCount(project?.source_coverage?.total ?? project?.sources?.length),
+    reportCount: clampCount(reports.length), verifiedConnections
+  };
+}
+
+export function buildHomeNextActionModel({project = null, currentJob = null, selectedProfileAvailable = false} = {}) {
+  if (!project) return {action: 'CREATE_PROJECT', title: 'Create a project', detail: 'A project keeps evidence, receipts and reports separate.'};
+  if (!currentJob) return {action: 'EVIDENCE', title: 'Attach a record or paste text', detail: 'No external action has been performed.'};
+  const kind = String(currentJob.next_action?.kind ?? '').toUpperCase();
+  const returnedTitle = currentJob.next_action?.title;
+  const returnedDetail = currentJob.next_action?.description ?? currentJob.next_action?.completion_condition;
+  if (kind === 'MODEL_SETUP' && !selectedProfileAvailable) return {action: 'LOCAL_MODEL_SETUP', title: returnedTitle ?? 'Set up the selected local model',
+    detail: returnedDetail ?? 'Complete local model setup, then resume the saved question.'};
+  if (['ACQUIRE_RECORD', 'LOCATE_RECORD'].includes(kind)) return {action: 'EVIDENCE', title: returnedTitle ?? 'Add the required evidence',
+    detail: returnedDetail ?? 'Attach or paste the exact record needed by this checkpoint.'};
+  const jobState = String(currentJob.job_state ?? currentJob.state ?? '').toUpperCase();
+  const resumable = currentJob.resume_required === true || jobState === 'BLOCKED' ||
+    Boolean(project.resume_state?.resume_required && project.resume_state?.job?.job_id === currentJob.job_id);
+  if (resumable) return {action: 'RESUME', title: 'Resume exact checkpoint',
+    detail: returnedTitle ? `${returnedTitle}. ${returnedDetail ?? ''}`.trim() : returnedDetail ?? 'Continue without repeating completed work.'};
+  return {action: 'ASK', title: kind === 'CONTINUE_OR_ATTACH' ? returnedTitle ?? 'Continue or attach project evidence' : 'Continue in the assistant',
+    detail: returnedTitle && kind !== 'CONTINUE_OR_ATTACH' ? `Suggested next step: ${returnedTitle}. ${returnedDetail ?? ''}`.trim()
+      : returnedDetail ?? 'Ask a follow-up using the saved project state.'};
+}
+
+export function evidenceSearchSeed(item = {}) {
+  const text = String(item.excerpt ?? item.quote ?? '');
+  const tokens = text.match(/[\p{L}\p{N}]+(?:[._'-][\p{L}\p{N}]+)*/gu) ?? [];
+  return tokens.filter(token => token.length > 1).slice(0, 6).join(' ');
+}
+
 /** Plain text preserves code, line breaks and Unicode for copy/export. */
 export function formatChatTranscript(messages = []) {
   if (!Array.isArray(messages)) throw new TypeError('CHAT_MESSAGES_ARRAY_REQUIRED');
@@ -160,10 +259,23 @@ export function runtimeIdentityLabel(value = {}) {
 }
 
 export function sourceIdentityLabel(source = {}) {
-  const id = source.id ?? source.source_id ?? source.source_ref ?? 'unknown source';
-  const version = source.version ?? source.native_version ?? 'version unknown';
-  const owner = source.owner ?? source.source_owner ?? 'owner unknown';
-  return `${owner} · ${id} · ${version}`;
+  const nativeId = source.native_id ?? source.native_locator;
+  const id = nativeId ?? source.id ?? source.source_id ?? source.source_ref ?? 'unknown source';
+  const version = source.native_version ?? source.version ?? 'version unknown';
+  const owner = source.source_owner ?? source.owner ?? 'owner unknown';
+  const namespace = source.source_namespace ?? source.namespace ?? null;
+  const nativeType = source.native_id_type ?? (nativeId !== undefined ? source.type : null);
+  return [owner, namespace, nativeType, id, version].filter(value => value !== null && value !== undefined && value !== '').join(' · ');
+}
+
+export function sourceIdentityText(source = {}) {
+  return JSON.stringify({
+    owner: source.source_owner ?? source.owner ?? null,
+    namespace: source.source_namespace ?? source.namespace ?? null,
+    native_id_type: source.native_id_type ?? source.type ?? null,
+    native_id: source.native_id ?? source.native_locator ?? source.id ?? source.source_id ?? source.source_ref ?? null,
+    version: source.native_version ?? source.version ?? null
+  });
 }
 
 /**
@@ -237,11 +349,13 @@ const state = {
   draftTimer: null,
   requestController: null,
   activeView: 'work',
-  composerCollapsed: true,
+  composerCollapsed: false,
   composerDock: 'right',
   localModelStatus: null,
   setupOperation: null,
-  setupController: null
+  setupController: null,
+  connectionSetup: null,
+  evidence: []
 };
 
 const hasDom = typeof document !== 'undefined';
@@ -357,6 +471,23 @@ function selectedProfile() {
   return state.providerProfiles.find(profile => profile.id === state.selectedProfileId) ?? null;
 }
 
+function renderHomeActions() {
+  const model = buildHomeActionModel({project: state.project, currentJob: state.currentJob,
+    reports: state.reports, connections: state.connections});
+  const primary = $('home-primary-action');
+  if (primary) {
+    primary.dataset.action = model.primary;
+    setText('home-primary-label', model.primaryLabel);
+  }
+  for (const id of ['home-ask', 'home-paste', 'home-files', 'home-folder']) {
+    if ($(id)) $(id).disabled = !model.projectReady;
+  }
+  setText('home-project-status', model.projectReady ? `Open · ${state.project.display_name}` : 'No project open');
+  setText('home-source-status', `${model.sourceCount} exact source${model.sourceCount === 1 ? '' : 's'}`);
+  setText('home-report-status', `${model.reportCount} saved report${model.reportCount === 1 ? '' : 's'}`);
+  setText('home-connection-status', `${model.verifiedConnections} receipt-verified operation${model.verifiedConnections === 1 ? '' : 's'}`);
+}
+
 function renderProjectHeader() {
   const project = state.project;
   $('project-picker').value = project?.display_name ?? '';
@@ -371,6 +502,7 @@ function renderProjectHeader() {
   const hasJob = Boolean(state.currentJob?.job_id);
   $('save-report').disabled = !hasJob;
   $('save-report-secondary').disabled = !hasJob;
+  renderHomeActions();
 }
 
 function renderProjects() {
@@ -533,6 +665,17 @@ async function stopLocalModelSetup() {
   } catch (error) { recordError(error); }
 }
 
+function renderHomeNextAction(job = state.currentJob) {
+  if (!job) return null;
+  const profile = selectedProfile();
+  const next = buildHomeNextActionModel({project: state.project, currentJob: job,
+    selectedProfileAvailable: Boolean(profile && providerAvailabilityLabel(profile) === 'available')});
+  $('home-next-action').dataset.action = next.action;
+  setText('next-action-title', next.title);
+  setText('next-action-detail', next.detail);
+  return next;
+}
+
 async function useLocalModel() {
   try {
     await refreshLocalModels();
@@ -541,7 +684,8 @@ async function useLocalModel() {
     if (!profile) throw new Error('No installed local profile is available. Refresh status after setup.');
     state.selectedProfileId = profile.id; renderProfiles();
     $('local-model-dialog').close(); state.composerCollapsed = false; updateComposerLayout(); $('composer-input').focus();
-    announce(`${profile.label} selected. Enter a question to check local inference.`);
+    renderHomeNextAction();
+    announce(`${profile.label} selected. ${state.currentJob?.next_action?.kind === 'MODEL_SETUP' ? 'Resume the saved checkpoint to use it.' : 'Enter a question to check local inference.'}`);
   } catch (error) { recordError(error); }
 }
 
@@ -593,6 +737,7 @@ function renderBootstrap(value) {
   state.selectedProfileId = value.selected_provider_profile?.profile_id ?? value.selected_provider_profile_id ?? null;
   state.connections = array(value.connections);
   state.reports = array(value.reports);
+  state.evidence = array(value.evidence ?? value.sources ?? value.project?.sources);
   renderProjects();
   renderProfiles();
   renderInventory(value);
@@ -601,7 +746,7 @@ function renderBootstrap(value) {
   renderTasks(array(value.tasks));
   renderReports();
   renderSnapshots(array(value.snapshots ?? value.project?.snapshots));
-  renderEvidence(array(value.evidence ?? value.sources ?? value.project?.sources));
+  renderEvidence(state.evidence);
   renderConversation(value.project?.conversation);
   updateServiceStatus(value.service ?? {status: 'READY'});
   if (value.resume_state?.job) updateJob(value.resume_state.job, {appendConversation: false});
@@ -638,8 +783,11 @@ async function createProject(event) {
     state.currentJob = null;
     state.reports = array(state.project?.reports);
     state.connections = array(state.project?.connections);
+    state.evidence = array(state.project?.evidence ?? state.project?.sources);
     state.selectedProfileId = state.project?.selected_provider_profile_id || null;
     state.script = null;
+    state.connectionSetup = null;
+    if ($('connector-setup-dialog').open) $('connector-setup-dialog').close();
     resetEvidenceSelection();
     renderProjects();
     renderProfiles();
@@ -648,7 +796,7 @@ async function createProject(event) {
     renderReports();
     renderTasks(array(state.project?.tasks));
     renderSnapshots(array(state.project?.snapshots));
-    renderEvidence(array(state.project?.sources));
+    renderEvidence(state.evidence);
     resetJobView();
     $('project-dialog').close();
     announce(`Project “${displayName}” created locally.`);
@@ -665,8 +813,11 @@ async function openProjectByPicker() {
     state.currentJob = state.project?.resume_state?.job ?? response.resume_state?.job ?? response.current_job ?? null;
     state.reports = array(state.project?.reports ?? response.reports);
     state.connections = array(state.project?.connections);
+    state.evidence = array(state.project?.evidence ?? response.evidence ?? state.project?.sources);
     state.selectedProfileId = state.project?.selected_provider_profile_id || null;
     state.script = null;
+    state.connectionSetup = null;
+    if ($('connector-setup-dialog').open) $('connector-setup-dialog').close();
     resetEvidenceSelection();
     $('composer-input').value = state.project?.draft?.text ?? '';
     renderProjectHeader();
@@ -676,7 +827,7 @@ async function openProjectByPicker() {
     renderReports();
     renderTasks(array(state.project?.tasks ?? response.tasks));
     renderSnapshots(array(state.project?.snapshots ?? response.snapshots));
-    renderEvidence(array(state.project?.sources ?? response.evidence));
+    renderEvidence(state.evidence);
     if (state.currentJob) updateJob(state.currentJob, {appendConversation: false});
     else resetJobView();
     announce(`Opened ${state.project.display_name}.`);
@@ -999,16 +1150,18 @@ function modelMessage(job) {
 function updateJob(job, {appendConversation = true} = {}) {
   state.currentJob = job;
   const jobState = String(job.job_state ?? job.status ?? job.work_stage ?? 'UNKNOWN').toUpperCase();
-  setText('work-stage', job.work_stage ?? jobState);
+  const workStage = String(job.work_stage ?? jobState).toUpperCase();
+  setText('work-stage', workStage === jobState ? workStage : `${workStage} · ${jobState}`);
   statusTone($('work-stage'), TERMINAL_JOB_STATES.has(jobState) ? (['FAILED', 'BLOCKED', 'CANCELLED'].includes(jobState) ? 'warn' : 'good') : 'busy');
   setText('job-action', job.action_label ?? job.next_action?.title ?? job.operation_name ?? 'Processing source-bound work');
   const acquired = countFromJob(job, 'acquired'), analyzed = countFromJob(job, 'analyzed'), decided = countFromJob(job, 'decided');
   setText('count-acquired', acquired); setText('count-analyzed', analyzed); setText('count-decided', decided);
   const total = clampCount(job.progress?.required ?? job.progress?.required_records ?? job.counts?.total);
   const completed = clampCount(job.progress?.completed ?? acquired + analyzed + decided);
-  $('job-progress-bar').style.width = `${total ? Math.min(100, Math.round(completed / total * 100)) : TERMINAL_JOB_STATES.has(jobState) ? 100 : 20}%`;
-  setText('next-action-title', job.next_action?.title ?? 'No next action returned');
-  setText('next-action-detail', job.next_action?.description ?? job.next_action?.completion_condition ?? 'Review the saved receipt before continuing.');
+  const progressPercent = total ? Math.min(100, Math.round(completed / total * 100)) : TERMINAL_JOB_STATES.has(jobState) ? 100 : 20;
+  $('job-progress-bar').style.width = `${progressPercent}%`;
+  $('job-progress').setAttribute('aria-valuenow', String(progressPercent));
+  renderHomeNextAction(job);
   setText('job-receipt', job.receipt_id ?? job.checkpoint?.checkpoint_id ?? job.job_id ?? 'No receipt identity returned');
   renderFacts(job); renderWorkMethods(job); renderWorkSources(job);
   $('save-report').disabled = !job.job_id;
@@ -1027,6 +1180,7 @@ function updateJob(job, {appendConversation = true} = {}) {
   }
   if (!TERMINAL_JOB_STATES.has(jobState) && job.job_id) scheduleJobPoll(job.job_id, job.project_id ?? currentProjectId());
   else globalThis.clearTimeout(state.pollTimer);
+  renderHomeActions();
 }
 
 function resetJobView() {
@@ -1036,13 +1190,15 @@ function resetJobView() {
   setText('work-stage', 'IDLE'); setText('job-action', 'No active job');
   setText('count-acquired', 0); setText('count-analyzed', 0); setText('count-decided', 0);
   $('job-progress-bar').style.width = '0%';
+  $('job-progress').setAttribute('aria-valuenow', '0');
   setText('next-action-title', 'Attach a record or paste text');
   setText('next-action-detail', 'No external action has been performed.');
+  $('home-next-action').dataset.action = state.project ? 'EVIDENCE' : 'CREATE_PROJECT';
   setText('job-receipt', 'No job receipt');
   renderFacts({}); renderWorkMethods({}); renderWorkSources({});
   setText('search-coverage', 'No search run'); setText('search-result-count', 0);
   replace($('search-results'), [node('div', 'empty-row', 'Run a search to see exact source identities and coverage.')]);
-  setText('snapshot-status', 'No comparison run. Partial inventory cannot establish removal.');
+  updateSnapshotControls();
   $('snapshot-counts').hidden = true;
   replace($('snapshot-results'), []);
   setText('report-preview-title', 'Preview'); setText('report-preview-state', 'Nothing selected');
@@ -1050,6 +1206,7 @@ function resetJobView() {
   $('copy-report').disabled = true; $('export-report').disabled = true;
   $('resume-work').disabled = true;
   setRunning(false);
+  renderHomeActions();
 }
 
 function scheduleJobPoll(jobId, projectId) {
@@ -1130,12 +1287,13 @@ async function runWork() {
     state.project = detail.project ?? state.project;
     state.reports = array(state.project?.reports);
     state.connections = array(state.project?.connections);
+    state.evidence = array(state.project?.evidence ?? state.project?.sources);
     renderConversation(state.project?.conversation);
     renderReports();
     renderConnections();
     renderTasks(array(state.project?.tasks));
     renderSnapshots(array(state.project?.snapshots));
-    renderEvidence(array(state.project?.sources));
+    renderEvidence(state.evidence);
     updateJob(job, {appendConversation: operationMode !== 'CHAT'});
     if (operationMode === 'CHAT' && job.model_result?.status === 'CONVERSATION_COMPLETE') {
       $('composer-input').value = '';
@@ -1169,10 +1327,22 @@ async function resumeWork() {
   const jobId = state.currentJob?.job_id ?? state.project?.resume_state?.job?.job_id ??
     state.bootstrap?.resume_state?.job?.job_id;
   if (!jobId) return;
+  const projectId = currentProjectId();
   try {
     setRunning(true);
-    const result = await request(jobApiPath(jobId, 'resume'), {method: 'POST', body: {project_id: currentProjectId(), checkpoint_id: state.currentJob?.checkpoint?.checkpoint_id ?? state.project?.resume_state?.job?.checkpoint?.checkpoint_id ?? state.bootstrap?.resume_state?.job?.checkpoint?.checkpoint_id ?? null,
+    const result = await request(jobApiPath(jobId, 'resume'), {method: 'POST', body: {project_id: projectId,
+      provider_profile_id: state.selectedProfileId ?? null,
+      checkpoint_id: state.currentJob?.checkpoint?.checkpoint_id ?? state.project?.resume_state?.job?.checkpoint?.checkpoint_id ?? state.bootstrap?.resume_state?.job?.checkpoint?.checkpoint_id ?? null,
       resume_reason: 'USER_REQUESTED_RESUME'}});
+    if (currentProjectId() !== projectId) return;
+    const detail = await request(entityApiPath('projects', projectId));
+    if (currentProjectId() !== projectId) return;
+    state.project = detail.project ?? state.project;
+    state.reports = array(state.project?.reports);
+    state.connections = array(state.project?.connections);
+    state.evidence = array(state.project?.evidence ?? state.project?.sources);
+    renderReports(); renderConnections(); renderTasks(array(state.project?.tasks));
+    renderSnapshots(array(state.project?.snapshots)); renderEvidence(state.evidence);
     updateJob(result.job ?? result);
     announce('Resumed from the saved checkpoint without repeating completed work.');
   } catch (error) { setRunning(false); recordError(error); }
@@ -1272,17 +1442,78 @@ async function runSearch() {
 }
 
 function renderEvidence(evidence, coverage = state.project?.source_coverage) {
-  const rows = evidence.length ? evidence.map(item => {
-    const card = node('article', 'list-card');
-    card.append(node('div', 'meta', sourceIdentityLabel(item.source ?? item)), node('strong', '', item.atom_type ?? item.title ?? 'Evidence record'));
-    if (item.excerpt ?? item.quote) card.append(node('p', 'evidence-quote', item.excerpt ?? item.quote));
-    card.append(node('p', '', `State: ${item.evidence_state ?? item.state ?? 'UNKNOWN'} · Actor/capacity: ${item.actor ?? 'unknown'} / ${item.capacity ?? 'unknown'}`));
-    if (array(item.dependencies).length) card.append(node('div', 'meta', `Dependencies: ${item.dependencies.join(', ')}`));
+  state.evidence = array(evidence);
+  const models = state.evidence.map(buildEvidenceCardModel);
+  setText('evidence-total', models.length);
+  setText('evidence-retained', models.filter(item => item.retention === 'TEXT_RETAINED').length);
+  setText('evidence-used', models.filter(item => item.jobCount > 0).length);
+  setText('evidence-reported', models.filter(item => item.reportCount > 0).length);
+  const rows = models.length ? models.map((model, index) => {
+    const source = state.evidence[index];
+    const card = node('article', 'list-card evidence-card');
+    const heading = node('h3', '', model.title);
+    heading.id = `evidence-item-${index}`;
+    card.setAttribute('aria-labelledby', heading.id);
+    card.append(node('div', 'meta', model.identity), heading);
+    if (model.excerpt) card.append(node('p', 'evidence-quote', model.excerpt));
+    const trace = node('dl', 'evidence-trace');
+    const details = [
+      ['Acquisition', model.state],
+      ['Retention / replay', `${model.retention} · ${model.replay}`],
+      ['Representation', [model.mediaType, model.bytes ? formatBytes(model.bytes) : null].filter(Boolean).join(' · ') || 'Metadata only'],
+      ['Used by', `${model.jobCount} task${model.jobCount === 1 ? '' : 's'} · ${model.reportCount} report${model.reportCount === 1 ? '' : 's'}`],
+      ['Latest work', model.latestJobId ? `${model.latestJobId} · ${model.latestJobState ?? 'state unknown'}` : 'Not analyzed yet'],
+      ['Content SHA-256', model.contentSha256 || 'Not reported']
+    ];
+    for (const [term, value] of details) { const row = node('div'); row.append(node('dt', '', term), node('dd', '', value)); trace.append(row); }
+    card.append(trace, node('p', 'evidence-next', `Next: ${model.nextAction}`));
+    if (array(source.dependencies).length) card.append(node('div', 'meta', `Dependencies: ${source.dependencies.join(', ')}`));
+    const actions = node('div', 'button-row evidence-actions');
+    const search = node('button', 'button compact', 'Search retained text');
+    search.type = 'button'; search.setAttribute('aria-label', `Search retained text for ${model.title}`);
+    const searchSeed = evidenceSearchSeed(model);
+    search.disabled = model.retention !== 'TEXT_RETAINED' || !searchSeed;
+    search.addEventListener('click', () => {
+      $('search-query').value = searchSeed;
+      navigate('search'); $('search-query').focus();
+    });
+    const copy = node('button', 'button compact', 'Copy identity');
+    copy.type = 'button'; copy.setAttribute('aria-label', `Copy exact identity for ${model.title}`);
+    copy.addEventListener('click', () => copyText(`${model.identityText}${model.contentSha256 ? `\ncontent_sha256=${model.contentSha256}` : ''}`, 'Evidence identity'));
+    actions.append(search, copy);
+    if (model.latestReportId || model.latestJobId) {
+      const related = node('button', 'button compact', model.latestReportId ? 'Open related report' : 'Open related task');
+      related.type = 'button'; related.setAttribute('aria-label', `${related.textContent} for ${model.title}`);
+      related.addEventListener('click', async () => {
+        if (model.latestReportId) {
+          const report = state.reports.find(item => item.report_id === model.latestReportId) ?? {report_id: model.latestReportId};
+          navigate('reports'); await openReport(report);
+        } else {
+          navigate('tasks');
+          const target = [...document.querySelectorAll('[data-job-id]')]
+            .find(item => item.dataset.jobId === model.latestJobId);
+          if (target) { target.focus({preventScroll: true}); target.scrollIntoView({block: 'nearest'}); }
+          else announce('The referenced task is outside the current bounded task list.', {tone: 'warn'});
+        }
+      });
+      actions.append(related);
+    }
+    card.append(actions);
     return card;
-  }) : [node('div', 'empty-row', 'No project evidence acquired.')];
+  }) : [node('div', 'empty-row evidence-empty', 'No evidence yet. Paste text, attach files, or add a folder above to start an exact source ledger.')];
   if (coverage?.truncated === true) rows.unshift(node('div', 'boundary-note',
     `Showing ${coverage.returned} of ${coverage.total} source records. Search covers the retained-text index; the ledger is a bounded first page.`));
   replace($('evidence-ledger'), rows);
+}
+
+function updateSnapshotControls() {
+  const left = $('snapshot-left').value, right = $('snapshot-right').value;
+  const optionCount = Math.max(0, $('snapshot-left').options.length - 1);
+  const ready = optionCount >= 2 && Boolean(left && right && left !== right);
+  $('compare-snapshots').disabled = !ready;
+  if (optionCount < 2) setText('snapshot-status', 'Acquire at least two snapshot manifests before comparison. Partial inventory cannot establish removal.');
+  else if (!left || !right) setText('snapshot-status', 'Choose two different acquired snapshot manifests.');
+  else if (left === right) setText('snapshot-status', 'Choose two different snapshots; a snapshot is not compared with itself.');
 }
 
 function renderSnapshots(snapshots) {
@@ -1295,11 +1526,13 @@ function renderSnapshots(snapshots) {
       return option;
     })]);
   }
+  updateSnapshotControls();
 }
 
 async function compareSnapshots() {
   const left = $('snapshot-left').value, right = $('snapshot-right').value;
   if (!left || !right) return announce('Choose two acquired snapshot manifests.', {tone: 'warn'});
+  if (left === right) return announce('Choose two different acquired snapshot manifests.', {tone: 'warn'});
   try {
     const response = await request(API_PATHS.snapshotCompare, {method: 'POST', body: {project_id: currentProjectId(), left_snapshot_id: left, right_snapshot_id: right}});
     const result = response.comparison ?? response;
@@ -1424,6 +1657,7 @@ async function runMethodEvaluation() {
 function renderTasks(tasks) {
   replace($('tasks-list'), tasks.length ? tasks.map(task => {
     const row = node('article', 'task-row');
+    if (task.job_id) { row.dataset.jobId = task.job_id; row.tabIndex = -1; }
     row.append(node('span', 'stage-chip', task.job_state ?? task.task_state ?? 'OPEN'));
     const text = node('div');
     text.append(node('strong', '', task.title ?? task.operation_name ?? task.task_id), node('div', 'meta', task.action_label ?? task.next_action ?? 'No next action'));
@@ -1441,47 +1675,140 @@ function renderConnections() {
   const byProvider = new Map(state.connections.map(item => [String(item.provider ?? item.provider_namespace ?? item.id).toUpperCase(), item]));
   const cards = CONNECTION_SERVICES.map(([provider, label, purpose]) => {
     const catalogEntry = byProvider.get(provider) ?? null;
-    const connection = catalogEntry?.connection_id ? catalogEntry : catalogEntry?.configuration?.connection_id
-      ? {...catalogEntry, ...catalogEntry.configuration} : null;
+    const model = buildConnectionActionModel(catalogEntry ?? {setup: {provider}}, label);
+    const connection = model.connection;
     const observation = catalogEntry?.current_observation ?? connection?.current_observation ?? connection?.current ?? connection?.observation ?? null;
-    const enabled = connection?.enabled !== false;
-    const status = connection ? (enabled ? catalogEntry?.status ?? connection.status ?? 'CONFIGURED_ONLY' : 'DISABLED LOCALLY')
-      : catalogEntry?.status ?? 'NOT_CONFIGURED';
     const card = node('article', 'panel connection-card');
     card.dataset.provider = provider;
-    card.append(node('div', 'eyebrow', provider), node('h2', '', label), node('p', '', purpose), node('div', 'connection-state', status));
+    if (model.verified) card.classList.add('verified');
+    const heading = node('h2', '', label); heading.id = `connection-${provider.toLowerCase().replaceAll('_', '-')}`;
+    card.setAttribute('aria-labelledby', heading.id);
+    const header = node('div', 'connection-card-head');
+    header.append(node('div', 'provider-mark', label.split(/\s+/u).map(part => part[0]).join('').slice(0, 2)), heading);
+    card.append(header, node('p', 'connection-purpose', purpose), node('div', 'connection-state', model.status));
+    const proof = node('p', 'connection-proof', `First useful proof: ${catalogEntry?.first_operation ?? 'one selected permitted operation with its actual receipt'}`);
+    card.append(proof);
+    const primary = node('button', 'button accent connection-primary', model.actionLabel);
+    primary.type = 'button'; primary.setAttribute('aria-label', model.actionLabel);
+    primary.addEventListener('click', () => runConnectionPrimary(provider, label, catalogEntry, model));
+    card.append(primary);
+    const detailsBox = node('details', 'connection-details');
+    detailsBox.append(node('summary', '', 'Status, proof and advanced controls'));
     const list = node('dl');
     const details = [
+      ['Adapter', model.adapterState],
+      ['Sign-in', model.authState],
+      ['Capability', model.capabilityState],
       ['Host', observation?.host_id ?? connection?.host_id ?? 'Not observed'],
       ['Account', observation?.account_id ?? connection?.account_id ?? 'Not observed'],
       ['Operations', array(connection?.operations).join(', ') || observation?.operation || 'Not discovered'],
-      ['Local use', connection ? (enabled ? 'Enabled' : 'Disabled') : 'Not configured'],
+      ['Local use', connection ? (model.enabled ? 'Enabled' : 'Disabled') : 'Not configured'],
       ['Last success', connection?.last_success?.observed_at_utc ?? 'None'],
       ['Current error', connection?.current_error?.code ?? observation?.error?.code ?? 'None'],
-      ['Next setup', connection?.next_action ?? (connection ? 'Run one permitted operation' : 'Add configuration')]
+      ['Next action', model.nextAction]
     ];
     for (const [term, value] of details) { const row = node('div'); row.append(node('dt', '', term), node('dd', '', value)); list.append(row); }
-    card.append(list);
+    detailsBox.append(list);
     const actions = node('div', 'button-row');
-    if (provider === 'OLLAMA') {
-      const setup = node('button', 'button compact', 'Local AI setup'); setup.type = 'button'; setup.addEventListener('click', openLocalModelSetup); actions.append(setup);
-    } else if (!connection) {
-      const add = node('button', 'button compact', 'Add'); add.type = 'button'; add.addEventListener('click', () => openConnectionDialog(provider)); actions.append(add);
-    } else {
-      const toggle = node('button', 'button compact', enabled ? 'Disable locally' : 'Enable locally');
+    if (connection) {
+      const toggle = node('button', 'button compact', model.enabled ? `Disable ${label} locally` : `Enable ${label} locally`);
       toggle.type = 'button';
-      toggle.addEventListener('click', () => setConnectionEnabled(!enabled, connection));
-      const test = node('button', 'button compact', 'Test permitted read');
-      test.type = 'button';
-      test.disabled = !enabled;
-      test.title = enabled ? 'Run one bounded read and retain its actual observation.' : 'Enable this local configuration before testing it.';
-      test.addEventListener('click', () => testConnection(connection));
-      actions.append(toggle, test);
+      toggle.addEventListener('click', () => setConnectionEnabled(!model.enabled, connection));
+      actions.append(toggle);
     }
-    card.append(actions);
+    if (!['OLLAMA', 'LOCAL_MPC', 'CHATGPT_SIGN_IN'].includes(provider)) {
+      const manual = node('button', 'button compact', `Advanced manual setup for ${label}`);
+      manual.type = 'button'; manual.addEventListener('click', () => openConnectionDialog(provider)); actions.append(manual);
+    }
+    detailsBox.append(actions);
+    card.append(detailsBox);
     return card;
   });
   replace($('connections-grid'), cards);
+  renderHomeActions();
+}
+
+function requireProject(message = 'Create or open a project before this action.') {
+  if (currentProjectId()) return true;
+  announce(message, {tone: 'warn'});
+  $('project-dialog').showModal();
+  return false;
+}
+
+function showConnectionSetup(entry, label, result = null) {
+  const setup = object(result ?? entry?.setup);
+  state.connectionSetup = {...setup, label, entry};
+  setText('connector-setup-title', `${label} connector`);
+  setText('connector-setup-status', setup.status ?? (setup.adapter_state === 'NOT_INSTALLED' ? 'Adapter not installed' : 'Setup status'));
+  setText('connector-adapter-state', setup.adapter_state ?? 'UNAVAILABLE');
+  setText('connector-auth-state', setup.auth_state ?? 'NOT_APPLICABLE');
+  setText('connector-capability-state', setup.capability_state ?? 'UNAVAILABLE');
+  setText('connector-account-state', setup.account_label ?? 'Not observed');
+  setText('connector-next-action', setup.next_action ?? 'Install a reviewed host adapter, then return to sign in.');
+  const continuationActions = array(setup.continuation_actions);
+  $('connector-check-status').hidden = !setup.attempt_id || !continuationActions.includes('STATUS');
+  $('connector-cancel-setup').hidden = !setup.attempt_id || !continuationActions.includes('CANCEL');
+  $('connector-manual-setup').hidden = ['OLLAMA', 'LOCAL_MPC', 'CHATGPT_SIGN_IN'].includes(String(setup.provider ?? '').toUpperCase());
+  if (!$('connector-setup-dialog').open) $('connector-setup-dialog').showModal();
+}
+
+async function beginConnectionSetup(provider, label, entry, action) {
+  if (!requireProject(`Create or open a project before setting up ${label}.`)) return;
+  const projectId = currentProjectId();
+  try {
+    const response = await request(API_PATHS.connectionSetup, {method: 'POST', body: {
+      project_id: projectId, provider, action
+    }});
+    const setup = response.setup ?? response;
+    if (currentProjectId() !== projectId) {
+      const canCancel = setup.attempt_id && array(setup.continuation_actions).includes('CANCEL');
+      if (canCancel) {
+        try {
+          await request(API_PATHS.connectionSetup, {method: 'POST', body: {
+            project_id: projectId, provider, action: 'CANCEL', attempt_id: setup.attempt_id
+          }});
+        } catch {}
+      }
+      announce(canCancel
+        ? `${label} setup was closed because the active project changed.`
+        : `${label} setup belongs to the prior project and will expire if its host flow is still pending.`, {tone: 'warn'});
+      return;
+    }
+    showConnectionSetup(entry, label, {...setup, workspace_project_id: projectId});
+    announce(setup.status === 'AUTHORIZING' && setup.external_action_performed === true
+      ? `${label} sign-in started in the host-owned provider flow.`
+      : setup.status === 'AUTHORIZING'
+        ? `${label} sign-in is awaiting the host; no new provider window was confirmed.`
+      : `${label}: ${setup.status ?? 'setup state returned'}.`, {tone: setup.status === 'ERROR' || setup.status === 'DRIVER_SETUP_REQUIRED' ? 'warn' : ''});
+    await refreshBootstrap();
+  } catch (error) { recordError(error); }
+}
+
+async function continueConnectionSetup(action) {
+  const current = state.connectionSetup;
+  if (!current?.attempt_id || !current?.provider) return;
+  if (current.workspace_project_id !== currentProjectId()) {
+    return announce('This sign-in attempt belongs to a different project. Return to that project or start a new attempt.', {tone: 'warn'});
+  }
+  const projectId = currentProjectId();
+  try {
+    const response = await request(API_PATHS.connectionSetup, {method: 'POST', body: {
+      project_id: projectId, provider: current.provider, action, attempt_id: current.attempt_id
+    }});
+    if (currentProjectId() !== projectId) return;
+    const setup = response.setup ?? response;
+    showConnectionSetup(current.entry, current.label, {...setup, workspace_project_id: projectId});
+    await refreshBootstrap();
+  } catch (error) { recordError(error); }
+}
+
+function runConnectionPrimary(provider, label, entry, model) {
+  if (model.action === 'LOCAL_SETUP') return openLocalModelSetup();
+  if (model.action === 'USE_LOCAL') { navigate('methods'); $('method-run-picker').focus(); return; }
+  if (model.action === 'ENABLE') return setConnectionEnabled(true, model.connection);
+  if (model.action === 'TEST') return testConnection(model.connection);
+  if (['SIGN_IN', 'INSTALL'].includes(model.action)) return beginConnectionSetup(provider, label, entry, model.action);
+  showConnectionSetup(entry ?? {setup: {provider, ...model}}, label);
 }
 
 function applyConnectionGuidance() {
@@ -1498,6 +1825,7 @@ function applyConnectionGuidance() {
 }
 
 function openConnectionDialog(provider = 'OLLAMA') {
+  if (!requireProject('Create or open a project before saving connection configuration.')) return;
   $('connection-provider').value = provider;
   applyConnectionGuidance();
   $('connection-dialog').showModal();
@@ -1621,11 +1949,49 @@ async function importPortableTask(event) {
     const transfer = response.transfer ?? response;
     const detail = await request(entityApiPath('projects', currentProjectId()));
     state.project = detail.project ?? state.project;
-    renderEvidence(array(state.project?.sources));
+    state.evidence = array(state.project?.evidence ?? state.project?.sources);
+    renderEvidence(state.evidence);
     renderTasks(array(state.project?.tasks));
     renderSnapshots(array(state.project?.snapshots));
     announce(`${transfer.status === 'REUSED' ? 'Reused' : 'Imported'} ${transfer.item_count ?? 0} portable task item${transfer.item_count === 1 ? '' : 's'} as data. Nothing was executed.`);
   } catch (error) { recordError(error); }
+}
+
+function showWorkInput(target = 'question') {
+  if (!requireProject('Create or open a project before adding project work.')) return;
+  state.composerCollapsed = false;
+  navigate('work', {focus: false});
+  updateComposerLayout();
+  if (target === 'evidence') {
+    $('advanced-chat').open = true;
+    $('evidence-input-details').open = true;
+    $('material-input').focus();
+  } else $('composer-input').focus();
+}
+
+function runHomePrimary() {
+  const action = $('home-primary-action').dataset.action;
+  if (action === 'CREATE_PROJECT') return $('project-dialog').showModal();
+  if (action === 'RESUME') return resumeWork();
+  showWorkInput('question');
+}
+
+function runHomeNextAction() {
+  const action = $('home-next-action').dataset.action || buildHomeNextActionModel({project: state.project, currentJob: state.currentJob}).action;
+  if (action === 'CREATE_PROJECT') return $('project-dialog').showModal();
+  if (action === 'LOCAL_MODEL_SETUP') return openLocalModelSetup();
+  if (action === 'RESUME') return resumeWork();
+  showWorkInput(action === 'EVIDENCE' ? 'evidence' : 'question');
+}
+
+function syncSidebarState({focusCurrent = false} = {}) {
+  const mobile = globalThis.matchMedia('(max-width: 900px)').matches;
+  const open = mobile ? document.body.classList.contains('sidebar-open') : !document.body.classList.contains('sidebar-collapsed');
+  $('sidebar-toggle').setAttribute('aria-expanded', String(open));
+  $('sidebar').setAttribute('aria-hidden', String(!open));
+  $('sidebar').inert = !open;
+  if (open && focusCurrent) document.querySelector('.nav-item.active')?.focus();
+  return open;
 }
 
 function navigate(view, {focus = true} = {}) {
@@ -1637,19 +2003,27 @@ function navigate(view, {focus = true} = {}) {
   }
   for (const panel of document.querySelectorAll('[data-view-panel]')) panel.hidden = panel.dataset.viewPanel !== view;
   updateComposerLayout();
-  if (focus) $('workspace-main').focus({preventScroll: true});
-  if (globalThis.matchMedia('(max-width: 900px)').matches) document.body.classList.remove('sidebar-open');
+  if (focus) {
+    const heading = document.querySelector(`[data-view-panel="${view}"] h1`);
+    if (heading) { heading.tabIndex = -1; heading.focus({preventScroll: true}); }
+    else $('workspace-main').focus({preventScroll: true});
+  }
+  if (globalThis.matchMedia('(max-width: 900px)').matches) {
+    document.body.classList.remove('sidebar-open');
+    syncSidebarState();
+  }
 }
 
 function updateComposerLayout() {
-  const visible = renderComposerVisibility({composer: $('composer'), toggle: $('toggle-composer'), view: state.activeView, collapsed: state.composerCollapsed, dock: state.composerDock});
   // Side docking is available only while the main area can retain useful width.
   const side = state.composerDock === 'right' && globalThis.innerWidth >= 1100 && globalThis.innerHeight >= 550;
-  const floating = state.composerDock === 'floating' || (state.composerDock === 'right' && !side);
-  document.body.dataset.chatDock = side ? 'right' : floating ? 'floating' : 'bottom';
+  const floating = state.composerDock === 'floating';
+  const effectiveDock = side ? 'right' : floating ? 'floating' : 'bottom';
+  const visible = renderComposerVisibility({composer: $('composer'), toggle: $('toggle-composer'), view: state.activeView, collapsed: state.composerCollapsed, dock: effectiveDock});
+  document.body.dataset.chatDock = effectiveDock;
   document.body.dataset.chatVisible = String(visible);
   $('dock-composer').value = state.composerDock;
-  $('dock-composer').title = !side && state.composerDock === 'right' ? 'Uses a floating box in this narrow window; returns to the side when widened.' : 'Choose assistant placement';
+  $('dock-composer').title = !side && state.composerDock === 'right' ? 'Uses the bottom panel in this narrow window; returns to the side when widened.' : 'Choose assistant placement';
   $('move-composer').hidden = !floating;
   const handle = $('composer-resizer');
   const bounds = composerResizeBounds(side);
@@ -1826,7 +2200,11 @@ async function initialize() {
   updateNetworkStatus();
   globalThis.addEventListener('online', updateNetworkStatus);
   globalThis.addEventListener('offline', updateNetworkStatus);
-  globalThis.addEventListener('resize', updateComposerLayout);
+  globalThis.addEventListener('resize', () => { updateComposerLayout(); syncSidebarState(); });
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || !globalThis.matchMedia('(max-width: 900px)').matches || !document.body.classList.contains('sidebar-open')) return;
+    document.body.classList.remove('sidebar-open'); syncSidebarState(); $('sidebar-toggle').focus();
+  });
   let lastWheelZoom = 0;
   document.addEventListener('wheel', event => {
     if (!$('wheel-zoom').checked || !event.shiftKey || event.ctrlKey || event.metaKey || event.altKey || !event.deltaY) return;
@@ -1872,15 +2250,29 @@ async function initialize() {
   $('sidebar-toggle').addEventListener('click', () => {
     if (globalThis.matchMedia('(max-width: 900px)').matches) document.body.classList.toggle('sidebar-open');
     else document.body.classList.toggle('sidebar-collapsed');
-    const expanded = !document.body.classList.contains('sidebar-collapsed') && (document.body.classList.contains('sidebar-open') || !globalThis.matchMedia('(max-width: 900px)').matches);
-    $('sidebar-toggle').setAttribute('aria-expanded', String(expanded));
+    syncSidebarState({focusCurrent: true});
   });
+  $('home-primary-action').addEventListener('click', runHomePrimary);
+  $('home-next-action').addEventListener('click', runHomeNextAction);
+  $('home-ask').addEventListener('click', () => showWorkInput('question'));
+  $('home-paste').addEventListener('click', () => { if (requireProject()) { showWorkInput('evidence'); pasteInput(); } });
+  $('home-files').addEventListener('click', () => { if (requireProject()) { showWorkInput('evidence'); attachFiles(); } });
+  $('home-folder').addEventListener('click', () => { if (requireProject()) { showWorkInput('evidence'); addFolder(); } });
+  $('home-connections').addEventListener('click', () => navigate('connections'));
+  $('home-project-pulse').addEventListener('click', () => state.project ? $('project-picker').focus() : $('project-dialog').showModal());
+  $('home-source-pulse').addEventListener('click', () => navigate('evidence'));
+  $('home-report-pulse').addEventListener('click', () => navigate('reports'));
+  $('home-connection-pulse').addEventListener('click', () => navigate('connections'));
   $('new-project').addEventListener('click', () => $('project-dialog').showModal());
   $('close-project-dialog').addEventListener('click', () => $('project-dialog').close());
   $('cancel-project').addEventListener('click', () => $('project-dialog').close());
   $('project-form').addEventListener('submit', createProject);
   $('project-picker').addEventListener('change', openProjectByPicker);
-  $('model-picker').addEventListener('change', () => { state.selectedProfileId = $('model-picker').value || null; renderProfiles(); announce(state.selectedProfileId ? 'Provider selection changed. Actual identity will be recorded from its operation.' : 'Language model disabled; finite local analysis remains available.'); });
+  $('model-picker').addEventListener('change', () => {
+    state.selectedProfileId = $('model-picker').value || null;
+    renderProfiles(); renderHomeNextAction();
+    announce(state.selectedProfileId ? 'Provider selection changed. Actual identity will be recorded from its operation.' : 'Language model disabled; finite local analysis remains available.');
+  });
   $('work-mode').addEventListener('change', () => announce($('work-mode').value === 'AUTO'
     ? 'Auto uses chat without evidence and source-bound analysis when evidence is selected.'
     : $('work-mode').value === 'CHAT' ? 'Chat uses the selected local model without acquiring evidence.'
@@ -1910,6 +2302,11 @@ async function initialize() {
   $('run-search').addEventListener('click', runSearch);
   $('search-query').addEventListener('keydown', event => { if (event.key === 'Enter') runSearch(); });
   $('compare-snapshots').addEventListener('click', compareSnapshots);
+  $('snapshot-left').addEventListener('change', updateSnapshotControls);
+  $('snapshot-right').addEventListener('change', updateSnapshotControls);
+  $('evidence-add-text').addEventListener('click', () => { if (requireProject()) { showWorkInput('evidence'); pasteInput(); } });
+  $('evidence-attach-files').addEventListener('click', () => { if (requireProject()) { showWorkInput('evidence'); attachFiles(); } });
+  $('evidence-add-folder').addEventListener('click', () => { if (requireProject()) { showWorkInput('evidence'); addFolder(); } });
   $('method-search').addEventListener('input', rerenderMethods);
   $('method-implemented-only').addEventListener('change', rerenderMethods);
   $('method-run-picker').addEventListener('change', selectMethodExample);
@@ -1920,6 +2317,13 @@ async function initialize() {
   $('connection-form').addEventListener('submit', configureConnection);
   $('connection-provider').addEventListener('change', applyConnectionGuidance);
   $('connection-local-setup').addEventListener('click', () => { $('connection-dialog').close(); openLocalModelSetup(); });
+  $('close-connector-setup').addEventListener('click', () => $('connector-setup-dialog').close());
+  $('connector-check-status').addEventListener('click', () => continueConnectionSetup('STATUS'));
+  $('connector-cancel-setup').addEventListener('click', () => continueConnectionSetup('CANCEL'));
+  $('connector-manual-setup').addEventListener('click', () => {
+    const provider = state.connectionSetup?.provider ?? state.connectionSetup?.entry?.setup?.provider;
+    $('connector-setup-dialog').close(); openConnectionDialog(provider ?? 'CUSTOM_MCP');
+  });
   $('draft-script').addEventListener('click', draftScript);
   $('explain-script').addEventListener('click', () => { $('script-explanation').open = true; $('script-explanation').scrollIntoView({block: 'nearest'}); });
   $('copy-script').addEventListener('click', () => copyText($('script-content').value, 'Script'));
@@ -1937,6 +2341,7 @@ async function initialize() {
   $('import-task').addEventListener('click', () => $('portable-task-input').click());
   $('portable-task-input').addEventListener('change', importPortableTask);
   for (const item of document.querySelectorAll('input[name="retention"]')) item.addEventListener('change', () => { if (state.project) { state.project.retention_policy = retentionPolicy(); queueDraftSave(); } });
+  syncSidebarState();
   applyAccessibilitySettings();
   renderAttachments();
   await refreshBootstrap();
