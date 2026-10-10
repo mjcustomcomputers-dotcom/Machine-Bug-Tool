@@ -46,9 +46,13 @@ def route_paths(arcs,adj,c,deadline,max_paths=9):
                 a=arcs[aid]
                 if a['cap']<d or a['to'] in visited:continue
                 ratio = d / max(1,a['cap'])
-                if mode==0:weight=1 + 0.03*ratio
-                elif mode==1:weight=1 + 1.3*ratio
-                else:weight=1 + 0.15*ratio + ((aid*28657+c['id']*917)%19)/100
+                # Objective-aligned shortest paths: monetary arc cost, not hop
+                # count, determines the first search. Other modes diversify
+                # against scarce capacity without discarding real arc prices.
+                monetary=max(0.0,a['cost'])*d
+                if mode==0:weight=monetary
+                elif mode==1:weight=monetary + 0.5*ratio
+                else:weight=monetary + 0.1*ratio + ((aid*28657+c['id']*917)%19)/1000
                 # Bounded queue protects the 4-GB sandbox on high-degree graphs.
                 # Truncation affects candidate quality, never feasibility:
                 # reject-all remains a verified legal backup.
