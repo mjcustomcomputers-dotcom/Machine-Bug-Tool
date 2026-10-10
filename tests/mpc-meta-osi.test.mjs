@@ -21,6 +21,21 @@ test('three-valued negation is an involution and preserves uncertainty: no evide
   assert.equal(andTruth(META_TRUTH.NO,META_TRUTH.UNKNOWN),META_TRUTH.NO);
   assert.equal(orTruth(META_TRUTH.YES,META_TRUTH.UNKNOWN),META_TRUTH.YES);
   assert.equal(andTruth(META_TRUTH.YES,META_TRUTH.UNKNOWN),META_TRUTH.UNKNOWN);
+  // Independent Kleene tables, rows and columns in SUPPORTED, CONTRADICTED, UNKNOWN order.
+  const andMatrix=[
+    ['SUPPORTED','CONTRADICTED','UNKNOWN'],
+    ['CONTRADICTED','CONTRADICTED','CONTRADICTED'],
+    ['UNKNOWN','CONTRADICTED','UNKNOWN']
+  ];
+  const orMatrix=[
+    ['SUPPORTED','SUPPORTED','SUPPORTED'],
+    ['SUPPORTED','CONTRADICTED','UNKNOWN'],
+    ['SUPPORTED','UNKNOWN','UNKNOWN']
+  ];
+  for(let i=0;i<3;i++)for(let j=0;j<3;j++){
+    assert.equal(andTruth(values[i],values[j]),andMatrix[i][j]);
+    assert.equal(orTruth(values[i],values[j]),orMatrix[i][j]);
+  }
   assert.equal(orTruth(META_TRUTH.NO,META_TRUTH.UNKNOWN),META_TRUTH.UNKNOWN);
   for(const a of values)for(const b of values)for(const c of values){
     assert.equal(notTruth(andTruth(a,b)),orTruth(notTruth(a),notTruth(b)));

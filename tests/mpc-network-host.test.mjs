@@ -62,6 +62,10 @@ test('host requires a local consenting Windows session and a fixed executable/co
   const second=await host.snapshot({consent:true,projectId:'project-1'});
   assert.equal(first.diff.state,'INITIAL');
   assert.equal(second.diff.state,'COMPARED');
+  assert.equal(first.virtual_osi?.modality,'NETWORK');
+  assert.equal(first.virtual_osi.method_generation.generated,9);
+  assert.equal(first.virtual_osi.virtual_layers[5].truth,'UNKNOWN');
+  assert.equal(second.virtual_osi.router.external_probing,false);
   assert.equal(calls.length,2);
   assert.equal(calls[0].path,'C:\\Windows/System32/WindowsPowerShell/v1.0/powershell.exe'.replaceAll('/',requirePathSep()));
   assert.equal(calls[0].options.shell,false);
