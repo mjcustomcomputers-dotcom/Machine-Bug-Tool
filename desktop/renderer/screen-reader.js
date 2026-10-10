@@ -29,6 +29,7 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
     for(const id of ['screen-copy','screen-save','screen-use','screen-select','screen-copy-packet'])$(id).disabled=!receipt;
     $('screen-apply-result').disabled=!pending;
     $('screen-roi-suggest').disabled=!receipt||!!roiTrial;
+    $('screen-roi-copy').disabled=!roiProposal;
     $('screen-roi-apply').disabled=!roiProposal||receipt!==roiSource||
       $('screen-source').value!==roiProposal?.source?.source_id||
       getProjectId()!==roiProposal?.source?.project_id;
@@ -196,6 +197,12 @@ export function initializeScreenReader({bridge,getProjectId,onUseEvidence,announ
   $('screen-refresh').addEventListener('click',()=>{void sources()});$('screen-start').addEventListener('click',start);
   $('screen-roi-suggest').addEventListener('click',suggestCrop);
   $('screen-roi-apply').addEventListener('click',()=>void applyCrop());
+  $('screen-roi-copy').addEventListener('click',()=>{
+    if(!roiProposal)return;
+    bridge.copyText(JSON.stringify(roiProposal,null,2))
+      .then(()=>announce('Inverse OCR method proposal copied with source identity, omissions and limits.'))
+      .catch(error=>message(safeCode(error)));
+  });
   $('screen-stop').addEventListener('click',()=>void stop());$('screen-now').addEventListener('click',()=>bridge.screenNow().catch(error=>message(safeCode(error))));
   $('screen-clear').addEventListener('click',async()=>{await stop('Stopped and cleared.');roiProposal=roiSource=roiTrial=null;receipt=pending=null;
     $('screen-roi-status').textContent='No OCR geometry retained. Take a new capture to suggest a crop.';$('screen-text').value='';$('screen-result-meta').textContent='';$('screen-pending').textContent='';clearClassification();buttons()});
