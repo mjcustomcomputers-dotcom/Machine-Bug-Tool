@@ -107,6 +107,22 @@ test('method-on-method hooks remain hypothesized and nonindependent',()=>{
  assert.deepEqual(edge.via,['ENDPOINT_SCOPE_REVIEW']);
  assert.equal(edge.state,'HYPOTHETICAL_METHOD_COMPOSITION');
 });
+test('digital socket evidence never promotes social-network methods or outreach permission',()=>{
+ const digital={...base(),atoms:[atom('CONSENTED_RELATIONSHIP_GRAPH',0),atom('GRAPH_EDGE_EVIDENCE',1)]};
+ const r=reviewNetworkMethods(digital);
+ assert.equal(r.method_reviews.find(x=>x.id==='RH-V24-16').state,'DOMAIN_NOT_APPLICABLE');
+ assert.ok(!r.missing_primary_source_frontier.some(x=>x.dimension==='RECIPROCAL_CONFIRMATION'));
+ const edges=planNetworkMethodInteractions(digital);
+ assert.ok(edges.edges.filter(x=>x.to==='RH-V24-16'||
+  x.from==='RH-V24-16').every(x=>x.state==='DOMAIN_METHOD_NOT_APPLICABLE'));
+ const permission=claimInput([obs('permission','EXPLICIT_OUTREACH_PERMISSION')],
+  [claim('outreach','OUTREACH_AUTHORIZED',['permission'])]);
+ assert.throws(()=>auditNetworkProtocolClaims(permission),/CLAIM_DOMAIN_MISMATCH/);
+ const professional={...base('PROFESSIONAL'),
+  observations:[obs('tcp','SOCKET_STATE')],claims:[claim('sock','SOCKET_PRESENT',['tcp'])]};
+ assert.throws(()=>auditNetworkProtocolClaims(professional),/CLAIM_DOMAIN_MISMATCH/);
+});
+
 test('socket state cannot prove authenticated TLS peer or observed packet',()=>{
  const x=claimInput([obs('socket','SOCKET_STATE')],[
   claim('one','SOCKET_PRESENT',['socket']),
@@ -140,16 +156,20 @@ test('HTTP success, trace propagation and OS PID do not prove ledger finality or
 });
 test('explicitly supplied owner evidence only qualifies structurally, never real-world verification',()=>{
  const x=claimInput([obs('owner','BUSINESS_OWNER_COMMIT_RECORD'),
-  obs('auth','TLS_PEER_VERIFICATION'),
-  obs('route','EXPLICIT_OUTREACH_PERMISSION')],[
+  obs('auth','TLS_PEER_VERIFICATION')],[
   claim('close','BUSINESS_OPERATION_FINAL',['owner']),
-  claim('peer','PEER_AUTHENTICATED',['auth']),
-  claim('permit','OUTREACH_AUTHORIZED',['route'])
+  claim('peer','PEER_AUTHENTICATED',['auth'])
  ]);
  const r=auditNetworkProtocolClaims(x);
  assert.ok(r.reviews.every(x=>x.state==='REQUIRED_EVIDENCE_TYPE_DECLARED_UNAUTHENTICATED'));
  assert.equal(r.verified_real_world_claims,0);
  assert.ok(r.reviews.every(x=>x.claim_fully_verified===false));
+ const professional={...base('PROFESSIONAL'),
+  observations:[obs('permission','EXPLICIT_OUTREACH_PERMISSION')],
+  claims:[claim('outreach','OUTREACH_AUTHORIZED',['permission'])]};
+ const social=auditNetworkProtocolClaims(professional);
+ assert.equal(social.reviews[0].state,'REQUIRED_EVIDENCE_TYPE_DECLARED_UNAUTHENTICATED');
+ assert.equal(social.reviews[0].claim_fully_verified,false);
 });
 test('contradicted matching authority witness cannot be promoted',()=>{
  const x=claimInput([obs('one','BUSINESS_OWNER_COMMIT_RECORD','SYNTHETIC'),
