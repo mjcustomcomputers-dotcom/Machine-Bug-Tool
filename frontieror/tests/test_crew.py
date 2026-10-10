@@ -91,6 +91,23 @@ class CrewTests(unittest.TestCase):
         self.assertTrue(crew.verify(p, selected))
         self.assertEqual(crew.objective(p, selected), 14)
 
+    def test_side_constrained_cp_rescue_uses_actual_solver(self):
+        import time
+        from unittest.mock import patch
+        # Force greedy and MILP unavailable to exercise the wired side CP-SAT.
+        data=example(True)
+        with patch.object(crew,"forced_greedy",return_value=None), patch.object(crew,"sparse_milp",return_value=None):
+            result=crew.solve(data,8)
+        independently_check(data,result)
+        self.assertEqual(result["objective_value"],14)
+
+    def test_side_cp_infeasible_model_not_promoted(self):
+        import time
+        data=example(True)
+        data["base_constraints"]["lower_bounds_d1"]=[999.0]
+        p=crew.parse(data)
+        self.assertIsNone(crew.cp_sat_side(p,time.monotonic()+3,feasibility_only=True))
+
     def test_literal_sparse_milp(self):
         data = example(True)
         p = crew.parse(data)
