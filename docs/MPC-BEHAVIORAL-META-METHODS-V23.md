@@ -1,6 +1,6 @@
 # MPC V23 — Behavioral / Sales / Nudge Science of Methods on Methods
 
-**Source:** \`mjcustomcomputers-dotcom/Machine-Bug-Tool\` stacked on V22 PR #22 at \`fa36798a6c61bd8953a0d77e2eea202b82f8ea77\`. **Branch:** \`feature/mpc-behavioral-meta-methods-v23\` (**draft PR; not deployed or merged**).
+**Source:** `mjcustomcomputers-dotcom/Machine-Bug-Tool` stacked on V22 PR #22 at `fa36798a6c61bd8953a0d77e2eea202b82f8ea77`. **Branch:** `feature/mpc-behavioral-meta-methods-v23` (**draft PR; not deployed or merged**).
 
 ## Objective: method-of-method, not a bag of influence tactics
 
@@ -10,7 +10,7 @@ An original publicly known methodology retains its author and usage terms. Sourc
 
 ## Method-science grammar: five distinct levels
 
-1. **Native ATOM:** one typed, explicitly caller-supplied observation with scope, subject, owner, source ref, source version, and epistemic state. \`OBSERVED\` is not authenticated merely because the caller says so. \`SYNTHETIC\` cannot mix into live record batches. \`CONTRADICTED\` plus supporting states yields \`CONTESTED\`, never an averaged truth. Raw user text, demographic traits, emotional diagnoses, and hidden propensity scores are not inputs to this local planner.
+1. **Native ATOM:** one typed, explicitly caller-supplied observation with scope, subject, owner, source ref, source version, and epistemic state. `OBSERVED` is not authenticated merely because the caller says so. `SYNTHETIC` cannot mix into live record batches. `CONTRADICTED` plus supporting states yields `CONTESTED`, never an averaged truth. Raw user text, demographic traits, emotional diagnoses, and hidden propensity scores are not inputs to this local planner.
 2. **METHOD CONTRACT:** declared prerequisite types, hypothetical output types, the authority/theory source, an adverse falsifier, and an implementation status. A useful theory produces a *candidate experiment*, not a result.
 3. **PROCESS / INVERSE:** ask which observation, independently checked assumption or method output is missing; invert dependencies to find the smallest next acquisition/validation step. Rank absent **primary records** by the exact number of structural one-atom unlocks, never invented information-gain probabilities. Keep *method-derived outputs* separate from source records.
 4. **METHOD ON METHOD:** pair typed output A with input B. A hypothetical BARRIER_HYPOTHESIS may enable a plan from COM-B to Behaviour Change Wheel to MOST, but it remains hypothetical until independently executed and validated. Challenge the chain for competing explanations, common source owners, false causation, audience rights, and unreported side effects. No recursive fan-out or automatic model execution occurs.
@@ -37,7 +37,7 @@ An original publicly known methodology retains its author and usage terms. Sourc
 | `RH-V23-15` | SEQUENTIAL INFERENCE GATE | `INFERENCE_PLAN` | Optional stopping/multiplicity is unreported, or analysis differs from prespecified plan. |
 | `RH-V23-16` | META METHOD ADVERSARY | `META_FALSIFIERS` | Improved sales conversion is claimed as proof of consumer benefit without measured welfare/harms. |
 
-These hook contracts live in [\`research/behavioral-meta-method-frontier-v23.json\`](../research/behavioral-meta-method-frontier-v23.json) with exact source URLs, typed required inputs and proposed original MHA anchor links. Every anchor is a **research cross-reference**, not a changed canonical registry mapping or executed method. Existing MHA-0192/0193/0194/0195, MHA-0197/0198, MHA-0219/0229 and BL classifier gates retain their native semantics.
+These hook contracts live in [`research/behavioral-meta-method-frontier-v23.json`](../research/behavioral-meta-method-frontier-v23.json) with exact source URLs, typed required inputs and proposed original MHA anchor links. Every anchor is a **research cross-reference**, not a changed canonical registry mapping or executed method. Existing MHA-0192/0193/0194/0195, MHA-0197/0198, MHA-0219/0229 and BL classifier gates retain their native semantics.
 
 ## Examples of truly different methods working on each other
 
@@ -53,31 +53,31 @@ These hook contracts live in [\`research/behavioral-meta-method-frontier-v23.jso
 
 ## Local implementation
 
-\`lib/behavioral-meta-methods-v23.mjs\` exports:
+`lib/behavioral-meta-methods-v23.mjs` exports:
 
-- \`reviewBehavioralAtoms\` — source-bound typed atom applicability, source/derived-output distinction, evidence-state and autonomy gates
-- \`planBehavioralEvidenceAcquisition\` — deterministic, finite one-atom structural-unlock ranking for **primary record acquisition only**
-- \`planBehavioralMethodInteractions\` — output-to-input research contract graph with missing prerequisites, nonindependence warnings, and ethical design lock
-- \`auditChoiceArchitecture\` — bounded transparent dark-pattern **signals** from caller-entered interface fields (no OCR, legal judgment or remote site control)
-- \`auditBehavioralExperimentProtocol\` — precommitment, assignment, harm, welfare, stopping and multiple-test design checks (not experimental inference)
-- \`planBehavioralInteractionControls\` — exact reuse of V22 pairwise test **planning** and independent replay (not completed behavioral experimentation)
+- `reviewBehavioralAtoms` — source-bound typed atom applicability, source/derived-output distinction, evidence-state and autonomy gates
+- `planBehavioralEvidenceAcquisition` — deterministic, finite one-atom structural-unlock ranking for **primary record acquisition only**
+- `planBehavioralMethodInteractions` — output-to-input research contract graph with missing prerequisites, nonindependence warnings, and ethical design lock
+- `auditChoiceArchitecture` — bounded transparent dark-pattern **signals** from caller-entered interface fields (no OCR, legal judgment or remote site control)
+- `auditBehavioralExperimentProtocol` — precommitment, assignment, harm, welfare, stopping and multiple-test design checks (not experimental inference)
+- `planBehavioralInteractionControls` — exact reuse of V22 pairwise test **planning** and independent replay (not completed behavioral experimentation)
 
-The input \`source_commit\` is a 40-character **caller-stated version label**, not cryptographic authentication; source refs and owners also remain unverified until a native connector read supports them. All code is local/deterministic and stores no screenshot text, contact information or psychographic segment. There is no external action connector or automatic data collection.
+The input `source_commit` is a 40-character **caller-stated version label**, not cryptographic authentication; source refs and owners also remain unverified until a native connector read supports them. All code is local/deterministic and stores no screenshot text, contact information or psychographic segment. There is no external action connector or automatic data collection.
 
 ### Preserved distinction: useful selling vs coercive design
 
-The permitted design intent is declared user benefit or mutual value, with explicit consent, truthful disclosure, clear ability to decline, and no sensitive/covert targeting. Missing safeguards stop an intervention **design** at \`INTERVENTION_DESIGN_BLOCKED\`; read-only audit remains available to identify suspicious patterns. **Method-against-method falsification:** when a proposed design supplies a typed choice observation, the choice audit is replayed against asserted safeguards. Preselected acceptance, late fee disclosure, refusal asymmetry, unsupported scarcity or unresolved essential choice fields block even a self-declared `EXPLICIT` consent / `truthful_disclosure: true` state pending independent review. Favorable operator declarations never erase contradictory source-derived review signals; the classifier still does not conclude harm or a legal violation. These are product research safety boundaries, not a certification of legal compliance. The safest valid outcome can be **do not nudge**, **simplify an existing task**, **improve information clarity**, or **do not sell when there is no fit**.
+The permitted design intent is declared user benefit or mutual value, with explicit consent, truthful disclosure, clear ability to decline, and no sensitive/covert targeting. Missing safeguards stop an intervention **design** at `INTERVENTION_DESIGN_BLOCKED`; read-only audit remains available to identify suspicious patterns. **Method-against-method falsification:** when a proposed design supplies a typed choice observation, the choice audit is replayed against asserted safeguards. Preselected acceptance, late fee disclosure, refusal asymmetry, unsupported scarcity or unresolved essential choice fields block even a self-declared `EXPLICIT` consent / `truthful_disclosure: true` state pending independent review. Favorable operator declarations never erase contradictory source-derived review signals; the classifier still does not conclude harm or a legal violation. These are product research safety boundaries, not a certification of legal compliance. The safest valid outcome can be **do not nudge**, **simplify an existing task**, **improve information clarity**, or **do not sell when there is no fit**.
 
 ## Validation gates
 
 On the exact V23 branch:
 
-\`\`\`sh
+```sh
 node --test tests/behavioral-meta-methods-v23.test.mjs
 node research/run-behavioral-meta-v23.mjs
 node --test
 pnpm run build
-\`\`\`
+```
 
 The new suite includes controls for provenance and source version errors, forbidden free-form trait inference, real/synthetic mixing, unknown/claimed/contradictory states, capability-versus-motivation confusion, coercion/consent checks, method-output masquerading as source evidence, method graph completeness, hidden charges and fabricated scarcity, preselected consent, unjustified inference, unplanned stopping, multiplicity, and V22 bounded two-way coverage. **Do not claim a pass without the actual commit-bound execution receipt.**
 
