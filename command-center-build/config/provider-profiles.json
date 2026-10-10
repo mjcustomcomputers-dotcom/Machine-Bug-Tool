@@ -1,0 +1,103 @@
+{
+  "kind": "MPC_COMMAND_CENTER_PROVIDER_PROFILES",
+  "schema_version": "1.0.0",
+  "documentation_checked_utc_date": "2026-10-09",
+  "default_selection": null,
+  "selection_policy": "Use the saved explicit user selection. Show requested and observed values separately. Never change providers on refusal, policy, access, timeout or local availability errors.",
+  "observation_policy": "These contracts report the last operation only. They do not authorize or gate the next operation. The first useful user-selected operation may use the host's appropriate credentials and task scope, then supply its receipt; missing or expired observations do not require a separate verification ping.",
+  "project_bindings": {"workspace_project_id": "Required for local and cloud selections; controls engagement data scope.", "api_project_id": "Required for OpenAI API selections, null for local Ollama; separate from the workspace project."},
+  "host_managed_surfaces": {
+    "CHATGPT": "Keep the existing private MPC plugins and the user's selected offering; observe actual model and access in that host. These API request fields do not configure ChatGPT.",
+    "CODEX": "Use existing supported Codex sign-in and MCP registration. Observe the selected model and access separately. These API request fields do not configure Codex."
+  },
+  "profiles": [
+    {
+      "id": "openai-daybreak-blue-gpt6",
+      "label": "Daybreak Blue with GPT-6 Sol",
+      "provider": "OPENAI_API",
+      "surface": "OPENAI_API",
+      "model": "gpt-6-sol",
+      "access_programs": {"cyber": "daybreak_blue"},
+      "required_access_tier": "DAYBREAK_BLUE",
+      "endpoint": null,
+      "operation": "MODEL_INFERENCE"
+    },
+    {
+      "id": "openai-daybreak-red-sol61",
+      "label": "Daybreak with GPT-6.1 Sol — Red entitlement required",
+      "provider": "OPENAI_API",
+      "surface": "OPENAI_API",
+      "model": "gpt-6.1-sol",
+      "access_programs": {"cyber": "daybreak_blue"},
+      "required_access_tier": "DAYBREAK_RED",
+      "endpoint": null,
+      "operation": "MODEL_INFERENCE"
+    },
+    {
+      "id": "openai-daybreak-red-astra",
+      "label": "Daybreak with GPT-6 Astra — Red entitlement required",
+      "provider": "OPENAI_API",
+      "surface": "OPENAI_API",
+      "model": "gpt-6-astra",
+      "access_programs": {"cyber": "daybreak_blue"},
+      "required_access_tier": "DAYBREAK_RED",
+      "endpoint": null,
+      "operation": "MODEL_INFERENCE"
+    },
+    {
+      "id": "openai-standard-sol61",
+      "label": "GPT-6.1 Sol with ordinary project access",
+      "provider": "OPENAI_API",
+      "surface": "OPENAI_API",
+      "model": "gpt-6.1-sol",
+      "access_programs": {"cyber": "standard"},
+      "required_access_tier": "STANDARD",
+      "endpoint": null,
+      "operation": "MODEL_INFERENCE"
+    },
+    {
+      "id": "openai-standard-astra",
+      "label": "GPT-6 Astra with ordinary project access",
+      "provider": "OPENAI_API",
+      "surface": "OPENAI_API",
+      "model": "gpt-6-astra",
+      "access_programs": {"cyber": "standard"},
+      "required_access_tier": "STANDARD",
+      "endpoint": null,
+      "operation": "MODEL_INFERENCE"
+    },
+    {
+      "id": "ollama-qwen3-4b-instruct",
+      "label": "Local Qwen3 4B Instruct",
+      "provider": "OLLAMA",
+      "surface": "LOCAL",
+      "model": "qwen3:4b-instruct",
+      "access_programs": null,
+      "required_access_tier": null,
+      "endpoint": "http://127.0.0.1:11434",
+      "operation": "MODEL_INFERENCE"
+    },
+    {
+      "id": "ollama-mpc-local",
+      "label": "MPC Workspace local model",
+      "provider": "OLLAMA",
+      "surface": "LOCAL",
+      "model": "mpc-daybreak-local",
+      "access_programs": null,
+      "required_access_tier": null,
+      "endpoint": "http://127.0.0.1:11434",
+      "operation": "MODEL_INFERENCE"
+    }
+  ],
+  "profile_is_entitlement": false,
+  "local_model_is_daybreak_service": false,
+  "configuration_is_model_training": false,
+  "automatic_provider_fallback": false,
+  "credential_fields": [],
+  "sources": [
+    "https://developers.openai.com/api/docs/guides/daybreak",
+    "https://developers.openai.com/api/docs/models/gpt-daybreak-blue-latest",
+    "https://ollama.com/library/qwen3:4b-instruct",
+    "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/4ca57ff6c589176576270db5f2d2aa8259bdbda6/models/MPC-Daybreak-Local.Modelfile"
+  ]
+}

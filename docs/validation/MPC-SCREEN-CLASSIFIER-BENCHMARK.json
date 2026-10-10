@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "kind": "MPC_SCREEN_CLASSIFIER_SYNTHETIC_BENCHMARK",
+  "measured_at": "2026-10-09T20:24:14.845Z",
+  "host": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "v24.19.0",
+    "cpu": "AMD EPYC 9V74 80-Core Processor"
+  },
+  "source": {
+    "module_sha256": "9fd6ab746d0928b877863a541cd32e40f8ae44a0a6f335d7713ba0b90ec3e5e8",
+    "tests_sha256": "836a4385b05980d2ca41634b4a9354392a391845c811901cb5f7e480c9993c90",
+    "solid_state_pack_fingerprint": "7db8a73e32016a8d3df560f649125221615b42a669231ec066ce74fee9d8a58d"
+  },
+  "measurement": {
+    "clock": "performance.now() elapsed wall time",
+    "input_capture_clock": "Synthetic +250 ms per observation",
+    "cold_first_ms": 15.447,
+    "changed_text": {
+      "count": 100,
+      "mean_ms": 1.454,
+      "median_ms": 1.324,
+      "p95_ms": 2.404,
+      "max_ms": 4.087
+    },
+    "unchanged_text": {
+      "count": 100,
+      "mean_ms": 0.234,
+      "median_ms": 0.135,
+      "p95_ms": 0.274,
+      "max_ms": 5.485
+    },
+    "maximum_input_200000_code_units": {
+      "count": 20,
+      "mean_ms": 6.174,
+      "median_ms": 6.115,
+      "p95_ms": 6.857,
+      "max_ms": 6.963
+    },
+    "largest_report_bytes": 8083
+  },
+  "counters": {
+    "seen": 221,
+    "classified": 121,
+    "reused": 100,
+    "stale": 0,
+    "busy": 0,
+    "resets": 0,
+    "invalidated": 0,
+    "native_sweeps": 121,
+    "native_method_calls": 121,
+    "native_dependency_calls": 221
+  },
+  "claims": {
+    "native_methods_executed": true,
+    "real_ocr_included": false,
+    "windows_measurement": false,
+    "guaranteed_frame_rate": false,
+    "calibrated_intention_inference": false
+  }
+}

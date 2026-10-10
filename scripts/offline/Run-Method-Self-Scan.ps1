@@ -3,6 +3,7 @@ param(
     [switch]$Refresh,
     [switch]$VerifyOnly,
     [switch]$OpenReport,
+    [switch]$OpenGui,
     [ValidatePattern('^MHA-[0-9]{4}$')][string]$MethodId,
     [ValidatePattern('^MHA-[0-9]{4}$')][string]$RelatedMethodId,
     [string]$OutputDirectory,
@@ -12,7 +13,7 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $BundleRoot = $PSScriptRoot
-if ($VerifyOnly -and ($Refresh -or $OpenReport -or $MethodId -or $RelatedMethodId -or $OutputDirectory -or $SysinternalsRoot)) { throw '-VerifyOnly cannot be combined with execution or query parameters.' }
+if ($VerifyOnly -and ($Refresh -or $OpenReport -or $OpenGui -or $MethodId -or $RelatedMethodId -or $OutputDirectory -or $SysinternalsRoot)) { throw '-VerifyOnly cannot be combined with execution or query parameters.' }
 if ($RelatedMethodId -and -not $MethodId) { throw '-RelatedMethodId requires -MethodId.' }
 if ($OutputDirectory -and -not $Refresh) { throw '-OutputDirectory requires -Refresh.' }
 
@@ -62,7 +63,7 @@ function Test-OfflineBundle {
         }
     }
     if ($RequireBaseProduct) {
-        foreach ($required in @('scan.json','summary.json','REPORT.md','method-atlas.sqlite','implemented-capsules.json','Run-Method-Self-Scan.ps1','Install-Method-Self-Scan.ps1','scripts/portable-method-self-scan.mjs','lib/method-self-scan.mjs','lib/method-self-scan-offline.mjs')) {
+        foreach ($required in @('scan.json','summary.json','REPORT.md','capabilities.json','MPC-Research-Workbench.html','OPEN-MPC-RESEARCH-WORKBENCH.cmd','START-MPC-RESEARCH-WORKBENCH-WITH-SQL.cmd','method-atlas.sqlite','implemented-capsules.json','Run-MPC-Research-Workbench.ps1','Install-MPC-Research-Workbench.ps1','scripts/portable-method-self-scan.mjs','scripts/research-workbench-server.mjs','lib/method-self-scan.mjs','lib/method-self-scan-offline.mjs','lib/research-workbench-ui.mjs','lib/research-workbench-store.mjs')) {
             if (-not $seen.Contains($required)) { throw "Required bundle artifact is absent from manifest: $required" }
         }
     }
@@ -107,7 +108,7 @@ if (-not [string]::IsNullOrWhiteSpace($SysinternalsRoot)) {
     $database = Join-Path $BundleRoot 'method-atlas.sqlite'
     $powershellExecutable = (Get-Process -Id $PID).Path
     $sysReceipt = [ordered]@{
-        kind = 'MPC_METHOD_SELF_SCAN_OPTIONAL_SYSINTERNALS_RECEIPT'
+        kind = 'MPC_RESEARCH_WORKBENCH_OPTIONAL_SYSINTERNALS_RECEIPT'
         version = 1
         recorded_at_utc = [DateTime]::UtcNow.ToString('o')
         windows_native = $true
@@ -200,3 +201,4 @@ if ($MethodId) {
 }
 
 if ($OpenReport) { Start-Process -FilePath (Join-Path $ActiveRoot 'REPORT.md') }
+if ($OpenGui) { Start-Process -FilePath (Join-Path $ActiveRoot 'MPC-Research-Workbench.html') }

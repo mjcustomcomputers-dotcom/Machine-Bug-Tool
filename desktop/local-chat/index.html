@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="referrer" content="no-referrer">
+  <title>MPC Workspace · Local chat</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#composer">Skip to message</a>
+  <header class="app-header">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">M</span><div><strong>MPC Workspace</strong><span class="brand-subtitle">Your local work view</span></div></div>
+    <div class="header-status"><span class="local-badge">LOCAL</span><span id="connection-status" class="status-badge" data-state="unknown">Checking Ollama…</span><button id="refresh-status" class="icon-button" type="button" title="Refresh local status and installed models" aria-label="Refresh local status and installed models">↻</button></div>
+  </header>
+
+  <div class="workspace">
+    <aside class="sidebar" aria-label="Project and model settings">
+      <section class="sidebar-section">
+        <div class="section-title"><h2>Project</h2><button id="new-project" class="quiet-button" type="button">+ New</button></div>
+        <label class="sr-only" for="project-select">Current project</label>
+        <select id="project-select" disabled><option value="">Loading projects…</option></select>
+        <form id="new-project-form" class="inline-form" hidden>
+          <label for="new-project-name">Project name</label>
+          <input id="new-project-name" type="text" autocomplete="off" maxlength="120" placeholder="Name this work" required>
+          <div class="button-row"><button id="create-project" type="submit" class="primary-button">Create project</button><button id="cancel-new-project" type="button" class="quiet-button">Cancel</button></div>
+        </form>
+        <label class="check-control" for="retain-history"><input id="retain-history" type="checkbox" disabled><span>Save chats on this computer</span></label>
+        <p id="retention-note" class="helper">Loading your project’s history setting…</p>
+      </section>
+
+      <section class="sidebar-section">
+        <h2>Reasoning model</h2>
+        <label for="model-select">Installed in Ollama</label>
+        <select id="model-select" disabled><option value="">Choose an installed model</option></select>
+        <p id="model-detail" class="helper">Model availability comes from your local Ollama service.</p>
+        <div id="thinking-control" class="field" hidden>
+          <label for="thinking-select">Thinking</label>
+          <select id="thinking-select"><option value="default">Model default</option><option value="on">On</option><option value="off">Off</option></select>
+          <p id="thinking-note" class="helper">Available because this model reports a thinking capability.</p>
+        </div>
+      </section>
+
+      <section class="sidebar-section instructions-section">
+        <details id="instructions-panel">
+          <summary>Assistant instructions <span id="instructions-unsaved" class="unsaved-label" hidden>Unsaved</span></summary>
+          <div class="details-content">
+            <label for="instructions">How should your assistant help?</label>
+            <textarea id="instructions" rows="8" spellcheck="false" placeholder="Describe the assistant’s role, style, and project guidance." disabled></textarea>
+            <button id="save-instructions" class="secondary-button" type="button" disabled>Save instructions</button>
+            <p class="helper">Instructions apply to future replies. Unsaved edits are also saved when you send a message.</p>
+          </div>
+        </details>
+      </section>
+
+      <section class="sidebar-section setup-section">
+        <details id="setup-panel">
+          <summary>Set up local Ollama</summary>
+          <div class="details-content">
+            <ol class="setup-steps">
+              <li><strong>Install and open Ollama.</strong><a class="external-link" href="https://ollama.com/download/windows" target="_blank" rel="noopener noreferrer">Official Windows download ↗</a><span class="helper">After installation, start the local service.</span><button id="start-ollama" class="secondary-button" type="button" disabled>Start Ollama</button></li>
+              <li><strong>Download a starter model.</strong><span class="helper">This explicitly downloads <code>qwen3:4b-instruct</code> through Ollama. Allow time and disk space for the model.</span><button id="pull-model" class="secondary-button" type="button" disabled>Download starter model</button></li>
+              <li><strong>Create your MPC model.</strong><span class="helper">Creates the local configuration <code>mpc-daybreak-local</code> from the installed starter model.</span><button id="create-model" class="secondary-button" type="button" disabled>Create MPC model</button></li>
+            </ol>
+            <div id="setup-progress-box" class="setup-progress" hidden>
+              <p id="setup-progress-label" role="status" aria-live="polite"></p>
+              <progress id="setup-progress" max="100" aria-label="Local model setup progress"></progress>
+              <button id="cancel-setup" class="stop-button" type="button" hidden>Cancel setup</button>
+            </div>
+            <p id="ollama-version" class="helper"></p>
+          </div>
+        </details>
+      </section>
+      <div class="sidebar-footer"><span class="footer-dot" aria-hidden="true"></span><p>Chat uses the local model you select. Files you attach are sent to that local model.</p></div>
+    </aside>
+
+    <main class="work-view" id="work-view">
+      <div class="work-heading"><div><p class="eyebrow">WORK / LOCAL CHAT</p><h1 id="project-title">Local chat</h1><p id="conversation-subtitle" class="helper">Talk, paste notes, or attach text files.</p></div><div class="export-actions"><button id="export-text" class="quiet-button" type="button" disabled>Export text</button><button id="export-json" class="quiet-button" type="button" disabled>Export JSON</button></div></div>
+      <p class="context-budget-note">The history offered to Ollama is bounded. The selected model’s own context window may fit less.</p>
+
+      <section id="error-banner" class="error-banner" aria-label="An operation needs attention" hidden>
+        <div><strong id="error-title">Something needs attention</strong><p id="error-message" role="alert"></p><p id="error-code" class="error-code" hidden></p></div><button id="dismiss-error" class="quiet-button" type="button" aria-label="Dismiss this error">Dismiss</button>
+      </section>
+      <p id="connection-detail" class="connection-detail" hidden></p>
+      <section id="observed-operation" class="observed-operation" aria-label="An active local operation" hidden><p id="observed-operation-text"></p><button id="stop-observed-operation" class="stop-button" type="button">Stop this operation</button></section>
+      <p id="context-note" class="context-note" role="status" hidden></p>
+
+      <div id="conversation-scroll" class="conversation-scroll" tabindex="0" aria-label="Conversation">
+        <section id="empty-state" class="empty-state">
+          <span class="empty-glyph" aria-hidden="true">↗</span><p class="eyebrow">A PLACE TO THINK AND WORK</p><h2>What would you like to work on?</h2><p>Ask a question, work through an idea, or bring in your notes. You can start with a message.</p>
+          <div class="starter-prompts" aria-label="Example prompts"><button type="button" data-prompt="Help me plan this project. Ask me the one question that will help us get started.">Plan a project</button><button type="button" data-prompt="Help me understand these notes. Identify the main points and any questions we need to resolve.">Work through notes</button><button type="button" data-prompt="Help me review this output. Explain what it establishes, what remains uncertain, and the next useful step.">Review output</button></div>
+        </section>
+        <div id="messages" class="messages"></div>
+        <div id="scroll-anchor" aria-hidden="true"></div>
+      </div>
+      <button id="jump-latest" class="jump-latest" type="button" hidden>↓ Latest reply</button>
+      <div class="activity-row"><p id="activity" role="status" aria-live="polite">Opening local workspace…</p><button id="stop-chat" class="stop-button" type="button" hidden>Stop reply</button></div>
+
+      <form id="chat-form" class="composer-panel" aria-label="Send a message">
+        <div id="drop-hint" class="drop-hint" hidden>Drop text files to attach them to this message</div>
+        <ul id="attachments" class="attachments" aria-label="Files attached to the next message" hidden></ul>
+        <label class="sr-only" for="composer">Message your local assistant</label>
+        <textarea id="composer" rows="3" placeholder="Message your local assistant…" aria-describedby="composer-help" disabled></textarea>
+        <div class="composer-toolbar"><div class="composer-tools"><button id="attach-files" class="quiet-button" type="button" disabled>+ Attach text files</button><button id="paste-text" class="quiet-button" type="button" disabled>Paste text</button><button id="copy-draft" class="quiet-button" type="button" disabled>Copy message</button><input id="file-input" type="file" multiple accept="text/*,.txt,.md,.markdown,.log,.json,.jsonl,.ndjson,.csv,.tsv,.yaml,.yml,.toml,.ini,.cfg,.conf,.ps1,.py,.js,.mjs,.cjs,.ts,.tsx,.jsx,.html,.css,.sql,.sh,.bat,.cmd,.xml,.rst,.c,.cpp,.h,.rs,.go,.java" hidden><span id="draft-status" class="draft-status" aria-live="polite"></span></div><button id="send-message" class="send-button" type="submit" disabled>Send <span aria-hidden="true">↑</span></button></div>
+        <div id="composer-help" class="composer-help"><span>Enter to send · Shift+Enter for a new line · Paste or drop text files</span><span id="input-size"></span></div>
+      </form>
+      <noscript><p class="error-banner">Enable JavaScript for the local chat interface.</p></noscript>
+    </main>
+  </div>
+  <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+</body>
+</html>

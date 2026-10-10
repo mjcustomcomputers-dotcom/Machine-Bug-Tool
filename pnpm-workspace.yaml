@@ -7,6 +7,8 @@ allowBuilds:
   esbuild: true
   fsevents: true
   sharp: true
+  # OCR ships pinned prebuilt JS/WASM; its donation postinstall is unnecessary.
+  tesseract.js: false
   unrs-resolver: true
   workerd: true
 storeDir: ${SITES_PNPM_SHARED_STORE:-.sites-runtime/pnpm-store}

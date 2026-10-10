@@ -1,43 +1,87 @@
-# MPC Method Self Scan — Windows Offline Bundle
+# MPC Research Workbench — Windows Bundle
 
-The bundle is a static, local Method Atlas product. It includes the complete
-pair scan, formula-safe CSV projections, a queryable derived SQLite database,
-source capsules, checksums, and a PowerShell interface. The built-in scan and
-refresh paths contain no network or connector calls. The export capability
-schema has no credential or raw-response fields; supplied values must still be
-sanitized before export. Optional external
-Sysinternals diagnostics retain their own separate receipt and network boundary.
+MPC Research Workbench is a local-first input and research-hook analysis
+surface. It includes the versioned Method Atlas, deterministic comparison
+data, formula-safe CSV exports, a derived read-only Atlas SQLite database,
+checksums, and two deliberately separate launch modes.
 
-From PowerShell, verify and inspect the extracted bundle:
+## Fast path: offline browser mode
 
-```powershell
-.\Run-Method-Self-Scan.ps1 -VerifyOnly
-.\Run-Method-Self-Scan.ps1
-.\Run-Method-Self-Scan.ps1 -MethodId MHA-0195
-.\Run-Method-Self-Scan.ps1 -MethodId MHA-0119 -RelatedMethodId MHA-0138
+Double-click either file at the extracted bundle root:
+
+```text
+OPEN-MPC-RESEARCH-WORKBENCH.cmd
+MPC-Research-Workbench.html
 ```
 
-To install a copy under the current user's Desktop and create a Desktop
-launcher, run:
+This path does not invoke PowerShell, require Node.js, start a server, or make
+a network request. The `.cmd` file simply opens the HTML file in the default
+browser, so PowerShell execution policy does not apply. The browser app has a
+persistent input area and search field, accepts pasted text and local TXT,
+JSON, or CSV files, discovers source-bound research hooks, explores sources,
+and compares exact registered method metadata.
 
-```powershell
-powershell.exe -NoProfile -File .\Install-Method-Self-Scan.ps1
+The GUI's GitHub, Gmail, Drive, Dropbox, MPC, and model cards are a connection
+truth board. A card is not proof of authentication. Offline mode never asks
+for credentials and every output request remains queued and not sent.
+
+## Optional local SQLite mode
+
+With Node.js 22.13+ installed, double-click:
+
+```text
+START-MPC-RESEARCH-WORKBENCH-WITH-SQL.cmd
 ```
 
-The installer refuses to overwrite an existing directory or launcher.
-It creates both a PowerShell launcher and a double-clickable `.cmd` wrapper on
-the Desktop, while copying only manifest-listed bundle files.
+This starts a foreground server bound only to `127.0.0.1`, opens the same GUI,
+and creates a separate writable workspace database under the current Windows
+user's Local AppData directory. Closing its console ends the server. The host
+can record run metadata and explicit unsent output requests; it contains no
+provider dispatcher, OAuth flow, arbitrary proxy, or automatic cloud write.
 
-The prebuilt JSON, CSV, Markdown, and SQLite files need no runtime. Refreshing
-the static scan requires a Node release with flag-free `node:sqlite` (22.13+,
-23.4+, or 24+) because it uses the built-in read-only SQLite API:
+Raw input, the query, and full client-result content are not stored by default;
+the host keeps bounded profiles and digests instead. Explicit retention enables
+all three together. Secrets and credential-shaped fields are rejected. The
+writable workspace database is not `method-atlas.sqlite`, does
+not alter a canonical controller or registry, and must not be committed to
+Git. Real connected actions require a separately approved provider adapter and
+an actual protected-call receipt. A custom GPT likewise requires a hosted
+HTTPS action or reviewed host-side adapter; no API key belongs in this bundle.
+
+## Verify, inspect, and refresh
+
+The prebuilt HTML, JSON, CSV, Markdown, and SQLite files need no runtime. The
+included PowerShell interface is optional:
 
 ```powershell
-.\Run-Method-Self-Scan.ps1 -Refresh
+.\Run-MPC-Research-Workbench.ps1 -VerifyOnly
+.\Run-MPC-Research-Workbench.ps1
+.\Run-MPC-Research-Workbench.ps1 -MethodId MHA-0195
+.\Run-MPC-Research-Workbench.ps1 -MethodId MHA-0119 -RelatedMethodId MHA-0138
+.\Run-MPC-Research-Workbench.ps1 -OpenGui
 ```
 
-The equivalent direct Node command, useful when local policy blocks unsigned
-PowerShell scripts, is:
+To copy the verified bundle to the current user's actual Desktop directory and
+create a direct browser launcher, run:
+
+```powershell
+powershell.exe -NoProfile -File .\Install-MPC-Research-Workbench.ps1
+```
+
+The installer resolves redirected or OneDrive Desktops and refuses to
+overwrite an existing destination or launcher. It does not create an unsigned
+Desktop `.ps1`, hard-code a Windows user name, or change execution policy. If
+local policy blocks the installer, extract the bundle where desired and use
+the root `.cmd` or HTML file directly.
+
+Refreshing the internal static Atlas audit requires a Node release with
+flag-free `node:sqlite` (22.13+, 23.4+, or 24+):
+
+```powershell
+.\Run-MPC-Research-Workbench.ps1 -Refresh
+```
+
+The equivalent direct Node command is:
 
 ```powershell
 $stamp = [DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfffffffZ')
@@ -49,36 +93,30 @@ node .\scripts\portable-method-self-scan.mjs `
   --prior-scan .\scan.json
 ```
 
-Every refresh creates a new directory under `runs`, verifies that directory,
-and uses it for the command's status/query/report output. It never overwrites
-the prebuilt scan or database. A matching fingerprint returns
+Every refresh creates a new result directory and never overwrites the prebuilt
+scan or database. An unchanged source fingerprint returns
 `STOP_NO_MATERIAL_INFORMATION_GAIN`.
 
-If the signed Microsoft x64 Sysinternals tools are already installed, an
-optional Windows-only receipt can inventory `sigcheck64.exe`, `junction64.exe`, and `handle64.exe`,
-then record their bounded diagnostics against PowerShell, the database, and
-the bundle directory:
+## Optional Sysinternals receipt
+
+If the signed Microsoft x64 Sysinternals tools are already installed, the
+PowerShell interface can write a separate diagnostic receipt for
+`sigcheck64.exe`, `junction64.exe`, and `handle64.exe`:
 
 ```powershell
-.\Run-Method-Self-Scan.ps1 -SysinternalsRoot 'C:\Tools\Sysinternals'
+.\Run-MPC-Research-Workbench.ps1 -SysinternalsRoot 'C:\Tools\Sysinternals'
 ```
 
-This option requires valid Microsoft Authenticode signatures. It does not
-download Sysinternals, auto-accept its license, or change the scan status.
-Sigcheck certificate-revocation lookup is disabled for this offline mode; any
-other external-tool network activity remains unmeasured. Tool output and exit
-codes go to a separate new receipt under `runs`. Review Microsoft's license
-before the first local execution. ARM64 tools are a remaining platform-specific
-extension; this bundle expects the x64 filenames above.
+The command validates Microsoft Authenticode signatures. It does not download
+tools, accept licenses, alter the analysis result, authenticate sources, or
+contact a target. Review Microsoft's license before first use. ARM64 filenames
+remain a platform-specific extension.
 
-`scan.json` is the lossless result. CSV files are spreadsheet-safe convenience
-views. `method-atlas.sqlite` contains the admitted Atlas plus queryable
-`offline_scan_*` metadata, method, implemented-capsule, and pair tables. It is
-a derived cache and must not be treated as a canonical research record,
-authenticated source, or method execution receipt.
+`scan.json` is the lossless static-audit result. `method-atlas.sqlite` is a
+derived cache of checked-in Atlas data and must not be treated as an
+authenticated source, canonical research record, or method-execution receipt.
+Static overlaps and rankings are review signals, not proof of equivalence,
+independence, corroboration, or professional completeness.
 
-Verify the separately published ZIP SHA-256 before extraction. These scripts
-are not Authenticode-signed. Local execution policy remains controlling; this
-package does not change it. If policy blocks `.ps1` files, use the documented
-Node command from a verified extracted bundle or have an administrator apply
-the organization's normal signing/unblocking process.
+Verify the separately published ZIP SHA-256 before extraction. The PowerShell
+files are not Authenticode-signed; organizational policy remains controlling.

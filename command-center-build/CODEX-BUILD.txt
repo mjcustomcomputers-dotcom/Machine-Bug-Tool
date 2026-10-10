@@ -1,0 +1,163 @@
+MPC WORKSPACE — COMPLETE CODEX BUILD CONTRACT
+Prepared 2026-10-09 for Nate / Melvin Jackson.
+Repository: mjcustomcomputers-dotcom/Machine-Bug-Tool.
+
+MISSION
+Continue the existing MPC software and build its usable Windows command center. Nate wants to open a real window, type a question or paste data, select a project and model, search evidence and methods, run the applicable analysis, see progress, create reports, and manage connected apps and local/remote MCP services. Deliver working features through the existing architecture and an installable Windows build. Keep the core cross-platform.
+
+UPDATED IMPLEMENTATION — 2026-10-09
+Read FINAL-CODEX-PROMPT.txt and docs/CAPABILITY-REVIEW.md with this full contract. PR #18 now adds actual local conversational code at repository root: lib/ollama-local-chat.mjs, lib/local-chat-server.mjs, lib/local-chat-store.mjs, desktop/local-chat/, scripts/start-mpc-local-chat.mjs and OPEN-MPC-LOCAL-CHAT.cmd. LOCAL-CHAT-README.md explains how to run it. These modules implement multi-turn streamed Ollama chat, model setup, project history, clipboard/text files and exports. Integrate that existing code into the unified shell. Do not replace it with another setup plan or confuse it with the older evidence-only adapter.
+
+Read repository-root docs/HOST-CONNECTOR-INTEGRATION.md in full. The real hosted binding already exists in connector-contract.mts and Sites request context. The pure connector bridge is a planner; Windows still needs its actual provider/MCP calls. The final integration must preserve host/account/source-type identity, full router records, and live-handle versus historical-receipt state. The numerical audit also requires applicable Nash/conservation results to surface their exact comparison; retained regression tests include known wrong original binary64 outputs.
+
+This handoff is for the existing active Codex development task. Preserve its uncommitted work. Do not reset the checkout, replay a completed controller, overwrite an installed executable, or start a competing product. Read this pack, current AGENTS.md, DAYBREAK-START.txt, docs/environment-setup.txt, docs/atomic-execution.md, and the exact native source manifest. Current user authorization reopens this implementation and research task; historical instructions closing V13 do not prohibit the newly requested work. The completed V13 record itself remains historical and unchanged.
+
+1. RESOLVE THE SOURCE ONCE, THEN IMPLEMENT
+
+The acquired source anchors are:
+  PR17 work triage: 0f8bc5eec399f729d03e262ee9a90b18c1a825f4
+  PR16 local reasoner: 4ca57ff6c589176576270db5f2d2aa8259bdbda6
+  PR15 Security Assistant: 297f586a3828c6d50b783fe1fdce766bce5344cd
+  PR11 Workbench v2: ad364e6ba531382343b8edeb22e3843eaa7d70a9
+  Shared V16: e6f5ed4269743b423e64b06a7ccb9ad7a3f62dfa
+
+Reconcile these with the current task's actual source and latest branch heads. Keep a component manifest of what is already present, what needs an additive transplant, and every conflict resolution. The Workbench has three unique commits versus V16, with merge base e3a8f15806388d9c0d3705970ec7fd18c44d3439. Do not blindly merge its older whole branch over V16/V17. Bring its UI, server, store, launchers and tests forward file by file while preserving later changes.
+
+Use the existing pinned package manager pnpm@11.25.0 and Node >=22.13.0; prefer the existing prepared environment. Keep its one lockfile, dependency policy, Sites identity and release process. Add required dependencies through that policy only when the implementation needs them. New desktop dependencies belong to the existing workspace, not a competing installer or lockfile.
+
+Keep the current 24 native evaluator IDs, 239 Method Atlas candidates, MAXVAR/NESTMAX/BL/MBSS/EXT namespaces, source ID types, V15/V16 reasoning experiments and receipts, and completed V13 controller. Research candidates remain separate from executed evaluators. A local draft, Git commit, hosted Site and Windows installation have distinct version identities.
+
+2. SHIP THE FIRST END-TO-END WORKING PATH
+
+USER ADDITIONS: Read docs/USABILITY-AND-INGEST.md in full. This is a required part of the build: real conversational reasoner, Windows clipboard/file paste, screenshots, whole attached folders indexed in place, exact Drive/local snapshot comparison, per-project progress and manual-script drafting/output ingestion. Visible product name: MPC Workspace. Preserve all existing internal classifier/model/plugin IDs. Include these requirements in the first usable journey, not an unrelated future prototype.
+
+Implement this complete user journey first:
+  Open MPC -> choose/create project -> attach a folder or paste/drop input ->
+  select Local Model or an explicitly configured Cloud Model ->
+  Run -> see acquired facts and applicable methods ->
+  inspect sources and results -> save a report -> reopen the project and resume.
+
+Input must be available immediately. Keep a persistent chat composer, attach button, Run, Stop, and a searchable project selector visible. A missing cloud account must leave offline search, pasted-data analysis, existing finite evaluators, saved reports and local-model setup usable. Show the specific unavailable action in its own card.
+
+Treat ACQUIRED, ANALYZED and DECIDED as completed-work indicators. While work is running, show a plain action label and actual counts: reading record, extracting facts, evaluating one model, saving report. Continue authorized next actions. Do not turn normal work into repeated catalog scans, source checks with no changed dependency, or self-tests.
+
+3. PRESERVE THE FULL MPC ROUTER RECEIPT
+
+PR17 scripts/run-mpc-work.mjs invokes the established evidence workflow and saves the full result. Its compact stdout summary omits workflow.source_records. That summary cannot be passed as the V17 model's source-binding input.
+
+The command-center orchestration must call the existing routeProblem(input) using current contracts and retain the full returned object. Its fact_summary describes record availability; substantive fact extraction and completion of a directly answered user question remain host work. Preserve that host-completion receipt so an answered task does not enter an unnecessary model or verification cycle. Pass that full object to runMpcLocalModel(input, fullRouted, options) when the router has acquired content ready for model-assisted analysis. Persist the original full native receipt separately from the compact UI view. A model supplies provisional observations; it does not replace the router's work_stage, source records, ready_call, next_action, result completeness or finality.
+
+When an identified record is missing, acquire it through the native connector owner. Bind returned content to exact sources[].id and version in workflow.records. The current hosted route_problem schema may differ from local V16; fetch its schema and adapt only supported fields. Host-owned acquisition remains host-owned. Execute a ready_call before displaying it as completed.
+
+4. DESKTOP AND CROSS-PLATFORM CORE
+
+Preserve the current JavaScript/Node computation modules and Workbench renderer. Add a dedicated command-center orchestration layer and a Windows desktop shell. Preferred first packaged shell: Electron with an isolated renderer and a narrow typed preload/IPC bridge; reuse the existing renderer where practical. Keep Node/model/storage/connector execution out of the renderer. A separately packaged pinned Node sidecar can supply node:sqlite if the selected Electron runtime cannot satisfy the existing contract.
+
+The same renderer and service contracts should remain runnable on loopback in a browser and portable to macOS/Linux. Do not rewrite the core in Rust, Python or a new framework just to obtain a window. Python remains available for requested notebooks and specialist jobs through explicit adapters; it is not a mandatory second web backend.
+
+The desktop package starts its own local service, detects port conflicts, records service health, and remains open when a task fails. If startup fails, show the actionable error in the window or a retained diagnostic launcher. Provide Open Logs, Restart Service and Copy Error. Package a compatible runtime with the installer; normal use should not require a shell or global execution-policy changes. A fallback .cmd launcher must show errors and pause on failure instead of opening and disappearing.
+
+Use contextIsolation=true, renderer sandboxing and nodeIntegration=false, explicit IPC validation, a restrictive content policy, and an allowlisted navigation/external-link handler. Treat imported HTML/Markdown, retrieved text and model output as untrusted displayed data. Do not expose a generic shell/proxy endpoint through the renderer. These are implementation boundaries for the user's own desktop, not an extra model judging legitimate security work.
+
+5. GUI FEATURES AND THEME
+
+Left navigation: Work, Search, Evidence, Methods, Tasks, Reports, Connections, Assistant, Settings. A compact top bar shows current project, actual selected model/provider, local service status and Online/Offline.
+
+Work: conversation, paste area, attachments, objective, active job, sources used, expandable method result, one useful next action, Save Report. Run and Stop remain obvious. Persist selected task and draft input across navigation; apply the chosen retention policy before writing raw input.
+
+Search: one search box with project/source/method/status/time filters. Local search is immediately usable. Connected-app search is an explicit scope selection and reports which provider actually answered. Return source identity/version and an Open Native Source action. Dash hits resolve to their Drive/Dropbox object. Show stale, partial and unavailable results honestly.
+
+Evidence: original excerpt next to typed atoms, source/subject identity, actor/capacity, time/version, dependencies and unknowns. Editing a model-proposed atom creates a new draft version and preserves the source; it never rewrites the quotation or native record.
+
+Methods: existing inventory and comparisons, applicability explanation, required inputs, original primary source, exact evaluator implementation status, run controls for applicable implemented operations, and a test-lab tab for candidate methods. Keep the existing 239 candidate and 24 evaluator counts distinct.
+
+Tasks: queued/running/completed/failed/cancelled jobs, progress events, cancellation, exact resume, deduplication and budget. Reopening a project resumes an unfinished job from its checkpoint rather than repeating completed work. Running retries require a changed cause or a bounded transient-error policy.
+
+Reports: evidence-backed finding, benign explanation/falsifier, impact, reproduction from authorized observations, remediation, retest and limits. Draft/export to Markdown, JSON and printable HTML first; integrate existing PDF/DOCX exporters when present. Provide destination preview and real local/remote receipt states. Never label queued output sent.
+
+Connections: cards for GitHub, Drive, Gmail, Dropbox, Dash, hosted MPC, local MPC, local model and Custom MCP. Each has Add/Connect/Test/Disconnect, host and account scope, operations available, last observed success, current failure, and next setup action. A prior-success indicator is observational status, not an authorization gate: the first user-requested operation can make the actual connection and supply its first receipt. Do not require prior inference to permit first inference, or run extra health checks before every normal action. A saved URL means configured; a successful protected operation supports that operation's connected state.
+
+Assistant: edit assistant name, tone, task defaults, domain profile, instructions, chosen provider, reasoning effort where supported, retention, destinations and budgets. Show revision history and Export Portable Task. Instructions are versioned data; editing them does not claim to train model weights or enable an account entitlement.
+
+Theme: Bob-Ross-meets-raver professional. Use forest greens, dusk blue/indigo, a calm landscape accent, restrained cyan/coral highlights, large readable Segoe UI/system text and clear focus rings. Main controls stay high contrast and stationary. Reduced-motion, keyboard navigation, zoom, accessible labels and a quiet mode are required. Never sacrifice the input area for decorative cards.
+
+6. MODEL PROVIDERS AND THE USER'S DAYBREAK PREFERENCE
+
+Implement explicit provider profiles with separate requested and observed identities. Retain the user's existing working Daybreak Blue selection in its actual surface. Model availability, inference permission, ChatGPT/Codex access, API project entitlement and local installation are separate facts.
+
+The current official configuration reference is docs/PLATFORMS.md and config/provider-profiles.json. For a newly configured Blue API profile, use gpt-6-sol with access_programs.cyber=daybreak_blue. GPT-6.1 Sol/Astra reduced-refusal API access currently requires Red approval even though the parameter is daybreak_blue. Keep deprecated aliases as historical configuration only; do not make them the new default. Refresh official documentation if these facts change before implementation.
+
+Keep the existing Ollama adapter and authentic qwen3:4b-instruct tag. Preserve the existing mpc-daybreak-local configured model name as distinct from the underlying tag/digest. Add hardware/model diagnostics: memory/GPU, actual loaded model, first-token time, throughput, context setting and model digest. Do not download a large model just because it has a higher parameter count. Evaluate gpt-oss:20b only if hardware and user-chosen storage/budget support it.
+
+For actual model requests, record provider, exact model, access program when returned, selected host/account/project context, structured error, token/time cost when supplied, and completed/cancelled/incomplete outcome. Keep the local workspace project ID separate from the provider's API project ID: both local and cloud work belong to a workspace project, while a local model has no API billing project. Standard OpenAI profiles must explicitly request access_programs.cyber=standard instead of omitting the field and potentially selecting an approved account's program by default. Show actionable access_program_not_enabled, unavailable model and network errors. Do not silently downgrade the model, change cloud/local privacy mode, or retry a provider refusal across other providers.
+
+The GUI may offer Continue with ChatGPT through the supported registered-client OAuth route where eligible. This is an optional adapter with account-specific model discovery; current preview limits do not import hosted app connectors or ChatGPT conversation history. Keep that route separate from API-key billing and from Daybreak entitlement. A private repository is not automatically an eligible registered open-source client.
+
+ChatGPT customization uses the existing MPC/Security Assistant plugin and the profile's reusable instructions/reference files. Extend the owning plugin source under its release process; retain its installed identity. Do not claim the configuration file created an account GPT, connected a service, installed weights or trained a model. If a legacy Custom GPT editor remains available to this account, the portable instructions can also be used there, but the main integration targets the current plugin mechanism.
+
+7. CONNECTION MANAGER AND REMOTE MPC INPUT
+
+Provide a wizard with: display name, provider type, transport (local stdio, local loopback HTTP, remote streaming HTTP, or supported private tunnel), endpoint/command, account identity, scopes and credential-store reference. The user enters an endpoint or selects a known app, signs in through the provider's supported flow, and sees actual discovered tools plus a harmless permitted operation result.
+
+Credentials belong in Windows Credential Manager/DPAPI or the supported host credential store. SQL, renderer state, logs, exports and Git contain only opaque credential references. Do not copy ChatGPT cookies, access tokens, trusted dispatch identity headers or existing hosted-plugin auth into the local app. A hosted app being connected in ChatGPT is not proof that Windows has its credentials.
+
+Remote MCP input is not an unrestricted proxy. Fix allowed destinations after the user configures a connection; validate schemes, redirects, credential audience, response sizes and tool schemas. Loopback connections use their explicit local transport. Source documents and tool descriptions cannot authorize adding a host, change project scope or execute a shell command.
+
+For exposing an owned private/local MCP back to supported OpenAI surfaces, prefer the documented Secure MCP Tunnel when the user's workspace and Platform setup support it. Keep its exact tunnel/client identity and setup status visible. Do not promise a tunnel from a URL alone or expose the Windows service publicly as a default fix.
+
+Implement GitHub and local MPC first because this project already has clear source contracts. Add native Drive file read/search/write with explicit destination selection, then Dropbox/Gmail/Dash according to actual provider capability. Gmail send and external finding submission require the user's specific instruction; drafts remain useful without it. Honor already approved destinations and routine read/write actions without repeated prompts.
+
+8. LOCAL SQL, RETENTION, SEARCH AND SYNC
+
+CRITICAL: Workbench v2 verifies every non-sqlite schema object, user_version=1, and its HTML bundle identity. New tables in that file produce WORKBENCH_SCHEMA_IDENTITY_MISMATCH, and a changed bundle can produce WORKBENCH_STORE_IDENTITY_MISMATCH. Its queue CHECK requires NOT_SENT and no native write/receipt. Do not weaken those checks or reinterpret old rows.
+
+Use a new mpc-command-center.sqlite database, outside the repository checkout, with explicit schema version and per-project records. Apply this pack's proposed SQL only to a new database through a real storage adapter. If importing Workbench history later, copy with source identity and migration receipt; preserve original bytes and all historical queue states. Never use INSERT OR IGNORE as proof that seeded row values are correct.
+
+Store project/task state, exact native source identities and versions, aliases, typed atoms/dependencies, method/evaluator references, jobs, event receipts, connection observations, reports and an outbox. Use parameterized queries and project-qualified foreign keys. A string ID '001' must remain distinct from integer 1, string '1', and an ID in another namespace/owner/project.
+
+Raw material retention is a visible per-project choice. Retain local chat/evidence when selected; otherwise store appropriate digests/metadata and tell the user that the original content is needed for replay. Search indexes must follow the same choice. An optional FTS5 index may be enabled only when the existing runtime supports it and the user selected text retention. Do not install an extension or weaken the legacy Atlas diagnostics automatically.
+
+Use immutable receipts plus derived views for current status. A successful upload must be bound to the exact outbox item, destination, request identity and returned native object/version; failure and readback mismatch remain visible. Reconcile by version/ETag/hash and an explicit conflict strategy, not last-writer-wins over evidence. Do not claim exactly-once remote writes when a provider offers no idempotency support; use an unknown-delivery state and native lookup before retry.
+
+Sync code/method definitions through GitHub; sync chosen private evidence/reports through approved native destinations. GitHub does not replace SQL or become the default confidential evidence store. Back up SQLite with its supported backup mechanism, not a naive copy of the live main file while WAL is active. Keep OS secrets out of backups of task data.
+
+9. BETTER REASONING THROUGH ACTUAL METHODS
+
+Use research/methods.json and docs/METHODS.md as additive proposals, with exact primary-source and limitation records. First map aliases to existing IDs. The current native state_trace is not a complete STPA implementation, partial_order is not DPOR, and relational is not an Alloy solver. Preserve that distinction while adding the needed evaluator/harness.
+
+P0: source-lineage dependency tracking; metamorphic tests of router/ID handling; controller/retry analysis; information-flow labels across model, search, logging and export adapters.
+P1: counterexample-guided refinement of coarse classifiers; model-based connector diagnosis; next-evidence selection using supplied costs/likelihoods or a transparent heuristic; bounded controlled schedule exploration on the owned queue/cache code.
+P2: contextual method selection and calibrated triage only after useful labeled outcomes and suitable logging exist; bounded reverse-provenance explanations for missing results. These are research extensions, not already implemented native methods.
+
+Select the user's chosen program/value priority tier first, then useful methods within that tier. Eligibility requires a supported schema, relevant dimension, actual implementation, present inputs and the engagement's existing action scope. Rank by resolved uncertainty and cost, not number of generated theories or impressive names. Keep a deterministic baseline and negative controls. If no probability model exists, use explicit heuristic order instead of invented percentage confidence or expected payout.
+
+For training later, build a separately permissioned sanitized dataset of task, source references, selected method, tool arguments, structured result and independently labeled outcome. Split by project/source/time, retain adversarial and benign examples, and compare held-out behavior before changing a model. Do not train on confidential client/program material without the necessary rights. A prompt wrapper is a configuration; fine-tuning and model-weight training are separate later artifacts.
+
+10. ACCEPTANCE THAT MAKES THIS A REAL BUILD
+
+Complete one vertical slice before adding more providers or research families. Test in the existing pinned environment. Use the supplied focused tests and extend them for real adapter behavior; then run repository node --test and npm run build. Preserve original failures and receipts rather than rewriting historical counts.
+
+Required product acceptance:
+  A. Windows launch opens a retained usable window; startup/model failure remains visible.
+  B. User can type/paste/import text and run an actual local finite analysis with no cloud account.
+  C. A real configured local model returns streamed output on Nate's actual machine; record model/digest, memory, latency and source-binding result separately from mocks.
+  D. When a record is missing, the work flow acquires the native source and advances; when present, it analyzes without reacquiring unchanged data.
+  E. Full source records reach the model adapter; source version/quotation mismatches remain explicit and do not replace the native next_action.
+  F. Local search, project isolation, retention and restart/resume work against the new database.
+  G. Configure-only, expired, wrong-account, wrong-host, protected read failure and successful protected read produce different connection observations.
+  H. One actual GitHub read and one actual local MPC computation appear with their real receipts. Add real cloud model/OAuth/write checks only on the configured accounts/surfaces.
+  I. Cancellation and replay never duplicate a job or assert an unobserved external write. Unknown delivery is recoverable by native lookup.
+  J. A report saves locally, reopens, retains sources, and can be queued to a chosen destination; Sent requires actual provider evidence.
+  K. Keyboard navigation, scaling, dark/high-contrast presentation and reduced motion are usable. Screenshots must depict actual working controls and realistic errors, not mock connected states.
+  L. Existing registry, Atlas, V15/V16 corpus, legacy Workbench admission, source-ID semantics and completed controller remain intact.
+  M. Existing installer/update paths preserve data, support rollback and never silently change global PowerShell policy or install competing toolchains.
+
+  N. Whole-folder attachment, nested indexing, exclusions, unplug/reconnect and detach work without deleting or relocating original files.
+  O. Pasted/copied files, text, code and screenshots follow the documented acquisition/derived-representation rules.
+  P. Exact Drive-versus-local snapshot comparison preserves partial coverage, aliases, version-only changes and unknown absence.
+  Q. Script workshop produces explained manually runnable artifacts and ingests returned output without claiming unobserved execution.
+
+Deliver the Windows installer/portable build, source commit, component manifest, tests/build receipt, concise release notes, known limitations and exact receiving instructions. If this environment cannot execute Windows, produce the build using supported tooling and label that acceptance pending; do not claim Windows execution from Linux tests. If a required account operation is unavailable, finish the independent features and give the exact remaining setup action.
+
+FINAL REPORT
+Lead with the actual changed user capability. Report ACQUIRED -> ANALYZED -> DECIDED, executed work counts, file/commit identities, acceptance passed versus pending, and one next useful action. Continue already authorized implementation to a reviewable result. Keep external publication, repo merge, live target testing and communications within the user's actual instructions.

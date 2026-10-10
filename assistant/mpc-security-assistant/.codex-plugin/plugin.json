@@ -1,0 +1,27 @@
+{
+  "interface": {
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "category": "Productivity",
+    "defaultPrompt": [
+      "Use MPC Security Assistant to continue our current review through ACQUIRED \u2192 ANALYZED \u2192 DECIDED.",
+      "Apply our existing MPC methods against this workflow and preserve the exact evidence, counterexample and retest.",
+      "Review the current local assistant source and make the next verified improvement on a separate branch."
+    ],
+    "developerName": "Melvin Jackson",
+    "displayName": "MPC Security Assistant",
+    "longDescription": "A private operating workflow for Nate's existing Machine Legal and Machine-Bug-Tool platform. Reuses connected MPC, GitHub and evidence-source capabilities for authorized security consulting and bug-bounty review. Supports source acquisition, actual method execution, bounded decisions, fixes and retesting. The local Codex companion is installed separately; this skills-only package adds no server, credentials or model entitlement.",
+    "shortDescription": "Evidence-led security review"
+  },
+  "name": "mpc-security-assistant",
+  "version": "1.0.0",
+  "description": "Operate the existing MPC security platform through ACQUIRED, ANALYZED and DECIDED, with native source provenance, executed methods, remediation and retesting.",
+  "author": {
+    "name": "Melvin Jackson",
+    "email": "mjcustomcomputers@gmail.com"
+  },
+  "keywords": [],
+  "skills": "./skills"
+}

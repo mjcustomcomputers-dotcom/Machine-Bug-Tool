@@ -1,0 +1,148 @@
+{
+  "kind": "MPC_WORKSPACE_FINAL_ACCEPTANCE_SUMMARY",
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-09T18:31:56.673Z",
+  "repository": "mjcustomcomputers-dotcom/Machine-Bug-Tool",
+  "branch": "feature/mpc-workspace-build-20261009",
+  "draft_pr": 18,
+  "source_lineage": {
+    "saved_remote_update": "771c4db9b306a6f536d5c72d3a4eeaf80074655f",
+    "reconciliation_merge": "77e95fa411194ec3d624c1cb58163a470941b73e",
+    "executable_and_package_commit": "1cb5aa5b2247856ee243ea3ac0e9dbae403676b2",
+    "executable_and_package_tree": "00f9d0646e5b20206050bb802f6a243f0914d7b4",
+    "source_was_clean": true
+  },
+  "external_complete_receipt": {
+    "path": "/workspace/.cloud-tools/reports/mpc-workspace-final-20261009/MPC-WORKSPACE-ACCEPTANCE.json",
+    "sha256": "9bdd7c7e5588bd0f225ce47fc0507d9b280da420a6e62d48c5a3345f94cb2d71"
+  },
+  "gates": {
+    "full_node_test": {
+      "command": "node --test",
+      "status": "PASS",
+      "tests": 893,
+      "pass": 893,
+      "fail": 0,
+      "skipped": 0,
+      "duration_ms": 31583.125849
+    },
+    "production_build": {
+      "command": "corepack pnpm run build",
+      "status": "PASS"
+    },
+    "lint": {
+      "command": "corepack pnpm run lint",
+      "status": "PASS_WITH_EXISTING_WARNINGS",
+      "errors": 0,
+      "warnings": 15
+    },
+    "focused_workspace_integrity": {
+      "status": "PASS",
+      "tests": 45,
+      "pass": 45,
+      "fail": 0
+    }
+  },
+  "journey": {
+    "project_id": "PROJECT-FINAL-ACCEPTANCE",
+    "open_project": "PASS",
+    "paste_and_source_acquisition": {
+      "status": "PASS",
+      "source_id": "SRC-acceptance-9",
+      "source_version": "sha256:df4e4f734cd662858dd9708721f997c0720dfe4d216d19e4770457336c761857"
+    },
+    "actual_local_reasoner": {
+      "profile_id": "ollama-qwen3-4b-instruct",
+      "requested_model": "qwen3:4b-instruct",
+      "discovery": "PROVIDER_UNAVAILABLE",
+      "job_state": "BLOCKED_MODEL_UNAVAILABLE",
+      "model_invoked": false,
+      "answer_fabricated": false,
+      "status": "PENDING_LOCAL_OLLAMA_SETUP"
+    },
+    "actual_local_mpc_calculation": {
+      "status": "PASS",
+      "method_id": "conservation",
+      "native_within_supplied_tolerance": true,
+      "exact_within_supplied_tolerance": false,
+      "exact_classification": "NATIVE_TOLERANCE_FALSE_PASS",
+      "source_refs": [
+        "SRC-acceptance-9"
+      ]
+    },
+    "inspect_and_save_report": {
+      "status": "PASS",
+      "report_id": "REPORT-acceptance-20",
+      "formats": [
+        "markdown",
+        "json",
+        "html"
+      ],
+      "artifact_sha256": "68aba263fbfb5cac5d4879a04781099558b207f9e668b1d00153b0d5cd499b45"
+    },
+    "whole_folder_index_and_snapshot_compare": {
+      "status": "PASS",
+      "comparison_id": "COMPARISON-acceptance-48",
+      "changed": 1,
+      "live_remote_read_performed": false
+    },
+    "portable_task_transfer": {
+      "status": "PASS",
+      "transfer_id": "TRANSFER-acceptance-50",
+      "imported_items": 3,
+      "hashes_valid": true,
+      "automatic_run_performed": false
+    },
+    "restart_reopen_and_resume": {
+      "status": "PASS",
+      "restored_project_count": 2,
+      "restored_report_id": "REPORT-acceptance-20",
+      "restored_comparison_id": "COMPARISON-acceptance-48",
+      "resume_status": "TERMINAL_JOB_UNCHANGED",
+      "repeated_operations": 0
+    }
+  },
+  "windows_portable": {
+    "archive": "MPC-Workspace-0.1.0-windows-x64-portable.zip",
+    "path": "/workspace/.cloud-tools/reports/mpc-workspace-final-20261009/windows-portable/MPC-Workspace-0.1.0-windows-x64-portable.zip",
+    "bytes": 157787480,
+    "sha256": "271cc97640f25a03f9c5fda83b902ec2d901c2a929c469a6e1d60bd5da810b4d",
+    "minimum_windows": "Windows 10 x64 or later",
+    "electron": "44.5.1",
+    "bundled_node": "24.21.0",
+    "exe_sha256": "36e1b2c78fed461a3444bbaa5356f8402e1477947d67a22f38595f7595842017",
+    "app_asar_sha256": "9b89a3633aa5c087b234731d324d55034950825c98a16b83478b06a6ffc0851b",
+    "archive_integrity": "PASS",
+    "signed": false,
+    "native_windows_execution": "PENDING_RECEIVER_EXECUTION"
+  },
+  "access_status": {
+    "local_mpc_engine": "ACTUAL_CALCULATION_PASS",
+    "task_runtime_mpc_connector": "UNAVAILABLE_SEPARATE_FROM_LOCAL_ENGINE",
+    "ollama": "PROVIDER_UNAVAILABLE",
+    "github_protected_call": "UNAVAILABLE_NO_RECEIPT",
+    "google_drive_protected_call": "UNAVAILABLE_NO_RECEIPT",
+    "daybreak_blue": {
+      "profile_present": true,
+      "requested_model": "gpt-6-sol",
+      "actual_selection": null,
+      "availability": "NOT_CONFIGURED",
+      "entitlement_observed": false,
+      "receipt": null
+    }
+  },
+  "preserved_boundaries": {
+    "site_deployed": false,
+    "canonical_research_records_modified": false,
+    "completed_v13_controller_reinitialized_or_replayed": false,
+    "external_messages_or_target_operations": false,
+    "credentials_changed_or_recorded": false,
+    "connector_success_invented": false
+  },
+  "remaining_machine_or_account_setup": [
+    "Extract and run the portable archive on Windows, then retain a native launch and GUI acceptance receipt.",
+    "Start Ollama on 127.0.0.1:11434 and install the selected qwen3:4b-instruct model before retrying the local reasoner step.",
+    "Configure a supported Windows host adapter or MCP client plus an opaque credential-store reference before requesting a selected GitHub or Drive read.",
+    "Configure an eligible API project and credential-store reference, then preserve the returned model/access-program receipt before treating Daybreak Blue or standard API access as available."
+  ]
+}

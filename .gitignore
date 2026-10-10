@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+__pycache__/
+*.py[cod]
 
 # next.js
 /.next/
@@ -44,3 +46,6 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+
+# Private local MPC reasoner run receipts; never commit case data.
+/Runs/

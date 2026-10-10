@@ -1,0 +1,4 @@
+interface:
+  display_name: "MPC Security Assistant"
+  short_description: "Acquire, analyze and decide with the existing MPC engine."
+  default_prompt: "Use $operate-security-assistant to continue the current security review through ACQUIRED, ANALYZED and DECIDED."

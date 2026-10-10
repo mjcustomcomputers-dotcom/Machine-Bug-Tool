@@ -1,0 +1,146 @@
+{
+  "scope": "SUPPLIED_SYNTHETIC_AAD_STATE_TRACE_MODELS_ONLY",
+  "good": {
+    "input": {
+      "initial": "START",
+      "transitions": [
+        {
+          "from": "START",
+          "event": "ACQUIRED",
+          "to": "ACQUIRED"
+        },
+        {
+          "from": "ACQUIRED",
+          "event": "ANALYZED",
+          "to": "ANALYZED"
+        },
+        {
+          "from": "ANALYZED",
+          "event": "DECIDED",
+          "to": "DECIDED"
+        }
+      ],
+      "events": [
+        {
+          "event": "ACQUIRED",
+          "observed_state": "ACQUIRED",
+          "source_ref": "synthetic:mpc-security-assistant-aad"
+        },
+        {
+          "event": "ANALYZED",
+          "observed_state": "ANALYZED",
+          "source_ref": "synthetic:mpc-security-assistant-aad"
+        },
+        {
+          "event": "DECIDED",
+          "observed_state": "DECIDED",
+          "source_ref": "synthetic:mpc-security-assistant-aad"
+        }
+      ]
+    },
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\":\"BOUNDED_MODEL_RESULT\",\"method\":\"state_trace\",\"implementation_version\":\"1.2.0\",\"model_fingerprint\":\"069c5e619d1ba5ea47f47a58c46a54237b08ee7bba59d4e5d25a9e46c015ddce\",\"result\":{\"trace_matches\":true,\"reviewed_events\":3,\"final_state\":\"DECIDED\",\"remaining_events\":0,\"model_completeness_proven\":false},\"limitations\":\"Validate a supplied event trace against an explicit deterministic transition table; stop at the first divergence. Not an Alloy solver, STPA hazard analysis, or exhaustive state-space proof.\",\"source_authentication\":false,\"canonical_promotion\":false,\"court_release_allowed\":false,\"external_action_authorized\":false}"
+        }
+      ],
+      "structuredContent": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "state_trace",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "069c5e619d1ba5ea47f47a58c46a54237b08ee7bba59d4e5d25a9e46c015ddce",
+        "result": {
+          "trace_matches": true,
+          "reviewed_events": 3,
+          "final_state": "DECIDED",
+          "remaining_events": 0,
+          "model_completeness_proven": false
+        },
+        "limitations": "Validate a supplied event trace against an explicit deterministic transition table; stop at the first divergence. Not an Alloy solver, STPA hazard analysis, or exhaustive state-space proof.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      },
+      "isError": false
+    }
+  },
+  "adverse": {
+    "input": {
+      "initial": "START",
+      "transitions": [
+        {
+          "from": "START",
+          "event": "ACQUIRED",
+          "to": "ACQUIRED"
+        },
+        {
+          "from": "ACQUIRED",
+          "event": "ANALYZED",
+          "to": "ANALYZED"
+        },
+        {
+          "from": "ANALYZED",
+          "event": "DECIDED",
+          "to": "DECIDED"
+        }
+      ],
+      "events": [
+        {
+          "event": "ACQUIRED",
+          "observed_state": "ACQUIRED",
+          "source_ref": "synthetic:mpc-security-assistant-aad"
+        },
+        {
+          "event": "DECIDED",
+          "observed_state": "DECIDED",
+          "source_ref": "synthetic:mpc-security-assistant-aad"
+        },
+        {
+          "event": "ANALYZED",
+          "observed_state": "ANALYZED",
+          "source_ref": "synthetic:mpc-security-assistant-aad"
+        }
+      ]
+    },
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\":\"BOUNDED_MODEL_RESULT\",\"method\":\"state_trace\",\"implementation_version\":\"1.2.0\",\"model_fingerprint\":\"d16354384012d58d596da24116d84368841b6ed4ef1b531fb3c68eeb109bb738\",\"result\":{\"trace_matches\":false,\"reviewed_events\":2,\"first_divergence\":{\"index\":1,\"prior_state\":\"ACQUIRED\",\"event\":\"DECIDED\",\"expected_state\":null,\"observed_state\":\"DECIDED\",\"source_ref\":\"synthetic:mpc-security-assistant-aad\"},\"remaining_events\":1},\"limitations\":\"Validate a supplied event trace against an explicit deterministic transition table; stop at the first divergence. Not an Alloy solver, STPA hazard analysis, or exhaustive state-space proof.\",\"source_authentication\":false,\"canonical_promotion\":false,\"court_release_allowed\":false,\"external_action_authorized\":false}"
+        }
+      ],
+      "structuredContent": {
+        "status": "BOUNDED_MODEL_RESULT",
+        "method": "state_trace",
+        "implementation_version": "1.2.0",
+        "model_fingerprint": "d16354384012d58d596da24116d84368841b6ed4ef1b531fb3c68eeb109bb738",
+        "result": {
+          "trace_matches": false,
+          "reviewed_events": 2,
+          "first_divergence": {
+            "index": 1,
+            "prior_state": "ACQUIRED",
+            "event": "DECIDED",
+            "expected_state": null,
+            "observed_state": "DECIDED",
+            "source_ref": "synthetic:mpc-security-assistant-aad"
+          },
+          "remaining_events": 1
+        },
+        "limitations": "Validate a supplied event trace against an explicit deterministic transition table; stop at the first divergence. Not an Alloy solver, STPA hazard analysis, or exhaustive state-space proof.",
+        "source_authentication": false,
+        "canonical_promotion": false,
+        "court_release_allowed": false,
+        "external_action_authorized": false
+      },
+      "isError": false
+    }
+  },
+  "claims": {
+    "source_authentication": false,
+    "target_finding": false,
+    "canonical_controller_modified": false
+  }
+}

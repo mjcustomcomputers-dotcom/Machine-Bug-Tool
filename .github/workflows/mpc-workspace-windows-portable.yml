@@ -1,0 +1,145 @@
+name: MPC Workspace Windows portable
+
+on:
+  push:
+    branches:
+      - feature/mpc-workspace-build-20261009
+      - feature/mpc-screen-ocr-20261009
+      - feature/mpc-osi-methods-on-methods-20261009
+      - feature/mpc-inverse-ocr-roi-20261009
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-workspace-windows-portable-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package:
+    name: Test, build, and package Windows x64
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out exact source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Verify required historical controller source
+        shell: bash
+        run: git cat-file -e '4ffde83e587db829b9cd2124c0a8587e868402d6^{commit}'
+
+      - name: Install Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+
+      - name: Activate pinned pnpm
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm --version
+
+      - name: Install locked dependencies
+        shell: bash
+        run: pnpm install --frozen-lockfile
+
+      - name: Prepare pinned offline OCR runtime for native smoke
+        shell: bash
+        run: pnpm run desktop:prepare:ocr
+
+      - name: Install Linux display prerequisites and pinned Electron runtime
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y xvfb xauth openbox x11-utils dbus-daemon libgbm1 libgtk-3-0t64 libnss3 libasound2t64
+          node node_modules/electron/install.js
+
+      - name: Run repository tests
+        shell: bash
+        run: node --test
+
+      - name: Build repository
+        shell: bash
+        run: pnpm run build
+
+      - name: Replay MPC models and measure bounded synthetic method caches
+        shell: bash
+        run: |
+          mkdir -p .sites-runtime/electron-smoke
+          node scripts/verify-mpc-screen-models.mjs > .sites-runtime/electron-smoke/mpc-model-replay.json
+          node scripts/benchmark-atomic-method-detector.mjs > .sites-runtime/electron-smoke/method-detector-benchmark.json
+          node scripts/benchmark-atomic-variation-router.mjs > .sites-runtime/electron-smoke/method-cache-benchmark.json
+          node scripts/benchmark-mpc-osi.mjs > .sites-runtime/electron-smoke/virtual-osi-benchmark.json
+          node scripts/benchmark-mpc-inverse-roi.mjs > .sites-runtime/electron-smoke/inverse-roi-benchmark.json
+
+      - name: Exercise native capture, privacy masks, OCR, and responsive UI
+        shell: bash
+        timeout-minutes: 3
+        run: |
+          xvfb-run -a -s '-screen 0 2048x1280x24' dbus-run-session -- \
+            bash scripts/run-mpc-native-smoke-x11.sh .sites-runtime/electron-smoke
+
+      - name: Upload native Electron smoke receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: MPC-Workspace-native-smoke-${{ github.sha }}
+          path: .sites-runtime/electron-smoke
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Package Windows portable build
+        shell: bash
+        run: pnpm run desktop:package:windows --output-dir "$RUNNER_TEMP/mpc-workspace-windows"
+
+      - name: Recognize fixture with bundled OCR in a network-isolated process
+        shell: bash
+        run: |
+          MPC_NODE_BIN="$(command -v node)"
+          MPC_BUILD_USER="$(id -un)"
+          sudo unshare --net -- runuser -u "$MPC_BUILD_USER" -- "$MPC_NODE_BIN" scripts/smoke-mpc-screen-ocr.mjs \
+            --asset-root "$RUNNER_TEMP/mpc-workspace-windows/MPC-Workspace-win32-x64/resources/mpc-ocr" \
+            --receipt "$RUNNER_TEMP/mpc-workspace-windows/MPC-Workspace-0.1.0-ocr-smoke.json"
+
+      - name: Verify delivery files
+        shell: bash
+        run: |
+          test -s "$RUNNER_TEMP/mpc-workspace-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip"
+          test -s "$RUNNER_TEMP/mpc-workspace-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip.sha256"
+          test -s "$RUNNER_TEMP/mpc-workspace-windows/MPC-Workspace-0.1.0-windows-x64-build-receipt.json"
+          test -s "$RUNNER_TEMP/mpc-workspace-windows/MPC-Workspace-0.1.0-ocr-smoke.json"
+          sha256sum --check "$RUNNER_TEMP/mpc-workspace-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip.sha256"
+        working-directory: ${{ runner.temp }}/mpc-workspace-windows
+
+      - name: Upload receivable portable build
+        id: portable_artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: MPC-Workspace-0.1.0-windows-x64-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/mpc-workspace-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip
+            ${{ runner.temp }}/mpc-workspace-windows/MPC-Workspace-0.1.0-windows-x64-portable.zip.sha256
+            ${{ runner.temp }}/mpc-workspace-windows/MPC-Workspace-0.1.0-windows-x64-build-receipt.json
+            ${{ runner.temp }}/mpc-workspace-windows/MPC-Workspace-0.1.0-ocr-smoke.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
+      - name: Publish download details
+        shell: bash
+        run: |
+          {
+            echo "## MPC Workspace Windows portable"
+            echo
+            echo "[Download the Windows artifact](${{ steps.portable_artifact.outputs.artifact-url }})"
+            echo
+            echo "- Source: \`${{ github.sha }}\`"
+            echo "- Artifact ID: \`${{ steps.portable_artifact.outputs.artifact-id }}\`"
+            echo "- Artifact digest: \`${{ steps.portable_artifact.outputs.artifact-digest }}\`"
+            echo "- Retention: 30 days"
+          } >> "$GITHUB_STEP_SUMMARY"

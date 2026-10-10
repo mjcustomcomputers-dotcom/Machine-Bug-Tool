@@ -107,6 +107,7 @@ export async function exportMethodSelfScan({output,priorScan=null,capabilitiesFi
   scope:'OFFLINE_EXPORTER_DID_NOT_PROBE_EXTERNAL_SERVICES',surfaces:[],prior_evidence:[],
   boundaries:{credentials_included:false,current_session_protected_calls:0,exporter_network_calls:0,exporter_connector_calls:0,
    daybreak_status:'NOT_OBSERVED_CURRENT_TASK'}});
+ const capabilities=JSON.parse(capabilitiesBytes.toString('utf8'));
  mkdirSync(dirname(outputPath),{recursive:true});
  mkdirSync(outputPath,{recursive:false});
  const sourceBefore=gitSnapshot();
@@ -124,10 +125,14 @@ export async function exportMethodSelfScan({output,priorScan=null,capabilitiesFi
  const assets=[
   ['lib/method-self-scan.mjs','lib/method-self-scan.mjs'],
   ['lib/method-self-scan-offline.mjs','lib/method-self-scan-offline.mjs'],
+  ['lib/research-workbench-ui.mjs','lib/research-workbench-ui.mjs'],
+  ['lib/research-workbench-store.mjs','lib/research-workbench-store.mjs'],
   ['scripts/portable-method-self-scan.mjs','scripts/portable-method-self-scan.mjs'],
-  ['scripts/offline/Run-Method-Self-Scan.ps1','Run-Method-Self-Scan.ps1'],
-  ['scripts/offline/Install-Method-Self-Scan.ps1','Install-Method-Self-Scan.ps1'],
-  ['scripts/offline/README-OFFLINE.md','README-OFFLINE.md']
+  ['scripts/research-workbench-server.mjs','scripts/research-workbench-server.mjs'],
+  ['scripts/offline/Run-Method-Self-Scan.ps1','Run-MPC-Research-Workbench.ps1'],
+  ['scripts/offline/Install-Method-Self-Scan.ps1','Install-MPC-Research-Workbench.ps1'],
+  ['scripts/offline/README-OFFLINE.md','README-OFFLINE.md'],
+  ['docs/MPC-RESEARCH-WORKBENCH.md','MPC-RESEARCH-WORKBENCH.md']
  ];
  for(const [source,target] of assets)copy(resolve(ROOT,source),resolve(outputPath,target));
  writeFileSync(resolve(outputPath,'capabilities.json'),capabilitiesBytes,{flag:'wx'});
@@ -145,7 +150,8 @@ export async function exportMethodSelfScan({output,priorScan=null,capabilitiesFi
   node_version:process.version,platform:process.platform,architecture:process.arch,network_calls:0,connector_calls:0,
   source_authentication:false,method_execution_performed:false,target_actions:false,canonical_controller_modified:false,canonical_promotion:false
  };
- const manifest=writeMethodSelfScanArtifacts(outputPath,scan,receipt);
+ const manifest=writeMethodSelfScanArtifacts(outputPath,scan,receipt,{capabilities,includeHostLauncher:true,
+  build_commit:sourceBefore.commit,working_tree_dirty:sourceBefore.working_tree_dirty});
  return {status:scan.status,output_directory:outputPath,scan_sha256:scan.fingerprints.scan_sha256,
   pair_stream_sha256:scan.fingerprints.pair_stream_sha256,database_sha256:receipt.database.sha256,
   artifact_count:manifest.artifact_count,manifest:resolve(outputPath,'manifest.json')};

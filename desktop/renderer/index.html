@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en" data-theme="night" data-density="compact">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' blob:; font-src 'self'; object-src 'none'; media-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MPC Workspace</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#workspace-main">Skip to workspace</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" role="img">
+            <path d="M4 37 15 21l7 8L31 9l13 28H4Z"/>
+            <path d="M8 40h32M11 15c7-7 19-7 26 0"/>
+          </svg>
+        </div>
+        <div>
+          <div class="eyebrow">MPC / Research OS</div>
+          <div class="brand-name">MPC Workspace</div>
+          <div class="brand-line">Calm evidence. Precise action.</div>
+        </div>
+      </div>
+
+      <nav class="primary-nav" aria-label="Workspace areas">
+        <button class="nav-item active" type="button" data-view="work" aria-current="page" aria-controls="view-work"><span aria-hidden="true">✦</span>Work</button>
+        <button class="nav-item" type="button" data-view="search" aria-controls="view-search"><span aria-hidden="true">⌕</span>Search</button>
+        <button class="nav-item" type="button" data-view="evidence" aria-controls="view-evidence"><span aria-hidden="true">◫</span>Evidence</button>
+        <button class="nav-item" type="button" data-view="screen" aria-controls="view-screen"><span aria-hidden="true">▣</span>Screen reader</button>
+        <button class="nav-item" type="button" data-view="network" aria-controls="view-network"><span aria-hidden="true">⌁</span>Network</button>
+        <button class="nav-item" type="button" data-view="methods" aria-controls="view-methods"><span aria-hidden="true">⌘</span>Methods</button>
+        <button class="nav-item" type="button" data-view="tasks" aria-controls="view-tasks"><span aria-hidden="true">✓</span>Tasks</button>
+        <button class="nav-item" type="button" data-view="reports" aria-controls="view-reports"><span aria-hidden="true">▤</span>Reports</button>
+        <button class="nav-item" type="button" data-view="connections" aria-controls="view-connections"><span aria-hidden="true">⌁</span>Connections</button>
+        <button class="nav-item" type="button" data-view="assistant" aria-controls="view-assistant"><span aria-hidden="true">◇</span>Assistant</button>
+        <button class="nav-item" type="button" data-view="settings" aria-controls="view-settings"><span aria-hidden="true">⚙</span>Settings</button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="inventory-line"><span>Research candidates</span><strong id="inventory-research">—</strong></div>
+        <div class="inventory-line"><span>Executable evaluators</span><strong id="inventory-evaluators">—</strong></div>
+        <div class="boundary-note">Inventories stay separate. A match is not an executed method.</div>
+      </div>
+    </aside>
+
+    <div class="workspace-frame">
+      <header class="topbar">
+        <button class="icon-button sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Toggle navigation" aria-expanded="true">☰</button>
+        <label class="top-field project-field">
+          <span>Project</span>
+          <input id="project-picker" list="project-options" autocomplete="off" placeholder="Choose or search projects" aria-describedby="project-hint">
+          <datalist id="project-options"></datalist>
+          <small id="project-hint" class="sr-only">Type a project name, or choose one from the list.</small>
+        </label>
+        <button class="button compact" id="new-project" type="button">New project</button>
+        <label class="top-field model-field">
+          <span>Reasoning model</span>
+          <select id="model-picker" aria-describedby="model-observation">
+            <option value="">No model observed</option>
+          </select>
+          <small id="model-observation" class="sr-only">No language model selected.</small>
+        </label>
+        <div class="model-actions">
+          <button class="button compact" id="local-model-setup" type="button">Local AI setup</button>
+          <button class="icon-button" id="refresh-models" type="button" aria-label="Refresh model availability" title="Refresh models">↻</button>
+        </div>
+        <button class="button compact chat-toggle" id="toggle-composer" type="button" aria-controls="composer" aria-expanded="false">Show chat</button>
+        <button class="button compact" id="open-output" type="button">Output</button>
+        <div class="zoom-controls" role="group" aria-label="Interface size">
+          <button class="icon-button" id="zoom-out" type="button" aria-label="Smaller interface" title="Smaller interface">−</button>
+          <button class="button compact" id="zoom-reset" type="button" aria-label="Reset interface size to 100%" title="Reset interface size">100%</button>
+          <button class="icon-button" id="zoom-in" type="button" aria-label="Larger interface" title="Larger interface">+</button>
+        </div>
+        <div class="top-status">
+          <span class="status-pill neutral" id="service-status" role="status" aria-live="polite" aria-atomic="true"><i></i>Service unknown</span>
+          <span class="status-pill neutral" id="network-status" role="status" aria-live="polite" aria-atomic="true"><i></i>Screen context: none selected</span>
+        </div>
+        <button class="icon-button" id="quiet-toggle" type="button" aria-pressed="false" title="Quiet mode">◐<span class="sr-only">Toggle quiet mode</span></button>
+      </header>
+
+      <main id="workspace-main" tabindex="-1">
+        <section class="view active" id="view-work" data-view-panel="work" aria-labelledby="work-title">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">Active project</div>
+              <h1 id="work-title">What would you like to work on?</h1>
+              <p id="project-objective">Choose or create a project. Your draft is kept while you move through the workspace.</p>
+            </div>
+            <div class="heading-actions">
+              <button class="button" id="resume-work" type="button" disabled>Resume unfinished work</button>
+              <button class="button accent" id="save-report" type="button" disabled>Save report</button>
+            </div>
+          </div>
+
+          <section class="panel home-launchpad" aria-labelledby="home-start-title">
+            <div class="panel-head">
+              <div><h2 id="home-start-title">Start or continue</h2><p>Ask immediately, add exact source material, or open a verified service. Every path keeps your draft and project state.</p></div>
+              <span class="stage-chip">YOUR NEXT MOVE</span>
+            </div>
+            <div class="home-action-grid">
+              <button class="home-action primary" id="home-primary-action" type="button" data-action="CREATE_PROJECT"><strong id="home-primary-label">Create your first project</strong><span>Start a saved workspace, or resume its exact checkpoint.</span></button>
+              <button class="home-action" id="home-ask" type="button"><strong>Ask or analyze</strong><span>Use local chat alone, or bind the question to selected evidence.</span></button>
+              <button class="home-action" id="home-paste" type="button"><strong>Paste evidence</strong><span>Acquire clipboard text with its hash and chosen retention policy.</span></button>
+              <button class="home-action" id="home-files" type="button"><strong>Attach files</strong><span>Inspect copies while the originals stay in place.</span></button>
+              <button class="home-action" id="home-folder" type="button"><strong>Add a folder</strong><span>Index nested files in place and track later version changes.</span></button>
+              <button class="home-action" id="home-connections" type="button"><strong>Connect a service</strong><span>Set up sign-in when supported and verify a protected read.</span></button>
+              <button class="home-action" id="home-screen-context" type="button" aria-controls="screen-context-panel"><strong>Build screen-reader context</strong><span>Use readable text and a scrubbed Firefox HAR first; add one clipboard image only for what remains visual.</span></button>
+            </div>
+            <div class="home-pulse" aria-label="Project readiness">
+              <button id="home-project-pulse" type="button"><span>Project</span><strong id="home-project-status">No project open</strong></button>
+              <button id="home-source-pulse" type="button"><span>Evidence</span><strong id="home-source-status">0 exact sources</strong></button>
+              <button id="home-report-pulse" type="button"><span>Reports</span><strong id="home-report-status">0 saved reports</strong></button>
+              <button id="home-connection-pulse" type="button"><span>Connections</span><strong id="home-connection-status">0 receipt-verified operations</strong></button>
+            </div>
+          </section>
+
+          <section class="panel screen-context-panel" id="screen-context-panel" aria-labelledby="screen-context-title" aria-busy="false">
+            <div class="panel-head">
+              <div><h2 id="screen-context-title" tabindex="-1">Screen context for the next run</h2><p>Use the quickest readable source first. Each fallback is an explicit, one-time action.</p></div>
+              <span class="stage-chip" id="screen-context-stage">NOT SELECTED</span>
+            </div>
+            <ol class="screen-context-steps">
+              <li>
+                <h3>Paste visible text first</h3>
+                <p>Fastest and most accurate when the page or app lets you copy its text.</p>
+                <button class="button" id="screen-context-paste-text" type="button">Paste visible text</button>
+              </li>
+              <li>
+                <h3>Add Firefox F12 HAR context</h3>
+                <p>Import a saved Firefox network export before the image fallback. It is bounded and scrubbed before persistence; this is not live browser monitoring.</p>
+                <button class="button" id="screen-context-import-har" type="button">Import Firefox HAR</button>
+              </li>
+              <li>
+                <h3>Capture only the remaining visual unknown</h3>
+                <p>Press Print Screen, then use this one-time fallback. Any current clipboard image is normalized and reduced; its Print Screen origin is not attested.</p>
+                <div class="screen-context-actions"><button class="button accent" id="screen-context-capture" type="button">Use clipboard image</button><span class="screen-context-capability" id="screen-context-vision-state">One-shot image only · use Screen reader for local OCR</span></div>
+              </li>
+            </ol>
+            <div class="screen-context-footer">
+              <div><strong>Selected for the next run</strong><p id="screen-context-status" role="status" aria-live="polite" aria-atomic="true">No screen context selected. Open a project, then choose one explicit source.</p><ul id="screen-context-selection-list" aria-label="Selected screen context"><li>No screen context selected.</li></ul></div>
+              <button class="button compact" id="screen-context-clear" type="button" disabled>Clear selected context</button>
+            </div>
+            <p class="screen-context-boundary" role="note"><strong>This quick path starts no live monitoring or packet capture.</strong> It reads only the clipboard image or HAR file you explicitly choose. The separate Screen reader and Network views require their own consent. Firefox context can explain requests, but it does not prove what a pixel says.</p>
+          </section>
+
+          <div class="work-grid">
+            <aside class="panel job-panel" aria-labelledby="job-title">
+              <div class="panel-head">
+                <div><h2 id="job-title">Project progress</h2><p id="job-action">No active job</p></div>
+                <span class="stage-chip" id="work-stage" role="status" aria-live="polite" aria-atomic="true">IDLE</span>
+              </div>
+              <div class="progress-track" id="job-progress" role="progressbar" aria-label="Job progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="job-progress-bar"></span></div>
+              <div class="count-grid" aria-label="Completed work counts">
+                <div><strong id="count-acquired">0</strong><span>Acquired</span></div>
+                <div><strong id="count-analyzed">0</strong><span>Analyzed</span></div>
+                <div><strong id="count-decided">0</strong><span>Decided</span></div>
+              </div>
+              <button class="next-action-card" id="home-next-action" type="button">
+                <span>One useful next action</span>
+                <strong id="next-action-title">Attach a record or paste text</strong>
+                <span id="next-action-detail">No external action has been performed.</span>
+              </button>
+              <div class="receipt-strip" id="job-receipt">No job receipt</div>
+            </aside>
+          </div>
+
+          <div class="result-grid">
+            <section class="panel result-panel" aria-labelledby="facts-title">
+              <div class="panel-head"><div><h2 id="facts-title">Acquired facts</h2><p>Source-supported statements only</p></div><span id="fact-count">0</span></div>
+              <div id="facts-list" class="stack-list"><div class="empty-row">No facts acquired yet.</div></div>
+            </section>
+            <section class="panel result-panel" aria-labelledby="methods-title-work">
+              <div class="panel-head"><div><h2 id="methods-title-work">Applicable methods</h2><p>Selection is separate from execution</p></div><span id="method-count">0</span></div>
+              <div id="work-methods-list" class="stack-list"><div class="empty-row">No method selected yet.</div></div>
+            </section>
+            <section class="panel result-panel" aria-labelledby="sources-title-work">
+              <div class="panel-head"><div><h2 id="sources-title-work">Sources used</h2><p>Exact identity and version</p></div><span id="source-count">0</span></div>
+              <div id="work-sources-list" class="stack-list"><div class="empty-row">No source has been used.</div></div>
+            </section>
+          </div>
+
+          <details class="panel script-workshop" aria-labelledby="script-title">
+            <summary class="panel-head">
+              <div><h2 id="script-title">Script workshop</h2><p>Draft → manual run → returned-output ingestion. Drafting never claims execution.</p></div>
+              <span class="stage-chip" id="script-state">NO DRAFT</span>
+            </summary>
+            <div class="script-grid">
+              <div class="script-request">
+                <label for="script-request">What should the script help you inspect?</label>
+                <textarea id="script-request" rows="3" placeholder="Example: Prepare a read-only PowerShell script that records service status and writes bounded JSON output."></textarea>
+                <label for="script-language">Language</label>
+                <select id="script-language"><option value="powershell">PowerShell</option><option value="python">Python</option><option value="shell">Shell</option></select>
+                <button class="button" id="draft-script" type="button">Draft explained script</button>
+                <div class="honesty-note">Credentials are never embedded. Review scope and effects before running anything manually.</div>
+              </div>
+              <div class="script-editor">
+                <label for="script-content">Script</label>
+                <textarea id="script-content" rows="10" spellcheck="false" placeholder="No script has been drafted."></textarea>
+                <div class="button-row">
+                  <button class="button compact" id="explain-script" type="button" disabled>Explain</button>
+                  <button class="button compact" id="copy-script" type="button" disabled>Copy</button>
+                  <button class="button compact" id="save-script" type="button" disabled>Save</button>
+                  <button class="button compact" id="mark-script-exported" type="button" disabled>Mark exported</button>
+                </div>
+              </div>
+              <div class="script-output">
+                <label for="script-output">Returned output</label>
+                <textarea id="script-output" rows="10" placeholder="Paste or attach the output after you run the script yourself."></textarea>
+                <label for="script-exit">Reported exit status <span>(optional)</span></label>
+                <input id="script-exit" inputmode="numeric" placeholder="Example: 0">
+                <button class="button" id="ingest-script-output" type="button" disabled>Ingest returned output</button>
+              </div>
+            </div>
+            <details class="explanation-box" id="script-explanation"><summary>Explanation, prerequisites and expected output</summary><div id="script-explanation-body">No explanation available.</div></details>
+          </details>
+        </section>
+
+        <section class="view" id="view-search" data-view-panel="search" aria-labelledby="search-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Project-qualified retrieval</div><h1 id="search-title">Search</h1><p>Search retained local material immediately, or select an observed connected source.</p></div></div>
+          <section class="panel search-panel">
+            <div class="search-row">
+              <label class="grow"><span class="sr-only">Search project evidence</span><input id="search-query" type="search" placeholder="Search retained project text"></label>
+              <button class="button accent" id="run-search" type="button">Search</button>
+            </div>
+            <fieldset class="scope-row"><legend>Scope</legend>
+              <label><input type="checkbox" name="search-scope" value="LOCAL" checked> Local project</label>
+              <label><input type="checkbox" name="search-scope" value="GITHUB"> GitHub</label>
+              <label><input type="checkbox" name="search-scope" value="GOOGLE_DRIVE"> Drive</label>
+              <label><input type="checkbox" name="search-scope" value="DROPBOX"> Dropbox</label>
+              <label><input type="checkbox" name="search-scope" value="DROPBOX_DASH"> Dash</label>
+            </fieldset>
+            <div class="filter-row">
+              <select id="search-kind" aria-label="Source kind"><option value="">All retained text</option><option>TEXT</option><option>FILE</option></select>
+              <select id="search-status" aria-label="Source status"><option value="">Any retained status</option><option>ACQUIRED</option></select>
+              <select id="search-time" aria-label="Time range"><option value="">Any time</option><option value="DAY">Past day</option><option value="WEEK">Past week</option><option value="MONTH">Past month</option></select>
+            </div>
+          </section>
+          <section class="panel"><div class="panel-head"><div><h2>Results</h2><p id="search-coverage" role="status" aria-live="polite" aria-atomic="true">No search run</p></div><span id="search-result-count">0</span></div><div id="search-results" class="search-results"><div class="empty-row">Run a search to see exact source identities and coverage.</div></div></section>
+        </section>
+
+        <section class="view" id="view-evidence" data-view-panel="evidence" aria-labelledby="evidence-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Source state and comparison</div><h1 id="evidence-title">Evidence</h1><p>See what was acquired, whether its content can be replayed, where it was used, and the next useful action.</p></div><div class="heading-actions"><button class="button" id="evidence-add-text" type="button">Paste evidence</button><button class="button" id="evidence-attach-files" type="button">Attach files</button><button class="button accent" id="evidence-add-folder" type="button">Add folder</button></div></div>
+          <div class="evidence-summary" aria-label="Evidence coverage">
+            <div><strong id="evidence-total">0</strong><span>Exact sources</span></div>
+            <div><strong id="evidence-retained">0</strong><span>Text retained</span></div>
+            <div><strong id="evidence-used">0</strong><span>Used by tasks</span></div>
+            <div><strong id="evidence-reported">0</strong><span>In reports</span></div>
+          </div>
+          <div class="two-column">
+            <section class="panel"><div class="panel-head"><div><h2>Evidence ledger</h2><p>Editing a proposed atom creates a draft; it never rewrites the source.</p></div></div><div id="evidence-ledger" class="stack-list"><div class="empty-row">No project evidence acquired.</div></div></section>
+            <section class="panel snapshot-panel" aria-labelledby="snapshot-title">
+              <div class="panel-head"><div><h2 id="snapshot-title">Stored snapshot comparison</h2><p>Compare acquired manifests. A stored Drive-labeled snapshot is not a fresh Drive read.</p></div></div>
+              <label>Earlier snapshot<select id="snapshot-left"><option value="">Choose an acquired snapshot</option></select></label>
+              <label>Current snapshot<select id="snapshot-right"><option value="">Choose an acquired snapshot</option></select></label>
+              <button class="button" id="compare-snapshots" type="button" disabled>Compare exact manifests</button>
+              <div id="snapshot-status" class="honesty-note" role="status">Acquire at least two snapshot manifests before comparison. Partial inventory cannot establish removal.</div>
+              <div class="snapshot-counts" id="snapshot-counts" hidden>
+                <div><strong data-snapshot-count="added">0</strong><span>Added</span></div><div><strong data-snapshot-count="removed">0</strong><span>Removed</span></div>
+                <div><strong data-snapshot-count="changed">0</strong><span>Changed</span></div><div><strong data-snapshot-count="unknown">0</strong><span>Unknown</span></div>
+              </div>
+              <div id="snapshot-results" class="stack-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-methods" data-view-panel="methods" aria-labelledby="methods-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Catalog + execution truth</div><h1 id="methods-title">Methods</h1><p>Candidate research methods and implemented evaluators remain distinct.</p></div></div>
+          <section class="panel form-panel" aria-labelledby="method-run-title">
+            <div class="wide"><h2 id="method-run-title">Run an implemented evaluator</h2><p>Supply explicit JSON. MPC Workspace acquires those exact bytes, validates the registered schema, executes one native evaluator call, and adds exact numerical review where supported.</p></div>
+            <label>Evaluator<select id="method-run-picker"><option value="">Choose an implemented evaluator</option></select></label>
+            <label class="wide">Evaluator input JSON<textarea id="method-run-input" rows="10" spellcheck="false" placeholder="Choose an evaluator, then enter its registered JSON input."></textarea></label>
+            <div class="wide button-row"><button class="button accent" id="run-method" type="button">Acquire and evaluate</button><span class="micro-state" id="method-run-status" role="status" aria-live="polite" aria-atomic="true">NOT RUN</span></div>
+            <div class="wide honesty-note">JSON is treated as data. No script, connector, target or external action is invoked.</div>
+          </section>
+          <section class="panel form-panel" aria-labelledby="atlas-route-title">
+            <div class="wide"><div class="eyebrow">Methods on methods</div><h2 id="atlas-route-title" tabindex="-1">Find Method Atlas candidates</h2><p>Bind acquired project evidence to typed dimensions. Atlas returns research candidates, classifier questions, missing evidence and falsifiers; it does not execute a method.</p></div>
+            <label>Dimensions (Ctrl/Command selects several)<select id="atlas-dimensions" multiple size="6" aria-describedby="atlas-route-boundary"></select></label>
+            <label>Acquired project sources<select id="atlas-source-refs" multiple size="6" aria-describedby="atlas-route-boundary"></select></label>
+            <label>Subject IDs, comma separated<input id="atlas-subject-ids" maxlength="1200" placeholder="PROJECT:my-project"></label>
+            <label>Domain profile<select id="atlas-domain"><option value="GENERAL">General</option><option value="BUSINESS">Business</option><option value="GAMING">Gaming</option></select></label>
+            <label>Purpose filter<select id="atlas-purpose"><option value="">Any registered purpose</option></select></label>
+            <label>Maximum candidates<input id="atlas-max" type="number" min="1" max="12" value="6"></label>
+            <div class="wide button-row"><button class="button accent" id="atlas-route" type="button">Find Atlas candidates</button><button class="button" id="atlas-copy" type="button" disabled>Copy routing receipt</button><span class="micro-state" id="atlas-route-status" role="status" aria-live="polite" aria-atomic="true">NOT ROUTED</span></div>
+            <div class="wide honesty-note" id="atlas-route-boundary">STRUCTURAL CANDIDATE · NOT EXECUTED. Sources are checked against the open project by the local host. Atlas records remain unchanged.</div>
+            <div class="wide method-list" id="atlas-route-results" tabindex="-1"><div class="empty-row">Choose acquired evidence and dimensions to route the Atlas.</div></div>
+          </section>
+          <section class="panel"><div class="search-row"><input class="grow" id="method-search" type="search" placeholder="Search method ID, name, dimension or required input"><label class="toggle-label"><input id="method-implemented-only" type="checkbox"> Implemented only</label></div><div id="methods-list" class="method-list"><div class="empty-row">Method inventory is unavailable until the local service starts.</div></div></section>
+        </section>
+
+        <section class="view" id="view-tasks" data-view-panel="tasks" aria-labelledby="tasks-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Jobs and checkpoints</div><h1 id="tasks-title">Tasks</h1><p>Queued, running, completed, failed and cancelled work retains its exact checkpoint.</p></div></div>
+          <section class="panel"><div id="tasks-list" class="task-list"><div class="empty-row">No project tasks.</div></div></section>
+        </section>
+
+        <section class="view" id="view-reports" data-view-panel="reports" aria-labelledby="reports-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Saved analysis</div><h1 id="reports-title">Reports</h1><p>Local save, queued destination and provider-confirmed delivery are separate states.</p></div><button class="button accent" id="save-report-secondary" type="button" disabled>Save current report</button></div>
+          <div class="two-column report-layout"><section class="panel"><div class="panel-head"><div><h2>Project reports</h2><p>Select one to reopen its source-bound result.</p></div></div><div id="reports-list" class="stack-list"><div class="empty-row">No saved reports.</div></div></section><section class="panel report-preview"><div class="panel-head"><div><h2 id="report-preview-title">Preview</h2><p id="report-preview-state">Nothing selected</p></div></div><pre id="report-preview">Choose a saved report.</pre><div class="button-row"><button class="button compact" id="copy-report" type="button" disabled>Copy</button><button class="button compact" id="export-report" type="button" disabled>Export</button></div></section></div>
+        </section>
+
+        <section class="view" id="view-connections" data-view-panel="connections" aria-labelledby="connections-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Setup + observed capability</div><h1 id="connections-title">Connections</h1><p>Use the large provider action first. Adapter installed, signed in, capability discovered and protected read verified remain separate facts.</p></div><button class="button" id="add-connection" type="button">Advanced manual setup</button></div>
+          <div class="connection-boundary" role="note"><strong>Normal sign-in stays host-owned.</strong><span>A Sign in button appears only when the packaged host advertises a registered provider driver. Tokens never enter this page or the project database.</span></div>
+          <div id="connections-grid" class="connection-grid"><div class="panel empty-row">No connection observations loaded.</div></div>
+          <details class="panel settings-card"><summary>Stored access tokens</summary><p id="connection-secret-status">Refresh to manage this desktop app’s stored token references.</p><label>Token reference<select id="connection-secret-list"><option value="">No references loaded</option></select></label><div class="button-row"><button class="button" id="connection-secret-refresh" type="button">Refresh tokens</button><button class="button danger" id="connection-secret-remove" type="button" disabled>Forget selected token</button></div><p>Forgetting removes the token from this app. Revoke it at the provider as well if you want to invalidate it everywhere.</p></details>
+        </section>
+
+        <section class="view" id="view-assistant" data-view-panel="assistant" aria-labelledby="assistant-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Model behavior</div><h1 id="assistant-title">Assistant</h1><p>Chat uses the selected model’s default reasoning behavior. Add task instructions to your message. Saved assistant revisions and effort overrides require a host adapter and are unavailable in this build.</p></div></div>
+          <fieldset class="panel form-panel" disabled>
+            <label>Assistant name<input id="assistant-name" value="MPC Workspace Assistant"></label>
+            <label>Tone<select id="assistant-tone"><option>Clear and evidence-first</option><option>Concise</option><option>Technical</option></select></label>
+            <label>Domain profile<select id="assistant-domain"><option>GENERAL</option><option>BUSINESS</option><option>LEGAL</option><option>SCIENCE</option><option>NEWS</option></select></label>
+            <label class="wide">Instructions<textarea id="assistant-instructions" rows="8" placeholder="Project-specific, versioned instructions"></textarea></label>
+            <label>Reasoning effort<select id="assistant-effort"><option value="provider-default">Provider default</option><option>low</option><option>medium</option><option>high</option></select></label>
+            <label>Budget<input id="assistant-budget" inputmode="numeric" placeholder="Optional operation budget"></label>
+            <div class="wide button-row"><button class="button accent" id="save-assistant" type="button">Save new revision</button><button class="button" id="export-task" type="button">Export portable task</button><button class="button" id="import-task" type="button">Import portable task</button><input id="portable-task-input" type="file" accept="application/json,.json" hidden></div>
+          </fieldset>
+        </section>
+
+        <section class="view" id="view-screen" data-view-panel="screen" aria-labelledby="screen-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Local capture → OCR → your reasoning</div><h1 id="screen-title">Screen reader</h1><p>Read a selected window or monitor at its captured resolution. Pixels stay in memory; English OCR runs on this computer.</p></div><button class="button" id="screen-refresh" type="button">Choose / refresh sources</button></div>
+          <div class="screen-toolbar panel"><label class="screen-source-field">Window or screen<select id="screen-source"><option value="">Refresh sources to choose</option></select></label><div class="button-row"><button class="button run" id="screen-start" type="button">Start</button><button class="button" id="screen-now" type="button" disabled>Capture now</button><button class="button danger" id="screen-stop" type="button" disabled>Stop</button><button class="button" id="screen-clear" type="button">Stop &amp; clear</button></div><label class="screen-consent toggle-label"><input id="screen-consent" type="checkbox"> I allow MPC to read this selected source for this session.</label><p id="screen-status" role="status" aria-live="polite">Screen reading is off.</p></div>
+          <div class="screen-layout">
+            <section class="panel screen-output"><div class="panel-head"><div><h2>Recognized text</h2><p id="screen-result-meta">No screen has been captured.</p></div><label class="toggle-label"><input id="screen-hold-text" type="checkbox"> Hold text for reading</label></div>
+              <div class="button-row"><button class="button" id="screen-select" type="button" disabled>Select all</button><button class="button" id="screen-copy" type="button" disabled>Copy text</button><button class="button" id="screen-save" type="button" disabled>Save .txt</button><button class="button" id="screen-copy-packet" type="button" disabled>Copy for ChatGPT / Codex</button><button class="button accent" id="screen-use" type="button" disabled>Use in chat</button></div>
+              <label class="sr-only" for="screen-text">Copyable screen text</label><textarea id="screen-text" readonly spellcheck="false" placeholder="Start a permitted screen capture. Recognized text appears here; you can copy it without a model."></textarea>
+              <div class="button-row"><span id="screen-pending" role="status"></span><button class="button compact" id="screen-apply-result" type="button" disabled>Apply newer text</button></div>
+              <section class="screen-classifier" aria-labelledby="screen-classifier-title"><h3 id="screen-classifier-title">Observed atoms, process methods &amp; checks</h3><p id="screen-classifier-summary">MPC examines recognized text atoms, changes and method dependencies. Existing classifier identities remain available in the expanded receipts.</p><p id="screen-virtual-route">No virtual OCR routing metadata yet.</p><ul id="screen-classifier-cues"></ul><p id="screen-classifier-change"></p><details><summary>Evidence, hypotheses &amp; method receipts</summary><pre id="screen-classifier-detail">No classification yet.</pre></details></section>
+              <details class="screen-preview-wrap"><summary>Masked preview</summary><img id="screen-preview" alt="Cropped and masked screen area submitted to local OCR" hidden><p>Preview and OCR share the same crop and masks. Word coordinates refer to OCR-image pixels.</p></details>
+            </section>
+            <aside class="screen-options">
+              <section class="panel settings-card" id="screen-capture-settings"><h2>Capture &amp; privacy</h2><label>Mode<select id="screen-mode"><option value="single">One screen capture</option><option value="live">Repeated capture</option></select></label><label>Sampling rate<select id="screen-fps"><option value="0.5">Every 2 seconds</option><option value="1" selected>1 frame / second</option><option value="2">2 frames / second</option><option value="4">4 frames / second</option></select></label><p>Repeated capture keeps the newest waiting frame and skips unchanged images. OCR speed depends on the selected area and this computer.</p>
+                <label>Image treatment<select id="screen-image-mode"><option value="native">Original pixels</option><option value="contrast">Increase text contrast</option><option value="otsu">Black &amp; white text (Otsu)</option></select></label><p>Keep original pixels first. Contrast or black and white can help difficult text; they can also remove useful detail. The display itself stays steady.</p>
+                <label>Session limit<select id="screen-duration"><option value="5">5 minutes</option><option value="15" selected>15 minutes</option><option value="30">30 minutes</option></select></label>
+                <label><input id="screen-preview-enabled" type="checkbox" checked> Show the masked preview</label><label><input id="screen-exclude-mpc" type="checkbox" checked> Exclude MPC windows from capture</label><label><input id="screen-print-key" type="checkbox"> Use Print Screen for capture during this session</label>
+                <details><summary>Crop area (percent of source)</summary><div class="screen-region"><label>Left %<input id="screen-crop-x" type="number" min="0" max="99" value="0"></label><label>Top %<input id="screen-crop-y" type="number" min="0" max="99" value="0"></label><label>Width %<input id="screen-crop-w" type="number" min="1" max="100" value="100"></label><label>Height %<input id="screen-crop-h" type="number" min="1" max="100" value="100"></label></div><p>Smaller regions reduce work while preserving the text’s captured pixels.</p><div class="button-row"><button class="button compact" id="screen-roi-suggest" type="button" disabled>Suggest crop from OCR</button><button class="button accent compact" id="screen-roi-apply" type="button" disabled>Apply crop for next capture</button><button class="button compact" id="screen-roi-copy" type="button" disabled>Copy method receipt</button></div><p id="screen-roi-status" role="status" aria-live="polite">Capture a source first; MPC can invert recognized text geometry into an optional smaller region. No automatic recapture.</p></details>
+                <details><summary>Privacy masks</summary><p>Black out sensitive regions before OCR or preview. Percentages refer to the complete selected source.</p><div class="screen-region"><label>Left %<input id="screen-mask-x" type="number" min="0" max="99" value="0"></label><label>Top %<input id="screen-mask-y" type="number" min="0" max="99" value="0"></label><label>Width %<input id="screen-mask-w" type="number" min="1" max="100" value="20"></label><label>Height %<input id="screen-mask-h" type="number" min="1" max="100" value="10"></label></div><button class="button compact" id="screen-add-mask" type="button">Add mask</button><ol id="screen-mask-list"></ol></details>
+                <p>Capture stops on lock, sleep, source loss, project change or expiry. Ctrl + Shift + F8 and the floating Stop control stop it immediately. Use in chat and exports are separate actions.</p>
+              </section>
+              <details class="panel settings-card"><summary>Performance</summary><dl id="screen-metrics" class="screen-metrics"></dl><button class="button compact" id="screen-save-metrics" type="button">Save timing / memory report</button><p>Process Explorer shows process CPU, memory and threads; OCR runs in the main MPC process. Capture and model processes have separate measurements. Process Monitor shows file activity. RAMMap helps explain system memory pressure.</p></details>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="view-network" data-view-panel="network" aria-labelledby="network-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Native OS metadata · no packet capture</div><h1 id="network-title">Network observation</h1>
+            <p>Inspect this computer's reported processes, TCP connections and UDP ports. No targets are contacted; port metadata is separate from screen OCR.</p></div></div>
+          <div class="panel network-observation">
+            <div class="button-row">
+              <button class="button accent" id="network-refresh" type="button" disabled>Take snapshot</button>
+              <button class="button danger" id="network-clear" type="button">Stop &amp; clear</button>
+              <label class="toggle-label"><input type="checkbox" id="network-consent"> I allow MPC to inspect local network endpoint metadata for each snapshot.</label>
+            </div>
+            <p id="network-observation-status" role="status" aria-live="polite">Network reading is off.</p>
+            <p id="network-summary">No native network snapshot collected.</p>
+            <p id="network-diff">No prior observation to compare.</p><p id="network-meta-route">Virtual network classifier: no observation yet.</p>
+            <div class="button-row">
+              <label>View<select id="network-kind"><option value="ALL">All TCP / UDP</option><option value="TCP">TCP</option><option value="UDP">UDP</option><option value="LISTEN">Listening TCP</option><option value="ESTABLISHED">Established TCP</option></select></label>
+              <label>Filter process / PID / port<input id="network-filter" type="search" autocomplete="off" placeholder="Process, address or port"></label>
+            </div>
+            <p id="network-visible">No endpoint rows.</p>
+            <div class="network-table-scroll" tabindex="0" aria-label="Scrollable local network connection list">
+              <table class="network-table"><thead><tr><th scope="col">Process</th><th scope="col">PID</th><th scope="col">Protocol</th><th scope="col">Local address</th><th scope="col">Remote address</th><th scope="col">State</th></tr></thead>
+                <tbody id="network-rows"></tbody></table>
+            </div>
+            <details><summary>Copyable JSON and source details</summary>
+              <div class="button-row"><button class="button" id="network-select" type="button" disabled>Select all</button>
+                <button class="button" id="network-copy" type="button" disabled>Copy JSON</button>
+                <button class="button" id="network-save" type="button" disabled>Save .json</button>
+                <button class="button accent" id="network-use" type="button" disabled>Use in chat</button></div>
+              <label class="sr-only" for="network-text">Native network snapshot JSON</label>
+              <textarea id="network-text" readonly spellcheck="false" placeholder="Take one permitted snapshot to view TCP/UDP metadata."></textarea>
+            </details>
+            <p class="honesty-note">Snapshots are manually requested, bounded, non-atomic and volatile until Copy, Save or Use in chat. Process names are best-effort PID associations. No target probing, DNS lookup, packet inspection, connection termination or firewall changes. Missing/truncated tables limit comparisons.</p>
+          </div>
+        </section>
+
+        <section class="view" id="view-settings" data-view-panel="settings" aria-labelledby="settings-title" hidden>
+          <div class="page-heading"><div><div class="eyebrow">Local workspace controls</div><h1 id="settings-title">Settings</h1><p>Raw retention, service health and diagnostics remain visible and reversible.</p></div></div>
+          <div class="settings-grid">
+            <section class="panel settings-card"><h2>Project retention</h2><label><input type="radio" name="retention" value="RETAIN_TEXT"> Retain selected content locally (text plus explicitly selected files and images)</label><label><input type="radio" name="retention" value="METADATA_ONLY" checked> Store metadata and digests only</label><p class="honesty-note">Metadata-only projects need original content again for replay. Retained image bytes can prevent an in-place downgrade; create a new metadata-only project when required.</p></section>
+            <section class="panel settings-card"><h2>Display and accessibility</h2><label>Spacing<select id="density-level"><option value="compact">Compact</option><option value="comfortable">Comfortable</option></select></label><label>Interface zoom<select id="zoom-level"><option value="0.5">50%</option><option value="0.6">60%</option><option value="0.75">75%</option><option value="0.85">85%</option><option value="0.9">90%</option><option value="1" selected>100%</option><option value="1.1">110%</option><option value="1.25">125%</option><option value="1.5">150%</option><option value="2">200%</option></select></label><p>Use the − / + controls above, or View → Zoom Out (Ctrl + −) for the entire desktop window.</p><label><input id="wheel-zoom" type="checkbox"> Shift + mouse wheel changes interface zoom</label><p class="input-boundary-note">When enabled, Shift + wheel is reserved for zoom. Turn it off for normal horizontal scrolling. Drag the chat edge, or focus its divider and use the arrow keys, to resize it.</p><label><input id="reduced-motion" type="checkbox"> Reduce motion</label><label><input id="high-contrast" type="checkbox"> High contrast</label><label><input id="quiet-mode-setting" type="checkbox"> Quiet mode</label></section>
+            <section class="panel settings-card"><h2>Local service</h2><dl><div><dt>Status</dt><dd id="settings-service-state">Unknown</dd></div><div><dt>Database</dt><dd id="settings-database">Not reported</dd></div><div><dt>App build</dt><dd id="settings-build">Not reported</dd></div><div><dt>GUI source</dt><dd id="settings-source-commit">Not reported</dd></div></dl><div class="button-row"><button class="button" id="open-logs" type="button">Open logs</button><button class="button" id="restart-service" type="button">Restart service</button><button class="button" id="copy-error" type="button" disabled>Copy latest error</button></div></section>
+          </div>
+        </section>
+      </main>
+
+      <section class="composer" id="composer" aria-labelledby="composer-title" hidden>
+        <div class="composer-resizer" id="composer-resizer" role="separator" tabindex="0" aria-label="Resize chat; use arrow keys or drag" aria-orientation="horizontal" aria-valuemin="170" aria-valuemax="430" aria-valuenow="200"></div>
+        <div class="composer-head">
+          <strong id="composer-title">MPC Assistant</strong>
+          <div class="button-row"><span id="draft-state" class="micro-state">DRAFT NOT SAVED</span><label class="sr-only" for="dock-composer">Assistant placement</label><select id="dock-composer" class="dock-picker"><option value="right" selected>Side panel (bottom on narrow windows)</option><option value="floating">Floating box</option><option value="bottom">Bottom panel</option></select><button class="button compact" id="move-composer" type="button" aria-label="Move floating assistant; drag or use arrow keys" hidden>Move</button><button class="button compact" id="reset-composer-size" type="button" title="Fit chat to its content">Fit</button><button class="button compact" id="hide-composer" type="button" aria-controls="composer">Hide chat</button></div>
+        </div>
+        <div class="composer-body"><div class="assistant-conversation-host" id="assistant-conversation-host">
+            <section class="panel conversation-panel" aria-labelledby="conversation-title">
+              <div class="panel-head">
+                <div><h2 id="conversation-title">Conversation</h2><p>Answers come from the selected observed provider. Local routing and search remain available when inference is not.</p></div>
+                <div class="button-row"><button class="button compact" id="copy-answer" type="button" disabled>Copy answer</button><span class="micro-state" id="conversation-state">READY</span></div>
+              </div>
+              <div class="conversation" id="conversation" role="log" aria-live="polite" aria-relevant="additions">
+                <div class="empty-state">
+                  <div class="landscape-icon" aria-hidden="true">⌁</div>
+                  <h3>Ask, or bring the record into view</h3>
+                  <p>Ask an ordinary question with the selected local model, or paste material, attach files or add a folder for source-bound analysis. MPC Workspace keeps conversation, evidence and evaluator receipts distinct.</p>
+                </div>
+              </div>
+            </section>
+
+
+</div>
+          <div class="composer-input-grid">
+            <label class="question-field"><span class="sr-only">Question or objective</span><textarea id="composer-input" rows="2" aria-describedby="question-boundary" placeholder="Message MPC Assistant…"></textarea><small id="question-boundary" class="input-boundary-note sr-only">This instruction is sent to the job; it is never acquired as evidence.</small></label>
+
+          </div>
+<details class="advanced-chat" id="advanced-chat"><summary>Advanced</summary>
+            <details class="evidence-input" id="evidence-input-details">
+              <summary id="evidence-input-summary">Evidence text (optional)</summary>
+              <label><span class="sr-only">Evidence material (optional)</span><textarea id="material-input" rows="2" aria-describedby="material-boundary" placeholder="Paste logs, records, JSON, notes or other source material…"></textarea><small id="material-boundary" class="input-boundary-note">This material is acquired as evidence for the run.</small></label>
+            </details>
+          <div class="composer-context"><span id="composer-project">No project</span><span>•</span><span id="composer-model">No model</span><span>•</span><label>Mode <select id="work-mode"><option value="AUTO">Auto</option><option value="CHAT">Chat</option><option value="EVIDENCE_ANALYSIS">Evidence analysis</option></select></label></div>
+<p class="input-boundary-note">Auto reasons over your message and uses selected attachments when present. Choose a specific mode only when needed.</p></details>
+          <div id="attachment-tray" class="attachment-tray" aria-live="polite"><span class="tray-placeholder">Drop text or files here, or use an attachment control.</span></div>
+        </div>
+        <div class="composer-controls">
+          <details class="attachment-options" id="attachment-options"><summary class="button compact">+ Add</summary><div class="attachment-options-list" role="group" aria-label="Add material">
+            <button class="button compact" id="attach-files" type="button">Attach files</button>
+            <button class="button compact" id="add-folder" type="button">Add folder</button>
+            <button class="button compact" id="paste-question" type="button">Paste message</button>
+            <button class="button compact" id="paste-input" type="button">Paste evidence</button>
+            <input id="browser-file-input" type="file" multiple hidden>
+          </div></details>
+          <span class="send-hint">Enter to send · Shift + Enter for a new line</span>
+
+          <div class="button-row">
+            <button class="button danger" id="stop-work" type="button" disabled hidden>Stop</button>
+            <button class="button run" id="run-work" type="button">Send</button>
+          </div>
+        </div>
+        <div class="drop-overlay" id="drop-overlay" aria-hidden="true">Drop files into this project</div>
+      </section>
+    </div>
+  </div>
+
+  <dialog id="project-dialog" aria-labelledby="project-dialog-title">
+    <form method="dialog" class="dialog-card" id="project-form">
+      <div class="dialog-head"><div><div class="eyebrow">New local workspace</div><h2 id="project-dialog-title">Create project</h2></div><button class="icon-button" id="close-project-dialog" type="button" aria-label="Close">×</button></div>
+      <label>Project name<input id="project-name" required maxlength="120" autocomplete="off"></label>
+      <label>Objective<textarea id="project-new-objective" rows="4" maxlength="4000"></textarea></label>
+      <fieldset><legend>Raw material retention</legend><label><input type="radio" name="new-retention" value="METADATA_ONLY" checked> Metadata and digests only</label><label><input type="radio" name="new-retention" value="RETAIN_TEXT"> Retain selected content locally, including explicitly selected files and images</label></fieldset>
+      <div class="dialog-actions"><button class="button" id="cancel-project" type="button">Cancel</button><button class="button accent" id="create-project" type="submit">Create project</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="output-dialog" class="output-dialog" aria-labelledby="output-title">
+    <section class="dialog-card output-card">
+      <div class="dialog-head"><div><div class="eyebrow">Copy or save the results</div><h2 id="output-title">Chat output</h2></div><button class="icon-button" id="close-output-dialog" type="button" aria-label="Close output">×</button></div>
+      <div class="output-toolbar"><label>Show<select id="output-mode"><option value="answer">Latest answer</option><option value="transcript">Full visible chat log</option></select></label><button class="button compact" id="refresh-output" type="button">Refresh</button><span id="output-size" class="input-boundary-note"></span></div>
+      <label class="sr-only" for="output-text">Plain-text chat results</label><textarea id="output-text" readonly spellcheck="false" placeholder="No answer yet. Send a message in the assistant."></textarea>
+      <div class="dialog-actions"><button class="button" id="select-output" type="button">Select all</button><button class="button" id="save-output" type="button">Save .txt</button><button class="button accent" id="copy-output" type="button">Copy text</button></div>
+    </section>
+  </dialog>
+
+  <dialog id="connector-setup-dialog" aria-labelledby="connector-setup-title">
+    <section class="dialog-card connector-setup-card">
+      <div class="dialog-head"><div><div class="eyebrow">MPC Workspace auth broker</div><h2 id="connector-setup-title">Connector setup</h2></div><button class="icon-button" id="close-connector-setup" type="button" aria-label="Close connector setup">×</button></div>
+      <p id="connector-setup-status" class="connection-setup-status" role="status">Setup status</p>
+      <dl class="connector-state-grid">
+        <div><dt>Adapter</dt><dd id="connector-adapter-state">UNAVAILABLE</dd></div>
+        <div><dt>Sign-in</dt><dd id="connector-auth-state">NOT_APPLICABLE</dd></div>
+        <div><dt>Capability</dt><dd id="connector-capability-state">UNAVAILABLE</dd></div>
+        <div><dt>Observed account</dt><dd id="connector-account-state">Not observed</dd></div>
+      </dl>
+      <div class="next-action-card static"><span>Exact next action</span><strong id="connector-next-action">Install a reviewed host adapter, then return to sign in.</strong></div>
+      <p class="honesty-note">A browser launch or saved account is not “connected.” MPC Workspace marks only a matching protected operation as verified, and preserves earlier success separately from a current failure.</p>
+      <div class="dialog-actions"><button class="button" id="connector-manual-setup" type="button">Advanced manual setup</button><button class="button" id="connector-cancel-setup" type="button" hidden>Cancel sign-in</button><button class="button accent" id="connector-check-status" type="button" hidden>Check sign-in status</button></div>
+    </section>
+  </dialog>
+
+  <dialog id="connection-dialog" aria-labelledby="connection-dialog-title">
+    <form method="dialog" class="dialog-card" id="connection-form">
+      <div class="dialog-head"><div><div class="eyebrow">Host-owned credentials</div><h2 id="connection-dialog-title">Add connection</h2></div><button class="icon-button" id="close-connection-dialog" type="button" aria-label="Close">×</button></div>
+      <label>Display name<input id="connection-name" required maxlength="120"></label>
+      <label>Provider<select id="connection-provider"><option>OLLAMA</option><option>GITHUB</option><option>GOOGLE_DRIVE</option><option>GMAIL</option><option>DROPBOX</option><option>DROPBOX_DASH</option><option>HOSTED_MPC</option><option>LOCAL_MPC</option><option>OPENAI_API</option><option>CUSTOM_MCP</option></select></label>
+      <div class="connection-help" id="connection-help" role="status"></div>
+      <button class="button accent" id="connection-local-setup" type="button">Open Local AI setup</button>
+      <label>Transport<select id="connection-transport"><option value="PLUGIN">Built-in / host adapter</option><option value="OPENAI_API">OpenAI API adapter</option><option value="loopback_http">Local loopback HTTP</option><option value="stdio">Local stdio</option><option value="streamable_http">Remote streaming HTTP</option><option value="secure_mcp_tunnel">Secure MCP tunnel</option></select></label>
+      <label>Endpoint or command<input id="connection-endpoint" required maxlength="2000" autocomplete="off" aria-describedby="connection-endpoint-help"></label>
+      <small id="connection-endpoint-help" class="input-boundary-note"></small>
+      <label>Existing credential reference (optional)<input id="connection-credential" maxlength="500" placeholder="Created by this desktop app" aria-describedby="connection-credential-help"></label>
+      <small id="connection-credential-help" class="input-boundary-note">Use an existing reference, or enter your own scoped access token below. Tokens are sent only to their fixed provider API by the host.</small>
+      <div id="connection-token-fields"><label>Access token<input id="connection-token" type="password" maxlength="16000" autocomplete="off" spellcheck="false" placeholder="Read access to the selected provider"></label><label class="toggle-label"><input id="connection-remember" type="checkbox"> Remember encrypted on this computer</label><p>With Remember off, the token lasts only for this app session. Screen capture stops while you enter credentials. Provider expiry still applies.</p></div>
+      <p class="honesty-note">Account identity, discovered scopes and tools come from the host adapter’s actual observation; they are not self-asserted here. Saving a URL means configured, not connected.</p>
+      <div class="dialog-actions"><button class="button" id="cancel-connection" type="button">Cancel</button><button class="button accent" id="configure-connection" type="submit">Save configuration</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="local-model-dialog" aria-labelledby="local-model-title">
+    <section class="dialog-card local-model-card">
+      <div class="dialog-head"><div><div class="eyebrow">On this computer</div><h2 id="local-model-title">Local AI setup</h2></div><button class="icon-button" id="close-local-model-dialog" type="button" aria-label="Close Local AI setup">×</button></div>
+      <p id="local-model-status" role="status">Checking Ollama…</p>
+      <dl class="local-model-details"><div><dt>Ollama address</dt><dd><code>http://127.0.0.1:11434</code></dd></div><div><dt>Starter model</dt><dd id="local-starter-status">Not checked</dd></div><div><dt>Your MPC model</dt><dd id="local-mpc-status">Not checked</dd></div></dl>
+      <p class="setup-intro">If Ollama is not installed, download its Windows installer from <code>https://ollama.com/download/windows</code>, install it, then return here.</p>
+      <div class="button-row"><button class="button compact" id="copy-ollama-link" type="button">Copy installer link</button><button class="button compact" id="local-model-refresh" type="button">Refresh status</button></div>
+      <div class="setup-steps">
+        <div><div><strong>1. Start Ollama</strong><p>Uses your installed Ollama service.</p></div><button class="button" id="local-model-start" type="button">Start Ollama</button></div>
+        <div><div><strong>2. Download the starter</strong><p>Qwen3 4B Instruct · several GB; progress appears below.</p></div><button class="button" id="local-model-pull" type="button">Download model</button></div>
+        <div><div><strong>3. Create your MPC model</strong><p>Applies the bundled MPC instructions to the starter model.</p></div><button class="button" id="local-model-create" type="button">Create MPC model</button></div>
+      </div>
+      <div class="setup-progress" aria-live="polite"><progress id="local-model-progress" max="100" hidden></progress><p id="local-model-progress-text">No setup operation running.</p></div>
+      <p class="input-boundary-note">Model detection confirms installation. Your first completed answer confirms local inference. Setup actions do not run a project or upload its evidence.</p>
+      <div class="dialog-actions"><button class="button danger" id="local-model-stop" type="button" disabled>Stop setup</button><button class="button accent" id="local-model-use" type="button" disabled>Use local model</button></div>
+    </section>
+  </dialog>
+
+  <dialog id="connection-read-dialog" aria-labelledby="connection-read-title"><section class="dialog-card connection-read-card">
+    <div class="dialog-head"><h2 id="connection-read-title">Read a selected resource</h2><button class="icon-button" id="connection-read-close" type="button" aria-label="Close selected read">×</button></div>
+    <p id="connection-read-help"></p>
+    <div id="connection-github-fields"><label>Repository<input id="connection-repository" value="mjcustomcomputers-dotcom/Machine-Bug-Tool" maxlength="200"></label><label>Branch, tag or commit<input id="connection-ref" value="feature/mpc-screen-ocr-20261009" maxlength="200"></label><label>File path<input id="connection-file-path" value="docs/MPC-SCREEN-READER.md" maxlength="1500"></label></div>
+    <label id="connection-native-field">Native file / message ID or Dropbox path<input id="connection-native-id" maxlength="2000" autocomplete="off"></label>
+    <label class="toggle-label"><input id="connection-include-content" type="checkbox" checked> Read the selected text content</label>
+    <div class="button-row"><button class="button accent" id="connection-read-run" type="button">Read selected resource</button><button class="button" id="connection-read-use" type="button" disabled>Use as evidence</button><button class="button" id="connection-read-copy" type="button" disabled>Copy receipt</button></div>
+    <p id="connection-read-status" role="status" aria-live="polite"></p><label class="sr-only" for="connection-read-output">Selected resource result</label><textarea id="connection-read-output" readonly spellcheck="false"></textarea>
+  </section></dialog>
+  <div class="toast-region" id="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="sr-only" id="assertive-status" role="alert" aria-live="assertive"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
