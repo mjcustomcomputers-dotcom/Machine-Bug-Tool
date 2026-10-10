@@ -42,16 +42,16 @@ def independent(raw,output):
     assert set(output["y"])=={str(i) for i in range(s)}
     for k in range(s):
         matrix=output["y"][str(k)]
-        assert set(matrix)=={str(i) for i in range(f)}
+        assert set(matrix).issubset({str(i) for i in range(f)})
         for i in range(f):
-            assert set(matrix[str(i)])=={str(j) for j in range(c)}
-            flow=[matrix[str(i)][str(j)] for j in range(c)]
+            assert set(matrix.get(str(i), {})).issubset({str(j) for j in range(c)})
+            flow=[matrix.get(str(i), {}).get(str(j), 0.0) for j in range(c)]
             assert all(x>=-1e-6 and math.isfinite(x) for x in flow)
             assert sum(flow)<=((raw["facilities"][i]["capacity"] if i in opened else 0)+1e-5)
             result+=raw["scenarios"][k]["probability"]*sum(
                 flow[j]*raw["transportation_costs"][i][j] for j in range(c))
         for j in range(c):
-            assert sum(matrix[str(i)][str(j)] for i in range(f)) >= (
+            assert sum(matrix.get(str(i), {}).get(str(j), 0.0) for i in range(f)) >= (
                 raw["scenarios"][k]["demands"][j]-1e-5)
     assert abs(output["objective_value"]-result)<1e-4
 
@@ -70,6 +70,17 @@ class FacilityTests(unittest.TestCase):
         independent(raw,result)
         self.assertIn(0,result["open_facilities"])
         self.assertLess(result["objective_value"],100.)
+
+    def test_sparse_shipments_implicit_zeros(self):
+        raw=fixture(6,12,4,21)
+        result=solver.solve(raw,5)
+        independent(raw,result)
+        total=6*12*4
+        emitted=sum(len(v) for scenario in result["y"].values() for v in scenario.values())
+        self.assertLess(emitted,total)
+        # Roundtrip keeps the original independent objective and all physical constraints.
+        import json
+        independent(raw,json.loads(json.dumps(result,separators=(",",":"))))
 
     def test_greedy_fallback_always_feasible(self):
         raw=fixture()
