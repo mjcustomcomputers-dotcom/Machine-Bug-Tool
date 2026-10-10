@@ -1,0 +1,54 @@
+name: MPC V31 Bidirectional Intelligence And Oracles
+
+on:
+  push:
+    branches:
+      - feature/mpc-bidirectional-intelligence-v31
+  pull_request:
+    branches:
+      - feature/mpc-workspace-engineering-lab-v30
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-v31-intelligence-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  intelligence:
+    name: Forward reverse abduction metamethod receiving source acceptance
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - name: Check out exact V31 source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Verify exact V30 ancestor and additive changes
+        shell: bash
+        run: |
+          git rev-parse HEAD
+          git merge-base --is-ancestor 1749089a1666cfa47daf0d2b2a131d02f568cf54 HEAD
+          git diff --name-status 1749089a1666cfa47daf0d2b2a131d02f568cf54 HEAD
+          git status --short
+      - name: Activate pinned Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Pinned pnpm
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm --version
+      - name: Install frozen dependency graph
+        run: pnpm install --frozen-lockfile
+      - name: Focused V31 finite logic and V30 workspace regressions
+        run: |
+          node --test tests/mpc-v31-bidirectional-intelligence.test.mjs tests/mpc-v30-engineering-lab.test.mjs tests/mpc-v30-engineering-server.test.mjs
+      - name: Run complete MPC tests
+        run: node --test
+      - name: Build full MPC source
+        run: pnpm run build
