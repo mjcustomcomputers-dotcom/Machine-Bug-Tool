@@ -105,6 +105,87 @@ def greedy_transport(p,opened):
     return result if check(p,opened,result) else None
 
 
+def improve_transport_exchanges(p,opened,ship,deadline):
+    """Improve fixed-opening recourse with capacity-safe residual exchanges.
+
+    Direct moves consume spare capacity. Pair exchanges preserve both facility
+    loads and customer totals, so every accepted step remains feasible without
+    SciPy. Rebuilding the sparse positive-flow list between sweeps also exposes
+    improvements created by an earlier exchange.
+    """
+    if ship is None or time.monotonic() >= deadline:
+        return ship
+    f,c,s,cap,fixed,costs,demand,prob=p
+    opened=sorted(set(opened))
+    candidate=[[row[:] for row in matrix] for matrix in ship]
+    original_value=objective(p,opened,ship)
+    for matrix in candidate:
+        if time.monotonic() >= deadline:
+            break
+        for _ in range(4):
+            changed=False
+            free={i:max(0.0,cap[i]-math.fsum(matrix[i])) for i in opened}
+            arcs=[(i,j) for i in opened for j in range(c)
+                  if matrix[i][j] > 1e-10]
+            # Move flow directly to a cheaper facility with unused capacity.
+            moves=[]
+            for i,j in arcs:
+                for h in opened:
+                    saving=costs[i][j]-costs[h][j]
+                    if h != i and free[h] > 1e-10 and saving > 1e-10:
+                        moves.append((-saving,i,h,j))
+            moves.sort()
+            for z,(_,i,h,j) in enumerate(moves):
+                if (z & 255) == 0 and time.monotonic() >= deadline:
+                    break
+                amount=min(matrix[i][j],free[h])
+                if amount <= 1e-10:
+                    continue
+                matrix[i][j]-=amount
+                matrix[h][j]+=amount
+                free[i]+=amount
+                free[h]-=amount
+                changed=True
+            if time.monotonic() >= deadline:
+                break
+            # Exchange two assignments when the crossed arcs are cheaper.
+            arcs=[(i,j) for i in opened for j in range(c)
+                  if matrix[i][j] > 1e-10]
+            # Greedy transport is sparse (normally <= customers+facilities).
+            # Cap pathological dense caller input while retaining deterministic
+            # high-cost arcs, which offer the largest repair opportunity.
+            if len(arcs)>900:
+                arcs=sorted(arcs,key=lambda z:(-costs[z[0]][z[1]],z))[:900]
+            checks=0
+            for a,(i,j) in enumerate(arcs):
+                for h,k2 in arcs[a+1:]:
+                    checks+=1
+                    if (checks & 1023) == 0 and time.monotonic() >= deadline:
+                        break
+                    if i==h or j==k2:
+                        continue
+                    saving=(costs[i][j]+costs[h][k2]
+                            -costs[h][j]-costs[i][k2])
+                    if saving <= 1e-10:
+                        continue
+                    amount=min(matrix[i][j],matrix[h][k2])
+                    if amount <= 1e-10:
+                        continue
+                    matrix[i][j]-=amount
+                    matrix[h][k2]-=amount
+                    matrix[h][j]+=amount
+                    matrix[i][k2]+=amount
+                    changed=True
+                if time.monotonic() >= deadline:
+                    break
+            if not changed or time.monotonic() >= deadline:
+                break
+    if (check(p,opened,candidate) and
+            objective(p,opened,candidate)<original_value-1e-7):
+        return candidate
+    return ship
+
+
 def try_closures(p,opened,ship,deadline):
     """Maximize opening-cost savings under conservative recourse recomputation."""
     f,c,s,cap,fixed,_,demand,_=p
@@ -126,6 +207,8 @@ def try_closures(p,opened,ship,deadline):
             candidate=greedy_transport(p,proposal)
             if candidate is None:
                 continue
+            candidate=improve_transport_exchanges(
+                p,proposal,candidate,min(deadline,time.monotonic()+0.08))
             score=objective(p,proposal,candidate)
             if score+1e-7<best_score:
                 best_opened,best_ship,best_score=proposal,candidate,score
@@ -302,6 +385,8 @@ def solve(instance,time_limit_s):
     ship=greedy_transport(p,opened)
     if ship is None:
         raise RuntimeError("Published instance has no feasible all-open transport")
+    ship=improve_transport_exchanges(
+        p,opened,ship,min(deadline,time.monotonic()+0.8))
     best_opened,best_ship=opened,ship
     if time.monotonic()<deadline-.5:
         challenger_open,challenger_ship=try_closures(

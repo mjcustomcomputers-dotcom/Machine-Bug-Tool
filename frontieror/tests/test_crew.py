@@ -331,6 +331,30 @@ class CrewTests(unittest.TestCase):
         self.assertTrue(crew.verify(p,ans))
         self.assertEqual(crew.objective(p,ans),315.)
 
+    def test_large_sparse_improves_past_first_feasible_leaf(self):
+        import time
+        # On the three unresolved rows, choosing column 178 first forces the
+        # costly 180 leaf (100). Choosing 179 instead permits cheap 181 (2).
+        # The remaining rows are already fixed so this exercises the large
+        # sparse path without changing the small-model router.
+        forced_rows=178
+        columns=[[r] for r in range(3,3+forced_rows)]
+        columns += [[0],[0,1],[1,2],[2]]
+        costs=[0.0]*forced_rows+[0.0,2.0,100.0,0.0]
+        m=3+forced_rows
+        data={"dimensions":{"num_rows":m,"num_cols":len(columns)},
+              "cost_vector":costs,
+              "constraint_matrix_A":{"columns":columns},
+              "has_base_constraints":False}
+        p=crew.parse(data)
+        forced=list(range(forced_rows))
+        active=list(range(forced_rows,len(columns)))
+        ans=crew.large_sparse_cover(
+            p,time.monotonic()+1.0,
+            reduction=(forced,[0,1,2],active))
+        self.assertTrue(crew.verify(p,ans))
+        self.assertEqual(crew.objective(p,ans),2.0)
+
     def test_propagation_queue_on_many_forced_rows(self):
         m=1600
         cols=[[r] for r in range(m)]

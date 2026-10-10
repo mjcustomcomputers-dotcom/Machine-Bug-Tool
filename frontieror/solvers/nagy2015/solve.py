@@ -270,6 +270,100 @@ def relocation(p, routes, deadline):
     return incumbent
 
 
+def _best_request_insertion(p,route,uid,deadline):
+    """Insert one delivery/pickup pair into its two ordered phases."""
+    n=p[0]
+    split=next((k for k in range(1,len(route)-1) if route[k]>n),
+               len(route)-1)
+    best=None
+    for delivery_at in range(1,split+1):
+        with_delivery=route[:delivery_at]+[uid]+route[delivery_at:]
+        first_pickup=split+1
+        for pickup_at in range(first_pickup,len(with_delivery)):
+            if time.monotonic()>=deadline:
+                return best
+            trial=(with_delivery[:pickup_at]+[uid+n]
+                   +with_delivery[pickup_at:])
+            if not feasible(p,trial):
+                continue
+            value=routecost(p,trial)
+            if best is None or value<best[0]-1e-9:
+                best=(value,trial)
+    return best
+
+
+def request_swap(p,routes,deadline):
+    """Exchange paired requests between capacity-tight routes.
+
+    Relocation cannot cross a capacity barrier when both routes are full. This
+    operator removes one complete request from each route, reinserts the other
+    request into the correct delivery/pickup phases, and promotes only a fully
+    verified strict improvement.
+    """
+    if len(routes)<2 or time.monotonic()>=deadline:
+        return routes
+    n,cap,deliveries,pickups,_=p
+    incumbent=[r[:] for r in routes]
+    incumbent_cost=score(p,incumbent)
+    for _ in range(2):
+        best_move=None
+        best_cost=incumbent_cost
+        for a in range(len(incumbent)):
+            if time.monotonic()>=deadline:
+                break
+            requests_a=[x for x in incumbent[a][1:-1] if x<=n]
+            requests_a=sorted(
+                requests_a,
+                key=lambda u:-(routecost(p,incumbent[a])-routecost(
+                    p,[x for x in incumbent[a] if x not in (u,u+n)])))[:12]
+            # Use literal full-route loads when the candidate list was capped.
+            load_da=math.fsum(deliveries[u] for u in incumbent[a] if 0<u<=n)
+            load_pa=math.fsum(pickups[u-n] for u in incumbent[a] if u>n)
+            for b in range(a+1,len(incumbent)):
+                if time.monotonic()>=deadline:
+                    break
+                requests_b=[x for x in incumbent[b][1:-1] if x<=n]
+                requests_b=sorted(
+                    requests_b,
+                    key=lambda u:-(routecost(p,incumbent[b])-routecost(
+                        p,[x for x in incumbent[b] if x not in (u,u+n)])))[:12]
+                load_db=math.fsum(deliveries[u] for u in incumbent[b] if 0<u<=n)
+                load_pb=math.fsum(pickups[u-n] for u in incumbent[b] if u>n)
+                for u in requests_a:
+                    base_a=[x for x in incumbent[a] if x not in (u,u+n)]
+                    for v in requests_b:
+                        if time.monotonic()>=deadline:
+                            break
+                        if (load_da-deliveries[u]+deliveries[v]>cap+1e-7 or
+                            load_pa-pickups[u]+pickups[v]>cap+1e-7 or
+                            load_db-deliveries[v]+deliveries[u]>cap+1e-7 or
+                            load_pb-pickups[v]+pickups[u]>cap+1e-7):
+                            continue
+                        base_b=[x for x in incumbent[b]
+                                if x not in (v,v+n)]
+                        new_a=_best_request_insertion(p,base_a,v,deadline)
+                        if new_a is None:
+                            continue
+                        new_b=_best_request_insertion(p,base_b,u,deadline)
+                        if new_b is None:
+                            continue
+                        value=(incumbent_cost-routecost(p,incumbent[a])
+                               -routecost(p,incumbent[b])+new_a[0]+new_b[0])
+                        if value<best_cost-1e-7:
+                            best_cost=value
+                            best_move=(a,b,new_a[1],new_b[1])
+        if best_move is None:
+            break
+        a,b,new_a,new_b=best_move
+        proposal=[r[:] for r in incumbent]
+        proposal[a],proposal[b]=new_a,new_b
+        if not verify(p,proposal) or score(p,proposal)>=incumbent_cost-1e-7:
+            break
+        incumbent=proposal
+        incumbent_cost=score(p,incumbent)
+    return incumbent
+
+
 def detailed(p,route):
     n,_,delivery,pickup,_=p
     result=[]
@@ -308,6 +402,10 @@ def solve(instance,time_limit_s):
     if time.monotonic() + 0.5 < deadline and len(best) < 100:
         tuned=relocation(p,best,min(deadline,time.monotonic()+10.0))
         if verify(p,tuned) and score(p,tuned) < score(p,best)-1e-7:
+            best=tuned
+    if time.monotonic()+0.5<deadline and len(best)<100:
+        tuned=request_swap(p,best,min(deadline,time.monotonic()+8.0))
+        if verify(p,tuned) and score(p,tuned)<score(p,best)-1e-7:
             best=tuned
     # Cross-phase reversal can improve on strictly delivery-first routes.
     # It never promotes a reversal that violates the actual vehicle load.

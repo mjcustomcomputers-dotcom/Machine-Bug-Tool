@@ -80,6 +80,19 @@ class DivisibleVRPTests(unittest.TestCase):
         answer=vrp.solve(data,5)
         self.assertLess(answer["objective_value"],vrp.score(p,vrp.separate_routes(p)))
 
+    def test_request_swap_escapes_capacity_tight_relocation_optimum(self):
+        import time
+        data=fixture(10,11)
+        p=vrp.parse(data)
+        routes=vrp.savings(p,time.monotonic()+2.)
+        routes=[vrp.phase_two_opt(p,r,time.monotonic()+.2) for r in routes]
+        routes=vrp.relocation(p,routes,time.monotonic()+1.)
+        before=vrp.score(p,routes)
+        swapped=vrp.request_swap(p,routes,time.monotonic()+2.)
+        self.assertTrue(vrp.verify(p,swapped))
+        self.assertLess(vrp.score(p,swapped),before)
+        self.assertLessEqual(vrp.score(p,swapped),216.)
+
     def test_cross_phase_method_nonregression(self):
         import time
         for n,seed in ((6,91),(15,64),(30,75)):

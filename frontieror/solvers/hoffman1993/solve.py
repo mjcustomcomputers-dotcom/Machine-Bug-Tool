@@ -140,7 +140,7 @@ def forced_greedy(p, deadline):
 
 
 def large_sparse_cover(p, deadline, reduction=None):
-    """Feasibility-first bounded MRV recovery for large exact-cover models.
+    """Bounded MRV incumbent recovery for large exact-cover models.
 
     Sparse bitset column masks + persistent parent-pointer paths avoid copying
     full selected schedules into each branch. This is a search heuristic:
@@ -204,11 +204,17 @@ def large_sparse_cover(p, deadline, reduction=None):
     )
     # A persistent parent-index chain reduces memory from O(nodes*depth)
     # to O(nodes). The complete schedule is materialized only at a leaf.
+    # Retain verified leaves across all orderings: returning the first feasible
+    # cover caused a large private instance to keep an avoidably weak objective.
+    best_solution = None
+    best_cost = math.inf
+    initial_cost = math.fsum(costs[j] for j in forced)
+    nonnegative_costs = all(costs[j] >= 0 for j in active)
     for ordering in orderings:
         if time.monotonic() >= deadline - 0.03:
             break
         chain = []  # (parent-index, original column ID)
-        stack = [(initial_mask, -1, initial_base)]
+        stack = [(initial_mask, -1, initial_base, initial_cost)]
         examined = 0
         # The private failure was a no-incumbent exit on the large Crew case.
         # Spend a larger, still bounded feasibility slice before native MIP;
@@ -216,8 +222,10 @@ def large_sparse_cover(p, deadline, reduction=None):
         while stack and examined < 24000:
             if (examined & 31) == 0 and time.monotonic() >= deadline - 0.025:
                 break
-            remain, parent, base_totals = stack.pop()
+            remain, parent, base_totals, score = stack.pop()
             examined += 1
+            if nonnegative_costs and score >= best_cost - 1e-10:
+                continue
             if not remain:
                 chosen = list(forced)
                 node = parent
@@ -226,7 +234,10 @@ def large_sparse_cover(p, deadline, reduction=None):
                     chosen.append(j)
                     node = previous
                 if verify(p, chosen):
-                    return sorted(chosen)
+                    candidate_cost = objective(p, chosen)
+                    if candidate_cost < best_cost - 1e-10:
+                        best_solution = sorted(chosen)
+                        best_cost = candidate_cost
                 # Empty-cover base repairs and fractional edge cases remain
                 # for the original CP-SAT / HiGHS fallback.
                 continue
@@ -260,8 +271,8 @@ def large_sparse_cover(p, deadline, reduction=None):
                     continue
                 chain.append((parent, j))
                 stack.append((remain ^ masks[j], len(chain) - 1,
-                              next_base))
-    return None
+                              next_base, score + costs[j]))
+    return best_solution
 
 
 def cp_sat(p, deadline, incumbent=None):

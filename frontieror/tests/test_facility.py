@@ -146,6 +146,22 @@ class FacilityTests(unittest.TestCase):
         self.assertLessEqual(solver.objective(p,selected,exact),
                              solver.objective(p,selected,fast)+1e-6)
 
+    def test_pure_python_exchange_repairs_greedy_assignment(self):
+        import time
+        raw={"num_facilities":3,"num_customers":3,"num_scenarios":1,
+             "facilities":[{"id":i,"capacity":1,"opening_cost":0}
+                           for i in range(3)],
+             "scenarios":[{"id":0,"demands":[1,1,1],"probability":1}],
+             "transportation_costs":[[0,13,9],[16,13,19],[5,5,3]]}
+        p=solver.parse(raw)
+        opened={0,1,2}
+        greedy=solver.greedy_transport(p,opened)
+        self.assertEqual(solver.objective(p,opened,greedy),30.)
+        repaired=solver.improve_transport_exchanges(
+            p,opened,greedy,time.monotonic()+1.)
+        self.assertTrue(solver.check(p,opened,repaired))
+        self.assertEqual(solver.objective(p,opened,repaired),16.)
+
     def test_direct_sparse_mip(self):
         raw=fixture(4,5,2,36)
         p=solver.parse(raw)
