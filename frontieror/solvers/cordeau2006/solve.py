@@ -701,8 +701,8 @@ def main() -> None:
     with open(args.instance, encoding="utf-8") as file:
         instance = json.load(file)
     solution = solve(instance, args.time_limit)
-    with open(args.output, "w", encoding="utf-8") as file:
-        json.dump(solution, file, allow_nan=False)
+    from _runtime_core import write_solution
+    write_solution(args.output, solution)
 
 
 if __name__ == "__main__":

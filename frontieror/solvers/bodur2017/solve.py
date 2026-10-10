@@ -348,8 +348,8 @@ def main():
     with open(args.instance,encoding="utf-8") as fd:
         data=json.load(fd)
     result=solve(data,args.time_limit)
-    with open(args.output,"w",encoding="utf-8") as fd:
-        json.dump(result,fd,allow_nan=False,separators=(",",":"))
+    from _runtime_core import write_solution
+    write_solution(args.output, result)
 
 
 if __name__=="__main__":

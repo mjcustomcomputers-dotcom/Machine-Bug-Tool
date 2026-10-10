@@ -19,6 +19,11 @@ import re
 import time
 from dataclasses import dataclass
 from pathlib import Path
+import sys as _sys
+_local_dir = str(Path(__file__).resolve().parent)
+if _local_dir not in _sys.path:
+    _sys.path.insert(0, _local_dir)
+from _runtime_core import BoundedMemo
 
 
 @dataclass
@@ -35,7 +40,17 @@ class Problem:
         return self.travel[(min(a, b), max(a, b))]
 
     def cost(self, route: list[int]) -> int:
-        return sum(self.distance(u, v) for u, v in zip(route, route[1:]))
+        # Per-instance MPC virtual route cache: full immutable tour as key.
+        cache = getattr(self, "_route_cost_cache", None)
+        if cache is None:
+            cache = BoundedMemo(limit=2048)
+            self._route_cost_cache = cache
+        key = tuple(route)
+        saved = cache.get(key)
+        if saved is not None:
+            return saved
+        result = sum(self.distance(u, v) for u, v in zip(route, route[1:]))
+        return cache.set(key, result)
 
     def prize(self, route: list[int]) -> int:
         return sum(self.prizes[c] for c in route[1:-1])
@@ -480,9 +495,8 @@ def main() -> None:
         ap.error('This solver implements only fischetti1998')
     instance = json.loads(Path(args.instance).read_text(encoding='utf-8'))
     solution, _meta = run_method(instance, args.method, args.time_limit)
-    output = Path(args.output)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(solution, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+    from _runtime_core import write_solution
+    write_solution(args.output, solution)
 
 
 if __name__ == '__main__':

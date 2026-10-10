@@ -315,8 +315,8 @@ def main():
     with open(arg.instance,encoding="utf-8") as f:
         data=json.load(f)
     result=solve(data,arg.time_limit)
-    with open(arg.output,"w",encoding="utf-8") as f:
-        json.dump(result,f,allow_nan=False,separators=(",",":"))
+    from _runtime_core import write_solution
+    write_solution(arg.output, result)
 
 
 if __name__=="__main__":

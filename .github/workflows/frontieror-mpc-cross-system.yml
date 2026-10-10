@@ -1,0 +1,59 @@
+name: FrontierOR MPC virtual-runtime final gated build
+on:
+  push:
+    branches: [frontieror-mpc-virtual-cache-integration-20261010]
+    paths:
+      - 'frontieror/shared/**'
+      - 'frontieror/solvers/**'
+      - 'frontieror/tests/**'
+      - 'frontieror/build_submission.py'
+      - '.github/workflows/frontieror-mpc-cross-system.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  verify-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 19
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install organizer libraries
+        run: python -m pip install 'ortools==9.15.6755' 'scipy==1.18.1'
+      - name: One consolidated independent six-solver and public-interface test gate
+        run: python -m unittest discover -s frontieror/tests -v
+      - name: Final synthetic objective comparison
+        run: python frontieror/benchmark.py
+      - name: Verify all six inside organizer-like Docker resource sandbox
+        run: |
+          docker info >/dev/null
+          docker build -f frontieror/hardening/Dockerfile --build-arg PY_VERSION=3.12 -t frontieror-mpc-sandbox:3.12 .
+          python frontieror/hardening/sandbox_probe.py --image frontieror-mpc-sandbox:3.12 --seconds 22 --out frontieror/artifacts/resource-probe-py3.12.json
+      - name: Build exact 12-file isolated archive after the tests
+        run: python frontieror/build_submission.py
+      - name: Publish direct ZIP only after every preceding gate succeeded
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp frontieror/artifacts/FrontierOR-Main.zip frontieror/downloads/FrontierOR-Main-MPC-Virtual-Verified.zip
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f frontieror/downloads/FrontierOR-Main-MPC-Virtual-Verified.zip
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish verified MPC-isolated FrontierOR Main solver ZIP"
+            git push origin HEAD:refs/heads/frontieror-mpc-virtual-cache-integration-20261010
+          fi
+      - name: Preserve exact ZIP and verification receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontieror-mpc-verified-main
+          path: |
+            frontieror/artifacts/FrontierOR-Main.zip
+            frontieror/artifacts/manifest.json
+            frontieror/artifacts/benchmark.json
+            frontieror/artifacts/resource-probe-py3.12.json
+          retention-days: 14
