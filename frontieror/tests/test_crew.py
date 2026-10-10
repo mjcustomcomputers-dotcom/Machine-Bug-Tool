@@ -143,6 +143,20 @@ class CrewTests(unittest.TestCase):
         data["base_constraints"]["D_matrix"]["rows"][0][8]=3.0
         self.assertNotIn(8,crew.dominated_rotations(crew.parse(data)))
 
+    def test_empty_positive_cost_base_rotation_is_required(self):
+        import time
+        data={"dimensions":{"num_rows":1,"num_cols":2},
+              "cost_vector":[1,2],
+              "constraint_matrix_A":{"columns":[[0],[]]},
+              "has_base_constraints":True,
+              "base_constraints":{"D_matrix":{"rows":[[0.0,1.0]]},
+                                  "lower_bounds_d1":[1.0],"upper_bounds_d2":[1.0]}}
+        p=crew.parse(data)
+        self.assertNotIn(1,crew.dominated_rotations(p))
+        sol=crew.sparse_milp(p,time.monotonic()+4)
+        self.assertTrue(crew.verify(p,sol))
+        self.assertEqual(crew.objective(p,sol),3.0)
+
     def test_empty_negative_columns_are_preserved(self):
         data=example(False)
         data["constraint_matrix_A"]["columns"].extend([[],[]])
