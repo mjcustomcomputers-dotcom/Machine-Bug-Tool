@@ -281,7 +281,115 @@ def reduce_forced_rotations(p, disabled):
     return sorted(forced), sorted(uncovered), remaining
 
 
-def sparse_milp(p, deadline):
+def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
+                        reduction=None):
+    """Exact-cover CP-SAT in physically compacted original-index space.
+
+    Forced columns are carried into the objective and side-bound offsets.
+    Fractional side coefficients use outward-rounded *relaxations*, so a
+    genuine feasible schedule cannot be removed by decimal quantization.
+    Every returned original-ID schedule passes the original independent check.
+    An unhelpful reduction returns None to preserve time for the existing CP/MILP.
+    """
+    if time.monotonic() >= deadline - 0.75:
+        return None
+    m, n, costs, columns, incidence, d, lo, hi = p
+    if reduction is None:
+        reduction = reduce_forced_rotations(p, dominated_rotations(p))
+    if reduction is None:
+        return None
+    forced, uncovered, active = reduction
+    if not active:
+        return forced if verify(p, forced) else None
+    # Use the compact model only when actual variables or constraints disappear.
+    # An unhelpful reduction never costs a second full CP-SAT search.
+    if (len(active) * 100 > n * 92 and
+            len(uncovered) * 100 > m * 92):
+        return None
+    if (len(active) > 25000 or len(uncovered) > 12000 or
+            sum(len(columns[j]) for j in active) > 1000000):
+        return None
+    try:
+        from ortools.sat.python import cp_model
+    except ImportError:
+        return None
+    if not feasibility_only and any(
+            not math.isfinite(v) or abs(v - round(v)) > 1e-8
+            for v in costs):
+        # Fractional objective remains in original floating HiGHS MILP.
+        return None
+    index = {j: z for z, j in enumerate(active)}
+    model = cp_model.CpModel()
+    variables = [model.new_bool_var(f"orig_{j}") for j in active]
+    for count, row in enumerate(uncovered):
+        eligible = [variables[index[j]] for j in incidence[row] if j in index]
+        if not eligible:
+            return None
+        model.add_exactly_one(eligible)
+        if count % 1000 == 0 and time.monotonic() > deadline - 0.7:
+            return None
+    for k, base in enumerate(d):
+        if time.monotonic() > deadline - 0.7:
+            return None
+        values = [Decimal(str(base[j])) for j in active]
+        original = [Decimal(str(base[j])) for j in forced]
+        bound_lo, bound_hi = Decimal(str(lo[k])), Decimal(str(hi[k]))
+        if any(not v.is_finite() for v in
+               [bound_lo, bound_hi, *values, *original]):
+            return None
+        digits = max((max(0, -v.as_tuple().exponent)
+                      for v in [bound_lo, bound_hi, *values, *original]
+                      if v), default=0)
+        # High-precision coefficients are safely *relaxed* by outward
+        # rounding; rounding to nearest with a fixed +/- 1 tolerance is
+        # not safe when many tiny coefficient errors accumulate.
+        scale = 10 ** min(8, digits)
+        scaled = [v * scale for v in values]
+        lower_coef = [int(v.to_integral_value(rounding=ROUND_CEILING))
+                      for v in scaled]
+        upper_coef = [int(v.to_integral_value(rounding=ROUND_FLOOR))
+                      for v in scaled]
+        offset = sum(original, Decimal(0))
+        tol_lo = Decimal("0.000001") * max(Decimal(1), abs(bound_lo))
+        tol_hi = Decimal("0.000001") * max(Decimal(1), abs(bound_hi))
+        lower_rhs = int(((bound_lo - tol_lo - offset) * scale)
+                        .to_integral_value(rounding=ROUND_FLOOR))
+        upper_rhs = int(((bound_hi + tol_hi - offset) * scale)
+                        .to_integral_value(rounding=ROUND_CEILING))
+        # CP-SAT requires safe int64 linear activity ranges.
+        if (max([abs(lower_rhs), abs(upper_rhs),
+                 *map(abs, lower_coef), *map(abs, upper_coef)],
+                default=0) * max(1, len(active)) > 10**15):
+            return None
+        model.add(sum(a * v for a, v in zip(lower_coef, variables)
+                      if a) >= lower_rhs)
+        model.add(sum(a * v for a, v in zip(upper_coef, variables)
+                      if a) <= upper_rhs)
+    if incumbent is not None and verify(p, incumbent):
+        incumbent_ids = set(incumbent)
+        for j, v in zip(active, variables):
+            model.add_hint(v, int(j in incumbent_ids))
+    if not feasibility_only:
+        model.minimize(sum(int(round(costs[j])) * v
+                           for j, v in zip(active, variables)))
+    solver = cp_model.CpSolver()
+    solver.parameters.num_search_workers = 2
+    solver.parameters.max_time_in_seconds = max(
+        0.1, deadline - time.monotonic() - 0.25)
+    solver.parameters.stop_after_first_solution = feasibility_only
+    solver.parameters.random_seed = 31103
+    try:
+        status = solver.solve(model)
+    except Exception:
+        return None
+    if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+        return None
+    selected = forced + [j for j, v in zip(active, variables)
+                         if solver.value(v)]
+    return selected if verify(p, selected) else None
+
+
+def sparse_milp(p, deadline, reduction=None):
     """SCIP/HiGHS-style sparse 0-1 exact cover with literal real base bounds."""
     if deadline - time.monotonic() < 0.5:
         return None
@@ -292,8 +400,9 @@ def sparse_milp(p, deadline):
     except ImportError:
         return None
     m, n, costs, columns, _, d, lo, hi = p
-    disabled=dominated_rotations(p)
-    reduced=reduce_forced_rotations(p,disabled)
+    if reduction is None:
+        reduction=reduce_forced_rotations(p,dominated_rotations(p))
+    reduced=reduction
     if reduced is None:
         return None
     forced,uncovered,active=reduced
@@ -343,20 +452,41 @@ def solve(instance, time_limit_s):
         option = cp_sat(p, min(until, time.monotonic() + 22.0), backup)
         if verify(p, option) and (backup is None or objective(p, option) < objective(p, backup) - 1e-8):
             backup = option
-    # Recovery path for large, base-constrained exact covers: the existing
-    # V6 side-constraint model was independently tested, but never wired here.
+    # One version-bound exact reduction shared by side CP and HiGHS MILP.
+    # This avoids repeating column elimination/matrix recovery in each method.
+    reduced = None
+    if p[5] and time.monotonic() < until - 1.3:
+        reduced = reduce_forced_rotations(p, dominated_rotations(p))
+    # First try the physically smaller, proof-preserving CP model; retain
+    # the original full CP-SAT as an independently structured rescue.
     if p[5] and backup is None and time.monotonic() < until - 1.0:
-        option = cp_sat_side(p, min(until, time.monotonic() + 12.0), feasibility_only=True)
+        option = cp_sat_side_compact(
+            p, min(until, time.monotonic() + 7.0),
+            reduction=reduced, feasibility_only=True)
         if verify(p, option):
             backup = option
-    # Cost-optimization mirror with a verified shared incumbent; reserve MILP time.
+        elif time.monotonic() < until - 1.0:
+            option = cp_sat_side(
+                p, min(until, time.monotonic() + 9.0),
+                feasibility_only=True)
+            if verify(p, option):
+                backup = option
+    # Objective mirror runs on the reduced matrix only if it materially
+    # shrank. If no gain is demonstrated, the original CP/MILP remain.
     if p[5] and backup is not None and time.monotonic() < until - 2.0:
-        option = cp_sat_side(p, min(until - 1.0, time.monotonic() + 4.0),
-                             incumbent=backup, feasibility_only=False)
+        option = cp_sat_side_compact(
+            p, min(until - 1.0, time.monotonic() + 4.0),
+            incumbent=backup, feasibility_only=False, reduction=reduced)
         if verify(p, option) and objective(p, option) < objective(p, backup) - 1e-8:
             backup = option
+        elif option is None and time.monotonic() < until - 1.0:
+            option = cp_sat_side(
+                p, min(until - 1.0, time.monotonic() + 4.0),
+                incumbent=backup, feasibility_only=False)
+            if verify(p, option) and objective(p, option) < objective(p, backup) - 1e-8:
+                backup = option
     if time.monotonic() < until - 0.8:
-        option = sparse_milp(p, until)
+        option = sparse_milp(p, until, reduction=reduced)
         if verify(p, option) and (backup is None or objective(p, option) < objective(p, backup) - 1e-8):
             backup = option
     if not verify(p, backup):

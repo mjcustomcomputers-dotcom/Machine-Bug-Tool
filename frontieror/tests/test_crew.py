@@ -214,6 +214,69 @@ class CrewTests(unittest.TestCase):
         self.assertTrue(crew.verify(p, option))
         self.assertEqual(crew.objective(p, option), 14)
 
+    def test_compact_side_cp_reconstructs_original_rotation_ids(self):
+        import time
+        data=example(True)
+        data["constraint_matrix_A"]["columns"].append([0,1])
+        data["cost_vector"].append(2.0)
+        data["base_constraints"]["D_matrix"]["rows"][0].append(2.5)
+        data["dimensions"]["num_cols"]+=1
+        p=crew.parse(data)
+        reduced=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+        self.assertIsNotNone(reduced)
+        self.assertNotIn(4,reduced[2])
+        ans=crew.cp_sat_side_compact(
+            p,time.monotonic()+5,reduction=reduced,feasibility_only=False)
+        self.assertTrue(crew.verify(p,ans))
+        self.assertIn(8,ans)
+        self.assertEqual(crew.objective(p,ans),9)
+
+    def test_compact_cp_forced_rows_and_base_offset(self):
+        import time
+        data={"dimensions":{"num_rows":3,"num_cols":4},
+              "cost_vector":[2,3,4,20],
+              "constraint_matrix_A":{"columns":[[0],[1],[2],[1,2]]},
+              "has_base_constraints":True,
+              "base_constraints":{"D_matrix":{"rows":[[1.,2.,3.,5.]]},
+                  "lower_bounds_d1":[6.],"upper_bounds_d2":[6.]}}
+        p=crew.parse(data)
+        reduced=crew.reduce_forced_rotations(p,set())
+        self.assertEqual(reduced[0],[0])
+        ans=crew.cp_sat_side_compact(
+            p,time.monotonic()+5,reduction=reduced,feasibility_only=False)
+        self.assertTrue(crew.verify(p,ans))
+        self.assertEqual(crew.objective(p,ans),9)
+
+    def test_compact_cp_keeps_required_empty_base_column(self):
+        import time
+        data={"dimensions":{"num_rows":1,"num_cols":2},
+              "cost_vector":[1,2],
+              "constraint_matrix_A":{"columns":[[0],[]]},
+              "has_base_constraints":True,
+              "base_constraints":{"D_matrix":{"rows":[[0.,1.]]},
+                  "lower_bounds_d1":[1.],"upper_bounds_d2":[1.]}}
+        p=crew.parse(data)
+        ans=crew.cp_sat_side_compact(p,time.monotonic()+5,
+                                     feasibility_only=False)
+        self.assertEqual(sorted(ans),[0,1])
+        self.assertEqual(crew.objective(p,ans),3)
+
+    def test_fractional_negative_base_outward_rounding(self):
+        import time
+        data={"dimensions":{"num_rows":3,"num_cols":4},
+              "cost_vector":[2.,3.,15.,1.],
+              "constraint_matrix_A":{"columns":[[0],[1],[0,1],[2]]},
+              "has_base_constraints":True,
+              "base_constraints":{"D_matrix":{"rows":[
+                  [0.123456789,-0.123456789,0.,0.]]},
+                  "lower_bounds_d1":[0.],"upper_bounds_d2":[0.]}}
+        p=crew.parse(data)
+        ans=crew.cp_sat_side_compact(p,time.monotonic()+5,
+                                     feasibility_only=False)
+        self.assertTrue(crew.verify(p,ans))
+        self.assertEqual(crew.objective(p,ans),6)
+
+
 
 if __name__ == "__main__":
     unittest.main()
