@@ -353,7 +353,9 @@ try {
   }
   assert.equal(unmasked.result.ocr.network, 'DISABLED');
   assert.equal(unmasked.result.context.projectId, 'NATIVE-SMOKE');
-  assert.equal(unmasked.result.classification?.status, 'CLASSIFIED', 'Native OCR did not reach the original MPC classifier');
+  assert.equal(unmasked.result.classification?.status, 'CLASSIFIED',
+    'Native OCR reached an unavailable classifier: '+JSON.stringify({status:unmasked.result.classification?.status,
+      error:unmasked.result.classification?.error,summary:unmasked.result.classification?.summary}));
   checks.push({check: 'NATIVE_PIXELS_REAL_LOCAL_OCR', width: unmasked.result.frame.width,
     height: unmasked.result.frame.height, word_count: unmasked.result.ocr.words.length, status: 'PASS'});
   breadcrumb('CHECK_PASSED', {check: 'NATIVE_PIXELS_REAL_LOCAL_OCR'});
