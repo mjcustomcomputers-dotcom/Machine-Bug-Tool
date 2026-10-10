@@ -37,6 +37,7 @@ test('renderer declares one bounded same-origin JSON API surface', () => {
     bootstrap: '/api/workspace/bootstrap',
     projects: '/api/workspace/projects',
     inputs: '/api/workspace/inputs',
+    screenContext: '/api/workspace/screen-context',
     jobs: '/api/workspace/jobs',
     reports: '/api/workspace/reports',
     search: '/api/workspace/search',
@@ -86,7 +87,9 @@ test('complete first-journey controls and all nine product areas remain visible'
   }
   for (const id of [
     'project-picker', 'new-project', 'model-picker', 'material-input', 'composer-input', 'paste-input', 'attach-files', 'add-folder',
-    'home-primary-action', 'home-ask', 'home-paste', 'home-files', 'home-folder', 'home-connections', 'home-next-action',
+    'home-primary-action', 'home-ask', 'home-paste', 'home-files', 'home-folder', 'home-connections', 'home-screen-context', 'home-next-action',
+    'screen-context-panel', 'screen-context-paste-text', 'screen-context-capture', 'screen-context-import-har', 'screen-context-clear',
+    'screen-context-status', 'screen-context-selection-list',
     'evidence-add-text', 'evidence-attach-files', 'evidence-add-folder',
     'run-work', 'stop-work', 'resume-work', 'save-report', 'copy-answer', 'search-query', 'compare-snapshots', 'add-connection',
     'method-run-picker', 'method-run-input', 'run-method', 'method-run-status',
@@ -170,6 +173,7 @@ test('the first screen exposes the core journey and mobile reflow keeps the work
   assert.match(html, /id="home-files"[\s\S]{0,120}Attach files/u);
   assert.match(html, /id="home-folder"[\s\S]{0,120}Add a folder/u);
   assert.match(html, /id="home-connections"[\s\S]{0,120}Connect a service/u);
+  assert.match(html, /id="home-screen-context"[\s\S]{0,180}Build screen-reader context/u);
   assert.match(html, /id="job-progress" role="progressbar"[^>]*aria-valuenow="0"/u);
   assert.match(html, /id="compare-snapshots"[^>]*disabled/u);
   assert.match(html, /Side panel \(bottom on narrow windows\)/u);
@@ -187,6 +191,40 @@ test('the first screen exposes the core journey and mobile reflow keeps the work
   assert.match(js, /current\.workspace_project_id !== currentProjectId\(\)/u);
   assert.match(js, /row\.dataset\.jobId = task\.job_id/u);
   assert.match(js, /Choose two different acquired snapshot manifests/u);
+});
+
+test('screen context is explicit, ordered, project-qualified and bound only to the next run', () => {
+  const paste = html.indexOf('id="screen-context-paste-text"');
+  const printScreen = html.indexOf('id="screen-context-capture"');
+  const firefoxHar = html.indexOf('id="screen-context-import-har"');
+  assert.ok(paste >= 0 && paste < firefoxHar && firefoxHar < printScreen,
+    'quick pasted text and Firefox HAR precede the clipboard-image fallback');
+  for (const label of ['Paste visible text', 'Use clipboard image', 'Import Firefox HAR', 'Clear selected context',
+    'OCR / vision not installed', 'No live monitoring. No packet capture.']) assert.match(html, new RegExp(label.replace(/[/.]/gu, '\\$&'), 'u'));
+  assert.match(html, /id="screen-context-panel"[^>]*aria-busy="false"/u);
+  assert.match(html, /id="screen-context-status"[^>]*role="status"[^>]*aria-live="polite"[^>]*aria-atomic="true"/u);
+  assert.match(html, /Firefox context can explain requests, but it does not prove what a pixel says/u);
+  assert.match(html, /Screen context: none selected/u);
+  assert.doesNotMatch(html, /Network interface online/u);
+  assert.doesNotMatch(js, /navigator\.onLine/u);
+  assert.match(js, /screenContextAcquisitions:\s*\[\]/u);
+  assert.match(js, /screenContextProjectId:\s*null/u);
+  assert.match(js, /request\(API_PATHS\.screenContext,\s*\{method:\s*'POST',\s*body:\s*\{[\s\S]{0,120}operation, project_id: projectId, retention_policy: policy/u);
+  assert.match(js, /currentProjectId\(\) !== projectId/u);
+  assert.match(js, /screen_context_operation:\s*operation/u);
+  assert.match(js, /coverage\.summary_entry_count \?\? coverage\.entry_count/u);
+  assert.match(js, /omitted from route summary/u);
+  assert.match(js, /resetScreenContextSelection\(\)/u);
+
+  const runStart = js.indexOf('async function runWork()');
+  const runEnd = js.indexOf('async function stopWork()');
+  const runWorkSource = js.slice(runStart, runEnd);
+  assert.match(runWorkSource, /const screenContextAcquisitions = orderedScreenContextAcquisitions\(\)/u);
+  assert.match(runWorkSource, /const screenContextAcquisitionIds = collectAcquisitionIds\(screenContextAcquisitions\)/u);
+  assert.match(runWorkSource, /if \(textAcquisition\) acquisitions\.push\(textAcquisition\);\s*acquisitions\.push\(\.\.\.screenContextAcquisitions\)/u,
+    'pasted text remains first and route-ready screen context follows');
+  assert.match(runWorkSource, /screenContextAcquisitionIds\.length/u);
+  assert.match(runWorkSource, /\['COMPLETE', 'SUCCEEDED'\]\.includes\(completedState\)\) resetEvidenceSelection\(\)/u);
 });
 
 test('question instructions and acquired evidence remain separate across repeat runs', () => {

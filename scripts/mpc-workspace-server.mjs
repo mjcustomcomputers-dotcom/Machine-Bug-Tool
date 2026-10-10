@@ -522,6 +522,15 @@ export async function startMpcWorkspaceServer({
         sendJson(response, 201, {input});
         return;
       }
+      if (url.pathname === '/api/workspace/screen-context') {
+        if (method !== 'POST') {
+          sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'POST'});
+          return;
+        }
+        const context = await callService(workspaceService, ['handleScreenContext'], await postBody());
+        sendJson(response, 201, {context});
+        return;
+      }
       if (url.pathname === '/api/workspace/transfers/export') {
         if (method !== 'POST') {
           sendJson(response, 405, {error: 'MPC_WORKSPACE_METHOD_NOT_ALLOWED'}, {Allow: 'POST'});

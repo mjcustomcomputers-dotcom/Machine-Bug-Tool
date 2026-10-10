@@ -7,6 +7,7 @@
  *   POST /api/workspace/projects/:id/open   reopen project + resume state
  *   POST /api/workspace/projects/:id/draft  retention-aware draft checkpoint
  *   POST /api/workspace/inputs              one user-selected TEXT, FILES, FOLDER, or SCRIPT_OUTPUT acquisition
+ *   POST /api/workspace/screen-context      one explicit clipboard-image or scrubbed Firefox HAR acquisition
  *   POST /api/workspace/jobs                source-bound route/model job; retains the full router receipt host-side
  *   GET  /api/workspace/jobs/:id            current immutable-receipt-derived job state
  *   POST /api/workspace/jobs/:id/cancel     cancellation request
@@ -34,6 +35,7 @@ export const API_PATHS = Object.freeze({
   bootstrap: '/api/workspace/bootstrap',
   projects: '/api/workspace/projects',
   inputs: '/api/workspace/inputs',
+  screenContext: '/api/workspace/screen-context',
   jobs: '/api/workspace/jobs',
   reports: '/api/workspace/reports',
   search: '/api/workspace/search',
@@ -355,7 +357,11 @@ const state = {
   setupOperation: null,
   setupController: null,
   connectionSetup: null,
-  evidence: []
+  evidence: [],
+  screenContextAcquisitions: [],
+  screenContextProjectId: null,
+  screenContextRunJobId: null,
+  screenContextRequestToken: null
 };
 
 const hasDom = typeof document !== 'undefined';
@@ -503,6 +509,7 @@ function renderProjectHeader() {
   $('save-report').disabled = !hasJob;
   $('save-report-secondary').disabled = !hasJob;
   renderHomeActions();
+  updateScreenContextStatus();
 }
 
 function renderProjects() {
@@ -715,10 +722,157 @@ async function refreshRuntimeIdentity() {
   }
 }
 
-function updateNetworkStatus() {
-  const online = navigator.onLine;
-  setText('network-status', online ? 'Network interface online' : 'Offline');
-  statusTone($('network-status'), online ? 'neutral' : 'warn');
+function orderedScreenContextAcquisitions() {
+  if (!currentProjectId() || state.screenContextProjectId !== currentProjectId()) return [];
+  const order = {IMPORT_FIREFOX_HAR: 0, CAPTURE_CLIPBOARD: 1};
+  return [...state.screenContextAcquisitions].sort((left, right) =>
+    (order[left.screen_context_operation] ?? 9) - (order[right.screen_context_operation] ?? 9));
+}
+
+function screenContextEntryLabel(entry) {
+  const operation = entry.screen_context_operation;
+  const count = collectAcquisitionIds([entry]).length;
+  const fast = object(entry.provenance);
+  const coverage = object(entry.coverage);
+  const summarized = clampCount(coverage.summary_entry_count ?? coverage.entry_count);
+  const omitted = clampCount(coverage.summary_entries_omitted);
+  const source = operation === 'CAPTURE_CLIPBOARD'
+    ? `Clipboard image log · ${fast.fast_bytes ? formatBytes(fast.fast_bytes) : 'bounded JPEG'} · ${fast.fast_retained ? 'fast image retained' : 'digest only'}`
+    : operation === 'IMPORT_FIREFOX_HAR'
+      ? `Scrubbed Firefox F12 HAR summary · ${summarized} summarized request record${summarized === 1 ? '' : 's'}${omitted ? ` · ${omitted} omitted from route summary` : ''} · raw HAR not retained`
+      : 'Screen context';
+  return `${source} · ${count} route-ready record${count === 1 ? '' : 's'}`;
+}
+
+function updateScreenContextStatus() {
+  const entries = orderedScreenContextAcquisitions();
+  const count = collectAcquisitionIds(entries).length;
+  const visibleTextReady = Boolean($('material-input')?.value);
+  const projectReady = Boolean(currentProjectId());
+  const busy = Boolean(state.screenContextRequestToken);
+  const inCurrentRun = Boolean(state.screenContextRunJobId);
+  const status = busy ? 'Screen context: importing'
+    : inCurrentRun ? 'Screen context: in current run'
+    : !projectReady ? 'Screen context: open a project'
+      : count ? `Screen context: ${count} fallback selected`
+        : visibleTextReady ? 'Screen context: text ready' : 'Screen context: none selected';
+  const pill = $('network-status');
+  replace(pill, [node('i'), document.createTextNode(status)]);
+  statusTone(pill, busy || inCurrentRun ? 'busy' : count ? 'good' : 'neutral');
+
+  const panel = $('screen-context-panel');
+  panel.setAttribute('aria-busy', String(busy));
+  for (const id of ['screen-context-paste-text', 'screen-context-capture', 'screen-context-import-har']) {
+    $(id).disabled = !projectReady || busy || inCurrentRun;
+  }
+  for (const item of document.querySelectorAll('input[name="retention"]')) item.disabled = busy || inCurrentRun;
+  $('screen-context-clear').disabled = !count || busy || inCurrentRun;
+  const stage = $('screen-context-stage');
+  stage.textContent = busy ? 'READING' : inCurrentRun ? 'IN CURRENT RUN' : count ? `${count} FALLBACK${count === 1 ? '' : 'S'}`
+    : visibleTextReady ? 'TEXT READY' : 'NOT SELECTED';
+  statusTone(stage, busy || inCurrentRun ? 'busy' : count || visibleTextReady ? 'good' : 'neutral');
+  setText('screen-context-status', busy
+    ? 'Reading the one source you explicitly selected.'
+    : inCurrentRun ? 'Selected screen context is bound to the running job. It cannot be changed until that job reaches a terminal state.'
+    : !projectReady ? 'Open a project, then choose one explicit source.'
+      : count ? `${visibleTextReady ? 'Pasted text will be acquired first. ' : ''}${count} route-ready fallback record${count === 1 ? '' : 's'} will follow. OCR / vision is not installed.`
+        : visibleTextReady ? 'Pasted visible text is ready and will be acquired first for the next run.'
+        : 'No screen context selected. Clipboard-image and HAR access remain off until you choose them.');
+  const selected = [
+    ...(visibleTextReady ? [node('li', '', 'Pasted visible text · acquired first when the next run starts')] : []),
+    ...entries.map(entry => node('li', '', screenContextEntryLabel(entry)))
+  ];
+  replace($('screen-context-selection-list'), selected.length
+    ? selected
+    : [node('li', '', 'No screen context selected.')]);
+}
+
+function resetScreenContextSelection() {
+  state.screenContextAcquisitions = [];
+  state.screenContextProjectId = null;
+  state.screenContextRunJobId = null;
+  state.screenContextRequestToken = null;
+  if (hasDom) updateScreenContextStatus();
+}
+
+function focusScreenContextPanel() {
+  navigate('work', {focus: false});
+  const panel = $('screen-context-panel');
+  panel.scrollIntoView({block: 'start', behavior: document.documentElement.dataset.reducedMotion === 'true' ? 'auto' : 'smooth'});
+  $('screen-context-title').focus({preventScroll: true});
+  if (!currentProjectId()) announce('Open or create a project before selecting screen context.', {tone: 'warn'});
+}
+
+async function pasteVisibleScreenText() {
+  if (!requireProject('Create or open a project before pasting visible screen text.')) return;
+  showWorkInput('evidence');
+  await pasteInput();
+}
+
+async function acquireScreenContext(operation) {
+  if (!['CAPTURE_CLIPBOARD', 'IMPORT_FIREFOX_HAR'].includes(operation)) throw new TypeError('SCREEN_CONTEXT_OPERATION_INVALID');
+  if (!requireProject('Create or open a project before selecting screen context.')) return;
+  if (!(await saveDraft())) {
+    announce('Screen context was not opened because the project retention choice did not save.', {tone: 'warn'});
+    return;
+  }
+  const projectId = currentProjectId();
+  const policy = retentionPolicy();
+  const requestToken = makeId('screen-context-request');
+  state.screenContextRequestToken = requestToken;
+  updateScreenContextStatus();
+  announce(operation === 'CAPTURE_CLIPBOARD'
+    ? 'Reading the clipboard image once and preparing its smaller analysis copy.'
+    : 'Choose one saved Firefox HAR. No live monitoring or packet capture starts.');
+  try {
+    const response = await request(API_PATHS.screenContext, {method: 'POST', body: {
+      operation, project_id: projectId, retention_policy: policy
+    }});
+    if (currentProjectId() !== projectId || state.screenContextRequestToken !== requestToken) return;
+    const context = object(response.context ?? response);
+    const nested = [
+      ...array(context.acquisitions),
+      ...array(context.route_ready_acquisitions),
+      ...(context.acquisition && typeof context.acquisition === 'object' ? [context.acquisition] : []),
+      ...(context.input && typeof context.input === 'object' ? [context.input] : [])
+    ];
+    const normalized = {...context, screen_context_operation: operation};
+    if (nested.length) normalized.acquisitions = nested;
+    const returnedIds = collectAcquisitionIds([normalized]);
+    if (!returnedIds.length) throw new WorkspaceRequestError('MPC_WORKSPACE_SCREEN_CONTEXT_NOT_ROUTE_READY',
+      'The host completed the selection but did not return a route-ready acquisition.');
+    state.screenContextProjectId = projectId;
+    state.screenContextAcquisitions.push(normalized);
+    try {
+      const detail = await request(entityApiPath('projects', projectId));
+      if (currentProjectId() === projectId && state.screenContextRequestToken === requestToken) {
+        state.project = detail.project ?? state.project;
+        state.evidence = array(state.project?.evidence ?? detail.evidence ?? state.project?.sources);
+        renderEvidence(state.evidence, state.project?.source_coverage);
+        renderHomeActions();
+      }
+    } catch {
+      announce('Screen context was acquired, but the Evidence view could not refresh yet.', {tone: 'warn'});
+    }
+    announce(operation === 'CAPTURE_CLIPBOARD'
+      ? `Clipboard image optimized; ${returnedIds.length} capture log${returnedIds.length === 1 ? '' : 's'} selected. OCR / vision is not installed, so no screen text was extracted.`
+      : `Firefox HAR scrubbed; ${returnedIds.length} context summary record${returnedIds.length === 1 ? '' : 's'} selected. No monitoring was started.`);
+  } catch (error) {
+    if (['MPC_SCREEN_CONTEXT_HAR_SELECTION_CANCELLED', 'MPC_WORKSPACE_SCREEN_CONTEXT_HAR_SELECTION_CANCELLED']
+      .includes(error?.code)) announce('Firefox HAR import cancelled. Nothing was selected or changed.');
+    else recordError(error);
+  } finally {
+    if (state.screenContextRequestToken === requestToken) {
+      state.screenContextRequestToken = null;
+      updateScreenContextStatus();
+    }
+  }
+}
+
+function clearScreenContextSelection() {
+  resetScreenContextSelection();
+  announce('Selected clipboard-image and Firefox HAR fallbacks cleared. No retained project evidence was deleted.');
+  $('screen-context-capture').focus();
 }
 
 function renderInventory(data = {}) {
@@ -728,10 +882,12 @@ function renderInventory(data = {}) {
 }
 
 function renderBootstrap(value) {
+  const previousProjectId = currentProjectId();
   state.bootstrap = value;
   state.csrf = typeof value.csrf_token === 'string' ? value.csrf_token : state.csrf;
   state.projects = array(value.projects);
   state.project = value.project ?? state.projects.find(row => row.project_id === value.selected_project_id) ?? null;
+  if (previousProjectId && previousProjectId !== currentProjectId()) resetScreenContextSelection();
   const profiles = value.provider_profiles?.profiles ?? value.provider_profiles;
   state.providerProfiles = array(profiles);
   state.selectedProfileId = value.selected_provider_profile?.profile_id ?? value.selected_provider_profile_id ?? null;
@@ -836,22 +992,24 @@ async function openProjectByPicker() {
 
 async function saveDraft() {
   const projectId = currentProjectId();
-  if (!projectId) return;
+  if (!projectId) return false;
   const text = $('composer-input').value;
   const policy = retentionPolicy();
   const digest = await sha256Text(text);
-  if (currentProjectId() !== projectId) return;
+  if (currentProjectId() !== projectId) return false;
   setText('draft-state', 'SAVING');
   try {
     await request(entityApiPath('projects', projectId, 'draft'), {method: 'POST', body: {
       project_id: projectId, text, text_sha256: digest,
       utf8_bytes: new TextEncoder().encode(text).byteLength, retention_policy: policy
     }});
-    if (currentProjectId() !== projectId) return;
+    if (currentProjectId() !== projectId) return false;
     setText('draft-state', policy === 'RETAIN_TEXT' ? 'DRAFT SAVED LOCALLY' : 'DIGEST SAVED · TEXT IN WINDOW');
+    return true;
   } catch (error) {
     setText('draft-state', 'DRAFT NOT SAVED');
     recordError(error);
+    return false;
   }
 }
 
@@ -894,6 +1052,7 @@ function resetEvidenceSelection() {
   if (browserFiles) browserFiles.value = '';
   $('composer')?.classList.remove('dragging');
   renderAttachments();
+  resetScreenContextSelection();
 }
 
 function addFileObjects(files) {
@@ -1055,6 +1214,7 @@ function setRunning(running) {
   $('stop-work').hidden = !running;
   $('conversation-state').textContent = running ? 'RUNNING' : 'READY';
   statusTone($('work-stage'), running ? 'busy' : 'neutral');
+  updateScreenContextStatus();
 }
 
 function countFromJob(job, name) {
@@ -1180,6 +1340,13 @@ function updateJob(job, {appendConversation = true} = {}) {
   }
   if (!TERMINAL_JOB_STATES.has(jobState) && job.job_id) scheduleJobPoll(job.job_id, job.project_id ?? currentProjectId());
   else globalThis.clearTimeout(state.pollTimer);
+  if (state.screenContextRunJobId === job.job_id && TERMINAL_JOB_STATES.has(jobState)) {
+    if (['SUCCEEDED', 'COMPLETE'].includes(jobState)) resetEvidenceSelection();
+    else {
+      state.screenContextRunJobId = null;
+      updateScreenContextStatus();
+    }
+  }
   renderHomeActions();
 }
 
@@ -1227,11 +1394,17 @@ async function runWork() {
     $('new-project').focus();
     return;
   }
+  if (state.screenContextRequestToken) {
+    announce('Wait for the explicit screen-context import to finish or cancel it before starting this run.', {tone: 'warn'});
+    return;
+  }
   const projectId = currentProjectId();
   const projectName = state.project.display_name;
   const selectedTaskId = state.project.selected_task_id;
   const policy = retentionPolicy();
   const attachments = [...state.attachments];
+  const screenContextAcquisitions = orderedScreenContextAcquisitions();
+  const screenContextAcquisitionIds = collectAcquisitionIds(screenContextAcquisitions);
   const question = $('composer-input').value.trim();
   const material = $('material-input').value;
   const requestedMode = $('work-mode').value;
@@ -1240,12 +1413,12 @@ async function runWork() {
     $('composer-input').focus();
     return;
   }
-  const hasSelectedEvidence = Boolean(material) || attachments.length > 0;
+  const hasSelectedEvidence = Boolean(material) || attachments.length > 0 || screenContextAcquisitionIds.length > 0;
   if (requestedMode === 'CHAT' && hasSelectedEvidence) {
     announce('Chat mode does not consume evidence. Choose Auto or Evidence analysis to bind the selected material.', {tone: 'warn'});
     return;
   }
-  const maximumAcquisitions = (material ? 1 : 0) + attachments.reduce((count, attachment) =>
+  const maximumAcquisitions = (material ? 1 : 0) + screenContextAcquisitionIds.length + attachments.reduce((count, attachment) =>
     count + (attachment.kind === 'FOLDER' ? 24 : 1), 0);
   if (requestedMode !== 'CHAT' && maximumAcquisitions > 32) {
     announce('This selection could produce more than 32 route-ready records. Remove files or analyze one folder at a time.', {tone: 'warn'});
@@ -1260,6 +1433,7 @@ async function runWork() {
     const acquisitions = [];
     const textAcquisition = await acquireEvidenceText(material, projectId, policy);
     if (textAcquisition) acquisitions.push(textAcquisition);
+    acquisitions.push(...screenContextAcquisitions);
     for (const attachment of attachments) acquisitions.push(await acquireAttachment(attachment, projectId, policy));
     const invalid = acquisitions.filter(item => item?.parse?.status === 'ERROR');
     if (invalid.length) announce(`${invalid.length} input${invalid.length === 1 ? '' : 's'} retained with visible parse errors.`, {tone: 'warn'});
@@ -1270,6 +1444,7 @@ async function runWork() {
       ? binding.acquisition_ids.length ? 'EVIDENCE_ANALYSIS' : 'CHAT'
       : requestedMode;
     const jobId = makeId('job');
+    state.screenContextRunJobId = screenContextAcquisitionIds.length ? jobId : null;
     updateJob({job_id: jobId, job_state: 'RUNNING', work_stage: 'ACQUISITION',
       action_label: 'Routing acquired evidence', progress: {acquired_count: collectAcquisitionIds(acquisitions).length, total_count: 3}},
     {appendConversation: false});
@@ -1299,8 +1474,10 @@ async function runWork() {
       $('composer-input').value = '';
       await saveDraft();
     }
-    if (job.state === 'COMPLETE') resetEvidenceSelection();
+    const completedState = String(job.job_state ?? job.state ?? '').toUpperCase();
+    if (['COMPLETE', 'SUCCEEDED'].includes(completedState)) resetEvidenceSelection();
   } catch (error) {
+    state.screenContextRunJobId = null;
     setRunning(false);
     if (error?.name === 'AbortError') announce('The local request was stopped. Any already observed external effect remains in its receipt.', {tone: 'warn'});
     else {
@@ -2197,9 +2374,7 @@ async function initialize() {
   bindDrop();
   bindComposerResize();
   bindFloatingComposerMove();
-  updateNetworkStatus();
-  globalThis.addEventListener('online', updateNetworkStatus);
-  globalThis.addEventListener('offline', updateNetworkStatus);
+  updateScreenContextStatus();
   globalThis.addEventListener('resize', () => { updateComposerLayout(); syncSidebarState(); });
   document.addEventListener('keydown', event => {
     if (event.key !== 'Escape' || !globalThis.matchMedia('(max-width: 900px)').matches || !document.body.classList.contains('sidebar-open')) return;
@@ -2259,6 +2434,11 @@ async function initialize() {
   $('home-files').addEventListener('click', () => { if (requireProject()) { showWorkInput('evidence'); attachFiles(); } });
   $('home-folder').addEventListener('click', () => { if (requireProject()) { showWorkInput('evidence'); addFolder(); } });
   $('home-connections').addEventListener('click', () => navigate('connections'));
+  $('home-screen-context').addEventListener('click', focusScreenContextPanel);
+  $('screen-context-paste-text').addEventListener('click', pasteVisibleScreenText);
+  $('screen-context-capture').addEventListener('click', () => acquireScreenContext('CAPTURE_CLIPBOARD'));
+  $('screen-context-import-har').addEventListener('click', () => acquireScreenContext('IMPORT_FIREFOX_HAR'));
+  $('screen-context-clear').addEventListener('click', clearScreenContextSelection);
   $('home-project-pulse').addEventListener('click', () => state.project ? $('project-picker').focus() : $('project-dialog').showModal());
   $('home-source-pulse').addEventListener('click', () => navigate('evidence'));
   $('home-report-pulse').addEventListener('click', () => navigate('reports'));
@@ -2287,7 +2467,10 @@ async function initialize() {
   $('paste-input').addEventListener('click', pasteInput);
   $('attachment-options').addEventListener('click', event => { if (event.target.closest('button')) $('attachment-options').open = false; });
   $('paste-question').addEventListener('click', () => pasteTextInto('composer-input'));
-  $('material-input').addEventListener('input', () => setText('evidence-input-summary', $('material-input').value ? `Evidence text · ${formatBytes(new TextEncoder().encode($('material-input').value).byteLength)}` : 'Evidence text (optional)'));
+  $('material-input').addEventListener('input', () => {
+    setText('evidence-input-summary', $('material-input').value ? `Evidence text · ${formatBytes(new TextEncoder().encode($('material-input').value).byteLength)}` : 'Evidence text (optional)');
+    updateScreenContextStatus();
+  });
   $('attach-files').addEventListener('click', attachFiles);
   $('add-folder').addEventListener('click', addFolder);
   $('browser-file-input').addEventListener('change', event => { addFileObjects(event.target.files); event.target.value = ''; });
@@ -2340,7 +2523,16 @@ async function initialize() {
   $('export-task').addEventListener('click', exportPortableTask);
   $('import-task').addEventListener('click', () => $('portable-task-input').click());
   $('portable-task-input').addEventListener('change', importPortableTask);
-  for (const item of document.querySelectorAll('input[name="retention"]')) item.addEventListener('change', () => { if (state.project) { state.project.retention_policy = retentionPolicy(); queueDraftSave(); } });
+  for (const item of document.querySelectorAll('input[name="retention"]')) item.addEventListener('change', () => {
+    if (state.project) {
+      if (state.screenContextAcquisitions.length) {
+        resetScreenContextSelection();
+        announce('Screen-context fallbacks were cleared because the project retention choice changed. Acquired project evidence was not deleted.', {tone: 'warn'});
+      }
+      state.project.retention_policy = retentionPolicy();
+      queueDraftSave();
+    }
+  });
   syncSidebarState();
   applyAccessibilitySettings();
   renderAttachments();

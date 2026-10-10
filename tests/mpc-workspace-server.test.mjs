@@ -501,3 +501,42 @@ test('loopback host rejects cross-origin, secret-bearing and malformed writes an
   assert.equal(stillReady.status,200,stillReady.text);
   assert.equal(stillReady.json.service.status,'READY_LOCAL');
 });
+
+test('screen context is an explicit protected host operation',async t=>{
+  const calls=[];
+  const service={
+    bootstrap:async()=>({projects:[],service:{status:'READY_LOCAL'}}),
+    handleScreenContext:async input=>{calls.push(structuredClone(input));return {
+      schema_version:'MPC_SCREEN_CONTEXT_RESULT_1',status:'FAST_IMAGE_READY_OCR_REQUIRED',
+      external_action_performed:false,active_capture:false
+    }},
+    close:async()=>{}
+  };
+  const running=await startMpcWorkspaceServer({rendererRoot:RENDERER_ROOT,service,csrfToken:CSRF});
+  t.after(()=>running.close());
+
+  const missingCsrf=await postJson(running,'/api/workspace/screen-context',{
+    project_id:'PROJECT-A',operation:'CAPTURE_CLIPBOARD'
+  },{csrf:null});
+  assert.equal(missingCsrf.status,403,missingCsrf.text);
+  assert.equal(calls.length,0);
+
+  const wrongOrigin=await postJson(running,'/api/workspace/screen-context',{
+    project_id:'PROJECT-A',operation:'CAPTURE_CLIPBOARD'
+  },{origin:'https://attacker.invalid'});
+  assert.equal(wrongOrigin.status,403,wrongOrigin.text);
+  assert.equal(calls.length,0);
+
+  const accepted=await postJson(running,'/api/workspace/screen-context',{
+    project_id:'PROJECT-A',operation:'CAPTURE_CLIPBOARD',retention_policy:'METADATA_ONLY'
+  });
+  assert.equal(accepted.status,201,accepted.text);
+  assert.equal(accepted.json.context.status,'FAST_IMAGE_READY_OCR_REQUIRED');
+  assert.equal(calls.length,1);
+  assert.equal(calls[0].operation,'CAPTURE_CLIPBOARD');
+
+  const get=await callHttp(running,{path:'/api/workspace/screen-context'});
+  assert.equal(get.status,405,get.text);
+  assert.equal(get.headers.allow,'POST');
+  assert.equal(calls.length,1);
+});

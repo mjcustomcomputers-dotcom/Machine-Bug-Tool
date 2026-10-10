@@ -75,7 +75,7 @@
         </div>
         <div class="top-status">
           <span class="status-pill neutral" id="service-status" role="status" aria-live="polite" aria-atomic="true"><i></i>Service unknown</span>
-          <span class="status-pill neutral" id="network-status" role="status" aria-live="polite" aria-atomic="true"><i></i>Offline state unknown</span>
+          <span class="status-pill neutral" id="network-status" role="status" aria-live="polite" aria-atomic="true"><i></i>Screen context: none selected</span>
         </div>
         <button class="icon-button" id="quiet-toggle" type="button" aria-pressed="false" title="Quiet mode">◐<span class="sr-only">Toggle quiet mode</span></button>
       </header>
@@ -106,6 +106,7 @@
               <button class="home-action" id="home-files" type="button"><strong>Attach files</strong><span>Inspect copies while the originals stay in place.</span></button>
               <button class="home-action" id="home-folder" type="button"><strong>Add a folder</strong><span>Index nested files in place and track later version changes.</span></button>
               <button class="home-action" id="home-connections" type="button"><strong>Connect a service</strong><span>Set up sign-in when supported and verify a protected read.</span></button>
+              <button class="home-action" id="home-screen-context" type="button" aria-controls="screen-context-panel"><strong>Build screen-reader context</strong><span>Use readable text and a scrubbed Firefox HAR first; add one clipboard image only for what remains visual.</span></button>
             </div>
             <div class="home-pulse" aria-label="Project readiness">
               <button id="home-project-pulse" type="button"><span>Project</span><strong id="home-project-status">No project open</strong></button>
@@ -115,13 +116,42 @@
             </div>
           </section>
 
+          <section class="panel screen-context-panel" id="screen-context-panel" aria-labelledby="screen-context-title" aria-busy="false">
+            <div class="panel-head">
+              <div><h2 id="screen-context-title" tabindex="-1">Screen context for the next run</h2><p>Use the quickest readable source first. Each fallback is an explicit, one-time action.</p></div>
+              <span class="stage-chip" id="screen-context-stage">NOT SELECTED</span>
+            </div>
+            <ol class="screen-context-steps">
+              <li>
+                <h3>Paste visible text first</h3>
+                <p>Fastest and most accurate when the page or app lets you copy its text.</p>
+                <button class="button" id="screen-context-paste-text" type="button">Paste visible text</button>
+              </li>
+              <li>
+                <h3>Add Firefox F12 HAR context</h3>
+                <p>Import a saved Firefox network export before the image fallback. It is bounded and scrubbed before persistence; this is not live browser monitoring.</p>
+                <button class="button" id="screen-context-import-har" type="button">Import Firefox HAR</button>
+              </li>
+              <li>
+                <h3>Capture only the remaining visual unknown</h3>
+                <p>Press Print Screen, then use this one-time fallback. Any current clipboard image is normalized and reduced; its Print Screen origin is not attested.</p>
+                <div class="screen-context-actions"><button class="button accent" id="screen-context-capture" type="button">Use clipboard image</button><span class="screen-context-capability" id="screen-context-vision-state">OCR / vision not installed</span></div>
+              </li>
+            </ol>
+            <div class="screen-context-footer">
+              <div><strong>Selected for the next run</strong><p id="screen-context-status" role="status" aria-live="polite" aria-atomic="true">No screen context selected. Open a project, then choose one explicit source.</p><ul id="screen-context-selection-list" aria-label="Selected screen context"><li>No screen context selected.</li></ul></div>
+              <button class="button compact" id="screen-context-clear" type="button" disabled>Clear selected context</button>
+            </div>
+            <p class="screen-context-boundary" role="note"><strong>No live monitoring. No packet capture.</strong> MPC Workspace reads only the clipboard image or HAR file you explicitly choose. Firefox context can explain requests, but it does not prove what a pixel says.</p>
+          </section>
+
           <div class="work-grid">
             <aside class="panel job-panel" aria-labelledby="job-title">
               <div class="panel-head">
                 <div><h2 id="job-title">Project progress</h2><p id="job-action">No active job</p></div>
                 <span class="stage-chip" id="work-stage" role="status" aria-live="polite" aria-atomic="true">IDLE</span>
               </div>
-              <div class="progress-track" id="job-progress" role="progressbar" aria-label="Job progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="job-progress-bar" style="width:0%"></span></div>
+              <div class="progress-track" id="job-progress" role="progressbar" aria-label="Job progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="job-progress-bar"></span></div>
               <div class="count-grid" aria-label="Completed work counts">
                 <div><strong id="count-acquired">0</strong><span>Acquired</span></div>
                 <div><strong id="count-analyzed">0</strong><span>Analyzed</span></div>
@@ -279,7 +309,7 @@
         <section class="view" id="view-settings" data-view-panel="settings" aria-labelledby="settings-title" hidden>
           <div class="page-heading"><div><div class="eyebrow">Local workspace controls</div><h1 id="settings-title">Settings</h1><p>Raw retention, service health and diagnostics remain visible and reversible.</p></div></div>
           <div class="settings-grid">
-            <section class="panel settings-card"><h2>Project retention</h2><label><input type="radio" name="retention" value="RETAIN_TEXT"> Retain selected text locally for replay and search</label><label><input type="radio" name="retention" value="METADATA_ONLY" checked> Store metadata and digests only</label><p class="honesty-note">Metadata-only projects need original content again for replay.</p></section>
+            <section class="panel settings-card"><h2>Project retention</h2><label><input type="radio" name="retention" value="RETAIN_TEXT"> Retain selected content locally (text plus explicitly selected files and images)</label><label><input type="radio" name="retention" value="METADATA_ONLY" checked> Store metadata and digests only</label><p class="honesty-note">Metadata-only projects need original content again for replay. Retained image bytes can prevent an in-place downgrade; create a new metadata-only project when required.</p></section>
             <section class="panel settings-card"><h2>Display and accessibility</h2><label>Spacing<select id="density-level"><option value="compact">Compact</option><option value="comfortable">Comfortable</option></select></label><label>Interface zoom<select id="zoom-level"><option value="0.5">50%</option><option value="0.6">60%</option><option value="0.75">75%</option><option value="0.85">85%</option><option value="0.9">90%</option><option value="1" selected>100%</option><option value="1.1">110%</option><option value="1.25">125%</option><option value="1.5">150%</option><option value="2">200%</option></select></label><p>Use the − / + controls above, or View → Zoom Out (Ctrl + −) for the entire desktop window.</p><label><input id="wheel-zoom" type="checkbox"> Shift + mouse wheel changes interface zoom</label><p class="input-boundary-note">When enabled, Shift + wheel is reserved for zoom. Turn it off for normal horizontal scrolling. Drag the chat edge, or focus its divider and use the arrow keys, to resize it.</p><label><input id="reduced-motion" type="checkbox"> Reduce motion</label><label><input id="high-contrast" type="checkbox"> High contrast</label><label><input id="quiet-mode-setting" type="checkbox"> Quiet mode</label></section>
             <section class="panel settings-card"><h2>Local service</h2><dl><div><dt>Status</dt><dd id="settings-service-state">Unknown</dd></div><div><dt>Database</dt><dd id="settings-database">Not reported</dd></div><div><dt>App build</dt><dd id="settings-build">Not reported</dd></div><div><dt>GUI source</dt><dd id="settings-source-commit">Not reported</dd></div></dl><div class="button-row"><button class="button" id="open-logs" type="button">Open logs</button><button class="button" id="restart-service" type="button">Restart service</button><button class="button" id="copy-error" type="button" disabled>Copy latest error</button></div></section>
           </div>
@@ -347,7 +377,7 @@
       <div class="dialog-head"><div><div class="eyebrow">New local workspace</div><h2 id="project-dialog-title">Create project</h2></div><button class="icon-button" id="close-project-dialog" type="button" aria-label="Close">×</button></div>
       <label>Project name<input id="project-name" required maxlength="120" autocomplete="off"></label>
       <label>Objective<textarea id="project-new-objective" rows="4" maxlength="4000"></textarea></label>
-      <fieldset><legend>Raw material retention</legend><label><input type="radio" name="new-retention" value="METADATA_ONLY" checked> Metadata and digests only</label><label><input type="radio" name="new-retention" value="RETAIN_TEXT"> Retain selected text locally</label></fieldset>
+      <fieldset><legend>Raw material retention</legend><label><input type="radio" name="new-retention" value="METADATA_ONLY" checked> Metadata and digests only</label><label><input type="radio" name="new-retention" value="RETAIN_TEXT"> Retain selected content locally, including explicitly selected files and images</label></fieldset>
       <div class="dialog-actions"><button class="button" id="cancel-project" type="button">Cancel</button><button class="button accent" id="create-project" type="submit">Create project</button></div>
     </form>
   </dialog>

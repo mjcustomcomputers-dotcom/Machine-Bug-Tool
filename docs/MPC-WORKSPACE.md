@@ -186,9 +186,72 @@ model output are untrusted display data, not renderer code.
 Normal `Ctrl+C`, `Ctrl+V` and `Ctrl+A` behavior is available in editable fields.
 MPC Workspace reads the clipboard only after an explicit paste action; it does
 not monitor it. Text retains line endings and malformed JSON remains an input
-with a visible parse error. Images retain original bytes; OCR or visual-model
-text is a separate derived representation. Files are data until the user takes
-a separate, authorized execution action.
+with a visible parse error. User-attached image files retain original bytes only
+when `RETAIN_TEXT` is selected; clipboard-image normalization and size-specific
+retention are described below. OCR or visual-model text is always a separate
+derived representation. Files are data until the user takes a separate,
+authorized execution action.
+
+### Fast screen context
+
+Fast screen context is a bounded accessibility path in the Windows desktop
+host. The working order is **pasted readable text → scrubbed Firefox HAR text →
+clipboard-image fallback for the remaining visual unknown**. The user presses
+**Print Screen** and then explicitly chooses **Use clipboard image**; only that
+action may read the image clipboard. Any current clipboard image is accepted,
+so the record does not attest that Print Screen created it. Workspace never
+watches the clipboard in the background. It encodes the bounded JPEG first,
+then records the Electron-normalized PNG as its own source/artifact according to
+the project's retention choice. The JPEG's long edge is at most 1280 pixels.
+The derivative records its own SHA-256, dimensions, encoder settings and
+`representation_of_artifact_id` back to the source artifact. Metadata-only mode
+keeps identities and hashes, not either image. A retained source larger than 8
+MiB is reduced to digest-only identity while its bounded derivative can still
+follow the selected retention policy.
+
+Quick structured text must not wait for image work or a model. Within the image
+fallback, the intended latency order is **capture → bounded derivative → local
+OCR → short screen-reader text**. No OCR engine or vision adapter is installed
+in the current package: an image remains
+`DERIVED_REPRESENTATION_REQUIRED`, and its pixels are not sent to the selected
+text-only reasoner. Installing or selecting a text model does not change that
+boundary.
+
+Browser context may come only from an explicitly selected, already exported
+Firefox DevTools HAR file. Import first scrubs authorization/proxy-authorization
+headers, cookies, request/response bodies, URL credentials, fragments, raw DNS
+labels, IP addresses and query values before any project persistence. Retained
+metadata keeps the exact raw-trace hash and byte count plus bounded time,
+pseudonymized origin identity, path shape, HTTP status, classified resource MIME
+type and distinct transfer, decoded-content and header sizes. HAR import is
+browser application-layer evidence, not packet sniffing. It performs no live
+packet capture, navigation, refetch, replay or other target request, and a
+time/origin/type match is context—not proof that a response rendered a pixel or
+caused an observed result.
+
+Ordinary file, browser-file and whole-folder ingestion reject `.har` files and
+JSON-shaped HAR 1.2 records before persistence. They must use **Import Firefox
+HAR**. Retained decoded text is also secret-screened before any raw file artifact
+is written, so a rejected credential-bearing text input cannot leave a hidden
+raw copy in the project artifact directory.
+
+The guarded Electron image-clipboard bridge, bounded native-image resizer,
+versioned artifact lineage, atomic screen-context ledger write, handle-bound HAR
+reader and bounded HAR parser/redactor are implemented. The scrubbed HAR summary
+keeps normalized entry time, page index, total/wait timing, status, classified
+type, size, selected security-header presence and stable pseudonymized origin so
+the text reasoner can compare application-layer events without raw secrets.
+Future visual-text enablement still requires a pinned local OCR engine and model,
+unknown-region selection and a source-bound correlator. Acceptance must name the
+Windows CPU/RAM and corpus and record
+`capture_to_first_spoken_ms` p50/p95, decode/resize/OCR milliseconds, processed
+pixels, peak RSS delta, OCR character error rate, omitted regions and outbound
+request count. On the declared 1920×1080 high-contrast UI corpus, the release
+target is p95 first spoken text at or below 750 ms, p95 complete OCR at or below
+2000 ms, character error rate at or below 5%, a derivative long edge no greater
+than 1280 pixels, zero secret-canary disclosure, zero outbound requests during
+HAR import, and exact original/derivative hash and retention round trips. These
+are unreached acceptance gates until a Windows receipt reports the measurements.
 
 An attached folder is indexed where it already lives. The bounded index records
 relative locators, file/folder kind, availability, size and a metadata version

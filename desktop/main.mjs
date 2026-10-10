@@ -1,5 +1,6 @@
 import {createHash} from 'node:crypto';
-import {appendFileSync,lstatSync,mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+import {appendFileSync,constants,lstatSync,mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+import {open as openFileHandle} from 'node:fs/promises';
 import {basename,dirname,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {
@@ -12,6 +13,8 @@ import {
   session,
   shell,
 } from 'electron';
+
+import {createScreenContextHost} from './screen-context-host.mjs';
 
 const APP_NAME='MPC Workspace';
 const APP_ID='com.mjcustomcomputers.mpcworkspace';
@@ -128,7 +131,8 @@ function runtimeStatus(){
     zoom_factor:mainWindow&&!mainWindow.isDestroyed()?mainWindow.webContents.getZoomFactor():1,
     runtime:Object.freeze({electron:process.versions.electron,node:process.versions.node,chrome:process.versions.chrome}),
     service:Object.freeze({status:serviceState.status,url:workspaceService?.url??null,last_error_code:serviceState.last_error_code}),
-    capabilities:Object.freeze({clipboard:true,files:true,folders:true,logs:true,restart:true,interface_zoom:true}),
+    capabilities:Object.freeze({clipboard:true,files:true,folders:true,logs:true,restart:true,interface_zoom:true,
+      screen_context:true,har_import:true,active_capture:false,ocr:false}),
   });
 }
 
@@ -149,7 +153,11 @@ async function startWorkspaceService(){
   if(typeof serverModule.startMpcWorkspaceServer!=='function'){
     throw Object.assign(new Error('MPC_WORKSPACE_SERVER_EXPORT_MISSING'),{code:'MPC_WORKSPACE_SERVER_EXPORT_MISSING'});
   }
-  const started=await serverModule.startMpcWorkspaceServer({host:LOOPBACK_HOST,port:0,dataRoot,rendererRoot});
+  const noFollowFlag=process.platform==='win32'?0:constants.O_NOFOLLOW;
+  const screenContext=createScreenContextHost({clipboard,dialog,
+    openFile:path=>openFileHandle(path,constants.O_RDONLY|noFollowFlag),lstat:lstatSync,mainWindow});
+  const started=await serverModule.startMpcWorkspaceServer({host:LOOPBACK_HOST,port:0,dataRoot,rendererRoot,
+    adapters:{screenContext}});
   if(!started||typeof started.close!=='function'||!isLoopbackServiceUrl(started.url)){
     try{await started?.close?.()}catch{}
     throw Object.assign(new Error('MPC_WORKSPACE_SERVER_RESULT_INVALID'),{code:'MPC_WORKSPACE_SERVER_RESULT_INVALID'});
