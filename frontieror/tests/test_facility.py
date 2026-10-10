@@ -1,0 +1,100 @@
+"""FrontierOR SCFLP: independent recourse, capacity and expected-cost proofs."""
+import importlib.util
+import math
+import pathlib
+import random
+import unittest
+from unittest.mock import patch
+
+FILE=pathlib.Path(__file__).resolve().parents[1]/"solvers"/"bodur2017"/"solve.py"
+spec=importlib.util.spec_from_file_location("scflp",FILE)
+solver=importlib.util.module_from_spec(spec)
+spec.loader.exec_module(solver)
+
+
+def fixture(f=5,c=8,s=3,seed=10):
+    rng=random.Random(seed)
+    facilities=[]
+    for i in range(f):
+        facilities.append(dict(id=i,opening_cost=float(8+i*3),
+                               capacity=float(c*2/f+4),location_x=float(i),
+                               location_y=float(i)))
+    customers=[dict(id=j,deterministic_demand=1.5,
+                    demand_std_fraction=0.1,location_x=float(j),location_y=float(j))
+               for j in range(c)]
+    costs=[[float(1+abs(i-j%f)*3) for j in range(c)] for i in range(f)]
+    scenarios=[dict(id=k,probability=1.0/s,
+                    demands=[rng.uniform(0.5,1.9) for j in range(c)])
+               for k in range(s)]
+    return dict(num_facilities=f,num_customers=c,num_scenarios=s,
+                capacity_factor=2.,variance_level="normal",
+                facilities=facilities,customers=customers,
+                transportation_costs=costs,scenarios=scenarios)
+
+
+def independent(raw,output):
+    f,c,s=raw["num_facilities"],raw["num_customers"],raw["num_scenarios"]
+    assert set(output)=={"objective_value","open_facilities","x","y"}
+    opened=set(output["open_facilities"])
+    assert set(output["x"])=={str(i) for i in range(f)}
+    assert opened=={i for i in range(f) if output["x"][str(i)]==1}
+    result=sum(raw["facilities"][i]["opening_cost"] for i in opened)
+    assert set(output["y"])=={str(i) for i in range(s)}
+    for k in range(s):
+        matrix=output["y"][str(k)]
+        assert set(matrix)=={str(i) for i in range(f)}
+        for i in range(f):
+            assert set(matrix[str(i)])=={str(j) for j in range(c)}
+            flow=[matrix[str(i)][str(j)] for j in range(c)]
+            assert all(x>=-1e-6 and math.isfinite(x) for x in flow)
+            assert sum(flow)<=((raw["facilities"][i]["capacity"] if i in opened else 0)+1e-5)
+            result+=raw["scenarios"][k]["probability"]*sum(
+                flow[j]*raw["transportation_costs"][i][j] for j in range(c))
+        for j in range(c):
+            assert sum(matrix[str(i)][str(j)] for i in range(f)) >= (
+                raw["scenarios"][k]["demands"][j]-1e-5)
+    assert abs(output["objective_value"]-result)<1e-4
+
+
+class FacilityTests(unittest.TestCase):
+    def test_milp_closed_facility_better_than_all_open(self):
+        raw=fixture(3,2,2,3)
+        raw["facilities"][0]["capacity"]=10.
+        raw["facilities"][1]["capacity"]=10.
+        raw["facilities"][2]["capacity"]=10.
+        raw["facilities"][0]["opening_cost"]=15.
+        raw["facilities"][1]["opening_cost"]=45.
+        raw["facilities"][2]["opening_cost"]=45.
+        raw["transportation_costs"]=[[1.,1.],[2.,2.],[3.,3.]]
+        result=solver.solve(raw,8)
+        independent(raw,result)
+        self.assertIn(0,result["open_facilities"])
+        self.assertLess(result["objective_value"],100.)
+
+    def test_greedy_fallback_always_feasible(self):
+        raw=fixture()
+        p=solver.parse(raw)
+        greedy=solver.greedy_transport(p,set(range(p[0])))
+        self.assertTrue(solver.check(p,set(range(p[0])),greedy))
+        with patch.object(solver,"extensive_milp",return_value=None):
+            result=solver.solve(raw,4)
+        independent(raw,result)
+
+    def test_scenario_alteration(self):
+        for seed in (10,11,12,13):
+            with self.subTest(seed=seed):
+                raw=fixture(6,10,3,seed)
+                result=solver.solve(raw,4)
+                independent(raw,result)
+
+    def test_direct_sparse_mip(self):
+        raw=fixture(4,5,2,36)
+        p=solver.parse(raw)
+        import time
+        result=solver.extensive_milp(p,time.monotonic()+5)
+        self.assertIsNotNone(result)
+        self.assertTrue(solver.check(p,*result))
+
+
+if __name__=="__main__":
+    unittest.main()
