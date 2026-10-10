@@ -31,14 +31,14 @@ const atom=(id,dimension,state='SYNTHETIC',src='fixture:source',version='r1')=>(
  source_version:version,scope_id:scope.scope_id,subject_id:scope.subject_id});
 const route=(domain,atoms=[],extra={})=>({...scope,domain,world:'SYNTHETIC',
  atoms,max_methods:8,...extra});
-test('V27 atlas is noncanonical and 43 hooks retain real sources, falsifiers and domains',()=>{
+test('V27 atlas is noncanonical and 48 hooks retain real sources, falsifiers and domains',()=>{
  assert.equal(frontier.hooks.length,48);
  assert.equal(frontier.original_evaluators,24);
  assert.equal(frontier.original_method_atlas_candidates,239);
  assert.equal(frontier.canonical_promotion,false);
  assert.equal(spaceScienceContract.canonical_promotion,false);
  assert.equal(methodSpaceContract.native_evaluators_added,0);
- assert.equal(new Set(frontier.hooks.map(x=>x.id)).size,43);
+ assert.equal(new Set(frontier.hooks.map(x=>x.id)).size,48);
  assert.ok(frontier.hooks.every(h=>h.primary_source_urls.length>0&&
  h.primary_source_urls.every(x=>x.startsWith('https://'))&&h.falsifier.length>12));
  assert.equal(frontier.hooks.filter(x=>x.domain==='META').length,8);
@@ -230,7 +230,7 @@ test('space router uses domain-limited source-bound candidate selection, no tran
  atom('seq','SYMBOLIC_SEQUENCE'),atom('null','NULL_MODEL')]));
  assert.equal(r.domain,'CETACEAN');
  assert.equal(r.method_registry_total,48);
- assert.ok(r.domain_applicable_contracts<43);
+ assert.ok(r.domain_applicable_contracts<48);
  const m=r.selected_methods.find(x=>x.id==='RH-V27-10');
  assert.equal(m.state,'RESEARCH_APPLICABLE_NOT_EXECUTED');
  assert.equal(r.phase,'ANALYSIS');
