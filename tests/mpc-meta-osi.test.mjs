@@ -98,6 +98,11 @@ test('bounded metadata cache reuses only same source/method/session and revokes 
     project_id:project,session_id:session,source_digest:hash(id),method_version:'VOSI-V1'});
   const graph=(name='A')=>generateMetaMethodGraph({source_digest:hash(name),
     atoms:[atom('A',META_TRUTH.UNKNOWN)],max_nodes:2});
+  const uuidKey=key('ACTUAL-SESSION','PROJECT','2d5bf2f4-6898-4b95-82e3-741b90835cd5');
+  assert.equal(cache.set(uuidKey,graph('ACTUAL-SESSION')),true,
+    'native UUID session IDs can start with a digit');
+  assert.ok(cache.get(uuidKey));
+  cache.clear();
   const a=key(),b=key('B'),c=key('C');
   assert.equal(cache.get(a),null);
   assert.equal(cache.set(a,graph()),true);
