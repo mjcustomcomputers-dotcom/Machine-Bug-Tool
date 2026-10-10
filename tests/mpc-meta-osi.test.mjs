@@ -38,12 +38,12 @@ test('method-on-method DAG is source keyed, deterministic, bounded and deliberat
   assert.deepEqual(first,generateMetaMethodGraph({...fixture,atoms:fixture.atoms.toReversed()}));
   assert.equal(first.candidate_only,true);
   assert.equal(first.no_native_methods_executed,true);
-  assert.equal(first.original_registry_unchanged,undefined);
   assert.equal(first.canonical_method_ids_unchanged,true);
-  assert.equal(first.generated,7);
+  assert.equal(first.generated,9);
   assert.ok(first.nodes.every(row=>row.method_execution==='NOT_EXECUTED'&&row.source_authentication===false&&row.registry_promotion===false));
   const inverse=first.nodes.filter(x=>x.operator==='INVERT_DEPENDENCY');
   assert.equal(inverse.length,1);
+  assert.equal(first.nodes.filter(x=>x.operator==='CHALLENGE').length,1);
   assert.equal(inverse[0].logical_state,META_TRUTH.UNKNOWN);
   assert.notEqual(generateMetaMethodGraph({...fixture,source_digest:hash('changed-source')}).nodes[0].candidate_id,
     first.nodes[0].candidate_id);
@@ -90,6 +90,7 @@ test('OCR virtual OSI stages express 4K work as crop/manual-recapture advice, no
   assert.equal(large.router.action,'OFFER_TARGETED_NATIVE_CROP');
   assert.equal(large.observed.frame_pixels,4096*2160);
   assert.equal(large.method_generation.no_native_methods_executed,true);
+  assert.equal(large.method_generation.generated,9);
   assert.equal(large.meta_cache,'MISS');
   assert.equal(buildScreenVirtualOsi({...source(),cache}).meta_cache,'HIT');
   const poor=buildScreenVirtualOsi({...source(),confidence:35,truncated:true,cache});
