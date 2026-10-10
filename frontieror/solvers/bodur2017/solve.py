@@ -126,6 +126,52 @@ def try_closures(p,opened,ship,deadline):
     return best_opened,best_ship
 
 
+def lp_transport(p,opened,deadline):
+    """Solve exact scenario recourse LP for fixed openings; use safe fallback."""
+    if time.monotonic()>=deadline-0.2:
+        return None
+    try:
+        import numpy as np
+        from scipy.sparse import coo_matrix
+        from scipy.optimize import linprog
+    except ImportError:
+        return None
+    f,c,s,cap,fixed,costs,demand,prob=p
+    choices=sorted(opened)
+    nv=len(choices)*c
+    if nv>180000 or nv==0:
+        return None
+    rr,cc,vv=[],[],[]
+    for z,i in enumerate(choices):
+        for j in range(c):
+            idx=z*c+j
+            rr.extend((j,c+z))
+            cc.extend((idx,idx))
+            vv.extend((1.,1.))
+    mat=coo_matrix((vv,(rr,cc)),shape=(c+len(choices),nv)).tocsr()
+    expenses=np.array([costs[i][j] for i in choices for j in range(c)],dtype=float)
+    capacities=np.asarray([cap[i] for i in choices],dtype=float)
+    shipped=[]
+    for k in range(s):
+        available=deadline-time.monotonic()
+        if available<0.2:
+            return None
+        try:
+            res=linprog(expenses,A_eq=mat[:c],b_eq=np.asarray(demand[k],dtype=float),
+                        A_ub=mat[c:],b_ub=capacities,bounds=(0,None),method="highs",
+                        options={"time_limit":max(0.1,available-0.12),"presolve":True})
+        except (ValueError,RuntimeError,MemoryError):
+            return None
+        if not res.success or res.x is None:
+            return None
+        matrix=[[0.]*c for _ in range(f)]
+        for z,i in enumerate(choices):
+            for j in range(c):
+                matrix[i][j]=max(0.,float(res.x[z*c+j]))
+        shipped.append(matrix)
+    return shipped if check(p,opened,shipped) else None
+
+
 def extensive_milp(p,deadline):
     """Exact sparse extensive-form MIP; skip models that could exceed memory."""
     f,c,s,cap,fixed,cost,demand,prob=p
@@ -199,6 +245,12 @@ def solve(instance,time_limit_s):
         if check(p,challenger_open,challenger_ship) and (
                 objective(p,challenger_open,challenger_ship)<objective(p,best_opened,best_ship)-1e-7):
             best_opened,best_ship=challenger_open,challenger_ship
+    # Tighten expected shipping cost using each scenario's exact LP recourse.
+    if time.monotonic()<deadline-.6:
+        lp=lp_transport(p,best_opened,min(deadline,time.monotonic()+4.0))
+        if lp is not None and check(p,best_opened,lp) and (
+                objective(p,best_opened,lp)<objective(p,best_opened,best_ship)-1e-7):
+            best_ship=lp
     if time.monotonic()<deadline-.6:
         challenger=extensive_milp(p,deadline)
         if challenger is not None and check(p,*challenger):
