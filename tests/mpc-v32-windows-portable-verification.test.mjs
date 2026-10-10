@@ -45,11 +45,12 @@ function fixture(t){
  const external={...receipt,portable_inventory:inventory};
  const receiptPath=join(base,'receipt.json');
  writeFileSync(receiptPath,JSON.stringify(external));
- const mock={extractFile(_path,name){
-  if(name==='package.json')return Buffer.from(JSON.stringify({mpcWorkspaceBuild:{
-   source_commit:COMMIT,source_dirty:false,target:'win32-x64'}}));
-  if(!Object.hasOwn(data,name))throw Error('missing');
-  return data[name];
+ const mock={extractAll(_asar,destination){
+  for(const [name,bytes] of Object.entries(data))
+   output(join(destination,...name.split('/')),bytes);
+  output(join(destination,'package.json'),
+   Buffer.from(JSON.stringify({mpcWorkspaceBuild:{
+    source_commit:COMMIT,source_dirty:false,target:'win32-x64'}})));
  }};
  return {base,root,receiptPath,data,mock};
 }
