@@ -229,9 +229,11 @@ def dominated_rotations(p):
     cheapest={}
     dominated=set()
     for j,rows in enumerate(columns):
-        # Empty columns may both be desirable when cost is negative.
+        # An empty-cover rotation can still satisfy a base lower bound.
+        # Only remove it if its base-effect vector is identically zero and
+        # selecting it cannot reduce the objective.
         if not rows:
-            if costs[j]>=0:
+            if costs[j]>=0 and all(base[j]==0 for base in d):
                 dominated.add(j)
             continue
         key=(tuple(sorted(set(rows))),tuple(base[j] for base in d))
