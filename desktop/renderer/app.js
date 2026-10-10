@@ -21,6 +21,7 @@
  *   POST /api/workspace/scripts             {operation: CREATE|SAVE_DRAFT|EXPORTED|INGEST_OUTPUT, ...}
  *   POST /api/workspace/transfers/export    bounded portable data envelope; performs no external action
  *   POST /api/workspace/transfers/import    verified data-only import into the explicitly selected project
+ *   POST /api/workspace/methods/engineering  opt-in, project-bound finite engineering review (V30)
  *
  * The optional `window.mpcWorkspace` bridge is deliberately narrow:
  * getRuntimeStatus, chooseFiles, chooseFolder, readClipboardText, copyText,
@@ -1939,6 +1940,9 @@ async function initialize() {
     $('connection-read-dialog').close();
   });
   bindNavigation();
+  initializeEngineeringMethodLabV30({
+    request,getProjectId:currentProjectId,copyText,announce,recordError
+  });
   bindDrop();
   bindComposerResize();
   bindFloatingComposerMove();
@@ -2066,3 +2070,4 @@ async function initialize() {
 if (hasDom) initialize().catch(recordError);
 import {initializeScreenReader} from './screen-reader.js';
 import {initializeNetworkPanel} from './network-reader.js';
+import {initializeEngineeringMethodLabV30} from './method-lab.js';
