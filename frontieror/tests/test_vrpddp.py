@@ -77,6 +77,20 @@ class DivisibleVRPTests(unittest.TestCase):
         answer=vrp.solve(data,5)
         self.assertLess(answer["objective_value"],vrp.score(p,vrp.separate_routes(p)))
 
+    def test_cross_phase_method_nonregression(self):
+        import time
+        for n,seed in ((6,91),(15,64),(30,75)):
+            with self.subTest(n=n):
+                data=fixture(n,seed)
+                p=vrp.parse(data)
+                seed_routes=vrp.savings(p,time.monotonic()+1.5)
+                self.assertTrue(vrp.verify(p,seed_routes))
+                original=vrp.score(p,seed_routes)
+                revised=[vrp.cross_phase_two_opt(p,route,time.monotonic()+0.3)
+                         for route in seed_routes]
+                self.assertTrue(vrp.verify(p,revised))
+                self.assertLessEqual(vrp.score(p,revised),original+1e-7)
+
     def test_rejects_capacity_violation(self):
         data=fixture(2,1)
         data["customers"][0]["pickup_demand"]=20
