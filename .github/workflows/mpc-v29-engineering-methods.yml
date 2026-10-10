@@ -1,0 +1,63 @@
+name: MPC V29 Multilingual JVM CAN Method Mountains
+
+on:
+  push:
+    branches:
+      - feature/mpc-multilingual-can-code-method-mountains-v29
+  pull_request:
+    branches:
+      - feature/mpc-linguistic-methods-on-methods-v28
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-v29-method-mountains-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  method-mountains:
+    name: Source-exact multilingual Java CAN and full MPC acceptance
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+
+    steps:
+      - name: Check out exact source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Verify V28 parent and changed files
+        shell: bash
+        run: |
+          git rev-parse HEAD
+          git merge-base --is-ancestor 7e0ead087b8fd786fc5e8dcb69d53457f369060f HEAD
+          git diff --name-status 7e0ead087b8fd786fc5e8dcb69d53457f369060f HEAD
+          git status --short
+
+      - name: Install Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+
+      - name: Activate pinned pnpm
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+          pnpm --version
+
+      - name: Install frozen lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Focused V29 and V28 acceptance
+        run: |
+          node --test tests/mpc-v29-language-java.test.mjs tests/mpc-v29-can-methods.test.mjs tests/mpc-linguistic-v28.test.mjs
+          node research/run-mpc-v29-engineering-pass.mjs
+
+      - name: Full MPC tests
+        run: node --test
+
+      - name: Full production source build
+        run: pnpm run build
