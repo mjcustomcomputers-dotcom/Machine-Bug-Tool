@@ -16,12 +16,13 @@ const network={kind:'MPC_NETWORK_ENDPOINT_OBSERVATION',project_id:'SYNTHETIC-PRO
 const sample=[];
 for(let i=0;i<300;i++){
   const start=performance.now();
-  const next=buildScreenVirtualOsi(frame);
+  const next=buildScreenVirtualOsi({...frame,cache:null});
   if(next.method_generation.generated!==9)throw Error('META_GRAPH_BUDGET_REGRESSION');
   sample.push(performance.now()-start);
 }
 const sorted=[...sample].sort((a,b)=>a-b);
 const percentile=q=>Number(sorted[Math.floor((sorted.length-1)*q)].toFixed(4));
+buildScreenVirtualOsi(frame); // Prime exact metadata cache before warm timing.
 const warmSamples=[];
 for(let i=0;i<300;i++){
   const start=performance.now();

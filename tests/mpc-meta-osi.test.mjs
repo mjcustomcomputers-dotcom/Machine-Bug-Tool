@@ -79,6 +79,8 @@ test('bounded metadata cache reuses only same source/method/session and revokes 
   assert.equal(cache.get(a),null);
   assert.equal(cache.set(a,graph()),true);
   assert.equal(cache.get(a)?.kind,'MPC_META_METHOD_CANDIDATE_GRAPH');
+  assert.equal(Object.isFrozen(cache.get(a).nodes[0].inputs),true);
+  assert.throws(()=>{cache.get(a).nodes[0].inputs[0]='MUTATED';},TypeError);
   assert.equal(cache.set(b,graph('B')),true);
   assert.equal(cache.set(c,graph('C')),true);
   assert.equal(cache.get(a),null,'third bounded entry evicts oldest');
@@ -106,6 +108,9 @@ test('OCR virtual OSI stages express 4K work as crop/manual-recapture advice, no
   assert.equal(large.router.action,'OFFER_TARGETED_NATIVE_CROP');
   assert.equal(large.observed.frame_pixels,4096*2160);
   assert.equal(large.method_generation.no_native_methods_executed,true);
+  assert.equal(large.method_audit.status,'ALGEBRAIC_CONSISTENCY_CONFIRMED');
+  assert.equal(large.method_audit.candidates_checked,9);
+  assert.equal(large.method_audit.real_world_verification,false);
   assert.equal(large.method_generation.generated,9);
   assert.equal(large.meta_cache,'MISS');
   assert.equal(buildScreenVirtualOsi({...source(),cache}).meta_cache,'HIT');
