@@ -1,0 +1,880 @@
+{
+  "version": "MPC_V29_LINGUISTIC_CODE_CAN_METHOD_MOUNTAINS",
+  "namespace": "RH_V29_NONCANONICAL",
+  "parent_git_commit": "7e0ead087b8fd786fc5e8dcb69d53457f369060f",
+  "original_native_evaluators": 24,
+  "original_atlas_candidates": 239,
+  "original_v28_hooks": 34,
+  "canonical_registry_change": false,
+  "output_policy": "TECHNICAL_RESULT_FIRST_COMPACT_ACTIVE_SCOPE",
+  "input_provenance": "EXACT_SOURCE_OWNER_VERSION",
+  "research_sources": {
+    "bcp47": "https://www.rfc-editor.org/info/rfc5646/",
+    "unicode": "https://www.unicode.org/reports/tr15/",
+    "cldr": "https://cldr.unicode.org/",
+    "gettext": "https://www.gnu.org/software/gettext/manual/gettext.html",
+    "icu": "https://unicode-org.github.io/icu/userguide/locale/",
+    "w3ci18n": "https://www.w3.org/International/",
+    "java27": "https://docs.oracle.com/javase/specs/jvms/se27/html/index.html",
+    "class": "https://docs.oracle.com/javase/specs/jvms/se27/html/jvms-4.html",
+    "instr": "https://docs.oracle.com/javase/specs/jvms/se27/html/jvms-6.html",
+    "verifier": "https://docs.oracle.com/javase/specs/jvms/se27/html/jvms-4.html#jvms-4.10",
+    "llvm": "https://llvm.org/docs/LangRef.html",
+    "llvmb": "https://llvm.org/docs/UndefinedBehavior.html",
+    "linuxCan": "https://docs.kernel.org/networking/can.html",
+    "linuxCanHdr": "https://github.com/torvalds/linux/blob/master/include/uapi/linux/can.h",
+    "isoCan": "https://www.iso.org/standard/84211.html",
+    "autosarSecoc": "https://autosar.org/fileadmin/standards/R23-11/FO/AUTOSAR_FO_PRS_SecOcProtocol.pdf",
+    "autosarE2E": "https://www.autosar.org/fileadmin/standards/R21-11/FO/AUTOSAR_RS_E2E.pdf",
+    "autosarE2EProto": "https://www.autosar.org/fileadmin/standards/R24-11/FO/AUTOSAR_FO_PRS_E2EProtocol.pdf",
+    "prov": "https://www.w3.org/TR/prov-o/",
+    "mpcv28": "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/7e0ead087b8fd786fc5e8dcb69d53457f369060f/docs/MPC-LINGUISTIC-METHODS-V28.md"
+  },
+  "hooks": [
+    {
+      "id": "RH-V29-01",
+      "domain": "LANGUAGE",
+      "key": "BCP47_LOCALE_CANONICAL_ROUTE",
+      "requires": [
+        "LOCALE_TAG",
+        "INTENT"
+      ],
+      "produces": [
+        "CANONICAL_LOCALE_CANDIDATE"
+      ],
+      "source_urls": [
+        "https://www.rfc-editor.org/info/rfc5646/",
+        "https://unicode-org.github.io/icu/userguide/locale/"
+      ],
+      "falsifier": "Normalize a language tag without assuming the dialect or semantic translation was verified.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-02",
+      "domain": "LANGUAGE",
+      "key": "REGION_SCRIPT_VARIANT_SEPARATION",
+      "requires": [
+        "CANONICAL_LOCALE_CANDIDATE",
+        "VARIANT_POLICY"
+      ],
+      "produces": [
+        "LANGUAGE_VARIANT_PROFILE"
+      ],
+      "source_urls": [
+        "https://www.rfc-editor.org/info/rfc5646/",
+        "https://unicode-org.github.io/icu/userguide/locale/"
+      ],
+      "falsifier": "Region/script subtags must not be discarded when they alter style or formatting.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-03",
+      "domain": "LANGUAGE",
+      "key": "CONTROLLED_TERMINOLOGY_TRANSLATION",
+      "requires": [
+        "SEMANTIC_MESSAGE",
+        "LOCALE_TAG"
+      ],
+      "produces": [
+        "CONTROLLED_TRANSLATION"
+      ],
+      "source_urls": [
+        "https://cldr.unicode.org/",
+        "https://www.gnu.org/software/gettext/manual/gettext.html"
+      ],
+      "falsifier": "Translated fixed terminology must retain the original semantic message code.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-04",
+      "domain": "LANGUAGE",
+      "key": "BACK_TRANSLATION_ORACLE",
+      "requires": [
+        "CONTROLLED_TRANSLATION",
+        "SEMANTIC_MESSAGE"
+      ],
+      "produces": [
+        "TRANSLATION_ROUNDTRIP_AUDIT"
+      ],
+      "source_urls": [
+        "https://www.gnu.org/software/gettext/manual/gettext.html",
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "Independent decode must recover exactly the source message code and register.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-05",
+      "domain": "LANGUAGE",
+      "key": "UNICODE_NFC_CANONICAL_EQUIVALENCE",
+      "requires": [
+        "TEXT_BYTES",
+        "NORMALIZATION_POLICY"
+      ],
+      "produces": [
+        "NFC_CANDIDATE"
+      ],
+      "source_urls": [
+        "https://www.unicode.org/reports/tr15/"
+      ],
+      "falsifier": "Canonical equivalence differs from raw byte identity and signature identity.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-06",
+      "domain": "LANGUAGE",
+      "key": "NFKC_COMPATIBILITY_LOSS_DETECTION",
+      "requires": [
+        "NFC_CANDIDATE",
+        "COMPATIBILITY_CONTEXT"
+      ],
+      "produces": [
+        "COMPATIBILITY_COLLAPSE_WARNING"
+      ],
+      "source_urls": [
+        "https://www.unicode.org/reports/tr15/"
+      ],
+      "falsifier": "Compatibility normalization can erase meaningful character distinctions.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-07",
+      "domain": "LANGUAGE",
+      "key": "DIRECTION_AND_BIDI_ISOLATION",
+      "requires": [
+        "UNICODE_TEXT",
+        "DIRECTION_PROFILE"
+      ],
+      "produces": [
+        "BIDI_RENDER_PLAN"
+      ],
+      "source_urls": [
+        "https://www.w3.org/International/",
+        "https://www.unicode.org/reports/tr15/"
+      ],
+      "falsifier": "Visual reordering must not be mistaken for logical text or source identity.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-08",
+      "domain": "LANGUAGE",
+      "key": "TECHNICAL_TERMINOLOGY_TAXONOMY",
+      "requires": [
+        "DOMAIN_LEXICON",
+        "GLOSSARY_VERSION"
+      ],
+      "produces": [
+        "TERMINOLOGY_METHOD_CANDIDATE"
+      ],
+      "source_urls": [
+        "https://cldr.unicode.org/",
+        "https://www.gnu.org/software/gettext/manual/gettext.html"
+      ],
+      "falsifier": "Technical terms should be pinned to a project glossary version.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-09",
+      "domain": "LANGUAGE",
+      "key": "FORMAL_REGISTER_VARIATION",
+      "requires": [
+        "SEMANTIC_MESSAGE",
+        "REGISTER_POLICY"
+      ],
+      "produces": [
+        "REGISTER_PRESERVATION_AUDIT"
+      ],
+      "source_urls": [
+        "https://www.gnu.org/software/gettext/manual/gettext.html",
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/7e0ead087b8fd786fc5e8dcb69d53457f369060f/docs/MPC-LINGUISTIC-METHODS-V28.md"
+      ],
+      "falsifier": "Terse and engineering output variants must encode identical source states.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-10",
+      "domain": "LANGUAGE",
+      "key": "TRANSLATION_NEGATION_QUANTIFIER_LOCK",
+      "requires": [
+        "CONTROLLED_TRANSLATION",
+        "NEGATION_FRAME"
+      ],
+      "produces": [
+        "POLARITY_TRANSLATION_FALSIFIER"
+      ],
+      "source_urls": [
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/7e0ead087b8fd786fc5e8dcb69d53457f369060f/docs/MPC-LINGUISTIC-METHODS-V28.md"
+      ],
+      "falsifier": "Changing an output language cannot flip sign, modality, or quantity.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-11",
+      "domain": "LANGUAGE",
+      "key": "CROSS_LANGUAGE_SOURCE_PROVENANCE",
+      "requires": [
+        "CONTROLLED_TRANSLATION",
+        "SOURCE_RECORD"
+      ],
+      "produces": [
+        "TRANSLATION_PROVENANCE_AUDIT"
+      ],
+      "source_urls": [
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "A translation is a derivative of a cited source record.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-12",
+      "domain": "LANGUAGE",
+      "key": "CODE_SWITCH_BOUNDARY",
+      "requires": [
+        "LOCALE_TAG",
+        "MIXED_SCRIPT_TEXT"
+      ],
+      "produces": [
+        "CODE_SWITCH_REVIEW"
+      ],
+      "source_urls": [
+        "https://unicode-org.github.io/icu/userguide/locale/",
+        "https://www.w3.org/International/"
+      ],
+      "falsifier": "Mixed scripts should be reviewed at logical token boundaries.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-13",
+      "domain": "JAVA",
+      "key": "CLASSFILE_MAGIC_VERSION",
+      "requires": [
+        "CLASS_BYTES",
+        "JAVA_TARGET"
+      ],
+      "produces": [
+        "CLASSFILE_HEADER_RECEIPT"
+      ],
+      "source_urls": [
+        "https://docs.oracle.com/javase/specs/jvms/se27/html/jvms-4.html",
+        "https://docs.oracle.com/javase/specs/jvms/se27/html/index.html"
+      ],
+      "falsifier": "A structurally valid classfile header still requires complete constant-pool and bytecode validation.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-14",
+      "domain": "JAVA",
+      "key": "CLASSFILE_PREVIEW_VERSION_CUT",
+      "requires": [
+        "CLASSFILE_HEADER_RECEIPT",
+        "PREVIEW_FLAGS"
+      ],
+      "produces": [
+        "PREVIEW_COMPATIBILITY_REVIEW"
+      ],
+      "source_urls": [
+        "https://docs.oracle.com/javase/specs/jvms/se27/html/jvms-4.html"
+      ],
+      "falsifier": "Java preview minor version needs the corresponding runtime and opt-in.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-15",
+      "domain": "JAVA",
+      "key": "JVM_INT_STACK_SUBSET",
+      "requires": [
+        "BYTECODE",
+        "STREAM_FUEL"
+      ],
+      "produces": [
+        "FINITE_JVM_EXECUTION"
+      ],
+      "source_urls": [
+        "https://docs.oracle.com/javase/specs/jvms/se27/html/jvms-6.html"
+      ],
+      "falsifier": "Supported opcodes execute with 32-bit wrap and stack/fuel bounds.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-16",
+      "domain": "JAVA",
+      "key": "JAVA_SOURCE_AST_REDUCTION",
+      "requires": [
+        "SOURCE_EXPRESSION",
+        "OPERATOR_SPEC"
+      ],
+      "produces": [
+        "TYPED_EXPRESSION_AST"
+      ],
+      "source_urls": [
+        "https://docs.oracle.com/javase/specs/jvms/se27/html/jvms-6.html"
+      ],
+      "falsifier": "An expression grammar provides a finite input for a compiler differential.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-17",
+      "domain": "JAVA",
+      "key": "AST_TO_BYTECODE_COMPILER",
+      "requires": [
+        "TYPED_EXPRESSION_AST",
+        "BYTECODE_TARGET"
+      ],
+      "produces": [
+        "COMPILED_BYTECODE"
+      ],
+      "source_urls": [
+        "https://docs.oracle.com/javase/specs/jvms/se27/html/jvms-6.html"
+      ],
+      "falsifier": "A compiler's emitted opcodes need independent execution under the same semantics.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-18",
+      "domain": "JAVA",
+      "key": "COMPILER_DIFFERENTIAL_ORACLE",
+      "requires": [
+        "COMPILED_BYTECODE",
+        "TYPED_EXPRESSION_AST"
+      ],
+      "produces": [
+        "COMPILER_REPLAY_AUDIT"
+      ],
+      "source_urls": [
+        "https://docs.oracle.com/javase/specs/jvms/se27/html/jvms-6.html",
+        "https://llvm.org/docs/UndefinedBehavior.html"
+      ],
+      "falsifier": "Compiler and interpreter disagreements expose subset semantic drift.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-19",
+      "domain": "JAVA",
+      "key": "JVM_CONTROL_FLOW_VERIFIER",
+      "requires": [
+        "CLASSFILE_HEADER_RECEIPT",
+        "CONTROL_FLOW_EDGES"
+      ],
+      "produces": [
+        "JVM_CONTROL_FLOW_AUDIT"
+      ],
+      "source_urls": [
+        "https://docs.oracle.com/javase/specs/jvms/se27/html/jvms-4.html#jvms-4.10"
+      ],
+      "falsifier": "Jump targets must be valid instruction boundaries in an actual verifier.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-20",
+      "domain": "JAVA",
+      "key": "SSA_PHI_AND_DOMINATOR_REDUCTION",
+      "requires": [
+        "CONTROL_FLOW_GRAPH",
+        "DOMINATORS"
+      ],
+      "produces": [
+        "SSA_REVIEW_HYPOTHESIS"
+      ],
+      "source_urls": [
+        "https://llvm.org/docs/LangRef.html"
+      ],
+      "falsifier": "A phi-node's incoming values require predecessor-specific control-flow semantics.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-21",
+      "domain": "JAVA",
+      "key": "LLVM_POISON_VS_UNDEF_CLASSIFICATION",
+      "requires": [
+        "LLVM_IR_VALUE",
+        "SEMANTIC_CONTEXT"
+      ],
+      "produces": [
+        "POISON_STATE_REVIEW"
+      ],
+      "source_urls": [
+        "https://llvm.org/docs/UndefinedBehavior.html"
+      ],
+      "falsifier": "Poison/undef behavior must not be flattened into an ordinary value.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-22",
+      "domain": "JAVA",
+      "key": "WASM_OR_MULTI_RUNTIME_EQUIVALENCE",
+      "requires": [
+        "MULTI_RUNTIME_OBSERVATIONS",
+        "REPLAY_CONTEXT"
+      ],
+      "produces": [
+        "RUNTIME_PARITY_HYPOTHESIS"
+      ],
+      "source_urls": [
+        "https://llvm.org/docs/LangRef.html",
+        "https://docs.oracle.com/javase/specs/jvms/se27/html/index.html"
+      ],
+      "falsifier": "Equivalent-looking arithmetic operations can differ in overflow, traps and casts.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-23",
+      "domain": "CAN",
+      "key": "CLASSIC_CAN_SFF_EFF_ID_PARSER",
+      "requires": [
+        "RAW_CANID",
+        "FRAME_KIND"
+      ],
+      "produces": [
+        "CAN_FRAME_ID_RECEIPT"
+      ],
+      "source_urls": [
+        "https://github.com/torvalds/linux/blob/master/include/uapi/linux/can.h",
+        "https://docs.kernel.org/networking/can.html"
+      ],
+      "falsifier": "Standard 11-bit versus extended 29-bit identifiers require separate flag/mask handling.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-24",
+      "domain": "CAN",
+      "key": "CANFD_DLC_EXACT_LENGTH_MAP",
+      "requires": [
+        "DLC",
+        "CODEC_KIND"
+      ],
+      "produces": [
+        "CAN_PAYLOAD_LENGTH_RECEIPT"
+      ],
+      "source_urls": [
+        "https://docs.kernel.org/networking/can.html",
+        "https://github.com/torvalds/linux/blob/master/include/uapi/linux/can.h"
+      ],
+      "falsifier": "FD DLC 9–15 maps to 12–64 bytes, and Classic CAN has different constraints.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-25",
+      "domain": "CAN",
+      "key": "CAN_FLAG_COMBINATION_REJECTION",
+      "requires": [
+        "RAW_CANID",
+        "FRAME_KIND"
+      ],
+      "produces": [
+        "CAN_FRAME_STRUCTURAL_AUDIT"
+      ],
+      "source_urls": [
+        "https://github.com/torvalds/linux/blob/master/include/uapi/linux/can.h"
+      ],
+      "falsifier": "FD RTR/ERR and reserved bits require explicit validation.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-26",
+      "domain": "CAN",
+      "key": "CAN_ID_PRIORITY_ARBITRATION",
+      "requires": [
+        "CAN_FRAME_ID_RECEIPT",
+        "ARBITRATION_CONTEXT"
+      ],
+      "produces": [
+        "CAN_ARBITRATION_REVIEW"
+      ],
+      "source_urls": [
+        "https://docs.kernel.org/networking/can.html"
+      ],
+      "falsifier": "Lower identifier wins among same-format data frames in a simplified arbitration model.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-27",
+      "domain": "CAN",
+      "key": "CANFD_BRS_DUAL_RATE_METADATA",
+      "requires": [
+        "CAN_FRAME_STRUCTURAL_AUDIT",
+        "BRS_FLAG"
+      ],
+      "produces": [
+        "CAN_BITRATE_PHASE_REVIEW"
+      ],
+      "source_urls": [
+        "https://docs.kernel.org/networking/can.html"
+      ],
+      "falsifier": "Faster data-phase flags require compatible controllers and actual timing data.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-28",
+      "domain": "CAN",
+      "key": "E2E_COUNTER_ROLLOVER_GAPS",
+      "requires": [
+        "COUNTER_SERIES",
+        "COUNTER_MODULUS"
+      ],
+      "produces": [
+        "COUNTER_INTEGRITY_REVIEW"
+      ],
+      "source_urls": [
+        "https://www.autosar.org/fileadmin/standards/R21-11/FO/AUTOSAR_RS_E2E.pdf"
+      ],
+      "falsifier": "Modulo counter gaps, repeats and timestamp regressions are distinct review signals.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-29",
+      "domain": "CAN",
+      "key": "E2E_CRC_VS_AUTHENTICATOR",
+      "requires": [
+        "CRC_RECEIPT",
+        "AUTHENTICATOR_RECEIPT"
+      ],
+      "produces": [
+        "CRC_AUTH_BOUNDARY"
+      ],
+      "source_urls": [
+        "https://www.autosar.org/fileadmin/standards/R24-11/FO/AUTOSAR_FO_PRS_E2EProtocol.pdf",
+        "https://autosar.org/fileadmin/standards/R23-11/FO/AUTOSAR_FO_PRS_SecOcProtocol.pdf"
+      ],
+      "falsifier": "CRC protects transmission integrity but is not a keyed message authenticator.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-30",
+      "domain": "CAN",
+      "key": "SECOC_FRESHNESS_AUTH_CHAIN",
+      "requires": [
+        "FRESHNESS_STATE",
+        "AUTHENTICATOR_STATE"
+      ],
+      "produces": [
+        "SECOC_AUTHENTICITY_REVIEW"
+      ],
+      "source_urls": [
+        "https://autosar.org/fileadmin/standards/R23-11/FO/AUTOSAR_FO_PRS_SecOcProtocol.pdf"
+      ],
+      "falsifier": "Security requires versioned freshness and MAC/verification evidence.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-31",
+      "domain": "CAN",
+      "key": "SECOC_POLICY_AUDIENCE_BOUNDARY",
+      "requires": [
+        "SECOC_AUTHENTICITY_REVIEW",
+        "ACTOR_POLICY"
+      ],
+      "produces": [
+        "SECOC_ACTION_BOUNDARY"
+      ],
+      "source_urls": [
+        "https://autosar.org/fileadmin/standards/R23-11/FO/AUTOSAR_FO_PRS_SecOcProtocol.pdf"
+      ],
+      "falsifier": "Message authenticity and permission to command an ECU are different checks.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-32",
+      "domain": "CAN",
+      "key": "ISOTP_SEGMENT_COUNTER_GUARD",
+      "requires": [
+        "ISOTP_FRAMES",
+        "SEQUENCE_CONTEXT"
+      ],
+      "produces": [
+        "ISOTP_BOUNDARY_REVIEW"
+      ],
+      "source_urls": [
+        "https://www.iso.org/standard/84211.html"
+      ],
+      "falsifier": "Transport segments, flow control, and diagnostic completion are separate states.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-33",
+      "domain": "CAN",
+      "key": "J1939_PGN_SOURCE_SPLIT",
+      "requires": [
+        "J1939_ID_29BIT",
+        "PGN_POLICY"
+      ],
+      "produces": [
+        "J1939_DECODER_HYPOTHESIS"
+      ],
+      "source_urls": [
+        "https://github.com/torvalds/linux/blob/master/include/uapi/linux/can.h"
+      ],
+      "falsifier": "Raw 29-bit ID requires a correct protocol-specific PGN source-address decoder.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-34",
+      "domain": "CAN",
+      "key": "CAN_PASSIVE_CLOCK_WINDOW",
+      "requires": [
+        "COUNTER_INTEGRITY_REVIEW",
+        "CLOCK_DOMAIN"
+      ],
+      "produces": [
+        "CAN_TEMPORAL_HYPOTHESIS"
+      ],
+      "source_urls": [
+        "https://www.autosar.org/fileadmin/standards/R21-11/FO/AUTOSAR_RS_E2E.pdf"
+      ],
+      "falsifier": "Counter order and observation time domain must align before declaring lost messages.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-35",
+      "domain": "CAN",
+      "key": "FRAME_HASH_PROVENANCE",
+      "requires": [
+        "CAN_FRAME_STRUCTURAL_AUDIT",
+        "SOURCE_VERSION"
+      ],
+      "produces": [
+        "CAN_FRAME_PROVENANCE"
+      ],
+      "source_urls": [
+        "https://www.w3.org/TR/prov-o/",
+        "https://docs.kernel.org/networking/can.html"
+      ],
+      "falsifier": "A payload digest connects local observations but does not identify the ECU.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-36",
+      "domain": "CAN",
+      "key": "ZERO_TX_SOURCE_ACQUISITION",
+      "requires": [
+        "CAN_OBSERVATION",
+        "SOURCE_CONSENT"
+      ],
+      "produces": [
+        "PASSIVE_CAPTURE_PLAN"
+      ],
+      "source_urls": [
+        "https://docs.kernel.org/networking/can.html"
+      ],
+      "falsifier": "Source access and mode must be declared before any device-specific acquisition.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-37",
+      "domain": "META",
+      "key": "ATOMIC_METHOD_INTERFACE",
+      "requires": [
+        "METHOD_CONTRACT",
+        "INPUT_DIMENSIONS"
+      ],
+      "produces": [
+        "METHOD_ATOM"
+      ],
+      "source_urls": [
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/7e0ead087b8fd786fc5e8dcb69d53457f369060f/docs/MPC-LINGUISTIC-METHODS-V28.md"
+      ],
+      "falsifier": "Every method is a typed object with proof and output contract.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-38",
+      "domain": "META",
+      "key": "BLOCK_OF_METHODS_SCHEDULER",
+      "requires": [
+        "METHOD_ATOM",
+        "METHOD_BUDGET"
+      ],
+      "produces": [
+        "METHOD_BLOCK_PLAN"
+      ],
+      "source_urls": [
+        "https://llvm.org/docs/LangRef.html"
+      ],
+      "falsifier": "Group methods by prerequisites and scoped domain before cross-composition.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-39",
+      "domain": "META",
+      "key": "MOUNTAIN_DEPENDENCY_GRAPH",
+      "requires": [
+        "METHOD_BLOCK_PLAN",
+        "METHOD_LINKS"
+      ],
+      "produces": [
+        "METHOD_MOUNTAIN_PLAN"
+      ],
+      "source_urls": [
+        "https://llvm.org/docs/LangRef.html"
+      ],
+      "falsifier": "Compose block dependencies without treating an output proposal as observed evidence.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-40",
+      "domain": "META",
+      "key": "MOUNTAIN_REDUCTION_FRONTIER",
+      "requires": [
+        "METHOD_MOUNTAIN_PLAN",
+        "SOURCE_STATES"
+      ],
+      "produces": [
+        "SMALLEST_RECORD_FRONTIER"
+      ],
+      "source_urls": [
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "Rank the next source observation that unlocks downstream method prerequisites.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-41",
+      "domain": "META",
+      "key": "MIRROR_INVERTED_FALSIFIER",
+      "requires": [
+        "SMALLEST_RECORD_FRONTIER",
+        "NEGATIVE_CONTROL"
+      ],
+      "produces": [
+        "METHOD_FALSIFIER_PLAN"
+      ],
+      "source_urls": [
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/7e0ead087b8fd786fc5e8dcb69d53457f369060f/docs/MPC-LINGUISTIC-METHODS-V28.md"
+      ],
+      "falsifier": "Mirror gives a disconfirming test rather than false converse.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-42",
+      "domain": "META",
+      "key": "TRIANGULATE_JAVA_CAN_LANGUAGE",
+      "requires": [
+        "COMPILER_REPLAY_AUDIT",
+        "CAN_FRAME_STRUCTURAL_AUDIT"
+      ],
+      "produces": [
+        "CROSS_DOMAIN_PARITY_REVIEW"
+      ],
+      "source_urls": [
+        "https://docs.oracle.com/javase/specs/jvms/se27/html/jvms-6.html",
+        "https://docs.kernel.org/networking/can.html"
+      ],
+      "falsifier": "Different language/protocol layers need typed adapter boundaries.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-43",
+      "domain": "META",
+      "key": "SOURCE_VERSION_STOP_CACHE",
+      "requires": [
+        "METHOD_MOUNTAIN_PLAN",
+        "VERSION_RECEIPT"
+      ],
+      "produces": [
+        "METHOD_STOP_RECEIPT"
+      ],
+      "source_urls": [
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "A version change invalidates stale reuse; unchanged inputs may stop.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-44",
+      "domain": "META",
+      "key": "COMPACT_PROFESSIONAL_OUTPUT",
+      "requires": [
+        "METHOD_STOP_RECEIPT",
+        "VERIFIED_RESULT"
+      ],
+      "produces": [
+        "COMPACT_METHOD_REPORT"
+      ],
+      "source_urls": [
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/7e0ead087b8fd786fc5e8dcb69d53457f369060f/docs/MPC-LINGUISTIC-METHODS-V28.md"
+      ],
+      "falsifier": "Output should prioritize observed work and concise status with full structured receipt behind it.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-45",
+      "domain": "META",
+      "key": "ERROR_BUDGET_AND_FINITE_FUEL",
+      "requires": [
+        "METHOD_BLOCK_PLAN",
+        "LIMITS"
+      ],
+      "produces": [
+        "COMPUTATIONAL_BOUND_GUARD"
+      ],
+      "source_urls": [
+        "https://llvm.org/docs/LangRef.html",
+        "https://docs.oracle.com/javase/specs/jvms/se27/html/index.html"
+      ],
+      "falsifier": "Bounded fuel and node budgets guarantee an analysis cannot fan out endlessly.",
+      "implementation_state": "FINITE_SUBSET_IMPLEMENTATION_PLANNED",
+      "canonical_method": false
+    },
+    {
+      "id": "RH-V29-46",
+      "domain": "META",
+      "key": "REPLAY_OUTPUT_INDEPENDENT_ORACLE",
+      "requires": [
+        "COMPACT_METHOD_REPORT",
+        "EVIDENCE_PACKET"
+      ],
+      "produces": [
+        "OUTPUT_REPLAY_GATE"
+      ],
+      "source_urls": [
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "Compact wording must match structured status and preserve material review errors.",
+      "implementation_state": "RESEARCH_ONLY",
+      "canonical_method": false
+    }
+  ]
+}
