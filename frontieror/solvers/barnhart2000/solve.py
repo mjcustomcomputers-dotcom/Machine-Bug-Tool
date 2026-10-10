@@ -58,10 +58,13 @@ def route_paths(arcs,adj,c,deadline,max_paths=9):
 
 
 def _route_objective(arcs,goods,assignment):
-    return math.fsum((c['reject'] if not assignment.get(c['id']) and c['from']!=c['to'] else 0.0) +
-                     (c['demand']*sum(arcs[a]['cost'] for a in assignment.get(c['id'],()))
-                      if assignment.get(c['id']) is not None else 0.0)
-                     for c in goods)
+    """Official barnhart2000 objective: penalty paid ONLY for rejected commodities.
+
+    Real-arc costs may describe the network but are not part of the published
+    objective_value. Keeping them here passed zero-cost synthetic tests while
+    making a positive-cost routed solution disagree with the organizer checker.
+    """
+    return math.fsum(c['reject'] for c in goods if assignment.get(c['id']) is None)
 
 
 def verify(arcs,goods,assignment):
@@ -99,8 +102,10 @@ def greedy(arcs,goods,paths,deadline):
             viable=[]
             for p in candidates:
                 if all(residual[aid]>=c['demand'] for aid in p):
-                    score=(sum(c['demand']*arcs[aid]['cost'] for aid in p),
-                           sum(c['demand']/max(1,residual[aid]) for aid in p), len(p))
+                    # Preserve scarce capacity; actual arc transport cost is
+                    # not a term in the official rejection-penalty objective.
+                    score=(sum(c['demand']/max(1,residual[aid]) for aid in p),
+                           len(p),tuple(p))
                     viable.append((score,p))
             if viable:
                 chosen=min(viable)[1]
@@ -132,13 +137,14 @@ def optimize(arcs,goods,paths,deadline):
         if vars:model.Add(sum(vars)<=1)
     for aid,a in arcs.items():
         if usage[aid]:model.Add(sum(usage[aid])<=a['cap'])
-    # Scale objective only to retain fractional cost, not a solver constraint.
+    # Choosing a feasible real path avoids this commodity's rejection penalty.
+    # Positive transport costs must not discourage acceptance: the published
+    # objective is the SUM of penalties for commodities rejected.
     scale=1000
     objective=[]
     for c in goods:
         for k,path in enumerate(paths.get(c['id'],())):
-            improvement=c['reject']-c['demand']*sum(arcs[aid]['cost'] for aid in path)
-            objective.append(round(scale*improvement)*choices[c['id'],k])
+            objective.append(round(scale*c['reject'])*choices[c['id'],k])
     model.Maximize(sum(objective))
     solver=cp_model.CpSolver()
     solver.parameters.num_search_workers=2
@@ -161,6 +167,8 @@ def solve(instance,time_limit_s):
     arcs,adj,goods=parse(instance)
     paths={}
     for c in sorted(goods,key=lambda x:-x['reject']):
+        if time.monotonic() >= deadline-0.5:
+            break
         budget=min(deadline-0.25,time.monotonic()+min(0.4,max(0.16,(deadline-time.monotonic())*0.05)))
         paths[c['id']]=route_paths(arcs,adj,c,budget,max_paths=10)
     backup={c['id']:None for c in goods}
