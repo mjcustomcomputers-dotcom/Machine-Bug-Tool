@@ -1,0 +1,687 @@
+{
+  "version": "MPC_LINGUISTIC_METHOD_ON_METHOD_V28",
+  "namespace": "NONCANONICAL_RH_V28",
+  "parent_git_sha": "8cf6888c46f040519b1342cfe21baf02431423ff",
+  "existing_native_evaluators": 24,
+  "existing_method_atlas_candidates": 239,
+  "existing_v27_hooks": 48,
+  "original_audience_output_unchanged": true,
+  "original_negation_scanner_unchanged": true,
+  "source_authentication": false,
+  "semantic_equivalence_of_free_text": false,
+  "automatic_translation": false,
+  "actions_dispatched": false,
+  "canonical_promotion": false,
+  "sources": {
+    "framenet": "https://icsi.berkeley.edu/projects/framenet-project/",
+    "amr": "https://aclanthology.org/2022.acl-long.415/",
+    "iso": "https://www.iso.org/standard/76443.html",
+    "prov": "https://www.w3.org/TR/prov-o/",
+    "pdtb": "https://catalog.ldc.upenn.edu/LDC2019T05",
+    "grice": "https://plato.stanford.edu/entries/pragmatics/",
+    "ears": "https://doi.org/10.1109/RE.2009.9",
+    "sfl": "https://doi.org/10.1002/9781405198431.wbeal1137.pub2",
+    "nli": "https://direct.mit.edu/coli/article/50/2/419/118771/Assessing-the-Cross-linguistic-Utility-of-Abstract",
+    "original": "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/8cf6888c46f040519b1342cfe21baf02431423ff/lib/audience-output.mjs",
+    "negation": "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/8cf6888c46f040519b1342cfe21baf02431423ff/lib/mpc-natural-negation.mjs"
+  },
+  "hooks": [
+    {
+      "id": "RH-V28-01",
+      "domain": "SEMANTIC",
+      "key": "FRAME_ROLE_ARGUMENT_BINDING",
+      "requires": [
+        "CLAIM_FRAME",
+        "SOURCE_REFS"
+      ],
+      "produces": [
+        "ROLE_BINDING_REVIEW"
+      ],
+      "sources": [
+        "https://icsi.berkeley.edu/projects/framenet-project/",
+        "https://aclanthology.org/2022.acl-long.415/"
+      ],
+      "falsifier": "Reordered actor/patient changes an event's participants; do not declare equivalence.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-02",
+      "domain": "SEMANTIC",
+      "key": "POLARITY_PRESERVATION",
+      "requires": [
+        "CLAIM_FRAME",
+        "POLARITY"
+      ],
+      "produces": [
+        "POLARITY_GUARD"
+      ],
+      "sources": [
+        "https://aclanthology.org/2022.acl-long.415/",
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/8cf6888c46f040519b1342cfe21baf02431423ff/lib/mpc-natural-negation.mjs"
+      ],
+      "falsifier": "Dropping NOT or adding NOT changes the proposition.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-03",
+      "domain": "SEMANTIC",
+      "key": "NEGATION_SCOPE_BOUNDARY",
+      "requires": [
+        "NEGATION_MARKERS",
+        "CLAUSE_SCOPE"
+      ],
+      "produces": [
+        "SCOPE_REVIEW"
+      ],
+      "sources": [
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/8cf6888c46f040519b1342cfe21baf02431423ff/lib/mpc-natural-negation.mjs",
+        "https://plato.stanford.edu/entries/pragmatics/"
+      ],
+      "falsifier": "No evidence of X is not logically identical to evidence of no X.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-04",
+      "domain": "SEMANTIC",
+      "key": "QUANTIFIER_SCOPE_CONSERVATION",
+      "requires": [
+        "CLAIM_FRAME",
+        "QUANTITY"
+      ],
+      "produces": [
+        "QUANTITY_GUARD"
+      ],
+      "sources": [
+        "https://aclanthology.org/2022.acl-long.415/"
+      ],
+      "falsifier": "Some is not all; one event is not all events.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-05",
+      "domain": "SEMANTIC",
+      "key": "TEMPORAL_REFERENCE_NOT_TENSE",
+      "requires": [
+        "EVENT_TIME",
+        "WORDING_TIME"
+      ],
+      "produces": [
+        "TEMPORAL_WORDING_REVIEW"
+      ],
+      "sources": [
+        "https://aclanthology.org/2022.acl-long.415/"
+      ],
+      "falsifier": "Reported after an event does not mean event occurred at report time.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-06",
+      "domain": "SEMANTIC",
+      "key": "EVIDENTIALITY_VS_FACT",
+      "requires": [
+        "EVIDENCE_STATE",
+        "SOURCE_OWNER"
+      ],
+      "produces": [
+        "EVIDENTIAL_FORCE_GUARD"
+      ],
+      "sources": [
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "Caller-declared OBSERVED does not prove independently verified truth.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-07",
+      "domain": "SEMANTIC",
+      "key": "EPISTEMIC_MODAL_STRENGTH",
+      "requires": [
+        "CLAIM_FRAME",
+        "MODAL_FORCE"
+      ],
+      "produces": [
+        "MODALITY_REVIEW"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/pragmatics/"
+      ],
+      "falsifier": "May/might does not license must/will.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-08",
+      "domain": "SEMANTIC",
+      "key": "FUTURE_PREDICTION_VS_COMPLETION",
+      "requires": [
+        "EVENT_TIME",
+        "FINALITY_STATE"
+      ],
+      "produces": [
+        "FUTURE_FINALITY_GUARD"
+      ],
+      "sources": [
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/8cf6888c46f040519b1342cfe21baf02431423ff/lib/audience-output.mjs"
+      ],
+      "falsifier": "An intended future act is not a finalized completed act.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-09",
+      "domain": "SEMANTIC",
+      "key": "ACTIVE_PASSIVE_ACTOR_ERASURE",
+      "requires": [
+        "SEMANTIC_ROLES",
+        "VOICE_SETTING"
+      ],
+      "produces": [
+        "ACTOR_PRESERVATION_REVIEW"
+      ],
+      "sources": [
+        "https://icsi.berkeley.edu/projects/framenet-project/"
+      ],
+      "falsifier": "Passive voice must not delete relevant actor attribution.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-10",
+      "domain": "SEMANTIC",
+      "key": "COREFERENCE_ANAPHORA_SOURCE",
+      "requires": [
+        "MENTION_LINKS",
+        "REFERENT_IDS"
+      ],
+      "produces": [
+        "REFERENT_RESOLUTION_HYPOTHESIS"
+      ],
+      "sources": [
+        "https://aclanthology.org/2022.acl-long.415/"
+      ],
+      "falsifier": "He/they/it is not safe when antecedent is unknown or ambiguous.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-11",
+      "domain": "PRAGMATICS",
+      "key": "SPEECH_ACT_FORCE",
+      "requires": [
+        "DIALOGUE_UNIT",
+        "COMMUNICATIVE_FUNCTION"
+      ],
+      "produces": [
+        "SPEECH_ACT_BOUNDARY"
+      ],
+      "sources": [
+        "https://www.iso.org/standard/76443.html"
+      ],
+      "falsifier": "A question or proposal must not be rewritten as a command or permission.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-12",
+      "domain": "PRAGMATICS",
+      "key": "ILLOCUTION_VS_PERLOCUTION",
+      "requires": [
+        "SPEECH_ACT",
+        "RESPONSE_OUTCOME"
+      ],
+      "produces": [
+        "ACTION_OUTCOME_GUARD"
+      ],
+      "sources": [
+        "https://www.iso.org/standard/76443.html"
+      ],
+      "falsifier": "A request to act is not actual compliance.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-13",
+      "domain": "PRAGMATICS",
+      "key": "GRICEAN_IMPLICATURE_SEPARATION",
+      "requires": [
+        "LITERAL_CLAIM",
+        "CONTEXT"
+      ],
+      "produces": [
+        "IMPLICATURE_HYPOTHESIS"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/pragmatics/"
+      ],
+      "falsifier": "A contextual implication is not a quoted or asserted source fact.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-14",
+      "domain": "PRAGMATICS",
+      "key": "PRESUPPOSITION_AS_HYPOTHESIS",
+      "requires": [
+        "PRESUPPOSITION_TRIGGER",
+        "EXPLICIT_PREMISES"
+      ],
+      "produces": [
+        "PRESUPPOSITION_GUARD"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/pragmatics/"
+      ],
+      "falsifier": "The phrase stopped doing X can presuppose X occurred without evidence.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-15",
+      "domain": "DISCOURSE",
+      "key": "DISCOURSE_MAIN_CONTRARY_LIMITATION",
+      "requires": [
+        "CLAIM_ROLES",
+        "SOURCE_CLAIMS"
+      ],
+      "produces": [
+        "COMPLETE_DISCOURSE_PLAN"
+      ],
+      "sources": [
+        "https://catalog.ldc.upenn.edu/LDC2019T05",
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/8cf6888c46f040519b1342cfe21baf02431423ff/lib/audience-output.mjs"
+      ],
+      "falsifier": "A summary that omits known contrary or limitation claims changes review utility.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-16",
+      "domain": "DISCOURSE",
+      "key": "RHETORICAL_CONCESSION_NOT_CAUSE",
+      "requires": [
+        "DISCOURSE_RELATION",
+        "CLAIM_FRAMES"
+      ],
+      "produces": [
+        "RELATION_LICENSE_REVIEW"
+      ],
+      "sources": [
+        "https://catalog.ldc.upenn.edu/LDC2019T05"
+      ],
+      "falsifier": "However and therefore do different argumentative work; temporal order is not causation.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-17",
+      "domain": "DISCOURSE",
+      "key": "HALLIDAY_IDEATIONAL_INTERPERSONAL_TEXTUAL",
+      "requires": [
+        "AUDIENCE",
+        "CLAIM_FRAMES"
+      ],
+      "produces": [
+        "METAFUNCTION_DIAGNOSTIC"
+      ],
+      "sources": [
+        "https://doi.org/10.1002/9781405198431.wbeal1137.pub2"
+      ],
+      "falsifier": "Better interpersonal tone cannot upgrade ideational evidence certainty.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-18",
+      "domain": "DISCOURSE",
+      "key": "TOPIC_FOCUS_WITHOUT_EXCLUSION",
+      "requires": [
+        "LEAD_CLAIM",
+        "LIMITATIONS"
+      ],
+      "produces": [
+        "FOCUS_LOSS_AUDIT"
+      ],
+      "sources": [
+        "https://doi.org/10.1002/9781405198431.wbeal1137.pub2",
+        "https://catalog.ldc.upenn.edu/LDC2019T05"
+      ],
+      "falsifier": "Headlines and executive summaries must not conceal a material negative witness.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-19",
+      "domain": "PROVENANCE",
+      "key": "QUOTE_SPAN_VERSION_BINDING",
+      "requires": [
+        "SOURCE_TEXT",
+        "BYTE_DIGEST",
+        "QUOTE_SPAN"
+      ],
+      "produces": [
+        "QUOTE_EXACTNESS_RECEIPT"
+      ],
+      "sources": [
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "Exact substring agreement does not independently authenticate the source or authorship.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-20",
+      "domain": "PROVENANCE",
+      "key": "DERIVED_VS_QUOTED_VS_REVISED",
+      "requires": [
+        "SOURCE_LINEAGE",
+        "OUTPUT_TRANSFORM"
+      ],
+      "produces": [
+        "DERIVATION_KIND_REVIEW"
+      ],
+      "sources": [
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "A paraphrase is not an exact quotation.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-21",
+      "domain": "PROVENANCE",
+      "key": "SOURCE_VERSION_OWNERSHIP",
+      "requires": [
+        "CLAIM_SOURCE_REFS",
+        "VERSION_OWNER"
+      ],
+      "produces": [
+        "PROVENANCE_LOCK"
+      ],
+      "sources": [
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "A claim from source v1 cannot masquerade as checked against a changed v2.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-22",
+      "domain": "PROVENANCE",
+      "key": "ATTRIBUTION_VS_ENDORSEMENT",
+      "requires": [
+        "SOURCE_OWNER",
+        "CLAIMED_ACTOR"
+      ],
+      "produces": [
+        "ATTRIBUTION_BOUNDARY"
+      ],
+      "sources": [
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "A source citation does not mean a publisher endorsed the claim.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-23",
+      "domain": "OUTPUT",
+      "key": "CONTROLLED_GRAMMAR_REALIZATION",
+      "requires": [
+        "SEMANTIC_FRAME",
+        "AUDIENCE_PROFILE"
+      ],
+      "produces": [
+        "CONTROLLED_UTTERANCE"
+      ],
+      "sources": [
+        "https://doi.org/10.1109/RE.2009.9",
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/8cf6888c46f040519b1342cfe21baf02431423ff/lib/audience-output.mjs"
+      ],
+      "falsifier": "Generated surface text must correspond to a typed proposition and not add new predicates.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-24",
+      "domain": "OUTPUT",
+      "key": "SEMANTIC_ROUNDTRIP_REPLAY",
+      "requires": [
+        "CONTROLLED_UTTERANCE",
+        "SEMANTIC_FRAME"
+      ],
+      "produces": [
+        "INDEPENDENT_OUTPUT_AUDIT"
+      ],
+      "sources": [
+        "https://aclanthology.org/2022.acl-long.415/",
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "A forged output that omits a negation, quantifier or citation must fail replay.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-25",
+      "domain": "OUTPUT",
+      "key": "VERIFICATION_WORDING_NONPROMOTION",
+      "requires": [
+        "VERIFICATION_STATE",
+        "FINALITY_STATE"
+      ],
+      "produces": [
+        "VERIFICATION_OUTPUT_GUARD"
+      ],
+      "sources": [
+        "https://www.w3.org/TR/prov-o/",
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/8cf6888c46f040519b1342cfe21baf02431423ff/lib/audience-output.mjs"
+      ],
+      "falsifier": "Proposed/check-ready does not become passed/confirmed/settled through wording.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-26",
+      "domain": "OUTPUT",
+      "key": "QUANTIFIED_COMPRESSION_LOSS",
+      "requires": [
+        "SOURCE_CLAIMS",
+        "WORD_BUDGET"
+      ],
+      "produces": [
+        "COMPRESSION_LOSS_REPORT"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/pragmatics/"
+      ],
+      "falsifier": "A word limit cannot silently suppress contradictory source claims.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-27",
+      "domain": "OUTPUT",
+      "key": "ACCESSIBLE_EXPLANATION_EQUIVALENCE",
+      "requires": [
+        "CONTROLLED_UTTERANCE",
+        "AUDIENCE_PROFILE"
+      ],
+      "produces": [
+        "ACCESSIBILITY_VERSION_REVIEW"
+      ],
+      "sources": [
+        "https://doi.org/10.1002/9781405198431.wbeal1137.pub2"
+      ],
+      "falsifier": "Simplifying jargon must not erase exceptions, preconditions, or uncertainty.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-28",
+      "domain": "OUTPUT",
+      "key": "REQUIREMENTS_EARS_MODALITY",
+      "requires": [
+        "REQUIREMENT_CLAIM",
+        "CONDITION"
+      ],
+      "produces": [
+        "REQUIREMENT_PATTERN_REVIEW"
+      ],
+      "sources": [
+        "https://doi.org/10.1109/RE.2009.9"
+      ],
+      "falsifier": "The word shall or must is an obligation requiring an actual authority, not stylistic emphasis.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-29",
+      "domain": "META",
+      "key": "LINGUISTIC_METHOD_ON_METHOD_INTERFACE",
+      "requires": [
+        "METHOD_RESULT",
+        "OUTPUT_CONTRACT"
+      ],
+      "produces": [
+        "METHOD_OUTPUT_CHAIN"
+      ],
+      "sources": [
+        "https://aclanthology.org/2022.acl-long.415/",
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/8cf6888c46f040519b1342cfe21baf02431423ff/lib/audience-output.mjs"
+      ],
+      "falsifier": "Another method cannot consume an unsupported linguistic conclusion as evidence.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-30",
+      "domain": "META",
+      "key": "OUTPUT_AS_EVIDENCE_TAINT_GATE",
+      "requires": [
+        "METHOD_OUTPUT",
+        "SOURCE_ORIGIN"
+      ],
+      "produces": [
+        "OUTPUT_SOURCE_BOUNDARY"
+      ],
+      "sources": [
+        "https://www.w3.org/TR/prov-o/"
+      ],
+      "falsifier": "A generated sentence is not a new independent source witness.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-31",
+      "domain": "META",
+      "key": "CROSS_LANGUAGE_TRANSLATION_AUTH",
+      "requires": [
+        "TRANSLATION_CANDIDATE",
+        "ORIGINAL_FRAME"
+      ],
+      "produces": [
+        "TRANSLATION_FALSIFIER"
+      ],
+      "sources": [
+        "https://direct.mit.edu/coli/article/50/2/419/118771/Assessing-the-Cross-linguistic-Utility-of-Abstract"
+      ],
+      "falsifier": "Different language text needs independent language-specific semantic verification.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-32",
+      "domain": "META",
+      "key": "ANIMAL_SIGNAL_NOT_HUMAN_LANGUAGE",
+      "requires": [
+        "SYMBOLIC_SEQUENCE",
+        "MEANING_ANNOTATION"
+      ],
+      "produces": [
+        "COMMUNICATION_SCOPE_LIMIT"
+      ],
+      "sources": [
+        "https://aclanthology.org/2022.acl-long.415/"
+      ],
+      "falsifier": "Statistical call sequence does not become human semantics by labeling it language.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-33",
+      "domain": "META",
+      "key": "STYLE_INVERSION_NO_SEMANTIC_INVERSION",
+      "requires": [
+        "AUDIENCE_PROFILE",
+        "SEMANTIC_FRAME"
+      ],
+      "produces": [
+        "STYLE_VARIATION_GUARD"
+      ],
+      "sources": [
+        "https://doi.org/10.1002/9781405198431.wbeal1137.pub2",
+        "https://plato.stanford.edu/entries/pragmatics/"
+      ],
+      "falsifier": "Changing order and voice must not change truth conditions or authorization.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    },
+    {
+      "id": "RH-V28-34",
+      "domain": "META",
+      "key": "ZERO_GAIN_LINGUISTIC_REWRITE_STOP",
+      "requires": [
+        "OUTPUT_AUDIT",
+        "ORIGINAL_FRAME"
+      ],
+      "produces": [
+        "LINGUISTIC_STOP_RECEIPT"
+      ],
+      "sources": [
+        "https://github.com/mjcustomcomputers-dotcom/Machine-Bug-Tool/blob/8cf6888c46f040519b1342cfe21baf02431423ff/lib/audience-output.mjs"
+      ],
+      "falsifier": "Repeatedly rewriting without new evidence or semantic change wastes work and increases error risk.",
+      "implementation_state": "RESEARCH_CONTRACT_ONLY_NOT_NATIVE_EVALUATOR",
+      "output_semantics_proven": false,
+      "canonical_member": false
+    }
+  ]
+}
