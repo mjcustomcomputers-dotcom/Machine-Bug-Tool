@@ -125,5 +125,5 @@ test('Actual MCP handler exposes and executes atom review with authentication an
  const response=await handleMcp(request('review_atomic_variants',args,true));assert.equal(response.status,200);const rpc=await response.json();assert.equal(rpc.result.isError,false);assert.equal(rpc.result.structuredContent.explicit_model_evaluations,2);
  const routed=await callTool('business_logic_sweep',{namespace:'SYNTHETIC',object_id:args.object_id,actor:'fixture-author',action:'synthetic review',state_before:'synthetic baseline',state_after:'synthetic variant',channel:'offline',invariant:'Native key equality',context:'UMTB4:'+JSON.stringify({problem:'Synthetic owner check',object_id:args.object_id,unit_of_analysis:'object owner',domain_profile:'GENERAL',atomic_review:args})});
  assert.equal(routed.method_execution_performed,true);assert.equal(routed.atomic_review.variants[0].status,'MODEL_COUNTEREXAMPLE_CANDIDATE');
- assert.equal(toolList.length,20);assert.ok(new TextEncoder().encode(JSON.stringify(toolList)).length<400000);
+ assert.equal(toolList.length,21);assert.ok(new TextEncoder().encode(JSON.stringify(toolList)).length<400000);
 });
