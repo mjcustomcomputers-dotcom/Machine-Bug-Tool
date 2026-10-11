@@ -843,6 +843,7 @@ def reconstruct_cycle_lp_pulses(matrix, lhs, rhs, cycle_costs, deadline,
         return []
     candidates=[]
     samples=[]
+    continuous=[]
     for label,c in (("feasibility",np.zeros(n,dtype=float)),
                     ("cost",np.asarray(cycle_costs,dtype=float))):
         left=deadline-time.monotonic()
@@ -869,11 +870,15 @@ def reconstruct_cycle_lp_pulses(matrix, lhs, rhs, cycle_costs, deadline,
                 sample["rounded_violation"]=float(residual.sum())
                 candidates.append((float(residual.sum()),
                     float(np.sum(np.minimum(x,1-x))),label,rounded.tolist()))
+                continuous.append({"pulse":label,"x":x.tolist(),
+                    "rounded":rounded.tolist(),
+                    "violation":float(residual.sum())})
         samples.append(sample)
     candidates.sort(key=lambda x:(x[0],x[1],x[2]))
     if telemetry is not None:
         telemetry["lp_pulses"]=samples
         telemetry["lp_rounded_candidates"]=len(candidates)
+        telemetry["lp_continuous_vectors"]=continuous
     return [bits for _,_,_,bits in candidates]
 
 
@@ -903,7 +908,7 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                              feasibility_only=False, return_certificate=False,
                              rescue_first=False, prefer_cp_feasibility=False,
                              cp_parity=False, telemetry=None,
-                             lp_pulse=False):
+                             lp_pulse=False, lp_neighborhood=False):
     """Exact reduction: degree-two pair-cover cycles -> coupled binary choices.
 
     The original exact-cover rows force exactly one of two alternating
@@ -1151,6 +1156,88 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                         model.add_hint(ys[z],int(bit))
                     if telemetry is not None:
                         telemetry["lp_hint_variables"]=len(pulses[0])
+            if lp_neighborhood and 20<=vars_count<=200 and 8<=len(d)<=80:
+                # Multi-resolution "infrared" pulse: binary LP coordinates
+                # close to 0/1 are candidate fixed decisions, with a growing
+                # uncertainty cone reopened on each unsuccessful CP search.
+                # Each wave is a separate feasible witness attempt, *not*
+                # a global infeasibility certificate. Original-model verify
+                # owns every result; the unfixed model remains fallback.
+                info=telemetry if telemetry is not None else {}
+                if not info.get("lp_continuous_vectors"):
+                    reconstruct_cycle_lp_pulses(
+                        matrix,np.asarray(lhs),np.asarray(rhs),
+                        np.asarray(objective,dtype=float),
+                        deadline,telemetry=info)
+                vectors=info.get("lp_continuous_vectors",[])
+                repair_log=[]
+                repair_budget=min(11.0,max(0.,0.50*(deadline-time.monotonic())))
+                repair_limit=time.monotonic()+repair_budget
+                wave_sizes=sorted(set((min(vars_count,max(8,len(d))),
+                    min(vars_count,max(12,2*len(d))),
+                    min(vars_count,max(18,3*len(d))))))
+                for pulse in vectors[:2]:
+                    if time.monotonic()>=repair_limit-0.12:
+                        break
+                    x=np.asarray(pulse["x"],dtype=float)
+                    proposed=np.rint(x).astype(np.int64)
+                    # Include near-half (high-uncertainty) variables in the
+                    # free set first; remaining variables are only temporary
+                    # bounded assumptions, never permanent reductions.
+                    spread=np.abs(x-proposed)
+                    activity=np.square(matrix).sum(axis=0)
+                    order=sorted(range(vars_count),key=lambda z:
+                        (-float(spread[z]),-float(activity[z]),z))
+                    for free in wave_sizes:
+                        left=repair_limit-time.monotonic()
+                        if left<0.14:break
+                        try:
+                            sub=model.clone()
+                            fixed=set(order[free:])
+                            for z in fixed:
+                                sub.add(sub.get_bool_var_from_proto_index(z)
+                                        ==int(proposed[z]))
+                            solver_probe=cp_model.CpSolver()
+                            solver_probe.parameters.num_search_workers=2
+                            solver_probe.parameters.stop_after_first_solution=True
+                            solver_probe.parameters.random_seed=64103
+                            solver_probe.parameters.max_time_in_seconds=min(
+                                left-0.08,2.4)
+                            stage=time.monotonic()
+                            status_probe=solver_probe.solve(sub)
+                            repair_log.append({"pulse":pulse["pulse"],
+                                "free_variables":free,
+                                "fixed_variables":len(fixed),
+                                "status":int(status_probe),
+                                "seconds":time.monotonic()-stage})
+                            if status_probe in (cp_model.OPTIMAL,cp_model.FEASIBLE):
+                                chosen=list(forced)
+                                for z,(aa,bb) in enumerate(cycles):
+                                    chosen.extend(bb if solver_probe.value(
+                                       sub.get_bool_var_from_proto_index(z))
+                                       else aa)
+                                for z,j in enumerate(empties):
+                                    if solver_probe.value(
+                                        sub.get_bool_var_from_proto_index(
+                                            len(cycles)+z)):
+                                        chosen.append(j)
+                                if verify(p,chosen):
+                                    if telemetry is not None:
+                                        telemetry["repair_waves"]=repair_log
+                                        telemetry["repair_original_verified"]=True
+                                    result=sorted(chosen)
+                                    return ((result,False) if return_certificate
+                                            else result)
+                        except (AttributeError,ValueError,RuntimeError,
+                                OverflowError,MemoryError):
+                            # Unavailable clone or ambiguous numerical state
+                            # means skip this research method entirely.
+                            repair_log.append({"pulse":pulse["pulse"],
+                                "free_variables":free,"status":"UNKNOWN"})
+                            break
+                if telemetry is not None:
+                    telemetry["repair_waves"]=repair_log
+                    telemetry["repair_original_verified"]=False
             solver=cp_model.CpSolver()
             solver.parameters.num_search_workers=2
             solver.parameters.stop_after_first_solution=True
