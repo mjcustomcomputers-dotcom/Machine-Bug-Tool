@@ -878,6 +878,27 @@ def reconstruct_cycle_lp_pulses(matrix, lhs, rhs, cycle_costs, deadline,
 
 
 
+
+def filter_reconstructed_lp_echo(pulses, variables, side_rows):
+    """Low-cost alternative-method gate: reconstruct only on a strong echo.
+
+    A first-feasible CP hint is an advisory guess. Rounded LP candidates
+    with small side violations can be deceptively biased toward a wrong
+    search basin; large coupled violations + moderate fractional mass flag
+    instances where a different branching phase may be useful. The filter
+    does not prove that a hint helps and requires independent held-out tests.
+    """
+    if not (8<=side_rows<=100 and 20<=variables<=100 and
+            len(pulses)>=2):return False
+    if any(v.get("status")!=0 for v in pulses[:2]):return False
+    try:
+        violations=[float(v["rounded_violation"])/side_rows for v in pulses[:2]]
+        fractional=[float(v["fractional_mass"]) for v in pulses[:2]]
+    except (ValueError,TypeError,KeyError):return False
+    return (all(math.isfinite(x) and x>=0 for x in violations+fractional)
+            and min(violations)>=3.5 and min(fractional)>=4.5)
+
+
 def coupled_cycle_choice_milp(p, deadline, reduction=None,
                              feasibility_only=False, return_certificate=False,
                              rescue_first=False, prefer_cp_feasibility=False,
@@ -1097,10 +1118,13 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                 # Method-as-sensor: LP pulses reconstruct source-blind
                 # bit candidates, then the integer solver receives only
                 # nonbinding hints; never fix variables based on an echo.
+                # Reuse this single compact receipt for deciding whether
+                # a search hint is worth its possible phase-bias cost.
+                pulse_data=telemetry if telemetry is not None else {}
                 pulses=reconstruct_cycle_lp_pulses(
                     matrix,np.asarray(lhs),np.asarray(rhs),
                     np.asarray(objective,dtype=float),
-                    deadline,telemetry=telemetry)
+                    deadline,telemetry=pulse_data)
                 for bits in pulses:
                     recovered_choice=list(forced)
                     for z,(aa,bb) in enumerate(cycles):
@@ -1113,7 +1137,14 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                             telemetry["lp_original_verified"]=True
                         return ((verified,False) if return_certificate
                                 else verified)
-                if pulses:
+                enable_hint=bool(pulses)
+                if lp_pulse=="adaptive":
+                    enable_hint=filter_reconstructed_lp_echo(
+                        pulse_data.get("lp_pulses",[]),
+                        vars_count,len(d))
+                    if telemetry is not None:
+                        telemetry["lp_adaptive_hint_selected"]=enable_hint
+                if enable_hint:
                     for z,bit in enumerate(pulses[0]):
                         model.add_hint(ys[z],int(bit))
                     if telemetry is not None:
