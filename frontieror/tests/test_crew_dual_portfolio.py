@@ -24,6 +24,15 @@ class Portfolio(unittest.TestCase):
   p=crew.parse(raw);red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
   v=crew._bounded_dual_crew_portfolio(p,2.5,reduction=red)
   self.assertIsNone(v)
+ def test_staged_feasible_and_original_verified(self):
+  for seed in (3,7):
+   p=crew.parse(cases.cycle_case(groups=8,q=12,seed=seed))
+   red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+   info={}
+   answer,proof=crew._bounded_staged_crew_portfolio(
+       p,7.0,reduction=red,telemetry=info)
+   self.assertTrue(truth.independent_cover_truth(p,answer))
+   if proof:self.assertEqual(info.get("staged_winner"),"mip")
  def test_default_controller_unchanged(self):
   raw=cases.cycle_case(groups=3,q=5,seed=13)
   a=crew.solve(raw,9)
