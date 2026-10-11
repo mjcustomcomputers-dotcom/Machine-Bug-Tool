@@ -829,6 +829,26 @@ def compact_side_atoms(p, reduction, exclude=()):
             offset=math.fsum(d[k][j] for j in forced)
             records.append((k,lo[k]-offset,hi[k]-offset))
         return records
+    # Necessary-condition prefilter: identical or sign-inverted vectors
+    # must have identical sums of absolute active coefficients. If every
+    # fingerprint is distinct, skip building full sparse atom signatures.
+    # Collisions merely trigger exact checks; they never justify merging.
+    if len(active)>32 and len(d)>=8:
+        sums=set()
+        maybe_repeated=False
+        for k,base in enumerate(d):
+            if k in excluded:continue
+            checksum=sum(abs(base[j]) for j in active)
+            if checksum in sums:
+                maybe_repeated=True
+                break
+            sums.add(checksum)
+        if not maybe_repeated:
+            for k,base in enumerate(d):
+                if k in excluded:continue
+                offset=math.fsum(base[j] for j in forced)
+                records.append((k,lo[k]-offset,hi[k]-offset))
+            return records
     seen={}
     for k,base in enumerate(d):
         if k in excluded:continue
