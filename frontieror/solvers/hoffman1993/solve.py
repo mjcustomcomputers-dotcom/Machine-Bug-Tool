@@ -637,6 +637,94 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
 
 
 
+
+def pair_conserved_side_rows(p, reduction):
+    """Exact integer row-potential proof on pair-only residual coverage.
+
+    Solve 2*u_r = sign[r]*T + offset[r] over each graph component using
+    2*b_(r,s)=2*u_r+2*u_s. Odd-cycle edges fix T; bipartite components must
+    have equal sign-partition sizes so the total does not depend on T.
+    Only exact integers are accepted. Optional empty columns must have zero
+    side effect. This proves an identity; it never assumes matching exists.
+    """
+    _,_,_,columns,_,d,lo,hi=p
+    if not d or reduction is None:return []
+    forced,uncovered,active=reduction
+    m=len(uncovered)
+    if (m<2 or m>1600 or len(d)>120 or
+            len(d)*len(active)>160000):return []
+    ids={r:i for i,r in enumerate(uncovered)}
+    adjacency=[[] for _ in uncovered]
+    pair=[]
+    empties=[]
+    for j in active:
+        rows=columns[j]
+        if not rows:
+            empties.append(j)
+            continue
+        if len(rows)!=2 or rows[0]==rows[1]:return []
+        a=ids.get(rows[0]);b=ids.get(rows[1])
+        if a is None or b is None:return []
+        adjacency[a].append((b,j));adjacency[b].append((a,j))
+        pair.append(j)
+    if not pair or any(not e for e in adjacency):return []
+    # Compute sign and affine offset coefficients for a single side row at
+    # a time, using arbitrary-precision integer arithmetic (no overflow).
+    found=[]
+    for k,base in enumerate(d):
+        if any(base[j]!=0 for j in empties):continue
+        indices=pair+forced
+        if any(not math.isfinite(base[j]) or
+               abs(base[j])>2**35 or
+               base[j]!=int(base[j]) for j in indices):continue
+        sign=[0]*m
+        offset=[0]*m
+        ok=True
+        total_numer=0
+        for root in range(m):
+            if sign[root]:continue
+            sign[root]=1
+            queue=[root]
+            front=0
+            anchor=None
+            while front<len(queue) and ok:
+                u=queue[front];front+=1
+                for v,j in adjacency[u]:
+                    rhs=2*int(base[j])
+                    if not sign[v]:
+                        sign[v]=-sign[u]
+                        offset[v]=rhs-offset[u]
+                        queue.append(v)
+                    else:
+                        divisor=sign[u]+sign[v]
+                        numerator=rhs-offset[u]-offset[v]
+                        if divisor==0:
+                            if numerator!=0:ok=False;break
+                        else:
+                            if numerator%divisor:
+                                ok=False;break
+                            needed=numerator//divisor
+                            if anchor is None:anchor=needed
+                            elif anchor!=needed:ok=False;break
+            if not ok:break
+            partition_balance=sum(sign[v] for v in queue)
+            if anchor is None:
+                # For a bipartite pair component, each exact matching
+                # covers one vertex of each color per selected pair.
+                # If partition sizes differ, the potential total would
+                # depend on an unconstrained gauge: retain the row.
+                if partition_balance!=0:
+                    ok=False;break
+                anchor=0
+            total_numer+=sum(offset[v]+sign[v]*anchor for v in queue)
+        if not ok or total_numer%2:continue
+        total=total_numer//2+sum(int(base[j]) for j in forced)
+        if abs(total)>2**50:continue
+        if lo[k]<=float(total)<=hi[k]:
+            found.append(k)
+    return found
+
+
 def conserved_side_rows(p, reduction):
     """Vectorized *exact integer* conservation identity over exact-cover rows.
 
@@ -651,6 +739,12 @@ def conserved_side_rows(p, reduction):
     if not d or reduction is None:return []
     forced,uncovered,active=reduction
     if not uncovered or len(active)*len(d)>2500000:return []
+    # Cross-direction graph proof: pair-only cover has no singleton basis,
+    # but signed edge potentials may still fix the entire side activity.
+    if all(len(columns[j]) in (0,2) and
+           (len(columns[j])!=2 or columns[j][0]!=columns[j][1])
+           for j in active):
+        return pair_conserved_side_rows(p,reduction)
     row_id={r:i for i,r in enumerate(uncovered)}
     singles=[None]*len(uncovered)
     duplicate_singles=[]
