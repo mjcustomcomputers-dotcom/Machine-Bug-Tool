@@ -700,6 +700,106 @@ def redundant_side_rows(p, reduction):
             redundant.append(k)
     return redundant
 
+
+def exact_residual_components(p, deadline, reduction=None):
+    """Solve side-independent residual exact-cover components with finite DP.
+
+    A side inequality may be dropped only when the established exact-cover
+    envelope proves it redundant (or its active effect is identically zero).
+    Otherwise global coupling remains and the full MILP takes control.
+    Component DP enumerates all disjoint covers via memoized uncovered-row
+    masks, including every eligible original rotation; it may prove optimum.
+    Negative-cost optional empty columns are retained independently.
+    """
+    if time.monotonic()>deadline-0.15:return None,False
+    m,n,costs,columns,incidence,d,lo,hi=p
+    if reduction is None:
+        reduction=reduce_forced_rotations(p,dominated_rotations(p))
+    if reduction is None:return None,False
+    forced,uncovered,active=reduction
+    if not uncovered or len(active)<12 or len(active)>30000:
+        return None,False
+    redundant=set(redundant_side_rows(p,reduction))
+    for k in range(len(d)):
+        if k in redundant:continue
+        offset=math.fsum(d[k][j] for j in forced)
+        if any(d[k][j]!=0. for j in active) or not lo[k]<=offset<=hi[k]:
+            return None,False
+    row_id={r:z for z,r in enumerate(uncovered)}
+    # Disjoint-set of residual rows using each surviving nonempty column as a
+    # hyperedge. No coverage edge may be cut by the component split.
+    parent=list(range(len(uncovered)))
+    def find(i):
+        while parent[i]!=i:
+            parent[i]=parent[parent[i]]
+            i=parent[i]
+        return i
+    def union(a,b):
+        a,b=find(a),find(b)
+        if a!=b:parent[b]=a
+    for j in active:
+        rows=columns[j]
+        if not rows:continue
+        if len(rows)!=len(set(rows)) or any(r not in row_id for r in rows):
+            return None,False
+        first=row_id[rows[0]]
+        for r in rows[1:]:union(first,row_id[r])
+    comp_rows={}
+    for r in uncovered:
+        comp_rows.setdefault(find(row_id[r]),[]).append(r)
+    if len(comp_rows)<2:return None,False
+    comp_columns={k:[] for k in comp_rows}
+    selected=list(forced)
+    for j in active:
+        if not columns[j]:
+            if costs[j]<0:selected.append(j)
+            continue
+        comp_columns[find(row_id[columns[j][0]])].append(j)
+    # Guard pathological state counts; a broad coupled problem remains for
+    # the existing HiGHS/CP-SAT portfolio rather than losing its deadline.
+    for root,rows in comp_rows.items():
+        if (len(rows)>20 or len(comp_columns[root])>250 or
+                time.monotonic()>deadline-0.12):
+            return None,False
+        local={r:i for i,r in enumerate(rows)}
+        eligible=[[] for _ in rows]
+        mask={}
+        for j in comp_columns[root]:
+            bits=0
+            for r in columns[j]:
+                bits|=1<<local[r]
+            mask[j]=bits
+            for r in columns[j]:eligible[local[r]].append(j)
+        if any(not choices for choices in eligible):return None,False
+        memo={0:(0.,())}
+        visited=[0]
+        def best_cover(remain):
+            cached=memo.get(remain)
+            if cached is not None:return cached
+            visited[0]+=1
+            if visited[0]>50000 or (visited[0]&127)==0 and (
+                    time.monotonic()>deadline-0.12):
+                raise TimeoutError
+            pivot=(remain&-remain).bit_length()-1
+            best=(math.inf,())
+            for j in eligible[pivot]:
+                bits=mask[j]
+                if bits&remain!=bits:continue
+                subcost,tail=best_cover(remain^bits)
+                value=costs[j]+subcost
+                if value<best[0]:best=(value,(j,)+tail)
+            memo[remain]=best
+            return best
+        try:
+            value,choice=best_cover((1<<len(rows))-1)
+        except (TimeoutError,RecursionError,MemoryError):
+            return None,False
+        if not math.isfinite(value):return None,False
+        selected.extend(choice)
+    if not verify(p,selected):return None,False
+    return sorted(selected),True
+
+
 def sparse_milp(p, deadline, reduction=None, feasibility_only=False, return_certificate=False):
     """SCIP/HiGHS-style sparse 0-1 exact cover with literal real base bounds."""
     if deadline - time.monotonic() < 0.5:
@@ -1330,6 +1430,8 @@ def _native_method_worker(sender,p,method,allowed,reduction,incumbent,lower_boun
             answer=_highs_stream_incumbents(p,deadline,reduction,sender,
                   incumbent=incumbent,decision=(method=='decision'),
                   lower_bound=lower_bound)
+        elif method=='components':
+            answer,proven=exact_residual_components(p,deadline,reduction=reduction)
         elif method=='mip':
             answer,proven=sparse_milp(p,deadline,reduction=reduction,
                                       return_certificate=True)
@@ -1348,7 +1450,7 @@ def _native_method_worker(sender,p,method,allowed,reduction,incumbent,lower_boun
             answer=_objective_neighborhood(p,incumbent,deadline)
         else:
             answer=None
-        sender.send(('proven' if method=='mip' and proven and verify(p,answer)
+        sender.send(('proven' if method in ('mip','components') and proven and verify(p,answer)
                      else 'end',answer if verify(p,answer) else None))
     except BaseException:
         try: sender.send(('end',None))
@@ -1470,6 +1572,19 @@ def solve(instance, time_limit_s):
         option=large_sparse_cover(p,min(until,time.monotonic()+1.5),
                                   reduction=reduced)
         if verify(p,option):backup=option
+    # MPC graph/reduction hook: when every side inequality is proven
+    # inactive on the residual, exact-cover components may be solved with
+    # native Python DP and a global optimality witness before heavy imports.
+    if (reduced is not None and effective_rows>=20 and effective_cols>=35
+            and until-time.monotonic()>3.0):
+        fast,certified=_bounded_native(p,'components',
+            min(4.0,until-time.monotonic()-0.7),
+            reduction=reduced,with_certificate=True)
+        if verify(p,fast):
+            if backup is None or objective(p,fast)<objective(p,backup)-1e-8:
+                backup=fast
+            if certified and objective(p,backup)<=objective(p,fast)+1e-8:
+                return _crew_result(p,backup)
     # Before any high-cost MIP/CP search, test a rigorously dual-feasible
     # row-price bound. A matching feasible incumbent certifies global optimum.
     lower_bound=_cover_dual_lower_bound(p)
