@@ -997,6 +997,7 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                          for z in range(vars_count) if matrix[k,z]!=0.)
                 model.add(expr>=lower)
                 model.add(expr<=upper)
+            added_parity_atoms=0
             if cp_parity:
                 # XOR is valid only if original accepted tolerance cannot
                 # admit a second integer activity for any transformed row.
@@ -1009,8 +1010,14 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                     telemetry["parity_fraction"]=profile["rank_fraction"]
                     telemetry["density"]=profile["density"]
                     telemetry["use_parity_prior"]=profile["use_parity"]
+                # Inline sonar: the classifier and chosen CP method share
+                # one model construction and one CP search. No two-probe
+                # restart tax when the source-side signal is strong.
                 atoms=(profile["atoms"] if cp_parity is True or
-                       (cp_parity=="auto" and profile["use_parity"]) else [])
+                       (cp_parity=="auto" and profile["use_parity"]) or
+                       (cp_parity=="echo" and profile["use_parity"] and
+                        profile["pressure"]<0.86) else [])
+                added_parity_atoms=len(atoms)
                 for mask,bit in atoms:
                     lits=[ys[z] for z in range(vars_count)
                           if (mask>>z)&1]
@@ -1028,7 +1035,8 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
             status=solver.solve(model)
             if telemetry is not None:
                 telemetry["status"]=int(status)
-                telemetry["method"]="xor" if cp_parity else "plain"
+                telemetry["method"]="xor" if added_parity_atoms else "plain"
+                telemetry["parity_atoms_added"]=added_parity_atoms
                 for key in ("num_conflicts","num_branches","wall_time"):
                     try:
                         value=getattr(solver,key)
