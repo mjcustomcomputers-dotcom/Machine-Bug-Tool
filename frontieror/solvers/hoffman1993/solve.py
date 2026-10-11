@@ -838,17 +838,27 @@ def _objective_neighborhood(p, incumbent, deadline):
         # Empty selected columns, if required by base lower bounds, remain
         # fixed and retain all original IDs. No outside row may change.
         fixed=[j for j in best if j not in freed]
-        candidates=set()
-        for row in rows:
-            for j in incidence[row]:
-                if len(candidates)>=7000:
-                    break
-                if columns[j] and all(r in rows for r in columns[j]):
-                    candidates.add(j)
-            if len(candidates)>=7000:
+        # The former 7,000-column cap discarded the ENTIRE neighborhood
+        # once it filled. A high-degree row could therefore suppress all
+        # objective improvements even though a tiny affordable core existed.
+        # Keep a bounded, cost-ranked reversible proposal set, including
+        # every freed incumbent column to guarantee the old witness remains
+        # feasible inside the restricted MILP.
+        from heapq import nsmallest
+        candidates=set(freeing)
+        for row in sorted(rows,key=lambda r:(len(incidence[r]),r)):
+            if time.monotonic()>=deadline-0.65:
+                break
+            ranked=nsmallest(6,
+                (j for j in incidence[row] if columns[j] and
+                 all(k in rows for k in columns[j])),
+                key=lambda j:(costs[j]/max(1,len(columns[j])),
+                              costs[j],j))
+            candidates.update(ranked)
+            if len(candidates)>=1800:
                 break
         candidates=sorted(candidates)
-        if len(candidates)<len(freeing) or not candidates or len(candidates)>=7000:
+        if len(candidates)<len(freeing) or not candidates:
             continue
         row_list=sorted(rows)
         row_index={r:i for i,r in enumerate(row_list)}
