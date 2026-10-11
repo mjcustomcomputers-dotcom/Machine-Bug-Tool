@@ -20,18 +20,16 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build pinned organizer-like Python 3.12 runtime
         run: docker build -f frontieror/hardening/Dockerfile.main-release -t frontieror-release-check .
+      - name: Build six-solver archive and SHA-256 manifest
+        run: |
+          python frontieror/build_submission.py --out frontieror/artifacts/FrontierOR-Main-Johnny5-Verified.zip
+          sha256sum frontieror/artifacts/FrontierOR-Main-Johnny5-Verified.zip
       - name: Full independent six-solver regression suite under 2vCPU and 4GiB
         run: |
           docker run --rm --cpus=2 --memory=4g --memory-swap=4g --network=none --pids-limit=256 \
             --tmpfs /tmp:rw,size=64m \
             -v "$PWD":/src:ro frontieror-release-check \
             python -m unittest discover -s frontieror/tests -p 'test_*.py' -v
-        # Archive test is run later, after packaging. Do not run it here.
-        continue-on-error: false
-      - name: Build six-solver archive and SHA-256 manifest
-        run: |
-          python frontieror/build_submission.py --out frontieror/artifacts/FrontierOR-Main-Johnny5-Verified.zip
-          sha256sum frontieror/artifacts/FrontierOR-Main-Johnny5-Verified.zip
       - name: Test archive after extraction using actual six CLI contracts
         run: |
           docker run --rm --cpus=2 --memory=4g --memory-swap=4g --network=none --pids-limit=256 \
