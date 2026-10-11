@@ -1,0 +1,33 @@
+name: FrontierOR Crew fix-relax exact-cover diagnostic
+on:
+  push:
+    branches: [frontieror-crew-infrared-fix-repair-20261010]
+    paths:
+      - '.github/workflows/frontieror-crew-fix-relax.yml'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/test_crew_fix_relax.py'
+      - 'frontieror/tests/bench_crew_fix_relax.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guided:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Numeric and discrete solver dependencies
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1' 'ortools==9.15.6755'
+      - name: Small and medium negative-control truth tests
+        run: python -m unittest discover -s frontieror/tests -p test_crew_fix_relax.py -v
+      - name: Source matched larger binary neighborhood A/B
+        run: python -u frontieror/tests/bench_crew_fix_relax.py
+      - name: Retain narrow receipts only
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-fix-relax-ab
+          path: frontieror/artifacts/crew-fix-relax-ab.json
+          retention-days: 14
