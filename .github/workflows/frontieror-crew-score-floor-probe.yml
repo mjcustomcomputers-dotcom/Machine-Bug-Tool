@@ -1,0 +1,22 @@
+name: Crew score-floor MRV residual probe
+on:
+  push:
+    branches: [frontieror-crew-score-floor-recon-20261010]
+    paths:
+      - '.github/workflows/frontieror-crew-score-floor-probe.yml'
+      - 'frontieror/tests/test_crew_score_floor_probe.py'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  crew-score-floor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test one scorerisk structural inversion only
+        run: python -m unittest discover -s frontieror/tests -p test_crew_score_floor_probe.py -v
