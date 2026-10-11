@@ -758,6 +758,11 @@ def conserved_side_rows(p, reduction):
     if all(len(columns[j]) in (0,2) and
            (len(columns[j])!=2 or columns[j][0]!=columns[j][1])
            for j in active):
+        # Measured objective-preserving router: micro-sized side work often
+        # costs less to leave with native MILP than to certify separately.
+        # The exact graph proof remains independently callable.
+        if len(active)*len(d)<8000:
+            return []
         return pair_conserved_side_rows(p,reduction)
     row_id={r:i for i,r in enumerate(uncovered)}
     singles=[None]*len(uncovered)
