@@ -53,7 +53,8 @@ class SonarMethodAsClassifier(unittest.TestCase):
                 self.assertTrue(independent.independent_cover_truth(p,selected))
                 self.assertTrue(crew.verify(p,selected))
                 self.assertIn(receipt["state"],{
-                    "FEASIBLE_PULSE","NO_PULSE_WITNESS"})
+                    "FEASIBLE_PULSE","NO_PULSE_WITNESS",
+                    "SYMBOLIC_ECHO_ROUTE"})
                 invalid=next(j for j in selected if p[3][j])
                 self.assertFalse(independent.independent_cover_truth(
                     p,[j for j in selected if j!=invalid]))
@@ -63,6 +64,33 @@ class SonarMethodAsClassifier(unittest.TestCase):
         p=crew.parse(raw)
         self.assertIsNone(crew.sonar_feedback_cycle_rescue(
             p,time.monotonic()+3))
+
+    def test_symbolic_echo_is_a_method_and_classifier(self):
+        for seed,expected in ((7,"plain"),(31,"xor"),(43,"plain")):
+            with self.subTest(seed=seed):
+                raw=fixture.cycle_case(groups=60,q=20,seed=seed)
+                p=crew.parse(raw)
+                reduced=crew.reduce_forced_rotations(
+                    p,crew.dominated_rotations(p))
+                obs={"structural_only":True}
+                noanswer=crew.coupled_cycle_choice_milp(
+                    p,time.monotonic()+2,reduction=reduced,telemetry=obs)
+                self.assertIsNone(noanswer)
+                self.assertEqual(obs.get("status"),
+                                 "STRUCTURAL_CLASSIFIER_ONLY")
+                self.assertGreater(obs.get("rank",0),0)
+                actual=("xor" if obs["rank_fraction"]>=0.14 and
+                        obs["pressure"]<=0.75 else "plain")
+                self.assertEqual(actual,expected)
+        # A middle-pressure source must retain two-search probing as an
+        # admissible option rather than pretending the pressure alone proves
+        # which method will win.
+        p=crew.parse(fixture.cycle_case(groups=60,q=20,seed=3))
+        obs={"structural_only":True}
+        crew.coupled_cycle_choice_milp(
+            p,time.monotonic()+2,telemetry=obs)
+        self.assertGreater(obs["pressure"],0.75)
+        self.assertLess(obs["pressure"],0.86)
 
     def test_invalid_global_side_equations_never_report_witness(self):
         raw=fixture.cycle_case(groups=6,q=3,seed=5)
