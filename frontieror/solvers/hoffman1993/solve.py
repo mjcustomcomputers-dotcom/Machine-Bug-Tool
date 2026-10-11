@@ -139,7 +139,7 @@ def forced_greedy(p, deadline):
     return best
 
 
-def large_sparse_cover(p, deadline, reduction=None):
+def large_sparse_cover(p, deadline, reduction=None, reverse_bounds=True):
     """Bounded MRV incumbent recovery for large exact-cover models.
 
     Sparse bitset column masks + persistent parent-pointer paths avoid copying
@@ -151,9 +151,9 @@ def large_sparse_cover(p, deadline, reduction=None):
     if time.monotonic() >= deadline - 0.05:
         return None
     m, n, costs, columns, incidence, d, lo, hi = p
-    if (m <= 180 or m > 12000 or n > 50000 or
-            sum(len(rows) for rows in columns) > 400000):
-        return None
+    # The original model may contain 15,000+ rows, yet exact singleton
+    # propagation can leave only a few hundred *live* rows. Do not reject
+    # a cheap feasibility search using obsolete pre-reduction dimensions.
     if reduction is None:
         reduction = reduce_forced_rotations(p, dominated_rotations(p))
     if reduction is None:
@@ -161,6 +161,9 @@ def large_sparse_cover(p, deadline, reduction=None):
     forced, uncovered, active = reduction
     if not uncovered:
         return forced if verify(p, forced) else None
+    if (len(uncovered)>12000 or len(active)>50000 or
+            sum(len(columns[j]) for j in active)>400000):
+        return None
     # Build only the remaining coverage incidence, with temporary dense
     # bit positions; original column indices are never renumbered in output.
     row_id = {row: k for k, row in enumerate(uncovered)}
@@ -194,6 +197,46 @@ def large_sparse_cover(p, deadline, reduction=None):
                     key=lambda k: (len(row_candidates[k]), k))
     initial_mask = (1 << len(uncovered)) - 1
     initial_base = tuple(math.fsum(base[j] for j in forced) for base in d)
+    # Reverse feasibility: bound what the *uncovered rows can still supply*.
+    # Splitting each active column's side effect evenly among its covered
+    # rows yields a safe interval relaxation for every complete exact cover.
+    # Add independent optional-empty-column bounds to avoid false pruning.
+    q=len(d)
+    side_envelopes=None
+    if (reverse_bounds and 0<q<=8 and len(uncovered)*q<=50000
+            and len(active)*q<=150000 and time.monotonic()<deadline-0.12):
+        lower_shares=[[math.inf]*len(uncovered) for _ in range(q)]
+        upper_shares=[[-math.inf]*len(uncovered) for _ in range(q)]
+        empty_lower=[0.]*q
+        empty_upper=[0.]*q
+        for j in active:
+            row_mask=masks.get(j)
+            if not row_mask:
+                if not columns[j]:
+                    for k in range(q):
+                        v=d[k][j]
+                        empty_lower[k]+=min(0.,v)
+                        empty_upper[k]+=max(0.,v)
+                continue
+            inv=1.0/length[j]
+            for k in range(q):
+                share=d[k][j]*inv
+                remaining=row_mask
+                while remaining:
+                    bit=remaining & -remaining
+                    remaining ^= bit
+                    row=bit.bit_length()-1
+                    if share<lower_shares[k][row]:
+                        lower_shares[k][row]=share
+                    if share>upper_shares[k][row]:
+                        upper_shares[k][row]=share
+        if all(math.isfinite(v) for seq in lower_shares for v in seq) and all(
+                math.isfinite(v) for seq in upper_shares for v in seq):
+            initial_low=tuple(math.fsum(shares)+empty_lower[k]
+                              for k,shares in enumerate(lower_shares))
+            initial_high=tuple(math.fsum(shares)+empty_upper[k]
+                               for k,shares in enumerate(upper_shares))
+            side_envelopes=(lower_shares,upper_shares,initial_low,initial_high)
     nonnegative = tuple(all(base[j] >= 0 for j in active) for base in d)
     nonpositive = tuple(all(base[j] <= 0 for j in active) for base in d)
     orderings = (
@@ -214,7 +257,10 @@ def large_sparse_cover(p, deadline, reduction=None):
         if time.monotonic() >= deadline - 0.03:
             break
         chain = []  # (parent-index, original column ID)
-        stack = [(initial_mask, -1, initial_base, initial_cost)]
+        envelope_low=side_envelopes[2] if side_envelopes else ()
+        envelope_high=side_envelopes[3] if side_envelopes else ()
+        stack = [(initial_mask, -1, initial_base, initial_cost,
+                  envelope_low,envelope_high)]
         examined = 0
         # The private failure was a no-incumbent exit on the large Crew case.
         # Spend a larger, still bounded feasibility slice before native MIP;
@@ -222,9 +268,14 @@ def large_sparse_cover(p, deadline, reduction=None):
         while stack and examined < 24000:
             if (examined & 31) == 0 and time.monotonic() >= deadline - 0.025:
                 break
-            remain, parent, base_totals, score = stack.pop()
+            remain, parent, base_totals, score, remaining_min, remaining_max = stack.pop()
             examined += 1
             if nonnegative_costs and score >= best_cost - 1e-10:
+                continue
+            if side_envelopes and any(
+                    base_totals[k]+remaining_min[k]>hi[k]+1e-6*max(1.,abs(hi[k])) or
+                    base_totals[k]+remaining_max[k]<lo[k]-1e-6*max(1.,abs(lo[k]))
+                    for k in range(q)):
                 continue
             if not remain:
                 chosen = list(forced)
@@ -269,9 +320,29 @@ def large_sparse_cover(p, deadline, reduction=None):
                          lo[k] - 1e-6 * max(1, abs(lo[k])))
                         for k in range(len(d))):
                     continue
+                if side_envelopes:
+                    lower_shares,upper_shares,_,_=side_envelopes
+                    removed=masks[j]
+                    row_ids=[]
+                    while removed:
+                        bit=removed & -removed
+                        removed ^= bit
+                        row_ids.append(bit.bit_length()-1)
+                    next_min=tuple(remaining_min[k]-math.fsum(
+                                   lower_shares[k][r] for r in row_ids)
+                                   for k in range(q))
+                    next_max=tuple(remaining_max[k]-math.fsum(
+                                   upper_shares[k][r] for r in row_ids)
+                                   for k in range(q))
+                    if any(next_base[k]+next_min[k]>hi[k]+1e-6*max(1.,abs(hi[k])) or
+                           next_base[k]+next_max[k]<lo[k]-1e-6*max(1.,abs(lo[k]))
+                           for k in range(q)):
+                        continue
+                else:
+                    next_min,next_max=(),()
                 chain.append((parent, j))
                 stack.append((remain ^ masks[j], len(chain) - 1,
-                              next_base, score + costs[j]))
+                              next_base, score + costs[j],next_min,next_max))
     return best_solution
 
 
@@ -365,6 +436,12 @@ def dominated_rotations(p):
     cheapest={}
     dominated=set()
     for j,rows in enumerate(columns):
+        # A repeated flight ID in one column violates exact-cover equality
+        # whenever that column is selected. It must never dominate a valid
+        # column with the same *set* of covered flights.
+        if len(rows)!=len(set(rows)):
+            dominated.add(j)
+            continue
         # An empty-cover rotation can still satisfy a base lower bound.
         # Only remove it if its base-effect vector is identically zero and
         # selecting it cannot reduce the objective.
@@ -545,7 +622,7 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
     return selected if verify(p, selected) else None
 
 
-def sparse_milp(p, deadline, reduction=None, feasibility_only=False):
+def sparse_milp(p, deadline, reduction=None, feasibility_only=False, return_certificate=False):
     """SCIP/HiGHS-style sparse 0-1 exact cover with literal real base bounds."""
     if deadline - time.monotonic() < 0.5:
         return None
@@ -563,7 +640,8 @@ def sparse_milp(p, deadline, reduction=None, feasibility_only=False):
         return None
     forced,uncovered,active=reduced
     if not active:
-        return forced if verify(p,forced) else None
+        result=forced if verify(p,forced) else None
+        return (result,bool(result is not None and not feasibility_only)) if return_certificate else result
     offset=[math.fsum(row[j] for j in forced) for row in d]
     rr, cc = [], []
     row_id={row:z for z,row in enumerate(uncovered)}
@@ -588,14 +666,32 @@ def sparse_milp(p, deadline, reduction=None, feasibility_only=False):
             bounds=Bounds(np.zeros(len(active)), np.ones(len(active))),
             constraints=LinearConstraint(A, np.asarray(lhs), np.asarray(rhs)),
             options={"time_limit": max(0.1, deadline - time.monotonic() - 0.15),
-                     "mip_rel_gap": 0.005, "presolve": True}
+                     "mip_rel_gap": (0.0 if return_certificate and
+                                       len(active)<=1800 and
+                                       len(uncovered)<=1800 else 0.005),
+                     "presolve": True}
         )
     except (ValueError, RuntimeError, MemoryError):
         return None
     if result.x is None:
         return None
     selected = forced + [active[z] for z, x in enumerate(result.x) if x > 0.5]
-    return selected if verify(p, selected) else None
+    checked = selected if verify(p,selected) else None
+    if not return_certificate:
+        return checked
+    # Only a zero-gap objective solve over the complete exact-safe reduction
+    # can certify optimum. A feasibility-only MILP never yields this signal.
+    try:
+        bound=float(getattr(result,'mip_dual_bound',math.nan))
+        val=float(getattr(result,'fun',math.nan))
+        gap=float(getattr(result,'mip_gap',math.inf))
+        proof=bool(checked is not None and not feasibility_only and
+                   result.status==0 and math.isfinite(bound) and
+                   math.isfinite(val) and gap<=1e-8 and
+                   abs(val-bound)<=1e-8*max(1.0,abs(val)))
+    except (TypeError,ValueError,OverflowError):
+        proof=False
+    return checked,proof
 
 
 
@@ -1131,7 +1227,8 @@ def _native_method_worker(sender,p,method,allowed,reduction,incumbent,lower_boun
                   incumbent=incumbent,decision=(method=='decision'),
                   lower_bound=lower_bound)
         elif method=='mip':
-            answer=sparse_milp(p,deadline,reduction=reduction)
+            answer,proven=sparse_milp(p,deadline,reduction=reduction,
+                                      return_certificate=True)
         elif method=='mip_feasible':
             answer=sparse_milp(p,deadline,reduction=reduction,feasibility_only=True)
         elif method=='cp_feasible':
@@ -1147,7 +1244,8 @@ def _native_method_worker(sender,p,method,allowed,reduction,incumbent,lower_boun
             answer=_objective_neighborhood(p,incumbent,deadline)
         else:
             answer=None
-        sender.send(('end',answer if verify(p,answer) else None))
+        sender.send(('proven' if method=='mip' and proven and verify(p,answer)
+                     else 'end',answer if verify(p,answer) else None))
     except BaseException:
         try: sender.send(('end',None))
         except BaseException: pass
@@ -1156,7 +1254,7 @@ def _native_method_worker(sender,p,method,allowed,reduction,incumbent,lower_boun
 
 
 def _bounded_native(p,method,seconds,reduction=None,incumbent=None,
-                    lower_bound=None):
+                    lower_bound=None,with_certificate=False):
     """Interruptible native search with streamed, parent-verified witnesses.
 
     The parent never depends on the worker reaching its final optimality
@@ -1165,7 +1263,7 @@ def _bounded_native(p,method,seconds,reduction=None,incumbent=None,
     """
     seconds=float(seconds)
     if seconds<0.45:
-        return None
+        return (None,False) if with_certificate else None
     child=None
     try:
         import multiprocessing as mp
@@ -1178,10 +1276,11 @@ def _bounded_native(p,method,seconds,reduction=None,incumbent=None,
         child.start()
         send.close()
     except (OSError,ValueError,RuntimeError):
-        return None
+        return (None,False) if with_certificate else None
     deadline=time.monotonic()+seconds
     best=None
     best_cost=objective(p,incumbent) if verify(p,incumbent) else math.inf
+    certified=None
     try:
         while time.monotonic()<deadline:
             if recv.poll(min(0.08,max(0.,deadline-time.monotonic()))):
@@ -1197,7 +1296,11 @@ def _bounded_native(p,method,seconds,reduction=None,incumbent=None,
                     new_cost=objective(p,answer)
                     if new_cost<best_cost-1e-8:
                         best,best_cost=answer,new_cost
-                if kind=='end':
+                    if kind=='proven':
+                        certified=answer
+                        if best is None and abs(new_cost-best_cost)<1e-7:
+                            best=answer
+                if kind in ('end','proven'):
                     break
             if not child.is_alive() and not recv.poll():
                 break
@@ -1209,7 +1312,13 @@ def _bounded_native(p,method,seconds,reduction=None,incumbent=None,
             if child.is_alive():
                 child.kill()
         child.join(timeout=0.5)
-    return best if verify(p,best) else None
+    result=best if verify(p,best) else None
+    if with_certificate:
+        cert=bool(certified is not None and verify(p,certified) and
+                  result is not None and
+                  abs(objective(p,result)-objective(p,certified))<1e-7)
+        return result,cert
+    return result
 
 
 def solve(instance, time_limit_s):
@@ -1233,24 +1342,30 @@ def solve(instance, time_limit_s):
             return _crew_result(p,matched)
     backup=None
     reduced=None
-    reduction_ready=False
+    # Compute the exact safe reduction *once*, then route computational
+    # methods using the residual incidence matrix rather than original size.
+    # There is no speculative pruning in these effective dimensions.
+    if time.monotonic()<until-0.7:
+        reduced=reduce_forced_rotations(p,dominated_rotations(p))
+    effective_rows = len(reduced[1]) if reduced is not None else m
+    effective_cols = len(reduced[2]) if reduced is not None else n
+    effective_nz = (sum(len(columns[j]) for j in reduced[2])
+                    if reduced is not None else sum(map(len,columns)))
+    side_work = len(d)*effective_cols
+    if (reduced and not reduced[1]
+            and all(costs[j]>=0 for j in reduced[2])
+            and verify(p,reduced[0])):
+        return _crew_result(p,reduced[0])
     if m<=180 and n<=6500 and time.monotonic()<until-0.5:
         option=forced_greedy(p,min(until,time.monotonic()+0.7))
-        if verify(p,option): backup=option
-    elif time.monotonic()<until-1.5:
-        reduced=reduce_forced_rotations(p,dominated_rotations(p))
-        reduction_ready=True
-        if reduced is not None:
-            option=large_sparse_cover(p,min(until,time.monotonic()+2.25),reduction=reduced)
-            if verify(p,option): backup=option
-    if not reduction_ready and time.monotonic()<until-0.6:
-        reduced=reduce_forced_rotations(p,dominated_rotations(p))
-        reduction_ready=True
-        if reduced and not reduced[1]:
-            option=reduced[0]
-            if verify(p,option) and (backup is None or
-                objective(p,option)<objective(p,backup)):
-                backup=option
+        if verify(p,option):backup=option
+    if (backup is None and reduced is not None and effective_rows>0
+            and effective_rows<=6000 and effective_cols<=22000
+            and effective_nz<=400000 and side_work<=24000
+            and time.monotonic()<until-1.1):
+        option=large_sparse_cover(p,min(until,time.monotonic()+1.5),
+                                  reduction=reduced)
+        if verify(p,option):backup=option
     # Before any high-cost MIP/CP search, test a rigorously dual-feasible
     # row-price bound. A matching feasible incumbent certifies global optimum.
     lower_bound=_cover_dual_lower_bound(p)
@@ -1265,16 +1380,22 @@ def solve(instance, time_limit_s):
     # one or two rows this is a maximum-savings graph matching problem, not
     # a general set-partitioning MILP. Check even larger-cover instances as a
     # candidate, without assuming matching solves the original problem.
-    if m<=850 and n<=25000 and until-time.monotonic()>12.0:
-        keep(_bounded_native(p,'pair_match',min(2.8,until-time.monotonic()-9.0),
+    if (not d and m<=12000 and n<=60000
+            and until-time.monotonic()>10.0
+            and all(len(rows)<=2 for rows in columns)):
+        keep(_bounded_native(p,'pair_match',min(2.1,until-time.monotonic()-7.0),
                              reduction=reduced,incumbent=backup))
     if _bound_proves_optimum(p,backup,lower_bound):
         return _crew_result(p,backup)
     # LP root marginals are cheap approximate information about promising
     # pre-existing rotations. Reversibly price down to an integer core,
     # retaining full-model optimization for all difficult instances.
-    if n>=6000 and until-time.monotonic()>22.0:
-        keep(_bounded_native(p,'lp_core',min(7.2,until-time.monotonic()-14.0),
+    # A 15k-column input that collapses to 500 columns is not a large LP.
+    # Reserve the LP-priced restricted master for genuinely large residuals.
+    if (effective_cols>=3500 and effective_rows>=350
+            and effective_nz<=600000 and side_work<=2400000
+            and until-time.monotonic()>23.0):
+        keep(_bounded_native(p,'lp_core',min(5.3,until-time.monotonic()-14.0),
                              reduction=reduced,incumbent=backup))
     if _bound_proves_optimum(p,backup,lower_bound):
         return _crew_result(p,backup)
@@ -1282,21 +1403,22 @@ def solve(instance, time_limit_s):
     # uninterrupted phase, rather than being starved by repeated CP-SAT runs.
     # On very large instances, try a short compact CP-SAT feasibility probe
     # first to avoid spending the whole MIP budget without an incumbent.
-    if (backup is None and (m>1900 or n>14000) and d and
-            until-time.monotonic()>12.0):
+    if (backup is None and (effective_rows>2500 or effective_cols>14000)
+            and d and until-time.monotonic()>12.0):
         keep(_bounded_native(p,'cp_feasible',min(8.0,until-time.monotonic()-5),
                              reduction=reduced))
     # If an enormous coupled model still has no incumbent, run a short
     # *feasibility-only* exact MILP before paying for global cost minimization.
     # This distinguishes the known fifth-instance zero-risk from mere quality.
-    if backup is None and (m>1200 or n>10000) and until-time.monotonic()>20:
+    if (backup is None and (effective_rows>2500 or effective_cols>10000)
+            and until-time.monotonic()>20):
         keep(_bounded_native(p,'mip_feasible',
              min(10.,until-time.monotonic()-13.),reduction=reduced))
     # Positive inverse: before asking the integer optimizer to prove a
     # minimum, ask whether a significantly cheaper *feasible* answer exists.
     # Budget this step tightly; its oracle is the unchanged original model.
-    if (backup is not None and m>180 and n>800 and
-            until-time.monotonic()>20.0):
+    if (backup is not None and effective_rows>1500
+            and effective_cols>3500 and until-time.monotonic()>20.0):
         keep(_bounded_native(p,'decision',min(5.5,until-time.monotonic()-11.),
                              reduction=reduced,incumbent=backup,
                              lower_bound=lower_bound))
@@ -1304,11 +1426,18 @@ def solve(instance, time_limit_s):
     # Portfolio dispatch is based on native matrix structure, never public
     # instance labels. Preserve the high-scoring older SciPy-first method on
     # moderate matrices; use incumbent streaming on larger coupled cases.
-    modest_core=(m<=1600 and n<=8500)
+    # Side rows enter the actual sparse matrix even after coverage reduction.
+    # Effective size, not the input's historic shape, controls solver choice.
+    modest_core=(effective_rows<=1800 and effective_cols<=9000
+                 and side_work<=1800000 and effective_nz<=280000)
     if remaining>2.0 and modest_core:
-        keep(_bounded_native(p,'mip',
+        option,certified=_bounded_native(p,'mip',
              min(39.0,max(0.7,remaining-(10.0 if backup is None else 6.0))),
-             reduction=reduced,incumbent=backup))
+             reduction=reduced,incumbent=backup,with_certificate=True)
+        keep(option)
+        if certified and verify(p,backup) and (
+                objective(p,backup)<=objective(p,option)+1e-7):
+            return _crew_result(p,backup)
     remaining=until-time.monotonic()
     if remaining>3.0 and not _bound_proves_optimum(p,backup,lower_bound):
         # Unlike scipy.optimize.milp, native HiGHS callbacks deliver improving
@@ -1341,7 +1470,7 @@ def solve(instance, time_limit_s):
         keep(_bounded_native(p,'neighborhood',min(4.5,remaining-0.35),
                              reduction=reduced,incumbent=backup))
     remaining=until-time.monotonic()
-    if backup is not None and remaining>2.0 and m<1500:
+    if backup is not None and remaining>2.0 and effective_rows<1500:
         keep(_bounded_native(p,'cp_objective',min(remaining-0.3,3.0),
                              reduction=reduced,incumbent=backup))
     if not verify(p,backup):
