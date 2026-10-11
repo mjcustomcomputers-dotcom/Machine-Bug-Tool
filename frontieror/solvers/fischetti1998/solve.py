@@ -193,6 +193,107 @@ def swap_improve(p: Problem, route: list[int], deadline: float) -> list[int]:
     return current
 
 
+
+def relocate_short_blocks(p: Problem, route: list[int], deadline: float,
+                          max_block: int = 3) -> list[int]:
+    """Improve tour length using exact constant-time Or-opt edge deltas.
+
+    These moves preserve every visited city and therefore preserve prize;
+    recovered travel slack is available for later prize-bearing insertions.
+    The block may move across the depot-adjacent positions but never include
+    the depot itself. Every reported new route is independently cost-checked.
+    """
+    current=route[:]
+    for iteration in range(15):
+        if time.monotonic() >= deadline or len(current)<6:
+            break
+        best_delta=-1e-8
+        best=None
+        for length in range(1,min(max_block,len(current)-4)+1):
+            if time.monotonic() >= deadline:
+                break
+            for i in range(1,len(current)-length):
+                if (i & 3)==0 and time.monotonic() >= deadline:
+                    break
+                j=i+length
+                a,b,c,d=current[i-1],current[i],current[j-1],current[j]
+                removed=p.distance(a,b)+p.distance(c,d)-p.distance(a,d)
+                shorter=current[:i]+current[j:]
+                for k in range(1,len(shorter)):
+                    u,v=shorter[k-1],shorter[k]
+                    added=p.distance(u,b)+p.distance(c,v)-p.distance(u,v)
+                    delta=added-removed
+                    if delta<best_delta:
+                        best_delta=delta
+                        best=(i,j,k)
+        if best is None:
+            break
+        i,j,k=best
+        block=current[i:j]
+        shorter=current[:i]+current[j:]
+        challenger=shorter[:k]+block+shorter[k:]
+        # This is a travel-cost-only transformation. Guard the exact invariant
+        # against accidental indexing/float errors before changing state.
+        if (len(challenger)!=len(current) or
+            set(challenger)!=set(current) or
+            p.cost(challenger)>p.cost(current)-1e-8):
+            break
+        current=challenger
+    return current
+
+
+def best_prize_exchange(p: Problem, route: list[int], deadline: float,
+                        max_moves: int = 6) -> list[int]:
+    """Maximum-prize 1-for-1 exchange with O(1) marginal edge costs.
+
+    The earlier swap_improve constructed and re-scored an entire trial tour
+    for each unvisited candidate, and inspected only the top 40 outsiders.
+    This method checks all outsiders with local edge deltas and rebuilds only
+    the single chosen improving tour. An unchanged incumbent remains valid.
+    """
+    current=route[:]
+    for move in range(max_moves):
+        if time.monotonic()>=deadline:
+            break
+        incumbent_prize=p.prize(current)
+        incumbent_time=p.cost(current)
+        available=[c for c in p.cities if c not in set(current)]
+        if not available:
+            break
+        chosen=None
+        best_key=None
+        for i in range(1,len(current)-1):
+            if time.monotonic()>=deadline:
+                break
+            removed=current[i]
+            shorter=current[:i]+current[i+1:]
+            a,b,d=current[i-1],removed,current[i+1]
+            shorter_time=incumbent_time-p.distance(a,b)-p.distance(b,d)+p.distance(a,d)
+            for city in available:
+                gain=p.prizes[city]-p.prizes[removed]
+                if gain<=0:
+                    continue
+                for k in range(1,len(shorter)):
+                    u,v=shorter[k-1],shorter[k]
+                    new_time=shorter_time+p.distance(u,city)+p.distance(city,v)-p.distance(u,v)
+                    if new_time>p.limit:
+                        continue
+                    key=(gain,-new_time,-city,-i,-k)
+                    if best_key is None or key>best_key:
+                        best_key=key
+                        chosen=(i,city,k)
+        if chosen is None:
+            break
+        i,city,k=chosen
+        shorter=current[:i]+current[i+1:]
+        challenger=shorter[:k]+[city]+shorter[k:]
+        if (p.cost(challenger)>p.limit or
+            p.prize(challenger)<=incumbent_prize):
+            break
+        current=challenger
+    return current
+
+
 def greedy(p: Problem, mode: str, deadline: float) -> list[int]:
     starts = pair_seeds(p, mode, count=1)
     if not starts:
@@ -287,12 +388,22 @@ def beam_construct(p: Problem, deadline: float, width: int = 96) -> list[int]:
     if not seeds:
         raise ValueError('No feasible tour with depot plus two distinct cities')
     best = seeds[0]
-    if len(p.cities) > 60:
-        return best
-    nodes = [x for x in p.cities if x != p.depot]
+    # The older code returned a two-city seed above 60 cities. A bounded
+    # sparse beam now explores those larger instances, without changing the
+    # existing greedy/LNS incumbent or claiming exhaustive optimization.
+    large = len(p.cities) > 60
+    if large:
+        width=min(width,32)
+        # Prize per optimistic depot-distance ranks promising cities;
+        # unlisted cities remain available to greedy insertion/LNS.
+        nodes=sorted((x for x in p.cities if x!=p.depot),
+                     key=lambda x:(-p.prizes[x]/max(1,p.distance(p.depot,x)),
+                                   -p.prizes[x],x))[:180]
+    else:
+        nodes=[x for x in p.cities if x!=p.depot]
     best_prize = p.prize(best)
     current = [(0, p.depot, (p.depot,), 0)]  # (cost so far, last, path, prize)
-    max_depth = min(len(nodes), 35)
+    max_depth = min(len(nodes), 23 if large else 35)
     for depth in range(1, max_depth + 1):
         if time.monotonic() >= deadline: break
         expanded = []
@@ -468,7 +579,18 @@ def run_method(instance: dict, method: str, time_limit_s: float = 60) -> tuple[d
         if not proof and 6<len(p.cities)<=60 and time.monotonic()<deadline:
             try:candidates.append(beam_construct(p,min(deadline,start+max(0.14,budget*0.47))))
             except ValueError:pass
-        if not proof and 14<len(p.cities)<=80 and time.monotonic()<deadline:
+        if not proof and len(p.cities)>60 and time.monotonic()<deadline:
+            try:
+                beam_deadline=min(deadline,start+max(0.25,budget*0.61))
+                proposal=beam_construct(p,beam_deadline,width=32)
+                # Complete the partially selected subset using bounded prize
+                # insertion, not just its best seed/beam prefix.
+                if time.monotonic()<beam_deadline:
+                    proposal=extend(p,proposal,'greedy_ratio',beam_deadline,random.Random(7819))
+                candidates.append(proposal)
+            except ValueError:
+                pass
+        if not proof and 14<len(p.cities)<=55 and time.monotonic()<deadline:
             try:
                 incumbent=min(candidates,key=lambda r:(-p.prize(r),p.cost(r)))
                 cp_route,cp_proof=cp_sat_circuit(
@@ -477,6 +599,19 @@ def run_method(instance: dict, method: str, time_limit_s: float = 60) -> tuple[d
                 proof=cp_proof
             except (ImportError,ValueError):pass  # optional OR-Tools
         route=min(candidates,key=lambda r:(-p.prize(r),p.cost(r)))
+        # Reversible optimization of tour order before the expensive
+        # destroy-and-repair search. Or-opt preserves prize; a full-key
+        # exchange can then replace a low-reward city within the same budget.
+        if not proof and time.monotonic()<deadline-0.5:
+            local_end=min(deadline,time.monotonic()+max(0.20,min(1.30,budget*0.055)))
+            proposal=relocate_short_blocks(p,route,local_end)
+            if time.monotonic()<local_end:
+                proposal=extend(p,proposal,'greedy_ratio',local_end,random.Random(31415))
+            if time.monotonic()<local_end:
+                proposal=best_prize_exchange(p,proposal,local_end)
+            if better(p,proposal,route):
+                route=proposal
+                candidates.append(proposal)
         if not proof and time.monotonic()<deadline:
             route=local_neighborhood(p,route,deadline)
             # Local improvement is compared with all independent candidates.
