@@ -12,7 +12,8 @@ records=[]
 for groups,side,seed,budget,modes in (
        (60,20,7,25,("plain","opt_in")),
        (60,20,31,25,("opt_in","plain")),
-       (120,25,17,30,("opt_in",))):
+       (60,20,43,25,("opt_in","plain")),
+       (60,20,59,25,("plain","opt_in"))):
     data=gen.cycle_case(groups=groups,q=side,seed=seed)
     p=crew.parse(data)
     batch=[]
@@ -37,7 +38,7 @@ for groups,side,seed,budget,modes in (
     entry={"rows":groups*4,"side":side,"seed":seed,
            "budget_s":budget,"attempts":batch}
     records.append(entry)
-    print("END_TO_END_DISPATCH="+json.dumps(entry),flush=True)
-path=R/"artifacts"/"crew-sentinel-dispatch-e2e.json"
+    print("RESERVE_DISPATCH="+json.dumps(entry),flush=True)
+path=R/"artifacts"/"crew-fallback-reserve-e2e.json"
 path.parent.mkdir(parents=True,exist_ok=True)
 path.write_text(json.dumps({"official_score":None,"tests":records},indent=2)+"\n")
