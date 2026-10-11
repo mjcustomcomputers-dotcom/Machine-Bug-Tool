@@ -823,7 +823,7 @@ def compact_side_atoms(p, reduction, exclude=()):
     forced,uncovered,active=reduction
     excluded=set(exclude)
     records=[]
-    if len(active)*len(d)>3_000_000 or len(d)<4:
+    if len(active)*len(d)>3_000_000 or len(d)<2:
         for k in range(len(d)):
             if k in excluded:continue
             offset=math.fsum(d[k][j] for j in forced)
