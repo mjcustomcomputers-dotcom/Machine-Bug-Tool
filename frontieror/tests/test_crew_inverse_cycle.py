@@ -133,6 +133,45 @@ class CycleFactorFaults(unittest.TestCase):
         self.assertEqual(crew.exact_cycle_cover(
             p,time.monotonic()+3,red),(None,False))
 
+    def test_six_vertex_even_cycle_two_choices(self):
+        cols=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]]
+        weights=[3.,7.,1.,4.,-2.,8.]
+        potentials=[-5,2,6,-1,4,3]
+        d=[float(potentials[a]+potentials[b]) for a,b in cols]
+        total=float(sum(potentials))
+        data={"dimensions":{"num_rows":6,"num_cols":len(cols)},
+          "cost_vector":weights,
+          "constraint_matrix_A":{"columns":cols},
+          "has_base_constraints":True,
+          "base_constraints":{"D_matrix":{"rows":[d]},
+            "lower_bounds_d1":[total],"upper_bounds_d2":[total]}}
+        p=crew.parse(data)
+        red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+        got,certificate=crew.exact_cycle_cover(p,time.monotonic()+3,red)
+        self.assertTrue(certificate)
+        self.assertTrue(crew.verify(p,got))
+        self.assertAlmostEqual(crew.objective(p,got),brute(p))
+
+    def test_batched_large_q_near_integer_and_bounds_falsifiers(self):
+        data=graph_case(blocks=30,q=65,seed=41)
+        p=crew.parse(data)
+        red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+        got,certificate=crew.exact_cycle_cover(p,time.monotonic()+3,red)
+        self.assertTrue(certificate)
+        self.assertTrue(crew.verify(p,got))
+        data["base_constraints"]["D_matrix"]["rows"][0][0]+=1e-8
+        q=crew.parse(data)
+        red=crew.reduce_forced_rotations(q,crew.dominated_rotations(q))
+        self.assertEqual(crew.exact_cycle_cover(
+            q,time.monotonic()+3,red),(None,False))
+        data["base_constraints"]["D_matrix"]["rows"][0][0]-=1e-8
+        data["base_constraints"]["lower_bounds_d1"][0]+=1.
+        data["base_constraints"]["upper_bounds_d2"][0]+=1.
+        q=crew.parse(data)
+        red=crew.reduce_forced_rotations(q,crew.dominated_rotations(q))
+        self.assertEqual(crew.exact_cycle_cover(
+            q,time.monotonic()+3,red),(None,False))
+
     def test_permutation_sign_inversion_120_models(self):
         for seed in range(120):
             with self.subTest(seed=seed):
