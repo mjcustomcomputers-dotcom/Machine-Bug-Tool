@@ -1,0 +1,33 @@
+name: FrontierOR Crew dual contender 2vCPU 4GiB sandbox gate
+on:
+  push:
+    branches: [frontieror-crew-dual-resource-gate-20261010]
+    paths:
+      - '.github/workflows/frontieror-crew-dual-resource.yml'
+      - 'frontieror/hardening/Dockerfile.dual-research'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/test_crew_dual_portfolio.py'
+      - 'frontieror/tests/bench_crew_dual_portfolio.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  resource-gated:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build pinned research runtime
+        run: docker build -f frontieror/hardening/Dockerfile.dual-research -t crew-dual-resource .
+      - name: Falsify in contest-like 2 CPU, 4 GiB, no-network runtime
+        run: |
+          docker run --rm --cpus=2 --memory=4g --memory-swap=4g --pids-limit=128 --network=none -v "$PWD":/src crew-dual-resource             python -m unittest discover -s frontieror/tests -p test_crew_dual_portfolio.py -v
+      - name: Compare original controller and dual method within resource cap
+        run: |
+          docker run --rm --cpus=2 --memory=4g --memory-swap=4g --pids-limit=128 --network=none -v "$PWD":/src crew-dual-resource             python -u frontieror/tests/bench_crew_dual_portfolio.py
+      - name: Retain 2vCPU research receipts only
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-dual-resource-gate
+          path: frontieror/artifacts/crew-dual-proof-exit-ab.json
+          retention-days: 14
