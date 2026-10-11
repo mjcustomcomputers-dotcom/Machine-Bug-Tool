@@ -83,9 +83,9 @@ class CrewExactComponents(unittest.TestCase):
         if proven:self.assertAlmostEqual(crew.objective(p,answer),brute)
 
     def test_original_solve_dispatches_component_optimality_without_mip(self):
-        p=pair_groups(120,60)
+        p=pair_groups(200,60)
         result=crew.solve(p,10)
-        self.assertEqual(result["objective_value"],359.)
+        self.assertEqual(result["objective_value"],599.)
         self.assertTrue(crew.verify(crew.parse(p),result["selected_rotations"]))
 
 if __name__=="__main__":
