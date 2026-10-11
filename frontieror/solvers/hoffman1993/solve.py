@@ -683,46 +683,44 @@ def exact_cycle_cover(p, deadline, reduction=None):
     def alternative(r,j):
         a,b=incident[r]
         return b if a==j else a
-    def matching(root,first,component):
-        assigned=set()
-        chosen=[]
-        r=root
-        j=first
-        while r not in assigned:
-            nxt=other_end(j,r)
-            if nxt in assigned or j in chosen:
-                return None
-            assigned.add(r)
-            assigned.add(nxt)
-            chosen.append(j)
-            blocked=alternative(nxt,j)
-            r=other_end(blocked,nxt)
-            if r==root:break
-            if r in assigned:return None
-            j=alternative(r,blocked)
-        if assigned!=component:return None
-        return chosen
-    # Each connected cycle is traversed exactly once to recover its rows.
+    # A degree-two graph is entirely a union of cycles. One alternating
+    # walk reconstructs BOTH perfect matching alternatives simultaneously:
+    # accepted edge A, rejected neighbor edge B, advance, repeat.
+    # A second BFS and two trial matching traversals are unnecessary.
     pending=set(uncovered)
     components=[]
     while pending:
         if time.monotonic() >= deadline-0.03:return None,False
         root=next(iter(pending))
-        todo=[root];members=set()
-        while todo:
-            r=todo.pop()
-            if r in members:continue
-            members.add(r)
-            for j in incident[r]:
-                rr=other_end(j,r)
-                if rr not in members:todo.append(rr)
-        pending.difference_update(members)
-        first,second=incident[root]
-        a=matching(root,first,members)
-        b=matching(root,second,members)
-        if a is None or b is None:return None,False
+        chosen=incident[root][0]
+        current=root
+        visited=set()
+        a=[];b=[]
+        while True:
+            other=other_end(chosen,current)
+            if current in visited or other in visited or current==other:
+                return None,False
+            visited.add(current);visited.add(other)
+            a.append(chosen)
+            forbidden=alternative(other,chosen)
+            b.append(forbidden)
+            current=other_end(forbidden,other)
+            if current==root:
+                break
+            if current in visited:
+                return None,False
+            chosen=alternative(current,forbidden)
+        pending.difference_update(visited)
         components.append((a,b))
     if not components:return None,False
+    # Cheap inverted falsifier: a disagreement in even ONE candidate cycle's
+    # side activity means a global side effect is choice-dependent. Skip the
+    # large q-by-n array and return the original problem to the MILP.
+    if d:
+        row=d[0]
+        for a,b in components[:min(len(components),4)]:
+            if math.fsum(row[j] for j in a)!=math.fsum(row[j] for j in b):
+                return None,False
     # Inverse conservation oracle: reduce an entire component's two
     # alternating choices in a single batched matrix operation, independent
     # of graph traversal. Keep the small-q Python path for tiny microcases
@@ -747,12 +745,11 @@ def exact_cycle_cover(p, deadline, reduction=None):
                     position+=len(a)
                 # A and B have the same cardinality per component. Every
                 # original pair column occurs in exactly one alternative.
-                if position!=len(active)-len(empties) or position!=len(first) or (
-                        position!=len(second)):
-                    # There are two half-cycle choices, so their combined
-                    # sizes, not one side alone, must equal active nonempty.
-                    if 2*position!=len(active)-len(empties):
-                        return None,False
+                # Each pair edge belongs to exactly one of the two
+                # alternating matchings within its degree-two cycle.
+                if (2*position!=len(active)-len(empties) or
+                        position!=len(first) or position!=len(second)):
+                    return None,False
                 # np.rint+int64 is exact for our bounded integral inputs;
                 # 12k rows * 2**27 stays strictly inside signed int64.
                 left=np.add.reduceat(
