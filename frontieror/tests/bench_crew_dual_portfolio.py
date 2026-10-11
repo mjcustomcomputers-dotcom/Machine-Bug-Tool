@@ -28,9 +28,11 @@ for seed,modes in ((7,("plain","dual")),(31,("dual","plain")),(43,("dual",)),(59
       "objective":crew.objective(p,selected) if good else None,
       "dual":receipt.get("dual_portfolio"),
       "winner":receipt.get("dual_winner"),
+      "certified":receipt.get("dual_certified",False),
+      "early_exit":receipt.get("dual_early_proof_exit",False),
       "events":receipt.get("dual_events",[])})
  item={"rows":240,"side":20,"seed":seed,"budget":25,"methods":rows}
- print("DUAL_PORTFOLIO_AB="+json.dumps(item),flush=True);out.append(item)
-dest=R/"artifacts"/"crew-dual-portfolio-ab.json"
+ print("DUAL_PROOF_EXIT_AB="+json.dumps(item),flush=True);out.append(item)
+dest=R/"artifacts"/"crew-dual-proof-exit-ab.json"
 dest.parent.mkdir(parents=True,exist_ok=True)
 dest.write_text(json.dumps({"official_score":None,"results":out},indent=2)+"\n")
