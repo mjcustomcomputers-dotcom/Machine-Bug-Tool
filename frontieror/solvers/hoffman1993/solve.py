@@ -905,7 +905,9 @@ def filter_reconstructed_lp_echo(pulses, variables, side_rows):
 
 
 
-def unsat_core_cycle_pulse(model, x, deadline, cp_model, telemetry=None):
+def unsat_core_cycle_pulse(model, x, deadline, cp_model, telemetry=None,
+                           *, max_probes=14, time_fraction=0.55,
+                           probe_seconds=1.6, stop_core_fraction=1.01):
     """Selective binary-assumption release from CP unsatisfiable cores.
 
     LP bits are suggested hypotheses, NOT forced original facts. A reduced
@@ -925,8 +927,12 @@ def unsat_core_cycle_pulse(model, x, deadline, cp_model, telemetry=None):
     fixed=set(initial[free_count:])
     receipts=[]
     probes=0
-    limit=min(deadline-0.16,time.monotonic()+min(12.,max(0.,0.55*(deadline-time.monotonic()))))
-    while fixed and probes<14 and time.monotonic()<limit-0.12:
+    # A low-cost sentinel may classify repeated LP-fixing conflicts without
+    # consuming the reserve allocated to unfixed original-model search.
+    # Legacy callers retain the previous budgets and behavior.
+    limit=min(deadline-0.16,time.monotonic()+min(
+        12.,max(0.,time_fraction*(deadline-time.monotonic()))))
+    while fixed and probes<max_probes and time.monotonic()<limit-0.12:
         probes+=1
         try:
             sub=model.clone()
@@ -941,7 +947,7 @@ def unsat_core_cycle_pulse(model, x, deadline, cp_model, telemetry=None):
             solver.parameters.random_seed=24617
             solver.parameters.stop_after_first_solution=True
             solver.parameters.max_time_in_seconds=min(
-                1.6,max(0.03,limit-time.monotonic()-0.08))
+                probe_seconds,max(0.03,limit-time.monotonic()-0.08))
             started=time.monotonic()
             status=solver.solve(sub)
             record={"probe":probes,"fixed":len(fixed),
@@ -960,6 +966,13 @@ def unsat_core_cycle_pulse(model, x, deadline, cp_model, telemetry=None):
             core=[mapping[k] for k in solver.sufficient_assumptions_for_infeasibility()
                   if k in mapping]
             record["core_size"]=len(core)
+            record["core_fraction"]=round(len(core)/max(1,len(fixed)),5)
+            if core and record["core_fraction"]>=stop_core_fraction:
+                # Broad conflicting cores carry little actionable guidance.
+                # Halt this cheap observation instead of sacrificing CP time.
+                record["reason"]="BROAD_CORE_RETURN_TO_PLAIN"
+                receipts.append(record)
+                break
             if core:
                 # Reverse the failed hypothesis: loosen the most uncertain
                 # quarter of its source-bound core, not every guessed bit.
@@ -1236,18 +1249,24 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                     if telemetry is not None:
                         telemetry["lp_hint_variables"]=len(pulses[0])
             if lp_core and 20<=vars_count<=240 and 8<=len(d)<=100:
+                sentinel=(lp_core=="sentinel")
                 diagnostics=telemetry if telemetry is not None else {}
+                if telemetry is not None:
+                    telemetry["core_route"]="SENTINEL" if sentinel else "LEGACY"
                 if not diagnostics.get("lp_continuous_vectors"):
                     reconstruct_cycle_lp_pulses(
                         matrix,np.asarray(lhs),np.asarray(rhs),
                         np.asarray(objective,dtype=float),
                         deadline,telemetry=diagnostics)
                 vectors=diagnostics.get("lp_continuous_vectors",[])
-                for pulse in vectors[:2]:
+                for pulse in vectors[:1 if sentinel else 2]:
                     if time.monotonic()>deadline-0.22:break
                     binary=unsat_core_cycle_pulse(
                         model,pulse["x"],deadline,cp_model,
-                        telemetry=diagnostics)
+                        telemetry=diagnostics,
+                        **({"max_probes":2,"time_fraction":0.08,
+                            "probe_seconds":0.22,"stop_core_fraction":0.45}
+                           if sentinel else {}))
                     if binary is None:continue
                     candidate=list(forced)
                     for z,(aa,bb) in enumerate(cycles):
