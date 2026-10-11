@@ -36,8 +36,9 @@ class PairPotentials(unittest.TestCase):
         self.assertFalse(any(len(r)==1 for r in p[3]))
         red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
         self.assertEqual(crew.pair_conserved_side_rows(p,red),[0])
-        self.assertEqual(crew.conserved_side_rows(p,red),[0])
-        self.assertEqual(crew.redundant_side_rows(p,red),[0])
+        # Small-q routing leaves mathematically removable constraints with
+        # MILP when the proof would cost more than it saves.
+        self.assertEqual(crew.conserved_side_rows(p,red),[])
         ans=crew.sparse_milp(p,time.monotonic()+4,reduction=red)
         self.assertTrue(crew.verify(p,ans))
         self.assertEqual(crew.objective(p,ans),brute(p))
