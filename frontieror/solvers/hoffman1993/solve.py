@@ -322,19 +322,32 @@ def cp_sat_side(p,deadline,incumbent=None,feasibility_only=True):
         model.add_exactly_one(vars[j] for j in row)
         if k%1000==0 and time.monotonic()>deadline-0.8:return None
     for k,base in enumerate(d):
-        max_digits=0
-        for x in [lo[k],hi[k],*base]:
-            v=Decimal(str(x))
-            if not v.is_finite():return None
-            if v!=0:max_digits=max(max_digits,max(0,-v.as_tuple().exponent))
-        scale=10**min(6,max_digits)
-        coef=[int(round(v*scale)) for v in base]
-        if max((abs(x) for x in coef),default=0)*max(1,n)>10**16:return None
-        lower=int((Decimal(str(lo[k]))*scale-1).to_integral_value(rounding=ROUND_FLOOR))
-        upper=int((Decimal(str(hi[k]))*scale+1).to_integral_value(rounding=ROUND_CEILING))
-        nz=[coef[j]*vars[j] for j in range(n) if coef[j]]
-        model.add(sum(nz)>=lower)
-        model.add(sum(nz)<=upper)
+        # Preserve every original feasible schedule under finite decimal
+        # quantization. Nearest rounding with a fixed +/-1 scaled allowance
+        # can eliminate real solutions after many small errors accumulate.
+        values=[Decimal(str(v)) for v in base]
+        lower_d=Decimal(str(lo[k]))
+        upper_d=Decimal(str(hi[k]))
+        if any(not v.is_finite() for v in [lower_d,upper_d,*values]):
+            return None
+        digits=max((max(0,-v.as_tuple().exponent)
+                    for v in [lower_d,upper_d,*values] if v),default=0)
+        scale=10**min(8,digits)
+        lower_coef=[int((v*scale).to_integral_value(rounding=ROUND_CEILING))
+                    for v in values]
+        upper_coef=[int((v*scale).to_integral_value(rounding=ROUND_FLOOR))
+                    for v in values]
+        tol_lo=Decimal("0.000001")*max(Decimal(1),abs(lower_d))
+        tol_hi=Decimal("0.000001")*max(Decimal(1),abs(upper_d))
+        lower=int(((lower_d-tol_lo)*scale).to_integral_value(
+            rounding=ROUND_FLOOR))
+        upper=int(((upper_d+tol_hi)*scale).to_integral_value(
+            rounding=ROUND_CEILING))
+        if (max([abs(lower),abs(upper),*map(abs,lower_coef),
+                 *map(abs,upper_coef)],default=0)*max(1,n)>10**15):
+            return None
+        model.add(sum(c*vars[j] for j,c in enumerate(lower_coef) if c)>=lower)
+        model.add(sum(c*vars[j] for j,c in enumerate(upper_coef) if c)<=upper)
         if time.monotonic()>deadline-0.7:return None
     if incumbent is not None:
         chosen=set(incumbent)
