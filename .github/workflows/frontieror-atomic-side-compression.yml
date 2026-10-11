@@ -1,0 +1,60 @@
+name: FrontierOR Crew atomic compaction and adversarial fault matrix
+on:
+  push:
+    branches: [frontieror-mpc-atomic-side-compression-20261010]
+    paths:
+      - '.github/workflows/frontieror-atomic-side-compression.yml'
+      - 'frontieror/solvers/**'
+      - 'frontieror/tests/**'
+      - 'frontieror/build_submission.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  objective-first:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Match organizer Python solver versions
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1' 'ortools==9.15.6755' 'highspy==1.15.1' 'networkx==3.7'
+      - name: Exhaustive Crew fault-line property and metamorphic tests
+        run: python -m unittest discover -s frontieror/tests -p test_crew_atomic_compression.py -v
+      - name: Run all six original problem regression suites
+        run: python -m unittest discover -s frontieror/tests -v
+      - name: Run all six original objective comparisons
+        run: python frontieror/benchmark.py
+      - name: Measure atom compression A/B objective, time and unique-row overhead
+        run: python frontieror/tests/bench_crew_atomic_compression.py
+      - name: Verify 2-vCPU 4-GB offline Docker resource envelope
+        run: |
+          docker build -f frontieror/hardening/Dockerfile --build-arg PY_VERSION=3.12 -t frontieror-atomic:3.12 .
+          python frontieror/hardening/sandbox_probe.py --image frontieror-atomic:3.12 --seconds 22 --out frontieror/artifacts/atomic-resource-probe.json
+      - name: Build twelve-file six-problem submission ZIP with hash readback
+        run: python frontieror/build_submission.py
+      - name: Publish isolated archive after all gates pass
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp frontieror/artifacts/FrontierOR-Main.zip frontieror/downloads/FrontierOR-Main.zip
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f frontieror/downloads/FrontierOR-Main.zip
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish verified Crew atom-compaction candidate"
+            git push origin HEAD:refs/heads/frontieror-mpc-atomic-side-compression-20261010
+          fi
+      - name: Retain objective and fault-line data
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontieror-crew-atom-compression
+          path: |
+            frontieror/artifacts/FrontierOR-Main.zip
+            frontieror/artifacts/manifest.json
+            frontieror/artifacts/benchmark.json
+            frontieror/artifacts/atomic-compression-abba.json
+            frontieror/artifacts/atomic-resource-probe.json
+          retention-days: 14
