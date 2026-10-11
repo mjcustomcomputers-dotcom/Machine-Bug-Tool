@@ -393,19 +393,32 @@ def cp_sat_side(p,deadline,incumbent=None,feasibility_only=True):
         model.add_exactly_one(vars[j] for j in row)
         if k%1000==0 and time.monotonic()>deadline-0.8:return None
     for k,base in enumerate(d):
-        max_digits=0
-        for x in [lo[k],hi[k],*base]:
-            v=Decimal(str(x))
-            if not v.is_finite():return None
-            if v!=0:max_digits=max(max_digits,max(0,-v.as_tuple().exponent))
-        scale=10**min(6,max_digits)
-        coef=[int(round(v*scale)) for v in base]
-        if max((abs(x) for x in coef),default=0)*max(1,n)>10**16:return None
-        lower=int((Decimal(str(lo[k]))*scale-1).to_integral_value(rounding=ROUND_FLOOR))
-        upper=int((Decimal(str(hi[k]))*scale+1).to_integral_value(rounding=ROUND_CEILING))
-        nz=[coef[j]*vars[j] for j in range(n) if coef[j]]
-        model.add(sum(nz)>=lower)
-        model.add(sum(nz)<=upper)
+        # Preserve every original feasible schedule under finite decimal
+        # quantization. Nearest rounding with a fixed +/-1 scaled allowance
+        # can eliminate real solutions after many small errors accumulate.
+        values=[Decimal(str(v)) for v in base]
+        lower_d=Decimal(str(lo[k]))
+        upper_d=Decimal(str(hi[k]))
+        if any(not v.is_finite() for v in [lower_d,upper_d,*values]):
+            return None
+        digits=max((max(0,-v.as_tuple().exponent)
+                    for v in [lower_d,upper_d,*values] if v),default=0)
+        scale=10**min(8,digits)
+        lower_coef=[int((v*scale).to_integral_value(rounding=ROUND_CEILING))
+                    for v in values]
+        upper_coef=[int((v*scale).to_integral_value(rounding=ROUND_FLOOR))
+                    for v in values]
+        tol_lo=Decimal("0.000001")*max(Decimal(1),abs(lower_d))
+        tol_hi=Decimal("0.000001")*max(Decimal(1),abs(upper_d))
+        lower=int(((lower_d-tol_lo)*scale).to_integral_value(
+            rounding=ROUND_FLOOR))
+        upper=int(((upper_d+tol_hi)*scale).to_integral_value(
+            rounding=ROUND_CEILING))
+        if (max([abs(lower),abs(upper),*map(abs,lower_coef),
+                 *map(abs,upper_coef)],default=0)*max(1,n)>10**15):
+            return None
+        model.add(sum(c*vars[j] for j,c in enumerate(lower_coef) if c)>=lower)
+        model.add(sum(c*vars[j] for j,c in enumerate(upper_coef) if c)<=upper)
         if time.monotonic()>deadline-0.7:return None
     if incumbent is not None:
         chosen=set(incumbent)
@@ -651,6 +664,10 @@ def redundant_side_rows(p, reduction):
     for k,base in enumerate(d):
         if not (math.isfinite(lo[k]) and math.isfinite(hi[k])):
             continue
+        if all(base[j]==0. for j in forced+active):
+            if lo[k]<=0.<=hi[k]:
+                redundant.append(k)
+            continue
         minimum=[math.inf]*len(uncovered)
         maximum=[-math.inf]*len(uncovered)
         empty_min=empty_max=0.
@@ -880,9 +897,10 @@ def _highs_stream_incumbents(p, deadline, reduction, sender, incumbent=None,
                     best_cost=candidate_cost
                     # Keep callback lightweight; the parent independently
                     # checks all constraints and compares objective once more.
-                    if submitted<12 and (time.monotonic()-last_emit>0.04):
+                    now=time.monotonic()
+                    if submitted==0 or now-last_emit>=0.40:
                         sender.send(('improving',original))
-                        last_emit=time.monotonic()
+                        last_emit=now
                         submitted+=1
                     if decision:
                         data_in.user_interrupt=True
@@ -989,17 +1007,27 @@ def _objective_neighborhood(p, incumbent, deadline):
         # Empty selected columns, if required by base lower bounds, remain
         # fixed and retain all original IDs. No outside row may change.
         fixed=[j for j in best if j not in freed]
-        candidates=set()
-        for row in rows:
-            for j in incidence[row]:
-                if len(candidates)>=7000:
-                    break
-                if columns[j] and all(r in rows for r in columns[j]):
-                    candidates.add(j)
-            if len(candidates)>=7000:
+        # The former 7,000-column cap discarded the ENTIRE neighborhood
+        # once it filled. A high-degree row could therefore suppress all
+        # objective improvements even though a tiny affordable core existed.
+        # Keep a bounded, cost-ranked reversible proposal set, including
+        # every freed incumbent column to guarantee the old witness remains
+        # feasible inside the restricted MILP.
+        from heapq import nsmallest
+        candidates=set(freeing)
+        for row in sorted(rows,key=lambda r:(len(incidence[r]),r)):
+            if time.monotonic()>=deadline-0.65:
+                break
+            ranked=nsmallest(6,
+                (j for j in incidence[row] if columns[j] and
+                 all(k in rows for k in columns[j])),
+                key=lambda j:(costs[j]/max(1,len(columns[j])),
+                              costs[j],j))
+            candidates.update(ranked)
+            if len(candidates)>=1800:
                 break
         candidates=sorted(candidates)
-        if len(candidates)<len(freeing) or not candidates or len(candidates)>=7000:
+        if len(candidates)<len(freeing) or not candidates:
             continue
         row_list=sorted(rows)
         row_index={r:i for i,r in enumerate(row_list)}
