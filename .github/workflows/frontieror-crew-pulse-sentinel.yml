@@ -1,0 +1,33 @@
+name: FrontierOR Crew bounded observation sentinel
+on:
+  push:
+    branches: [frontieror-crew-pulse-sentinel-20261010]
+    paths:
+      - '.github/workflows/frontieror-crew-pulse-sentinel.yml'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/test_crew_pulse_sentinel.py'
+      - 'frontieror/tests/bench_crew_pulse_sentinel.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bounded-observer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned packages
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1' 'ortools==9.15.6755'
+      - name: Falsify sentinel assumptions and verify original covers
+        run: python -m unittest discover -s frontieror/tests -p test_crew_pulse_sentinel.py -v
+      - name: Equal-budget synthetic Crew A/B
+        run: python -u frontieror/tests/bench_crew_pulse_sentinel.py
+      - name: Preserve diagnostic comparison only
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-pulse-sentinel-diagnostics
+          path: frontieror/artifacts/crew-pulse-sentinel-ab.json
+          retention-days: 14
