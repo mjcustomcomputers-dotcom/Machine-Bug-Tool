@@ -707,11 +707,21 @@ def parity_rank_density_profile(matrix, lower, upper, source_tolerance):
     rank=len(atoms)
     fraction=rank/max(1,n)
     density=float((matrix!=0).sum())/max(1,n*q)
+    # Cheap structure-derived sonar echo: standardized activity distance
+    # from an unbiased binary assignment. A heuristic predictor of search
+    # difficulty, NEVER a side-row reduction or feasibility certificate.
+    import numpy as np
+    target=(np.asarray(lower,dtype=float)+np.asarray(upper,dtype=float))*0.5
+    expected=0.5*np.asarray(matrix,dtype=float).sum(axis=1)
+    width=np.sqrt(np.square(np.asarray(matrix,dtype=float)).sum(axis=1))*0.5
+    standardized=np.abs(target-expected)/np.maximum(width,1.)
+    pressure=float(np.mean(standardized)) if np.isfinite(standardized).all() else math.inf
     # Routing hypothesis to test on independent seeds, not a proof of speed.
     choose=(n>=12 and q>=8 and rank>=8 and fraction>=0.14 and
             density>=0.65)
     return {"n":n,"q":q,"rank":rank,"rank_fraction":fraction,
-            "density":density,"use_parity":choose,"atoms":atoms}
+            "density":density,"pressure":pressure,
+            "use_parity":choose,"atoms":atoms}
 
 
 
@@ -750,6 +760,30 @@ def sonar_feedback_cycle_rescue(p, deadline, reduction=None,
         return None
     remaining=deadline-time.monotonic()
     if remaining<1.5:return None
+    # First use cheap symbolic feedback, avoiding two costly search restarts
+    # when the structural response is strongly differentiated.
+    structural={"structural_only":True}
+    coupled_cycle_choice_milp(
+        p,min(deadline-0.9,time.monotonic()+0.6),
+        reduction=reduction,telemetry=structural)
+    rank=int(structural.get("rank",0))
+    fraction=float(structural.get("rank_fraction",0.))
+    pressure=float(structural.get("pressure",math.inf))
+    informative=rank>=8 and fraction>=0.14
+    confident=None
+    if informative and pressure<=0.75:
+        confident=True
+    elif not informative or pressure>=0.86:
+        confident=False
+    if confident is not None:
+        if receipt is not None:
+            receipt.update({"state":"SYMBOLIC_ECHO_ROUTE",
+                            "winner":"xor" if confident else "plain",
+                            "pressure":pressure,"rank":rank,
+                            "structural":structural})
+        return coupled_cycle_choice_milp(
+            p,deadline,reduction=reduction,
+            prefer_cp_feasibility=True,cp_parity=confident)
     pulse=max(0.19,min(0.46,remaining*max(0.01,min(0.10,pulse_fraction))))
     echoes={}
     for name,flag in (("plain",False),("xor",True)):
@@ -896,6 +930,20 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                                      np.asarray(lhs),np.asarray(rhs))
     else:
         constraints=None
+    # Let a model-building method act as a zero-CP-time classifier.
+    # Its symbolic pulse reports rank, density and equation pressure.
+    # The actual CP solver is started only if a route remains ambiguous.
+    if telemetry is not None and telemetry.get("structural_only"):
+        if not d:return (None,False) if return_certificate else None
+        margins=[1.e-6*max(1.,abs(lo[k]),abs(hi[k]))
+                 for k in range(len(d))]
+        prof=parity_rank_density_profile(
+            matrix,np.asarray(lhs),np.asarray(rhs),margins)
+        telemetry.update({key:prof[key] for key in
+                          ("rank","rank_fraction","density","pressure",
+                           "use_parity")})
+        telemetry["status"]="STRUCTURAL_CLASSIFIER_ONLY"
+        return (None,False) if return_certificate else None
     # Reverse the coupled constraints to reconstruct a feasible 0/1
     # assignment before a branch-and-bound search. The dense least-squares
     # solve is only attempted on small overdetermined equality systems.
