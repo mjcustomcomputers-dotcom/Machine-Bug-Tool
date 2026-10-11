@@ -376,54 +376,99 @@ def extensive_milp(p,deadline):
     return (opened,ship) if check(p,opened,ship) else None
 
 
+def drop_exact_idle(p, opened, ship):
+    """V5 exact contraction: close positive-cost never-used facilities.
+
+    Preserve every shipment and all first-stage capacities. This cannot
+    worsen a feasible minimization objective and is independent of SciPy.
+    """
+    if ship is None:
+        return opened, ship
+    f,c,s,cap,fixed,costs,demand,prob=p
+    active=set(opened)
+    used=[False]*f
+    for scenario in ship:
+        for i in active:
+            if not used[i] and any(v>1e-11 for v in scenario[i]):
+                used[i]=True
+    reduced={i for i in active if used[i] or fixed[i]<=0}
+    if len(reduced)<len(active) and check(p,reduced,ship):
+        return reduced,ship
+    return opened,ship
+
+
 def solve(instance,time_limit_s):
+    started=time.monotonic()
     p=parse(instance)
-    deadline=time.monotonic()+max(.1,float(time_limit_s)-2.8)
-    opened=set(range(p[0]))
-    # Guarantee feasibility first. All-open transport always exists if
-    # the published complete facility/customer network has sufficient capacity.
+    f,c,s=p[:3]
+    seconds=max(0.5,float(time_limit_s))
+    reserve=min(6.,max(1.5,seconds*.105))
+    deadline=started+max(0.1,seconds-reserve)
+    opened=set(range(f))
+    # Always construct an original-checker-valid incumbent before any native
+    # MILP, and keep this candidate through all subsequent improvements.
     ship=greedy_transport(p,opened)
     if ship is None:
-        raise RuntimeError("Published instance has no feasible all-open transport")
-    ship=improve_transport_exchanges(
-        p,opened,ship,min(deadline,time.monotonic()+0.8))
-    best_opened,best_ship=opened,ship
-    if time.monotonic()<deadline-.5:
-        challenger_open,challenger_ship=try_closures(
-            p,opened,ship,min(deadline,time.monotonic()+1.5))
-        if check(p,challenger_open,challenger_ship) and (
-                objective(p,challenger_open,challenger_ship)<objective(p,best_opened,best_ship)-1e-7):
-            best_opened,best_ship=challenger_open,challenger_ship
-    # Tighten expected shipping cost using each scenario's exact LP recourse.
-    if time.monotonic()<deadline-.6:
-        lp=lp_transport(p,best_opened,min(deadline,time.monotonic()+4.0))
-        if lp is not None and check(p,best_opened,lp) and (
-                objective(p,best_opened,lp)<objective(p,best_opened,best_ship)-1e-7):
-            best_ship=lp
-    # Spend a bounded slice improving actual first-stage decisions using
-    # exact LP recourse, rather than optimizing shipments only once.
-    if time.monotonic()<deadline-1.1:
-        candidate_open,candidate_ship=improve_openings_lp(
+        raise RuntimeError('No valid all-open scenario shipments')
+    best_opened,best_ship=drop_exact_idle(p,opened,ship)
+    best_value=objective(p,best_opened,best_ship)
+
+    def promote(challenger):
+        nonlocal best_opened,best_ship,best_value
+        if challenger is None:
+            return False
+        x,y=challenger
+        if not check(p,x,y):
+            return False
+        x,y=drop_exact_idle(p,x,y)
+        val=objective(p,x,y)
+        if val<best_value-1e-7:
+            best_opened,best_ship,best_value=x,y,val
+            return True
+        return False
+
+    # Restore the V5 proven objective-first ordering. SciPy HiGHS must get
+    # a dedicated early slice while its full extensive model is still small.
+    # Large scenario tensors bypass this expensive formulation completely.
+    total=f*c*s
+    if 0<total<=260000 and deadline-time.monotonic()>1.3:
+        early=min(deadline-0.7,time.monotonic()+5.0)
+        promote(extensive_milp(p,early))
+
+    # Game-Changer pure-Python residual moves are useful on modest tensors,
+    # but a full copy of a 43-million-entry shipment tensor repeats work and
+    # steals time from exact V5 idle-facility contraction.
+    if total<=800000 and deadline-time.monotonic()>0.7:
+        improvement=improve_transport_exchanges(
+            p,best_opened,best_ship,min(deadline,time.monotonic()+0.8))
+        promote((best_opened,improvement))
+
+    if total<=1000000 and deadline-time.monotonic()>0.8:
+        proposal=try_closures(
+            p,best_opened,best_ship,min(deadline,time.monotonic()+1.5))
+        promote(proposal)
+
+    # LP recourse operates at a fixed opening vector; bound total tensor
+    # materialization and retain incumbent if the large LP is unavailable.
+    if total<=1200000 and deadline-time.monotonic()>1.0:
+        candidate=lp_transport(p,best_opened,min(deadline,time.monotonic()+4.0))
+        if candidate is not None:
+            promote((best_opened,candidate))
+
+    if deadline-time.monotonic()>1.1:
+        x,y=improve_openings_lp(
             p,best_opened,best_ship,min(deadline,time.monotonic()+3.0))
-        if check(p,candidate_open,candidate_ship) and (
-                objective(p,candidate_open,candidate_ship)<objective(p,best_opened,best_ship)-1e-7):
-            best_opened,best_ship=candidate_open,candidate_ship
-    if time.monotonic()<deadline-.6:
-        challenger=extensive_milp(p,deadline)
-        if challenger is not None and check(p,*challenger):
-            if objective(p,*challenger)<objective(p,best_opened,best_ship)-1e-7:
-                best_opened,best_ship=challenger
+        promote((x,y))
+
     assert check(p,best_opened,best_ship)
     f,c,s=p[:3]
-    return {
-        "objective_value":objective(p,best_opened,best_ship),
-        "open_facilities":sorted(best_opened),
-        "x":{str(i):int(i in best_opened) for i in range(f)},
-        "y":{str(k):{str(i):{str(j):best_ship[k][i][j] for j in range(c)
-                                      if best_ship[k][i][j] != 0.0}
-                       for i in range(f) if any(v != 0.0 for v in best_ship[k][i])}
-             for k in range(s)}
-    }
+    return {'objective_value':objective(p,best_opened,best_ship),
+            'open_facilities':sorted(best_opened),
+            'x':{str(i):int(i in best_opened) for i in range(f)},
+            'y':{str(k):{str(i):{str(j):best_ship[k][i][j]
+                                      for j in range(c) if best_ship[k][i][j]!=0.0}
+                          for i in range(f) if any(v!=0.0 for v in best_ship[k][i])}
+                 for k in range(s)}}
 
 
 def main():
@@ -433,9 +478,11 @@ def main():
     ap.add_argument("--output",required=True)
     ap.add_argument("--time-limit",type=float,default=60)
     args=ap.parse_args()
+    command_started=time.monotonic()
     with open(args.instance,encoding="utf-8") as fd:
         data=json.load(fd)
-    result=solve(data,args.time_limit)
+    remaining=max(0.5,float(args.time_limit)-(time.monotonic()-command_started))
+    result=solve(data,remaining)
     from _runtime_core import write_solution
     write_solution(args.output, result)
 
