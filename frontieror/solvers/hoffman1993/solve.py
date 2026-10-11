@@ -2798,6 +2798,7 @@ def _bounded_dual_crew_portfolio(p, seconds, reduction=None, telemetry=None):
             children[recv]=(child,name)
         best=None
         winner=None
+        winner_certified=False
         while children and time.monotonic()<cutoff:
             live=list(children)
             for pipe in wait(live,timeout=min(0.06,max(0.,cutoff-time.monotonic()))):
@@ -2817,6 +2818,9 @@ def _bounded_dual_crew_portfolio(p, seconds, reduction=None, telemetry=None):
                              objective(p,answer)<objective(p,best)-1e-8):
                     best=answer
                     winner=name
+                    # Only the native sparse MILP proof attached to this
+                    # original-verified winner can justify early termination.
+                    winner_certified=(name=="mip" and kind=="proven")
                 if kind in ("end","proven"):
                     pipe.close();del children[pipe]
             # A valid first incumbent has priority over an unproven
@@ -2830,6 +2834,7 @@ def _bounded_dual_crew_portfolio(p, seconds, reduction=None, telemetry=None):
         if telemetry is not None:
             telemetry["dual_portfolio"]="VERIFIED" if best is not None else "NO_WITNESS"
             telemetry["dual_winner"]=winner
+            telemetry["dual_certified"]=bool(best is not None and winner_certified)
             telemetry["dual_seconds"]=round(time.monotonic()-started,5)
             telemetry["dual_events"]=observations
         return best
@@ -2943,8 +2948,17 @@ def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
         available=until-time.monotonic()
         share=min(11.5,0.55*available,available-8.0)
         if share>=2.0:
-            keep(_bounded_dual_crew_portfolio(
-                p,share,reduction=reduced,telemetry=obs))
+            option=_bounded_dual_crew_portfolio(
+                p,share,reduction=reduced,telemetry=obs)
+            keep(option)
+            if (obs.get("dual_certified") and verify(p,backup) and
+                    verify(p,option) and
+                    objective(p,backup)<=objective(p,option)+1e-8):
+                # The original MIP controller already respects the same
+                # certificate. Stop the whole solve() clock now instead of
+                # spending the remaining budget on redundant searches.
+                obs["dual_early_proof_exit"]=True
+                return _crew_result(p,backup)
     elif experimental_dual_portfolio and experimental_telemetry is not None:
         experimental_telemetry["dual_portfolio"]="STRUCTURAL_OR_BUDGET_VETO"
     # Opt-in flight-plan dispatch: the source-certified pair-cycle reducer
