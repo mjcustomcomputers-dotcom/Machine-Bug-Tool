@@ -716,6 +716,11 @@ def pair_conserved_side_rows(p, reduction):
                             safe &= (~anchored)|(gauge==value)
                             gauge=np.where(anchored,gauge,value)
                             anchored[:]=True
+                        # Counterexample-driven short circuit: all candidate
+                        # side rows have failed an exact graph equation. No
+                        # future graph edge can restore any certificate.
+                        if not safe.any():
+                            return []
             balance=sum(sign[v] for v in queue)
             if balance:
                 safe &= anchored
