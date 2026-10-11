@@ -639,6 +639,155 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
 
 
 
+
+def coupled_cycle_choice_milp(p, deadline, reduction=None,
+                             feasibility_only=False, return_certificate=False):
+    """Exact reduction: degree-two pair-cover cycles -> coupled binary choices.
+
+    The original exact-cover rows force exactly one of two alternating
+    matchings for every even cycle. Retain every global base-side row by
+    expressing its activity as side(A) + (side(B)-side(A))*y[c].
+    Optional zero-cover rotations are additional free binary variables with
+    their original objective and side effects. Forced rotations are offsets.
+    This is a complete equivalent integer model for the certified subclass.
+    Never interpret a timeout/absent witness as original infeasibility.
+    """
+    if time.monotonic()>=deadline-0.16:
+        return (None,False) if return_certificate else None
+    m,n,costs,columns,incidence,d,lo,hi=p
+    if reduction is None:
+        reduction=reduce_forced_rotations(p,dominated_rotations(p))
+    if reduction is None:
+        return (None,False) if return_certificate else None
+    forced,uncovered,active=reduction
+    if (len(uncovered)<4 or len(uncovered)>12000 or
+            len(active)>30000 or len(d)>400 or
+            len(d)*len(active)>2400000):
+        return (None,False) if return_certificate else None
+    rows=set(uncovered)
+    incident={r:[] for r in uncovered}
+    empties=[]
+    for j in active:
+        covered=columns[j]
+        if not covered:
+            empties.append(j)
+        elif (len(covered)!=2 or covered[0]==covered[1] or
+              covered[0] not in rows or covered[1] not in rows):
+            return (None,False) if return_certificate else None
+        else:
+            incident[covered[0]].append(j)
+            incident[covered[1]].append(j)
+    if any(len(edges)!=2 for edges in incident.values()):
+        return (None,False) if return_certificate else None
+    def other_end(j,r):
+        a,b=columns[j]
+        return b if r==a else a
+    def alternate(r,j):
+        a,b=incident[r]
+        return b if a==j else a
+    remaining=set(uncovered)
+    cycles=[]
+    while remaining:
+        if time.monotonic()>deadline-0.16:
+            return (None,False) if return_certificate else None
+        root=next(iter(remaining))
+        cur=root
+        chosen=incident[root][0]
+        seen=set()
+        a=[];b=[]
+        while True:
+            other=other_end(chosen,cur)
+            if cur in seen or other in seen or cur==other:
+                return (None,False) if return_certificate else None
+            seen.add(cur);seen.add(other)
+            a.append(chosen)
+            forbidden=alternate(other,chosen)
+            b.append(forbidden)
+            cur=other_end(forbidden,other)
+            if cur==root:break
+            if cur in seen:
+                return (None,False) if return_certificate else None
+            chosen=alternate(cur,forbidden)
+        remaining.difference_update(seen)
+        cycles.append((a,b))
+    if not cycles or 2*sum(len(a) for a,b in cycles)!=len(active)-len(empties):
+        return (None,False) if return_certificate else None
+    if (any(not math.isfinite(v) for v in costs) or
+            any(not math.isfinite(v) for v in lo+hi)):
+        return (None,False) if return_certificate else None
+    try:
+        import numpy as np
+        from scipy.optimize import milp,Bounds,LinearConstraint
+        from scipy.sparse import csr_matrix
+    except ImportError:
+        return (None,False) if return_certificate else None
+    vars_count=len(cycles)+len(empties)
+    if vars_count>10000:
+        return (None,False) if return_certificate else None
+    # All sums are expressed in the same source binary64 coefficient space
+    # as the original scipy.optimize.milp formulation. Independently verify
+    # reconstructed exact-cover and literal floating base constraints.
+    fixed_cost=math.fsum(costs[j] for j in forced)
+    objective=[]
+    for a,b in cycles:
+        ca=math.fsum(costs[j] for j in a)
+        cb=math.fsum(costs[j] for j in b)
+        fixed_cost+=ca
+        objective.append(cb-ca)
+    objective.extend(costs[j] for j in empties)
+    if d:
+        matrix=np.empty((len(d),vars_count),dtype=float)
+        lhs=[]
+        rhs=[]
+        for k,row in enumerate(d):
+            if any(not math.isfinite(row[j]) for j in active+forced):
+                return (None,False) if return_certificate else None
+            offset=math.fsum(row[j] for j in forced)
+            for z,(a,b) in enumerate(cycles):
+                aa=math.fsum(row[j] for j in a)
+                bb=math.fsum(row[j] for j in b)
+                offset+=aa
+                matrix[k,z]=bb-aa
+            for z,j in enumerate(empties):
+                matrix[k,len(cycles)+z]=row[j]
+            lhs.append(lo[k]-offset)
+            rhs.append(hi[k]-offset)
+        constraints=LinearConstraint(csr_matrix(matrix),
+                                     np.asarray(lhs),np.asarray(rhs))
+    else:
+        constraints=None
+    try:
+        left=max(0.05,deadline-time.monotonic()-0.10)
+        result=milp(c=(np.zeros(vars_count) if feasibility_only else
+                       np.asarray(objective,dtype=float)),
+                    integrality=np.ones(vars_count,dtype=np.int32),
+                    bounds=Bounds(np.zeros(vars_count),np.ones(vars_count)),
+                    constraints=constraints,
+                    options={'time_limit':left,'mip_rel_gap':(
+                        0.0 if return_certificate else 0.01),
+                             'presolve':True})
+    except (ValueError,RuntimeError,MemoryError):
+        return (None,False) if return_certificate else None
+    if result.x is None:
+        return (None,False) if return_certificate else None
+    chosen=list(forced)
+    for z,(a,b) in enumerate(cycles):
+        chosen.extend(b if result.x[z]>0.5 else a)
+    chosen.extend(j for z,j in enumerate(empties)
+                  if result.x[len(cycles)+z]>0.5)
+    checked=sorted(chosen) if verify(p,chosen) else None
+    if not return_certificate:return checked
+    try:
+        certified=bool(checked is not None and not feasibility_only and
+                       result.status==0 and
+                       float(result.mip_gap)<=1e-8 and
+                       math.isfinite(float(result.mip_dual_bound)) and
+                       abs(float(result.fun)-float(result.mip_dual_bound))<=
+                       1e-8*max(1.,abs(float(result.fun))))
+    except (AttributeError,TypeError,ValueError,OverflowError):
+        certified=False
+    return checked,certified
+
 def exact_cycle_cover(p, deadline, reduction=None):
     """Finite exact-cover inversion for degree-two pair-rotation graphs.
 
