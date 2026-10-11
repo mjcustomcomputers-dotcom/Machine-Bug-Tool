@@ -638,69 +638,72 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
 
 
 def conserved_side_rows(p, reduction):
-    """Certify integer-valued side activities fixed by exact-cover equations.
+    """Vectorized *exact integer* conservation identity over exact-cover rows.
 
-    For every residual row, a singleton column gives a candidate row price.
-    Only accept a side row if ALL singleton alternatives agree and EVERY
-    remaining nonempty rotation has coefficient exactly equal to the integer
-    sum of the row prices it covers. Empty rotations must have zero effect.
-    Therefore any exact cover has fixed side activity sum(price[r]) plus
-    forced-column contributions. This is equality substitution over integers,
-    not tolerance-based coefficient matching or LP approximation.
-    Bounds that exclude the fixed total remain in the original model.
+    Determine each residual row's price from all singleton alternatives.
+    Use compiled NumPy coefficient checks to establish b_j == sum(price[r]
+    for r in column_j) for EVERY residual rotation, including empty columns.
+    Each integer sum is bounded below 2**50, so float64 operations represent
+    these integers exactly; non-integers, mismatches and larger values remain
+    in the original MILP. Never infer a certificate from approximate equality.
     """
     m,n,costs,columns,incidence,d,lo,hi=p
     if not d or reduction is None:return []
     forced,uncovered,active=reduction
     if not uncovered or len(active)*len(d)>2500000:return []
-    open_rows=set(uncovered)
-    singles={}
+    row_id={r:i for i,r in enumerate(uncovered)}
+    singles=[None]*len(uncovered)
+    duplicate_singles=[]
     for j in active:
         rows=columns[j]
         if len(rows)==1:
-            singles.setdefault(rows[0],[]).append(j)
-    if len(singles)!=len(uncovered) or any(r not in singles for r in uncovered):
+            z=row_id.get(rows[0])
+            if z is None:return []
+            if singles[z] is None:singles[z]=j
+            else:duplicate_singles.append((z,j))
+    if any(j is None for j in singles):
         return []
-    # Values outside the exactly representable integer range are retained.
-    limit=2**40
-    found=[]
-    for k,base in enumerate(d):
-        prices={}
-        safe=True
-        for r in uncovered:
-            candidates=singles[r]
-            val=base[candidates[0]]
-            if not math.isfinite(val) or not val.is_integer() or abs(val)>limit:
-                safe=False
-                break
-            if any(base[j]!=val for j in candidates[1:]):
-                safe=False
-                break
-            prices[r]=int(val)
-        if not safe:continue
+    try:
+        import numpy as np
+    except ImportError:
+        return []
+    try:
+        # This is one contiguous q by n block, reused for all row tests.
+        matrix=np.asarray(d,dtype=np.float64)
+        potentials=matrix[:,singles]
+        safe=np.isfinite(potentials).all(axis=1)
+        safe &= (np.abs(potentials)<=float(2**40)).all(axis=1)
+        safe &= (potentials==np.rint(potentials)).all(axis=1)
+        safe &= (np.abs(potentials).sum(axis=1)<float(2**50))
+        for z,j in duplicate_singles:
+            safe &= matrix[:,j]==potentials[:,z]
+        # Traverse each coverage column once. The inner q-vector operations
+        # run in compiled array code rather than Python nested q*m*n loops.
         for j in active:
             rows=columns[j]
-            observed=base[j]
-            if not math.isfinite(observed) or not observed.is_integer():
-                safe=False
-                break
-            if len(rows)!=len(set(rows)) or any(r not in open_rows for r in rows):
-                safe=False
-                break
-            if int(observed)!=sum(prices[r] for r in rows):
-                safe=False
-                break
-        if not safe:continue
-        # Guard integer-to-float conversion: the exact mathematical total
-        # must also be exactly representable in binary64 comparison.
-        forced_vals=[base[j] for j in forced]
-        if any(not math.isfinite(x) or not x.is_integer() for x in forced_vals):
-            continue
-        total=sum(prices.values())+sum(int(x) for x in forced_vals)
-        if abs(total)>2**50:continue
-        if lo[k]<=float(total)<=hi[k]:
-            found.append(k)
-    return found
+            if len(rows)!=len(set(rows)):return []
+            ids=[row_id.get(r) for r in rows]
+            if any(z is None for z in ids):return []
+            expected=(potentials[:,ids].sum(axis=1)
+                      if ids else np.zeros(len(d),dtype=np.float64))
+            safe &= np.isfinite(matrix[:,j])
+            safe &= matrix[:,j]==expected
+        if forced:
+            chosen=matrix[:,forced]
+            safe &= np.isfinite(chosen).all(axis=1)
+            safe &= (chosen==np.rint(chosen)).all(axis=1)
+            safe &= (np.abs(chosen).sum(axis=1)<float(2**50))
+            totals=potentials.sum(axis=1)+chosen.sum(axis=1)
+        else:
+            totals=potentials.sum(axis=1)
+        safe &= np.isfinite(totals)
+        safe &= np.abs(totals)<float(2**50)
+        safe &= totals>=np.asarray(lo,dtype=np.float64)
+        safe &= totals<=np.asarray(hi,dtype=np.float64)
+        return [int(k) for k in np.flatnonzero(safe)]
+    except (ValueError,TypeError,OverflowError,MemoryError):
+        return []
+
 
 def redundant_side_rows(p, reduction):
     """Exact-cover side-constraint redundancy via per-row activity envelopes.
