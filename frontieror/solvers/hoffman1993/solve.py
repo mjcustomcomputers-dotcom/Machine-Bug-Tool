@@ -640,9 +640,56 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
 
 
 
+
+def independent_parity_atoms(matrix, lower, upper, max_bits=220):
+    """Conservatively project exactly integral binary equalities into GF(2).
+
+    Return independent XOR equations (bitmask, right-hand parity). If
+    coefficients, bounds, dimensions, or floating representation cannot be
+    established exactly, return no atoms. This is a *supplementary*
+    propagation system, never a replacement for the original side bounds.
+    """
+    q,n=matrix.shape
+    if n>max_bits or q>500 or n==0 or len(lower)!=q or len(upper)!=q:
+        return []
+    basis={}
+    for k in range(q):
+        if lower[k]!=upper[k]:
+            continue
+        rhs=lower[k]
+        if not math.isfinite(rhs) or abs(rhs)>2**42 or rhs!=int(rhs):
+            continue
+        bits=0
+        safe=True
+        for z in range(n):
+            coeff=float(matrix[k,z])
+            if not math.isfinite(coeff) or abs(coeff)>2**36 or coeff!=int(coeff):
+                safe=False
+                break
+            if int(coeff)&1:
+                bits|=1<<z
+        if not safe or not bits:
+            continue
+        parity=int(rhs)&1
+        while bits:
+            pivot=bits.bit_length()-1
+            old=basis.get(pivot)
+            if old is None:
+                basis[pivot]=(bits,parity)
+                break
+            bits^=old[0]
+            parity^=old[1]
+        # A contradictory modulo-2 row cannot be used as a global
+        # infeasibility certificate: the original verifier accepts
+        # source-relative real-number tolerance. Keep the original model.
+    return [basis[k] for k in sorted(basis,reverse=True)]
+
+
+
 def coupled_cycle_choice_milp(p, deadline, reduction=None,
                              feasibility_only=False, return_certificate=False,
-                             rescue_first=False, prefer_cp_feasibility=False):
+                             rescue_first=False, prefer_cp_feasibility=False,
+                             cp_parity=False):
     """Exact reduction: degree-two pair-cover cycles -> coupled binary choices.
 
     The original exact-cover rows force exactly one of two alternating
@@ -810,6 +857,16 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                          for z in range(vars_count) if matrix[k,z]!=0.)
                 model.add(expr>=lower)
                 model.add(expr<=upper)
+            if cp_parity:
+                for mask,bit in independent_parity_atoms(
+                        matrix,np.asarray(lhs),np.asarray(rhs)):
+                    lits=[ys[z] for z in range(vars_count)
+                          if (mask>>z)&1]
+                    if lits:
+                        # AddBoolXOr(lits) enforces ODD parity; invert the
+                        # first literal when RHS is even.
+                        if bit==0:lits[0]=lits[0].Not()
+                        model.add_bool_xor(lits)
             solver=cp_model.CpSolver()
             solver.parameters.num_search_workers=2
             solver.parameters.stop_after_first_solution=True
