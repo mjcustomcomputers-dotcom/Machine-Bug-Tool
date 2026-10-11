@@ -1135,6 +1135,8 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                         verified=sorted(recovered_choice)
                         if telemetry is not None:
                             telemetry["lp_original_verified"]=True
+                            telemetry["lp_adaptive_hint_selected"]=False
+                            telemetry["lp_route"]="DIRECT_ORIGINAL_VERIFIED"
                         return ((verified,False) if return_certificate
                                 else verified)
                 enable_hint=bool(pulses)
