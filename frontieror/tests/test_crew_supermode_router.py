@@ -63,6 +63,23 @@ class SupermodeRankDensity(unittest.TestCase):
         self.assertGreater(cases[(False,True)]["density"],
                            cases[(False,False)]["density"])
 
+    def test_matched_rank_fraction_classifiers(self):
+        # High-density 10-dimensional side parity in 61 choices is worth a
+        # trial; the same rank in 121 choices carries less propagation power.
+        def profile(n,q,rank):
+            matrix=np.zeros((q,n),dtype=float)
+            for row in range(q):
+                matrix[row,:]=2.
+                matrix[row,row%rank]+=1.
+            return crew.parity_rank_density_profile(
+                matrix,np.zeros(q),np.zeros(q),[1e-6]*q)
+        favorable=profile(61,20,10)
+        unfavorable=profile(121,25,12)
+        self.assertEqual(favorable["rank"],10)
+        self.assertTrue(favorable["use_parity"])
+        self.assertEqual(unfavorable["rank"],12)
+        self.assertFalse(unfavorable["use_parity"])
+
     def test_original_verifier_is_distinct_from_route_classifier(self):
         d=fixture.cycle_case(groups=3,q=6,seed=43,empty=True)
         p=crew.parse(d)
