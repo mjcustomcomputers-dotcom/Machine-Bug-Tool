@@ -92,6 +92,23 @@ class SonarMethodAsClassifier(unittest.TestCase):
         self.assertGreater(obs["pressure"],0.75)
         self.assertLess(obs["pressure"],0.86)
 
+    def test_inline_sonar_runs_one_method_with_correct_counter_label(self):
+        for seed in range(12):
+            with self.subTest(seed=seed):
+                raw=fixture.cycle_case(groups=6,q=4,seed=seed,empty=True)
+                p=crew.parse(raw)
+                reading={}
+                answer=crew.coupled_cycle_choice_milp(
+                    p,time.monotonic()+3,
+                    prefer_cp_feasibility=True,cp_parity="echo",
+                    telemetry=reading)
+                self.assertTrue(independent.independent_cover_truth(p,answer))
+                self.assertEqual(reading.get("method"),
+                                 "xor" if reading.get("parity_atoms_added",0)
+                                 else "plain")
+                self.assertEqual(reading.get("status"),4)
+                self.assertIn("parity_atoms_added",reading)
+
     def test_invalid_global_side_equations_never_report_witness(self):
         raw=fixture.cycle_case(groups=6,q=3,seed=5)
         p0=crew.parse(raw)
