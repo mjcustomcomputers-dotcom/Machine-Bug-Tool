@@ -2649,7 +2649,13 @@ def _native_method_worker(sender,p,method,allowed,reduction,incumbent,lower_boun
     """Isolated candidate producer; HiGHS may send several incumbents."""
     try:
         deadline=time.monotonic()+max(0.15,float(allowed)-0.65)
-        if method=='pair_match':
+        if method=='cycle_pulse':
+            # Cycle search is an independent candidate producer: output is
+            # never promoted until the receiving parent verifies original p.
+            answer=coupled_cycle_choice_milp(
+                p,deadline,reduction=reduction,
+                prefer_cp_feasibility=True,lp_core="sentinel")
+        elif method=='pair_match':
             answer=pair_graph_incumbent(p,deadline,incumbent=incumbent)
         elif method=='lp_core':
             answer=lp_priced_integer_core(p,deadline,incumbent=incumbent,reduction=reduction)
@@ -2754,8 +2760,97 @@ def _bounded_native(p,method,seconds,reduction=None,incumbent=None,
     return result
 
 
+
+def _bounded_dual_crew_portfolio(p, seconds, reduction=None, telemetry=None):
+    """Race two original-source-validating methods under ONE wall-clock budget.
+
+    Worker A: cycle exact reduction + sentinel + CP feasibility.
+    Worker B: native sparse HiGHS MILP with its original side rows.
+    Both propose original rotation IDs; the parent verifies independently.
+    Search diagnosis and schedule generation happen simultaneously. Unknown
+    or timeout remains inconclusive; never infer infeasibility. Opt-in only.
+
+    The dispatcher MUST use a conservative resource gate before calling this
+    method: two native engines consume extra transient memory/CPU.
+    """
+    if seconds<2.0:return None
+    try:
+        import multiprocessing as mp
+        from multiprocessing.connection import wait
+        ctx=mp.get_context("fork")
+        children={}
+        all_children=[]
+        started=time.monotonic()
+        cutoff=started+seconds
+        observations=[]
+        for name in ("cycle_pulse","mip"):
+            recv,send=ctx.Pipe(duplex=False)
+            child=ctx.Process(target=_native_method_worker,
+                args=(send,p,name,seconds,reduction,None,None))
+            child.daemon=True
+            try:
+                child.start()
+            except (OSError,ValueError,RuntimeError):
+                send.close();recv.close()
+                raise
+            send.close()
+            all_children.append(child)
+            children[recv]=(child,name)
+        best=None
+        winner=None
+        while children and time.monotonic()<cutoff:
+            live=list(children)
+            for pipe in wait(live,timeout=min(0.06,max(0.,cutoff-time.monotonic()))):
+                if pipe not in children:continue
+                child,name=children[pipe]
+                try:
+                    item=pipe.recv()
+                except (EOFError,OSError):
+                    item=("end",None)
+                kind,answer=(item if isinstance(item,tuple) and len(item)==2
+                             else ("end",None))
+                good=bool(verify(p,answer))
+                observations.append({"worker":name,"status":kind,
+                    "verified":good,
+                    "elapsed":round(time.monotonic()-started,5)})
+                if good and (best is None or
+                             objective(p,answer)<objective(p,best)-1e-8):
+                    best=answer
+                    winner=name
+                if kind in ("end","proven"):
+                    pipe.close();del children[pipe]
+            # A valid first incumbent has priority over an unproven
+            # improvement if the other worker could exhaust the deadline.
+            if best is not None:break
+            for pipe,(child,name) in list(children.items()):
+                if not child.is_alive() and not pipe.poll():
+                    observations.append({"worker":name,"status":"EXIT_NO_WITNESS",
+                                         "verified":False})
+                    pipe.close();del children[pipe]
+        if telemetry is not None:
+            telemetry["dual_portfolio"]="VERIFIED" if best is not None else "NO_WITNESS"
+            telemetry["dual_winner"]=winner
+            telemetry["dual_seconds"]=round(time.monotonic()-started,5)
+            telemetry["dual_events"]=observations
+        return best
+    except (OSError,ValueError,RuntimeError,ImportError):
+        if telemetry is not None:telemetry["dual_portfolio"]="UNAVAILABLE"
+        return None
+    finally:
+        if 'children' in locals():
+            for pipe,(child,name) in list(children.items()):
+                try:pipe.close()
+                except OSError:pass
+            # Also reap previously finished child processes: avoid zombie
+            # processes if a witness arrived before all workers completed.
+        if 'ctx' in locals():
+            for child in locals().get('all_children',[]):
+                if child.is_alive():child.terminate()
+                child.join(timeout=0.3)
+                if child.is_alive():child.kill();child.join(timeout=0.3)
+
 def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
-          experimental_telemetry=None):
+          experimental_telemetry=None, experimental_dual_portfolio=False):
     start=time.monotonic()
     p=parse(instance)
     m,n,costs,columns,incidence,d,lo,hi=p
@@ -2834,6 +2929,24 @@ def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
         if verify(p,option) and (backup is None or
                 objective(p,option)<objective(p,backup)-1e-8):
             backup=option
+    # Parallel forward-planning experiment: race two independent methods
+    # against the SAME untouched original Crew model. The parent owns
+    # both original-model validation and the remaining solver clock.
+    # Opt-in, conservative two-process gate; no default route changes.
+    if (experimental_dual_portfolio and backup is None and
+            reduced is not None and 80<=effective_rows<=480 and
+            80<=effective_cols<=1200 and 8<=len(d)<=100 and
+            effective_nz<=2500 and side_work<=120000 and
+            all(len(columns[j]) in (0,2) for j in reduced[2]) and
+            until-time.monotonic()>16.0):
+        obs=experimental_telemetry if experimental_telemetry is not None else {}
+        available=until-time.monotonic()
+        share=min(11.5,0.55*available,available-8.0)
+        if share>=2.0:
+            keep(_bounded_dual_crew_portfolio(
+                p,share,reduction=reduced,telemetry=obs))
+    elif experimental_dual_portfolio and experimental_telemetry is not None:
+        experimental_telemetry["dual_portfolio"]="STRUCTURAL_OR_BUDGET_VETO"
     # Opt-in flight-plan dispatch: the source-certified pair-cycle reducer
     # competes for a short, reversible first-feasible phase only where
     # structural side-row pressure justified its measured 240-row behavior.
