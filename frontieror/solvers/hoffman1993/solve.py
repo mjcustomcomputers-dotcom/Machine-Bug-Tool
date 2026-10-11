@@ -642,7 +642,7 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
 
 def coupled_cycle_choice_milp(p, deadline, reduction=None,
                              feasibility_only=False, return_certificate=False,
-                             rescue_first=False):
+                             rescue_first=False, prefer_cp_feasibility=False):
     """Exact reduction: degree-two pair-cover cycles -> coupled binary choices.
 
     The original exact-cover rows force exactly one of two alternating
@@ -786,6 +786,50 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                                 else recovered)
         except (np.linalg.LinAlgError,ValueError,MemoryError):
             pass
+    # Algorithm switch after exact mathematical compression: coupled global
+    # side equalities become at most one Boolean per cycle. Search for ANY
+    # independently valid original cover before asking the MILP for an optimum.
+    # Integer activity only; fractional/ambiguous data stays with original MILP.
+    if prefer_cp_feasibility and d and time.monotonic()<deadline-0.10:
+        try:
+            from ortools.sat.python import cp_model
+            if (not np.isfinite(matrix).all() or
+                    not (matrix==np.rint(matrix)).all() or
+                    (np.abs(matrix)>10**8).any()):
+                raise ValueError("Nonintegral cycle choice data")
+            model=cp_model.CpModel()
+            ys=[model.new_bool_var(f"cycle_choice_{z}")
+                for z in range(vars_count)]
+            for k in range(len(d)):
+                tol=1.e-6*max(1.,abs(lo[k]),abs(hi[k]))
+                lower=int(math.ceil(lhs[k]-tol-1.e-8))
+                upper=int(math.floor(rhs[k]+tol+1.e-8))
+                if abs(lower)>10**13 or abs(upper)>10**13:
+                    raise ValueError("Integer CP bound overflow")
+                expr=sum(int(matrix[k,z])*ys[z]
+                         for z in range(vars_count) if matrix[k,z]!=0.)
+                model.add(expr>=lower)
+                model.add(expr<=upper)
+            solver=cp_model.CpSolver()
+            solver.parameters.num_search_workers=2
+            solver.parameters.stop_after_first_solution=True
+            solver.parameters.max_time_in_seconds=max(
+                0.01,deadline-time.monotonic()-0.08)
+            solver.parameters.random_seed=64103
+            status=solver.solve(model)
+            if status in (cp_model.OPTIMAL,cp_model.FEASIBLE):
+                candidate=list(forced)
+                for z,(a,b) in enumerate(cycles):
+                    candidate.extend(b if solver.value(ys[z]) else a)
+                candidate.extend(j for z,j in enumerate(empties)
+                                 if solver.value(ys[len(cycles)+z]))
+                if verify(p,candidate):
+                    accepted=sorted(candidate)
+                    return ((accepted,False) if return_certificate
+                            else accepted)
+        except (ImportError,ValueError,RuntimeError,OverflowError,MemoryError):
+            pass
+        return (recovered,False) if return_certificate else recovered
     try:
         left=max(0.05,deadline-time.monotonic()-0.10)
         result=milp(c=(np.zeros(vars_count) if feasibility_only else
