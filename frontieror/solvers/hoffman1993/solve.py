@@ -660,6 +660,8 @@ def independent_parity_atoms(matrix, lower, upper, max_bits=220,
         if lower[k]!=upper[k]:
             continue
         rhs=lower[k]
+        if not math.isfinite(rhs) or abs(rhs)>2**42 or rhs!=int(rhs):
+            continue
         # Preserve every assignment accepted by the original magnitude-
         # scaled verifier, not only assignments satisfying ideal equalities.
         if source_tolerance is not None:
@@ -668,8 +670,6 @@ def independent_parity_atoms(matrix, lower, upper, max_bits=220,
                     math.ceil(float(lower[k])-tol-1e-8)!=int(rhs) or
                     math.floor(float(upper[k])+tol+1e-8)!=int(rhs)):
                 continue
-        if not math.isfinite(rhs) or abs(rhs)>2**42 or rhs!=int(rhs):
-            continue
         bits=0
         safe=True
         for z in range(n):
