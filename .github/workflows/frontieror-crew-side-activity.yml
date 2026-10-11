@@ -25,6 +25,8 @@ jobs:
         run: python -m unittest discover -s frontieror/tests -v
       - name: Compare all six objective benchmarks
         run: python frontieror/benchmark.py
+      - name: Measure literal versus projected Crew objective and time (ABBA)
+        run: python frontieror/tests/bench_crew_side_activity.py
       - name: Verify read-only 2-vCPU 4-GB offline runtime
         run: |
           docker build -f frontieror/hardening/Dockerfile --build-arg PY_VERSION=3.12 -t frontieror-side:3.12 .
@@ -52,4 +54,5 @@ jobs:
             frontieror/artifacts/manifest.json
             frontieror/artifacts/benchmark.json
             frontieror/artifacts/side-resource-probe.json
+            frontieror/artifacts/side-activity-benchmark.json
           retention-days: 14
