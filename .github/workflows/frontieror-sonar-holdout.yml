@@ -1,0 +1,29 @@
+name: Crew sonar ambiguous-source holdout
+on:
+  push:
+    branches: [frontieror-sonar-feedback-dynamic-parity-20261010]
+    paths:
+      - '.github/workflows/frontieror-sonar-holdout.yml'
+      - 'frontieror/tests/bench_crew_sonar_holdout.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  holdout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Match SciPy and OR-Tools
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1' 'ortools==9.15.6755'
+      - name: Test previously unused sonar-middle cases
+        run: python -u frontieror/tests/bench_crew_sonar_holdout.py
+      - name: Retain source-bound holdout comparison
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-sonar-holdout
+          path: frontieror/artifacts/crew-sonar-holdout.json
+          retention-days: 14
