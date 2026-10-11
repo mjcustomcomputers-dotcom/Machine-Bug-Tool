@@ -708,8 +708,8 @@ def parity_rank_density_profile(matrix, lower, upper, source_tolerance):
     fraction=rank/max(1,n)
     density=float((matrix!=0).sum())/max(1,n*q)
     # Routing hypothesis to test on independent seeds, not a proof of speed.
-    choose=(n>=12 and q>=8 and rank>=4 and fraction>=0.25 and
-            density>=0.12)
+    choose=(n>=12 and q>=8 and rank>=8 and fraction>=0.14 and
+            density>=0.65)
     return {"n":n,"q":q,"rank":rank,"rank_fraction":fraction,
             "density":density,"use_parity":choose,"atoms":atoms}
 
