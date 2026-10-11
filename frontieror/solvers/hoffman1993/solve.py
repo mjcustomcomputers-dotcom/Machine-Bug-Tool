@@ -2899,7 +2899,8 @@ def _bounded_dual_crew_portfolio(p, seconds, reduction=None, telemetry=None):
 
 def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
           experimental_telemetry=None, experimental_dual_portfolio=False,
-          experimental_portfolio_schedule="parallel"):
+          experimental_portfolio_schedule="parallel",
+          release_auto_portfolio=True):
     start=time.monotonic()
     p=parse(instance)
     m,n,costs,columns,incidence,d,lo,hi=p
@@ -2978,11 +2979,25 @@ def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
         if verify(p,option) and (backup is None or
                 objective(p,option)<objective(p,backup)-1e-8):
             backup=option
+    # Production-safe forward method router on tightly bounded degree-two
+    # cycle covers only. Four nearly-free classifier dimensions do double
+    # duty: exact-cover topology, side-row pressure, matrix work, and clock.
+    # The full-original checker accepts witnesses; every failed probe leaves
+    # the unchanged native MILP/HiGHS/CP fallback available. One heavy worker
+    # at a time is faster/more reliable than two competing on 2 vCPU.
+    release_staged=(release_auto_portfolio and backup is None and
+        reduced is not None and 80<=effective_rows<=320 and
+        80<=effective_cols<=1200 and 8<=len(d)<=100 and
+        effective_rows<=12*len(d) and effective_nz<=2500 and
+        side_work<=120000 and until-time.monotonic()>24.0 and
+        all(len(columns[j]) in (0,2) for j in reduced[2]))
+    if release_staged and experimental_telemetry is not None:
+        experimental_telemetry["release_auto_portfolio"]="STAGED_2VCPU"
     # Parallel forward-planning experiment: race two independent methods
     # against the SAME untouched original Crew model. The parent owns
     # both original-model validation and the remaining solver clock.
     # Opt-in, conservative two-process gate; no default route changes.
-    if (experimental_dual_portfolio and backup is None and
+    if ((release_staged or experimental_dual_portfolio) and backup is None and
             reduced is not None and 80<=effective_rows<=480 and
             80<=effective_cols<=1200 and 8<=len(d)<=100 and
             effective_nz<=2500 and side_work<=120000 and
@@ -2990,7 +3005,7 @@ def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
             until-time.monotonic()>16.0):
         obs=experimental_telemetry if experimental_telemetry is not None else {}
         available=until-time.monotonic()
-        staged=(experimental_portfolio_schedule=="staged")
+        staged=(release_staged or experimental_portfolio_schedule=="staged")
         share=(min(20.0,0.94*available,available-1.2) if staged
                else min(11.5,0.55*available,available-8.0))
         if share>=2.0:
@@ -3010,7 +3025,7 @@ def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
                 # spending the remaining budget on redundant searches.
                 obs["dual_early_proof_exit"]=True
                 return _crew_result(p,backup)
-    elif experimental_dual_portfolio and experimental_telemetry is not None:
+    elif (release_auto_portfolio or experimental_dual_portfolio) and experimental_telemetry is not None:
         experimental_telemetry["dual_portfolio"]="STRUCTURAL_OR_BUDGET_VETO"
     # Opt-in flight-plan dispatch: the source-certified pair-cycle reducer
     # competes for a short, reversible first-feasible phase only where
