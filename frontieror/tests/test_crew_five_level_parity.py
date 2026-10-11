@@ -74,7 +74,8 @@ class ParityInversion(unittest.TestCase):
               prefer_cp_feasibility=True,cp_parity=True)
         self.assertTrue(independent_cover_truth(p,result))
         self.assertTrue(crew.verify(p,result))
-        mutant=result[:-1]
+        damaged=next(j for j in result if p[3][j])
+        mutant=[j for j in result if j!=damaged]
         self.assertFalse(independent_cover_truth(p,mutant))
         self.assertFalse(crew.verify(p,mutant))
         # Mutating original bound must invalidate once-valid answer.
