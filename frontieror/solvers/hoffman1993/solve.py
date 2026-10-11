@@ -638,6 +638,122 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
 
 
 
+
+def exact_cycle_cover(p, deadline, reduction=None):
+    """Finite exact-cover inversion for degree-two pair-rotation graphs.
+
+    Every residual row is incident to exactly two available pair columns.
+    Every connected component is then a cycle in the multigraph; a feasible
+    even cycle has precisely two alternating perfect matchings. Compare both
+    side-effect vectors exactly as bounded integers. If ALL components have
+    identical side activity under both alternatives, choosing the cheaper
+    perfect matching separately in each component proves global optimality.
+    A failed condition is UNKNOWN to the full MILP, never an infeasibility
+    certificate. The complete original model independently verifies output.
+    """
+    if time.monotonic() >= deadline-0.03:return None,False
+    m,n,costs,columns,incidence,d,lo,hi=p
+    if reduction is None:
+        reduction=reduce_forced_rotations(p,dominated_rotations(p))
+    if reduction is None:return None,False
+    forced,uncovered,active=reduction
+    if (len(uncovered)<4 or len(uncovered)>12000 or len(active)>30000 or
+            len(d)>400 or len(d)*len(active)>2_000_000):
+        return None,False
+    open_rows=set(uncovered)
+    incident={r:[] for r in uncovered}
+    empties=[]
+    for j in active:
+        rr=columns[j]
+        if not rr:
+            empties.append(j)
+        elif (len(rr)!=2 or rr[0]==rr[1] or
+              rr[0] not in open_rows or rr[1] not in open_rows):
+            return None,False
+        else:
+            incident[rr[0]].append(j)
+            incident[rr[1]].append(j)
+    if any(len(js)!=2 for js in incident.values()):
+        return None,False
+    if any(not math.isfinite(costs[j]) for j in active+forced):
+        return None,False
+    def other_end(j,r):
+        a,b=columns[j]
+        return b if a==r else a
+    def alternative(r,j):
+        a,b=incident[r]
+        return b if a==j else a
+    def matching(root,first,component):
+        assigned=set()
+        chosen=[]
+        r=root
+        j=first
+        while r not in assigned:
+            nxt=other_end(j,r)
+            if nxt in assigned or j in chosen:
+                return None
+            assigned.add(r)
+            assigned.add(nxt)
+            chosen.append(j)
+            blocked=alternative(nxt,j)
+            r=other_end(blocked,nxt)
+            if r==root:break
+            if r in assigned:return None
+            j=alternative(r,blocked)
+        if assigned!=component:return None
+        return chosen
+    # Each connected cycle is traversed exactly once to recover its rows.
+    pending=set(uncovered)
+    components=[]
+    while pending:
+        if time.monotonic() >= deadline-0.03:return None,False
+        root=next(iter(pending))
+        todo=[root];members=set()
+        while todo:
+            r=todo.pop()
+            if r in members:continue
+            members.add(r)
+            for j in incident[r]:
+                rr=other_end(j,r)
+                if rr not in members:todo.append(rr)
+        pending.difference_update(members)
+        first,second=incident[root]
+        a=matching(root,first,members)
+        b=matching(root,second,members)
+        if a is None or b is None:return None,False
+        components.append((a,b))
+    if not components:return None,False
+    # Exact integer checks are a conservative certificate, not approximate
+    # float linear dependence; sum magnitudes must be binary64-exact.
+    if d:
+        all_relevant=active+forced
+        for k,row in enumerate(d):
+            if any(not math.isfinite(row[j]) or
+                   abs(row[j])>2**27 or row[j]!=int(row[j])
+                   for j in all_relevant):
+                return None,False
+            if any(row[j]!=0 for j in empties):
+                return None,False
+            total=sum(int(row[j]) for j in forced)
+            for a,b in components:
+                av=sum(int(row[j]) for j in a)
+                bv=sum(int(row[j]) for j in b)
+                if av!=bv:return None,False
+                total+=av
+            if abs(total)>=2**50 or not lo[k]<=float(total)<=hi[k]:
+                return None,False
+    selected=list(forced)
+    for a,b in components:
+        if math.fsum(costs[j] for j in a) <= math.fsum(costs[j] for j in b):
+            selected.extend(a)
+        else:
+            selected.extend(b)
+    selected.extend(j for j in empties if costs[j]<0)
+    if not verify(p,selected):
+        return None,False
+    return sorted(selected),True
+
+
 def pair_conserved_side_rows(p, reduction):
     """Exact parity-aware pair conservation, vectorized across side rows.
 
@@ -1840,6 +1956,17 @@ def solve(instance, time_limit_s):
             and all(costs[j]>=0 for j in reduced[2])
             and verify(p,reduced[0])):
         return _crew_result(p,reduced[0])
+    # Invert solver role: when a degree-two residual cover is a union of
+    # cycles and every side row is constant across the two choices per cycle,
+    # compare just those two choices directly. An original-model verified
+    # result is globally optimal without MILP/HiGHS imports or branching.
+    if (reduced is not None and effective_rows>=80 and
+            effective_cols>=80 and 0<len(d)<=400 and
+            side_work>=7000 and until-time.monotonic()>0.8):
+        candidate,cycle_proven=exact_cycle_cover(
+            p,min(until,time.monotonic()+2.5),reduction=reduced)
+        if cycle_proven and verify(p,candidate):
+            return _crew_result(p,candidate)
     if m<=180 and n<=6500 and time.monotonic()<until-0.5:
         option=forced_greedy(p,min(until,time.monotonic()+0.7))
         if verify(p,option):backup=option
