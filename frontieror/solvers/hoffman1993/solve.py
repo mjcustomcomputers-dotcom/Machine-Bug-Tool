@@ -714,10 +714,74 @@ def parity_rank_density_profile(matrix, lower, upper, source_tolerance):
             "density":density,"use_parity":choose,"atoms":atoms}
 
 
+
+def sonar_echo_classify(plain, parity, prior=False):
+    """Two CP methods become a classifier via bounded search receipts."""
+    pb=float(plain.get("num_branches",0.))
+    xb=float(parity.get("num_branches",0.))
+    pc=float(plain.get("num_conflicts",0.))
+    xc=float(parity.get("num_conflicts",0.))
+    if not all(math.isfinite(v) and v>=0 for v in (pb,xb,pc,xc)):
+        return bool(prior),"invalid_counters"
+    if min(pb,xb)<100:
+        return bool(prior),"insufficient_search_feedback"
+    if xb<=0.55*pb and xc<=1.7*max(1.,pc):
+        return True,"xor_probe_branches"
+    if pb<=0.55*xb and pc<=1.7*max(1.,xc):
+        return False,"plain_probe_branches"
+    return bool(prior),"rank_density_prior"
+
+
+def sonar_feedback_cycle_rescue(p, deadline, reduction=None,
+                               pulse_fraction=0.045, receipt=None):
+    """PULSE method -> ECHO telemetry -> classify -> route -> original verify.
+
+    Both finite probes and final search share one absolute deadline; no
+    response is treated as original infeasibility or global optimality.
+    """
+    if time.monotonic()>deadline-1.5:return None
+    if reduction is None:
+        reduction=reduce_forced_rotations(p,dominated_rotations(p))
+    if reduction is None:return None
+    _,_,_,columns,_,d,lo,hi=p
+    forced,uncovered,active=reduction
+    if (len(uncovered)<24 or len(active)>30000 or not d or len(d)>400
+            or any(len(columns[j]) not in (0,2) for j in active)):
+        return None
+    remaining=deadline-time.monotonic()
+    if remaining<1.5:return None
+    pulse=max(0.19,min(0.46,remaining*max(0.01,min(0.10,pulse_fraction))))
+    echoes={}
+    for name,flag in (("plain",False),("xor",True)):
+        if time.monotonic()>deadline-0.7:return None
+        observation={}
+        trial_deadline=min(deadline-0.65,time.monotonic()+pulse)
+        solution=coupled_cycle_choice_milp(
+            p,trial_deadline,reduction=reduction,
+            prefer_cp_feasibility=True,cp_parity=flag,
+            telemetry=observation)
+        echoes[name]=observation
+        if verify(p,solution):
+            if receipt is not None:
+                receipt.update({"state":"FEASIBLE_PULSE","winner":name,
+                                "echoes":echoes})
+            return solution
+    prior=bool(echoes.get("xor",{}).get("use_parity_prior",False))
+    use_xor,reason=sonar_echo_classify(
+        echoes.get("plain",{}),echoes.get("xor",{}),prior)
+    if receipt is not None:
+        receipt.update({"state":"NO_PULSE_WITNESS","winner":
+                        "xor" if use_xor else "plain",
+                        "reason":reason,"echoes":echoes})
+    return coupled_cycle_choice_milp(
+        p,deadline,reduction=reduction,
+        prefer_cp_feasibility=True,cp_parity=use_xor)
+
+
 def coupled_cycle_choice_milp(p, deadline, reduction=None,
                              feasibility_only=False, return_certificate=False,
                              rescue_first=False, prefer_cp_feasibility=False,
-                             cp_parity=False):
+                             cp_parity=False, telemetry=None):
     """Exact reduction: degree-two pair-cover cycles -> coupled binary choices.
 
     The original exact-cover rows force exactly one of two alternating
@@ -892,6 +956,11 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                          for k in range(len(d))]
                 profile=parity_rank_density_profile(
                     matrix,np.asarray(lhs),np.asarray(rhs),margins)
+                if telemetry is not None:
+                    telemetry["parity_rank"]=profile["rank"]
+                    telemetry["parity_fraction"]=profile["rank_fraction"]
+                    telemetry["density"]=profile["density"]
+                    telemetry["use_parity_prior"]=profile["use_parity"]
                 atoms=(profile["atoms"] if cp_parity is True or
                        (cp_parity=="auto" and profile["use_parity"]) else [])
                 for mask,bit in atoms:
@@ -909,6 +978,15 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                 0.01,deadline-time.monotonic()-0.08)
             solver.parameters.random_seed=64103
             status=solver.solve(model)
+            if telemetry is not None:
+                telemetry["status"]=int(status)
+                telemetry["method"]="xor" if cp_parity else "plain"
+                for key in ("num_conflicts","num_branches","wall_time"):
+                    try:
+                        value=getattr(solver,key)
+                        telemetry[key]=float(value() if callable(value) else value)
+                    except (AttributeError,TypeError,ValueError,RuntimeError):
+                        pass
             if status in (cp_model.OPTIMAL,cp_model.FEASIBLE):
                 candidate=list(forced)
                 for z,(a,b) in enumerate(cycles):
