@@ -719,12 +719,6 @@ def exact_residual_components(p, deadline, reduction=None):
     forced,uncovered,active=reduction
     if not uncovered or len(active)<12 or len(active)>30000:
         return None,False
-    redundant=set(redundant_side_rows(p,reduction))
-    for k in range(len(d)):
-        if k in redundant:continue
-        offset=math.fsum(d[k][j] for j in forced)
-        if any(d[k][j]!=0. for j in active) or not lo[k]<=offset<=hi[k]:
-            return None,False
     row_id={r:z for z,r in enumerate(uncovered)}
     # Disjoint-set of residual rows using each surviving nonempty column as a
     # hyperedge. No coverage edge may be cut by the component split.
@@ -748,6 +742,17 @@ def exact_residual_components(p, deadline, reduction=None):
     for r in uncovered:
         comp_rows.setdefault(find(row_id[r]),[]).append(r)
     if len(comp_rows)<2:return None,False
+    # Invert the expensive work order: first prove coverage is disconnected,
+    # THEN scan the base-side matrix. Connected coverage cannot benefit from
+    # this shortcut regardless of how many side rows may later disappear.
+    if len(d)*len(active)>4000000:
+        return None,False
+    redundant=set(redundant_side_rows(p,reduction))
+    for k in range(len(d)):
+        if k in redundant:continue
+        offset=math.fsum(d[k][j] for j in forced)
+        if any(d[k][j]!=0. for j in active) or not lo[k]<=offset<=hi[k]:
+            return None,False
     comp_columns={k:[] for k in comp_rows}
     selected=list(forced)
     for j in active:
