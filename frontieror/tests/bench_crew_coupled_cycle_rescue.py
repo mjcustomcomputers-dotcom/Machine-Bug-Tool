@@ -29,7 +29,10 @@ def one(groups,q,seed,budget,method):
         result=crew.coupled_cycle_choice_milp(p,start+budget,
             reduction=reduced,return_certificate=True)
     elapsed=time.monotonic()-start
-    candidate,certified=result
+    # Timeout/no incumbent is a measured first-class score-floor outcome.
+    # The original SciPy worker can return None instead of a (solution,proof)
+    # tuple when no integer witness survives its time budget.
+    candidate,certified=(result if result is not None else (None,False))
     valid=crew.verify(p,candidate)
     return {"method":method,"time_budget_s":budget,"wall_s":round(elapsed,5),
         "verified_incumbent":bool(valid),
