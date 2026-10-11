@@ -2754,7 +2754,8 @@ def _bounded_native(p,method,seconds,reduction=None,incumbent=None,
     return result
 
 
-def solve(instance, time_limit_s):
+def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
+          experimental_telemetry=None):
     start=time.monotonic()
     p=parse(instance)
     m,n,costs,columns,incidence,d,lo,hi=p
@@ -2833,6 +2834,34 @@ def solve(instance, time_limit_s):
         if verify(p,option) and (backup is None or
                 objective(p,option)<objective(p,backup)-1e-8):
             backup=option
+    # Opt-in flight-plan dispatch: the source-certified pair-cycle reducer
+    # competes for a short, reversible first-feasible phase only where
+    # structural side-row pressure justified its measured 240-row behavior.
+    # The general MILP/HiGHS schedule and default submission remain intact.
+    # An unsuccessful trial never declares global infeasibility or zero score.
+    if (experimental_cycle_rescue and backup is None and reduced is not None
+            and effective_rows>=80 and effective_cols>=80
+            and effective_cols<=10000 and 8<=len(d)<=100
+            and effective_rows<=len(d)*12
+            and until-time.monotonic()>16.0
+            and all(len(columns[j]) in (0,2) for j in reduced[2])):
+        now=time.monotonic()
+        pulse_budget=min(9.5,0.36*(until-now),until-now-7.0)
+        if pulse_budget>=1.0:
+            trace={}
+            option=coupled_cycle_choice_milp(
+                p,now+pulse_budget,reduction=reduced,
+                prefer_cp_feasibility=True,lp_core="sentinel",telemetry=trace)
+            accepted=bool(verify(p,option))
+            if experimental_telemetry is not None:
+                experimental_telemetry.update({
+                    "cycle_dispatch":"ATTEMPTED",
+                    "cycle_seconds":round(time.monotonic()-now,5),
+                    "cycle_original_verified":accepted,
+                    "core_pulses":trace.get("core_pulses",[])})
+            keep(option)
+    elif experimental_cycle_rescue and experimental_telemetry is not None:
+        experimental_telemetry["cycle_dispatch"]="STRUCTURAL_OR_BUDGET_VETO"
     # Python-level graph reclassification: when crew rotations cover only
     # one or two rows this is a maximum-savings graph matching problem, not
     # a general set-partitioning MILP. Check even larger-cover instances as a
