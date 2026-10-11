@@ -622,6 +622,67 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
     return selected if verify(p, selected) else None
 
 
+
+def redundant_side_rows(p, reduction):
+    """Exact-cover side-constraint redundancy via per-row activity envelopes.
+
+    With each covered row used exactly once, splitting every active column's
+    side coefficient equally over its rows gives a valid interval for every
+    complete cover. Optional empty columns contribute [min(0,a), max(0,a)].
+    Only delete a side inequality if that entire interval lies strictly
+    inside its literal bounds with a conservative numeric safety margin.
+    Return source row indices; an UNKNOWN result retains all inequalities.
+    This test is only applied after exact forced/duplicate reductions.
+    """
+    m,n,costs,columns,incidence,d,lo,hi=p
+    if not d or reduction is None:
+        return []
+    forced,uncovered,active=reduction
+    if not uncovered or not active or len(uncovered)>20000:
+        return []
+    row_id={r:z for z,r in enumerate(uncovered)}
+    # Exact-cover shares are invalid when a column repeats a row or crosses a
+    # forced-covered row. Such a case retains the literal original side rows.
+    for j in active:
+        rows=columns[j]
+        if len(rows)!=len(set(rows)) or any(r not in row_id for r in rows):
+            return []
+    redundant=[]
+    for k,base in enumerate(d):
+        if not (math.isfinite(lo[k]) and math.isfinite(hi[k])):
+            continue
+        minimum=[math.inf]*len(uncovered)
+        maximum=[-math.inf]*len(uncovered)
+        empty_min=empty_max=0.
+        for j in active:
+            rows=columns[j]
+            coeff=base[j]
+            if not math.isfinite(coeff):
+                return []
+            if not rows:
+                empty_min+=min(0.,coeff)
+                empty_max+=max(0.,coeff)
+                continue
+            share=coeff/len(rows)
+            for r in rows:
+                z=row_id[r]
+                if share<minimum[z]:
+                    minimum[z]=share
+                if share>maximum[z]:
+                    maximum[z]=share
+        if any(not math.isfinite(x) for x in minimum+maximum):
+            continue
+        offset=math.fsum(base[j] for j in forced)
+        lower=math.fsum(minimum)+offset+empty_min
+        upper=math.fsum(maximum)+offset+empty_max
+        if not (math.isfinite(lower) and math.isfinite(upper)):
+            continue
+        guard=1.e-7*max(1.,abs(lower),abs(upper),
+                         abs(lo[k]),abs(hi[k]))+1.e-12*len(active)
+        if lower-guard>=lo[k] and upper+guard<=hi[k]:
+            redundant.append(k)
+    return redundant
+
 def sparse_milp(p, deadline, reduction=None, feasibility_only=False, return_certificate=False):
     """SCIP/HiGHS-style sparse 0-1 exact cover with literal real base bounds."""
     if deadline - time.monotonic() < 0.5:
@@ -655,9 +716,16 @@ def sparse_milp(p, deadline, reduction=None, feasibility_only=False, return_cert
     lhs=[1.0]*len(uncovered)
     rhs=[1.0]*len(uncovered)
     if d:
-        A=vstack([A,csr_matrix(np.asarray([[row[j] for j in active] for row in d],dtype=float))],format="csr")
-        lhs += [lo[k]-offset[k] for k in range(len(d))]
-        rhs += [hi[k]-offset[k] for k in range(len(d))]
+        redundant=set(redundant_side_rows(p,reduced))
+        # This is a proof-based projection, not a heuristic relaxation. The
+        # original verify() still checks every omitted inequality verbatim.
+        relevant=[k for k in range(len(d)) if k not in redundant]
+        if relevant:
+            A=vstack([A,csr_matrix(np.asarray(
+                [[d[k][j] for j in active] for k in relevant],dtype=float))],
+                format="csr")
+            lhs += [lo[k]-offset[k] for k in relevant]
+            rhs += [hi[k]-offset[k] for k in relevant]
     try:
         result = milp(
             c=(np.zeros(len(active),dtype=float) if feasibility_only
