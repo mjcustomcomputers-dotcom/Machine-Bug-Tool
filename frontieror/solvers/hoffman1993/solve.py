@@ -1580,7 +1580,7 @@ def solve(instance, time_limit_s):
     # MPC graph/reduction hook: when every side inequality is proven
     # inactive on the residual, exact-cover components may be solved with
     # native Python DP and a global optimality witness before heavy imports.
-    if (reduced is not None and effective_rows>=20 and effective_cols>=35
+    if (reduced is not None and effective_rows>=240 and effective_cols>=400
             and until-time.monotonic()>3.0):
         fast,certified=_bounded_native(p,'components',
             min(4.0,until-time.monotonic()-0.7),
