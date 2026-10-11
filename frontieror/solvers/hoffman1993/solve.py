@@ -888,7 +888,7 @@ def pair_graph_incumbent(p, deadline, incumbent=None):
     bounded parent-controlled worker, so no long Blossom run threatens exit.
     """
     m, n, costs, columns, incidence, d, lo, hi = p
-    if m > 850 or n > 25000 or time.monotonic() > deadline - 0.3:
+    if m > 12000 or n > 60000 or time.monotonic() > deadline - 0.3:
         return None
     try:
         import networkx as nx
@@ -930,7 +930,7 @@ def pair_graph_incumbent(p, deadline, incumbent=None):
             return None
         selected = list(single) + empties
         return selected if verify(p, selected) else None
-    if len(pair) > 10000:
+    if len(pair) > 100000:
         return None
     graph = nx.Graph()
     for (u,v),j in pair.items():
@@ -939,12 +939,24 @@ def pair_graph_incumbent(p, deadline, incumbent=None):
             graph.add_edge(u, v, weight=float(saving), column=j)
     if time.monotonic() > deadline - 0.08:
         return None
+    # Exact graph factorization: connected components share no eligible pair
+    # rotations. Solve each independent component with Blossom, not a single
+    # massive Python graph. The union is an optimal matching on the full graph.
+    # The original coverage/side model still owns the final feasibility check.
     chosen = []
     used = set()
-    for u,v in nx.max_weight_matching(graph, maxcardinality=False,
-                                       weight='weight'):
-        chosen.append(graph[u][v]['column'])
-        used.add(u);used.add(v)
+    for component_nodes in nx.connected_components(graph):
+        if time.monotonic() > deadline - 0.06:
+            return None
+        if len(component_nodes) > 850:
+            return None  # general full-size optimizers remain the fallback
+        subgraph = graph.subgraph(component_nodes)
+        if subgraph.number_of_edges() > 10000:
+            return None
+        for u,v in nx.max_weight_matching(subgraph, maxcardinality=False,
+                                           weight='weight'):
+            chosen.append(graph[u][v]['column'])
+            used.add(u);used.add(v)
     for r in range(m):
         if r not in used:
             if single[r] is None:
@@ -1213,7 +1225,7 @@ def solve(instance, time_limit_s):
     # two rows and all singleton alternatives exist, matching solves the
     # entire side-constraint-free set partitioning instance, not an approximation.
     # A high-level optimization engine is unnecessary for this subclass.
-    if (not d and m <= 850 and n <= 25000 and
+    if (not d and m <= 12000 and n <= 60000 and
             all(len(rows) <= 2 for rows in columns) and
             until-time.monotonic() > 5.0):
         matched=_bounded_native(p,'pair_match',min(4.2,until-time.monotonic()-0.7))
