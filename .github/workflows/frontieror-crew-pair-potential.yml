@@ -1,0 +1,33 @@
+name: Crew pair-potential adversarial microdiagnostic
+on:
+  push:
+    branches: [frontieror-crew-pair-potential-recon-20261010]
+    paths:
+      - '.github/workflows/frontieror-crew-pair-potential.yml'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/test_crew_pair_potentials.py'
+      - 'frontieror/tests/bench_crew_pair_potentials.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pair-potential:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install narrow optimizer dependencies
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1'
+      - name: Test signed graph conservation against exhaustive brute-force
+        run: python -m unittest discover -s frontieror/tests -p test_crew_pair_potentials.py -v
+      - name: Benchmark same-instance pair conservation versus literal MILP
+        run: python frontieror/tests/bench_crew_pair_potentials.py
+      - name: Retain focused measurement only
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-pair-potential-diagnostic
+          path: frontieror/artifacts/crew-pair-potential-abba.json
+          retention-days: 14
