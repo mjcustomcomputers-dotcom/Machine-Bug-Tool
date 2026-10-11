@@ -103,6 +103,36 @@ class CycleFactorFaults(unittest.TestCase):
         self.assertEqual(crew.exact_cycle_cover(p,time.monotonic()+3,red),
                          (None,False))
 
+    def test_two_local_side_disagreements_cannot_cancel_globally(self):
+        data=graph_case(blocks=2,q=1,seed=53)
+        # Both cycles gain a local difference; selected combinations can
+        # cancel globally, but the side row is not fixed across all covers.
+        row=data["base_constraints"]["D_matrix"]["rows"][0]
+        row[0]+=1.;row[4]-=1.
+        p=crew.parse(data)
+        red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+        self.assertEqual(crew.exact_cycle_cover(
+            p,time.monotonic()+3,red),(None,False))
+
+    def test_odd_cycle_has_no_two_choice_perfect_matching(self):
+        cols=[[0,1],[1,2],[2,0],[3,4],[4,5],[5,3]]
+        data={"dimensions":{"num_rows":6,"num_cols":len(cols)},
+            "cost_vector":[1.]*len(cols),
+            "constraint_matrix_A":{"columns":cols},
+            "has_base_constraints":False}
+        p=crew.parse(data)
+        red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+        self.assertEqual(crew.exact_cycle_cover(
+            p,time.monotonic()+3,red),(None,False))
+
+    def test_nonzero_optional_empty_side_effect_never_certifies(self):
+        data=graph_case(blocks=2,q=3,seed=5,negative_empty=True)
+        data["base_constraints"]["D_matrix"]["rows"][0][-1]=1.
+        p=crew.parse(data)
+        red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+        self.assertEqual(crew.exact_cycle_cover(
+            p,time.monotonic()+3,red),(None,False))
+
     def test_permutation_sign_inversion_120_models(self):
         for seed in range(120):
             with self.subTest(seed=seed):
