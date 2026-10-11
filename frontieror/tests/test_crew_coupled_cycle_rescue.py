@@ -139,6 +139,32 @@ class CoupledCycleRescue(unittest.TestCase):
         self.assertIsNone(candidate)
         self.assertFalse(cert)
 
+    def test_reduced_cp_sat_original_witness_and_no_false_certificate(self):
+        for seed in range(12):
+            with self.subTest(seed=seed):
+                d=cycle_case(groups=5,q=8,seed=seed,empty=True)
+                p=crew.parse(d)
+                red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+                answer,proof=crew.coupled_cycle_choice_milp(
+                    p,time.monotonic()+2.5,reduction=red,
+                    prefer_cp_feasibility=True,
+                    return_certificate=True)
+                self.assertTrue(crew.verify(p,answer))
+                self.assertFalse(proof)
+
+    def test_reduced_cp_sat_refuses_invalid_side_equations(self):
+        d=cycle_case(groups=3,q=5,seed=19)
+        d["base_constraints"]["D_matrix"]["rows"][0]=[
+            0.]*d["dimensions"]["num_cols"]
+        d["base_constraints"]["lower_bounds_d1"][0]=1.
+        d["base_constraints"]["upper_bounds_d2"][0]=1.
+        p=crew.parse(d)
+        answer,proof=crew.coupled_cycle_choice_milp(
+            p,time.monotonic()+2,prefer_cp_feasibility=True,
+            return_certificate=True)
+        self.assertIsNone(answer)
+        self.assertFalse(proof)
+
     def test_extra_edge_degree_three_returns_unknown(self):
         d=cycle_case(groups=2,q=3,corrupt=True)
         p=crew.parse(d)
