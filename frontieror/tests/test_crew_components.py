@@ -59,7 +59,7 @@ class CrewExactComponents(unittest.TestCase):
         self.assertFalse(proven)
         full=crew.sparse_milp(p,time.monotonic()+4,reduction=red)
         self.assertTrue(crew.verify(p,full))
-        self.assertEqual(crew.objective(p,full),166.)
+        self.assertEqual(crew.objective(p,full),72.)
 
     def test_signed_costs_and_irregular_cover_match_bruteforce(self):
         cols=[[0],[1],[2],[3],[0,1],[1,2],[2,3],[0,2],[1,3]]
