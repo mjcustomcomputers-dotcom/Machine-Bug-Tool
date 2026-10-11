@@ -28,7 +28,8 @@ def one(groups,q,seed,budget,method):
     else:
         result=crew.coupled_cycle_choice_milp(p,start+budget,
             reduction=reduced,return_certificate=True,
-            rescue_first=(method=="inverse"))
+            rescue_first=(method=="inverse"),
+            prefer_cp_feasibility=(method=="cp_feasible"))
     elapsed=time.monotonic()-start
     # Timeout/no incumbent is a measured first-class score-floor outcome.
     # The original SciPy worker can return None instead of a (solution,proof)
@@ -48,10 +49,12 @@ def main():
     out=[]
     for groups,q,seed,budget in configs:
         trials=[one(groups,q,seed,budget,method)
-                for method in ("full","cycles","inverse","inverse","cycles","full")]
+                for method in ("full","cycles","cp_feasible","inverse",
+                               "inverse","cp_feasible","cycles","full")]
         full=[x for x in trials if x["method"]=="full"]
         cycles=[x for x in trials if x["method"]=="cycles"]
         inverse=[x for x in trials if x["method"]=="inverse"]
+        cp=[x for x in trials if x["method"]=="cp_feasible"]
         winners=[x for x in trials if x["verified_incumbent"]]
         out.append({"groups":groups,"original_rows":4*groups,
             "original_columns":4*groups+1,
@@ -60,6 +63,10 @@ def main():
             "full_feasible_rate":sum(x["verified_incumbent"] for x in full)/2,
             "compressed_feasible_rate":sum(x["verified_incumbent"] for x in cycles)/2,
             "inverse_rescue_feasible_rate":sum(x["verified_incumbent"] for x in inverse)/2,
+            "cp_feasible_rate":sum(x["verified_incumbent"] for x in cp)/2,
+            "best_cp_feasible_cost":min(
+                [x["objective"] for x in cp if x["verified_incumbent"]],
+                default=None),
             "best_inverse_feasible_cost":min(
                 [x["objective"] for x in inverse if x["verified_incumbent"]],
                 default=None),
