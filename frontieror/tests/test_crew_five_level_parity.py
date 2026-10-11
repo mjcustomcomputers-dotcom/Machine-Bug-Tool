@@ -61,6 +61,31 @@ class ParityInversion(unittest.TestCase):
                 # parity witness by introducing an invalid equation.
                 if exact:self.assertTrue(reduced)
 
+    def test_test_itself_by_exact_gf2_biconditional_for_planted_systems(self):
+        # The earlier implication-only oracle can miss over-permissive bases.
+        # Plant one binary assignment to guarantee a consistent parity
+        # system, then require BOTH directions for every 0/1 assignment.
+        rng=random.Random(2701)
+        for seed in range(100):
+            n=2+seed%7
+            q=1+seed%11
+            mat=np.asarray([[rng.randint(-9,9) for _ in range(n)]
+                           for _ in range(q)],dtype=float)
+            planted=[rng.randrange(2) for _ in range(n)]
+            rhs=np.asarray([int(sum(mat[k,z]*planted[z]
+                                      for z in range(n))) for k in range(q)],
+                           dtype=float)
+            atoms=crew.independent_parity_atoms(mat,rhs,rhs)
+            for candidate in itertools.product((0,1),repeat=n):
+                original=all(
+                    (sum(int(mat[k,z])*candidate[z] for z in range(n))
+                     -int(rhs[k]))%2==0 for k in range(q))
+                mask=sum((1<<z) for z,v in enumerate(candidate) if v)
+                reduced=all((mask&bits).bit_count()%2==parity
+                            for bits,parity in atoms)
+                self.assertEqual(original,reduced,
+                    msg=f"GF2 tester mismatch at seed {seed}")
+
     def test_exact_null_and_noninteger_rows_retain_uncertainty(self):
         matrix=np.array([[2.,4.,6.],[1.000000001,0.,2.],
                          [1.,1.,1.]],dtype=float)
