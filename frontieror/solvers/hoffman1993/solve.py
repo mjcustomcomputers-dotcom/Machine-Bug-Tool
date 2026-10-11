@@ -904,11 +904,90 @@ def filter_reconstructed_lp_echo(pulses, variables, side_rows):
             and min(violations)>=3.5 and min(fractional)>=4.5)
 
 
+
+def unsat_core_cycle_pulse(model, x, deadline, cp_model, telemetry=None):
+    """Selective binary-assumption release from CP unsatisfiable cores.
+
+    LP bits are suggested hypotheses, NOT forced original facts. A reduced
+    CP model assumes some bits, asks for a conflict core, and retracts
+    low-confidence contributors until it finds a witness or runs out of
+    budget. No UNSAT result is attributed to the unfixed original model.
+    """
+    import numpy as np
+    n=len(x)
+    if not 16<=n<=240:return None
+    values=np.asarray(x,dtype=float)
+    if not np.isfinite(values).all():return None
+    guess=np.rint(values).astype(np.int64)
+    certainty=np.abs(values-guess)
+    free_count=min(n,max(10,n//5))
+    initial=sorted(range(n),key=lambda j:(-float(certainty[j]),j))
+    fixed=set(initial[free_count:])
+    receipts=[]
+    probes=0
+    limit=min(deadline-0.16,time.monotonic()+min(12.,max(0.,0.55*(deadline-time.monotonic()))))
+    while fixed and probes<14 and time.monotonic()<limit-0.12:
+        probes+=1
+        try:
+            sub=model.clone()
+            mapping={}
+            for j in sorted(fixed):
+                token=sub.new_bool_var(f"pulse_assume_{probes}_{j}")
+                sub.add(sub.get_bool_var_from_proto_index(j)==int(guess[j])).only_enforce_if(token)
+                sub.add_assumption(token)
+                mapping[token.index]=j
+            solver=cp_model.CpSolver()
+            solver.parameters.num_search_workers=1
+            solver.parameters.random_seed=24617
+            solver.parameters.stop_after_first_solution=True
+            solver.parameters.max_time_in_seconds=min(
+                1.6,max(0.03,limit-time.monotonic()-0.08))
+            started=time.monotonic()
+            status=solver.solve(sub)
+            record={"probe":probes,"fixed":len(fixed),
+                "status":int(status),"wall":round(time.monotonic()-started,6)}
+            if status in (cp_model.FEASIBLE,cp_model.OPTIMAL):
+                bits=[int(solver.value(sub.get_bool_var_from_proto_index(j)))
+                      for j in range(n)]
+                receipts.append(record)
+                if telemetry is not None:
+                    telemetry["core_pulses"]=receipts
+                    telemetry["core_witness"]=True
+                return bits
+            if status!=cp_model.INFEASIBLE:
+                receipts.append(record)
+                break
+            core=[mapping[k] for k in solver.sufficient_assumptions_for_infeasibility()
+                  if k in mapping]
+            record["core_size"]=len(core)
+            if core:
+                # Reverse the failed hypothesis: loosen the most uncertain
+                # quarter of its source-bound core, not every guessed bit.
+                core.sort(key=lambda j:(-float(certainty[j]),j))
+                remove=max(2,min(len(core),(len(core)+3)//4))
+                for j in core[:remove]:fixed.discard(j)
+                record["released"]=remove
+            else:
+                # A missing/empty core is inconclusive; retain the original
+                # optimization problem and do not interpret this as proof.
+                receipts.append(record)
+                break
+            receipts.append(record)
+        except (AttributeError,ValueError,RuntimeError,OverflowError,MemoryError):
+            receipts.append({"probe":probes,"status":"UNKNOWN_ENGINE"})
+            break
+    if telemetry is not None:
+        telemetry["core_pulses"]=receipts
+        telemetry["core_witness"]=False
+    return None
+
+
 def coupled_cycle_choice_milp(p, deadline, reduction=None,
                              feasibility_only=False, return_certificate=False,
                              rescue_first=False, prefer_cp_feasibility=False,
                              cp_parity=False, telemetry=None,
-                             lp_pulse=False, lp_neighborhood=False):
+                             lp_pulse=False, lp_neighborhood=False,
+                             lp_core=False):
     """Exact reduction: degree-two pair-cover cycles -> coupled binary choices.
 
     The original exact-cover rows force exactly one of two alternating
@@ -1156,6 +1235,32 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                         model.add_hint(ys[z],int(bit))
                     if telemetry is not None:
                         telemetry["lp_hint_variables"]=len(pulses[0])
+            if lp_core and 20<=vars_count<=240 and 8<=len(d)<=100:
+                diagnostics=telemetry if telemetry is not None else {}
+                if not diagnostics.get("lp_continuous_vectors"):
+                    reconstruct_cycle_lp_pulses(
+                        matrix,np.asarray(lhs),np.asarray(rhs),
+                        np.asarray(objective,dtype=float),
+                        deadline,telemetry=diagnostics)
+                vectors=diagnostics.get("lp_continuous_vectors",[])
+                for pulse in vectors[:2]:
+                    if time.monotonic()>deadline-0.22:break
+                    binary=unsat_core_cycle_pulse(
+                        model,pulse["x"],deadline,cp_model,
+                        telemetry=diagnostics)
+                    if binary is None:continue
+                    candidate=list(forced)
+                    for z,(aa,bb) in enumerate(cycles):
+                        candidate.extend(bb if binary[z] else aa)
+                    candidate.extend(j for z,j in enumerate(empties)
+                                     if binary[len(cycles)+z])
+                    if verify(p,candidate):
+                        answer=sorted(candidate)
+                        if telemetry is not None:
+                            telemetry["core_original_verified"]=True
+                        return ((answer,False) if return_certificate else answer)
+                if telemetry is not None:
+                    telemetry["core_original_verified"]=False
             if lp_neighborhood and 20<=vars_count<=200 and 8<=len(d)<=80:
                 # Multi-resolution "infrared" pulse: binary LP coordinates
                 # close to 0/1 are candidate fixed decisions, with a growing
