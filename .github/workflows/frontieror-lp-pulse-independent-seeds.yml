@@ -1,0 +1,29 @@
+name: FrontierOR Crew LP pulse independent-seed holdout
+on:
+  push:
+    branches: [frontieror-crew-pulse-reconstruction-20261010]
+    paths:
+      - '.github/workflows/frontieror-lp-pulse-independent-seeds.yml'
+      - 'frontieror/tests/bench_crew_lp_pulse_independent_seeds.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  holdout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install same numerical and CP solvers
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1' 'ortools==9.15.6755'
+      - name: Compare ten preselected seeds, time to verified original solution
+        run: python -u frontieror/tests/bench_crew_lp_pulse_independent_seeds.py
+      - name: Retain independent holdout receipts, no competition archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-lp-pulse-preselected-seeds
+          path: frontieror/artifacts/crew-lp-pulse-independent-seeds.json
+          retention-days: 14
