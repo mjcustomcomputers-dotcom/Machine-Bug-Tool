@@ -1,0 +1,30 @@
+name: FrontierOR Crew independent staged 2CPU holdout
+on:
+  push:
+    branches: [frontieror-crew-staged-holdout-20261010]
+    paths:
+      - '.github/workflows/frontieror-crew-staged-holdout.yml'
+      - 'frontieror/hardening/Dockerfile.dual-research'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/bench_crew_staged_holdout.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  unseen-abba:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build pinned offline test container
+        run: docker build -f frontieror/hardening/Dockerfile.dual-research -t crew-holdout .
+      - name: Run unseen 3-seed ABBA comparison on 2 CPU 4GiB
+        run: |
+          docker run --rm --cpus=2 --memory=4g --memory-swap=4g --pids-limit=128 --network=none -v "$PWD":/src crew-holdout \
+            python -u frontieror/tests/bench_crew_staged_holdout.py
+      - name: Retain precommitted research measurements only
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-staged-holdout
+          path: frontieror/artifacts/crew-staged-holdout.json
+          retention-days: 14
