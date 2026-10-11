@@ -641,7 +641,8 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
 
 
 
-def independent_parity_atoms(matrix, lower, upper, max_bits=220):
+def independent_parity_atoms(matrix, lower, upper, max_bits=220,
+                             source_tolerance=None):
     """Conservatively project exactly integral binary equalities into GF(2).
 
     Return independent XOR equations (bitmask, right-hand parity). If
@@ -653,10 +654,20 @@ def independent_parity_atoms(matrix, lower, upper, max_bits=220):
     if n>max_bits or q>500 or n==0 or len(lower)!=q or len(upper)!=q:
         return []
     basis={}
+    if source_tolerance is not None and len(source_tolerance)!=q:
+        return []
     for k in range(q):
         if lower[k]!=upper[k]:
             continue
         rhs=lower[k]
+        # Preserve every assignment accepted by the original magnitude-
+        # scaled verifier, not only assignments satisfying ideal equalities.
+        if source_tolerance is not None:
+            tol=float(source_tolerance[k])
+            if (not math.isfinite(tol) or tol<0 or
+                    math.ceil(float(lower[k])-tol-1e-8)!=int(rhs) or
+                    math.floor(float(upper[k])+tol+1e-8)!=int(rhs)):
+                continue
         if not math.isfinite(rhs) or abs(rhs)>2**42 or rhs!=int(rhs):
             continue
         bits=0
@@ -684,6 +695,23 @@ def independent_parity_atoms(matrix, lower, upper, max_bits=220):
         # source-relative real-number tolerance. Keep the original model.
     return [basis[k] for k in sorted(basis,reverse=True)]
 
+
+def parity_rank_density_profile(matrix, lower, upper, source_tolerance):
+    """Measure independent safe XOR rank and structural coefficient density."""
+    q,n=matrix.shape
+    if n==0 or q==0:
+        return {"n":n,"q":q,"rank":0,"rank_fraction":0.,
+                "density":0.,"use_parity":False,"atoms":[]}
+    atoms=independent_parity_atoms(matrix,lower,upper,
+             source_tolerance=source_tolerance)
+    rank=len(atoms)
+    fraction=rank/max(1,n)
+    density=float((matrix!=0).sum())/max(1,n*q)
+    # Routing hypothesis to test on independent seeds, not a proof of speed.
+    choose=(n>=12 and q>=8 and rank>=4 and fraction>=0.25 and
+            density>=0.12)
+    return {"n":n,"q":q,"rank":rank,"rank_fraction":fraction,
+            "density":density,"use_parity":choose,"atoms":atoms}
 
 
 def coupled_cycle_choice_milp(p, deadline, reduction=None,
@@ -858,8 +886,15 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                 model.add(expr>=lower)
                 model.add(expr<=upper)
             if cp_parity:
-                for mask,bit in independent_parity_atoms(
-                        matrix,np.asarray(lhs),np.asarray(rhs)):
+                # XOR is valid only if original accepted tolerance cannot
+                # admit a second integer activity for any transformed row.
+                margins=[1.e-6*max(1.,abs(lo[k]),abs(hi[k]))
+                         for k in range(len(d))]
+                profile=parity_rank_density_profile(
+                    matrix,np.asarray(lhs),np.asarray(rhs),margins)
+                atoms=(profile["atoms"] if cp_parity is True or
+                       (cp_parity=="auto" and profile["use_parity"]) else [])
+                for mask,bit in atoms:
                     lits=[ys[z] for z in range(vars_count)
                           if (mask>>z)&1]
                     if lits:
