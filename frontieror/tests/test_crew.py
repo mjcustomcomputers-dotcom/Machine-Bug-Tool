@@ -84,6 +84,28 @@ class CrewTests(unittest.TestCase):
             self.assertTrue(crew.verify(p,candidate),
                 "A literal feasible cover cannot disappear during scaling")
 
+    def test_dense_neighborhood_is_priced_not_discarded(self):
+        # 7,005 high-cost alternatives previously hit the candidate cap and
+        # skipped the whole neighborhood; only two cheap pair rotations matter.
+        import time
+        cols=[[0],[1],[2],[3]]
+        costs=[10.0]*4
+        cols += [[0,1]]*7005
+        costs += [90.0]*7005
+        cols += [[0,1],[2,3]]
+        costs += [3.0,3.0]
+        data={"dimensions":{"num_rows":4,"num_cols":len(cols)},
+              "cost_vector":costs,
+              "constraint_matrix_A":{"columns":cols},
+              "has_base_constraints":False}
+        p=crew.parse(data)
+        original=[0,1,2,3]
+        self.assertTrue(crew.verify(p,original))
+        candidate=crew._objective_neighborhood(
+            p,original,time.monotonic()+5)
+        self.assertTrue(crew.verify(p,candidate))
+        self.assertEqual(crew.objective(p,candidate),6.0)
+
     def test_no_coverage_refused(self):
         data = example(False)
         data["constraint_matrix_A"]["columns"] = [
