@@ -818,12 +818,20 @@ def _highs_stream_incumbents(p, deadline, reduction, sender, incumbent=None,
     lbs=np.ones(len(uncovered),dtype=np.double)
     ubs=np.ones(len(uncovered),dtype=np.double)
     if d:
-        side=csr_matrix(np.asarray([[row[j] for j in active]
-                                    for row in d],dtype=np.double))
-        offsets=[math.fsum(row[j] for j in forced) for row in d]
-        mat=vstack((mat,side),format='csr')
-        lbs=np.concatenate((lbs,np.asarray([v-z for v,z in zip(lo,offsets)])))
-        ubs=np.concatenate((ubs,np.asarray([v-z for v,z in zip(hi,offsets)])))
+        # Apply exactly the same proven safe projection to the native
+        # incumbent-streaming model as the SciPy objective model. This avoids
+        # paying twice for inequalities that cannot change any completion.
+        redundant=set(redundant_side_rows(p,reduction))
+        relevant=[k for k in range(len(d)) if k not in redundant]
+        if relevant:
+            side=csr_matrix(np.asarray(
+                [[d[k][j] for j in active] for k in relevant],dtype=np.double))
+            offsets=[math.fsum(d[k][j] for j in forced) for k in relevant]
+            mat=vstack((mat,side),format='csr')
+            lbs=np.concatenate((lbs,np.asarray(
+                [lo[k]-z for k,z in zip(relevant,offsets)])))
+            ubs=np.concatenate((ubs,np.asarray(
+                [hi[k]-z for k,z in zip(relevant,offsets)])))
     selected_fixed=math.fsum(costs[j] for j in forced)
     if decision:
         if not verify(p,incumbent) or not math.isfinite(lower_bound):
