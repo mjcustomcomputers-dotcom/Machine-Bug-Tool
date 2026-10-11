@@ -1,0 +1,33 @@
+name: Crew LP pulse reconstruction cross-method microdiagnostic
+on:
+  push:
+    branches: [frontieror-crew-pulse-reconstruction-20261010]
+    paths:
+      - '.github/workflows/frontieror-lp-pulse-reconstruction.yml'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/test_crew_lp_pulses.py'
+      - 'frontieror/tests/bench_crew_lp_pulses.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-bound:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned numerical packages
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1' 'ortools==9.15.6755'
+      - name: Run original-model and test-the-test inverted oracles
+        run: python -m unittest discover -s frontieror/tests -p test_crew_lp_pulses.py -v
+      - name: Measure 20 same-instance solver variants, include hint and pulse overhead
+        run: python -u frontieror/tests/bench_crew_lp_pulses.py
+      - name: Preserve metrics only, no competition ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-lp-pulse-reconstruction
+          path: frontieror/artifacts/crew-lp-pulse-ab.json
+          retention-days: 14
