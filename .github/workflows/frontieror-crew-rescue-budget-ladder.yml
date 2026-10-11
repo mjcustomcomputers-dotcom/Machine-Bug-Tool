@@ -1,0 +1,29 @@
+name: FrontierOR Crew exact cycle rescue budget ladder
+on:
+  push:
+    branches: [frontieror-crew-coupled-cycle-rescue-20261010]
+    paths:
+      - '.github/workflows/frontieror-crew-rescue-budget-ladder.yml'
+      - 'frontieror/tests/bench_crew_rescue_budget_ladder.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  crew-hard-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install organizer numerical dependencies
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1' 'ortools==9.15.6755'
+      - name: Run six pairs of 4s/12s generated hard-case evaluations
+        run: python -u frontieror/tests/bench_crew_rescue_budget_ladder.py
+      - name: Preserve diagnostic report only (no submission archive)
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-rescue-budget-ladder
+          path: frontieror/artifacts/crew-rescue-budget-ladder.json
+          retention-days: 14
