@@ -729,9 +729,15 @@ def _highs_stream_incumbents(p, deadline, reduction, sender, incumbent=None,
                     best_cost=candidate_cost
                     # Keep callback lightweight; the parent independently
                     # checks all constraints and compares objective once more.
-                    if submitted<12 and (time.monotonic()-last_emit>0.04):
+                    # Keep late improvements observable after any number of
+                    # earlier witnesses. The old lifetime cap of 12 silently
+                    # dropped every subsequent improvement when a deadline
+                    # terminated the worker before it could send its final
+                    # return value. Throttle by elapsed time, not by count.
+                    now=time.monotonic()
+                    if submitted==0 or now-last_emit>=0.40:
                         sender.send(('improving',original))
-                        last_emit=time.monotonic()
+                        last_emit=now
                         submitted+=1
                     if decision:
                         data_in.user_interrupt=True
