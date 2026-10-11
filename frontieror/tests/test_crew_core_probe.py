@@ -13,12 +13,12 @@ class Probe(unittest.TestCase):
         from ortools.sat.python import cp_model
         model=cp_model.CpModel()
         x=[model.new_bool_var("v"+str(k)) for k in range(16)]
-        model.add(x[0]+x[1]==1)
+        model.add(x[14]+x[15]==1)
         info={}
         selected=crew.unsat_core_cycle_pulse(
             model,[0.]*16,time.monotonic()+4,cp_model,info)
         self.assertIsNotNone(selected)
-        self.assertEqual(selected[0]+selected[1],1)
+        self.assertEqual(selected[14]+selected[15],1)
         self.assertTrue(any(v.get("core_size",0)>0 for v in info["core_pulses"]))
     def test_original_witness(self):
         for seed in range(6):
