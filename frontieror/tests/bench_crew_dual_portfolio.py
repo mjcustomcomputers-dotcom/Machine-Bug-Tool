@@ -16,7 +16,8 @@ for seed,modes in ((7,("plain","dual")),(31,("dual","plain")),(43,("dual",)),(59
   receipt={};t=time.monotonic()
   try:
    answer=crew.solve(raw,25,
-     experimental_dual_portfolio=(method=="dual"),experimental_telemetry=receipt)
+     experimental_dual_portfolio=(method=="dual"),
+     experimental_portfolio_schedule="staged",experimental_telemetry=receipt)
    selected=answer["selected_rotations"]
    good=truth.independent_cover_truth(p,selected)
    if good!=crew.verify(p,selected):raise AssertionError("SOURCE_CHECKER_MISMATCH")
@@ -30,9 +31,13 @@ for seed,modes in ((7,("plain","dual")),(31,("dual","plain")),(43,("dual",)),(59
       "winner":receipt.get("dual_winner"),
       "certified":receipt.get("dual_certified",False),
       "early_exit":receipt.get("dual_early_proof_exit",False),
+      "staged_winner":receipt.get("staged_winner"),
+      "staged_cycle_wall":receipt.get("staged_cycle_wall"),
+      "staged_mip_wall":receipt.get("staged_mip_wall"),
+      "staged_certified":receipt.get("staged_certified"),
       "events":receipt.get("dual_events",[])})
  item={"rows":240,"side":20,"seed":seed,"budget":25,"methods":rows}
- print("DUAL_PROOF_EXIT_AB="+json.dumps(item),flush=True);out.append(item)
-dest=R/"artifacts"/"crew-dual-proof-exit-ab.json"
+ print("STAGED_2CPU_AB="+json.dumps(item),flush=True);out.append(item)
+dest=R/"artifacts"/"crew-staged-2cpu-ab.json"
 dest.parent.mkdir(parents=True,exist_ok=True)
 dest.write_text(json.dumps({"official_score":None,"results":out},indent=2)+"\n")
