@@ -1,0 +1,41 @@
+{
+  "track": "Main",
+  "stage": "Testing",
+  "official_score": null,
+  "state": "HOSTED_VERIFICATION_ONLY",
+  "zip_sha256": "0845946d74cd022824e89abdceb93f66046055d15f0f85d3fa26cac347975f20",
+  "zip_bytes": 78370,
+  "shared_runtime_sha256": "a922e2626d074720a1ffe56744550e4889b08e5115698f7d982412124d1a188f",
+  "solvers": [
+    {
+      "slug": "barnhart2000",
+      "sha256": "58db5eacc4cf34e9c00b44c0d7db95da8d10e726f696766f814b059690755604",
+      "bytes": 15034
+    },
+    {
+      "slug": "bodur2017",
+      "sha256": "a678c7065e662129c7b77ccb331aa4db401321d3eac80ae3da9a2f749b3f6b2a",
+      "bytes": 20045
+    },
+    {
+      "slug": "cordeau2006",
+      "sha256": "6ee5c68641c6518e3e2b46832eec6b96ed7560252b26ca162b28fde676c2e0af",
+      "bytes": 31609
+    },
+    {
+      "slug": "fischetti1998",
+      "sha256": "4aafe99b165d0bc1aa9a65a41dd10307b54ad07c20d20100185410eb09bfa653",
+      "bytes": 28206
+    },
+    {
+      "slug": "hoffman1993",
+      "sha256": "55195a038d3094bb61044f2379f5cd23f16bb1261e866cb42b93bc0b80f7453f",
+      "bytes": 148536
+    },
+    {
+      "slug": "nagy2015",
+      "sha256": "df631c402cb873aa9199bd77edcf2bc3f1ea37fe38854e059cf21f49fb37e837",
+      "bytes": 17420
+    }
+  ]
+}
