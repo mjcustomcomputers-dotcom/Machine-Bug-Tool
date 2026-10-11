@@ -1,0 +1,58 @@
+name: FrontierOR MPC exact component objective and resource verification
+on:
+  push:
+    branches: [frontieror-mpc-exact-components-20261010]
+    paths:
+      - '.github/workflows/frontieror-mpc-exact-components.yml'
+      - 'frontieror/solvers/**'
+      - 'frontieror/tests/**'
+      - 'frontieror/build_submission.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  six-solver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Match organizer-preinstalled solver packages
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1' 'ortools==9.15.6755' 'highspy==1.15.1' 'networkx==3.7'
+      - name: Run complete original and component test suites
+        run: python -m unittest discover -s frontieror/tests -v
+      - name: Verify objective comparisons for all six problems
+        run: python frontieror/benchmark.py
+      - name: Measure objective-equal exact component vs full MILP ABBA
+        run: python frontieror/tests/bench_crew_components.py
+      - name: Verify constrained offline read-only 2-vCPU 4-GB Docker runtime
+        run: |
+          docker build -f frontieror/hardening/Dockerfile --build-arg PY_VERSION=3.12 -t frontieror-components:3.12 .
+          python frontieror/hardening/sandbox_probe.py --image frontieror-components:3.12 --seconds 22 --out frontieror/artifacts/component-resource-probe.json
+      - name: Build exact six-folder twelve-file ZIP and independently read back sources
+        run: python frontieror/build_submission.py
+      - name: Publish isolated ZIP only after every objective and resource gate passes
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp frontieror/artifacts/FrontierOR-Main.zip frontieror/downloads/FrontierOR-Main.zip
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f frontieror/downloads/FrontierOR-Main.zip
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish verified exact-component candidate archive"
+            git push origin HEAD:refs/heads/frontieror-mpc-exact-components-20261010
+          fi
+      - name: Retain objective and resource receipts with exact archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontieror-mpc-exact-components
+          path: |
+            frontieror/artifacts/FrontierOR-Main.zip
+            frontieror/artifacts/manifest.json
+            frontieror/artifacts/benchmark.json
+            frontieror/artifacts/component-abba.json
+            frontieror/artifacts/component-resource-probe.json
+          retention-days: 14
