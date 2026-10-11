@@ -1,0 +1,33 @@
+name: FrontierOR Crew dual engine opt-in flight-plan A/B
+on:
+  push:
+    branches: [frontieror-crew-dual-portfolio-20261010]
+    paths:
+      - '.github/workflows/frontieror-crew-dual-portfolio.yml'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/test_crew_dual_portfolio.py'
+      - 'frontieror/tests/bench_crew_dual_portfolio.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  paired-engines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned solvers
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1' 'ortools==9.15.6755'
+      - name: Independent original truth and adverse assumption tests
+        run: python -m unittest discover -s frontieror/tests -p test_crew_dual_portfolio.py -v
+      - name: Full controller comparative race
+        run: python -u frontieror/tests/bench_crew_dual_portfolio.py
+      - name: Preserve diagnostic artifacts only
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-dual-engine-research
+          path: frontieror/artifacts/crew-dual-portfolio-ab.json
+          retention-days: 14
