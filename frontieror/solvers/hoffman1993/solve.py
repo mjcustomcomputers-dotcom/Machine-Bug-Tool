@@ -723,25 +723,70 @@ def exact_cycle_cover(p, deadline, reduction=None):
         if a is None or b is None:return None,False
         components.append((a,b))
     if not components:return None,False
-    # Exact integer checks are a conservative certificate, not approximate
-    # float linear dependence; sum magnitudes must be binary64-exact.
+    # Inverse conservation oracle: reduce an entire component's two
+    # alternating choices in a single batched matrix operation, independent
+    # of graph traversal. Keep the small-q Python path for tiny microcases
+    # where importing NumPy would cost more than the proof.
     if d:
         all_relevant=active+forced
-        for k,row in enumerate(d):
-            if any(not math.isfinite(row[j]) or
-                   abs(row[j])>2**27 or row[j]!=int(row[j])
-                   for j in all_relevant):
+        if len(d)*len(active)>=1500:
+            try:
+                import numpy as np
+                matrix=np.asarray(d,dtype=np.float64)
+                samples=matrix[:,all_relevant]
+                if not (np.isfinite(samples).all() and
+                        (np.abs(samples)<=float(2**27)).all() and
+                        (samples==np.rint(samples)).all()):
+                    return None,False
+                if empties and not (matrix[:,empties]==0).all():
+                    return None,False
+                first=[];second=[];starts=[];position=0
+                for a,b in components:
+                    starts.append(position)
+                    first.extend(a);second.extend(b)
+                    position+=len(a)
+                # A and B have the same cardinality per component. Every
+                # original pair column occurs in exactly one alternative.
+                if position!=len(active)-len(empties) or position!=len(first) or (
+                        position!=len(second)):
+                    # There are two half-cycle choices, so their combined
+                    # sizes, not one side alone, must equal active nonempty.
+                    if 2*position!=len(active)-len(empties):
+                        return None,False
+                # np.rint+int64 is exact for our bounded integral inputs;
+                # 12k rows * 2**27 stays strictly inside signed int64.
+                left=np.add.reduceat(
+                    matrix[:,first].astype(np.int64),starts,axis=1)
+                right=np.add.reduceat(
+                    matrix[:,second].astype(np.int64),starts,axis=1)
+                if not np.array_equal(left,right):
+                    return None,False
+                total=left.sum(axis=1,dtype=np.int64)
+                if forced:
+                    total+=matrix[:,forced].astype(np.int64).sum(
+                        axis=1,dtype=np.int64)
+                if not (np.abs(total)<2**50).all() or not (
+                        (total>=np.asarray(lo,dtype=np.float64)) &
+                        (total<=np.asarray(hi,dtype=np.float64))).all():
+                    return None,False
+            except (ValueError,TypeError,OverflowError,MemoryError,ImportError):
                 return None,False
-            if any(row[j]!=0 for j in empties):
-                return None,False
-            total=sum(int(row[j]) for j in forced)
-            for a,b in components:
-                av=sum(int(row[j]) for j in a)
-                bv=sum(int(row[j]) for j in b)
-                if av!=bv:return None,False
-                total+=av
-            if abs(total)>=2**50 or not lo[k]<=float(total)<=hi[k]:
-                return None,False
+        else:
+            for k,row in enumerate(d):
+                if any(not math.isfinite(row[j]) or
+                       abs(row[j])>2**27 or row[j]!=int(row[j])
+                       for j in all_relevant):
+                    return None,False
+                if any(row[j]!=0 for j in empties):
+                    return None,False
+                total=sum(int(row[j]) for j in forced)
+                for a,b in components:
+                    av=sum(int(row[j]) for j in a)
+                    bv=sum(int(row[j]) for j in b)
+                    if av!=bv:return None,False
+                    total+=av
+                if abs(total)>=2**50 or not lo[k]<=float(total)<=hi[k]:
+                    return None,False
     selected=list(forced)
     for a,b in components:
         if math.fsum(costs[j] for j in a) <= math.fsum(costs[j] for j in b):
