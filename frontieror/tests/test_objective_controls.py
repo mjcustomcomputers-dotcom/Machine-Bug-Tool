@@ -70,21 +70,45 @@ class ObjectiveControls(unittest.TestCase):
         self.assertAlmostEqual(crew.objective(p,answer),72.)
 
     def test_native_highspy_can_improve_verified_mip_start(self):
-        import highspy
-        self.assertTrue(highspy)
-        data={"dimensions":{"num_rows":4,"num_cols":6},
-              "cost_vector":[20.,20.,20.,20.,3.,3.],
-              "constraint_matrix_A":{"columns":[[0],[1],[2],[3],[0,1],[2,3]]},
-              "has_base_constraints":True,
-              "base_constraints":{"D_matrix":{"rows":[[1.]*6]},
-                   "lower_bounds_d1":[2.],"upper_bounds_d2":[4.]}}
-        p=crew.parse(data)
-        starting=[0,1,2,3]
-        self.assertTrue(crew.verify(p,starting))
-        answer=crew._bounded_native(p,"stream",5.5,incumbent=starting)
-        self.assertTrue(crew.verify(p,answer))
-        self.assertLess(crew.objective(p,answer),crew.objective(p,starting))
-        self.assertAlmostEqual(crew.objective(p,answer),6.)
+        # Native HiGHS must be tested in a sterile Python process. Loading
+        # SciPy or OR-Tools first in the unittest runner can cause a global
+        # C++ libhighs symbol collision across bundled solver extensions.
+        import subprocess
+        script = r"""
+import highspy
+import importlib.util
+import sys
+from pathlib import Path
+from time import monotonic
+src = Path(sys.argv[1])
+sys.path.insert(0,str(src.parent))
+spec = importlib.util.spec_from_file_location("crew_sterile",src)
+solver = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(solver)
+data = {"dimensions":{"num_rows":4,"num_cols":6},
+        "cost_vector":[20.,20.,20.,20.,3.,3.],
+        "constraint_matrix_A":{"columns":[[0],[1],[2],[3],[0,1],[2,3]]},
+        "has_base_constraints":True,
+        "base_constraints":{"D_matrix":{"rows":[[1.]*6]},
+             "lower_bounds_d1":[2.],"upper_bounds_d2":[4.]}}
+p = solver.parse(data)
+old = [0,1,2,3]
+assert solver.verify(p,old)
+answer = solver._bounded_native(p,"stream",5.5,incumbent=old)
+assert solver.verify(p,answer), "Sterile HiGHS child returned no checked schedule"
+assert solver.objective(p,answer) < solver.objective(p,old) - 1e-7
+assert abs(solver.objective(p,answer) - 6.0) < 1e-6
+print("NATIVE_HIGHSPY_STERILE_OBJECTIVE",solver.objective(p,answer))
+"""
+        runner = subprocess.run(
+            [sys.executable, "-c", script,
+             str(HERE/"hoffman1993"/"solve.py")],
+            cwd=HERE/"hoffman1993",
+            stdin=subprocess.DEVNULL, capture_output=True, text=True,
+            timeout=15, check=False)
+        self.assertEqual(runner.returncode,0,
+            "Native solver failed in fresh process.\\n" +
+            runner.stdout[-1500:] + runner.stderr[-3500:])
 
     def test_orienteering_prize_exchange_increases_reward_not_runtime(self):
         cities=[(0,0),(1,0),(2,0),(3,0),(1,1),(5,5)]
