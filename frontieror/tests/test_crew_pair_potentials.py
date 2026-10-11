@@ -73,6 +73,31 @@ class PairPotentials(unittest.TestCase):
         if red is not None:
             self.assertEqual(crew.pair_conserved_side_rows(p,red),[])
 
+    def test_near_integer_edge_never_certifies(self):
+        data=model(7,odd=True)
+        data["base_constraints"]["D_matrix"]["rows"][0][0]+=1e-8
+        p=crew.parse(data)
+        red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+        self.assertEqual(crew.pair_conserved_side_rows(p,red),[])
+
+    def test_conserved_total_outside_bounds_stays_required(self):
+        data=model(21,odd=False)
+        bc=data["base_constraints"]
+        bc["lower_bounds_d1"][0]+=1.
+        bc["upper_bounds_d2"][0]+=1.
+        p=crew.parse(data)
+        red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+        self.assertEqual(crew.pair_conserved_side_rows(p,red),[])
+        self.assertIsNone(crew.sparse_milp(
+            p,time.monotonic()+3,reduction=red))
+
+    def test_too_large_integer_preserves_original_side_constraint(self):
+        data=model(15)
+        data["base_constraints"]["D_matrix"]["rows"][0][0]=float(2**40)
+        p=crew.parse(data)
+        red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+        self.assertEqual(crew.pair_conserved_side_rows(p,red),[])
+
     def test_200_random_permutations_sign_inversions_negative_costs(self):
         for seed in range(200):
             with self.subTest(seed=seed):
