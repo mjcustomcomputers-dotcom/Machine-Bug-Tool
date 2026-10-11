@@ -1,0 +1,33 @@
+name: FrontierOR inverse-cycle fault diagnosis (no submission)
+on:
+  push:
+    branches: [frontieror-crew-inverse-cycle-factor-20261010]
+    paths:
+      - '.github/workflows/frontieror-inverse-cycle-diagnostic.yml'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/test_crew_inverse_cycle.py'
+      - 'frontieror/tests/bench_crew_inverse_cycle.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inverse-cycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install only isolated runtime dependencies
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1'
+      - name: Test exact cycle certificate against generated brute-force oracle
+        run: python -m unittest discover -s frontieror/tests -p test_crew_inverse_cycle.py -v
+      - name: Compare same-instance objective, certificate, and runtime
+        run: python frontieror/tests/bench_crew_inverse_cycle.py
+      - name: Preserve only focused measurement, no ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-inverse-cycle-diagnostic
+          path: frontieror/artifacts/crew-inverse-cycle-abba.json
+          retention-days: 14
