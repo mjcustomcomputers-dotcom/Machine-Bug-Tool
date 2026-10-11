@@ -636,6 +636,72 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
 
 
 
+
+def conserved_side_rows(p, reduction):
+    """Certify integer-valued side activities fixed by exact-cover equations.
+
+    For every residual row, a singleton column gives a candidate row price.
+    Only accept a side row if ALL singleton alternatives agree and EVERY
+    remaining nonempty rotation has coefficient exactly equal to the integer
+    sum of the row prices it covers. Empty rotations must have zero effect.
+    Therefore any exact cover has fixed side activity sum(price[r]) plus
+    forced-column contributions. This is equality substitution over integers,
+    not tolerance-based coefficient matching or LP approximation.
+    Bounds that exclude the fixed total remain in the original model.
+    """
+    m,n,costs,columns,incidence,d,lo,hi=p
+    if not d or reduction is None:return []
+    forced,uncovered,active=reduction
+    if not uncovered or len(active)*len(d)>2500000:return []
+    open_rows=set(uncovered)
+    singles={}
+    for j in active:
+        rows=columns[j]
+        if len(rows)==1:
+            singles.setdefault(rows[0],[]).append(j)
+    if len(singles)!=len(uncovered) or any(r not in singles for r in uncovered):
+        return []
+    # Values outside the exactly representable integer range are retained.
+    limit=2**40
+    found=[]
+    for k,base in enumerate(d):
+        prices={}
+        safe=True
+        for r in uncovered:
+            candidates=singles[r]
+            val=base[candidates[0]]
+            if not math.isfinite(val) or not val.is_integer() or abs(val)>limit:
+                safe=False
+                break
+            if any(base[j]!=val for j in candidates[1:]):
+                safe=False
+                break
+            prices[r]=int(val)
+        if not safe:continue
+        for j in active:
+            rows=columns[j]
+            observed=base[j]
+            if not math.isfinite(observed) or not observed.is_integer():
+                safe=False
+                break
+            if len(rows)!=len(set(rows)) or any(r not in open_rows for r in rows):
+                safe=False
+                break
+            if int(observed)!=sum(prices[r] for r in rows):
+                safe=False
+                break
+        if not safe:continue
+        # Guard integer-to-float conversion: the exact mathematical total
+        # must also be exactly representable in binary64 comparison.
+        forced_vals=[base[j] for j in forced]
+        if any(not math.isfinite(x) or not x.is_integer() for x in forced_vals):
+            continue
+        total=sum(prices.values())+sum(int(x) for x in forced_vals)
+        if abs(total)>2**50:continue
+        if lo[k]<=float(total)<=hi[k]:
+            found.append(k)
+    return found
+
 def redundant_side_rows(p, reduction):
     """Exact-cover side-constraint redundancy via per-row activity envelopes.
 
@@ -660,8 +726,12 @@ def redundant_side_rows(p, reduction):
         rows=columns[j]
         if len(rows)!=len(set(rows)) or any(r not in row_id for r in rows):
             return []
-    redundant=[]
+    # First remove proven integer conservation equalities. Their activity
+    # can be fixed by coverage even when the row-wise envelope is wide.
+    redundant=conserved_side_rows(p,reduction)
+    fixed=set(redundant)
     for k,base in enumerate(d):
+        if k in fixed:continue
         if not (math.isfinite(lo[k]) and math.isfinite(hi[k])):
             continue
         if all(base[j]==0. for j in forced+active):
