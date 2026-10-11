@@ -805,6 +805,76 @@ def exact_residual_components(p, deadline, reduction=None):
     return sorted(selected),True
 
 
+
+def compact_side_atoms(p, reduction, exclude=()):
+    """Lossless residual side-row atom compression.
+
+    After forced columns are fixed, identical or sign-inverted active
+    coefficient vectors describe the *same scalar activity*. Intersect
+    their intervals and retain one representative row. Never merge
+    approximate proportional rows: float rounding could alter feasibility.
+    Missing or inconsistent bounds retain original rows for solver handling.
+    Every returned solution is checked against the untouched full model.
+
+    Output: (original row id, residual lower, residual upper) records.
+    """
+    _,_,_,_,_,d,lo,hi=p
+    if not d:return []
+    forced,uncovered,active=reduction
+    excluded=set(exclude)
+    records=[]
+    if len(active)*len(d)>3_000_000 or len(d)<4:
+        for k in range(len(d)):
+            if k in excluded:continue
+            offset=math.fsum(d[k][j] for j in forced)
+            records.append((k,lo[k]-offset,hi[k]-offset))
+        return records
+    seen={}
+    for k,base in enumerate(d):
+        if k in excluded:continue
+        offset=math.fsum(base[j] for j in forced)
+        lower=lo[k]-offset
+        upper=hi[k]-offset
+        # Keep malformed/non-finite constraint rows unchanged, allowing
+        # the previous optimizer to decide, rather than invent a rounding
+        # or missing-data equivalence.
+        if not all(math.isfinite(x) for x in (lower,upper)):
+            records.append((k,lower,upper))
+            continue
+        signed=[]
+        for z,j in enumerate(active):
+            x=base[j]
+            if not math.isfinite(x):
+                signed=None
+                break
+            if x!=0.:signed.append((z,x))
+        if signed is None:
+            records.append((k,lower,upper))
+            continue
+        inverse=bool(signed and signed[0][1]<0.)
+        if inverse:
+            key=tuple((z,-v) for z,v in signed)
+            lower,upper=-upper,-lower
+        else:
+            key=tuple(signed)
+        group=seen.get(key)
+        if group is None:
+            seen[key]=(len(records),inverse)
+            # Bounds must be stored in the original representative row's
+            # coefficient orientation, not the canonical positive signature.
+            records.append((k,-upper if inverse else lower,
+                            -lower if inverse else upper))
+        else:
+            position,representative_inverse=group
+            representative,old_lower,old_upper=records[position]
+            # Transform canonical activity bounds back into the chosen
+            # representative's coefficient direction before intersecting.
+            if representative_inverse:
+                lower,upper=-upper,-lower
+            records[position]=(representative,max(old_lower,lower),
+                               min(old_upper,upper))
+    return records
+
 def sparse_milp(p, deadline, reduction=None, feasibility_only=False, return_certificate=False):
     """SCIP/HiGHS-style sparse 0-1 exact cover with literal real base bounds."""
     if deadline - time.monotonic() < 0.5:
@@ -838,16 +908,14 @@ def sparse_milp(p, deadline, reduction=None, feasibility_only=False, return_cert
     lhs=[1.0]*len(uncovered)
     rhs=[1.0]*len(uncovered)
     if d:
-        redundant=set(redundant_side_rows(p,reduced))
-        # This is a proof-based projection, not a heuristic relaxation. The
-        # original verify() still checks every omitted inequality verbatim.
-        relevant=[k for k in range(len(d)) if k not in redundant]
-        if relevant:
+        redundant=redundant_side_rows(p,reduced)
+        atoms=compact_side_atoms(p,reduced,redundant)
+        if atoms:
             A=vstack([A,csr_matrix(np.asarray(
-                [[d[k][j] for j in active] for k in relevant],dtype=float))],
+                [[d[k][j] for j in active] for k,_,_ in atoms],dtype=float))],
                 format="csr")
-            lhs += [lo[k]-offset[k] for k in relevant]
-            rhs += [hi[k]-offset[k] for k in relevant]
+            lhs += [lower for _,lower,_ in atoms]
+            rhs += [upper for _,_,upper in atoms]
     try:
         result = milp(
             c=(np.zeros(len(active),dtype=float) if feasibility_only
@@ -923,20 +991,19 @@ def _highs_stream_incumbents(p, deadline, reduction, sender, incumbent=None,
     lbs=np.ones(len(uncovered),dtype=np.double)
     ubs=np.ones(len(uncovered),dtype=np.double)
     if d:
-        # Apply exactly the same proven safe projection to the native
-        # incumbent-streaming model as the SciPy objective model. This avoids
-        # paying twice for inequalities that cannot change any completion.
-        redundant=set(redundant_side_rows(p,reduction))
-        relevant=[k for k in range(len(d)) if k not in redundant]
-        if relevant:
+        # Share the same exact compressed side atoms with SciPy and native
+        # HiGHS; both retain original-model verification and original IDs.
+        atoms=compact_side_atoms(
+            p,reduction,redundant_side_rows(p,reduction))
+        if atoms:
             side=csr_matrix(np.asarray(
-                [[d[k][j] for j in active] for k in relevant],dtype=np.double))
-            offsets=[math.fsum(d[k][j] for j in forced) for k in relevant]
+                [[d[k][j] for j in active] for k,_,_ in atoms],
+                dtype=np.double))
             mat=vstack((mat,side),format='csr')
             lbs=np.concatenate((lbs,np.asarray(
-                [lo[k]-z for k,z in zip(relevant,offsets)])))
+                [low for _,low,_ in atoms])))
             ubs=np.concatenate((ubs,np.asarray(
-                [hi[k]-z for k,z in zip(relevant,offsets)])))
+                [high for _,_,high in atoms])))
     selected_fixed=math.fsum(costs[j] for j in forced)
     if decision:
         if not verify(p,incumbent) or not math.isfinite(lower_bound):
