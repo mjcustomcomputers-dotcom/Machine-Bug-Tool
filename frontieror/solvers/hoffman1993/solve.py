@@ -2761,6 +2761,49 @@ def _bounded_native(p,method,seconds,reduction=None,incumbent=None,
 
 
 
+def _bounded_staged_crew_portfolio(p, seconds, reduction=None, telemetry=None):
+    """One wall-clock budget, two complementing methods, adaptive handoff.
+
+    On a 2-vCPU target, two heavy native engines may starve one another.
+    Phase 1 attempts source-verified cycle feasibility. Only after its
+    bounded failure does phase 2 run a full sparse MILP/proof attempt.
+    Timeouts of either stage do not assert original infeasibility.
+    """
+    started=time.monotonic()
+    if seconds<4.0:return None,False
+    # Budget choices are experimentally pinned, not native proof rules.
+    cycle_budget=min(9.5,max(1.4,seconds*0.48))
+    milestone=time.monotonic()
+    answer=_bounded_native(p,"cycle_pulse",cycle_budget,
+                           reduction=reduction)
+    good=bool(verify(p,answer))
+    if telemetry is not None:
+        telemetry["staged_cycle_wall"]=round(time.monotonic()-milestone,5)
+        telemetry["staged_cycle_valid"]=good
+    if good:
+        if telemetry is not None:
+            telemetry["staged_winner"]="cycle_pulse"
+            telemetry["staged_total_wall"]=round(time.monotonic()-started,5)
+            telemetry["staged_certified"]=False
+        return answer,False
+    remain=seconds-(time.monotonic()-started)
+    if remain<1.6:
+        if telemetry is not None:telemetry["staged_winner"]="NO_WITNESS"
+        return None,False
+    milestone=time.monotonic()
+    answer,certificate=_bounded_native(p,"mip",remain,
+                        reduction=reduction,with_certificate=True)
+    good=bool(verify(p,answer))
+    certified=bool(good and certificate)
+    if telemetry is not None:
+        telemetry["staged_mip_wall"]=round(time.monotonic()-milestone,5)
+        telemetry["staged_mip_valid"]=good
+        telemetry["staged_winner"]="mip" if good else "NO_WITNESS"
+        telemetry["staged_total_wall"]=round(time.monotonic()-started,5)
+        telemetry["staged_certified"]=certified
+    return answer if good else None,certified
+
+
 def _bounded_dual_crew_portfolio(p, seconds, reduction=None, telemetry=None):
     """Race two original-source-validating methods under ONE wall-clock budget.
 
@@ -2855,7 +2898,8 @@ def _bounded_dual_crew_portfolio(p, seconds, reduction=None, telemetry=None):
                 if child.is_alive():child.kill();child.join(timeout=0.3)
 
 def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
-          experimental_telemetry=None, experimental_dual_portfolio=False):
+          experimental_telemetry=None, experimental_dual_portfolio=False,
+          experimental_portfolio_schedule="parallel"):
     start=time.monotonic()
     p=parse(instance)
     m,n,costs,columns,incidence,d,lo,hi=p
@@ -2946,12 +2990,19 @@ def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
             until-time.monotonic()>16.0):
         obs=experimental_telemetry if experimental_telemetry is not None else {}
         available=until-time.monotonic()
-        share=min(11.5,0.55*available,available-8.0)
+        staged=(experimental_portfolio_schedule=="staged")
+        share=(min(20.0,0.94*available,available-1.2) if staged
+               else min(11.5,0.55*available,available-8.0))
         if share>=2.0:
-            option=_bounded_dual_crew_portfolio(
-                p,share,reduction=reduced,telemetry=obs)
+            if staged:
+                option,proof=_bounded_staged_crew_portfolio(
+                    p,share,reduction=reduced,telemetry=obs)
+            else:
+                option=_bounded_dual_crew_portfolio(
+                    p,share,reduction=reduced,telemetry=obs)
+                proof=bool(obs.get("dual_certified"))
             keep(option)
-            if (obs.get("dual_certified") and verify(p,backup) and
+            if (proof and verify(p,backup) and
                     verify(p,option) and
                     objective(p,backup)<=objective(p,option)+1e-8):
                 # The original MIP controller already respects the same
