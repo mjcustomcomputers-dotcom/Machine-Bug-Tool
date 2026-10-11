@@ -18,5 +18,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Match optimizer dependencies for native comparison
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1'
       - name: Test one scorerisk structural inversion only
         run: python -m unittest discover -s frontieror/tests -p test_crew_score_floor_probe.py -v
