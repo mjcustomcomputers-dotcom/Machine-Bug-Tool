@@ -40,6 +40,19 @@ class CrewScoreFloorProbe(unittest.TestCase):
                  "MRV_verified":crew.verify(p,result),
                  "MRV_objective":crew.objective(p,result) if crew.verify(p,result) else None}
         print("SCORE_FLOOR_PROBE="+json.dumps(receipt),flush=True)
+        # Measure two native optimizers on the *same original objective and
+        # full feasibility oracle*, not simply the cheapest method's exit.
+        for decision in ("feasibility","objective"):
+            started=time.monotonic()
+            witness=crew.sparse_milp(
+                p,time.monotonic()+3.5,reduction=reduction,
+                feasibility_only=(decision=="feasibility"))
+            delta=time.monotonic()-started
+            print("SCORE_FLOOR_NATIVE="+json.dumps({
+                "method":decision,"seconds":round(delta,5),
+                "original_valid":crew.verify(p,witness),
+                "objective":crew.objective(p,witness)
+                     if crew.verify(p,witness) else None}),flush=True)
         # This is a diagnosis, not an assumed claim that MRV always wins.
         self.assertLess(elapsed,2.5)
 
