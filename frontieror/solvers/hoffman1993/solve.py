@@ -812,10 +812,77 @@ def sonar_feedback_cycle_rescue(p, deadline, reduction=None,
         prefer_cp_feasibility=True,cp_parity=use_xor)
 
 
+
+def reconstruct_cycle_lp_pulses(matrix, lhs, rhs, cycle_costs, deadline,
+                                telemetry=None):
+    """Bounded LP acoustic analogy: reconstruct candidate binary phase hints.
+
+    Two finite continuous-relaxation pulses (zero-cost feasibility, then
+    objective-oriented) provide candidate 0/1 assignments by nearest-bit
+    projection. Both the LP and rounded hints are nonauthoritative:
+    a candidate is accepted only by the original complete Crew verifier.
+    Infeasibility of either LP pulse is never promoted to source infeasibility.
+    """
+    try:
+        import numpy as np
+        from scipy.optimize import linprog
+    except ImportError:
+        return []
+    q,n=matrix.shape
+    if (n<4 or n>1500 or q>180 or q==0 or
+            time.monotonic()>deadline-0.18):
+        return []
+    if (not np.isfinite(matrix).all() or
+            not np.isfinite(lhs).all() or
+            not np.isfinite(rhs).all() or
+            not np.isfinite(cycle_costs).all()):
+        return []
+    A=np.vstack((matrix,-matrix))
+    limits=np.concatenate((rhs,-lhs))
+    if not np.isfinite(A).all() or not np.isfinite(limits).all():
+        return []
+    candidates=[]
+    samples=[]
+    for label,c in (("feasibility",np.zeros(n,dtype=float)),
+                    ("cost",np.asarray(cycle_costs,dtype=float))):
+        left=deadline-time.monotonic()
+        if left<0.17:break
+        allowance=min(0.16,max(0.02,left*0.025))
+        started=time.monotonic()
+        try:
+            reply=linprog(c,A_ub=A,b_ub=limits,
+                          bounds=(0.,1.),method="highs",
+                          options={"time_limit":allowance,"presolve":True})
+        except (ValueError,RuntimeError,MemoryError):
+            break
+        sample={"pulse":label,"wall_s":time.monotonic()-started,
+                "status":int(reply.status)}
+        if reply.x is not None and np.isfinite(reply.x).all():
+            x=np.asarray(reply.x,dtype=float)
+            if ((x>=-1e-7)&(x<=1.+1e-7)).all():
+                rounded=np.rint(x).astype(np.int64)
+                residual=np.maximum(
+                    np.maximum(np.asarray(lhs)-matrix@rounded,0),
+                    np.maximum(matrix@rounded-np.asarray(rhs),0))
+                sample["fractional_mass"]=float(
+                    np.sum(np.minimum(x,1-x)))
+                sample["rounded_violation"]=float(residual.sum())
+                candidates.append((float(residual.sum()),
+                    float(np.sum(np.minimum(x,1-x))),label,rounded.tolist()))
+        samples.append(sample)
+    candidates.sort(key=lambda x:(x[0],x[1],x[2]))
+    if telemetry is not None:
+        telemetry["lp_pulses"]=samples
+        telemetry["lp_rounded_candidates"]=len(candidates)
+    return [bits for _,_,_,bits in candidates]
+
+
+
 def coupled_cycle_choice_milp(p, deadline, reduction=None,
                              feasibility_only=False, return_certificate=False,
                              rescue_first=False, prefer_cp_feasibility=False,
-                             cp_parity=False, telemetry=None):
+                             cp_parity=False, telemetry=None,
+                             lp_pulse=False):
     """Exact reduction: degree-two pair-cover cycles -> coupled binary choices.
 
     The original exact-cover rows force exactly one of two alternating
@@ -1026,6 +1093,31 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                         # first literal when RHS is even.
                         if bit==0:lits[0]=lits[0].Not()
                         model.add_bool_xor(lits)
+            if lp_pulse:
+                # Method-as-sensor: LP pulses reconstruct source-blind
+                # bit candidates, then the integer solver receives only
+                # nonbinding hints; never fix variables based on an echo.
+                pulses=reconstruct_cycle_lp_pulses(
+                    matrix,np.asarray(lhs),np.asarray(rhs),
+                    np.asarray(objective,dtype=float),
+                    deadline,telemetry=telemetry)
+                for bits in pulses:
+                    recovered_choice=list(forced)
+                    for z,(aa,bb) in enumerate(cycles):
+                        recovered_choice.extend(bb if bits[z] else aa)
+                    recovered_choice.extend(j for z,j in enumerate(empties)
+                         if bits[len(cycles)+z])
+                    if verify(p,recovered_choice):
+                        verified=sorted(recovered_choice)
+                        if telemetry is not None:
+                            telemetry["lp_original_verified"]=True
+                        return ((verified,False) if return_certificate
+                                else verified)
+                if pulses:
+                    for z,bit in enumerate(pulses[0]):
+                        model.add_hint(ys[z],int(bit))
+                    if telemetry is not None:
+                        telemetry["lp_hint_variables"]=len(pulses[0])
             solver=cp_model.CpSolver()
             solver.parameters.num_search_workers=2
             solver.parameters.stop_after_first_solution=True
