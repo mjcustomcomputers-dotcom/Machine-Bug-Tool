@@ -1,0 +1,33 @@
+name: FrontierOR staged two-method search under 2 vCPU
+on:
+  push:
+    branches: [frontieror-crew-staged-2cpu-20261010]
+    paths:
+      - '.github/workflows/frontieror-crew-staged-2cpu.yml'
+      - 'frontieror/hardening/Dockerfile.dual-research'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/test_crew_dual_portfolio.py'
+      - 'frontieror/tests/bench_crew_dual_portfolio.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  staged-flight-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build pinned sandbox runtime
+        run: docker build -f frontieror/hardening/Dockerfile.dual-research -t crew-staged-2cpu .
+      - name: Run adversarial and independent original checks within sandbox
+        run: |
+          docker run --rm --cpus=2 --memory=4g --memory-swap=4g --pids-limit=128 --network=none -v "$PWD":/src crew-staged-2cpu             python -m unittest discover -s frontieror/tests -p test_crew_dual_portfolio.py -v
+      - name: Benchmark staged methods against original controller in sandbox
+        run: |
+          docker run --rm --cpus=2 --memory=4g --memory-swap=4g --pids-limit=128 --network=none -v "$PWD":/src crew-staged-2cpu             python -u frontieror/tests/bench_crew_dual_portfolio.py
+      - name: Preserve research outputs only
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-staged-2cpu-diagnostics
+          path: frontieror/artifacts/crew-staged-2cpu-ab.json
+          retention-days: 14
