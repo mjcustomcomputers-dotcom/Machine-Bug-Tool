@@ -109,6 +109,36 @@ class CoupledCycleRescue(unittest.TestCase):
             p,time.monotonic()+3,red),(None,False))
         self.assertEqual(crew.objective(p,ans),original_bruteforce(p))
 
+    def test_inverse_overdetermined_recovers_hidden_feasible_cover(self):
+        # The source generator selects a valid cover *before* deriving the
+        # equality RHS. The candidate reconstruction receives only the
+        # declared complete model, not that generator's hidden witness.
+        for seed in range(20):
+            with self.subTest(seed=seed):
+                groups=7
+                d=cycle_case(groups=groups,q=14,seed=seed,empty=True)
+                p=crew.parse(d)
+                red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+                candidate,cert=crew.coupled_cycle_choice_milp(
+                    p,time.monotonic()+2,reduction=red,
+                    feasibility_only=True,return_certificate=True,
+                    rescue_first=True)
+                self.assertTrue(crew.verify(p,candidate))
+                self.assertFalse(cert)
+
+    def test_inverse_never_fabricates_solution_on_conflicting_bounds(self):
+        d=cycle_case(groups=4,q=8,seed=17,empty=True)
+        bc=d["base_constraints"]
+        bc["D_matrix"]["rows"][0]=[0.]*d["dimensions"]["num_cols"]
+        bc["lower_bounds_d1"][0]=1.
+        bc["upper_bounds_d2"][0]=1.
+        p=crew.parse(d)
+        candidate,cert=crew.coupled_cycle_choice_milp(
+            p,time.monotonic()+2,feasibility_only=True,
+            return_certificate=True,rescue_first=True)
+        self.assertIsNone(candidate)
+        self.assertFalse(cert)
+
     def test_extra_edge_degree_three_returns_unknown(self):
         d=cycle_case(groups=2,q=3,corrupt=True)
         p=crew.parse(d)
