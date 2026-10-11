@@ -2989,7 +2989,7 @@ def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
         reduced is not None and 80<=effective_rows<=320 and
         80<=effective_cols<=1200 and 8<=len(d)<=100 and
         effective_rows<=12*len(d) and effective_nz<=2500 and
-        side_work<=120000 and until-time.monotonic()>24.0 and
+        side_work<=120000 and until-time.monotonic()>16.0 and
         all(len(columns[j]) in (0,2) for j in reduced[2]))
     if release_staged and experimental_telemetry is not None:
         experimental_telemetry["release_auto_portfolio"]="STAGED_2VCPU"
