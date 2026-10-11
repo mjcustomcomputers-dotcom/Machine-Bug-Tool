@@ -641,7 +641,8 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
 
 
 def coupled_cycle_choice_milp(p, deadline, reduction=None,
-                             feasibility_only=False, return_certificate=False):
+                             feasibility_only=False, return_certificate=False,
+                             rescue_first=False):
     """Exact reduction: degree-two pair-cover cycles -> coupled binary choices.
 
     The original exact-cover rows force exactly one of two alternating
@@ -756,6 +757,35 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                                      np.asarray(lhs),np.asarray(rhs))
     else:
         constraints=None
+    # Reverse the coupled constraints to reconstruct a feasible 0/1
+    # assignment before a branch-and-bound search. The dense least-squares
+    # solve is only attempted on small overdetermined equality systems.
+    # It is a source-bound candidate generator, NEVER an optimality proof.
+    recovered=None
+    if (rescue_first and d and vars_count<=96 and len(d)>=vars_count and
+            vars_count>0 and
+            all(abs(a-b)<=1.e-12 for a,b in zip(lhs,rhs)) and
+            time.monotonic()<deadline-0.22):
+        try:
+            vector=np.asarray(lhs,dtype=np.float64)
+            proposal=np.linalg.lstsq(matrix,vector,rcond=None)[0]
+            rounded=np.rint(proposal)
+            if (np.isfinite(proposal).all() and
+                    ((proposal>=-1.e-5)&(proposal<=1.+1.e-5)).all() and
+                    np.max(np.abs(proposal-rounded))<=1.e-5 and
+                    ((rounded==0)|(rounded==1)).all()):
+                candidate=list(forced)
+                for z,(a,b) in enumerate(cycles):
+                    candidate.extend(b if rounded[z]>0.5 else a)
+                candidate.extend(j for z,j in enumerate(empties)
+                                 if rounded[len(cycles)+z]>0.5)
+                if verify(p,candidate):
+                    recovered=sorted(candidate)
+                    if feasibility_only:
+                        return ((recovered,False) if return_certificate
+                                else recovered)
+        except (np.linalg.LinAlgError,ValueError,MemoryError):
+            pass
     try:
         left=max(0.05,deadline-time.monotonic()-0.10)
         result=milp(c=(np.zeros(vars_count) if feasibility_only else
@@ -769,17 +799,25 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
     except (ValueError,RuntimeError,MemoryError):
         return (None,False) if return_certificate else None
     if result.x is None:
-        return (None,False) if return_certificate else None
+        return (recovered,False) if return_certificate else recovered
     chosen=list(forced)
     for z,(a,b) in enumerate(cycles):
         chosen.extend(b if result.x[z]>0.5 else a)
     chosen.extend(j for z,j in enumerate(empties)
                   if result.x[len(cycles)+z]>0.5)
     checked=sorted(chosen) if verify(p,chosen) else None
+    if (recovered is not None and
+            (checked is None or objective(p,recovered)<objective(p,checked)-1e-8)):
+        checked=recovered
+        # The following certificate must be disabled if the independent
+        # reconstruction, not the globally optimized MILP, wins.
+        used_recovery=True
+    else:
+        used_recovery=False
     if not return_certificate:return checked
     try:
-        certified=bool(checked is not None and not feasibility_only and
-                       result.status==0 and
+        certified=bool(checked is not None and not used_recovery and
+                       not feasibility_only and result.status==0 and
                        float(result.mip_gap)<=1e-8 and
                        math.isfinite(float(result.mip_dual_bound)) and
                        abs(float(result.fun)-float(result.mip_dual_bound))<=
