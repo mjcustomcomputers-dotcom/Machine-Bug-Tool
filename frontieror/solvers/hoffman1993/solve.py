@@ -710,17 +710,15 @@ def exact_cycle_cover(p, deadline, reduction=None):
             if current in visited:
                 return None,False
             chosen=alternative(current,forbidden)
+        # Counterexample-first inversion: check the first side row before
+        # constructing any further graph components. A disagreement in one
+        # cycle already falsifies the entire invariance proof.
+        if d and (math.fsum(d[0][j] for j in a) !=
+                  math.fsum(d[0][j] for j in b)):
+            return None,False
         pending.difference_update(visited)
         components.append((a,b))
     if not components:return None,False
-    # Cheap inverted falsifier: a disagreement in even ONE candidate cycle's
-    # side activity means a global side effect is choice-dependent. Skip the
-    # large q-by-n array and return the original problem to the MILP.
-    if d:
-        row=d[0]
-        for a,b in components[:min(len(components),4)]:
-            if math.fsum(row[j] for j in a)!=math.fsum(row[j] for j in b):
-                return None,False
     # Inverse conservation oracle: reduce an entire component's two
     # alternating choices in a single batched matrix operation, independent
     # of graph traversal. Keep the small-q Python path for tiny microcases
