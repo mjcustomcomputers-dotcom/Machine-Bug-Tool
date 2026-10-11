@@ -1,0 +1,29 @@
+name: Crew CP feasibility rescue cross-seed diagnostic
+on:
+  push:
+    branches: [frontieror-crew-coupled-cycle-rescue-20261010]
+    paths:
+      - '.github/workflows/frontieror-crew-cp-rescue-cross-seed.yml'
+      - 'frontieror/tests/bench_crew_cp_rescue_cross_seed.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  narrow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install numerical and constraint solvers
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1' 'ortools==9.15.6755'
+      - name: Four original-verified CP rescue probes
+        run: python -u frontieror/tests/bench_crew_cp_rescue_cross_seed.py
+      - name: Retain diagnostic JSON only
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-cp-cross-seed-recon
+          path: frontieror/artifacts/crew-rescue-cross-seed.json
+          retention-days: 14
