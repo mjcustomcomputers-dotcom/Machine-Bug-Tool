@@ -68,7 +68,7 @@ def brute(p):
 
 class AtomicFaultLineTests(unittest.TestCase):
     def test_randomized_signed_duplicates_and_optional_negative_costs(self):
-        for seed in range(80):
+        for seed in range(200):
             with self.subTest(seed=seed):
                 p=crew.parse(make(seed))
                 optimum=brute(p)
@@ -128,8 +128,35 @@ class AtomicFaultLineTests(unittest.TestCase):
         atoms=crew.compact_side_atoms(p,red)
         self.assertEqual(len(atoms),2)
 
+    def test_late_exact_inverse_duplicate_survives_prefilter(self):
+        # Thirty-four different absolute-sum signatures, then a true exact
+        # inverse of the first row at the very end. The cheap fingerprint
+        # may reject only when duplication is mathematically impossible.
+        m=40
+        cols=[[i] for i in range(m)]+[[2*i,2*i+1] for i in range(m//2)]
+        n=len(cols)
+        side=[]
+        for k in range(34):
+            row=[0.]*n
+            row[m+(k%20)]=float(k+1)
+            side.append(row)
+        side.append([-v for v in side[0]])
+        data={"dimensions":{"num_rows":m,"num_cols":n},
+          "cost_vector":[8.]*m+[3.]*(m//2),
+          "constraint_matrix_A":{"columns":cols},
+          "has_base_constraints":True,
+          "base_constraints":{"D_matrix":{"rows":side},
+            "lower_bounds_d1":[-100.]*len(side),
+            "upper_bounds_d2":[100.]*len(side)}}
+        p=crew.parse(data)
+        red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
+        atoms=crew.compact_side_atoms(p,red)
+        self.assertEqual(len(atoms),34)
+        ans=crew.sparse_milp(p,time.monotonic()+5,reduction=red)
+        self.assertTrue(crew.verify(p,ans))
+
     def test_signed_cost_metamorphs_column_permutation_and_inverse_rows(self):
-        for seed in range(30):
+        for seed in range(60):
             base=make(seed+200)
             p=crew.parse(base)
             optimum=brute(p)[0]
