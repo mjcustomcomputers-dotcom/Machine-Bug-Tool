@@ -29,8 +29,8 @@ def fixture(blocks=55,q=65,perturbed=False):
        "base_constraints":{"D_matrix":{"rows":d},
           "lower_bounds_d1":lo,"upper_bounds_d2":hi}}
 
-def compare(perturbed=False):
-    p=crew.parse(fixture(perturbed=perturbed))
+def compare(perturbed=False,blocks=55,q=65):
+    p=crew.parse(fixture(blocks=blocks,q=q,perturbed=perturbed))
     red=crew.reduce_forced_rotations(p,crew.dominated_rotations(p))
     direct=crew.pair_conserved_side_rows(p,red)
     baseline=crew.pair_conserved_side_rows
@@ -57,8 +57,12 @@ def compare(perturbed=False):
       "objective":sample[0]["objective"],"samples":sample}
 
 if __name__=="__main__":
-    report={"type":"focused_pair_potential_ABBA","official_score":None,
-            "results":[compare(),compare(True)]}
+    # Two-sided fault matrix, not one happy-path fixture. Preserve the same
+    # measured objective for literal and transformed models at each dimension.
+    specs=[(15,8),(55,8),(55,65),(150,65)]
+    report={"type":"focused_pair_potential_ABBA_matrix","official_score":None,
+            "results":[compare(failure,blocks,q)
+                       for blocks,q in specs for failure in (False,True)]}
     print(json.dumps(report))
     dest=ROOT/"artifacts"/"crew-pair-potential-abba.json"
     dest.parent.mkdir(parents=True,exist_ok=True)
