@@ -2846,7 +2846,9 @@ def solve(instance, time_limit_s, *, experimental_cycle_rescue=False,
             and until-time.monotonic()>16.0
             and all(len(columns[j]) in (0,2) for j in reduced[2])):
         now=time.monotonic()
-        pulse_budget=min(9.5,0.36*(until-now),until-now-7.0)
+        # Preserve a native MILP/HiGHS reserve even if the pulse cannot
+        # produce an incumbent; release the budget sooner on hard cases.
+        pulse_budget=min(5.8,0.30*(until-now),until-now-10.0)
         if pulse_budget>=1.0:
             trace={}
             option=coupled_cycle_choice_milp(
