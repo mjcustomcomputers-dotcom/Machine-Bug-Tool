@@ -1,0 +1,59 @@
+name: FrontierOR Main production candidate — six-solver hard gate
+on:
+  push:
+    branches: [frontieror-main-release-candidate-20261010]
+    paths:
+      - '.github/workflows/frontieror-main-johnny5-release.yml'
+      - 'frontieror/solvers/**'
+      - 'frontieror/shared/**'
+      - 'frontieror/build_submission.py'
+      - 'frontieror/tests/**'
+      - 'frontieror/hardening/Dockerfile.main-release'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  all-six-hard-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build pinned organizer-like Python 3.12 runtime
+        run: docker build -f frontieror/hardening/Dockerfile.main-release -t frontieror-release-check .
+      - name: Full independent six-solver regression suite under 2vCPU and 4GiB
+        run: |
+          docker run --rm --cpus=2 --memory=4g --memory-swap=4g --network=none --pids-limit=256 \
+            --tmpfs /tmp:rw,size=64m \
+            -v "$PWD":/src:ro frontieror-release-check \
+            python -m unittest discover -s frontieror/tests -p 'test_*.py' -v
+        # Archive test is run later, after packaging. Do not run it here.
+        continue-on-error: false
+      - name: Build six-solver archive and SHA-256 manifest
+        run: |
+          python frontieror/build_submission.py --out frontieror/artifacts/FrontierOR-Main-Johnny5-Verified.zip
+          sha256sum frontieror/artifacts/FrontierOR-Main-Johnny5-Verified.zip
+      - name: Test archive after extraction using actual six CLI contracts
+        run: |
+          docker run --rm --cpus=2 --memory=4g --memory-swap=4g --network=none --pids-limit=256 \
+            --tmpfs /tmp:rw,size=64m \
+            -v "$PWD":/src:ro frontieror-release-check \
+            python -m unittest discover -s frontieror/tests -p 'test_release_archive.py' -v
+      - name: Publish only the verified ZIP and SHA manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: FrontierOR-Main-Johnny5-Verified
+          path: |
+            frontieror/artifacts/FrontierOR-Main-Johnny5-Verified.zip
+            frontieror/artifacts/manifest.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Commit direct-download ZIP to isolated release branch
+        run: |
+          mkdir -p frontieror/downloads
+          cp frontieror/artifacts/FrontierOR-Main-Johnny5-Verified.zip frontieror/downloads/FrontierOR-Main-Johnny5-Verified.zip
+          cp frontieror/artifacts/manifest.json frontieror/downloads/FrontierOR-Main-Johnny5-Verified.manifest.json
+          git config user.name "frontieror-release-gate[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontieror/downloads/FrontierOR-Main-Johnny5-Verified.zip frontieror/downloads/FrontierOR-Main-Johnny5-Verified.manifest.json
+          git commit -m "Publish 6-solver verified ZIP from Docker/CLI hard gate"
+          git push origin HEAD:frontieror-main-release-candidate-20261010
