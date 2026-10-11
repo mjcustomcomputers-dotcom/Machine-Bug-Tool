@@ -1,0 +1,33 @@
+name: FrontierOR Johnny5 Supermode GF2 adaptive route
+on:
+  push:
+    branches: [frontieror-johnny5-rank-density-supermode-20261010]
+    paths:
+      - '.github/workflows/frontieror-johnny5-supermode.yml'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/test_crew_supermode_router.py'
+      - 'frontieror/tests/bench_crew_supermode_router.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  five-level:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install only numerical and CP solver dependencies
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1' 'ortools==9.15.6755'
+      - name: Invert source tolerance and test the independent oracle
+        run: python -m unittest discover -s frontieror/tests -p test_crew_supermode_router.py -v
+      - name: Compare parity rank/density routing on identical Crew instances
+        run: python -u frontieror/tests/bench_crew_supermode_router.py
+      - name: Retain source-bound research evidence only
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontieror-supermode-rank-density
+          path: frontieror/artifacts/crew-supermode-rank-density.json
+          retention-days: 14
