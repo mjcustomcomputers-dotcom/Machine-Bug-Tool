@@ -53,7 +53,7 @@ def run(groups,q,seed,budget,mode):
         "claimed_optimal":bool(cert)}
 
 def main():
-    specs=[(60,20,31,10),(60,20,23,10),(120,25,17,16)]
+    specs=[(60,20,43,8),(60,20,7,8),(60,20,31,8),(120,25,17,10)]
     result=[]
     for index,(groups,q,seed,budget) in enumerate(specs):
         data=gen.cycle_case(groups=groups,q=q,seed=seed,empty=True)
