@@ -639,23 +639,24 @@ def cp_sat_side_compact(p, deadline, incumbent=None, feasibility_only=True,
 
 
 def pair_conserved_side_rows(p, reduction):
-    """Exact integer row-potential proof on pair-only residual coverage.
+    """Exact parity-aware pair conservation, vectorized across side rows.
 
-    Solve 2*u_r = sign[r]*T + offset[r] over each graph component using
-    2*b_(r,s)=2*u_r+2*u_s. Odd-cycle edges fix T; bipartite components must
-    have equal sign-partition sizes so the total does not depend on T.
-    Only exact integers are accepted. Optional empty columns must have zero
-    side effect. This proves an identity; it never assumes matching exists.
+    Each pair edge enforces t[u]+t[v]=2*b[edge], with t=2*row potential.
+    The graph/tree is traversed once and numpy int64 vector arithmetic
+    checks every side row. Bipartite components need balanced partitions;
+    odd-cycle components fix the root gauge. All accepted rows use strictly
+    integral coefficients within conservative int64/float64 exact bounds.
     """
     _,_,_,columns,_,d,lo,hi=p
     if not d or reduction is None:return []
     forced,uncovered,active=reduction
-    m=len(uncovered)
-    if (m<2 or m>1600 or len(d)>120 or
-            len(d)*len(active)>160000):return []
-    ids={r:i for i,r in enumerate(uncovered)}
-    adjacency=[[] for _ in uncovered]
-    pair=[]
+    nrows=len(uncovered)
+    q=len(d)
+    if (nrows<2 or nrows>1600 or q>120 or
+            q*len(active)>160000):return []
+    index={r:i for i,r in enumerate(uncovered)}
+    graph=[[] for _ in uncovered]
+    edges=[]
     empties=[]
     for j in active:
         rows=columns[j]
@@ -663,66 +664,74 @@ def pair_conserved_side_rows(p, reduction):
             empties.append(j)
             continue
         if len(rows)!=2 or rows[0]==rows[1]:return []
-        a=ids.get(rows[0]);b=ids.get(rows[1])
-        if a is None or b is None:return []
-        adjacency[a].append((b,j));adjacency[b].append((a,j))
-        pair.append(j)
-    if not pair or any(not e for e in adjacency):return []
-    # Compute sign and affine offset coefficients for a single side row at
-    # a time, using arbitrary-precision integer arithmetic (no overflow).
-    found=[]
-    for k,base in enumerate(d):
-        if any(base[j]!=0 for j in empties):continue
-        indices=pair+forced
-        if any(not math.isfinite(base[j]) or
-               abs(base[j])>2**35 or
-               base[j]!=int(base[j]) for j in indices):continue
-        sign=[0]*m
-        offset=[0]*m
-        ok=True
-        total_numer=0
-        for root in range(m):
+        u=index.get(rows[0]);v=index.get(rows[1])
+        if u is None or v is None:return []
+        graph[u].append((v,j));graph[v].append((u,j))
+        edges.append(j)
+    if not edges or any(not row for row in graph):return []
+    try:
+        import numpy as np
+        # 2**27 keeps all component path sums far inside signed int64
+        # under the row cap, including odd-cycle gauge corrections.
+        chosen=edges+forced+empties
+        values=np.asarray([[d[k][j] for j in chosen] for k in range(q)],
+                          dtype=np.float64)
+        safe=np.isfinite(values).all(axis=1)
+        safe &= (np.abs(values)<=float(2**27)).all(axis=1)
+        safe &= (values==np.rint(values)).all(axis=1)
+        if empties:
+            safe &= (values[:,-len(empties):]==0).all(axis=1)
+        # Replace invalid values only inside the conservative classifier;
+        # those source rows remain retained by the full model.
+        values=np.where(np.isfinite(values) &
+                        (np.abs(values)<=float(2**27)) &
+                        (values==np.rint(values)),values,0).astype(np.int64)
+        lookup={j:i for i,j in enumerate(chosen)}
+        sign=[0]*nrows
+        offsets=np.zeros((nrows,q),dtype=np.int64)
+        totals=np.zeros(q,dtype=np.int64)
+        for root in range(nrows):
             if sign[root]:continue
             sign[root]=1
             queue=[root]
-            front=0
-            anchor=None
-            while front<len(queue) and ok:
-                u=queue[front];front+=1
-                for v,j in adjacency[u]:
-                    rhs=2*int(base[j])
+            pos=0
+            gauge=np.zeros(q,dtype=np.int64)
+            anchored=np.zeros(q,dtype=bool)
+            while pos<len(queue):
+                u=queue[pos];pos+=1
+                for v,j in graph[u]:
+                    rhs=2*values[:,lookup[j]]
                     if not sign[v]:
                         sign[v]=-sign[u]
-                        offset[v]=rhs-offset[u]
+                        offsets[v]=rhs-offsets[u]
                         queue.append(v)
                     else:
-                        divisor=sign[u]+sign[v]
-                        numerator=rhs-offset[u]-offset[v]
-                        if divisor==0:
-                            if numerator!=0:ok=False;break
+                        residual=rhs-offsets[u]-offsets[v]
+                        den=sign[u]+sign[v]
+                        if den==0:
+                            safe &= residual==0
                         else:
-                            if numerator%divisor:
-                                ok=False;break
-                            needed=numerator//divisor
-                            if anchor is None:anchor=needed
-                            elif anchor!=needed:ok=False;break
-            if not ok:break
-            partition_balance=sum(sign[v] for v in queue)
-            if anchor is None:
-                # For a bipartite pair component, each exact matching
-                # covers one vertex of each color per selected pair.
-                # If partition sizes differ, the potential total would
-                # depend on an unconstrained gauge: retain the row.
-                if partition_balance!=0:
-                    ok=False;break
-                anchor=0
-            total_numer+=sum(offset[v]+sign[v]*anchor for v in queue)
-        if not ok or total_numer%2:continue
-        total=total_numer//2+sum(int(base[j]) for j in forced)
-        if abs(total)>2**50:continue
-        if lo[k]<=float(total)<=hi[k]:
-            found.append(k)
-    return found
+                            safe &= residual%den==0
+                            value=residual//den
+                            safe &= (~anchored)|(gauge==value)
+                            gauge=np.where(anchored,gauge,value)
+                            anchored[:]=True
+            balance=sum(sign[v] for v in queue)
+            if balance:
+                safe &= anchored
+            totals += offsets[queue].sum(axis=0,dtype=np.int64)
+            totals += balance*gauge
+        safe &= totals%2==0
+        totals=totals//2
+        if forced:
+            first=len(edges)
+            totals+=values[:,first:first+len(forced)].sum(axis=1,dtype=np.int64)
+        safe &= (np.abs(totals)<2**50)
+        safe &= (totals>=np.asarray(lo,dtype=np.float64))
+        safe &= (totals<=np.asarray(hi,dtype=np.float64))
+        return [int(k) for k in np.flatnonzero(safe)]
+    except (ValueError,TypeError,OverflowError,MemoryError):
+        return []
 
 
 def conserved_side_rows(p, reduction):
