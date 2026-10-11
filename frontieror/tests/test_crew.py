@@ -60,6 +60,30 @@ class CrewTests(unittest.TestCase):
                 best = cost if best is None else min(cost, best)
         self.assertEqual(result["objective_value"], best)
 
+    def test_fractional_side_cp_does_not_prune_valid_cover(self):
+        # Prior round-to-nearest with +/-1 (at scale 1e6) turned ten
+        # coefficients of 0.49 into zeros while demanding activity >=3.
+        # Original feasible assignment was therefore falsely UNSAT.
+        import time
+        m=10
+        cols=[[i] for i in range(m)]
+        for sign in (1,-1):
+            coef=[sign*0.00000049]*m
+            bound=sign*0.0000049
+            data={"dimensions":{"num_rows":m,"num_cols":m},
+                  "cost_vector":[1.0]*m,
+                  "constraint_matrix_A":{"columns":cols},
+                  "has_base_constraints":True,
+                  "base_constraints":{"D_matrix":{"rows":[coef]},
+                      "lower_bounds_d1":[bound],
+                      "upper_bounds_d2":[bound]}}
+            p=crew.parse(data)
+            self.assertTrue(crew.verify(p,list(range(m))))
+            candidate=crew.cp_sat_side(
+                p,time.monotonic()+4,feasibility_only=True)
+            self.assertTrue(crew.verify(p,candidate),
+                "A literal feasible cover cannot disappear during scaling")
+
     def test_no_coverage_refused(self):
         data = example(False)
         data["constraint_matrix_A"]["columns"] = [
