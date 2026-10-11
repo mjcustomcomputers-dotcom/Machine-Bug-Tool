@@ -45,7 +45,7 @@ class SonarMethodAsClassifier(unittest.TestCase):
         # solver, separate oracle, and mutation check must agree.
         for seed in range(15):
             with self.subTest(seed=seed):
-                raw=fixture.cycle_case(groups=2,q=4,seed=seed,empty=True)
+                raw=fixture.cycle_case(groups=6,q=3,seed=seed,empty=True)
                 p=crew.parse(raw)
                 receipt={}
                 selected=crew.sonar_feedback_cycle_rescue(
@@ -58,8 +58,14 @@ class SonarMethodAsClassifier(unittest.TestCase):
                 self.assertFalse(independent.independent_cover_truth(
                     p,[j for j in selected if j!=invalid]))
 
+    def test_small_instances_bypass_feedback_instead_of_fabricating_success(self):
+        raw=fixture.cycle_case(groups=2,q=3,seed=7)
+        p=crew.parse(raw)
+        self.assertIsNone(crew.sonar_feedback_cycle_rescue(
+            p,time.monotonic()+3))
+
     def test_invalid_global_side_equations_never_report_witness(self):
-        raw=fixture.cycle_case(groups=2,q=4,seed=5)
+        raw=fixture.cycle_case(groups=6,q=3,seed=5)
         p0=crew.parse(raw)
         raw["base_constraints"]["D_matrix"]["rows"][0]=[
             0.]*raw["dimensions"]["num_cols"]
