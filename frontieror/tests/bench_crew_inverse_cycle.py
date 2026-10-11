@@ -47,7 +47,7 @@ def compare(blocks,q,corrupt=False):
       "samples":entries}
 
 def main():
-    configs=((15,8),(55,65),(150,65),(150,120))
+    configs=((15,8),(55,65),(150,65),(150,120),(300,65),(500,120))
     results=[compare(blocks,q,corrupt)
             for blocks,q in configs for corrupt in (False,True)]
     report={"scope":"isolated warmed synthetic Crew objective proof, no official score",
