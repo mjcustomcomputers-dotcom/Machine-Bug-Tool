@@ -8,11 +8,11 @@ on:
       - '.github/workflows/frontieror-johnny5-rescue.yml'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   fractional-rescue:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -24,3 +24,35 @@ jobs:
         run: python -m unittest discover -s frontieror/tests -p test_crew.py -v
       - name: Cross-check objective controls and solver callback
         run: python -m unittest discover -s frontieror/tests -p test_objective_controls.py -v
+      - name: Run all six solver regression checks
+        run: python -m unittest discover -s frontieror/tests -v
+      - name: Compare objective values across all six solvers
+        run: python frontieror/benchmark.py
+      - name: Verify constrained offline sandbox
+        run: |
+          docker build -f frontieror/hardening/Dockerfile --build-arg PY_VERSION=3.12 -t frontieror-main-johnny5:3.12 .
+          python frontieror/hardening/sandbox_probe.py --image frontieror-main-johnny5:3.12 --seconds 22 --out frontieror/artifacts/johnny5-resource-probe.json
+      - name: Build twelve-file competition ZIP with source hash readback
+        run: python frontieror/build_submission.py
+      - name: Publish isolated candidate ZIP after the objective gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp frontieror/artifacts/FrontierOR-Main.zip frontieror/downloads/FrontierOR-Main.zip
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f frontieror/downloads/FrontierOR-Main.zip
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish verified isolated FrontierOR Main candidate archive"
+            git push origin HEAD:refs/heads/frontieror-johnny5-fractional-rescue-20261010
+          fi
+      - name: Retain candidate ZIP, exact hashes and objective results
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontieror-johnny5-candidate
+          path: |
+            frontieror/artifacts/FrontierOR-Main.zip
+            frontieror/artifacts/manifest.json
+            frontieror/artifacts/benchmark.json
+            frontieror/artifacts/johnny5-resource-probe.json
+          retention-days: 14
