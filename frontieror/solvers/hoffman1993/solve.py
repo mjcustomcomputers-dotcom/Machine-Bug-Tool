@@ -797,7 +797,7 @@ def coupled_cycle_choice_milp(p, deadline, reduction=None,
                         0.0 if return_certificate else 0.01),
                              'presolve':True})
     except (ValueError,RuntimeError,MemoryError):
-        return (None,False) if return_certificate else None
+        return (recovered,False) if return_certificate else recovered
     if result.x is None:
         return (recovered,False) if return_certificate else recovered
     chosen=list(forced)
