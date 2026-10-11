@@ -1,0 +1,33 @@
+name: FrontierOR Crew coupled-cycle exact rescue microdiagnostic
+on:
+  push:
+    branches: [frontieror-crew-coupled-cycle-rescue-20261010]
+    paths:
+      - '.github/workflows/frontieror-coupled-cycle-rescue.yml'
+      - 'frontieror/solvers/hoffman1993/solve.py'
+      - 'frontieror/tests/test_crew_coupled_cycle_rescue.py'
+      - 'frontieror/tests/bench_crew_coupled_cycle_rescue.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  score-floor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Match organizer numerical dependencies only
+        run: python -m pip install 'numpy==2.5.3' 'scipy==1.18.1'
+      - name: Adversarial original-model truth oracle
+        run: python -m unittest discover -s frontieror/tests -p test_crew_coupled_cycle_rescue.py -v
+      - name: Four generated score-floor comparisons, equal time limits
+        run: python frontieror/tests/bench_crew_coupled_cycle_rescue.py
+      - name: Save targeted report only, not a submission archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-coupled-cycle-score-floor
+          path: frontieror/artifacts/crew-coupled-cycle-rescue.json
+          retention-days: 14
