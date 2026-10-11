@@ -27,7 +27,8 @@ def one(groups,q,seed,budget,method):
             return_certificate=True)
     else:
         result=crew.coupled_cycle_choice_milp(p,start+budget,
-            reduction=reduced,return_certificate=True)
+            reduction=reduced,return_certificate=True,
+            rescue_first=(method=="inverse"))
     elapsed=time.monotonic()-start
     # Timeout/no incumbent is a measured first-class score-floor outcome.
     # The original SciPy worker can return None instead of a (solution,proof)
@@ -42,14 +43,15 @@ def one(groups,q,seed,budget,method):
 def main():
     # Avoid cherry-picked one fixture: both small/mid/high coupling and
     # two separate identical budgeted optimizer invocations per condition.
-    configs=[(40,8,7,0.35),(120,14,11,0.5),
-             (250,24,23,0.8),(400,30,17,1.5)]
+    configs=[(10,16,7,0.9),(30,45,11,1.3),
+             (60,20,23,1.2),(120,25,17,1.8)]
     out=[]
     for groups,q,seed,budget in configs:
         trials=[one(groups,q,seed,budget,method)
-                for method in ("full","cycles","cycles","full")]
+                for method in ("full","cycles","inverse","inverse","cycles","full")]
         full=[x for x in trials if x["method"]=="full"]
         cycles=[x for x in trials if x["method"]=="cycles"]
+        inverse=[x for x in trials if x["method"]=="inverse"]
         winners=[x for x in trials if x["verified_incumbent"]]
         out.append({"groups":groups,"original_rows":4*groups,
             "original_columns":4*groups+1,
@@ -57,6 +59,10 @@ def main():
             "side_rows":q,"budget_s":budget,"seed":seed,
             "full_feasible_rate":sum(x["verified_incumbent"] for x in full)/2,
             "compressed_feasible_rate":sum(x["verified_incumbent"] for x in cycles)/2,
+            "inverse_rescue_feasible_rate":sum(x["verified_incumbent"] for x in inverse)/2,
+            "best_inverse_feasible_cost":min(
+                [x["objective"] for x in inverse if x["verified_incumbent"]],
+                default=None),
             "best_original_feasible_cost":min(
                 [x["objective"] for x in full if x["verified_incumbent"]],
                 default=None),
