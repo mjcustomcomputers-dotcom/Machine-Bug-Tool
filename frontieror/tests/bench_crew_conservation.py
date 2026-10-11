@@ -24,9 +24,20 @@ def compare(perturb):
     rows=original(p,reduced)
     crew.sparse_milp(p,time.monotonic()+6,reduction=reduced)
     result=[]
+    labels=("old","new","old","new") if perturb else (
+        "old","new","ideal","ideal","new","old")
     try:
-        for label in ("old","new","new","old"):
-            crew.conserved_side_rows=original if label=="new" else lambda *args: []
+        for label in labels:
+            if label=="old":
+                crew.conserved_side_rows=lambda *args: []
+            elif label=="ideal":
+                # Only permitted on this fixture with already independently
+                # checked exact conserved rows. Removes classification costs.
+                if len(rows)!=len(p[5]):
+                    raise AssertionError("idealized oracle requires proof")
+                crew.conserved_side_rows=lambda *args:list(range(len(p[5])))
+            else:
+                crew.conserved_side_rows=original
             begin=time.monotonic()
             answer,proven=crew.sparse_milp(p,time.monotonic()+7,
                 reduction=reduced,return_certificate=True)
@@ -38,11 +49,14 @@ def compare(perturb):
         crew.conserved_side_rows=original
     objectives={r["objective"] for r in result}
     if len(objectives)!=1:raise AssertionError("objective regression")
-    a=statistics.median(r["seconds"] for r in result if r["label"]=="old")
-    b=statistics.median(r["seconds"] for r in result if r["label"]=="new")
+    def med(label):
+        samples=[r["seconds"] for r in result if r["label"]==label]
+        return statistics.median(samples) if samples else None
+    a,b,z=med("old"),med("new"),med("ideal")
     return {"case":"single_corrupted_pair_per_side" if perturb else "tight_conserved_side",
         "rows":p[0],"columns":p[1],"side_rows":len(p[5]),
         "proven_conserved_rows":len(rows),"old_s":a,"new_s":b,
+        "ideal_zero_detection_s":z,
         "ratio_old_over_new":round(a/max(1e-8,b),3),
         "objective":result[0]["objective"],"samples":result}
 
